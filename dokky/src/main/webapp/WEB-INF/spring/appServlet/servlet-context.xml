@@ -21,7 +21,7 @@
 		<beans:property name="suffix" value=".jsp" />
 	</beans:bean>
 	
-	<context:component-scan base-package="org.my.controller" />
+	<context:component-scan base-package="org.my" />
 		
 	
 </beans:beans>

@@ -10,6 +10,6 @@ public class mainController {
 	@RequestMapping(value = "/main", method = RequestMethod.GET)
 	public String main(Model model) {
 		
-		return "main/main";
+		return "main";
 	}
 }

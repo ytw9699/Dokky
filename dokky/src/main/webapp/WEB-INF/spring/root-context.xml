@@ -38,6 +38,6 @@
 		
 	<tx:annotation-driven />
 		
-	<!-- <mybatis-spring:scan base-package="org.my.mapper" /> -->
+	<mybatis-spring:scan base-package="org.my.mapper" />
 		
 </beans>
