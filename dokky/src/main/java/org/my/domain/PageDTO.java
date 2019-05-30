@@ -11,7 +11,7 @@ public class PageDTO {
   private int endPage;
   private boolean prev, next;
 
-  private int total;
+  private int total;//전체 데이터수
   private Criteria cri;
 
   public PageDTO(Criteria cri, int total) {

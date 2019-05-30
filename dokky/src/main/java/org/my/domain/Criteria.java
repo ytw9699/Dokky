@@ -10,8 +10,8 @@ public class Criteria {//349페이지 나중에다시봐보자
 
   private int category;
   
-  private int pageNum;
-  private int amount;
+  private int pageNum;//현재페이지
+  private int amount;//현재 페이지에서 보여주는 데이터 수
   
   private String type;
   private String keyword;

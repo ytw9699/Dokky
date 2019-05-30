@@ -4,10 +4,16 @@
   "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="org.my.mapper.BoardMapper">
 
-	<select id="getList" resultType="org.my.domain.BoardVO">
+	<!-- <select id="getList" resultType="org.my.domain.BoardVO">
 		<![CDATA[ select * from DK_BOARD where category = #{category} and num > 0 ]]>
-	</select>
-
+	</select> -->
+	
+	<select id="getListWithPaging" resultType="org.my.domain.BoardVO"> 
+		<![CDATA[ select category,replyCnt, num, title, content, nickName, regdate from ( 
+		select /*+INDEX_DESC(DK_BOARD PK_DK_BOARD) */ rownum rn, category,replyCnt, num, title, content, 
+		nickName, regdate from DK_BOARD where category = #{category} and rownum <= #{pageNum} * #{amount} 
+		) where rn > (#{pageNum} -1) * #{amount} ]]> </select>   
+		
 	<!-- 입력+pk값을 알기 위한것 -->
 	<insert id="insertSelectKey">
 
@@ -36,4 +42,5 @@
 		delete DK_BOARD where num = #{num}
 	</delete>
 	
+		
 </mapper>
