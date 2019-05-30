@@ -38,7 +38,7 @@
       <div class="panel-body">
 	        <form role="form" action="/dokky/board/register" method="post">
 	        <div>
-				<select name="kind" class="form-control"> <!-- kind드를 category로 -->
+				<select name="category" class="form-control">
 					<option value="" selected="selected">게시판을 선택해 주세요.</option>
                        <option value=1>공지사항</option>
                        <option value=2>자유게시판</option>

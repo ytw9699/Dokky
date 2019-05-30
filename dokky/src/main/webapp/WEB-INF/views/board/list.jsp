@@ -56,7 +56,7 @@
 	   
 	$("#regBtn").on("click", function() {
 	
-		self.location = "/dokky/board/register?kind="+${kind};
+		self.location = "/dokky/board/register?category="+${category};
 	});
     
 </script>

@@ -20,11 +20,11 @@ public class BoardServiceImpl implements BoardService {
 	private BoardMapper mapper;//spring4.3이상에서 자동처리//202쪽
 
 	@Override
-	public List<BoardVO> getList(int kind){
+	public List<BoardVO> getList(int category){
 	
 	//log.info("getList..........");
 	
-	return mapper.getList(kind);
+	return mapper.getList(category);
 	}
 	
 	@Override

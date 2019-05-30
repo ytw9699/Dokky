@@ -8,7 +8,7 @@ package org.my.domain;
 @Getter
 public class Criteria {//349페이지 나중에다시봐보자
 
-  private int kind;
+  private int category;
   
   private int pageNum;
   private int amount;

@@ -4,7 +4,7 @@ package org.my.domain;
 	
 @Data//생성자와 getter/setter, toString()
 public class BoardVO {
-	  private int kind;
+	  private int category;
 	  private Long num;
 	  private String title;
 	  private String nickName;

@@ -36,12 +36,12 @@
 <body>
 	<div class="leftWrap">
 		<div class="mypage"><a href="/dokky/main">Dokky</a></div>
-		<div class="mypage"><a href="/dokky/board/list?kind=1">공지사항</a></div>
-		<div class="mypage"><a href="/dokky/board/list?kind=2">자유게시판</a></div>
-		<div class="mypage"><a href="/dokky/board/list?kind=3">묻고답하기</a></div>
-		<div class="mypage"><a href="/dokky/board/list?kind=4">칼럼/Tech</a></div>
-		<div class="mypage"><a href="/dokky/board/list?kind=5">정기모임/스터디</a></div>
-		<div class="mypage"><a href="/dokky/board/list?kind=6">마이페이지</a></div>
+		<div class="mypage"><a href="/dokky/board/list?category=1">공지사항</a></div>
+		<div class="mypage"><a href="/dokky/board/list?category=2">자유게시판</a></div>
+		<div class="mypage"><a href="/dokky/board/list?category=3">묻고답하기</a></div>
+		<div class="mypage"><a href="/dokky/board/list?category=4">칼럼/Tech</a></div>
+		<div class="mypage"><a href="/dokky/board/list?category=5">정기모임/스터디</a></div>
+		<div class="mypage"><a href="/dokky/board/list?category=6">마이페이지</a></div>
 		<div class="mypage">Today : 1 / Total : 10</div>
 		
 	</div>

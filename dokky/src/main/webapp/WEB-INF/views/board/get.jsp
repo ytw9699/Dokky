@@ -26,7 +26,7 @@
 <body>
 <div class="getWrapper"> 
 <div class="col-lg-12">
-    <h1 class="page-header">${board.kind}게시판</h1>
+    <h1 class="page-header">${board.category}게시판</h1>
   </div>
 
 		<div class="form-group">
@@ -74,11 +74,11 @@
 				<a href="/dokky/board/modify?num=<c:out value="${board.num}"/>">수정</a>
 			</button>
 	        <button>
-	        	<a href="/dokky/board/list?kind=<c:out value="${board.kind}"/>">목록보기</a>
+	        	<a href="/dokky/board/list?category=<c:out value="${board.category}"/>">목록보기</a>
 	        </button> 
 	
 			<button id='modalRemoveBtn' type="button" class="btn btn-danger">
-				<a href="/dokky/board/remove?num=<c:out value="${board.num}"/>&kind=<c:out value="${board.kind}"/>">삭제</a>
+				<a href="/dokky/board/remove?num=<c:out value="${board.num}"/>&category=<c:out value="${board.category}"/>">삭제</a>
 			</button>
 		</div>
 	<div>

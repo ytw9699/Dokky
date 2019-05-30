@@ -24,11 +24,11 @@ public class BoardController {
 	private BoardService service;
 	
 	@GetMapping("/list")
-	public String list(@RequestParam("kind") int kind, Model model) {
+	public String list(@RequestParam("category") int category, Model model) {
 	
 		//log.info("list: " + cri);
-		model.addAttribute("list", service.getList(kind));
-		model.addAttribute("kind", kind);
+		model.addAttribute("list", service.getList(category));
+		model.addAttribute("category", category);
 	
 		return "board/list";
 	}
@@ -70,12 +70,12 @@ public class BoardController {
 	@GetMapping("/remove")
 	public String remove(
 			@RequestParam("num") Long num,
-			@RequestParam("kind") int kind, RedirectAttributes rttr) {
+			@RequestParam("category") int category, RedirectAttributes rttr) {
 
 		log.info("remove..." + num);
 		if (service.remove(num)) {
 			rttr.addFlashAttribute("result", "success");
 		}
-		return "redirect:/board/list?kind="+kind;   
+		return "redirect:/board/list?category="+category;   
 	}
 }

@@ -1,5 +1,5 @@
 create table DK_BOARD (
-  KIND number(10,0) not null,-- 1~10번 게시판
+  CATEGORY number(10,0) not null,-- 1~10번 게시판
   NUM number(10,0),--PK
   TITLE varchar2(200) not null,
   NICKNAME varchar2(50) not null,
@@ -19,7 +19,7 @@ create sequence seq_dk_board;
 
 DROP TABLE DK_BOARD PURGE;
 
-insert into DK_BOARD(KIND, NUM, TITLE, NICKNAME, CONTENT)
+insert into DK_BOARD(CATEGORY, NUM, TITLE, NICKNAME, CONTENT)
 values (1, seq_dk_board.nextval, '테스트 제목','테스트 닉네임','테스트 콘텐트');
 
 ---------------------------------------------------------------------------------------

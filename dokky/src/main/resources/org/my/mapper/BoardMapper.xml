@@ -5,7 +5,7 @@
 <mapper namespace="org.my.mapper.BoardMapper">
 
 	<select id="getList" resultType="org.my.domain.BoardVO">
-		<![CDATA[ select * from DK_BOARD where kind = #{kind} and num > 0 ]]>
+		<![CDATA[ select * from DK_BOARD where category = #{category} and num > 0 ]]>
 	</select>
 
 	<!-- 입력+pk값을 알기 위한것 -->
@@ -15,8 +15,8 @@
 			select seq_dk_board.nextval from dual
 		</selectKey>
 
-		insert into DK_BOARD (num,kind,title,content,nickName)
-		values (#{num},#{kind},#{title}, #{content}, #{nickName})
+		insert into DK_BOARD (num,category,title,content,nickName)
+		values (#{num},#{category},#{title}, #{content}, #{nickName})
 		
 	</insert>
 	

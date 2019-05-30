@@ -7,7 +7,7 @@ import org.my.domain.Criteria;
 
 public interface BoardService {
 	
-	public List<BoardVO> getList(int kind);
+	public List<BoardVO> getList(int category);
 	
 	public List<BoardVO> getList(Criteria cri);
 

@@ -25,7 +25,7 @@
 <body>
 <div class="modifyWrapper">
 	<div class="col-lg-12">
-	    <h1 class="page-header">${board.kind}게시판</h1>
+	    <h1 class="page-header">${board.category}게시판</h1>
 	  </div>
 	<form role="form" action="/dokky/board/modify" method="post"> 
 				

@@ -6,7 +6,7 @@ package org.my.mapper;
 
 public interface BoardMapper {
 
-	public List<BoardVO> getList(int kind);
+	public List<BoardVO> getList(int category);
 
 	public List<BoardVO> getListWithPaging(Criteria cri);
 
