@@ -11,7 +11,21 @@
 <meta charset="UTF-8">
 <title>Dokky 새 글쓰기</title>
 </head>
+<style> 
+	body{
+		background-color: #323639; 
+	}
+	.registerWrapper { 
+	    border-color: #e6e6e6;
+		border-style: solid;
+		background-color: #323639; 
+		color: white;
+		margin-left: 15%;
+		margin-top: 1%; 
+	}
+</style>
 <body>
+<div class="registerWrapper">
 <div class="row">
   <div class="col-lg-12">
     <h1 class="page-header">새 글쓰기</h1>  
@@ -41,7 +55,7 @@
 		            <textarea class="form-control" rows="3" name='content'></textarea>
 		          </div>
 		          
-		          <input type='hidden' name='nickname' value='test' /> 
+		          <input type='hidden' name='nickName' value='test' /> 
 		        <%--   <input type='hidden' name='amount' value='<c:out value="${pageMaker.cri.amount}"/>' /> --%>
 								
 		          <button type="submit" class="btn btn-default">등록</button>
@@ -51,6 +65,7 @@
       </div>
     </div>
   </div>
+</div>
 </div>
 </body>
 </html>

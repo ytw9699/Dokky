@@ -6,17 +6,15 @@ package org.my.mapper;
 
 public interface BoardMapper {
 
-	public List<BoardVO> getList();
-	
 	public List<BoardVO> getList(int kind);
 
 	public List<BoardVO> getListWithPaging(Criteria cri);
 
-	public void insert(BoardVO board);
+	//public void insert(BoardVO board);
 
 	public Integer insertSelectKey(BoardVO board);
 
-	public BoardVO read(Long bno);
+	public BoardVO read(Long num);
 
 	public int delete(Long bno);
 

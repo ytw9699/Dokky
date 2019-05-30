@@ -9,11 +9,27 @@
 <head>
 <meta charset="UTF-8">
 <title>Dokky-게시판</title>
+<style>
+	body{
+		background-color: #323639; 
+	}
+	.listWrapper { 
+	    border-color: #e6e6e6;/* 흰색 */
+		border-style: solid;
+		background-color: #323639; 
+		color: #e6e6e6;
+		margin-left: 15%;
+		margin-top: 1%; 
+	}
+	.mypage a { 
+    color: white;
+}
+</style>
 </head>
 <%@include file="../includes/search.jsp"%>
 <%@include file="../includes/left.jsp"%>
 <body>
-	<div class="">
+	<div class="listWrapper">
 		<div class="">Dokky-게시판
 			<button id='regBtn' type="button" class="">새 글쓰기</button>
 		</div> 
@@ -22,12 +38,13 @@
 			<table class=""> 
 				<c:forEach items="${list}" var="board">
 					<tr>
-						<td><c:out value="${board.TITLE}" /></td>
-						<td>[<c:out value="${board.REPLYCNT}" />]</td>
-						<td><c:out value="${board.NICKNAME}" /></td>
+						<td class="mypage"><a href='/dokky/board/get?num=<c:out value="${board.num}"/>'> 
+							<c:out value="${board.title}" /></a></td> 
+						<td>[<c:out value="${board.replyCnt}" />]</td>
+						<td><c:out value="${board.nickName}" /></td>
 						
 						<td><fmt:formatDate pattern="yyyy-MM-dd-HH:mm"
-								value="${board.REGDATE}" /></td>
+								value="${board.regDate}" /></td>
 					</tr>
 				</c:forEach>
 			</table>

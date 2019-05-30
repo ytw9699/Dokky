@@ -18,19 +18,21 @@ public class BoardServiceImpl implements BoardService {
 
 	@Setter(onMethod_ = @Autowired)
 	private BoardMapper mapper;//spring4.3이상에서 자동처리//202쪽
-	
-	@Override
-	public List<BoardVO> getList() {
-		
-		return mapper.getList();
-	}
-	
+
 	@Override
 	public List<BoardVO> getList(int kind){
 	
 	//log.info("getList..........");
 	
 	return mapper.getList(kind);
+	}
+	
+	@Override
+	public List<BoardVO> getList(Criteria cri) {
+
+		log.info("get List with criteria: " + cri);
+
+		return mapper.getListWithPaging(cri);
 	}
 	
 	
@@ -43,11 +45,11 @@ public class BoardServiceImpl implements BoardService {
 	}
 
 	@Override
-	public BoardVO get(Long bno) {
+	public BoardVO get(Long num) {
 
-		log.info("get......" + bno);
+		log.info("get......" + num);
 
-		return mapper.read(bno);
+		return mapper.read(num);
 
 	}
 
@@ -67,14 +69,6 @@ public class BoardServiceImpl implements BoardService {
 		return mapper.delete(bno) == 1;
 	}
 
-
-	@Override
-	public List<BoardVO> getList(Criteria cri) {
-
-		log.info("get List with criteria: " + cri);
-
-		return mapper.getListWithPaging(cri);
-	}
 
 	@Override
 	public int getTotal(Criteria cri) {

@@ -4,17 +4,17 @@ package org.my.domain;
 	
 @Data//생성자와 getter/setter, toString()
 public class BoardVO {
-	  private int KIND;
-	  private Long NUM;
-	  private String TITLE;
-	  private String NICKNAME;
-	  private String CONTENT;
-	  private String STATUS;
-	  private Date REGDATE;
-	  private Date UPDATEDATE;
-	  private int UP;
-	  private int DOWN;
-	  private int MONEY;
-	  private int HITCNT;
-	  private int REPLYCNT;
+	  private int kind;
+	  private Long num;
+	  private String title;
+	  private String nickName;
+	  private String content;
+	  private String status;
+	  private Date regDate;
+	  private Date updateDate;
+	  private int up;
+	  private int down;
+	  private int money;
+	  private int hitCnt;
+	  private int replyCnt;
 }

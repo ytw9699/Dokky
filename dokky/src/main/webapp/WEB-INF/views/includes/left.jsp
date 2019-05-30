@@ -12,18 +12,23 @@
     margin-left: 1%;
     display: inline-block;
     float: left;
+    border-color: #e6e6e6;
+	border-style: solid;
+	background-color: #323639; 
+    
 }
 .mypage {
     padding: 10px;
     box-sizing: border-box;
    	width: 252px;
-    color: #666;
+    color: #e6e6e6;
+    
 }
 .mypage:hover > a, .mypage:hover {
     color: #7151fc;
 }
-.mypage a {
-    color: #666;
+.mypage a { 
+    color: white;
     text-decoration:none;
 }
 </style>

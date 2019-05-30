@@ -7,12 +7,19 @@
 	<title>메인</title>
 	
 <style>
+	body{
+		background-color: #323639;  
+		}
 	.bodyWrap {
-	    width: 85%;
+	    width: 80%; 
 	    display: inline-block;
 	    margin-left: 2%;
 	    margin-top: 1%;
-	    min-height: 500px;
+	    min-height: 500px; 
+	    border-color: #e6e6e6;
+		border-style: solid;
+		background-color: #323639; 
+		color: #e6e6e6;
 	}
 </style>
 </head>
