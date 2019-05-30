@@ -55,11 +55,11 @@
 			<table class=""> 
 				<c:forEach items="${list}" var="board">
 					<tr>
-						<td class="mypage"><a href='/dokky/board/get?num=<c:out value="${board.num}"/>'> 
+						<td class="mypage"><a class='move' href='<c:out value="${board.num}"/>'> 
 							<c:out value="${board.title}" /></a></td> 
 						<td>[<c:out value="${board.replyCnt}" />]</td>
 						<td><c:out value="${board.nickName}" /></td>
-						
+			                  
 						<td><fmt:formatDate pattern="yyyy-MM-dd-HH:mm"
 								value="${board.regDate}" /></td>
 					</tr>
@@ -90,7 +90,7 @@
 			</div>
 	</div>
 	
-<form id='actionForm' action="/dokky//board/list" method='get'> 
+<form id='actionForm' action="/dokky/board/list" method='get'> 
 	<input type='hidden' name='pageNum' value='${pageMaker.cri.pageNum}'><!--  $(this).attr("href") -->
 	<input type='hidden' name='amount' value='${pageMaker.cri.amount}'>
 	<input type='hidden' name='category' value='${pageMaker.cri.category}'>
@@ -118,6 +118,14 @@
 				actionForm.submit();
 			});
 	
+		$(".move").on("click",function(e) {
+			
+			e.preventDefault();
+			actionForm.append("<input type='hidden' name='num' value='"+ $(this).attr("href")+ "'>");
+			actionForm.attr("action","/dokky/board/get");
+			actionForm.submit();   
+		});
+	 
 </script>
 	
 </body>

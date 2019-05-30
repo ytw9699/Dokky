@@ -73,13 +73,20 @@
 			<button>
 				<a href="/dokky/board/modify?num=<c:out value="${board.num}"/>">수정</a>
 			</button>
-	        <button>
-	        	<a href="/dokky/board/list?category=<c:out value="${board.category}"/>">목록보기</a>
+	        <button id="list_button">목록보기 
 	        </button> 
 	
 			<button id='modalRemoveBtn' type="button" class="btn btn-danger">
 				<a href="/dokky/board/remove?num=<c:out value="${board.num}"/>&category=<c:out value="${board.category}"/>">삭제</a>
 			</button>
+			
+			<form id='operForm' action="/boad/modify" method="get">
+			  <input type='hidden' id='num' name='num' value='<c:out value="${board.num}"/>'>
+			  <input type='hidden' name='category' value='<c:out value="${cri.category}"/>'>
+			  <input type='hidden' name='pageNum' value='<c:out value="${cri.pageNum}"/>'>
+			  <input type='hidden' name='amount' value='<c:out value="${cri.amount}"/>'>
+			</form>
+
 		</div>
 	<div>
 	 댓글쓰기
@@ -92,7 +99,21 @@
 		         <button type="reset" class="btn btn-default">다시쓰기</button>
 		</form>
 	</div> 
-</div>
+</div> 
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+<script>
+
+	var operForm = $("#operForm");  
+
+	$("#list_button").on("click", function(e){
+	    operForm.find("#num").remove();
+	    operForm.attr("action","/dokky/board/list")
+	    operForm.submit();
+ 	 }); 
+	
+</script>
 </body>
 </html>
 
+
+ 

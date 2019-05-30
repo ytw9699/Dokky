@@ -53,7 +53,7 @@ public class BoardController {
 		return "redirect:/board/get?num="+board.getNum();
 	}
 	@GetMapping({ "/get", "/modify" })
-	public void get(@RequestParam("num") Long num, Model model) {
+	public void get(@RequestParam("num") Long num, @ModelAttribute("cri") Criteria cri, Model model) {
 
 		//log.info("/get or modify");
 		model.addAttribute("board", service.get(num));
