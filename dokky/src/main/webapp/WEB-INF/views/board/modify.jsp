@@ -29,21 +29,24 @@
 	  </div>
 	<form role="form" action="/dokky/board/modify" method="post"> 
 				
-				<div class="form-group">
-				  <label>제목</label> 
-				  <input class="form-control" name='title' 
-				    value='<c:out value="${board.title }"/>' >
-				</div>
-				<div class="form-group">
-				  <label>내용</label>
-				  <textarea class="form-control" rows="3" name='content' ><c:out value="${board.content}"/></textarea>
-				</div>
-				
-			<input type='hidden' name='num' value='<c:out value="${board.num }"/>'>
-	     
-	     	   <button type="submit">수정</button>
-	        
-	     	   <button type="reset" class="btn btn-default">다시쓰기</button>
+			<div class="form-group">
+			  <label>제목</label> 
+			  <input class="form-control" name='title' 
+			    value='<c:out value="${board.title }"/>' >
+			</div>
+			<div class="form-group">
+			  <label>내용</label>
+			  <textarea class="form-control" rows="3" name='content' ><c:out value="${board.content}"/></textarea>
+			</div>
+			
+		   <input type='hidden' name='num' value='<c:out value="${board.num }"/>'>
+		   <input type='hidden' name='category' value='<c:out value="${cri.category}"/>'>
+		   <input type='hidden' name='pageNum' value='<c:out value="${cri.pageNum}"/>'>
+		   <input type='hidden' name='amount' value='<c:out value="${cri.amount}"/>'>
+     
+     	   <button type="submit">수정완료</button>
+        
+     	   <button type="reset" class="btn btn-default">다시쓰기</button>
 	</form>
 </div>
 </body>

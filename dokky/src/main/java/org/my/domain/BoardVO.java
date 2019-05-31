@@ -15,6 +15,6 @@ public class BoardVO {
 	  private int up;
 	  private int down;
 	  private int money;
-	  private int hitCnt;
+	  private Long hitCnt;
 	  private int replyCnt;
 }

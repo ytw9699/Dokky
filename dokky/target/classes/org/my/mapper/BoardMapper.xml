@@ -3,15 +3,31 @@
   PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
   "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="org.my.mapper.BoardMapper">
-
-	<!-- <select id="getList" resultType="org.my.domain.BoardVO">
-		<![CDATA[ select * from DK_BOARD where category = #{category} and num > 0 ]]>
-	</select> -->
+	
+	<sql id="criteria">
+		<trim prefix="(" suffix=") AND " prefixOverrides="OR">
+			<foreach item='type' collection="typeArr">
+				<trim prefix="OR">
+					<choose>
+						<when test="type == 'T'.toString()">
+							title like '%'||#{keyword}||'%'
+						</when>
+						<when test="type == 'C'.toString()">
+							content like '%'||#{keyword}||'%'
+						</when>
+						<when test="type == 'W'.toString()">
+							writer like '%'||#{keyword}||'%'
+						</when>
+					</choose>
+				</trim>
+			</foreach>
+		</trim>
+	</sql>
 	
 	<select id="getListWithPaging" resultType="org.my.domain.BoardVO"> 
-		<![CDATA[ select category,replyCnt, num, title, content, nickName, regdate from ( 
+		<![CDATA[ select category,replyCnt, num, title, content, nickName, regdate, hitCnt from ( 
 		select /*+INDEX_DESC(DK_BOARD PK_DK_BOARD) */ rownum rn, category,replyCnt, num, title, content, 
-		nickName, regdate from DK_BOARD where category = #{category} and rownum <= #{pageNum} * #{amount} 
+		nickName, regdate, hitCnt from DK_BOARD where category = #{category} and rownum <= #{pageNum} * #{amount} 
 		) where rn > (#{pageNum} -1) * #{amount} ]]> </select>   
 		
 	<!-- 입력+pk값을 알기 위한것 -->
@@ -30,6 +46,10 @@
 		select * from DK_BOARD where num = #{num}
 	</select>
 	
+	<update id="updateHitCnt">
+		update dk_board set hitCnt = hitCnt+1 where num = #{num}
+	</update>
+	
 	<update id="update">
 		update DK_BOARD
 			set title= #{title},
@@ -41,6 +61,13 @@
 	<delete id="delete">
 		delete DK_BOARD where num = #{num}
 	</delete>
+	
+	<select id="getTotalCount" resultType="int">
+		select count(*) from DK_BOARD where category = #{category} and num >0
+	</select>
+	
+	
+	
 	
 		
 </mapper>

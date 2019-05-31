@@ -24,13 +24,13 @@ public class BoardController {
 	private BoardService service;
 	
 	@GetMapping("/list")
-	//public String list(@RequestParam("category") int category, Criteria cri, Model model) {
 	public String list(Criteria cri, Model model) {
 		//log.info("list: " + cri);
-		/*model.addAttribute("list", service.getList(category));
-		model.addAttribute("category", category);*/
+		
 		model.addAttribute("list", service.getList(cri));
-		model.addAttribute("pageMaker", new PageDTO(cri, 123));//123이라는 토탈수에의해서 몇페이지까지보여질지가 정해짐 일단123 임시
+		
+		int total = service.getTotal(cri);//total은 특정게시판의 총 게시물수
+		model.addAttribute("pageMaker", new PageDTO(cri, total));
 	
 		return "board/list";
 	}
@@ -44,40 +44,41 @@ public class BoardController {
 	@PostMapping("/register")
 	public String register(BoardVO board, RedirectAttributes rttr) {
 
-		log.info("register: " + board);
+		//log.info("register: " + board);
 
 		service.register(board);
 
 		//rttr.addFlashAttribute("result", board.getNum());
 
-		return "redirect:/board/get?num="+board.getNum();
+		return "redirect:/board/get?num="+board.getNum()+"&category="+board.getCategory();
 	}
+	
 	@GetMapping({ "/get", "/modify" })
 	public void get(@RequestParam("num") Long num, @ModelAttribute("cri") Criteria cri, Model model) {
 
 		//log.info("/get or modify");
+		service.updateHitCnt(num);
 		model.addAttribute("board", service.get(num));
 	}
 
 	 @PostMapping("/modify")
-	 public String modify(BoardVO board, RedirectAttributes rttr) {
+	 public String modify(BoardVO board, Criteria cri, RedirectAttributes rttr) {
 		 log.info("modify:" + board);
 		
-		 if (service.modify(board)) {
+		 if (service.modify(board)) { 
 		 rttr.addFlashAttribute("result", "success");
 		 }
-	 return "redirect:/board/get?num="+board.getNum();   
+	 return "redirect:/board/get?num="+board.getNum()+"&category="+cri.getCategory()+"&pageNum="+cri.getPageNum()+"&amount="+cri.getAmount();
 	 }
 
 	@GetMapping("/remove")
-	public String remove(
-			@RequestParam("num") Long num,
-			@RequestParam("category") int category, RedirectAttributes rttr) {
+	public String remove(@RequestParam("num") Long num, Criteria cri, RedirectAttributes rttr) {
 
-		log.info("remove..." + num);
-		if (service.remove(num)) {
+		//log.info("remove..." + num);
+		/*if (service.remove(num)) {
 			rttr.addFlashAttribute("result", "success");
-		}
-		return "redirect:/board/list?category="+category;   
+		}*/
+		service.remove(num);
+		return "redirect:/board/list?category="+cri.getCategory()+"&pageNum="+cri.getPageNum()+"&amount="+cri.getAmount();
 	}
 }

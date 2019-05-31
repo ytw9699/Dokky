@@ -8,7 +8,7 @@
 <html>
 <head>
 <meta charset="UTF-8">
-<title>Dokky-게시판</title>
+<title>Dokky</title>
 <style>
 	body{
 		background-color: #323639; 
@@ -47,9 +47,30 @@
 <%@include file="../includes/left.jsp"%>
 <body>
 	<div class="listWrapper">
-		<div class="">Dokky-게시판
-			<button id='regBtn' type="button" class="">새 글쓰기</button>
-		</div> 
+		<div class="">
+			   <c:choose>
+			       <c:when test="${pageMaker.cri.category == 1 }">
+			          		 공지사항 
+			       </c:when>
+			       <c:when test="${pageMaker.cri.category == 2 }">
+			       			  자유게시판
+			       </c:when>
+			        <c:when test="${pageMaker.cri.category == 3 }">
+			     		 	  묻고답하기
+			       </c:when>
+			        <c:when test="${pageMaker.cri.category == 4 }">
+			   		   	  	  칼럼/Tech
+			       </c:when>
+			       <c:when test="${pageMaker.cri.category == 5 }">
+			   		   		  정기모임/스터디
+			       </c:when>
+			       <c:otherwise>
+			     		          마이페이지
+			       </c:otherwise>
+		       </c:choose>
+  	    </div>
+
+		<div><button id='regBtn' type="button" class="">새 글쓰기</button></div> 
 		
 		<div class="">
 			<table class=""> 
@@ -57,7 +78,8 @@
 					<tr>
 						<td class="mypage"><a class='move' href='<c:out value="${board.num}"/>'> 
 							<c:out value="${board.title}" /></a></td> 
-						<td>[<c:out value="${board.replyCnt}" />]</td>
+						<td>댓글수[<c:out value="${board.replyCnt}" />]</td>
+						<td>조회수<c:out value="${board.hitCnt}" /></td>
 						<td><c:out value="${board.nickName}" /></td>
 			                  
 						<td><fmt:formatDate pattern="yyyy-MM-dd-HH:mm"

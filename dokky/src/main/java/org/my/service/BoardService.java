@@ -7,8 +7,6 @@ import org.my.domain.Criteria;
 
 public interface BoardService {
 	
-	public List<BoardVO> getList(int category);
-	
 	public List<BoardVO> getList(Criteria cri);
 
 	public void register(BoardVO board);
@@ -20,5 +18,7 @@ public interface BoardService {
 	public boolean remove(Long bno);
 
 	public int getTotal(Criteria cri);
+
+	public boolean updateHitCnt(Long num);
 
 }

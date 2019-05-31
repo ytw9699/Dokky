@@ -54,14 +54,17 @@
         
         <div class="form-group">
           <label>좋아요</label>-<c:out value="${board.up }"/>
+          <button onclick="">좋아요,ajax구현</button> 
         </div>
         
         <div class="form-group">
           <label>싫어요</label>-<c:out value="${board.down }"/>
+          <button onclick="">싫어요,ajax구현</button> 
         </div>
         
         <div class="form-group">
           <label>기부금</label>-<c:out value="${board.money }"/>
+          <button onclick="">기부금,ajax구현</button> 
         </div>
         <div class="form-group">
           <label>조회수</label>-<c:out value="${board.hitCnt }"/>
@@ -70,17 +73,11 @@
           <label>댓글</label>-<c:out value="${board.replyCnt }"/>
         </div>
 		<div>
-			<button>
-				<a href="/dokky/board/modify?num=<c:out value="${board.num}"/>">수정</a>
-			</button>
-	        <button id="list_button">목록보기 
-	        </button> 
-	
-			<button id='modalRemoveBtn' type="button" class="btn btn-danger">
-				<a href="/dokky/board/remove?num=<c:out value="${board.num}"/>&category=<c:out value="${board.category}"/>">삭제</a>
-			</button>
-			
-			<form id='operForm' action="/boad/modify" method="get">
+			<button id="modify_button">수정 </button> 
+	        <button id="list_button">목록보기 </button> 
+	        <button id="remove_button">삭제 </button>
+	        
+			<form id='operForm' action="/dokky/board/modify" method="get">
 			  <input type='hidden' id='num' name='num' value='<c:out value="${board.num}"/>'>
 			  <input type='hidden' name='category' value='<c:out value="${cri.category}"/>'>
 			  <input type='hidden' name='pageNum' value='<c:out value="${cri.pageNum}"/>'>
@@ -102,6 +99,13 @@
 </div> 
 <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
 <script>
+     function func_confirm(content){//확인여부
+         if(confirm(content)){//true
+         	return true;
+         } else {//false
+         	return false;
+         }
+     }
 
 	var operForm = $("#operForm");  
 
@@ -110,6 +114,18 @@
 	    operForm.attr("action","/dokky/board/list")
 	    operForm.submit();
  	 }); 
+	
+	$("#modify_button").on("click", function(e){
+	    operForm.submit(); 
+ 	 }); 
+	   
+	$("#remove_button").on("click", function(e){
+		if(func_confirm('정말 삭제 하시겠습니까?')){
+			operForm.attr("action","/dokky/board/remove")
+		    operForm.submit();
+		}
+ 	 }); 
+	
 	
 </script>
 </body>

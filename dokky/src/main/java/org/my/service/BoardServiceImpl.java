@@ -20,14 +20,6 @@ public class BoardServiceImpl implements BoardService {
 	private BoardMapper mapper;//spring4.3이상에서 자동처리//202쪽
 
 	@Override
-	public List<BoardVO> getList(int category){
-	
-	//log.info("getList..........");
-	
-	return mapper.getList(category);
-	}
-	
-	@Override
 	public List<BoardVO> getList(Criteria cri) {
 
 		log.info("get List with criteria: " + cri);
@@ -59,6 +51,14 @@ public class BoardServiceImpl implements BoardService {
 		log.info("modify......" + board);
 
 		return mapper.update(board) == 1;
+	}
+	
+	@Override
+	public boolean updateHitCnt(Long num) {
+
+		log.info("updateHitCnt......" + num);
+
+		return mapper.updateHitCnt(num) == 1;
 	}
 
 	@Override

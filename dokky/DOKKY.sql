@@ -20,7 +20,16 @@ create sequence seq_dk_board;
 DROP TABLE DK_BOARD PURGE;
 
 insert into DK_BOARD(CATEGORY, NUM, TITLE, NICKNAME, CONTENT)
-values (1, seq_dk_board.nextval, '테스트 제목','테스트 닉네임','테스트 콘텐트');
+values (1, seq_dk_board.nextval, '제목1','닉네임1','콘텐트1');
+
+insert into DK_BOARD(CATEGORY, NUM, TITLE, NICKNAME, CONTENT)
+values (2, seq_dk_board.nextval, '제목2','닉네임2','콘텐트2');
+
+insert into DK_BOARD(CATEGORY, NUM, TITLE, NICKNAME, CONTENT)
+values (3, seq_dk_board.nextval, '제목3','닉네임3','콘텐트3');
+
+insert into DK_BOARD(CATEGORY, NUM, TITLE, NICKNAME, CONTENT)
+values (4, seq_dk_board.nextval, '제목4','닉네임4','콘텐트4');
 
 ---------------------------------------------------------------------------------------
 
