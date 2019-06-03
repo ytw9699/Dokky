@@ -89,13 +89,6 @@
 		</div>
 	<div>
 	 댓글쓰기11
-	 <div>
-		   <div> 
-                <textarea id="reply_contents" rows="3" name='reply_content'></textarea> 
-           </div>  
-           <input type='hidden' id="reply_nickName" name='nickName' value='testNickname'> 
-   		   <button id='replyRegisterBtn' type="button">등록</button>
-	</div>   
 	</div> 
 	
 	<div class='row'>
