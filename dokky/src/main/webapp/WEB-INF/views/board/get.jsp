@@ -82,23 +82,32 @@
 			  <input type='hidden' name='category' value='<c:out value="${cri.category}"/>'>
 			  <input type='hidden' name='pageNum' value='<c:out value="${cri.pageNum}"/>'>
 			  <input type='hidden' name='amount' value='<c:out value="${cri.amount}"/>'>
+			  <input type='hidden' name='keyword' value='<c:out value="${cri.keyword}"/>'>
+  			  <input type='hidden' name='type' value='<c:out value="${cri.type}"/>'>  
 			</form>
 
 		</div>
 	<div>
-	 댓글쓰기
-		<form action="" method="post">
-			       
-		         <div class="form-group">
-		           <textarea class="form-control" rows="3" name='content'></textarea>
-		         </div>
-		         <button type="submit" class="btn btn-default">등록</button>
-		         <button type="reset" class="btn btn-default">다시쓰기</button>
-		</form>
+	 댓글쓰기11
+	 <div>
+		   <div> 
+                <textarea id="reply_contents" rows="3" name='reply_content'></textarea> 
+           </div>  
+           <input type='hidden' id="reply_nickName" name='nickName' value='testNickname'> 
+   		   <button id='replyRegisterBtn' type="button">등록</button>
+	</div>   
 	</div> 
+	
+	<div class='row'>
+	        <ul class="replyData">
+	        </ul>
+    </div>
+	
 </div> 
 <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+<script type="text/javascript" src="/dokky/resources/js/reply.js"></script>
 <script>
+
      function func_confirm(content){//확인여부
          if(confirm(content)){//true
          	return true;
@@ -125,7 +134,122 @@
 		    operForm.submit();
 		}
  	 }); 
+	 
+	//console.log(replyService);
 	
+	/* replyService.add(
+	    {num:"221", reply_content:"TESTCONTENT", nickName:"tester"}
+	    ,
+	    function(result){ 
+	      alert("RESULT: " + result);
+	      alert("댓글");  
+	    }  
+	); */
+	
+	   /* replyService.getList({num:221, page:1}, function(data){//댓글 리스트 테스트
+	  for(var i = 0, len = data.list.length||0; i < len; i++ ){
+	    console.log(data.list[i]);
+	  }
+	}); */
+	
+	/* 
+	 replyService.remove(1, function(count) { //1번 댓글 삭제 테스트 
+
+	   console.log(count);
+
+	   if (count === "success") {
+	     alert("REMOVED");
+	   }
+	 }, function(err) {
+	   alert('ERROR...');
+	 }); */
+	 
+
+	/* //12번 댓글 수정 
+	 replyService.update({
+	  reply_num : 2,
+	  num : 221,
+	  reply_content : "Modified Reply11...." 
+	}, function(result) {
+		 if (result === "success") {
+	  alert("수정 완료...1"); 
+	  }
+	});   */
+	
+	/* 	
+	replyService.get(2, function(data) { //댓글하나조회
+
+		   console.log(data); 
+		 }); */
+		 
+		  var numValue = '<c:out value="${board.num}"/>';
+		  var replyUL = $(".replyData");
+		    
+		function showList(page){ 
+			
+			console.log("show list " + page);
+		    
+		    replyService.getList({num:numValue, page: page || 1 }, function(data) {
+		      
+		    //console.log("replyCnt: "+ replyCnt );
+		    console.log("data: " + data);
+		    
+		   /*  if(page == -1){
+		      pageNum = Math.ceil(replyCnt/10.0);
+		      showList(pageNum);
+		      return;
+		    } */
+		      
+		     var str="";
+		     
+		     if(data.list == null || data.list.length == 0){
+		       return;
+		     }
+		     
+		     for (var i = 0, len = data.list.length || 0; i < len; i++) {
+		       str +="<li>"+data.list[i].reply_num
+		       +" " + data.list[i].nickName
+		       +" " + data.list[i].reply_content
+		       +" "+replyService.displayTime(data.list[i].replyDate)
+		       +" "+"</li>"; 
+		     }
+		     
+		     replyUL.html(str);
+		     
+		   });//end function
+		     
+		 }//end showList
+		 
+		 showList(1);//댓글리스트 보여주기
+		 
+		 var replyRegisterBtn = $("#replyRegisterBtn");
+		 var reply_contents = $("#reply_contents");
+		 var reply_nickName = $("#reply_nickName");
+		 
+		 
+	        <textarea id="reply_contents" name='reply_content'></textarea>
+	           </div>  
+	           <input type='hidden' id="reply_nickName" name='nickName' value='testNickname'> 
+	   		   <button id='replyRegisterBtn' type="button">등록</button>
+	   		   
+		 replyRegisterBtn.on("click",function(e){
+		    	
+		      var reply = {
+		    		reply_content:reply_contents.val(), 
+		    		nickName:reply_nickName.val(),
+		            num:numValue
+		          };
+		      replyService.add(reply, function(result){
+		        
+		        alert(result);
+		        
+		        reply_contents.val("");
+		        
+		        showList(1);
+		        
+		      });
+		      
+		    });
 	
 </script>
 </body>

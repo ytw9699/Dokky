@@ -49,8 +49,10 @@ public class BoardController {
 		service.register(board);
 
 		//rttr.addFlashAttribute("result", board.getNum());
+		 rttr.addAttribute("num", board.getNum());
+		 rttr.addAttribute("category", board.getCategory());
 
-		return "redirect:/board/get?num="+board.getNum()+"&category="+board.getCategory();
+		return "redirect:/board/get";
 	}
 	
 	@GetMapping({ "/get", "/modify" })
@@ -63,12 +65,21 @@ public class BoardController {
 
 	 @PostMapping("/modify")
 	 public String modify(BoardVO board, Criteria cri, RedirectAttributes rttr) {
-		 log.info("modify:" + board);
+		 //log.info("modify:" + board);
 		
-		 if (service.modify(board)) { 
+		 /*if (service.modify(board)) { 
 		 rttr.addFlashAttribute("result", "success");
-		 }
-	 return "redirect:/board/get?num="+board.getNum()+"&category="+cri.getCategory()+"&pageNum="+cri.getPageNum()+"&amount="+cri.getAmount();
+		 }*/
+		 service.modify(board);
+		 
+		 rttr.addAttribute("pageNum", cri.getPageNum());
+		 rttr.addAttribute("amount", cri.getAmount());
+		 rttr.addAttribute("type", cri.getType());
+		 rttr.addAttribute("keyword", cri.getKeyword());
+		 rttr.addAttribute("category", cri.getCategory());
+		 rttr.addAttribute("num", board.getNum());
+		 
+	 return "redirect:/board/get";
 	 }
 
 	@GetMapping("/remove")
@@ -78,7 +89,14 @@ public class BoardController {
 		/*if (service.remove(num)) {
 			rttr.addFlashAttribute("result", "success");
 		}*/
-		service.remove(num);
-		return "redirect:/board/list?category="+cri.getCategory()+"&pageNum="+cri.getPageNum()+"&amount="+cri.getAmount();
+		service.remove(num); 
+		
+		rttr.addAttribute("pageNum", cri.getPageNum());
+		rttr.addAttribute("amount", cri.getAmount());
+		rttr.addAttribute("type", cri.getType());
+		rttr.addAttribute("keyword", cri.getKeyword());
+		rttr.addAttribute("category", cri.getCategory());
+		
+		return "redirect:/board/list";
 	}
 }

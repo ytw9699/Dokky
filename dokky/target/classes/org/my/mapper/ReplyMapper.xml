@@ -1,0 +1,59 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+  PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+  "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="org.my.mapper.ReplyMapper">
+
+	<insert id="insert">
+		insert into DK_REPLY (reply_num, num, reply_content, nickName)
+		values (seq_dk_reply.nextval, #{num}, #{reply_content}, #{nickName})
+	</insert>
+
+	<select id="read" resultType="org.my.domain.ReplyVO">
+		select * from DK_REPLY where reply_num = #{reply_num}
+	</select>
+
+	<delete id="delete">
+		delete from DK_REPLY where reply_num = #{reply_num}
+	</delete>
+
+	<update id="update">
+		update DK_REPLY set reply_content = #{reply_content}, updatedate = sysdate 
+		where reply_num = #{reply_num}
+	</update>
+
+
+	<select id="getListWithPaging" resultType="org.my.domain.ReplyVO">
+
+		select reply_num, num, reply_content, nickName, replyDate, updatedate
+		from DK_REPLY
+		where num = #{num}
+		order by reply_num asc
+
+	</select>
+
+	<!-- <select id="getListWithPaging" resultType="org.my.domain.ReplyVO">
+	
+	  <![CDATA[
+	 select  reply_num, num, reply_content, nickName, replydate, updatedate
+	 from 
+	   (
+	    select /*+INDEX(DK_REPLY idx_reply) */ 
+	      rownum rn,  reply_num, num, reply_content, nickName, replyDate, updatedate
+	    from DK_REPLY
+	    where num =  #{num}
+	    and reply_num > 0
+	    and rownum <= #{cri.pageNum} * #{cri.amount}
+	   ) where rn > (#{cri.pageNum} -1) * #{cri.amount}
+	]]>
+
+	</select> -->
+
+
+	<select id="getCountBynum" resultType="int">
+		<![CDATA[
+		select count(reply_num) from DK_REPLY where num = #{num}
+		]]>
+	</select>
+
+</mapper>

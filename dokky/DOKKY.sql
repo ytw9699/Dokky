@@ -33,13 +33,33 @@ values (4, seq_dk_board.nextval, '제목4','닉네임4','콘텐트4');
 
 ---------------------------------------------------------------------------------------
 
+create table DK_REPLY (
+reply_num number(10,0),
+num number(10,0) not null,
+reply_content varchar2(1000) not null,
+nickName varchar2(50) not null,
+replyDate date default sysdate,
+updateDate date default sysdate,
+up number(10,0) default 0,
+down number(10,0) default 0,
+money number(10,0) default 0
+);
+
+DROP TABLE DK_REPLY PURGE;
+
+create sequence seq_dk_reply
+
+alter table DK_REPLY add constraint pk_reply primary key (reply_num);
+
+alter table DK_REPLY add constraint fk_reply_board
+
+foreign key (num) references DK_BOARD (num);
+
+---------------------------------------------------------------------------------------
 
 alter table tbl_board add (replycnt number default 0 );
 
 update tbl_board set replycny = (select count(rno) from tbl_reply where tbl_reply.bno = tbl_board.bno);
-
-
-DROP TABLE tbl_board PURGE;
 
 
 alter table tbl_board add constraint pk_board 
@@ -70,19 +90,6 @@ select bno, title, content from (
 select /*+ INDEX_DESC(tbl_board pk_board) */ rownum rn, bno, title, content from tbl_board where rownum <= 20 
 ) where rn >10;
 
-create table tbl_reply (
-rno number(10,0),
-bno number(10,0) not null,
-reply varchar2(1000) not null,
-replyer varchar2(50) not null,
-replyDate date default sysdate,
-updateDate date default sysdate
-);
 
-create sequence seq_reply;
 
-alter table tbl_reply add constraint pk_reply primary key (rno);
 
-alter table tbl_reply add constraint fk_reply_board
-
-foreign key (bno) references tbl_board (bno);

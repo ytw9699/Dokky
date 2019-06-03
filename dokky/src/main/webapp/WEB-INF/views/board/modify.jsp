@@ -43,6 +43,8 @@
 		   <input type='hidden' name='category' value='<c:out value="${cri.category}"/>'>
 		   <input type='hidden' name='pageNum' value='<c:out value="${cri.pageNum}"/>'>
 		   <input type='hidden' name='amount' value='<c:out value="${cri.amount}"/>'>
+		   <input type='hidden' name='type' value='<c:out value="${cri.type }"/>'>
+		   <input type='hidden' name='keyword' value='<c:out value="${cri.keyword }"/>'>
      
      	   <button type="submit">수정완료</button>
         

@@ -16,10 +16,34 @@
 </head>
 	<body>
 		<div class="searchWrapper">
-			<form action="/dokky/mainSearchList" name="memberSearchForm" method="GET" onsubmit="">
-				<input type="text" name="searchKey" placeholder="검색어 입력" class="searchINPUT" />
-				<input type="submit" value="검색" class="searchSUBMIT" />
+			<form id='searchForm' action="/dokky/board/list" method='get'>
+				<select name='type'>
+					<option value="TC"
+						<c:out value="${pageMaker.cri.type == null || pageMaker.cri.type eq 'TC'?'selected':''}"/>>제목+내용</option>
+					<option value="T"
+						<c:out value="${pageMaker.cri.type eq 'T'?'selected':''}"/>>제목만</option>
+					<option value="C"
+						<c:out value="${pageMaker.cri.type eq 'C'?'selected':''}"/>>내용</option>
+					<%-- <option value="TC"
+						<c:out value="${pageMaker.cri.type eq 'TC'?'selected':''}"/>>제목+내용</option> --%>
+					<option value="N"
+						<c:out value="${pageMaker.cri.type eq 'N'?'selected':''}"/>>닉네임</option>
+					<option value="TN"
+						<c:out value="${pageMaker.cri.type eq 'TN'?'selected':''}"/>>제목+닉네임</option>
+					<option value="TNC"
+						<c:out value="${pageMaker.cri.type eq 'TNC'?'selected':''}"/>>제목+내용+닉네임</option>
+				</select> 
+							
+				<input type='text' name='keyword' value='<c:out value="${pageMaker.cri.keyword}"/>' /> 
+				<input type='hidden' name='pageNum' value='<c:out value="${pageMaker.cri.pageNum}"/>' /> 
+				<input type='hidden' name='amount' value='<c:out value="${pageMaker.cri.amount}"/>' />
+				<input type='hidden' name='category' value='${pageMaker.cri.category}'>
+						
+				<button class='btn btn-default'>검색</button>
 			</form>
 		</div>
 	</body>
 </html>
+
+
+		

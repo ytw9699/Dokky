@@ -20,7 +20,7 @@ public interface BoardMapper {
 
 	public int getTotalCount(Criteria cri);
 	
-	public void updateReplyCnt(@Param("bno") Long bno, @Param("amount") int amount);
+	public void updateReplyCnt(@Param("num") Long num, @Param("amount") int amount);
 
 	public int updateHitCnt(Long num);
 
