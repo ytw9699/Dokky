@@ -21,6 +21,9 @@
 		margin-left: 15%;
 		margin-top: 1%; 
 	}
+        .modal{
+          display:none;
+        }  
 </style>
 </head>
 <body>
@@ -87,19 +90,37 @@
 			</form>
 
 		</div>
-	<div>
-	 댓글쓰기11
-	</div> 
 	
 	<div class='row'>
 	        <ul class="replyData">
 	        </ul>
     </div>
 	
+	<div>
+	 댓글쓰기
+	  <div>
+		   <div> 
+                <textarea id="reply_contents" rows="3" name='reply_content'></textarea> 
+           </div>  
+           <input type='hidden' id="reply_nickName" name='nickName' value='testNickname'> 
+   		   <button id='replyRegisterBtn' type="button">등록</button>
+	</div> 
+	</div>  
+	
+	<!-- Modal -->
+      <div class="modal" id="myModal" >
+                <label>댓글내용</label>  
+                <input class="form-control" name='reply_content' value=''> 
+                <input type='hidden' class="form-control" name='nickName' value=''>
+                <input type='hidden' class="form-control" name='reply_num' value=''>
+                <button id='modalModBtn' type="button" class="btn btn-warning">수정</button> 
+       			<button id='modalCloseBtn' type="button" class="btn btn-default">취소</button>
+      </div>
 </div> 
 <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
 <script type="text/javascript" src="/dokky/resources/js/reply.js"></script>
 <script>
+
 
      function func_confirm(content){//확인여부
          if(confirm(content)){//true
@@ -200,11 +221,13 @@
 		     }
 		     
 		     for (var i = 0, len = data.list.length || 0; i < len; i++) {
-		       str +="<li>"+data.list[i].reply_num
+		       str +="<div style='display:none' id=replace"+data.list[i].reply_num+">dd</div><li data-reply_num='"+data.list[i].reply_num+"'>"+data.list[i].reply_num
 		       +" " + data.list[i].nickName
 		       +" " + data.list[i].reply_content
 		       +" "+replyService.displayTime(data.list[i].replyDate)
-		       +" "+"</li>"; 
+		       +" "+"<button data-oper='modify' id='deleteBtn' type='button' data-reply_num='"+data.list[i].reply_num+"'>수정</button>"
+		       +"<button data-oper='delete' id='deleteBtn' type='button' data-reply_num='"+data.list[i].reply_num+"'>삭제</button>"
+		       +"</li>"; 
 		     }
 		     
 		     replyUL.html(str);
@@ -218,13 +241,7 @@
 		 var replyRegisterBtn = $("#replyRegisterBtn");
 		 var reply_contents = $("#reply_contents");
 		 var reply_nickName = $("#reply_nickName");
-		 
-		 
-	        <textarea id="reply_contents" name='reply_content'></textarea>
-	           </div>  
-	           <input type='hidden' id="reply_nickName" name='nickName' value='testNickname'> 
-	   		   <button id='replyRegisterBtn' type="button">등록</button>
-	   		   
+
 		 replyRegisterBtn.on("click",function(e){
 		    	
 		      var reply = {
@@ -243,7 +260,104 @@
 		      });
 		      
 		    });
-	
+		
+         
+		 	var commonMyModal = $('#myModal');
+		 	var RecentReplaceModal;
+		 	var isReplaceModal = false;//리플레이스 모달이 존재를 하는지 체크여부
+		 	var currentModalId ;
+		     
+		$(".replyData").on("click",'button[data-oper="modify"]', function(event){//수정버튼 처음 누름
+			if(isReplaceModal){
+				 RecentReplaceModal.clone().replaceAll("#"+currentModalId); 
+			}
+			// alert(this); 
+			 //alert(event);    
+			$(".modal").css("display", "none");
+			$(".selected").css("display", "list-item");//수정 버튼을 2번이나 눌르게되면 다른 수정li는 다시 보이게하기
+			$(this.parentNode).addClass('selected').css("display","none");
+			  var reply_num = $(this).data("reply_num");
+			  
+			  var currentModal = commonMyModal;
+			  currentModal.attr('id', "myModal"+reply_num);
+			  
+			 // $('#myModal').clone().replaceAll("#replace"+reply_num);//복제후 교체  
+			 RecentReplaceModal = $("#replace"+reply_num).clone();
+			 currentModal.clone().replaceAll("#replace"+reply_num);//복제후 교체
+			 
+			 isReplaceModal = true;
+			currentModalId = currentModal.attr('id');//현재 모달아이디 저장 
+			
+			
+			  var modal = $(".modal");
+			    var InputReply_content = modal.find("input[name='reply_content']");
+			    var InputNickName = modal.find("input[name='nickName']");
+			    var InputReply_num = modal.find("input[name='reply_num']");
+			    
+			  replyService.get(reply_num, function(Result){
+				  InputReply_content.val(Result.reply_content);//ReplyVO의reply_content
+				  InputNickName.val(Result.nickName);//ReplyVO의nickName
+				  InputReply_num.val(Result.reply_num);//ReplyVO의nickName
+				  modal.data("reply_num", Result.reply_num);
+				 // $(".modal").show();
+				   $("#myModal"+reply_num).css("display","block");   
+				  //$(".modal").css("display","block"); 
+				   
+				  var modalCloseBtn = $("#modalCloseBtn");   
+				   var modalModBtn = $("#modalModBtn");
+				  
+				  modalModBtn.on("click", function(e){//댓글수정
+						 var modal = $(".modal");
+					   	  var reply = {reply_num:modal.data("reply_num"), reply_content: InputReply_content.val()};
+					   	  
+					   	  replyService.update(reply, function(result){
+					   	        
+					   	    alert(result);
+					   	    showList(1);
+					   	 RecentReplaceModal.clone().replaceAll("#myModal"+reply_num);
+					   	 $(".modal").css("display", "none");
+					   	  });
+					   	   
+					   	});
+				   
+				  
+				  modalCloseBtn.on("click", function(e){//댓글 수정 취소
+					  RecentReplaceModal.clone().replaceAll("#myModal"+reply_num);
+					 	 //  $(".modal").hide();
+					 	 //  $(".modal").show();
+					 	   $(".modal").css("display", "none");//""은 block이든 inline이든 기본 적용
+					 	   $(".selected").css("display", "list-item");//list-item은 li디자인을 의미  block inline도있음
+						});
+						 	
+			  });
+			  //alert("#replace"+reply_num); 
+			 
+		 	 });
+		
+		
+		
+		$(".replyData").on("click",'button[data-oper="delete"]', function(event){//댓글 삭제
+			if(func_confirm('정말 삭제 하시겠습니까?')){
+			 var reply_num = $(this).data("reply_num");
+		
+			 replyService.remove(reply_num, function(result){
+		   	        
+		   	      alert(result);
+		   	      showList(1);
+		   	  }); 
+				}
+		 	 });
+		
+		/* modalModBtn1.on("click", function(e){//댓글수정
+		 	    alert(1);
+		 	 //  $(".modal").hide();
+		 	 //  $(".modal").show();
+		 	   $(".modal").css("display", "");//""은 block이든 inline이든 기본 적용
+		 	}); */
+		 	
+		
+ 
+		    
 </script>
 </body>
 </html>
