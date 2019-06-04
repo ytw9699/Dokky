@@ -25,8 +25,8 @@ package org.my.controller;
 @AllArgsConstructor
 public class ReplyController {
 	private ReplyService service;//@AllArgsConstructor로 주입,스프링4.3이상
-
-	@PostMapping(value = "/new", consumes = "application/json", produces = { MediaType.TEXT_PLAIN_VALUE })
+ 
+	@PostMapping(value = "/new", consumes = "application/json", produces = "text/plain; charset=UTF-8")
 	public ResponseEntity<String> create(@RequestBody ReplyVO vo) {
 
 		log.info("ReplyVO: " + vo);
