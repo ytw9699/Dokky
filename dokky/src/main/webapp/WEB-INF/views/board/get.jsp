@@ -207,7 +207,7 @@
 		      
 		      replyService.add(reply, function(result){//댓글 등록
 		        
-		        alert(result);
+		        //alert(result);
 		        
 		        reply_contents.val("");
 		        
@@ -217,35 +217,34 @@
 		    });
 	/////////////////////////////////////////////////////////이하는 댓글 수정,삭제,수정후 취소
 
-	 	var commonMyModal = $('#myModal'); //공통 모달
 	 	var RecentReplaceModal; //현재 교체 모달
 	 	var isReplaceModal = false;//리플레이스 모달이 존재를 하는지 체크여부
 	 	var currentModalId ;//현재 모달 아이디
 	     
 	$(".replyList").on("click",'button[data-oper="modify"]', function(event){//댓글목록의 수정버튼 이벤트
 		if(isReplaceModal){
-			 RecentReplaceModal.clone().replaceAll("#"+currentModalId); 
+			 RecentReplaceModal.clone().replaceAll("#"+currentModalId);//myModal"+reply_num 
 			$(".selected").css("display", "list-item");//수정 버튼을 2번이나 눌르게되면 다른 수정li는 다시 보이게하기 
 		}  
 		// alert(this);   
 		 //alert(event);    
-		//$(".modal").css("display", "none");  
 		
 		$(this.parentNode).addClass('selected').css("display","none");//수정할려는 댓글 한줄 안보이게
 		
 		  var reply_num = $(this).data("reply_num");//수정 할려는 댓글의 번호 가져오기
-		  
-		  var currentModal = commonMyModal;//댓글 입력창 불러오기
+		  var currentModal = $('#myModal').clone();//댓글 입력창 불러오기
 		  
 		  currentModal.attr('id', "myModal"+reply_num);//아이디 글번호 넣어서 바꿔주기
-		  
 		  currentModalId = currentModal.attr('id');//현재 모달아이디 저장 
 		  
+		  currentModal.find('#modalCloseBtn').attr('id', "modalCloseBtn"+reply_num); //취소버튼 id 글번호 넣어서 바꿔주기
+		  currentModal.find('#modalModBtn').attr('id', "modalModBtn"+reply_num); //취소버튼 id 글번호 넣어서 바꿔주기
+		  
 		 RecentReplaceModal = $("#replace"+reply_num).clone();//댓글 목록의 교체 해줄 div를 복제해서 잠시 빼둠
+		    
+		 currentModal.replaceAll("#replace"+reply_num);//복제후 댓글 입력창으로 교체    
 		 
-		 currentModal.clone().replaceAll("#replace"+reply_num);//복제후 댓글 입력창으로 교체
-		 
-		 isReplaceModal = true;//복제후 교체 되어졌음을 확인
+		 isReplaceModal = true;//복제후 교체 되어졌음을 확인 
 		
 		  var modal = $("#myModal"+reply_num);
 		    var InputReply_content = modal.find("input[name='reply_content']");
@@ -261,15 +260,15 @@
 			  
 	///////////////////////////////////////////////////////
 
-			  var modalCloseBtn = $("#modalCloseBtn");//추후 수정    
-			  var modalModBtn = $("#modalModBtn");//추후 수정
+			  var modalCloseBtn = $("#modalCloseBtn"+reply_num);    
+			  var modalModBtn = $("#modalModBtn"+reply_num);
 			  
-			  modalModBtn.on("click", function(e){//댓글 수정 등록
+			  modalModBtn.on("click", function(e){//댓글 수정 등록 
 				   	 var reply = {reply_num:InputReply_num.val(), reply_content: InputReply_content.val()};
 				   	  
 				   	  replyService.update(reply, function(result){
 				   	        
-				   	    alert(result);
+				   	    //alert(result); 
 				   	    
 				   	    showReplyList(1);
 				   	    
@@ -278,10 +277,8 @@
 				   	});
 			    
 			  modalCloseBtn.on("click", function(e){//댓글 수정 취소
-				  RecentReplaceModal.clone().replaceAll("#myModal"+reply_num);
-			  
-				 	   modal.css("display", "none");//""은 block이든 inline이든 기본 적용
-				 	   
+				  RecentReplaceModal.clone().replaceAll("#myModal"+reply_num); 
+				 	    
 				 	   $(".selected").css("display", "list-item");//list-item은 li디자인을 의미  block inline도있음
 					});
 		  });
@@ -295,7 +292,7 @@
 	
 		 replyService.remove(reply_num, function(result){
 	   	        
-	   	      alert(result);
+	   	      //alert(result);
 	   	      showReplyList(1);
 	   	  }); 
 		}//if문 끝
