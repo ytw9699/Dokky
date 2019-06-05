@@ -29,7 +29,28 @@
 <body>
 <div class="getWrapper"> 
 	<div class="col-lg-12">
-     <h1 class="page-header">${board.category}게시판</h1>
+     <h1 class="page-header">
+      <c:choose>
+			       <c:when test="${board.category == 1 }">
+			          		 공지사항 
+			       </c:when>
+			       <c:when test="${board.category == 2 }">
+			       			  자유게시판
+			       </c:when>
+			        <c:when test="${board.category == 3 }">
+			     		 	  묻고답하기
+			       </c:when>
+			        <c:when test="${board.category == 4 }">
+			   		   	  	  칼럼/Tech
+			       </c:when>
+			       <c:when test="${board.category == 5 }">
+			   		   		  정기모임/스터디 
+			       </c:when>
+			        <c:when test="${board.category == 6 }"> 
+			   		   		    마이페이지  
+			       </c:when>
+		       </c:choose>
+     </h1>
     </div>
 
 		<div class="form-group">

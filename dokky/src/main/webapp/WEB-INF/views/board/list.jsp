@@ -62,11 +62,13 @@
 			   		   	  	  칼럼/Tech
 			       </c:when>
 			       <c:when test="${pageMaker.cri.category == 5 }">
-			   		   		  정기모임/스터디
+			   		   		  정기모임/스터디 
 			       </c:when>
-			       <c:otherwise>
-			     		          마이페이지
-			       </c:otherwise>
+			        <c:when test="${pageMaker.cri.category == 6 }"> 
+			   		   		    마이페이지
+			       </c:when>
+			       <%-- <c:otherwise>
+			       </c:otherwise> --%>
 		       </c:choose>
   	    </div>
 
