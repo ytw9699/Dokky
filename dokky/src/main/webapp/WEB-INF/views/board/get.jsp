@@ -209,7 +209,7 @@
 	     
 	     replyList.html(str);//댓글목록안에 채워주기
 	     
-	     showReplyPage(data.replyCnt);
+	     showReplyPage(data.replyCnt);//댓글페이지 보여주기
 	     
 	   });//end function
 	     
@@ -336,54 +336,48 @@
 	 	var pageNum = 1;
 	    var replyPage = $(".replyPage");
 	    
-    function showReplyPage(replyCnt){
+    function showReplyPage(replyCnt){//댓글 페이지 함수
 	      
-	      var endNum = Math.ceil(pageNum / 10.0) * 10; 
-	      	//alert(endNum);
-	      /* Math.ceil() : 소수점 이하를 올림한다. */ 
-	      var startNum = endNum - 9;
-	      //alert(startNum); 
-	      var prev = startNum != 1; 
-	      //alert(startNum);
-	      var next = false; 
-	      //100
+      var endNum = Math.ceil(pageNum / 10.0) * 10; 
+      /* Math.ceil() : 소수점 이하를 올림한다. */ 
+      var startNum = endNum - 9;
+      var prev = startNum != 1; 
+      var next = false; 
+      
 	      if(endNum * 10 >= replyCnt){
 	        endNum = Math.ceil(replyCnt/10.0);
-	       					 /* 10은 보여줄 댓글의 갯수 */
+	       					 /* 10.0은 보여줄 댓글의 갯수 */
 	      }
-	      
 	      if(endNum * 10 < replyCnt){
 	        next = true;
 	      }
 	      
-	      var str = "<ul>";
+	  var str = "<ul>";
 	      	
 	      if(prev){ 
-	    	  //alert("prev");
-	        str+= "<li class='page-item'><a class='page-link' href='"+(startNum -1)+"'>Previous</a></li>";
+	    	  
+	        	str+= "<li class='page-item'><a class='page-link' href='"+(startNum -1)+"'>Previous</a></li>";
 	      }
 	      
 	      for(var i = startNum ; i <= endNum; i++){
 	        
-	        var active = pageNum == i? "active":"";
-	          
-	        str+= "<li class='page-item "+active+" '><a class='page-link' href='"+i+"'> " +i+ " </a></li>"; 
+		        var active = pageNum == i? "active":"";
+		          
+		        str+= "<li class='page-item "+active+" '><a class='page-link' href='"+i+"'> " +i+ " </a></li>"; 
 	      }
 	      
 	      if(next){
-		//alert("next"); 
 	        str+= "<li class='page-item'><a class='page-link' href='"+(endNum + 1)+"'>Next</a></li>";
 	      }
 	      
-	      str += "</ul></div>";
-	      
-	      //console.log(str);
-	      
-	      replyPage.html(str);
+      str += "</ul></div>";
+      
+      //console.log(str);
+      
+      replyPage.html(str);
     }
 	     
-	    
-	    replyPage.on("click","li a", function(e){
+	    replyPage.on("click","li a", function(e){//4. 페이지 링크 클릭시 이벤트
 		       e.preventDefault();
 		       
 		       var targetPageNum = $(this).attr("href");

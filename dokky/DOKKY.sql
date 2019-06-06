@@ -22,15 +22,6 @@ DROP TABLE DK_BOARD PURGE;
 insert into DK_BOARD(CATEGORY, NUM, TITLE, NICKNAME, CONTENT)
 values (1, seq_dk_board.nextval, '제목1','닉네임1','콘텐트1');
 
-insert into DK_BOARD(CATEGORY, NUM, TITLE, NICKNAME, CONTENT)
-values (2, seq_dk_board.nextval, '제목2','닉네임2','콘텐트2');
-
-insert into DK_BOARD(CATEGORY, NUM, TITLE, NICKNAME, CONTENT)
-values (3, seq_dk_board.nextval, '제목3','닉네임3','콘텐트3');
-
-insert into DK_BOARD(CATEGORY, NUM, TITLE, NICKNAME, CONTENT)
-values (4, seq_dk_board.nextval, '제목4','닉네임4','콘텐트4');
-
 ---------------------------------------------------------------------------------------
 
 create table DK_REPLY (
@@ -44,19 +35,15 @@ up number(10,0) default 0,
 down number(10,0) default 0,
 money number(10,0) default 0
 );
+alter table DK_REPLY add constraint pk_reply primary key (reply_num);
 
-DROP TABLE DK_REPLY PURGE;
+alter table DK_REPLY add constraint fk_reply_board foreign key (num) references DK_BOARD (num);
 
 create sequence seq_dk_reply
 
-alter table DK_REPLY add constraint pk_reply primary key (reply_num);
-
-alter table DK_REPLY add constraint fk_reply_board
-
-foreign key (num) references DK_BOARD (num);
-
 create index idx_reply on DK_REPLY(num desc, reply_num asc);
 
+DROP TABLE DK_REPLY PURGE;
 
 select /* INDEX(dk_reply idx_reply) */
 rownum rn,num,reply_num,reply_content,nickname from dk_reply where num =221 and reply_num > 0
@@ -64,40 +51,5 @@ rownum rn,num,reply_num,reply_content,nickname from dk_reply where num =221 and 
 insert into dk_reply(reply_num,num,reply_content,nickName) values (seq_dk_reply.nextval,221, 'test', 'test')
 
 ---------------------------------------------------------------------------------------
-
-alter table tbl_board add (replycnt number default 0 );
-
-update tbl_board set replycny = (select count(rno) from tbl_reply where tbl_reply.bno = tbl_board.bno);
-
-
-alter table tbl_board add constraint pk_board 
-primary key (bno);
-
-insert into tbl_board(bno, title, content, writer)
-values (seq_board.nextval, '테스트 제목','테스트 내용','user00');
-
---재귀 복사를 통해서 2배씩 증가시킴
-insert into tbl_board(bno, title, content, writer)
-(select seq_board.nextval, title, content, writer from tbl_board);
-
-select count(*) from tbl_board
-
---tbl_board 테이블에 pk_board 인덱스를 역순으로 이용해 줄 것
-select /*+ INDEX_DESC(tbl_board pk_board) */ * from tbl_board where bno > 0
-
-select * /*+ INDEX_DESC(tbl_board pk_board) */ from tbl_board where bno > 0
-
-
-select * from tbl_board where bno = 26746;
-
-select rownum rn, bno, title from tbl_board
-
-select /* INDEX_ASC(tbl_board pk_board) */ rownum rn, bno, title, content from tbl_board where rownum <=10
-
-select bno, title, content from ( 
-select /*+ INDEX_DESC(tbl_board pk_board) */ rownum rn, bno, title, content from tbl_board where rownum <= 20 
-) where rn >10;
-
-
 
 
