@@ -198,7 +198,6 @@ function showList(page){
      replyUL.html(str);
      
      showReplyPage(replyCnt);
-
  
    });//end function
      

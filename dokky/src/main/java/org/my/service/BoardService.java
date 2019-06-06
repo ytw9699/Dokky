@@ -17,8 +17,10 @@ public interface BoardService {
 
 	public boolean remove(Long bno);
 
-	public int getTotal(Criteria cri);
+	public int getTotalCount(Criteria cri);
 
 	public boolean updateHitCnt(Long num);
+
+	public int updateLike(Long num);
 
 }

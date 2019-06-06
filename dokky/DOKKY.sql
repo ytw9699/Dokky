@@ -55,6 +55,14 @@ alter table DK_REPLY add constraint fk_reply_board
 
 foreign key (num) references DK_BOARD (num);
 
+create index idx_reply on DK_REPLY(num desc, reply_num asc);
+
+
+select /* INDEX(dk_reply idx_reply) */
+rownum rn,num,reply_num,reply_content,nickname from dk_reply where num =221 and reply_num > 0
+
+insert into dk_reply(reply_num,num,reply_content,nickName) values (seq_dk_reply.nextval,221, 'test', 'test')
+
 ---------------------------------------------------------------------------------------
 
 alter table tbl_board add (replycnt number default 0 );

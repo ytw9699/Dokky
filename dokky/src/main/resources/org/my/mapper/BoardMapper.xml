@@ -24,7 +24,7 @@
 		</trim>
 	</sql>
 	
-	<select id="getListWithPaging" resultType="org.my.domain.BoardVO"> 
+	<select id="getList" resultType="org.my.domain.BoardVO"> 
 		  <![CDATA[
 		  select 
 		    	category,replyCnt, num, title, content, nickName, regdate, hitCnt
@@ -72,11 +72,17 @@
 	</update>
 	
 	<delete id="delete">
-		delete DK_BOARD where num = #{num}
+		delete DK_BOARD where num = #{num} 
 	</delete>
 	
 	<select id="getTotalCount" resultType="int">
 		select count(*) from DK_BOARD where category = #{category} and <include refid="criteria"></include>  num > 0
 	</select>
+	
+	<update id="updateLike">
+		update DK_BOARD
+			set UP = UP + 1
+		where num = #{num}
+	</update>
 		
 </mapper>

@@ -148,13 +148,36 @@ var replyService = (function() {
 	}
 	;
 
+	function updateLike(likeData, callback, error) {
+
+		console.log("likeData: " + likeData.num);
+
+		$.ajax({
+			type : 'put', 
+			url : '/dokky/board/like/' + likeData.num, 
+			data : JSON.stringify(likeData), 
+			contentType : "application/json; charset=utf-8",
+			success : function(result, status, xhr) {
+				if (callback) {
+					callback(result);
+				}
+			},
+			error : function(xhr, status, er) {
+				if (error) {
+					error(er);
+				}
+			}
+		});
+	}
+	
 	return {
 		add : add,
 		get : get,
 		getList : getList,
 		remove : remove,
 		update : update,
-		displayTime : displayTime
+		displayTime : displayTime,
+		updateLike : updateLike
 	};
 
 })();

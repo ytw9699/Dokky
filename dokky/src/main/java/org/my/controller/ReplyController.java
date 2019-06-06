@@ -43,10 +43,10 @@ public class ReplyController {
 	@GetMapping(value = "/pages/{num}/{page}", produces = { MediaType.APPLICATION_XML_VALUE, MediaType.APPLICATION_JSON_UTF8_VALUE })
 	public ResponseEntity<ReplyPageDTO> getList(@PathVariable("page") int page, @PathVariable("num") Long num) {
 
-		Criteria cri = new Criteria(page, 10);
+		Criteria cri = new Criteria(page, 10);//댓글을 10개씩 보여줌 
 		
 		log.info("get Reply List num: " + num);
-
+  
 		log.info("cri:" + cri);
 
 		return new ResponseEntity<>(service.getListPage(cri, num), HttpStatus.OK);
@@ -113,6 +113,7 @@ public class ReplyController {
 //	
 //	 return new ResponseEntity<>(service.getList(cri, num), HttpStatus.OK);
 //	 }
+	
 
 }
 

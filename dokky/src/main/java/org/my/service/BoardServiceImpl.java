@@ -1,15 +1,15 @@
 package org.my.service;
 	import java.util.List;
 
-	import org.my.domain.BoardVO;
-	import org.my.domain.Criteria;
-	import org.my.mapper.BoardMapper;
-	import org.springframework.beans.factory.annotation.Autowired;
-	import org.springframework.stereotype.Service;
-	
-	import lombok.AllArgsConstructor;
-	import lombok.Setter;
-	import lombok.extern.log4j.Log4j;
+import org.my.domain.BoardVO;
+import org.my.domain.Criteria;
+import org.my.mapper.BoardMapper;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
+
+import lombok.AllArgsConstructor;
+import lombok.Setter;
+import lombok.extern.log4j.Log4j;
 
 @Log4j
 @Service//비즈니스 영역담당 어노테이션
@@ -24,7 +24,7 @@ public class BoardServiceImpl implements BoardService {
 
 		log.info("get List with criteria: " + cri);
 
-		return mapper.getListWithPaging(cri);
+		return mapper.getList(cri);
 	}
 	
 	
@@ -69,12 +69,18 @@ public class BoardServiceImpl implements BoardService {
 		return mapper.delete(bno) == 1;
 	}
 
-
 	@Override
-	public int getTotal(Criteria cri) {
+	public int getTotalCount(Criteria cri) {
 
 		log.info("get total count");
 		return mapper.getTotalCount(cri);
+	}
+
+
+	@Override
+	public int updateLike(Long num) {
+		
+		return mapper.updateLike(num);
 	}
 
 }

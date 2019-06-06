@@ -6,9 +6,7 @@ package org.my.mapper;
 
 public interface BoardMapper {
 
-	public List<BoardVO> getList(int category);
-
-	public List<BoardVO> getListWithPaging(Criteria cri);
+	public List<BoardVO> getList(Criteria cri);
 
 	public Integer insertSelectKey(BoardVO board);
 
@@ -23,5 +21,7 @@ public interface BoardMapper {
 	public void updateReplyCnt(@Param("num") Long num, @Param("amount") int amount);
 
 	public int updateHitCnt(Long num);
+
+	public int updateLike(Long num);
 
 }
