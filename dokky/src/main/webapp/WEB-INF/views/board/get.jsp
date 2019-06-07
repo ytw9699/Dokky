@@ -206,7 +206,9 @@
 	       +" "+replyService.displayTime(data.list[i].replyDate)
 	       +" "+"<button data-oper='modify' type='button' data-reply_num='"+data.list[i].reply_num+"'>수정</button>"
 	       +"<button data-oper='delete' type='button' data-reply_num='"+data.list[i].reply_num+"'>삭제</button>" 
-	       +"</li>"; 
+	       +"<button data-oper='like' type='button' data-reply_num='"+data.list[i].reply_num+"'>좋아요</button>" 
+	       +"<button data-oper='dislike' type='button' data-reply_num='"+data.list[i].reply_num+"'>싫어요</button>" 
+	       +"</li>";
 	     }
 	     
 	     replyList.html(str);//댓글목록안에 채워주기
@@ -333,10 +335,10 @@
 		   	  replyService.updateLike(likeData, function(result){
 		   	 
 		   	//var likeCount = $("#likeCount");
-		  // 	likeCount.html(result);  
-		   		  alert(result);//좋아요 싫어요는 한번만 해줘야함,트랜잭션도 포함될수있음 여기 나중에다시 개발
-		   	  });
-		   	});
+		  	//likeCount.html(result);  
+		   		  alert(result);//좋아요 싫어요는 해당아이디당 한글에  한번만 해줘야함 세션의 아이디에 해당하는지 확인작업필요
+		   	  });//boardVo에 해당글의 좋아요,싫어요 아이디 컬럼을 둘다 만들고 그 컬럼에 아이디가 있다면 좋아요를 누를수없음
+		   	});//두번의작업, 1. 좋아요 카운트 올리기 2. 해당 아이디 넣기  > 트랜잭션 필요
 	  
 ///////////////////////////////////////////////////////	
 	  

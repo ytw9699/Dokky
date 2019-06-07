@@ -79,9 +79,8 @@ public class BoardServiceImpl implements BoardService {
 		return mapper.getTotalCount(cri);
 	}
 
-
 	@Override
-	public int updateLike(Long num) {
+	public int updateLike(Long num) {//좋아요수 증가
 		
 		return mapper.updateLike(num);
 	}

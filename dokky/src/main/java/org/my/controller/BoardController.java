@@ -126,7 +126,6 @@ public class BoardController {
 		vo.setNum(num);
 
 		log.info("num: " + num);
-		
 
 		return service.updateLike(num) == 1 
 				? new ResponseEntity<>("success", HttpStatus.OK)
