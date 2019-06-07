@@ -103,6 +103,7 @@
 			<button id="modify_button">수정 </button> 
 	        <button id="list_button">목록보기 </button> 
 	        <button id="remove_button">삭제 </button>
+	        <button id="scrap">스크랩 </button>
 	        
 			<form id='operForm' action="/dokky/board/modify" method="get">
 			  <input type='hidden' id='num' name='num' value='<c:out value="${board.num}"/>'>
