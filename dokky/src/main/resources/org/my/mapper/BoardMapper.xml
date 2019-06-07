@@ -79,10 +79,17 @@
 		select count(*) from DK_BOARD where category = #{category} and <include refid="criteria"></include>  num > 0
 	</select>
 	
+  	<!-- 해당 글의 댓글 갯수 하나 늘리거나 빼기 --> 
+  	<update id="updateReplyCnt">
+  		update dk_board set replycnt = replycnt + #{amount} where num =#{num}
+  	</update> 
+	
 	<update id="updateLike">
 		update DK_BOARD
 			set UP = UP + 1
 		where num = #{num}
 	</update>
 		
+	
+  	
 </mapper>

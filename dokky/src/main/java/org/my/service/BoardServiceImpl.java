@@ -1,15 +1,16 @@
 package org.my.service;
 	import java.util.List;
 
-import org.my.domain.BoardVO;
-import org.my.domain.Criteria;
-import org.my.mapper.BoardMapper;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.stereotype.Service;
+	import org.my.domain.BoardVO;
+	import org.my.domain.Criteria;
+	import org.my.mapper.BoardMapper;
+	import org.springframework.beans.factory.annotation.Autowired;
+	import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import lombok.AllArgsConstructor;
-import lombok.Setter;
-import lombok.extern.log4j.Log4j;
+	import lombok.Setter;
+	import lombok.extern.log4j.Log4j;
 
 @Log4j
 @Service//비즈니스 영역담당 어노테이션
@@ -27,7 +28,6 @@ public class BoardServiceImpl implements BoardService {
 		return mapper.getList(cri);
 	}
 	
-	
 	@Override
 	public void register(BoardVO board) {
 
@@ -35,14 +35,25 @@ public class BoardServiceImpl implements BoardService {
 
 		mapper.insertSelectKey(board);
 	}
-
+	
+	@Transactional
 	@Override
 	public BoardVO get(Long num) {
 
-		log.info("get......" + num);
-
+		log.info("get..." + num);
+		
+		log.info("updateHitCnt..." + num);
+		
+		mapper.updateHitCnt(num);//조회수 증가
+		
 		return mapper.read(num);
+	}
+	@Override
+	public BoardVO getModifyForm(Long num) {
 
+		log.info("getModifyForm" + num);
+		
+		return mapper.read(num);
 	}
 
 	@Override
@@ -51,14 +62,6 @@ public class BoardServiceImpl implements BoardService {
 		log.info("modify......" + board);
 
 		return mapper.update(board) == 1;
-	}
-	
-	@Override
-	public boolean updateHitCnt(Long num) {
-
-		log.info("updateHitCnt......" + num);
-
-		return mapper.updateHitCnt(num) == 1;
 	}
 
 	@Override
@@ -82,5 +85,4 @@ public class BoardServiceImpl implements BoardService {
 		
 		return mapper.updateLike(num);
 	}
-
 }

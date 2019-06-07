@@ -20,7 +20,7 @@ public interface BoardMapper {
 	
 	public void updateReplyCnt(@Param("num") Long num, @Param("amount") int amount);
 
-	public int updateHitCnt(Long num);
+	public int updateHitCnt(Long num);//조회수 증가
 
 	public int updateLike(Long num);
 

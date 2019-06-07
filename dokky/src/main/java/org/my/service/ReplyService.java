@@ -1,10 +1,8 @@
 package org.my.service;
 
-import java.util.List;
-
-import org.my.domain.Criteria;
-import org.my.domain.ReplyPageDTO;
-import org.my.domain.ReplyVO;
+	import org.my.domain.Criteria;
+	import org.my.domain.ReplyPageDTO;
+	import org.my.domain.ReplyVO;
 
 public interface ReplyService {
 
@@ -15,8 +13,6 @@ public interface ReplyService {
 	public int modify(ReplyVO vo);
 
 	public int remove(Long reply_num);
-
-	public List<ReplyVO> getList(Criteria cri, Long num);
 	
 	public ReplyPageDTO getListPage(Criteria cri, Long num);
 

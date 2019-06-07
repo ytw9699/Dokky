@@ -63,13 +63,20 @@ public class BoardController {
 		return "redirect:/board/get";
 	}
 	
-	@GetMapping({ "/get", "/modify" })
+	@GetMapping("/get")
 	public void get(@RequestParam("num") Long num, @ModelAttribute("cri") Criteria cri, Model model) {
 
-		//log.info("/get or modify");
-		service.updateHitCnt(num);
-		model.addAttribute("board", service.get(num));
+		//log.info("/get");
+		model.addAttribute("board", service.get(num));//조회수증가 + 하나의 글 상세 데이터 가져오기
 	}
+	
+	@GetMapping("/modify")
+	public void getModifyForm(@RequestParam("num") Long num, @ModelAttribute("cri") Criteria cri, Model model) {
+
+		//log.info("/modify");
+		model.addAttribute("board", service.getModifyForm(num));//수정폼+데이터 가져오기
+	}
+	
 
 	 @PostMapping("/modify")
 	 public String modify(BoardVO board, Criteria cri, RedirectAttributes rttr) {

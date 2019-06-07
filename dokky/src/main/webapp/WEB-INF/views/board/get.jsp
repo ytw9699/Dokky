@@ -96,10 +96,10 @@
         <div class="form-group">
           <label>조회수</label>-<c:out value="${board.hitCnt }"/>
         </div>
-        <div class="form-group">
-          <label>댓글</label>-<c:out value="${board.replyCnt }"/>
+        <div id="replyCntVal" class="form-group"> 
+          <%-- <label>댓글</label>-${board.replyCnt } --%>
         </div>
-		<div>
+		<div> 
 			<button id="modify_button">수정 </button> 
 	        <button id="list_button">목록보기 </button> 
 	        <button id="remove_button">삭제 </button>
@@ -154,8 +154,8 @@
      }
 	/////////////////////////////////////////////////////////
 	
-	var operForm = $("#operForm");  
-
+	var operForm = $("#operForm"); 
+	
 	$("#list_button").on("click", function(e){//글 목록
 	    operForm.find("#num").remove();
 	    operForm.attr("action","/dokky/board/list")
@@ -176,19 +176,21 @@
 	/////////////////////////////////////////////////////////
  	 var numValue = '<c:out value="${board.num}"/>';// 글번호
  	 var replyList = $(".replyList");//댓글목록
-	    
+	 var replyCnt ;
+	 
 	function showReplyList(page){ //댓글 목록 가져오기
 		
-	    
 	    replyService.getList({num:numValue, page: page || 1 }, function(data) {
-	      
-	   if(page == -1){
-		  
-	      pageNum = Math.ceil(data.replyCnt/10.0);
-	      //alert(pageNum);
-	      showReplyList(pageNum);//마지막페이지 찾아서 다시호출
-	      return;
-	    }
+	    	
+	  		  replyCnt =  data.replyCnt;
+	  		  
+			  if(page == -1){
+			  
+		      pageNum = Math.ceil(replyCnt/10.0);
+		      //alert(pageNum);
+		      showReplyList(pageNum);//마지막페이지 찾아서 다시호출
+		      return;
+		    }
 	      
 	     var str="";
 	     var len = data.list.length;
@@ -210,6 +212,12 @@
 	     replyList.html(str);//댓글목록안에 채워주기
 	     
 	     showReplyPage(data.replyCnt);//댓글페이지 보여주기
+	     
+	     console.log("showReplyList끝");
+	     
+	     var replyCntVal = $("#replyCntVal");
+	      
+	     replyCntVal.html("댓글-"+replyCnt);   
 	     
 	   });//end function
 	     
@@ -233,11 +241,10 @@
 		     	 replyService.add(reply, function(result){//댓글 등록
 		        
 				        //alert(result);
-				        
 				        reply_contents.val("");//댓글등록후 폼 비우기
 				        
 				        showReplyList(-1);//댓글 목록 마지막 페이지 보여주기
-			     });
+			     }); 
 		   });
 	/////////////////////////////////////////////////////////이하는 댓글 수정,삭제,수정후 취소
 

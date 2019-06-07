@@ -19,8 +19,8 @@ public interface BoardService {
 
 	public int getTotalCount(Criteria cri);
 
-	public boolean updateHitCnt(Long num);
-
 	public int updateLike(Long num);
+
+	public BoardVO getModifyForm(Long num);
 
 }
