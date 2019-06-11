@@ -1,6 +1,8 @@
 package org.my.controller;
 
-	import org.my.domain.BoardVO;
+	import java.util.List;
+
+import org.my.domain.BoardVO;
 	import org.my.domain.Criteria;
 	import org.my.domain.PageDTO;
 	import org.my.service.BoardService;
@@ -19,6 +21,7 @@ package org.my.controller;
 	import org.springframework.web.bind.annotation.RequestParam;
 	import org.springframework.web.bind.annotation.ResponseBody;
 	import org.springframework.web.servlet.mvc.support.RedirectAttributes;
+	import org.my.domain.BoardAttachVO;
 	
 	import lombok.AllArgsConstructor;
 	import lombok.extern.log4j.Log4j;
@@ -52,8 +55,17 @@ public class BoardController {
 	@PostMapping("/register")
 	public String register(BoardVO board, RedirectAttributes rttr) {
 
-		//log.info("register: " + board);
+		//log.info("==========================");
 
+		//log.info("register: " + board);
+		
+		/*if (board.getAttachList() != null) {
+
+			board.getAttachList().forEach(attach -> log.info(attach));
+		}*/
+		
+		//log.info("==========================");
+		
 		service.register(board);
 
 		//rttr.addFlashAttribute("result", board.getNum());
@@ -131,5 +143,16 @@ public class BoardController {
 				? new ResponseEntity<>("success", HttpStatus.OK)
 				: new ResponseEntity<>(HttpStatus.INTERNAL_SERVER_ERROR);
 	}
+	
+	@GetMapping(value = "/getAttachList",
+		    produces = MediaType.APPLICATION_JSON_UTF8_VALUE)
+	@ResponseBody
+	public ResponseEntity<List<BoardAttachVO>> getAttachList(Long num) {
+	
+		log.info("getAttachList " + num);
+
+	return new ResponseEntity<>(service.getAttachList(num), HttpStatus.OK);
+
+}
 	
 }

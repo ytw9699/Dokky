@@ -1,5 +1,7 @@
 package org.my.domain;
 	import java.util.Date;
+	import java.util.List;
+	import org.my.domain.BoardAttachVO;
 	import lombok.Data;
 	
 @Data//생성자와 getter/setter, toString()
@@ -17,4 +19,6 @@ public class BoardVO {
 	  private int money;
 	  private Long hitCnt;
 	  private int replyCnt;
+	  
+	  private List<BoardAttachVO> attachList;//첨부파일관련
 }
