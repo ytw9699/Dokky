@@ -1,8 +1,10 @@
 package org.my.controller;
 
+	import java.nio.file.Files;
+	import java.nio.file.Path;
+	import java.nio.file.Paths;
 	import java.util.List;
-
-import org.my.domain.BoardVO;
+	import org.my.domain.BoardVO;
 	import org.my.domain.Criteria;
 	import org.my.domain.PageDTO;
 	import org.my.service.BoardService;
@@ -109,13 +111,13 @@ public class BoardController {
 	 return "redirect:/board/get";
 	 }
 
-	@GetMapping("/remove")
+	/*@GetMapping("/remove")
 	public String remove(@RequestParam("num") Long num, Criteria cri, RedirectAttributes rttr) {
 
 		//log.info("remove..." + num);
-		/*if (service.remove(num)) {
+		if (service.remove(num)) {
 			rttr.addFlashAttribute("result", "success");
-		}*/
+		}
 		service.remove(num); 
 		
 		rttr.addAttribute("pageNum", cri.getPageNum());
@@ -125,7 +127,22 @@ public class BoardController {
 		rttr.addAttribute("category", cri.getCategory());
 		
 		return "redirect:/board/list";
-	}
+	}*/
+	 @PostMapping("/remove")
+		public String remove(@RequestParam("num") Long num, Criteria cri, RedirectAttributes rttr) {
+
+			log.info("remove..." + num);
+
+			List<BoardAttachVO> attachList = service.getAttachList(num);
+
+			if (service.remove(num)) {
+				// delete Attach Files
+				deleteFiles(attachList);
+
+				rttr.addFlashAttribute("result", "success");
+			}
+			return "redirect:/board/list" + cri.getListLink();
+		}
 	
 	@RequestMapping(method = { RequestMethod.PUT,RequestMethod.PATCH }, 
 			value = "/like/{num}", consumes = "application/json", produces = {
@@ -152,7 +169,34 @@ public class BoardController {
 		log.info("getAttachList " + num);
 
 	return new ResponseEntity<>(service.getAttachList(num), HttpStatus.OK);
-
 }
+	
+	private void deleteFiles(List<BoardAttachVO> attachList) {
+	    
+	    if(attachList == null || attachList.size() == 0) {
+	      return;
+	    }
+	    
+	    log.info("delete attach files...................");
+	    log.info(attachList);
+	    
+	    attachList.forEach(attach -> {
+	      try {        
+	        Path file  = Paths.get("C:\\upload\\"+attach.getUploadPath()+"\\" + attach.getUuid()+"_"+ attach.getFileName());
+	        
+	        Files.deleteIfExists(file);
+	        
+	        if(Files.probeContentType(file).startsWith("image")) {
+	        
+	          Path thumbNail = Paths.get("C:\\upload\\"+attach.getUploadPath()+"\\s_" + attach.getUuid()+"_"+ attach.getFileName());
+	          
+	          Files.delete(thumbNail);
+	        }
+	
+	      }catch(Exception e) {
+	        log.error("delete file error" + e.getMessage());
+	      }//end catch
+	    });//end foreachd
+	  }
 	
 }

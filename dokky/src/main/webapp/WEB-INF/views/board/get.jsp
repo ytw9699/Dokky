@@ -36,7 +36,6 @@
 	  display:flex;
 	  flex-flow: row;
 	  justify-content: center;
-	  align-items: center;
 	}
 	.uploadResult ul li {
 	  list-style: none;
@@ -100,7 +99,12 @@
        </c:choose>
      </h1>
     </div>
-	
+    
+    <div class='bigPictureWrapper'>
+	  <div class='bigPicture'>
+	  </div>
+	</div>
+
 	<div class="row">
   <div class="col-lg-12">
     <div class="panel panel-default">
@@ -229,7 +233,7 @@
 	   
 	$("#remove_button").on("click", function(e){//글 삭제
 		if(func_confirm('정말 삭제 하시겠습니까?')){
-			operForm.attr("action","/dokky/board/remove")
+			operForm.attr("action","/dokky/board/remove").attr("method","post");
 		    operForm.submit();
 		}
  	 }); 
@@ -477,7 +481,7 @@
 	    	           var fileCallPath =  encodeURIComponent( attach.uploadPath+ "/s_"+attach.uuid +"_"+attach.fileName);
 	    	           
 	    	           str += "<li data-path='"+attach.uploadPath+"' data-uuid='"+attach.uuid+"' data-filename='"+attach.fileName+"' data-type='"+attach.fileType+"' ><div>";
-	    	           str += "<img src='/display?fileName="+fileCallPath+"'>";
+	    	           str += "<img src='/dokky/display?fileName="+fileCallPath+"'>";
 	    	           str += "</div>";
 	    	           str +"</li>";
 	    	         }else{
@@ -506,19 +510,17 @@
 	    	    if(liObj.data("type")){
 	    	      showImage(path.replace(new RegExp(/\\/g),"/"));
 	    	    }else {
-	    	      self.location ="/download?fileName="+path
+	    	      self.location ="/dokky/download?fileName="+path
 	    	    }
 	    	    
 	    	  });
 	    	  
 	    	  function showImage(fileCallPath){
-	    		    
-	    	    alert(fileCallPath);
 	    	    
 	    	    $(".bigPictureWrapper").css("display","flex").show();
 	    	    
 	    	    $(".bigPicture")
-	    	    .html("<img src='/display?fileName="+fileCallPath+"' >")
+	    	    .html("<img src='/dokky/display?fileName="+fileCallPath+"' >")
 	    	    .animate({width:'100%', height: '100%'}, 1000);
 	    	  }
 

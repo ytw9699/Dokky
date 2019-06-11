@@ -218,7 +218,7 @@ $(document).ready(function(e){
 			str += "<span> "+ obj.fileName+"</span>";
 			str += "<button type='button' data-file=\'"+fileCallPath+"\' "
 			str += "data-type='image' class='btn btn-warning btn-circle'><i class='fa fa-times'></i></button><br>";
-			str += "<img src='/display?fileName="+fileCallPath+"'>";
+			str += "<img src='/dokky/display?fileName="+fileCallPath+"'>";
 			str += "</div>";
 			str +"</li>";
 		}else{
