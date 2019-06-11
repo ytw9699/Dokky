@@ -70,12 +70,25 @@ public class BoardServiceImpl implements BoardService {
 		return mapper.read(num);
 	}
 
+	@Transactional
 	@Override
 	public boolean modify(BoardVO board) {
 
-		log.info("modify......" + board);
+		log.info("modify......" + board); 
 
-		return mapper.update(board) == 1;
+		attachMapper.deleteAll(board.getNum());//일단 첨부파일 모두 삭제
+
+		boolean modifyResult = mapper.update(board) == 1; 
+		
+		if (modifyResult && board.getAttachList() != null && board.getAttachList().size() > 0) {
+
+			board.getAttachList().forEach(attach -> {
+
+				attach.setNum(board.getNum());
+				attachMapper.insert(attach);
+			});
+		}
+		return modifyResult;
 	}
 
 	@Transactional
