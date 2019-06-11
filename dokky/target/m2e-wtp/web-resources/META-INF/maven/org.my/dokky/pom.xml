@@ -22,7 +22,6 @@
 		    <version>2.3.0</version>
 		</dependency>
 	
-	
 		<!-- https://mvnrepository.com/artifact/org.quartz-scheduler/quartz-jobs -->
 		<dependency>
 			<groupId>org.quartz-scheduler</groupId>
