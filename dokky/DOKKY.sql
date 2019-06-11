@@ -51,5 +51,19 @@ rownum rn,num,reply_num,reply_content,nickname from dk_reply where num =221 and 
 insert into dk_reply(reply_num,num,reply_content,nickName) values (seq_dk_reply.nextval,221, 'test', 'test')
 
 ---------------------------------------------------------------------------------------
+create table dk_attach(
+uuid varchar2(100) not null,
+uploadPath varchar2(200) not null,-- 실제 파일이 업로드된 경로
+fileName varchar2(100) not null, --파일 이름을 의미
+fileType char(1) default 'I', --이미지 파일 여부를판단
+NUM number(10,0) -- 해당 게시물 번호를 저장
+);
 
+alter table dk_attach add constraint pk_attach primary key (uuid);
+alter table dk_attach add constraint fk_board_attach foreign key (NUM) references DK_BOARD(NUM);
+
+insert into dk_attach(uuid, uploadPath, fileName, NUM)
+values ('11', '테스트 제목','테스트 내용',3);
+
+DROP TABLE dk_attach PURGE;
 
