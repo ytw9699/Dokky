@@ -9,9 +9,13 @@
 <html>
 <head>
 <meta charset="UTF-8">
+<!-- <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script> -->
+<script src="//code.jquery.com/jquery-1.11.3.min.js"></script>
+<script type="text/javascript" src="/dokky/resources/SmartEditor/js/service/HuskyEZCreator.js" charset="utf-8" ></script>
+
 <title>Dokky 새 글쓰기</title>
 <style>
-.uploadResult {
+.uploadResult { 
 	width: 100%;
 	background-color: gray;
 }
@@ -89,23 +93,23 @@
 					<option value="" selected="selected">게시판을 선택해 주세요.</option>
                        <option value=1>공지사항</option>
                        <option value=2>자유게시판</option>
-                       <option value=3>묻고답하기</option>
+                       <option value=3>묻고답하기</option> 
                        <option value=4>칼럼/Tech</option>
                        <option value=5>정기모임/스터디</option>
 			     </select>
 			</div>
 		          <div class="form-group">
-		            <input class="form-control" placeholder="제목을 입력해 주세요" name='title'>
+		            <input id="title" class="form-control" placeholder="제목을 입력해 주세요" name='title'>
 		          </div>
 		
 		          <div class="form-group">
-		            <textarea class="form-control" rows="3" name='content'></textarea>
+		          <textarea class="form-control" name="content" id="ir1" rows="20" cols="100"></textarea>
 		          </div>
 		          
 		          <input type='hidden' name='nickName' value='test' /> 
 		        <%--   <input type='hidden' name='amount' value='<c:out value="${pageMaker.cri.amount}"/>' /> --%>
 								
-		          <button type="submit" class="btn btn-default">등록</button>
+		    	  <button type="submit" class="btn btn-default">등록</button>
 		          
 		          <button type="reset" class="btn btn-default">다시쓰기</button>
 	        </form>
@@ -115,9 +119,24 @@
 </div>
 </div>
 
-<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
 <script> 
 $(document).ready(function(e){
+	
+	/* 스마트 에디터 */
+	var oEditors = [];
+	
+	nhn.husky.EZCreator.createInIFrame({  
+	 oAppRef: oEditors,
+	 elPlaceHolder: "ir1",
+	 sSkinURI: "/dokky/resources/SmartEditor/SmartEditor2Skin.html",
+	 fCreator: "createSEditor2",
+	 htParams : {
+         bUseToolbar : true,        // 툴바 사용 여부 (true:사용/ false:사용하지 않음)
+         bUseVerticalResizer : true,// 입력창 크기 조절바 사용 여부 (true:사용/ false:사용하지 않음)
+         bUseModeChanger : true // 모드 탭(Editor | HTML | TEXT) 사용 여부 (true:사용/ false:사용하지 않음)
+       }
+	});
+	/* 스마트 에디터 */
   
   var formObj = $("form[role='form']");
   
@@ -125,7 +144,17 @@ $(document).ready(function(e){
     
     e.preventDefault();
     
-    console.log("submit clicked");
+    var title = $("#title").val();
+		 title = $.trim(title);//공백제거
+		
+	if(title == ""){ 
+		alert("제목을 입력하세요"); 
+		   return false;
+	}
+    
+    oEditors.getById["ir1"].exec("UPDATE_CONTENTS_FIELD", []);// 스마트 에디터 - textarea에 값 옮겨주기
+    
+    //console.log("submit clicked"); 
     
     var str = "";
     
@@ -240,7 +269,7 @@ $(document).ready(function(e){
 
   $(".uploadResult").on("click", "button", function(e){
 	    
-    console.log("delete file");
+    console.log("delete file"); 
       	
     var targetFile = $(this).data("file");
     var type = $(this).data("type");

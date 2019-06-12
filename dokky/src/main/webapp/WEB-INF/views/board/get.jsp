@@ -140,7 +140,7 @@
         </div>
 
         <div class="form-group">
-          <label>내용</label>-<c:out value="${board.content }"/>
+          <label>내용</label>-${board.content }
         </div>
         
         <div class="form-group">
