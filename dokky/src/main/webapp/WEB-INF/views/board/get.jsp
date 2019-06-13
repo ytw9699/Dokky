@@ -137,7 +137,7 @@
 
         <div class="form-group">
           <label>제목</label>-<c:out value="${board.title }"/>
-        </div>
+        </div>   
 
         <div class="form-group">
           <label>내용</label>-${board.content }

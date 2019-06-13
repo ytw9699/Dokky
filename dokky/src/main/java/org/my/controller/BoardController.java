@@ -49,7 +49,7 @@ public class BoardController {
 	}
 	
 	@GetMapping("/register")
-	public String register() {
+	public String register(@ModelAttribute("category") int category) {
 		
 		return "board/register";
 	}

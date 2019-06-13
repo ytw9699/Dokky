@@ -87,10 +87,11 @@
     <div class="panel panel-default">
 
       <div class="panel-body">
-	        <form role="form" action="/dokky/board/register" method="post">
+	        <form role="form" action="/dokky/board/register" method="post">  
 	        <div>
-				<select name="category" class="form-control">
-					<option value="" selected="selected">게시판을 선택해 주세요.</option>
+	        ${category} 카테고리값에 따라 selected를 변경시켜줘야함
+				<select id="selectId" name="category" class="form-control">
+					   <option value=9 selected="selected">게시판을 선택해 주세요.</option>
                        <option value=1>공지사항</option>
                        <option value=2>자유게시판</option>
                        <option value=3>묻고답하기</option> 
@@ -102,7 +103,7 @@
 		            <input id="title" class="form-control" placeholder="제목을 입력해 주세요" name='title'>
 		          </div>
 		
-		          <div class="form-group">
+		          <div class="form-group"> 
 		          <textarea class="form-control" name="content" id="ir1" rows="20" cols="100"></textarea>
 		          </div>
 		          
@@ -126,10 +127,10 @@ $(document).ready(function(e){
 	var oEditors = [];
 	
 	nhn.husky.EZCreator.createInIFrame({  
-	 oAppRef: oEditors,
-	 elPlaceHolder: "ir1",
+	 oAppRef: oEditors, // 전역변수 명과 동일해야 함
+	 elPlaceHolder: "ir1",// 에디터가 그려질 textarea ID 값과 동일 해야 함
 	 sSkinURI: "/dokky/resources/SmartEditor/SmartEditor2Skin.html",
-	 fCreator: "createSEditor2",
+	 fCreator: "createSEditor2", // SE2BasicCreator.js 메소드명이니 변경 금지
 	 htParams : {
          bUseToolbar : true,        // 툴바 사용 여부 (true:사용/ false:사용하지 않음)
          bUseVerticalResizer : true,// 입력창 크기 조절바 사용 여부 (true:사용/ false:사용하지 않음)
@@ -143,12 +144,19 @@ $(document).ready(function(e){
   $("button[type='submit']").on("click", function(e){
     
     e.preventDefault();
+
+    var selectedValue = $("#selectId option:selected").val();
+    
+    if(selectedValue == 9){
+    	alert("게시판을 선택 해주세요.");
+    	return false;
+    }
     
     var title = $("#title").val();
 		 title = $.trim(title);//공백제거
 		
 	if(title == ""){ 
-		alert("제목을 입력하세요"); 
+		alert("제목을 입력하세요."); 
 		   return false;
 	}
     
