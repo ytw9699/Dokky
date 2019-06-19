@@ -5,6 +5,38 @@
 	xsi:schemaLocation="http://www.springframework.org/schema/security http://www.springframework.org/schema/security/spring-security.xsd
 		http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd">
 
+<bean id="customAccessDenied" class="org.my.security.CustomAccessDeniedHandler"></bean>
 
+<bean id="bcryptPasswordEncoder" class="org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder" />
+
+<bean id="customUserDetailsService" class="org.my.security.CustomUserDetailsService"></bean>
+		
+	<security:http>
+		<security:intercept-url pattern="/sample/all" access="permitAll" />
+		<security:intercept-url pattern="/sample/member" access="hasRole('ROLE_MEMBER')" />
+												<!--’ROLE_MEMBER’라는 권한이 있는 사용자만이 접근 -->
+		<security:intercept-url pattern="/sample/admin" access="hasRole('ROLE_ADMIN')" />
+		
+		<security:access-denied-handler ref="customAccessDenied" />
+	
+	<security:form-login login-page="/customLogin"/>
+
+	 <security:logout logout-url="/customLogout" invalidate-session="true"  />
+	 
+	 <security:remember-me data-source-ref="dataSource" token-validity-seconds="604800" />
+	
+	<security:logout logout-url="/customLogout" invalidate-session="true" delete-cookies="remember-me,JSESSION_ID" />
+	
+	</security:http>
+	
+	<security:authentication-manager>
+	
+		<security:authentication-provider user-service-ref="customUserDetailsService">
+		
+			<security:password-encoder ref="bcryptPasswordEncoder" />
+			
+		</security:authentication-provider> 
+
+	</security:authentication-manager>
 
 </beans>

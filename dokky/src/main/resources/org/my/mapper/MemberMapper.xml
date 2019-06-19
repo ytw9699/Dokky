@@ -1,0 +1,36 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+  PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+  "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="org.my.mapper.MemberMapper">
+
+	<resultMap id="authMap" type="org.my.domain.AuthVO" >
+	   	<result property="userid" column="userid"/>
+	   	<result property="auth" column="auth"/>
+ 	</resultMap>
+  
+  <resultMap id="memberMap" type="org.my.domain.MemberVO" >
+    <id property="userid" column="userid"/>
+	    <result property="userid" column="userid"/>
+	    <result property="userpw" column="userpw"/>
+	    <result property="userName" column="username"/>
+	    <result property="regDate" column="regdate"/>
+	    <result property="updateDate" column="updatedate"/>
+    <collection property="authList" resultMap="authMap"></collection> 
+  </resultMap>
+	<!--    회원 정보는 MemberVO 하나이고，AuthVO는 2개가 되어야 하는
+	결과인데. memberMap이라는 이름을 가지는〈resultMap〉은〈result〉와
+	〈collection〉을 이용해서 바깥쪽 객체(MemberVO의 인스턴스)와 안쪽 객체들(AuthVO
+	의 인스턴스들)을 구성. MyBatis에서는 이처럼 하나의 결과에 부가적으로
+	여러 개의 데이터를 처리하는 경우 1:N의 결과를 처리할수 있는〈resultMap〉태그를 지
+	원. -->
+  
+  <select id="read" resultMap="memberMap">
+	SELECT 
+	  mem.userid,  userpw, username, enabled, regdate, updatedate, auth
+	FROM 
+	  tbl_member mem LEFT OUTER JOIN tbl_member_auth auth on mem.userid = auth.userid 
+	WHERE mem.userid = #{userid} 
+  </select>
+
+</mapper>
