@@ -10,8 +10,8 @@ package org.my.controller;
 	import org.springframework.http.HttpStatus;
 	import org.springframework.http.MediaType;
 	import org.springframework.http.ResponseEntity;
-import org.springframework.security.access.prepost.PreAuthorize;
-import org.springframework.stereotype.Controller;
+	import org.springframework.security.access.prepost.PreAuthorize;
+	import org.springframework.stereotype.Controller;
 	import org.springframework.ui.Model;
 	import org.springframework.web.bind.annotation.GetMapping;
 	import org.springframework.web.bind.annotation.ModelAttribute;
@@ -130,9 +130,9 @@ public class BoardController {
 		return "redirect:/board/list";
 	}*/
 	 
-	 @PreAuthorize("principal.username == #nickName")
+	 @PreAuthorize("principal.username == #nickName")  
 	 @PostMapping("/remove")
-		public String remove(@RequestParam("num") Long num, Criteria cri, RedirectAttributes rttr) {
+		public String remove(@RequestParam("num") Long num,@RequestParam("nickName")String nickName, Criteria cri, RedirectAttributes rttr) {
 
 		 	log.info("remove..." + num);
 

@@ -175,7 +175,6 @@
 		       		 <button id="modify_button">수정 </button> 
 					 <button id="remove_button">삭제 </button>
 		        </c:if>
-		         
 	        </sec:authorize>
 	        
 					 <button id="list_button">목록보기 </button> 
@@ -219,7 +218,7 @@
            </div>  
    		   <button id='replyRegisterBtn' type="button">등록</button>
    		   
-   		   <input type='hidden' id="reply_nickName" name='nickName' value='testNickname'>
+   		   <input type='hidden' id="reply_nickName" name='nickName' value='<sec:authentication property="principal.username"/>'>
 									   		   		<!-- 테스트닉네임에 회원정보에서 가져와서 넣기 -->
 		</div> 
 	</sec:authorize>
@@ -277,6 +276,8 @@
 		    }
 	      
 	     var str="";
+	     var username='${userInfo.username}';//자바스크립트안에 el태그 가져오기
+	     var nickName=""; 
 	     var len = data.list.length;
 	     
 	     if(data.list == null || len == 0){//댓글 리스트
@@ -284,16 +285,18 @@
 	     }
 	        
 	     for (var i = 0; i < len || 0; i++) {
+	       nickName = data.list[i].nickName;
+	       
 	       str +="<div style='display:none' id=replace"+data.list[i].reply_num+"></div><li data-reply_num='"+data.list[i].reply_num+"'>"+data.list[i].reply_num
 	       +" " + data.list[i].nickName
 	       +" " + data.list[i].reply_content
 	       +" "+replyService.displayTime(data.list[i].replyDate)
 	       +" "+"<sec:authorize access='isAuthenticated()'>"
-			       +"<c:if test='${userInfo.username eq board.nickName}'>"
-				       +"<button data-oper='modify' type='button' data-reply_num='"+data.list[i].reply_num+"'>수정</button>"
-				       +"<button data-oper='delete' type='button' data-reply_num='"+data.list[i].reply_num+"'>삭제</button>" 
-			       +"</c:if>"
-			       +"<button data-oper='like' type='button' data-reply_num='"+data.list[i].reply_num+"'>좋아요</button>" 
+			if(username  == nickName ){
+				 str += "<button data-oper='modify' type='button' data-reply_num='"+data.list[i].reply_num+"'>수정</button>"
+			       +"<button data-oper='delete' type='button' data-reply_num='"+data.list[i].reply_num+"'>삭제</button>" 
+			     }
+				str += "<button data-oper='like' type='button' data-reply_num='"+data.list[i].reply_num+"'>좋아요</button>" 
 			       +"<button data-oper='dislike' type='button' data-reply_num='"+data.list[i].reply_num+"'>싫어요</button>"
 	      	  +"</sec:authorize>"
 	       +"</li>"; 
@@ -314,6 +317,13 @@
 	 
 	 showReplyList(1);//댓글리스트 보여주기
 		 
+	/////////////////////////////////////////////////////////
+	 var csrfHeaderName ="${_csrf.headerName}"; 
+	 var csrfTokenValue="${_csrf.token}";
+	    
+	 $(document).ajaxSend(function(e, xhr, options) { 
+        xhr.setRequestHeader(csrfHeaderName, csrfTokenValue); 
+      });
 	/////////////////////////////////////////////////////////
 		 var replyRegisterBtn = $("#replyRegisterBtn");//댓글 등록 버튼
 		 var reply_contents = $("#reply_contents");//댓글 내용

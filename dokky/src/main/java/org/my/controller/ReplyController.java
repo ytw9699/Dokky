@@ -7,7 +7,8 @@ package org.my.controller;
 	import org.springframework.http.HttpStatus;
 	import org.springframework.http.MediaType;
 	import org.springframework.http.ResponseEntity;
-	import org.springframework.web.bind.annotation.DeleteMapping;
+import org.springframework.security.access.prepost.PreAuthorize;
+import org.springframework.web.bind.annotation.DeleteMapping;
 	import org.springframework.web.bind.annotation.GetMapping;
 	import org.springframework.web.bind.annotation.PathVariable;
 	import org.springframework.web.bind.annotation.PostMapping;
@@ -25,7 +26,8 @@ package org.my.controller;
 @AllArgsConstructor
 public class ReplyController {
 	private ReplyService service;//@AllArgsConstructor로 주입,스프링4.3이상
- 
+	
+	@PreAuthorize("isAuthenticated()")
 	@PostMapping(value = "/new", consumes = "application/json", produces = "text/plain; charset=UTF-8")
 	public ResponseEntity<String> create(@RequestBody ReplyVO vo) {
 
