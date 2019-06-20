@@ -67,3 +67,32 @@ values ('11', '테스트 제목','테스트 내용',3);
 
 DROP TABLE dk_attach PURGE;
 
+------------------------------------------------------------------------------------------
+
+create table dk_member(
+      userid varchar2(50) not null primary key,
+      userpw varchar2(100) not null,
+      username varchar2(100) not null,
+      regdate date default sysdate, 
+      updatedate date default sysdate,
+      enabled char(1) default '1'
+);
+
+drop table dk_member purge 
+
+create table dk_member_auth (
+     userid varchar2(50) not null,
+     auth varchar2(50) not null,
+     constraint fk_member_auth foreign key(userid) references dk_member(userid)
+);
+
+create table persistent_logins (
+	username varchar(64) not null,
+	series varchar(64) primary key,
+	token varchar(64) not null,
+	last_used timestamp not null
+);
+--테이블을 생성하는 스크립트는 특정한 데이터베이스에 맞게 테이블 이름과 칼럼명을 제
+--외한 칼럼의 타입 등을 적당히 조정해서 사용하면 됩니다. 오라클에서는 varchar를 그대
+--로 이용하거나 varchar2로 변경해서 사용하면 됩니다
+

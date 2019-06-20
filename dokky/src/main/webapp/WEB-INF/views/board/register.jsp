@@ -1,8 +1,8 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
-    
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c"%>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/fmt" prefix="fmt"%>
+<%@ taglib uri="http://www.springframework.org/security/tags" prefix="sec" %>
 <%@ include file="../includes/left.jsp"%>
 
 <!DOCTYPE html>
@@ -106,10 +106,12 @@
 		          <div class="form-group"> 
 		          <textarea class="form-control" name="content" id="ir1" rows="20" cols="100"></textarea>
 		          </div>
-		          
-		          <input type='hidden' name='nickName' value='test' /> 
+		          					 			 					<!-- 현재 사용자의 아이디가 출력 -->
+		          <input type='hidden' name='nickName' value='<sec:authentication property="principal.username"/>' /> 
 		        <%--   <input type='hidden' name='amount' value='<c:out value="${pageMaker.cri.amount}"/>' /> --%>
 								
+				  <input type="hidden" name="${_csrf.parameterName}" value="${_csrf.token}"/>
+				  
 		    	  <button type="submit" class="btn btn-default">등록</button>
 		          
 		          <button type="reset" class="btn btn-default">다시쓰기</button>

@@ -2,6 +2,7 @@
     pageEncoding="UTF-8"%>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c"%>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/fmt" prefix="fmt"%>
+<%@ taglib uri="http://www.springframework.org/security/tags" prefix="sec" %>
 <%@ include file="../includes/left.jsp"%>
 <!DOCTYPE html>
 <html>
@@ -111,6 +112,9 @@
 			  <textarea class="form-control" rows="3" name='content' ><c:out value="${board.content}"/></textarea>
 			</div>
 			
+		   <input type="hidden" name="${_csrf.parameterName}" value="${_csrf.token}"/> 
+			
+			<input type='hidden' name='nickName' value='<c:out value="${board.nickName }"/>'>
 		   <input type='hidden' name='num' value='<c:out value="${board.num }"/>'>
 		   <input type='hidden' name='category' value='<c:out value="${cri.category}"/>'>
 		   <input type='hidden' name='pageNum' value='<c:out value="${cri.pageNum}"/>'>
@@ -118,8 +122,14 @@
 		   <input type='hidden' name='type' value='<c:out value="${cri.type }"/>'>
 		   <input type='hidden' name='keyword' value='<c:out value="${cri.keyword }"/>'>
      
-     	   <button type="submit">수정완료</button>
-        
+     <sec:authentication property="principal" var="userInfo"/>
+		 
+		 	<sec:authorize access="isAuthenticated()">
+		        <c:if test="${userInfo.username eq board.nickName}">
+		       		 <button type="submit">수정완료</button>
+		        </c:if>
+	        </sec:authorize>
+	        
      	   <button type="reset" class="btn btn-default">다시쓰기</button>
 	</form>
 </div>

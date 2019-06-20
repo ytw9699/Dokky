@@ -12,20 +12,14 @@
 <bean id="customUserDetailsService" class="org.my.security.CustomUserDetailsService"></bean>
 		
 	<security:http>
-		<security:intercept-url pattern="/sample/all" access="permitAll" />
-		<security:intercept-url pattern="/sample/member" access="hasRole('ROLE_MEMBER')" />
-												<!--’ROLE_MEMBER’라는 권한이 있는 사용자만이 접근 -->
-		<security:intercept-url pattern="/sample/admin" access="hasRole('ROLE_ADMIN')" />
 		
 		<security:access-denied-handler ref="customAccessDenied" />
+		
+		<security:form-login login-page="/customLogin"/>
 	
-	<security:form-login login-page="/customLogin"/>
-
-	 <security:logout logout-url="/customLogout" invalidate-session="true"  />
-	 
-	 <security:remember-me data-source-ref="dataSource" token-validity-seconds="604800" />
-	
-	<security:logout logout-url="/customLogout" invalidate-session="true" delete-cookies="remember-me,JSESSION_ID" />
+		 <security:remember-me data-source-ref="dataSource" token-validity-seconds="604800" />
+		
+		<security:logout logout-url="/customLogout" invalidate-session="true" delete-cookies="remember-me,JSESSION_ID" />
 	
 	</security:http>
 	

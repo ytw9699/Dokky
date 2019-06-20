@@ -9,14 +9,12 @@ package org.my.security;
 	import org.springframework.test.context.ContextConfiguration;
 	import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 	import lombok.Setter;
-	import lombok.extern.log4j.Log4j;
 
 @RunWith(SpringJUnit4ClassRunner.class)
 @ContextConfiguration({
   "file:src/main/webapp/WEB-INF/spring/root-context.xml",
   "file:src/main/webapp/WEB-INF/spring/security-context.xml"
   })
-@Log4j
 public class MemberTests {
 
   @Setter(onMethod_ = @Autowired)
@@ -28,7 +26,7 @@ public class MemberTests {
   @Test
   public void testInsertMember() {
 
-    String sql = "insert into tbl_member(userid, userpw, username) values (?,?,?)";
+    String sql = "insert into dk_member(userid, userpw, username) values (?,?,?)";
     
     for(int i = 0; i < 100; i++) {
       
@@ -73,7 +71,7 @@ public class MemberTests {
   @Test
   public void testInsertAuth() {
     
-    String sql = "insert into tbl_member_auth (userid, auth) values (?,?)";
+    String sql = "insert into dk_member_auth (userid, auth) values (?,?)";
     
     for(int i = 0; i < 100; i++) {
       
@@ -109,7 +107,6 @@ public class MemberTests {
       }finally {
         if(pstmt != null) { try { pstmt.close();  } catch(Exception e) {} }
         if(con != null) { try { con.close();  } catch(Exception e) {} }
-        
       }
     }//end for
   }

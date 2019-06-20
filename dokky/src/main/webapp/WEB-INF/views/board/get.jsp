@@ -2,6 +2,7 @@
     pageEncoding="UTF-8"%>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c"%>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/fmt" prefix="fmt"%>
+<%@ taglib uri="http://www.springframework.org/security/tags" prefix="sec" %> 
 
 <!DOCTYPE html>
 <html>
@@ -164,18 +165,33 @@
           <%-- <label>댓글</label>-${board.replyCnt } --%>
         </div>
 		<div> 
-			<button id="modify_button">수정 </button> 
-	        <button id="list_button">목록보기 </button> 
-	        <button id="remove_button">삭제 </button>
-	        <button id="scrap">스크랩 </button>
+		
+			<sec:authentication property="principal" var="userInfo"/>
+		
+		 	<sec:authorize access="isAuthenticated()">
+		 		     <button id="scrap">스크랩 </button>
+		 			
+		        <c:if test="${userInfo.username eq board.nickName}">
+		       		 <button id="modify_button">수정 </button> 
+					 <button id="remove_button">삭제 </button>
+		        </c:if>
+		         
+	        </sec:authorize>
+	        
+					 <button id="list_button">목록보기 </button> 
 	        
 			<form id='operForm' action="/dokky/board/modify" method="get">
-			  <input type='hidden' id='num' name='num' value='<c:out value="${board.num}"/>'>
-			  <input type='hidden' name='category' value='<c:out value="${cri.category}"/>'>
-			  <input type='hidden' name='pageNum' value='<c:out value="${cri.pageNum}"/>'>
-			  <input type='hidden' name='amount' value='<c:out value="${cri.amount}"/>'>
-			  <input type='hidden' name='keyword' value='<c:out value="${cri.keyword}"/>'>
-  			  <input type='hidden' name='type' value='<c:out value="${cri.type}"/>'>  
+			  
+				  <input type="hidden" name="${_csrf.parameterName}" value="${_csrf.token}"/>
+				  
+				  <input class="form-control" name='nickName' value='<c:out value="${board.nickName}"/>' readonly="readonly">    
+				  
+				  <input type='hidden' id='num' name='num' value='<c:out value="${board.num}"/>'>
+				  <input type='hidden' name='category' value='<c:out value="${cri.category}"/>'>
+				  <input type='hidden' name='pageNum' value='<c:out value="${cri.pageNum}"/>'>
+				  <input type='hidden' name='amount' value='<c:out value="${cri.amount}"/>'>
+				  <input type='hidden' name='keyword' value='<c:out value="${cri.keyword}"/>'>
+	  			  <input type='hidden' name='type' value='<c:out value="${cri.type}"/>'>  
 			</form>
 
 		</div>
@@ -195,7 +211,8 @@
    			  <input type='hidden' name='nickName' value=''>
               <input type='hidden' name='reply_num' value=''>
       </div>
-	
+      
+	<sec:authorize access="isAuthenticated()">
 		<div class="replyWriteForm"><!--  댓글쓰기 폼 -->
 		   <div> 
                 <textarea id="reply_contents" rows="3" name='reply_content'></textarea> 
@@ -205,6 +222,8 @@
    		   <input type='hidden' id="reply_nickName" name='nickName' value='testNickname'>
 									   		   		<!-- 테스트닉네임에 회원정보에서 가져와서 넣기 -->
 		</div> 
+	</sec:authorize>
+		
 </div> 
 <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
 <script type="text/javascript" src="/dokky/resources/js/reply.js"></script> <!--댓글 AJAX통신 -->
@@ -269,13 +288,16 @@
 	       +" " + data.list[i].nickName
 	       +" " + data.list[i].reply_content
 	       +" "+replyService.displayTime(data.list[i].replyDate)
-	       +" "+"<button data-oper='modify' type='button' data-reply_num='"+data.list[i].reply_num+"'>수정</button>"
-	       +"<button data-oper='delete' type='button' data-reply_num='"+data.list[i].reply_num+"'>삭제</button>" 
-	       +"<button data-oper='like' type='button' data-reply_num='"+data.list[i].reply_num+"'>좋아요</button>" 
-	       +"<button data-oper='dislike' type='button' data-reply_num='"+data.list[i].reply_num+"'>싫어요</button>" 
-	       +"</li>";
+	       +" "+"<sec:authorize access='isAuthenticated()'>"
+			       +"<c:if test='${userInfo.username eq board.nickName}'>"
+				       +"<button data-oper='modify' type='button' data-reply_num='"+data.list[i].reply_num+"'>수정</button>"
+				       +"<button data-oper='delete' type='button' data-reply_num='"+data.list[i].reply_num+"'>삭제</button>" 
+			       +"</c:if>"
+			       +"<button data-oper='like' type='button' data-reply_num='"+data.list[i].reply_num+"'>좋아요</button>" 
+			       +"<button data-oper='dislike' type='button' data-reply_num='"+data.list[i].reply_num+"'>싫어요</button>"
+	      	  +"</sec:authorize>"
+	       +"</li>"; 
 	     }
-	     
 	     replyList.html(str);//댓글목록안에 채워주기
 	     
 	     showReplyPage(data.replyCnt);//댓글페이지 보여주기

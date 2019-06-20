@@ -19,7 +19,7 @@ public class CustomUserDetailsService implements UserDetailsService {
 
 	@Override
 	public UserDetails loadUserByUsername(String userName) throws UsernameNotFoundException {
-
+		
 		log.warn("Load User By UserName : " + userName);
 
 		// userName means userid

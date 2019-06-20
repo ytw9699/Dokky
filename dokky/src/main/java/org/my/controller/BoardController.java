@@ -1,5 +1,4 @@
 package org.my.controller;
-
 	import java.nio.file.Files;
 	import java.nio.file.Path;
 	import java.nio.file.Paths;
@@ -11,7 +10,8 @@ package org.my.controller;
 	import org.springframework.http.HttpStatus;
 	import org.springframework.http.MediaType;
 	import org.springframework.http.ResponseEntity;
-	import org.springframework.stereotype.Controller;
+import org.springframework.security.access.prepost.PreAuthorize;
+import org.springframework.stereotype.Controller;
 	import org.springframework.ui.Model;
 	import org.springframework.web.bind.annotation.GetMapping;
 	import org.springframework.web.bind.annotation.ModelAttribute;
@@ -24,7 +24,6 @@ package org.my.controller;
 	import org.springframework.web.bind.annotation.ResponseBody;
 	import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 	import org.my.domain.BoardAttachVO;
-	
 	import lombok.AllArgsConstructor;
 	import lombok.extern.log4j.Log4j;
 
@@ -49,12 +48,14 @@ public class BoardController {
 	}
 	
 	@GetMapping("/register")
+	@PreAuthorize("isAuthenticated()")
 	public String register(@ModelAttribute("category") int category) {
 		
 		return "board/register";
 	}
 	
 	@PostMapping("/register")
+	@PreAuthorize("isAuthenticated()")
 	public String register(BoardVO board, RedirectAttributes rttr) {
 
 		//log.info("==========================");
@@ -91,7 +92,7 @@ public class BoardController {
 		model.addAttribute("board", service.getModifyForm(num));//수정폼+데이터 가져오기
 	}
 	
-
+	 @PreAuthorize("principal.username == #board.nickName")
 	 @PostMapping("/modify")
 	 public String modify(BoardVO board, Criteria cri, RedirectAttributes rttr) {
 		 //log.info("modify:" + board);
@@ -128,10 +129,12 @@ public class BoardController {
 		
 		return "redirect:/board/list";
 	}*/
+	 
+	 @PreAuthorize("principal.username == #nickName")
 	 @PostMapping("/remove")
 		public String remove(@RequestParam("num") Long num, Criteria cri, RedirectAttributes rttr) {
 
-			log.info("remove..." + num);
+		 	log.info("remove..." + num);
 
 			List<BoardAttachVO> attachList = service.getAttachList(num);
 
