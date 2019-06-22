@@ -297,8 +297,10 @@
 	       +" " + data.list[i].nickName
 	       +" " + data.list[i].reply_content
 	       +" "+replyService.displayTime(data.list[i].replyDate)
-		 str += "<button data-oper='modify' type='button' data-orginal_nickname='"+data.list[i].nickName+"' data-reply_num='"+data.list[i].reply_num+"'>수정</button>"
-	       +"<button data-oper='delete' type='button' data-orginal_nickname='"+data.list[i].nickName+"' data-reply_num='"+data.list[i].reply_num+"'>삭제</button>" 
+	       if(username == nickName){
+			 str += "<button data-oper='modify' type='button' data-orginal_nickname='"+data.list[i].nickName+"' data-reply_num='"+data.list[i].reply_num+"'>수정</button>"
+		       +"<button data-oper='delete' type='button' data-orginal_nickname='"+data.list[i].nickName+"' data-reply_num='"+data.list[i].reply_num+"'>삭제</button>"
+	       }
 				str += "<button data-oper='like' type='button' data-orginal_nickname='"+data.list[i].nickName+"' data-reply_num='"+data.list[i].reply_num+"'>좋아요</button>" 
 			       +"<button data-oper='dislike' type='button' data-orginal_nickname='"+data.list[i].nickName+"' data-reply_num='"+data.list[i].reply_num+"'>싫어요</button>"
 			       +"<button data-oper='giveMoney' type='button' data-orginal_nickname='"+data.list[i].nickName+"' data-reply_num='"+data.list[i].reply_num+"'>기부금</button>"
@@ -428,7 +430,12 @@
 			  var replyModFormModBtn = $("#replyModFormModBtn"+reply_num);//댓글 수정폼 수정버튼 가져오기
 			  
 			  replyModFormModBtn.on("click", function(e){// 1-1. 댓글 수정 등록 
-				   	 var reply = {reply_num:InputReply_num.val(), reply_content: InputReply_content.val()};//수정폼의 값을 넘긴다
+				   	 var reply = {
+					  reply_num:InputReply_num.val(),
+					  reply_content: InputReply_content.val(),
+					  nickName: orginal_nickname //시큐리티를 위해 넘겨줌
+					   
+					  };//수정폼의 값을 넘긴다
 				   	  
 				   	  replyService.update(reply, function(result){
 				   	        
@@ -545,7 +552,7 @@
 		   	  });//boardVo에 해당글의 좋아요,싫어요 아이디 컬럼을 둘다 만들고 그 컬럼에 아이디가 있다면 좋아요를 누를수없음
 		   	});//두번의작업, 1. 좋아요 카운트 올리기 2. 해당 아이디 넣기  > 트랜잭션 필요
 	   	
-	   	$("#dislike").on("click",function(event){//3. 좋아요 버튼 이벤트 설치
+	   	$("#dislike").on("click",function(event){//3. 싫어요 버튼 이벤트 설치
 			
 			var loginCheck = "로그인후 싫어요를 눌러주세요.";
 			var likeCheck = "자신의 글에는 싫어요를 할 수 없습니다.";

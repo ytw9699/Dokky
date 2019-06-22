@@ -1,5 +1,6 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
+<%@ taglib uri="http://www.springframework.org/security/tags" prefix="sec" %> 
 
 <!DOCTYPE html>
 <html>
@@ -43,7 +44,14 @@
 		<div class="mypage"><a href="/dokky/board/list?category=5">정기모임/스터디</a></div>
 		<div class="mypage"><a href="/dokky/board/list?category=6">마이페이지</a></div>
 		<div class="mypage">Today : 1 / Total : 10</div>
-		
+		<div class="mypage">
+			<sec:authorize access="isAuthenticated()">
+				<a href="/dokky/customLogout">Logout</a>
+			</sec:authorize>
+			<sec:authorize access="isAnonymous()">
+				<a href="/dokky/customLogin">Login</a>
+			</sec:authorize>	
+		</div>
 	</div>
 </body>
 </html>

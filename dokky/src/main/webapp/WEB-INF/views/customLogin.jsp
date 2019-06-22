@@ -5,16 +5,11 @@
 <html>
 	<head>
 	<meta charset="utf-8">
-	<title>로긴</title>  
+	<title>dokky로긴</title>  
 	</head>
 <body> 
 <div class="container">
 	<div class="row">
-		<div class="col-md-4 col-md-offset-4">
-			<div class="login-panel panel panel-default">
-				<div class="panel-heading">
-					<h3 class="panel-title">Please Sign In</h3>
-				</div>
 			<div class="panel-body">
 				<form role="form" method='post' action="/dokky/login">
 					<fieldset>
@@ -36,8 +31,6 @@
 			</div>
 			</div>
 		</div>
-	</div>
-</div>
 <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
   <script>
 	  $(".btn-success").on("click", function(e){
