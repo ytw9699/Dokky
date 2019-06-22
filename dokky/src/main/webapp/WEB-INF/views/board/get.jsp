@@ -146,17 +146,16 @@
         
         <div class="form-group">
           <label>좋아요</label>-<span id="likeCount"><c:out value="${board.up }"/></span>
-          <button id="like">좋아요,ajax구현</button>  
+          <button id="like" data-orginal_nickname="${board.nickName }">좋아요,ajax구현</button>  
         </div> 
-        
         <div class="form-group">
           <label>싫어요</label>-<c:out value="${board.down }"/>
-          <button onclick="">싫어요,ajax구현</button> 
+          <button id="dislike" data-orginal_nickname="${board.nickName }">싫어요,ajax구현</button> 
         </div>
         
         <div class="form-group">
           <label>기부금</label>-<c:out value="${board.money }"/>
-          <button onclick="">기부금,ajax구현</button> 
+          <button id="giveMoney" data-orginal_nickname="${board.nickName }">기부금,ajax구현</button> 
         </div>
         <div class="form-group">
           <label>조회수</label>-<c:out value="${board.hitCnt }"/>
@@ -170,7 +169,7 @@
 		
 		 	<sec:authorize access="isAuthenticated()">
 		 		     <button id="scrap">스크랩 </button>
-		 			
+		 		     
 		        <c:if test="${userInfo.username eq board.nickName}">
 		       		 <button id="modify_button">수정 </button> 
 					 <button id="remove_button">삭제 </button>
@@ -183,7 +182,7 @@
 			  
 				  <input type="hidden" name="${_csrf.parameterName}" value="${_csrf.token}"/>
 				  
-				  <input class="form-control" name='nickName' value='<c:out value="${board.nickName}"/>' readonly="readonly">    
+				  <input type='hidden' name='nickName' value='<c:out value="${board.nickName}"/>'>    
 				  
 				  <input type='hidden' id='num' name='num' value='<c:out value="${board.num}"/>'>
 				  <input type='hidden' name='category' value='<c:out value="${cri.category}"/>'>
@@ -217,8 +216,8 @@
                 <textarea id="reply_contents" rows="3" name='reply_content'></textarea> 
            </div>  
    		   <button id='replyRegisterBtn' type="button">등록</button>
-   		   
-   		   <input type='hidden' id="reply_nickName" name='nickName' value='<sec:authentication property="principal.username"/>'>
+   		     
+   		   <input type='text' id="reply_nickName" name='nickName' value='${userInfo.username}'>
 									   		   		<!-- 테스트닉네임에 회원정보에서 가져와서 넣기 -->
 		</div> 
 	</sec:authorize>
@@ -260,11 +259,12 @@
  	 var numValue = '<c:out value="${board.num}"/>';// 글번호
  	 var replyList = $(".replyList");//댓글목록
 	 var replyCnt ;
+	 var username = null;
 	 
 	function showReplyList(page){ //댓글 목록 가져오기
-		
+		console.log("2");
 	    replyService.getList({num:numValue, page: page || 1 }, function(data) {
-	    	
+	    	console.log("3");
 	  		  replyCnt =  data.replyCnt;
 	  		  
 			  if(page == -1){
@@ -274,38 +274,45 @@
 		      showReplyList(pageNum);//마지막페이지 찾아서 다시호출
 		      return;
 		    }
-	      
-	     var str="";
-	     var username='${userInfo.username}';//자바스크립트안에 el태그 가져오기
-	     var nickName=""; 
-	     var len = data.list.length;
-	     
-	     if(data.list == null || len == 0){//댓글 리스트
-	       return;  
-	     }
 	        
+	     var str="";
+	     var len = data.list.length;
+	     var nickName=""; 
+	     console.log("4");
+		     <sec:authorize access="isAuthenticated()">
+		    	 username = '${userInfo.username}';
+		     </sec:authorize>
+
+	     if(data.list == null || len == 0){//댓글 리스트
+	    	 console.log("5");
+	    	 replyList.html(str);//댓글삭제후 댓글이 하나도 없다면 목록안에 공백 채워주기
+	    	 showReplyPage(0);//댓글이 없어서 페이지 번호 없애주기
+	    	 return;  
+	     }
+	     console.log("6");
 	     for (var i = 0; i < len || 0; i++) {
-	       nickName = data.list[i].nickName;
+	       nickName = data.list[i].nickName; 
 	       
 	       str +="<div style='display:none' id=replace"+data.list[i].reply_num+"></div><li data-reply_num='"+data.list[i].reply_num+"'>"+data.list[i].reply_num
 	       +" " + data.list[i].nickName
 	       +" " + data.list[i].reply_content
 	       +" "+replyService.displayTime(data.list[i].replyDate)
-	       +" "+"<sec:authorize access='isAuthenticated()'>"
-			if(username  == nickName ){
-				 str += "<button data-oper='modify' type='button' data-reply_num='"+data.list[i].reply_num+"'>수정</button>"
-			       +"<button data-oper='delete' type='button' data-reply_num='"+data.list[i].reply_num+"'>삭제</button>" 
-			     }
-				str += "<button data-oper='like' type='button' data-reply_num='"+data.list[i].reply_num+"'>좋아요</button>" 
-			       +"<button data-oper='dislike' type='button' data-reply_num='"+data.list[i].reply_num+"'>싫어요</button>"
-	      	  +"</sec:authorize>"
-	       +"</li>"; 
+		 str += "<button data-oper='modify' type='button' data-orginal_nickname='"+data.list[i].nickName+"' data-reply_num='"+data.list[i].reply_num+"'>수정</button>"
+	       +"<button data-oper='delete' type='button' data-orginal_nickname='"+data.list[i].nickName+"' data-reply_num='"+data.list[i].reply_num+"'>삭제</button>" 
+				str += "<button data-oper='like' type='button' data-orginal_nickname='"+data.list[i].nickName+"' data-reply_num='"+data.list[i].reply_num+"'>좋아요</button>" 
+			       +"<button data-oper='dislike' type='button' data-orginal_nickname='"+data.list[i].nickName+"' data-reply_num='"+data.list[i].reply_num+"'>싫어요</button>"
+			       +"<button data-oper='giveMoney' type='button' data-orginal_nickname='"+data.list[i].nickName+"' data-reply_num='"+data.list[i].reply_num+"'>기부금</button>"
+	       +"</li>";  
+			    /*  str += "<sec:authorize access='isAuthenticated()'>" */
+		       	/*   +"</sec:authorize>"  인증된사람만 보여주기*/
 	     }
+	     console.log("7");
 	     replyList.html(str);//댓글목록안에 채워주기
 	     
 	     showReplyPage(data.replyCnt);//댓글페이지 보여주기
 	     
 	     console.log("showReplyList끝");
+	     console.log("8"); 
 	     
 	     var replyCntVal = $("#replyCntVal");
 	      
@@ -351,7 +358,37 @@
 	 	var isReplaceTag = false;//더미 <div>가 댓글 수정폼으로 교체되었는지 체크여부
 	 	var replyModFormId ;//현재 댓글 수정폼의 아이디
 	     
+	 	function checkUser(orginal_nickname,loginCheck,idCheck,likeCheck){
+	 		
+	 		if(!username){//로그인 체크
+		  		  alert(loginCheck);
+		  		  return true; 
+		  	 } 
+			
+			if(idCheck){
+				if(orginal_nickname  != username){
+			 		  alert(idCheck);
+			 		  return true; 
+			 	 }
+			}
+			//alert(username); 
+			if(likeCheck){//좋아요,싫어요,기부금 체크
+				if(orginal_nickname  == username){
+			 		  alert(likeCheck);
+			 		  return true; 
+			 	 }
+			}
+	 	}
+	 	
 	$(".replyList").on("click",'button[data-oper="modify"]', function(event){//1. 댓글목록의 수정버튼 이벤트,댓글 데이터 한줄 가져오기
+		var loginCheck = "로그인후 수정이 가능합니다.";
+		var idCheck = "자신이 작성한 댓글만 수정이 가능합니다.";
+		var orginal_nickname = $(this).data("orginal_nickname"); 
+		
+		if(checkUser(orginal_nickname,loginCheck,idCheck)){
+		return;
+		}
+		
 		if(isReplaceTag){//댓글 수정폼이 열려 있다면
 			 RecentReplaceTag.replaceAll("#"+replyModFormId);//댓글 수정폼을  더미 <div>로 교체
 			$(".selected").css("display", "list-item");//none해둔 수정 댓글은 다시 보이게하기 
@@ -409,25 +446,96 @@
 				});
 		  });
 	});// 1.이벤트 함수 끝
-	
 ///////////////////////////////////////////////////////
-
 	$(".replyList").on("click",'button[data-oper="delete"]', function(event){//2. 댓글 삭제 이벤트 설치
+		
+		var loginCheck = "로그인후 삭제가 가능합니다.";
+		var idCheck = "자신이 작성한 댓글만 삭제가 가능합니다.";
+		var orginal_nickname = $(this).data("orginal_nickname"); 
+		
+		if(checkUser(orginal_nickname,loginCheck,idCheck,null)){
+			return;
+		}
+		
 		if(func_confirm('정말 삭제 하시겠습니까?')){ 
-		 var reply_num = $(this).data("reply_num");
-	
-		 replyService.remove(reply_num, function(result){
+			
+		
+		var reply_num = $(this).data("reply_num");
+		//replyService.remove(reply_num,orginal_nickname, function(result){
+		replyService.remove(reply_num,orginal_nickname, function(result){
 	   	      //alert(result);
+	   	     console.log("1"); 
 	   	      showReplyList(pageNum);//삭제후 댓글 페이지 유지하면서 리스트 다시불름 
 	   	  }); 
 		}
 	});//2. 이벤트 함수 끝 
 	
+///////////////////////////////////////////////////////
+	$(".replyList").on("click",'button[data-oper="like"]', function(event){//3. 댓글 좋아요 버튼 이벤트 설치
+		
+		var loginCheck = "로그인후 좋아요를 눌러주세요.";
+		var likeCheck = "자신의 댓글에는 좋아요를 할 수 없습니다.";
+		var orginal_nickname = $(this).data("orginal_nickname");
+		
+		if(checkUser(orginal_nickname,loginCheck,null,likeCheck)){
+			return;
+		}
+		
+		alert("좋아요 하였습니다."); 
+		/* var reply_num = $(this).data("reply_num");//앞으로 댓글 좋아요 구현해야함
+		 
+		 replyService.like(reply_num, function(result){
+	   	      //alert(result);
+	   	      showReplyList(pageNum);//삭제후 댓글 페이지 유지하면서 리스트 다시불름 
+	   	  }); 
+		} */
+	});//3. 댓글 좋아요 버튼 이벤트 설치
 	
-	var like = $("#like");
+///////////////////////////////////////////////////////
+	$(".replyList").on("click",'button[data-oper="dislike"]', function(event){//4. 댓글 싫어요 버튼 이벤트 설치
+		
+		var loginCheck = "로그인후 싫어요를 눌러주세요.";
+		var likeCheck = "자신의 댓글에는 싫어요를 할 수 없습니다.";
+		var orginal_nickname = $(this).data("orginal_nickname");
+		
+		if(checkUser(orginal_nickname,loginCheck,null,likeCheck)){
+			return;
+		}
+		alert("싫어요 하였습니다."); 
+		/* var reply_num = $(this).data("reply_num");//앞으로 댓글 싫어요 구현해야함
+		 
+		 replyService.like(reply_num, function(result){
+	   	      //alert(result);
+	   	      showReplyList(pageNum);//삭제후 댓글 페이지 유지하면서 리스트 다시불름 
+	   	  }); 
+		} */
+	});//4. 댓글 싫어요 버튼 이벤트 설치
 	
-	  like.on("click", function(e){//3. 좋아요 버튼 이벤트 설치 
-		   	 var likeData = {num:numValue};//수정폼의 값을 넘긴다
+	$(".replyList").on("click",'button[data-oper="giveMoney"]', function(event){//4. 댓글 기부금 버튼 이벤트 설치
+			
+			var loginCheck = "로그인후 기부를 해주세요.";
+			var giveCheck = "자신의 댓글에는 기부를 할 수 없습니다.";
+			var orginal_nickname = $(this).data("orginal_nickname");
+			
+			if(checkUser(orginal_nickname,loginCheck,null,giveCheck)){
+				return; 
+			}
+			alert("기부 하였습니다."); 
+			
+		});//4. 댓글 기부금 버튼 이벤트 설치
+		
+	
+		$("#like").on("click",function(event){//3. 좋아요 버튼 이벤트 설치
+			
+			var loginCheck = "로그인후 좋아요를 눌러주세요.";
+			var likeCheck = "자신의 글에는 좋아요를 할 수 없습니다.";
+			var orginal_nickname = $(this).data("orginal_nickname");
+			
+			if(checkUser(orginal_nickname,loginCheck,null,likeCheck)){
+				return;  
+			}
+			alert("좋아요  하였습니다.");  
+			var likeData = {num:numValue};//수정폼의 값을 넘긴다
 		   	  
 		   	  replyService.updateLike(likeData, function(result){
 		   	 
@@ -436,14 +544,41 @@
 		   		  alert(result);//좋아요 싫어요는 해당아이디당 한글에  한번만 해줘야함 세션의 아이디에 해당하는지 확인작업필요
 		   	  });//boardVo에 해당글의 좋아요,싫어요 아이디 컬럼을 둘다 만들고 그 컬럼에 아이디가 있다면 좋아요를 누를수없음
 		   	});//두번의작업, 1. 좋아요 카운트 올리기 2. 해당 아이디 넣기  > 트랜잭션 필요
-	  
+	   	
+	   	$("#dislike").on("click",function(event){//3. 좋아요 버튼 이벤트 설치
+			
+			var loginCheck = "로그인후 싫어요를 눌러주세요.";
+			var likeCheck = "자신의 글에는 싫어요를 할 수 없습니다.";
+			var orginal_nickname = $(this).data("orginal_nickname");
+			
+			if(checkUser(orginal_nickname,loginCheck,null,likeCheck)){
+				return; 
+			}
+			alert("싫어요 하였습니다."); 
+		   	});
+	   	
+	   		$("#giveMoney").on("click",function(event){//3. 기부금 버튼 이벤트 설치
+			
+			var loginCheck = "로그인후 기부를 해주세요.";
+			var giveCheck = "자신에게는 기부를 할 수 없습니다.";
+			var orginal_nickname = $(this).data("orginal_nickname");
+			
+			if(checkUser(orginal_nickname,loginCheck,null,giveCheck)){
+				return; 
+			}
+			alert("기부 하였습니다."); 
+		   	});
 ///////////////////////////////////////////////////////	
 	  
 	 	var pageNum = 1;
 	    var replyPage = $(".replyPage");
 	    
     function showReplyPage(replyCnt){//댓글 페이지 함수
-	      
+    	if(replyCnt == 0){//댓글삭제후 댓글이 하나도없다면
+    		replyPage.html("");
+    		return;
+    	}
+    
       var endNum = Math.ceil(pageNum / 10.0) * 10; 
       /* Math.ceil() : 소수점 이하를 올림한다. */ 
       var startNum = endNum - 9;

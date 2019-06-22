@@ -28,8 +28,9 @@
 
 <body>
 
-	<div class="bodyWrap">	
-		 메인입니다
+	<div class="bodyWrap">	 
+	메인입니다.
+		 <a href="/dokky/customLogin">로긴</a> 
 	</div>
 	
 </body>

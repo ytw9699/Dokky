@@ -54,11 +54,22 @@ public class ReplyController {
 		return new ResponseEntity<>(service.getListPage(cri, num), HttpStatus.OK);
 	}
 	
-	@DeleteMapping(value = "/{reply_num}", produces = { MediaType.TEXT_PLAIN_VALUE })
+	/*@DeleteMapping(value = "/{reply_num}", produces = { MediaType.TEXT_PLAIN_VALUE })
 	public ResponseEntity<String> remove(@PathVariable("reply_num") Long reply_num) {
 
 		log.info("remove: " + reply_num);
 
+		return service.remove(reply_num) == 1 
+				? new ResponseEntity<>("success", HttpStatus.OK)
+				: new ResponseEntity<>(HttpStatus.INTERNAL_SERVER_ERROR);
+	}*/
+	@PreAuthorize("principal.username == #vo.nickName")
+	@DeleteMapping(value = "/{reply_num}", produces = { MediaType.TEXT_PLAIN_VALUE })
+	public ResponseEntity<String> remove(@RequestBody ReplyVO vo, @PathVariable("reply_num") Long reply_num) {
+			
+		log.info("remove: " + reply_num);
+		log.info("replyer: " + vo.getNickName());
+		
 		return service.remove(reply_num) == 1 
 				? new ResponseEntity<>("success", HttpStatus.OK)
 				: new ResponseEntity<>(HttpStatus.INTERNAL_SERVER_ERROR);

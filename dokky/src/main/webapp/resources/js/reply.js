@@ -65,10 +65,32 @@ var replyService = (function() {
 	  }
 */
 	
-	function remove(reply_num, callback, error) {
+	/*function remove(reply_num, callback, error) {
+		
 		$.ajax({
 			type : 'delete',
 			url : '/dokky/replies/' + reply_num,
+			success : function(deleteResult, status, xhr) {
+				if (callback) {
+					callback(deleteResult);
+				}
+			},
+			error : function(xhr, status, er) {
+				if (error) {
+					error(er);
+				}
+			}
+		});
+	}*/
+	function remove(reply_num,orginal_nickname, callback, error) {
+		console.log("--------------------------------------");  
+		console.log(JSON.stringify({reply_num:reply_num, nickName:orginal_nickname}));  
+		
+		$.ajax({
+			type : 'delete',
+			url : '/dokky/replies/' + reply_num,
+			data:  JSON.stringify({reply_num:reply_num, nickName:orginal_nickname}),
+		    contentType: "application/json; charset=utf-8",
 			success : function(deleteResult, status, xhr) {
 				if (callback) {
 					callback(deleteResult);
