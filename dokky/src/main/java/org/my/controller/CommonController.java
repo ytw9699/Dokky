@@ -63,17 +63,12 @@ public class CommonController {
 	}
 	
 	@PostMapping("/members")
-	public String postMembers(MemberVO vo) {
-
-		log.info("post members");
-		
+	public String postMembers(MemberVO vo) {//회원가입
 		log.info("==========================");
-
-		log.info("members: " + vo); 
-		
+		log.info("post members: " + vo); 
 		log.info("==========================");
 		
-		vo.setUserpw(pwencoder.encode(vo.getUserpw()));
+		vo.setUserpw(pwencoder.encode(vo.getUserpw()));//패스워드 암호화
 		
 		service.registerMembers(vo);
 		

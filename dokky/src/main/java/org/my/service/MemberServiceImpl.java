@@ -18,7 +18,7 @@ public class MemberServiceImpl implements MemberService {
 	@Override 
 	public void registerMembers(MemberVO vo) {
 
-		log.info("register..." + vo);
+		log.info("registerMembers..." + vo);
 		mapper.registerMembers(vo);
 		
 		log.info("registerMember_auth..." + vo);

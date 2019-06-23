@@ -8,14 +8,14 @@
 	   	<result property="userid" column="userid"/>
 	   	<result property="auth" column="auth"/>
  	</resultMap>
-<!--   resultMap은 SELECT의 결과를 처리하게 됩니다. 
-이게 1+N의 상황으로  
-하나의 회원 정보에 여러 개에 권한을 모아서 처리하는 방식인데.. 
-그러면 그룹을 만드는 기준이 필요한데요.. 
-그 기준을 PK에 해당하는 userid 값으로 지정한 것입니다. 
-MyBatis문서에는 성능을 향상시키는 효과도 있다고 나옵니다. 
-resultMap 
-id – ID 결과. ID 와 같은 결과는 전반적으로 성능을 향상시킨다-->
+	<!--   resultMap은 SELECT의 결과를 처리하게 됩니다. 
+	이게 1+N의 상황으로  
+	하나의 회원 정보에 여러 개에 권한을 모아서 처리하는 방식인데.. 
+	그러면 그룹을 만드는 기준이 필요한데요.. 
+	그 기준을 PK에 해당하는 userid 값으로 지정한 것입니다. 
+	MyBatis문서에는 성능을 향상시키는 효과도 있다고 나옵니다. 
+	resultMap 
+	id – ID 결과. ID 와 같은 결과는 전반적으로 성능을 향상시킨다-->
   <resultMap id="memberMap" type="org.my.domain.MemberVO" >
     <id property="userid" column="userid"/><!-- PK에 해당하는 userid 값으로 지정 -->
 	    <result property="userid" column="userid"/>
@@ -39,7 +39,8 @@ id – ID 결과. ID 와 같은 결과는 전반적으로 성능을 향상시킨
 	  dk_member mem LEFT OUTER JOIN dk_member_auth auth on mem.userid = auth.userid 
 	WHERE mem.userid = #{userid} 
   </select>
-  
+  	
+  	 <!-- 회원가입 -->
 	 <insert id="registerMembers">
 		 insert into dk_member(userid,
 		 					   userpw,
@@ -57,9 +58,9 @@ id – ID 결과. ID 와 같은 결과는 전반적으로 성능을 향상시킨
  					   				    #{account}
 					   				   )
 	 </insert>
-	 
-	  <insert id="registerMember_auth">
+	 <insert id="registerMember_auth">
 		 insert into dk_member_auth(userid) values(#{userid})
 	 </insert>
+	 <!-- 회원가입 -->
 	 
 </mapper>
