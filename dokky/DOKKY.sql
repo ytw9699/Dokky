@@ -70,21 +70,27 @@ DROP TABLE dk_attach PURGE;
 ------------------------------------------------------------------------------------------
 
 create table dk_member(
-      userid varchar2(50) not null primary key,
-      userpw varchar2(100) not null,
-      username varchar2(100) not null,
-      regdate date default sysdate, 
-      updatedate date default sysdate,
+      userId varchar2(50) not null primary key,
+      userPw varchar2(100) not null,
+      userName varchar2(100) not null,
+      email varchar2(100) not null,
+      phoneNum varchar2(50),
+      bankName varchar2(50),
+      account varchar2(50),
+      regDate date default sysdate, 
+      updateDate date default sysdate,
       enabled char(1) default '1'
 );
 
 drop table dk_member purge 
 
 create table dk_member_auth (
-     userid varchar2(50) not null,
+     userId varchar2(50) not null,
      auth varchar2(50) not null,
-     constraint fk_member_auth foreign key(userid) references dk_member(userid)
+     constraint fk_member_auth foreign key(userId) references dk_member(userId)
 );
+
+drop table dk_member_auth purge 
 
 create table persistent_logins (
 	username varchar(64) not null,
