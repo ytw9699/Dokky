@@ -43,16 +43,19 @@ public class MemberTests {
           
           pstmt.setString(1, "user"+i);
           pstmt.setString(3,"일반사용자"+i);
+          pstmt.setString(4,"email"+i);
           
         }else if (i <90) {
           
           pstmt.setString(1, "manager"+i);
           pstmt.setString(3,"운영자"+i);
+          pstmt.setString(4,"email"+i);
           
         }else {
           
           pstmt.setString(1, "admin"+i);
           pstmt.setString(3,"관리자"+i);
+          pstmt.setString(4,"email"+i);
           
         }
         
