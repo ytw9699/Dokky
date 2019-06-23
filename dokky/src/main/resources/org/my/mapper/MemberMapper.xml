@@ -39,5 +39,27 @@ id – ID 결과. ID 와 같은 결과는 전반적으로 성능을 향상시킨
 	  dk_member mem LEFT OUTER JOIN dk_member_auth auth on mem.userid = auth.userid 
 	WHERE mem.userid = #{userid} 
   </select>
-
+  
+	 <insert id="registerMembers">
+		 insert into dk_member(userid,
+		 					   userpw,
+		 					   username,
+		 					   email,
+		 					   phoneNum,
+		 					   bankname, 
+		 					   account
+		 					   ) values(#{userid},
+ 					   				    #{userpw},
+ 					   				    #{userName},
+ 					   				    #{email},
+ 					   				    #{phoneNum},
+ 					   				    #{bankName},
+ 					   				    #{account}
+					   				   )
+	 </insert>
+	 
+	  <insert id="registerMember_auth">
+		 insert into dk_member_auth(userid) values(#{userid})
+	 </insert>
+	 
 </mapper>

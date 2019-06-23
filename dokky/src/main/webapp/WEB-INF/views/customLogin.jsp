@@ -24,7 +24,8 @@
 						<div class="checkbox">
 							<label><input name="remember-me" type="checkbox">Remember Me</label>
 						</div>
-						<a href="index.html" class="btn btn-lg btn-success btn-block">Login</a>
+						<a href="index.html" class="btn btn-lg btn-success btn-block">로그인</a>
+						<a href="/dokky/memberForm">회원가입</a>
 					</fieldset>
 					<input type="hidden" name="${_csrf.parameterName}" value="${_csrf.token}" />
 				</form>

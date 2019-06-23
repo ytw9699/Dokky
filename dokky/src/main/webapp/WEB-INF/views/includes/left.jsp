@@ -46,10 +46,11 @@
 		<div class="mypage">Today : 1 / Total : 10</div>
 		<div class="mypage">
 			<sec:authorize access="isAuthenticated()">
-				<a href="/dokky/customLogout">Logout</a>
+				<a href="/dokky/customLogout">로그아웃</a>
 			</sec:authorize>
-			<sec:authorize access="isAnonymous()">
-				<a href="/dokky/customLogin">Login</a>
+			<sec:authorize access="isAnonymous()"> 
+				<a href="/dokky/customLogin">로그인</a> 
+				<a href="/dokky/memberForm">회원가입</a>
 			</sec:authorize>	
 		</div>
 	</div>

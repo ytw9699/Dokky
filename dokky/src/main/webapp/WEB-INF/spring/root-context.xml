@@ -42,6 +42,8 @@
 		
 	<mybatis-spring:scan base-package="org.my.mapper" />
 	
+		<context:component-scan base-package="org.my.service"></context:component-scan>
+	
 	<context:component-scan base-package="org.my.task"></context:component-scan>
     
  	<task:annotation-driven />

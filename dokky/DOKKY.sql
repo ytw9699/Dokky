@@ -86,14 +86,14 @@ drop table dk_member purge
 
 create table dk_member_auth (
      userId varchar2(50) not null,
-     auth varchar2(50) not null,
+     auth varchar2(50) default 'ROLE_USER',
      constraint fk_member_auth foreign key(userId) references dk_member(userId)
 );
 
 drop table dk_member_auth purge 
 
 create table persistent_logins (
-	username varchar(64) not null,
+	username varchar(64) not null,--username은 userid임
 	series varchar(64) primary key,
 	token varchar(64) not null,
 	last_used timestamp not null
