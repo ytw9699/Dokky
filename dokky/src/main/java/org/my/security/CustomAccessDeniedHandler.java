@@ -1,5 +1,4 @@
 package org.my.security;
-
 	import java.io.IOException;
 	import javax.servlet.ServletException;
 	import javax.servlet.http.HttpServletRequest;
@@ -26,15 +25,9 @@ public class CustomAccessDeniedHandler implements AccessDeniedHandler {
 			return;
 		}
 	}
-  //String password = (String) request.getSession().getAttribute("password");
-    //String username = (String) request.getSession().getAttribute("username");
-    //String password = request.getParameter("password");
-    //String username = request.getParameter("username"); 
-    //System.out.println(password);
-    //System.out.println(username);
-    //System.out.println(request.getSession());
+    //Principal request.getUserPrincipal() : 로그인 한 사용자 정보를 가지고 있는 객체를 반환합니다. 기본은 UserDetails 타입의 객체입니다
+    //String request.getRemoteUser() :  사용자 아이디가 반환됩니다. UserDetails객체의 getUsername() 을 호출한 반환값입니다.
 
     response.sendRedirect("/dokky/accessError");//공통 에러페이지
   }
-
 }
