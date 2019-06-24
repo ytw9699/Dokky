@@ -53,6 +53,7 @@
 				<a href="/dokky/memberForm">회원가입</a>
 			</sec:authorize>	
 		</div>
+		<div class="mypage"><a href="/dokky/board/admin">관리자 페이지</a></div>
 	</div>
 </body>
 </html>

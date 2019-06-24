@@ -35,6 +35,13 @@ public class BoardController {
 
 	private BoardService service;
 	
+	@PreAuthorize("hasRole('ROLE_ADMIN')") //관리자권한이있어야함
+	@GetMapping("/admin")
+	public String admin() {
+		
+		return "admin/main";
+	}
+	
 	@GetMapping("/list")
 	public String list(Criteria cri, Model model) {
 		//log.info("list: " + cri);
