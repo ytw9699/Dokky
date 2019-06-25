@@ -10,11 +10,10 @@
 </head> 
 <body>  
 	<div class="container"> 
-						<form role="form" method='post' action="/dokky/customLogout">
-								<a href="" class="btn-success">Logout</a>
-							<input type="hidden" name="${_csrf.parameterName}"
-								value="${_csrf.token}" />
-						</form>
+		<form role="form" method='post' action="/dokky/customLogout">
+				<a href="" class="btn-success">Logout</a>
+			<input type="hidden" name="${_csrf.parameterName}" value="${_csrf.token}" />
+		</form>
 	</div>
 <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
 	<script>
