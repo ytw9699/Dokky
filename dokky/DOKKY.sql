@@ -102,3 +102,12 @@ create table persistent_logins (
 --외한 칼럼의 타입 등을 적당히 조정해서 사용하면 됩니다. 오라클에서는 varchar를 그대
 --로 이용하거나 varchar2로 변경해서 사용하면 됩니다
 
+테이블 복사 방법-----------------------------------------------------
+테이블은 이미 생성되어 있고 데이터만 복사 (테이블 구조가 동일할 때)
+
+INSERT INTO 복사할테이블명 SELECT * FROM 테이블명 [WHERE 절]
+
+EX) INSERT INTO TB_BOARD_TEMP SELECT * FROM TB_BOARD
+
+출처: https://server-engineer.tistory.com/500 [HelloWorld]
+
