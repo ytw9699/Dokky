@@ -26,7 +26,7 @@ public class MemberTests {
   @Test
   public void testInsertMember() {
 
-    String sql = "insert into dk_member(userid, userpw, username) values (?,?,?)";
+	  String sql = "insert into dk_member(userid, userpw, username, email) values (?,?,?,?)";
     
     for(int i = 0; i < 100; i++) {
       
