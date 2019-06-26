@@ -10,7 +10,7 @@
 <bean id="bcryptPasswordEncoder" class="org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder" />
 
 <bean id="customUserDetailsService" class="org.my.security.CustomUserDetailsService"></bean>
-		
+
 	<security:http>
 		<!-- <security:intercept-url pattern="/board/admin" access="hasRole('ROLE_ADMIN')" /> -->
 		
@@ -21,6 +21,10 @@
 		 <security:remember-me data-source-ref="dataSource" token-validity-seconds="604800" />
 		
 		<security:logout logout-url="/customLogout" invalidate-session="true" delete-cookies="remember-me,JSESSION_ID" />
+		
+		<security:headers>
+	         <security:frame-options disabled="true"></security:frame-options>
+		</security:headers>
 	
 	</security:http>
 	
