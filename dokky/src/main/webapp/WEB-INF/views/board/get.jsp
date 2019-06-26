@@ -331,7 +331,7 @@
 	 var csrfTokenValue="${_csrf.token}";
 	    
 	 $(document).ajaxSend(function(e, xhr, options) { 
-        xhr.setRequestHeader(csrfHeaderName, csrfTokenValue); 
+        xhr.setRequestHeader(csrfHeaderName, csrfTokenValue); //모든 AJAX전송시 CSRF토큰을 같이 전송하도록 셋팅
       });
 	/////////////////////////////////////////////////////////
 		 var replyRegisterBtn = $("#replyRegisterBtn");//댓글 등록 버튼

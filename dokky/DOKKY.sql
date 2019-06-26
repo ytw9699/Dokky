@@ -72,7 +72,7 @@ DROP TABLE dk_attach PURGE;
 create table dk_member(
       userId varchar2(50) not null primary key,
       userPw varchar2(100) not null,
-      userName varchar2(100) not null,
+      nickName varchar2(100) not null,
       email varchar2(100) not null,
       phoneNum varchar2(50),
       bankName varchar2(50),

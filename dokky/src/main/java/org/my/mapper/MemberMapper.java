@@ -3,7 +3,7 @@ package org.my.mapper;
 
 public interface MemberMapper {
 
-	public MemberVO read(String userid);
+	public MemberVO read(String userId);
 
 	public void registerMembers(MemberVO vo);
 

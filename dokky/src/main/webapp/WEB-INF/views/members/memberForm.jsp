@@ -32,16 +32,16 @@
 		  	
 			<div class="bigbig">
 			<div class="information">아이디</div>
-				<input type="text" name="userid" class="inputclass"/>
+				<input type="text" name="userId" class="inputclass"/>
 			<br/>
 		    <div class="information">비밀번호</div>
-		   		 <input type="password" name="userpw" id="userpw" class="inputclass"/>
+		   		 <input type="password" name="userPw" id="userpw" class="inputclass"/>
 		    <br/>
 		    <div class="information">비밀번호 재확인</div>
 		   		 <input type="password" name="userpwCheck" id="userpwCheck" class="inputclass"/>
 			<br/>
 			<div class="information">닉네임</div>
-				<input type="text" name="userName" class="inputclass" />
+				<input type="text" name="nickName" class="inputclass" />
 			<br/>
 			<div class="information">이메일</div>
 				<input type="email" name="email" id="email" class="inputclass"/>

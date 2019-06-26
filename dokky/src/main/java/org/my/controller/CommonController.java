@@ -78,7 +78,7 @@ public class CommonController {
 		log.info("post members: " + vo); 
 		log.info("==========================");
 		
-		vo.setUserpw(pwencoder.encode(vo.getUserpw()));//패스워드 암호화
+		vo.setUserPw(pwencoder.encode(vo.getUserPw()));//패스워드 암호화
 		
 		service.registerMembers(vo);
 		

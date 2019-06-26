@@ -6,9 +6,9 @@ package org.my.domain;
 @Data
 public class MemberVO {
 
-	private String userid;
-	private String userpw;
-	private String userName;
+	private String userId;
+	private String userPw;
+	private String nickName;
 	private String email;
 	private String phoneNum;
 	private String account;
