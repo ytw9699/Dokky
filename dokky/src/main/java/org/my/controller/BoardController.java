@@ -131,7 +131,7 @@ public class BoardController {
 	}*/
 	 
 	 @PreAuthorize("principal.username == #nickName")  
-	 @PostMapping("/remove")
+	 @PostMapping("/remove")//삭제시 글+댓글+첨부파일 모두 삭제
 		public String remove(@RequestParam("num") Long num,@RequestParam("nickName")String nickName, Criteria cri, RedirectAttributes rttr) {
 
 		 	log.info("remove..." + num);

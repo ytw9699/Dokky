@@ -37,7 +37,7 @@ money number(10,0) default 0
 );
 alter table DK_REPLY add constraint pk_reply primary key (reply_num);
 
-alter table DK_REPLY add constraint fk_reply_board foreign key (num) references DK_BOARD (num);
+alter table DK_REPLY add constraint fk_reply_board foreign key (num) references DK_BOARD (num) on delete cascade;--on delete cascade는 자식테이블을 같이 삭제시켜줌
 
 create sequence seq_dk_reply
 
