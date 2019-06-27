@@ -1,3 +1,4 @@
+1.-----------------------------------------------------
 create table DK_BOARD (
   CATEGORY number(10,0) not null,-- 1~10번 게시판
   NUM number(10,0),--PK
@@ -22,7 +23,7 @@ DROP TABLE DK_BOARD PURGE;
 insert into DK_BOARD(CATEGORY, NUM, TITLE, NICKNAME, CONTENT)
 values (1, seq_dk_board.nextval, '제목1','닉네임1','콘텐트1');
 
----------------------------------------------------------------------------------------
+2.---------------------------------------------------------------------------------------
 
 create table DK_REPLY (
 reply_num number(10,0),
@@ -50,7 +51,7 @@ rownum rn,num,reply_num,reply_content,nickname from dk_reply where num =221 and 
 
 insert into dk_reply(reply_num,num,reply_content,nickName) values (seq_dk_reply.nextval,221, 'test', 'test')
 
----------------------------------------------------------------------------------------
+3.---------------------------------------------------------------------------------------
 create table dk_attach(
 uuid varchar2(100) not null,
 uploadPath varchar2(200) not null,-- 실제 파일이 업로드된 경로
@@ -67,7 +68,7 @@ values ('11', '테스트 제목','테스트 내용',3);
 
 DROP TABLE dk_attach PURGE;
 
-------------------------------------------------------------------------------------------
+4.------------------------------------------------------------------------------------------
 
 create table dk_member(
       userId varchar2(50) not null primary key,
@@ -102,7 +103,8 @@ create table persistent_logins (
 --외한 칼럼의 타입 등을 적당히 조정해서 사용하면 됩니다. 오라클에서는 varchar를 그대
 --로 이용하거나 varchar2로 변경해서 사용하면 됩니다
 
-테이블 복사 방법-----------------------------------------------------
+5.-----------------------------------------------------
+테이블 복사 방법
 테이블은 이미 생성되어 있고 데이터만 복사 (테이블 구조가 동일할 때)
 
 INSERT INTO 복사할테이블명 SELECT * FROM 테이블명 [WHERE 절]
@@ -110,4 +112,5 @@ INSERT INTO 복사할테이블명 SELECT * FROM 테이블명 [WHERE 절]
 EX) INSERT INTO TB_BOARD_TEMP SELECT * FROM TB_BOARD
 
 출처: https://server-engineer.tistory.com/500 [HelloWorld]
+-----------------------------------------------------
 

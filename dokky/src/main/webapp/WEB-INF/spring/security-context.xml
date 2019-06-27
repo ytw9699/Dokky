@@ -12,8 +12,7 @@
 <bean id="customUserDetailsService" class="org.my.security.CustomUserDetailsService"></bean>
 
 	<security:http>
-		<!-- <security:intercept-url pattern="/board/admin" access="hasRole('ROLE_ADMIN')" /> -->
-		
+	
 		<security:access-denied-handler ref="customAccessDenied" />
 		
 		<security:form-login login-page="/customLogin"/>
