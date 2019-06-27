@@ -85,7 +85,6 @@
 <div class="row">
   <div class="col-lg-12">
     <div class="panel panel-default">
-
       <div class="panel-body">
 	        <form role="form" action="/dokky/board/register" method="post">  
 	        <div>
@@ -106,8 +105,8 @@
 		          <div class="form-group"> 
 		          <textarea class="form-control" name="content" id="ir1" rows="20" cols="100"></textarea>
 		          </div>
-		          					 			 					<!-- 현재 사용자의 아이디가 출력 -->
-		          <input type='hidden' name='nickName' value='<sec:authentication property="principal.username"/>' /> 
+		          <input type='hidden' name='nickName' value='<sec:authentication property="principal.member.nickName"/>' /> 
+		          <input type='hidden' name='userId' value='<sec:authentication property="principal.username"/>' /> 
 		        <%--   <input type='hidden' name='amount' value='<c:out value="${pageMaker.cri.amount}"/>' /> --%>
 								
 				  <input type="hidden" name="${_csrf.parameterName}" value="${_csrf.token}"/>

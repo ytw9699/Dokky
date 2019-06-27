@@ -114,7 +114,7 @@
 			
 		   <input type="hidden" name="${_csrf.parameterName}" value="${_csrf.token}"/> 
 			
-			<input type='hidden' name='nickName' value='<c:out value="${board.nickName }"/>'>
+		   <input type='hidden' name='userId' value='<c:out value="${board.userId }"/>'>  
 		   <input type='hidden' name='num' value='<c:out value="${board.num }"/>'>
 		   <input type='hidden' name='category' value='<c:out value="${cri.category}"/>'>
 		   <input type='hidden' name='pageNum' value='<c:out value="${cri.pageNum}"/>'>
@@ -125,7 +125,7 @@
      <sec:authentication property="principal" var="userInfo"/>
 		 
 		 	<sec:authorize access="isAuthenticated()">
-		        <c:if test="${userInfo.username eq board.nickName}">
+		        <c:if test="${userInfo.username eq board.userId}">
 		       		 <button type="submit">수정완료</button>
 		        </c:if>
 	        </sec:authorize>

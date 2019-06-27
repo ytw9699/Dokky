@@ -1,9 +1,12 @@
 1.-----------------------------------------------------
+ALTER TABLE DK_BOARD ADD(userId VARCAHR2(50) not null); 
+
 create table DK_BOARD (
   CATEGORY number(10,0) not null,-- 1~10번 게시판
   NUM number(10,0),--PK
   TITLE varchar2(200) not null,
   NICKNAME varchar2(50) not null,
+  userId varchar2(50) not null,
   CONTENT varchar2(4000) not null,
   STATUS varchar2(50) default '정상',
   REGDATE date default sysdate, 
@@ -30,6 +33,7 @@ reply_num number(10,0),
 num number(10,0) not null,
 reply_content varchar2(1000) not null,
 nickName varchar2(50) not null,
+userId varchar2(50) not null,
 replyDate date default sysdate,
 updateDate date default sysdate,
 up number(10,0) default 0,
@@ -111,6 +115,15 @@ INSERT INTO 복사할테이블명 SELECT * FROM 테이블명 [WHERE 절]
 
 EX) INSERT INTO TB_BOARD_TEMP SELECT * FROM TB_BOARD
 
+6.-----------------------------------------------------
+테이블은 이미 생성되어 있고 데이터만 복사 (테이블 구조가 다를 때)
+
+INSERT INTO 복사할테이블명 (NUM, TITLE, CONTENTS) SELECT NUM, TITLE, CONTENTS FROM 테이블명
+
+EX) INSERT INTO TB_BOARD_TEMP (NUM, TITLE, CONTENTS) SELECT NUM, TITLE, CONTENTS FROM TB_BOARD
+
 출처: https://server-engineer.tistory.com/500 [HelloWorld]
 -----------------------------------------------------
-
+7. -----------------------------------------------------
+컬럼추가
+ALTER TABLE DK_BOARD ADD userId VARCHAR2(50) NOT NULL;

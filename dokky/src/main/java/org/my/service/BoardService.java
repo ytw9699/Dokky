@@ -1,10 +1,8 @@
 package org.my.service;
-
-import java.util.List;
-import org.my.domain.BoardVO;
-import org.my.domain.Criteria;
-import org.my.domain.BoardAttachVO;
-
+	import java.util.List;
+	import org.my.domain.BoardVO;
+	import org.my.domain.Criteria;
+	import org.my.domain.BoardAttachVO;
 
 public interface BoardService {
 	

@@ -10,10 +10,12 @@ public class ReplyVO {
   private Long num;
   private String reply_content;
   private String nickName;
+  private String userId;
   private Date replyDate;
   private Date updateDate;
   private int up;
   private int down;
   private int money;
 
+	  
 }

@@ -5,8 +5,8 @@
 <mapper namespace="org.my.mapper.ReplyMapper">
 
 	<insert id="insert">
-		insert into DK_REPLY (reply_num, num, reply_content, nickName)
-		values (seq_dk_reply.nextval, #{num}, #{reply_content}, #{nickName})
+		insert into DK_REPLY (reply_num, num, reply_content, nickName,userId)
+		values (seq_dk_reply.nextval, #{num}, #{reply_content}, #{nickName}, #{userId})
 	</insert>
 
 	<select id="read" resultType="org.my.domain.ReplyVO">

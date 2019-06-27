@@ -146,16 +146,16 @@
         
         <div class="form-group">
           <label>좋아요</label>-<span id="likeCount"><c:out value="${board.up }"/></span>
-          <button id="like" data-orginal_nickname="${board.nickName }">좋아요,ajax구현</button>  
+          <button id="like" data-user_id="${board.userId }">좋아요,ajax구현</button>  
         </div> 
         <div class="form-group">
           <label>싫어요</label>-<c:out value="${board.down }"/>
-          <button id="dislike" data-orginal_nickname="${board.nickName }">싫어요,ajax구현</button> 
+          <button id="dislike" data-user_id="${board.userId }">싫어요,ajax구현</button> 
         </div>
         
         <div class="form-group">
           <label>기부금</label>-<c:out value="${board.money }"/>
-          <button id="giveMoney" data-orginal_nickname="${board.nickName }">기부금,ajax구현</button> 
+          <button id="giveMoney" data-user_id="${board.userId }">기부금,ajax구현</button> 
         </div>
         <div class="form-group">
           <label>조회수</label>-<c:out value="${board.hitCnt }"/>
@@ -170,7 +170,7 @@
 		 	<sec:authorize access="isAuthenticated()">
 		 		     <button id="scrap">스크랩 </button>
 		 		     
-		        <c:if test="${userInfo.username eq board.nickName}">
+		        <c:if test="${userInfo.username eq board.userId}">
 		       		 <button id="modify_button">수정 </button> 
 					 <button id="remove_button">삭제 </button>
 		        </c:if>
@@ -180,9 +180,9 @@
 	        
 			<form id='operForm' action="/dokky/board/modify" method="get">
 			  
-				  <input type="hidden" name="${_csrf.parameterName}" value="${_csrf.token}"/>
+				  <input type="hidden" id='csrf' name="${_csrf.parameterName}" value="${_csrf.token}"/>
 				  
-				  <input type='hidden' name='nickName' value='<c:out value="${board.nickName}"/>'>    
+				  <input type='hidden' id='userId' name='userId' value='<c:out value="${board.userId}"/>'>    
 				  
 				  <input type='hidden' id='num' name='num' value='<c:out value="${board.num}"/>'>
 				  <input type='hidden' name='category' value='<c:out value="${cri.category}"/>'>
@@ -216,9 +216,6 @@
                 <textarea id="reply_contents" rows="3" name='reply_content'></textarea> 
            </div>  
    		   <button id='replyRegisterBtn' type="button">등록</button>
-   		     
-   		   <input type='text' id="reply_nickName" name='nickName' value='${userInfo.username}'>
-									   		   		<!-- 테스트닉네임에 회원정보에서 가져와서 넣기 -->
 		</div> 
 	</sec:authorize>
 		
@@ -240,6 +237,8 @@
 	
 	$("#list_button").on("click", function(e){//글 목록
 	    operForm.find("#num").remove();
+	    operForm.find("#userId").remove();
+	    operForm.find("#csrf").remove();
 	    operForm.attr("action","/dokky/board/list")
 	    operForm.submit();
  	 }); 
@@ -262,9 +261,7 @@
 	 var username = null;
 	 
 	function showReplyList(page){ //댓글 목록 가져오기
-		console.log("2");
 	    replyService.getList({num:numValue, page: page || 1 }, function(data) {
-	    	console.log("3");
 	  		  replyCnt =  data.replyCnt;
 	  		  
 			  if(page == -1){
@@ -278,18 +275,15 @@
 	     var str="";
 	     var len = data.list.length;
 	     var nickName=""; 
-	     console.log("4");
 		     <sec:authorize access="isAuthenticated()">
 		    	 username = '${userInfo.username}';
 		     </sec:authorize>
 
 	     if(data.list == null || len == 0){//댓글 리스트
-	    	 console.log("5");
 	    	 replyList.html(str);//댓글삭제후 댓글이 하나도 없다면 목록안에 공백 채워주기
 	    	 showReplyPage(0);//댓글이 없어서 페이지 번호 없애주기
 	    	 return;  
 	     }
-	     console.log("6");
 	     for (var i = 0; i < len || 0; i++) {
 	       nickName = data.list[i].nickName; 
 	       
@@ -308,13 +302,11 @@
 			    /*  str += "<sec:authorize access='isAuthenticated()'>" */
 		       	/*   +"</sec:authorize>"  인증된사람만 보여주기*/
 	     }
-	     console.log("7");
 	     replyList.html(str);//댓글목록안에 채워주기
 	     
 	     showReplyPage(data.replyCnt);//댓글페이지 보여주기
 	     
 	     console.log("showReplyList끝");
-	     console.log("8"); 
 	     
 	     var replyCntVal = $("#replyCntVal");
 	      
@@ -336,14 +328,16 @@
 	/////////////////////////////////////////////////////////
 		 var replyRegisterBtn = $("#replyRegisterBtn");//댓글 등록 버튼
 		 var reply_contents = $("#reply_contents");//댓글 내용
-		 var reply_nickName = $("#reply_nickName");//댓글 닉네임
+		 var reply_id = '${userInfo.username}';//댓글 작성자 아이디
+		 var reply_nickName = '${userInfo.member.nickName}';//댓글 작성자 닉네임
 
 		 replyRegisterBtn.on("click",function(e){// 0. 댓글 등록 이벤트 설치
-		    	
+		    
 		      var reply = {
 		    		reply_content:reply_contents.val(), //댓글 내용
-		    		nickName:reply_nickName.val(),//댓글 닉네임
-		            num:numValue //글번호
+		    		userId:reply_id,//댓글 작성자 아이디
+		            num:numValue, //글번호 
+		            nickName:reply_nickName //작성자 닉네임
 		          };
 		      
 		     	 replyService.add(reply, function(result){//댓글 등록
@@ -360,7 +354,7 @@
 	 	var isReplaceTag = false;//더미 <div>가 댓글 수정폼으로 교체되었는지 체크여부
 	 	var replyModFormId ;//현재 댓글 수정폼의 아이디
 	     
-	 	function checkUser(orginal_nickname,loginCheck,idCheck,likeCheck){
+	 	function checkUser(user_id,loginCheck,idCheck,likeCheck){
 	 		
 	 		if(!username){//로그인 체크
 		  		  alert(loginCheck);
@@ -368,14 +362,14 @@
 		  	 } 
 			
 			if(idCheck){
-				if(orginal_nickname  != username){
+				if(user_id  != username){
 			 		  alert(idCheck);
 			 		  return true; 
 			 	 }
 			}
 			//alert(username); 
 			if(likeCheck){//좋아요,싫어요,기부금 체크
-				if(orginal_nickname  == username){
+				if(user_id  == username){
 			 		  alert(likeCheck);
 			 		  return true; 
 			 	 }
@@ -536,9 +530,9 @@
 			
 			var loginCheck = "로그인후 좋아요를 눌러주세요.";
 			var likeCheck = "자신의 글에는 좋아요를 할 수 없습니다.";
-			var orginal_nickname = $(this).data("orginal_nickname");
+			var user_id = $(this).data("user_id");
 			
-			if(checkUser(orginal_nickname,loginCheck,null,likeCheck)){
+			if(checkUser(user_id,loginCheck,null,likeCheck)){
 				return;  
 			}
 			alert("좋아요  하였습니다.");  
@@ -556,9 +550,9 @@
 			
 			var loginCheck = "로그인후 싫어요를 눌러주세요.";
 			var likeCheck = "자신의 글에는 싫어요를 할 수 없습니다.";
-			var orginal_nickname = $(this).data("orginal_nickname");
+			var user_id = $(this).data("user_id");
 			
-			if(checkUser(orginal_nickname,loginCheck,null,likeCheck)){
+			if(checkUser(user_id,loginCheck,null,likeCheck)){
 				return; 
 			}
 			alert("싫어요 하였습니다."); 
@@ -567,10 +561,10 @@
 	   		$("#giveMoney").on("click",function(event){//3. 기부금 버튼 이벤트 설치
 			
 			var loginCheck = "로그인후 기부를 해주세요.";
-			var giveCheck = "자신에게는 기부를 할 수 없습니다.";
-			var orginal_nickname = $(this).data("orginal_nickname");
+			var giveCheck = "자신에게는 기부를 할 수 없습니다."; 
+			var user_id = $(this).data("user_id");
 			
-			if(checkUser(orginal_nickname,loginCheck,null,giveCheck)){
+			if(checkUser(user_id,loginCheck,null,giveCheck)){
 				return; 
 			}
 			alert("기부 하였습니다."); 

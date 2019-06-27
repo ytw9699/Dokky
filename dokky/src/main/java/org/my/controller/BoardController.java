@@ -88,11 +88,11 @@ public class BoardController {
 	@GetMapping("/modify")
 	public void getModifyForm(@RequestParam("num") Long num, @ModelAttribute("cri") Criteria cri, Model model) {
 
-		//log.info("/modify");
+		log.info("/modify");
 		model.addAttribute("board", service.getModifyForm(num));//수정폼+데이터 가져오기
 	}
 	
-	 @PreAuthorize("principal.username == #board.nickName")
+	 @PreAuthorize("principal.username == #board.userId")
 	 @PostMapping("/modify")
 	 public String modify(BoardVO board, Criteria cri, RedirectAttributes rttr) {
 		 //log.info("modify:" + board);
@@ -130,9 +130,9 @@ public class BoardController {
 		return "redirect:/board/list";
 	}*/
 	 
-	 @PreAuthorize("principal.username == #nickName")  
+	 @PreAuthorize("principal.username == #userId")   
 	 @PostMapping("/remove")//삭제시 글+댓글+첨부파일 모두 삭제
-		public String remove(@RequestParam("num") Long num,@RequestParam("nickName")String nickName, Criteria cri, RedirectAttributes rttr) {
+		public String remove(@RequestParam("num") Long num,@RequestParam("userId")String userId, Criteria cri, RedirectAttributes rttr) {
 
 		 	log.info("remove..." + num);
 
