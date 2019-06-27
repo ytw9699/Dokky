@@ -275,6 +275,7 @@
 	     var str="";
 	     var len = data.list.length;
 	     var nickName=""; 
+	     var userId=""; 
 		     <sec:authorize access="isAuthenticated()">
 		    	 username = '${userInfo.username}';
 		     </sec:authorize>
@@ -286,12 +287,13 @@
 	     }
 	     for (var i = 0; i < len || 0; i++) {
 	       nickName = data.list[i].nickName; 
+	       userId = data.list[i].userId;  
 	       
 	       str +="<div style='display:none' id=replace"+data.list[i].reply_num+"></div><li data-reply_num='"+data.list[i].reply_num+"'>"+data.list[i].reply_num
 	       +" " + data.list[i].nickName
 	       +" " + data.list[i].reply_content
 	       +" "+replyService.displayTime(data.list[i].replyDate)
-	       if(username == nickName){
+	       if(username == userId){
 			 str += "<button data-oper='modify' type='button' data-orginal_nickname='"+data.list[i].nickName+"' data-reply_num='"+data.list[i].reply_num+"'>수정</button>"
 		       +"<button data-oper='delete' type='button' data-orginal_nickname='"+data.list[i].nickName+"' data-reply_num='"+data.list[i].reply_num+"'>삭제</button>"
 	       }
