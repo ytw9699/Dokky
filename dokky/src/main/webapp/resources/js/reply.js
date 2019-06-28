@@ -82,14 +82,14 @@ var replyService = (function() {
 			}
 		});
 	}*/
-	function remove(reply_num,orginal_nickname, callback, error) {
+	function remove(reply_num, user_id, callback, error) {
 		/*console.log("--------------------------------------");  
 		console.log(JSON.stringify({reply_num:reply_num, nickName:orginal_nickname}));  
 		*/
 		$.ajax({
 			type : 'delete',
 			url : '/dokky/replies/' + reply_num,
-			data:  JSON.stringify({reply_num:reply_num, nickName:orginal_nickname}),
+			data:  JSON.stringify({reply_num:reply_num, userId:user_id}),
 		    contentType: "application/json; charset=utf-8",
 			success : function(deleteResult, status, xhr) {
 				if (callback) {
