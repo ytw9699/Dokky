@@ -332,8 +332,10 @@
 	/////////////////////////////////////////////////////////
 		 var replyRegisterBtn = $("#replyRegisterBtn");//댓글 등록 버튼
 		 var reply_contents = $("#reply_contents");//댓글 내용
-		 var reply_id = '${userInfo.username}';//댓글 작성자 아이디
-		 var reply_nickName = '${userInfo.member.nickName}';//댓글 작성자 닉네임
+	 <sec:authorize access="isAuthenticated()">   
+	     var reply_id = '${userInfo.username}';//댓글 작성자 아이디
+	 	 var reply_nickName = '${userInfo.member.nickName}';//댓글 작성자 닉네임
+   	</sec:authorize>
 
 		 replyRegisterBtn.on("click",function(e){// 0. 댓글 등록 이벤트 설치
 		    

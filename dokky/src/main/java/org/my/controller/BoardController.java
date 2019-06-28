@@ -81,8 +81,9 @@ public class BoardController {
 	@GetMapping("/get")
 	public void get(@RequestParam("num") Long num, @ModelAttribute("cri") Criteria cri, Model model) {
 
-		//log.info("/get");
+		log.info("/get");
 		model.addAttribute("board", service.get(num));//조회수증가 + 하나의 글 상세 데이터 가져오기
+		log.info("/get complete");
 	}
 	
 	@GetMapping("/modify")
