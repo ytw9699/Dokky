@@ -8,7 +8,7 @@ package org.my.service;
 	import org.springframework.stereotype.Service;
 	import org.springframework.transaction.annotation.Transactional;
 	import org.my.domain.BoardAttachVO;
-
+	import org.my.domain.BoardLikeVO;
 	import lombok.Setter;
 	import lombok.extern.log4j.Log4j;
 
@@ -108,11 +108,58 @@ public class BoardServiceImpl implements BoardService {
 		log.info("get total count");
 		return mapper.getTotalCount(cri);
 	}
-
+	
+	@Transactional
 	@Override
-	public int updateLike(Long num) {//좋아요수 증가
+	public int registerLike(BoardLikeVO vo) {//좋아요 컬럼 등록 및 좋아요수 증가
+
+		log.info("registerLike...." + vo);
 		
-		return mapper.updateLike(num);
+		mapper.registerLike(vo);
+		
+		log.info("upLike...."+vo.getNum());
+		
+		return mapper.upLike(vo.getNum()); 
+	}
+	
+	@Transactional
+	@Override
+	public int upLike(BoardLikeVO vo) {//좋아요수 증가
+		
+		log.info("upCheckLike...."+vo);
+		
+		mapper.upCheckLike(vo);
+		
+		log.info("upLike...."+vo.getNum());
+		
+		return mapper.upLike(vo.getNum()); 
+	}
+	
+	@Transactional
+	@Override
+	public int downLike(BoardLikeVO vo) {//좋아요수 감소
+		
+		log.info("downCheckLike...."+vo);
+		
+		mapper.downCheckLike(vo);
+		
+		log.info("downLike...."+vo.getNum());
+		
+		return mapper.downLike(vo.getNum());
+	}
+	
+	@Override
+	public String checkLike(BoardLikeVO vo) {
+		
+		log.info("checkLike");
+		return mapper.checkLike(vo); 
+	}
+	
+	@Override
+	public String getLikeCount(Long num) {
+ 
+		log.info("getLikeCount");
+		return mapper.getLikeCount(num);
 	}
 	
 	@Override

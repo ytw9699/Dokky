@@ -6,7 +6,8 @@ package org.my.controller;
 	import org.my.domain.BoardVO;
 	import org.my.domain.Criteria;
 	import org.my.domain.PageDTO;
-	import org.my.service.BoardService;
+import org.my.domain.ReplyVO;
+import org.my.service.BoardService;
 	import org.springframework.http.HttpStatus;
 	import org.springframework.http.MediaType;
 	import org.springframework.http.ResponseEntity;
@@ -24,7 +25,9 @@ package org.my.controller;
 	import org.springframework.web.bind.annotation.ResponseBody;
 	import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 	import org.my.domain.BoardAttachVO;
-	import lombok.AllArgsConstructor;
+	import org.my.domain.BoardLikeVO;
+
+import lombok.AllArgsConstructor;
 	import lombok.extern.log4j.Log4j;
 
 @Controller
@@ -148,20 +151,36 @@ public class BoardController {
 			return "redirect:/board/list" + cri.getListLink();
 		}
 	
-	@RequestMapping(method = { RequestMethod.PUT,RequestMethod.PATCH }, 
-			value = "/like/{num}", consumes = "application/json", produces = {
-					MediaType.TEXT_PLAIN_VALUE })
+	@RequestMapping(method = { RequestMethod.PUT,RequestMethod.PATCH },
+		value = "/likeCount", consumes = "application/json", produces = "text/plain; charset=UTF-8")
 	@ResponseBody
-	public ResponseEntity<String> updateLike(
-			 @RequestBody BoardVO vo, 
-			 @PathVariable("num") Long num) {
+	public ResponseEntity<String> updateLike(@RequestBody BoardLikeVO vo) {//좋아요 증가 및 감소
 
-		vo.setNum(num);
-
-		log.info("num: " + num);
-
-		return service.updateLike(num) == 1 
-				? new ResponseEntity<>("success", HttpStatus.OK)
+		log.info("userId: " + vo.getUserId());
+		log.info("num: " + vo.getNum());
+		
+		String CheckResult = service.checkLike(vo);
+		
+		log.info("CheckResult: " + CheckResult);
+		
+		int returnVal = 0;
+		
+		if(CheckResult == null){ 
+			returnVal = service.registerLike(vo);
+			log.info("registerLike..." );
+			
+		}else if(CheckResult.equals("no")){
+			returnVal = service.upLike(vo);
+			log.info("upLike...");
+			
+		}else if(CheckResult.equals("yes")){
+			returnVal = service.downLike(vo);
+			log.info("downLike...");
+		}
+		
+		log.info("returnVal: " + returnVal);
+		
+		return returnVal == 1 ? new ResponseEntity<>(service.getLikeCount(vo.getNum()), HttpStatus.OK)
 				: new ResponseEntity<>(HttpStatus.INTERNAL_SERVER_ERROR);
 	}
 	

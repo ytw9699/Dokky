@@ -176,7 +176,7 @@ var replyService = (function() {
 
 		$.ajax({
 			type : 'put', 
-			url : '/dokky/board/like/' + likeData.num, 
+			url : '/dokky/board/likeCount', 
 			data : JSON.stringify(likeData), 
 			contentType : "application/json; charset=utf-8",
 			success : function(result, status, xhr) {

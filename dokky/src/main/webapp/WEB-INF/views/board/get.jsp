@@ -135,11 +135,9 @@
          <div class="form-group">
           <label>번호</label>-<c:out value="${board.num }"/>
         </div>
-
         <div class="form-group">
           <label>제목</label>-<c:out value="${board.title }"/>
         </div>   
-
         <div class="form-group">
           <label>내용</label>-${board.content }
         </div>
@@ -529,7 +527,6 @@
 			
 		});//4. 댓글 기부금 버튼 이벤트 설치
 		
-	
 		$("#like").on("click",function(event){//3. 좋아요 버튼 이벤트 설치
 			var loginCheck = "로그인후 좋아요를 눌러주세요.";
 			var likeCheck = "자신의 글에는 좋아요를 할 수 없습니다.";
@@ -538,16 +535,18 @@
 			if(checkUser(user_id,loginCheck,null,likeCheck)){
 				return;  
 			}
-			alert("좋아요  하였습니다.");  
-			var likeData = {num:numValue};//수정폼의 값을 넘긴다
-		   	  
-		   	  replyService.updateLike(likeData, function(result){
+			
+			var likeData = {num:numValue,//글번호
+							userId:username//접속 아이디
+							};
+			
+		   	replyService.updateLike(likeData, function(result){
 		   	 
-		   	//var likeCount = $("#likeCount");
-		  	//likeCount.html(result);  
-		   		  alert(result);//좋아요 싫어요는 해당아이디당 한글에  한번만 해줘야함 세션의 아이디에 해당하는지 확인작업필요
-		   	  });//boardVo에 해당글의 좋아요,싫어요 아이디 컬럼을 둘다 만들고 그 컬럼에 아이디가 있다면 좋아요를 누를수없음
-		   	});//두번의작업, 1. 좋아요 카운트 올리기 2. 해당 아이디 넣기  > 트랜잭션 필요
+		   	var likeCount = $("#likeCount");
+		  	likeCount.html(result);
+		   		//console.log(result); 
+		   	  });
+		   	});
 	   	
 	   	$("#dislike").on("click",function(event){//3. 싫어요 버튼 이벤트 설치
 			

@@ -3,6 +3,7 @@ package org.my.service;
 	import org.my.domain.BoardVO;
 	import org.my.domain.Criteria;
 	import org.my.domain.BoardAttachVO;
+import org.my.domain.BoardLikeVO;
 
 public interface BoardService {
 	
@@ -18,11 +19,19 @@ public interface BoardService {
 
 	public int getTotalCount(Criteria cri);
 
-	public int updateLike(Long num);
+	public int upLike(BoardLikeVO vo);
+	
+	public int downLike(BoardLikeVO vo);
 
 	public BoardVO getModifyForm(Long num);
 
 	public List<BoardAttachVO> getAttachList(Long num);
-	
+
+	public String checkLike(BoardLikeVO vo);
+
+	public int registerLike(BoardLikeVO vo);
+
+	public String getLikeCount(Long num);
+
 	//public void removeAttach(Long num);
 }

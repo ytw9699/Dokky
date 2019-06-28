@@ -124,6 +124,20 @@ EX) INSERT INTO TB_BOARD_TEMP (NUM, TITLE, CONTENTS) SELECT NUM, TITLE, CONTENTS
 
 출처: https://server-engineer.tistory.com/500 [HelloWorld]
 -----------------------------------------------------
-7. -----------------------------------------------------
+7.기타 -----------------------------------------------------
 컬럼추가
 ALTER TABLE DK_BOARD ADD userId VARCHAR2(50) NOT NULL;
+-----------------------------------------------------
+8.게시글 좋아요 테이블
+create table dk_board_like (
+	 userId varchar2(50) not null primary key,
+     num number(10,0) not null,
+     checkLike varchar2(50) not null,--좋아요눌르면 yes,다시 눌르면 no
+     constraint fk_board_like foreign key(num) references DK_BOARD(num) on delete cascade
+);
+
+drop table dk_board_like purge
+
+-----------------------------------------------------
+
+

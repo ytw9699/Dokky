@@ -84,12 +84,41 @@
   		update dk_board set replycnt = replycnt + #{amount} where num = #{num}
   	</update> 
 	
-	<update id="updateLike">
-		update DK_BOARD
-			set UP = UP + 1
-		where num = #{num}
+	<!-- 좋아요 증가 -->
+	<update id="upLike">
+		update DK_BOARD set UP = UP + 1 where num = #{num}
 	</update>
-		
+
+	<!-- 좋아요체크 yes로 변경 -->
+	<update id="upCheckLike">
+		update dk_board_like set checkLike = 'yes' where userId = #{userId} and num = #{num}
+	</update>
+	
+	<!-- 좋아요 감소 -->
+	<update id="downLike">
+		update DK_BOARD set UP = UP - 1 where num = #{num}
+	</update>
+	
+	<!-- 좋아요체크 no로 변경 -->
+	<update id="downCheckLike">
+		update dk_board_like set checkLike = 'no' where userId = #{userId} and num = #{num}
+	</update>
+	
+	<!-- 좋아요 체크 -->	
+	<select id="checkLike" resultType="String">
+		select checkLike from dk_board_like where userId = #{userId} and num = #{num}
+	</select>
+	
+	<!-- 좋아요 컬럼 등록 -->
+	<insert id="registerLike">
+		insert into dk_board_like (userId, num, checkLike)
+		values (#{userId},#{num},'yes')
+	</insert>
+	
+	<!-- 좋아요 카운트 가져오기 -->
+	<select id="getLikeCount" resultType="String">
+		select up from DK_BOARD where num = #{num}
+	</select>
 	
   	
 </mapper>
