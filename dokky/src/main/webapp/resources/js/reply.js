@@ -170,7 +170,7 @@ var replyService = (function() {
 	}
 	;
 
-	function updateLike(likeData, callback, error) {
+	function updateLike(likeData, callback, error) {//좋아요 업데이트
 
 		console.log("likeData: " + likeData.num);
 
@@ -192,6 +192,28 @@ var replyService = (function() {
 		});
 	}
 	
+	function updateDisLike(dislikeData, callback, error) {//싫어요 업데이트
+
+		console.log("dislikeData: " + dislikeData.num);
+
+		$.ajax({
+			type : 'put', 
+			url : '/dokky/board/dislikeCount',  
+			data : JSON.stringify(dislikeData), 
+			contentType : "application/json; charset=utf-8",
+			success : function(result, status, xhr) {
+				if (callback) {
+					callback(result);
+				}
+			},
+			error : function(xhr, status, er) {
+				if (error) {
+					error(er);
+				}
+			}
+		});
+	}
+	
 	return {
 		add : add,
 		get : get,
@@ -199,7 +221,8 @@ var replyService = (function() {
 		remove : remove,
 		update : update,
 		displayTime : displayTime,
-		updateLike : updateLike
+		updateLike : updateLike,
+		updateDisLike : updateDisLike
 	};
 
 })();

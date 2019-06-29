@@ -11,8 +11,8 @@ create table DK_BOARD (
   STATUS varchar2(50) default '정상',
   REGDATE date default sysdate, 
   UPDATEDATE date default sysdate,
-  UP number(10,0) default 0,
-  DOWN number(10,0) default 0,
+  likeCnt number(10,0) default 0,
+  dislikeCnt number(10,0) default 0,
   MONEY number(10,0) default 0,
   HITCNT number(10,0) default 0,
   REPLYCNT number(10,0) default 0,
@@ -127,17 +127,26 @@ EX) INSERT INTO TB_BOARD_TEMP (NUM, TITLE, CONTENTS) SELECT NUM, TITLE, CONTENTS
 7.기타 -----------------------------------------------------
 컬럼추가
 ALTER TABLE DK_BOARD ADD userId VARCHAR2(50) NOT NULL;
+컬럼 이름 변경
+ALTER TABLE dk_board RENAME COLUMN down TO dislikeCnt;
 -----------------------------------------------------
 8.게시글 좋아요 테이블
 create table dk_board_like (
-	 userId varchar2(50) not null primary key,
+	 userId varchar2(50) not null,
      num number(10,0) not null,
-     checkLike varchar2(50) not null,--좋아요눌르면 yes,다시 눌르면 no
+     likeValue varchar2(50) not null,--좋아요 눌르면 push,다시 눌르면 pull
      constraint fk_board_like foreign key(num) references DK_BOARD(num) on delete cascade
 );
 
 drop table dk_board_like purge
-
 -----------------------------------------------------
+8.게시글 싫어요 테이블
+create table dk_board_dislike (
+	 userId varchar2(50) not null,
+     num number(10,0) not null,
+     dislikeValue varchar2(50) not null,--싫어요 눌르면 push,다시 눌르면 pull
+     constraint fk_board_dislike foreign key(num) references DK_BOARD(num) on delete cascade
+);
 
+drop table dk_board_dislike purge
 

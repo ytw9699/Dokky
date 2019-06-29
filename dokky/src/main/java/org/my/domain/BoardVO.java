@@ -15,8 +15,8 @@ public class BoardVO {
 	  private String status;
 	  private Date regDate;
 	  private Date updateDate;
-	  private int up;
-	  private int down;
+	  private int likeCnt;
+	  private int dislikeCnt;
 	  private int money;
 	  private Long hitCnt;
 	  private int replyCnt;

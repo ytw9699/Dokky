@@ -143,20 +143,20 @@
         </div>
         
         <div class="form-group">
-          <label>좋아요</label>-<span id="likeCount"><c:out value="${board.up }"/></span>
-          <button id="like" data-user_id="${board.userId }">좋아요,ajax구현</button>  
+          <label>좋아요</label> <span id="likeCount"><c:out value="${board.likeCnt }"/></span>
+          <button id="like" data-user_id="${board.userId }">좋아요</button>  
         </div> 
         <div class="form-group">
-          <label>싫어요</label>-<c:out value="${board.down }"/>
-          <button id="dislike" data-user_id="${board.userId }">싫어요,ajax구현</button> 
+          <label>싫어요</label> <span id="dislikeCount"><c:out value="${board.dislikeCnt }"/></span>
+          <button id="dislike" data-user_id="${board.userId }">싫어요</button> 
         </div>
         
         <div class="form-group">
-          <label>기부금</label>-<c:out value="${board.money }"/>
+          <label>기부금</label> <c:out value="${board.money }"/>
           <button id="giveMoney" data-user_id="${board.userId }">기부금,ajax구현</button> 
         </div>
         <div class="form-group">
-          <label>조회수</label>-<c:out value="${board.hitCnt }"/>
+          <label>조회수</label> <c:out value="${board.hitCnt }"/> 
         </div>
         <div id="replyCntVal" class="form-group"> 
           <%-- <label>댓글</label>-${board.replyCnt } --%>
@@ -558,20 +558,29 @@
 			if(checkUser(user_id,loginCheck,null,likeCheck)){
 				return; 
 			}
-			alert("싫어요 하였습니다."); 
-		   	});
+			var dislikeData = {num:numValue,//글번호
+					userId:username//접속 아이디
+					};
+			
+			replyService.updateDisLike(dislikeData, function(result){
+			   	 
+			   	var dislikeCount = $("#dislikeCount");
+			   	dislikeCount.html(result);
+			   		//console.log(result); 
+	   	    });
+	   	});
 	   	
-	   		$("#giveMoney").on("click",function(event){//3. 기부금 버튼 이벤트 설치
-			
-			var loginCheck = "로그인후 기부를 해주세요.";
-			var giveCheck = "자신에게는 기부를 할 수 없습니다."; 
-			var user_id = $(this).data("user_id");
-			
-			if(checkUser(user_id,loginCheck,null,giveCheck)){
-				return; 
-			}
-			alert("기부 하였습니다."); 
-		   	});
+   		$("#giveMoney").on("click",function(event){//3. 기부금 버튼 이벤트 설치
+		
+		var loginCheck = "로그인후 기부를 해주세요.";
+		var giveCheck = "자신에게는 기부를 할 수 없습니다."; 
+		var user_id = $(this).data("user_id");
+		
+		if(checkUser(user_id,loginCheck,null,giveCheck)){
+			return; 
+		}
+		alert("기부 하였습니다."); 
+	   	});
 ///////////////////////////////////////////////////////	
 	  
 	 	var pageNum = 1;

@@ -1,6 +1,7 @@
 package org.my.mapper;
 	import java.util.List;
 	import org.apache.ibatis.annotations.Param;
+import org.my.domain.BoardDisLikeVO;
 import org.my.domain.BoardLikeVO;
 import org.my.domain.BoardVO;
 	import org.my.domain.Criteria;
@@ -23,18 +24,33 @@ public interface BoardMapper {
 
 	public int updateHitCnt(Long num);//조회수 증가
 
-	public int upLike(Long num);
+	public int pushLike(Long num);
 	
-	public int downLike(Long num);
+	public int pullDisLike(Long num);
+	
+	public int pullLike(Long num);
+	
+	public int pushDisLike(Long num);
 
-	public String checkLike(BoardLikeVO vo);
+	public String checkLikeValue(BoardLikeVO vo);
+	
+	public String checkDisLikeValue(BoardDisLikeVO vo);
 
 	public int registerLike(BoardLikeVO vo);
-
-	public void upCheckLike(BoardLikeVO vo);
 	
-	public void downCheckLike(BoardLikeVO vo);
+	public int registerDisLike(BoardDisLikeVO vo);
 
+	public void pushLikeValue(BoardLikeVO vo);
+	
+	public void pulldislikeCheck(BoardDisLikeVO vo);
+	
+	public void pullLikeValue(BoardLikeVO vo);
+
+	public void pushDislikeValue(BoardDisLikeVO vo);
+	
 	public String getLikeCount(Long num);
+
+	public String getDisLikeCount(Long num);
+
 
 }

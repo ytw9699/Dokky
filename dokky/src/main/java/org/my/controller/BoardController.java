@@ -25,7 +25,8 @@ import org.my.service.BoardService;
 	import org.springframework.web.bind.annotation.ResponseBody;
 	import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 	import org.my.domain.BoardAttachVO;
-	import org.my.domain.BoardLikeVO;
+import org.my.domain.BoardDisLikeVO;
+import org.my.domain.BoardLikeVO;
 
 import lombok.AllArgsConstructor;
 	import lombok.extern.log4j.Log4j;
@@ -154,12 +155,12 @@ public class BoardController {
 	@RequestMapping(method = { RequestMethod.PUT,RequestMethod.PATCH },
 		value = "/likeCount", consumes = "application/json", produces = "text/plain; charset=UTF-8")
 	@ResponseBody
-	public ResponseEntity<String> updateLike(@RequestBody BoardLikeVO vo) {//좋아요 증가 및 감소
+	public ResponseEntity<String> updateLike(@RequestBody BoardLikeVO vo) {//좋아요 누르기 및 취소
 
 		log.info("userId: " + vo.getUserId());
 		log.info("num: " + vo.getNum());
 		
-		String CheckResult = service.checkLike(vo);
+		String CheckResult = service.checkLikeValue(vo);
 		
 		log.info("CheckResult: " + CheckResult);
 		
@@ -169,13 +170,13 @@ public class BoardController {
 			returnVal = service.registerLike(vo);
 			log.info("registerLike..." );
 			
-		}else if(CheckResult.equals("no")){
-			returnVal = service.upLike(vo);
-			log.info("upLike...");
+		}else if(CheckResult.equals("pull")){
+			returnVal = service.pushLike(vo);//좋아요 누르기
+			log.info("pushLike...");
 			
-		}else if(CheckResult.equals("yes")){
-			returnVal = service.downLike(vo);
-			log.info("downLike...");
+		}else if(CheckResult.equals("push")){
+			returnVal = service.pullLike(vo);//좋아요 취소
+			log.info("pullLike...");
 		}
 		
 		log.info("returnVal: " + returnVal);
@@ -183,6 +184,40 @@ public class BoardController {
 		return returnVal == 1 ? new ResponseEntity<>(service.getLikeCount(vo.getNum()), HttpStatus.OK)
 				: new ResponseEntity<>(HttpStatus.INTERNAL_SERVER_ERROR);
 	}
+	
+	@RequestMapping(method = { RequestMethod.PUT,RequestMethod.PATCH },
+			value = "/dislikeCount", consumes = "application/json", produces = "text/plain; charset=UTF-8")
+		@ResponseBody
+		public ResponseEntity<String> updateDisLike(@RequestBody BoardDisLikeVO vo) {//싫어요 누르기 및 취소
+
+			log.info("userId: " + vo.getUserId());
+			log.info("num: " + vo.getNum());
+			
+			String CheckResult = service.checkDisLikeValue(vo);
+			
+			log.info("CheckResult: " + CheckResult);
+			
+			int returnVal = 0;
+			 
+			if(CheckResult == null){ 
+				returnVal = service.registerDisLike(vo);
+				log.info("registerDisLike..." );
+				
+			}else if(CheckResult.equals("pull")){
+				
+				returnVal = service.pushDisLike(vo);//싫어요 누르기
+				log.info("pushDisLike...");
+				
+			}else if(CheckResult.equals("push")){
+				returnVal = service.pullDisLike(vo); //싫어요 취소
+				log.info("pullDisLike...");
+			}
+			
+			log.info("returnVal: " + returnVal);
+			
+			return returnVal == 1 ? new ResponseEntity<>(service.getDisLikeCount(vo.getNum()), HttpStatus.OK)
+					: new ResponseEntity<>(HttpStatus.INTERNAL_SERVER_ERROR);
+		}
 	
 	@GetMapping(value = "/getAttachList",
 		    produces = MediaType.APPLICATION_JSON_UTF8_VALUE)

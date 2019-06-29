@@ -8,7 +8,8 @@ package org.my.service;
 	import org.springframework.stereotype.Service;
 	import org.springframework.transaction.annotation.Transactional;
 	import org.my.domain.BoardAttachVO;
-	import org.my.domain.BoardLikeVO;
+import org.my.domain.BoardDisLikeVO;
+import org.my.domain.BoardLikeVO;
 	import lombok.Setter;
 	import lombok.extern.log4j.Log4j;
 
@@ -111,55 +112,107 @@ public class BoardServiceImpl implements BoardService {
 	
 	@Transactional
 	@Override
-	public int registerLike(BoardLikeVO vo) {//좋아요 컬럼 등록 및 좋아요수 증가
+	public int registerLike(BoardLikeVO vo) {//좋아요 컬럼 등록 및 좋아요 push
 
 		log.info("registerLike...." + vo);
 		
 		mapper.registerLike(vo);
 		
-		log.info("upLike...."+vo.getNum());
+		log.info("pushLike...."+vo.getNum());
 		
-		return mapper.upLike(vo.getNum()); 
+		return mapper.pushLike(vo.getNum()); 
 	}
 	
 	@Transactional
 	@Override
-	public int upLike(BoardLikeVO vo) {//좋아요수 증가
+	public int registerDisLike(BoardDisLikeVO vo) {//싫어요 컬럼 등록 및 싫어요 push
+
+		log.info("registerDisLike...." + vo);
 		
-		log.info("upCheckLike...."+vo);
+		mapper.registerDisLike(vo);
 		
-		mapper.upCheckLike(vo);
+		log.info("pushDisLike...."+vo.getNum());
 		
-		log.info("upLike...."+vo.getNum());
-		
-		return mapper.upLike(vo.getNum()); 
+		return mapper.pushDisLike(vo.getNum()); 
 	}
 	
 	@Transactional
 	@Override
-	public int downLike(BoardLikeVO vo) {//좋아요수 감소
+	public int pushLike(BoardLikeVO vo) {//좋아요 누르기  
 		
-		log.info("downCheckLike...."+vo);
+		log.info("pushLikeValue...."+vo);  
 		
-		mapper.downCheckLike(vo);
+		mapper.pushLikeValue(vo);
 		
-		log.info("downLike...."+vo.getNum());
+		log.info("pushLike...."+vo.getNum());
 		
-		return mapper.downLike(vo.getNum());
+		return mapper.pushLike(vo.getNum()); 
+	}
+	
+	@Transactional
+	@Override
+	public int pullDisLike(BoardDisLikeVO vo) {//싫어요 취소 pull
+		
+		log.info("pulldislikeCheck...."+vo);
+		
+		mapper.pulldislikeCheck(vo); 
+		
+		log.info("pullDisLike...."+vo.getNum());
+		
+		return mapper.pullDisLike(vo.getNum()); 
+	}
+	
+	@Transactional
+	@Override
+	public int pullLike(BoardLikeVO vo) {//좋아요 취소 pull
+		
+		log.info("pullLikeValue...."+vo);
+		
+		mapper.pullLikeValue(vo);
+		
+		log.info("pullLike...."+vo.getNum());
+		
+		return mapper.pullLike(vo.getNum());
+	}
+	
+	@Transactional
+	@Override 
+	public int pushDisLike(BoardDisLikeVO vo) {//싫어요 누르기
+		
+		log.info("pushDislikeValue...."+vo);
+		
+		mapper.pushDislikeValue(vo); 
+		
+		log.info("pushDisLike...."+vo.getNum());
+		
+		return mapper.pushDisLike(vo.getNum());
 	}
 	
 	@Override
-	public String checkLike(BoardLikeVO vo) {
+	public String checkLikeValue(BoardLikeVO vo) {
 		
-		log.info("checkLike");
-		return mapper.checkLike(vo); 
+		log.info("checkLikeValue");
+		return mapper.checkLikeValue(vo); 
+	}
+	
+	@Override
+	public String checkDisLikeValue(BoardDisLikeVO vo) {
+		
+		log.info("checkDisLikeValue"); 
+		return mapper.checkDisLikeValue(vo); 
 	}
 	
 	@Override
 	public String getLikeCount(Long num) {
- 
+  
 		log.info("getLikeCount");
 		return mapper.getLikeCount(num);
+	}
+	@Override
+	public String getDisLikeCount(Long num) {
+ 
+		log.info("getDisLikeCount");
+		return mapper.getDisLikeCount(num);
 	}
 	
 	@Override
