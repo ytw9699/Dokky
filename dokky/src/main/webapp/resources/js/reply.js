@@ -220,7 +220,7 @@ var replyService = (function() {
 
 		$.ajax({
 			type : 'put', 
-			url : '/dokky/board/replyLikeCount', 
+			url : '/dokky/replies/likeCount', 
 			data : JSON.stringify(likeData), 
 			contentType : "application/json; charset=utf-8",
 			success : function(result, status, xhr) {

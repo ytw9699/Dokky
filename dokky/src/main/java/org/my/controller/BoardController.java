@@ -220,38 +220,6 @@ public class BoardController {
 					: new ResponseEntity<>(HttpStatus.INTERNAL_SERVER_ERROR);
 		}
 	
-	@RequestMapping(method = { RequestMethod.PUT,RequestMethod.PATCH },
-			value = "/replyLikeCount", consumes = "application/json", produces = "text/plain; charset=UTF-8")
-		@ResponseBody
-		public ResponseEntity<String> updateLike(@RequestBody ReplyLikeVO vo) {//댓글 좋아요 누르기 및 취소
-
-			log.info("userId: " + vo.getUserId());
-			log.info("reply_num: " + vo.getReply_num());
-			
-			String CheckResult = service.checkReplyLikeValue(vo);
-			
-			log.info("CheckResult: " + CheckResult);
-			
-			int returnVal = 0;
-			
-			if(CheckResult == null){ 
-				returnVal = service.registerReplyLike(vo);
-				log.info("registerReplyLike..." );
-				 
-			}else if(CheckResult.equals("pull")){
-				returnVal = service.pushReplyLike(vo);//댓글 좋아요 누르기
-				log.info("pushReplyLike...");
-				
-			}else if(CheckResult.equals("push")){
-				returnVal = service.pullReplyLike(vo);//댓글 좋아요 취소
-				log.info("pullReplyLike...");
-			}
-			
-			log.info("returnVal: " + returnVal);
-			
-			return returnVal == 1 ? new ResponseEntity<>(service.getReplyLikeCount(vo.getReply_num()), HttpStatus.OK)
-					: new ResponseEntity<>(HttpStatus.INTERNAL_SERVER_ERROR);
-		}
 	
 	@GetMapping(value = "/getAttachList",
 		    produces = MediaType.APPLICATION_JSON_UTF8_VALUE)

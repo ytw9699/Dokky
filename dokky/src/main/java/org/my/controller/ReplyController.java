@@ -1,5 +1,6 @@
 package org.my.controller;
 	import org.my.domain.Criteria;
+	import org.my.domain.ReplyLikeVO;
 	import org.my.domain.ReplyPageDTO;
 	import org.my.domain.ReplyVO;
 	import org.my.service.ReplyService;
@@ -14,6 +15,7 @@ package org.my.controller;
 	import org.springframework.web.bind.annotation.RequestBody;
 	import org.springframework.web.bind.annotation.RequestMapping;
 	import org.springframework.web.bind.annotation.RequestMethod;
+	import org.springframework.web.bind.annotation.ResponseBody;
 	import org.springframework.web.bind.annotation.RestController;
 	import lombok.AllArgsConstructor;
 	import lombok.extern.log4j.Log4j;
@@ -124,6 +126,39 @@ public class ReplyController {
 //	
 //	 return new ResponseEntity<>(service.getList(cri, num), HttpStatus.OK);
 //	 }
+	
+	@RequestMapping(method = { RequestMethod.PUT,RequestMethod.PATCH },
+			value = "/likeCount", consumes = "application/json", produces = "text/plain; charset=UTF-8")
+		@ResponseBody
+		public ResponseEntity<String> updateLike(@RequestBody ReplyLikeVO vo) {//댓글 좋아요 누르기 및 취소
+
+			log.info("userId: " + vo.getUserId());
+			log.info("reply_num: " + vo.getReply_num());
+			
+			String CheckResult = service.checkReplyLikeValue(vo);
+			
+			log.info("CheckResult: " + CheckResult);
+			
+			int returnVal = 0;
+			
+			if(CheckResult == null){ 
+				returnVal = service.registerReplyLike(vo);
+				log.info("registerReplyLike..." );
+				 
+			}else if(CheckResult.equals("pull")){
+				returnVal = service.pushReplyLike(vo);//댓글 좋아요 누르기
+				log.info("pushReplyLike...");
+				
+			}else if(CheckResult.equals("push")){
+				returnVal = service.pullReplyLike(vo);//댓글 좋아요 취소
+				log.info("pullReplyLike...");
+			}
+			
+			log.info("returnVal: " + returnVal);
+			
+			return returnVal == 1 ? new ResponseEntity<>(service.getReplyLikeCount(vo.getReply_num()), HttpStatus.OK)
+					: new ResponseEntity<>(HttpStatus.INTERNAL_SERVER_ERROR);
+		}
 	
 
 }

@@ -53,19 +53,5 @@ public interface BoardMapper {
 
 	public String getDisLikeCount(Long num);
 
-	public String checkReplyLikeValue(ReplyLikeVO vo);
-
-	public int pushReplyLike(Long reply_num);
-
-	public int registerReplyLike(ReplyLikeVO vo);
-
-	public void pushReplyLikeValue(ReplyLikeVO vo);
-
-	public int pullReplyLike(Long reply_num);
-
-	public void pullReplyLikeValue(ReplyLikeVO vo);
-
-	public String getReplyLikeCount(Long reply_num);
-
 
 }

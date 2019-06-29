@@ -4,7 +4,8 @@ package org.my.mapper;
 	
 	import org.apache.ibatis.annotations.Param;
 	import org.my.domain.Criteria;
-	import org.my.domain.ReplyVO;
+import org.my.domain.ReplyLikeVO;
+import org.my.domain.ReplyVO;
 
 public interface ReplyMapper {
 
@@ -21,4 +22,19 @@ public interface ReplyMapper {
 			@Param("num") Long num );
 
 	public int getCountBynum(Long num);
+	
+	public String checkReplyLikeValue(ReplyLikeVO vo);
+
+	public int pushReplyLike(Long reply_num);
+
+	public int registerReplyLike(ReplyLikeVO vo);
+
+	public void pushReplyLikeValue(ReplyLikeVO vo);
+
+	public int pullReplyLike(Long reply_num);
+
+	public void pullReplyLikeValue(ReplyLikeVO vo);
+
+	public String getReplyLikeCount(Long reply_num);
+
 }

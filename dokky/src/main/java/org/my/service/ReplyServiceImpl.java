@@ -1,7 +1,8 @@
 package org.my.service;
 
 	import org.my.domain.Criteria;
-	import org.my.domain.ReplyPageDTO;
+import org.my.domain.ReplyLikeVO;
+import org.my.domain.ReplyPageDTO;
 	import org.my.domain.ReplyVO;
 	import org.my.mapper.BoardMapper;
 	import org.my.mapper.ReplyMapper;
@@ -60,7 +61,7 @@ public class ReplyServiceImpl implements ReplyService {
 
 		log.info("remove...." + reply_num);
 
-		ReplyVO vo = mapper.read(reply_num);
+		ReplyVO vo = mapper.read(reply_num); 
 
 		boardMapper.updateReplyCnt(vo.getNum(), -1);
 		
@@ -75,5 +76,58 @@ public class ReplyServiceImpl implements ReplyService {
 	        mapper.getCountBynum(num), 
 	        mapper.getListWithPaging(cri, num));
 	  }
+	  
+		@Override
+		public String checkReplyLikeValue(ReplyLikeVO vo) { 
+			
+			log.info("checkReplyLikeValue");
+			return mapper.checkReplyLikeValue(vo); 
+		}
+		
+		@Transactional
+		@Override
+		public int registerReplyLike(ReplyLikeVO vo) {//댓글 좋아요 컬럼 등록 및 좋아요 push
+
+			log.info("registerReplyLike...." + vo);
+			
+			mapper.registerReplyLike(vo);
+			
+			log.info("pushReplyLike...."+vo.getReply_num());
+			
+			return mapper.pushReplyLike(vo.getReply_num()); 
+		}
+		
+		@Transactional
+		@Override
+		public int pushReplyLike(ReplyLikeVO vo) {//댓글 좋아요 누르기  
+			
+			log.info("pushLikeValue...."+vo);  
+			
+			mapper.pushReplyLikeValue(vo);
+			
+			log.info("pushReplyLike...."+vo.getReply_num());
+			
+			return mapper.pushReplyLike(vo.getReply_num()); 
+		}
+		
+		@Transactional 
+		@Override
+		public int pullReplyLike(ReplyLikeVO vo) {//댓글  좋아요 취소 pull
+			
+			log.info("pullReplyLikeValue...."+vo);
+			
+			mapper.pullReplyLikeValue(vo);
+			
+			log.info("pullReplyLike...."+vo.getReply_num());
+			
+			return mapper.pullReplyLike(vo.getReply_num());
+		}
+		
+		@Override
+		public String getReplyLikeCount(Long reply_num) {
+	  
+			log.info("getReplyLikeCount");
+			return mapper.getReplyLikeCount(reply_num);
+		}
 }
 

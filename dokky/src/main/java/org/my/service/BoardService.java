@@ -45,15 +45,5 @@ public interface BoardService {
 
 	public String getDisLikeCount(Long num);
 
-	public String checkReplyLikeValue(ReplyLikeVO vo);
-
-	public int registerReplyLike(ReplyLikeVO vo);
-
-	public int pushReplyLike(ReplyLikeVO vo);
-
-	public int pullReplyLike(ReplyLikeVO vo);
-
-	public String getReplyLikeCount(Long reply_num);
-
 	//public void removeAttach(Long num);
 }
