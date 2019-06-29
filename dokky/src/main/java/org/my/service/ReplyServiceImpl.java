@@ -1,6 +1,8 @@
 package org.my.service;
 
-	import org.my.domain.Criteria;
+	import org.my.domain.BoardDisLikeVO;
+import org.my.domain.Criteria;
+import org.my.domain.ReplyDisLikeVO;
 import org.my.domain.ReplyLikeVO;
 import org.my.domain.ReplyPageDTO;
 	import org.my.domain.ReplyVO;
@@ -128,6 +130,59 @@ public class ReplyServiceImpl implements ReplyService {
 	  
 			log.info("getLikeCount");
 			return mapper.getLikeCount(reply_num);
+		}
+		
+		@Transactional
+		@Override
+		public int registerDisLike(ReplyDisLikeVO vo) {//싫어요 컬럼 등록 및 싫어요 push
+
+			log.info("registerDisLike...." + vo);
+			
+			mapper.registerDisLike(vo);
+			
+			log.info("pushDisLike...."+vo.getReply_num());
+			
+			return mapper.pushDisLike(vo.getReply_num()); 
+		}
+		
+		@Transactional
+		@Override
+		public int pullDisLike(ReplyDisLikeVO vo) {//싫어요 취소 pull
+			
+			log.info("pulldislikeCheck...."+vo);
+			
+			mapper.pulldislikeCheck(vo); 
+			
+			log.info("pullDisLike...."+vo.getReply_num());
+			
+			return mapper.pullDisLike(vo.getReply_num()); 
+		}
+		
+		@Transactional
+		@Override 
+		public int pushDisLike(ReplyDisLikeVO vo) {//싫어요 누르기
+			
+			log.info("pushDislikeValue...."+vo);
+			
+			mapper.pushDislikeValue(vo); 
+			
+			log.info("pushDisLike...."+vo.getReply_num());
+			 
+			return mapper.pushDisLike(vo.getReply_num());
+		}
+		
+		@Override
+		public String checkDisLikeValue(ReplyDisLikeVO vo) {
+			
+			log.info("checkDisLikeValue"); 
+			return mapper.checkDisLikeValue(vo); 
+		}
+		
+		@Override
+		public String getDisLikeCount(Long num) {
+	 
+			log.info("getDisLikeCount");
+			return mapper.getDisLikeCount(num);
 		}
 }
 

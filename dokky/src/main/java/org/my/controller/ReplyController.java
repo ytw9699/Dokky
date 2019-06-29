@@ -1,6 +1,8 @@
 package org.my.controller;
-	import org.my.domain.Criteria;
-	import org.my.domain.ReplyLikeVO;
+	import org.my.domain.BoardDisLikeVO;
+import org.my.domain.Criteria;
+import org.my.domain.ReplyDisLikeVO;
+import org.my.domain.ReplyLikeVO;
 	import org.my.domain.ReplyPageDTO;
 	import org.my.domain.ReplyVO;
 	import org.my.service.ReplyService;
@@ -160,6 +162,38 @@ public class ReplyController {
 					: new ResponseEntity<>(HttpStatus.INTERNAL_SERVER_ERROR);
 		}
 	
+	@RequestMapping(method = { RequestMethod.PUT,RequestMethod.PATCH },
+			value = "/dislikeCount", consumes = "application/json", produces = "text/plain; charset=UTF-8")
+		@ResponseBody
+		public ResponseEntity<String> updateDisLike(@RequestBody ReplyDisLikeVO vo) {//싫어요 누르기 및 취소
 
+			log.info("userId: " + vo.getUserId());
+			log.info("num: " + vo.getReply_num());
+			
+			String CheckResult = service.checkDisLikeValue(vo);
+			 
+			log.info("CheckResult: " + CheckResult);
+			
+			int returnVal = 0;
+			 
+			if(CheckResult == null){ 
+				returnVal = service.registerDisLike(vo);
+				log.info("registerDisLike..." );
+				
+			}else if(CheckResult.equals("pull")){
+				
+				returnVal = service.pushDisLike(vo);//싫어요 누르기
+				log.info("pushDisLike...");
+				
+			}else if(CheckResult.equals("push")){
+				returnVal = service.pullDisLike(vo); //싫어요 취소
+				log.info("pullDisLike...");
+			}
+			
+			log.info("returnVal: " + returnVal);
+			
+			return returnVal == 1 ? new ResponseEntity<>(service.getDisLikeCount(vo.getReply_num()), HttpStatus.OK)
+					: new ResponseEntity<>(HttpStatus.INTERNAL_SERVER_ERROR);
+		}
 }
 

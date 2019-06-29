@@ -1,6 +1,8 @@
 package org.my.service;
 
-	import org.my.domain.Criteria;
+	import org.my.domain.BoardDisLikeVO;
+import org.my.domain.Criteria;
+import org.my.domain.ReplyDisLikeVO;
 import org.my.domain.ReplyLikeVO;
 import org.my.domain.ReplyPageDTO;
 	import org.my.domain.ReplyVO;
@@ -26,5 +28,15 @@ public interface ReplyService {
 	public int pullLike(ReplyLikeVO vo);
 
 	public String getLikeCount(Long reply_num);
+	
+	public int pullDisLike(ReplyDisLikeVO vo);
+	
+	public int pushDisLike(ReplyDisLikeVO vo);
+	
+	public String checkDisLikeValue(ReplyDisLikeVO vo);
+	
+	public int registerDisLike(ReplyDisLikeVO vo);
+	
+	public String getDisLikeCount(Long num);
 
 }

@@ -300,6 +300,7 @@
 	       } 
 	  	        str += "  좋아요 <span id='replyLikeCount"+reply_nums+"'>"+data.list[i].likeCnt+"</span> "
 				str += " <button data-oper='like' type='button' data-user_id='"+userId+"' data-reply_num='"+reply_nums+"'>좋아요</button>" 
+				str += "  싫어요 <span id='replyDisLikeCount"+reply_nums+"'>"+data.list[i].dislikeCnt+"</span> "
 			       +"<button data-oper='dislike' type='button' data-user_id='"+userId+"' data-reply_num='"+reply_nums+"'>싫어요</button>"
 			       +"<button data-oper='giveMoney' type='button' data-user_id='"+userId+"' data-reply_num='"+reply_nums+"'>기부금</button>"
 	       +"</li>";  
@@ -506,18 +507,24 @@
 		var loginCheck = "로그인후 싫어요를 눌러주세요.";
 		var likeCheck = "자신의 댓글에는 싫어요를 할 수 없습니다.";
 		var user_id = $(this).data("user_id");
+		var reply_num = $(this).data("reply_num");
 		
 		if(checkUser(user_id,loginCheck,null,likeCheck)){
 			return;
 		}
-		alert("싫어요 하였습니다."); 
-		/* var reply_num = $(this).data("reply_num");//앞으로 댓글 싫어요 구현해야함
+		
+		var dislikeData = {reply_num:reply_num,//댓글번호
+						userId:username//접속 아이디
+			};
+	
+		replyService.updateReplyDisLike(dislikeData, function(result){
 		 
-		 replyService.like(reply_num, function(result){
-	   	      //alert(result);
-	   	      showReplyList(pageNum);//삭제후 댓글 페이지 유지하면서 리스트 다시불름 
-	   	  }); 
-		} */
+		var replyDisLikeCount = $("#replyDisLikeCount"+reply_num);
+			replyDisLikeCount.html(result);
+			//console.log(result); 
+ 	 });
+	//추후 좋아요를 눌르면 이미지변경까지 취소하면 이미지변경 추가해보자
+	
 	});//4. 댓글 싫어요 버튼 이벤트 설치
 	
 	$(".replyList").on("click",'button[data-oper="giveMoney"]', function(event){//4. 댓글 기부금 버튼 이벤트 설치

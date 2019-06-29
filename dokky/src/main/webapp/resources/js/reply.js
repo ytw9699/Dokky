@@ -214,7 +214,7 @@ var replyService = (function() {
 		});
 	}
 	
-	function updateReplyLike(likeData, callback, error) {//좋아요 업데이트
+	function updateReplyLike(likeData, callback, error) {//댓글 좋아요 업데이트
 
 		console.log("likeData: " + likeData.num);
 
@@ -222,6 +222,28 @@ var replyService = (function() {
 			type : 'put', 
 			url : '/dokky/replies/likeCount', 
 			data : JSON.stringify(likeData), 
+			contentType : "application/json; charset=utf-8",
+			success : function(result, status, xhr) {
+				if (callback) {
+					callback(result);
+				}
+			},
+			error : function(xhr, status, er) {
+				if (error) {
+					error(er);
+				}
+			}
+		});
+	}
+	
+	function updateReplyDisLike(dislikeData, callback, error) {//싫어요 업데이트
+
+		console.log("dislikeData: " + dislikeData.num);
+
+		$.ajax({
+			type : 'put', 
+			url : '/dokky/replies/dislikeCount',  
+			data : JSON.stringify(dislikeData), 
 			contentType : "application/json; charset=utf-8",
 			success : function(result, status, xhr) {
 				if (callback) {
@@ -245,8 +267,8 @@ var replyService = (function() {
 		displayTime : displayTime,
 		updateLike : updateLike,
 		updateDisLike : updateDisLike,
-		updateReplyLike : updateReplyLike
-		
+		updateReplyLike : updateReplyLike,
+		updateReplyDisLike : updateReplyDisLike
 	};
 
 })();

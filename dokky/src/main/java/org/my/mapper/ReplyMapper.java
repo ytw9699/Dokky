@@ -3,7 +3,9 @@ package org.my.mapper;
 	import java.util.List;
 	
 	import org.apache.ibatis.annotations.Param;
-	import org.my.domain.Criteria;
+import org.my.domain.BoardDisLikeVO;
+import org.my.domain.Criteria;
+import org.my.domain.ReplyDisLikeVO;
 import org.my.domain.ReplyLikeVO;
 import org.my.domain.ReplyVO;
 
@@ -31,10 +33,23 @@ public interface ReplyMapper {
 
 	public void pushLikeValue(ReplyLikeVO vo);
 
-	public int pullLike(Long reply_num);
+	public int pullLike(Long reply_num); 
 
 	public void pullLikeValue(ReplyLikeVO vo);
 
 	public String getLikeCount(Long reply_num);
-
+	
+	public int pullDisLike(Long num);
+	
+	public int pushDisLike(Long num);
+	
+	public String checkDisLikeValue(ReplyDisLikeVO vo);
+	
+	public int registerDisLike(ReplyDisLikeVO vo);
+	
+	public void pulldislikeCheck(ReplyDisLikeVO vo);
+	
+	public void pushDislikeValue(ReplyDisLikeVO vo);
+	
+	public String getDisLikeCount(Long num);
 }
