@@ -8,7 +8,7 @@ create table DK_BOARD (
   NICKNAME varchar2(50) not null,
   userId varchar2(50) not null,
   CONTENT varchar2(4000) not null,
-  STATUS varchar2(50) default '정상',
+  BLIND varchar2(50) default '미적용',
   REGDATE date default sysdate, 
   UPDATEDATE date default sysdate,
   likeCnt number(10,0) default 0,
@@ -129,6 +129,7 @@ EX) INSERT INTO TB_BOARD_TEMP (NUM, TITLE, CONTENTS) SELECT NUM, TITLE, CONTENTS
 ALTER TABLE DK_BOARD ADD userId VARCHAR2(50) NOT NULL;
 컬럼 이름 변경
 ALTER TABLE dk_board RENAME COLUMN down TO dislikeCnt;
+ALTER TABLE dk_board RENAME COLUMN STATUS TO BLIND;
 -----------------------------------------------------
 8.게시글 좋아요 테이블
 create table dk_board_like (

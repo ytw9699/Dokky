@@ -12,7 +12,7 @@ public class BoardVO {
 	  private String nickName;
 	  private String userId;
 	  private String content;
-	  private String status;
+	  private String blind;
 	  private Date regDate;
 	  private Date updateDate;
 	  private int likeCnt;
