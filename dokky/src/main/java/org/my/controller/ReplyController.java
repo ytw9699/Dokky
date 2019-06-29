@@ -135,28 +135,28 @@ public class ReplyController {
 			log.info("userId: " + vo.getUserId());
 			log.info("reply_num: " + vo.getReply_num());
 			
-			String CheckResult = service.checkReplyLikeValue(vo);
+			String CheckResult = service.checkLikeValue(vo);
 			
 			log.info("CheckResult: " + CheckResult);
 			
 			int returnVal = 0;
 			
 			if(CheckResult == null){ 
-				returnVal = service.registerReplyLike(vo);
-				log.info("registerReplyLike..." );
+				returnVal = service.registerLike(vo);
+				log.info("registerLike..." );
 				 
 			}else if(CheckResult.equals("pull")){
-				returnVal = service.pushReplyLike(vo);//댓글 좋아요 누르기
-				log.info("pushReplyLike...");
+				returnVal = service.pushLike(vo);//댓글 좋아요 누르기
+				log.info("pushLike...");
 				
 			}else if(CheckResult.equals("push")){
-				returnVal = service.pullReplyLike(vo);//댓글 좋아요 취소
-				log.info("pullReplyLike...");
+				returnVal = service.pullLike(vo);//댓글 좋아요 취소
+				log.info("pullLike...");
 			}
 			
 			log.info("returnVal: " + returnVal);
 			
-			return returnVal == 1 ? new ResponseEntity<>(service.getReplyLikeCount(vo.getReply_num()), HttpStatus.OK)
+			return returnVal == 1 ? new ResponseEntity<>(service.getLikeCount(vo.getReply_num()), HttpStatus.OK)
 					: new ResponseEntity<>(HttpStatus.INTERNAL_SERVER_ERROR);
 		}
 	

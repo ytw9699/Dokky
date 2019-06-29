@@ -44,38 +44,38 @@
 	</select>
 	
 	<!-- 댓글 좋아요 값 체크 -->	
-	<select id="checkReplyLikeValue" resultType="String">
+	<select id="checkLikeValue" resultType="String">
 		select likeValue from dk_reply_like where userId = #{userId} and reply_num = #{reply_num}
 	</select>
 	
 	<!-- 댓글 좋아요 누르기 -->
-	<update id="pushReplyLike">
+	<update id="pushLike">
 		update DK_REPLY set likeCnt = likeCnt + 1 where reply_num = #{reply_num}
 	</update>
 	
 	<!-- 댓글 좋아요 컬럼 등록 -->
-	<insert id="registerReplyLike">
+	<insert id="registerLike">
 		insert into dk_reply_like (userId, reply_num, likeValue)
 		values (#{userId},#{reply_num},'push')
 	</insert>
 	
 	<!-- 댓글 좋아요 체크값을 push로 변경 -->
-	<update id="pushReplyLikeValue">
+	<update id="pushLikeValue">
 		update dk_reply_like set likeValue = 'push' where userId = #{userId} and reply_num = #{reply_num}
 	</update>
 
 	<!-- 댓글 좋아요 취소  -->
-	<update id="pullReplyLike">
+	<update id="pullLike">
 		update DK_REPLY set likeCnt = likeCnt - 1 where reply_num = #{reply_num}
 	</update>
 	
 	<!-- 댓글 좋아요 체크값을 pull로 변경 -->
-	<update id="pullReplyLikeValue">
+	<update id="pullLikeValue">
 		update dk_reply_like set likeValue = 'pull' where userId = #{userId} and reply_num = #{reply_num}
 	</update>
 	
 	<!-- 댓글  좋아요 카운트 가져오기 -->
-	<select id="getReplyLikeCount" resultType="String">
+	<select id="getLikeCount" resultType="String">
 		select likeCnt from DK_REPLY where reply_num = #{reply_num}
 	</select>
 

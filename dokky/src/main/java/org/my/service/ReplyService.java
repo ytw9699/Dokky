@@ -17,14 +17,14 @@ public interface ReplyService {
 	
 	public ReplyPageDTO getListPage(Criteria cri, Long num);
 	
-	public String checkReplyLikeValue(ReplyLikeVO vo);
+	public String checkLikeValue(ReplyLikeVO vo);
 
-	public int registerReplyLike(ReplyLikeVO vo);
+	public int registerLike(ReplyLikeVO vo);
 
-	public int pushReplyLike(ReplyLikeVO vo);
+	public int pushLike(ReplyLikeVO vo);
 
-	public int pullReplyLike(ReplyLikeVO vo);
+	public int pullLike(ReplyLikeVO vo);
 
-	public String getReplyLikeCount(Long reply_num);
+	public String getLikeCount(Long reply_num);
 
 }

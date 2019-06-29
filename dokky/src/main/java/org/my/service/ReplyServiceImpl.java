@@ -78,56 +78,56 @@ public class ReplyServiceImpl implements ReplyService {
 	  }
 	  
 		@Override
-		public String checkReplyLikeValue(ReplyLikeVO vo) { 
+		public String checkLikeValue(ReplyLikeVO vo) { 
 			
-			log.info("checkReplyLikeValue");
-			return mapper.checkReplyLikeValue(vo); 
+			log.info("checkLikeValue");
+			return mapper.checkLikeValue(vo); 
 		}
 		
 		@Transactional
 		@Override
-		public int registerReplyLike(ReplyLikeVO vo) {//댓글 좋아요 컬럼 등록 및 좋아요 push
+		public int registerLike(ReplyLikeVO vo) {//댓글 좋아요 컬럼 등록 및 좋아요 push
 
-			log.info("registerReplyLike...." + vo);
+			log.info("registerLike...." + vo);
 			
-			mapper.registerReplyLike(vo);
+			mapper.registerLike(vo); 
 			
-			log.info("pushReplyLike...."+vo.getReply_num());
+			log.info("pushLike...."+vo.getReply_num());
 			
-			return mapper.pushReplyLike(vo.getReply_num()); 
+			return mapper.pushLike(vo.getReply_num()); 
 		}
 		
 		@Transactional
 		@Override
-		public int pushReplyLike(ReplyLikeVO vo) {//댓글 좋아요 누르기  
+		public int pushLike(ReplyLikeVO vo) {//댓글 좋아요 누르기  
 			
 			log.info("pushLikeValue...."+vo);  
 			
-			mapper.pushReplyLikeValue(vo);
+			mapper.pushLikeValue(vo);
 			
-			log.info("pushReplyLike...."+vo.getReply_num());
+			log.info("pushLike...."+vo.getReply_num());
 			
-			return mapper.pushReplyLike(vo.getReply_num()); 
+			return mapper.pushLike(vo.getReply_num()); 
 		}
 		
 		@Transactional 
 		@Override
-		public int pullReplyLike(ReplyLikeVO vo) {//댓글  좋아요 취소 pull
+		public int pullLike(ReplyLikeVO vo) {//댓글  좋아요 취소 pull
 			
-			log.info("pullReplyLikeValue...."+vo);
+			log.info("pullLikeValue...."+vo);
 			
-			mapper.pullReplyLikeValue(vo);
+			mapper.pullLikeValue(vo);
 			
-			log.info("pullReplyLike...."+vo.getReply_num());
+			log.info("pullLike...."+vo.getReply_num());
 			
-			return mapper.pullReplyLike(vo.getReply_num());
+			return mapper.pullLike(vo.getReply_num());
 		}
 		
 		@Override
-		public String getReplyLikeCount(Long reply_num) {
+		public String getLikeCount(Long reply_num) {
 	  
-			log.info("getReplyLikeCount");
-			return mapper.getReplyLikeCount(reply_num);
+			log.info("getLikeCount");
+			return mapper.getLikeCount(reply_num);
 		}
 }
 

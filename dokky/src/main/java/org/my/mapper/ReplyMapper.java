@@ -23,18 +23,18 @@ public interface ReplyMapper {
 
 	public int getCountBynum(Long num);
 	
-	public String checkReplyLikeValue(ReplyLikeVO vo);
+	public String checkLikeValue(ReplyLikeVO vo);
 
-	public int pushReplyLike(Long reply_num);
+	public int pushLike(Long reply_num);
 
-	public int registerReplyLike(ReplyLikeVO vo);
+	public int registerLike(ReplyLikeVO vo);
 
-	public void pushReplyLikeValue(ReplyLikeVO vo);
+	public void pushLikeValue(ReplyLikeVO vo);
 
-	public int pullReplyLike(Long reply_num);
+	public int pullLike(Long reply_num);
 
-	public void pullReplyLikeValue(ReplyLikeVO vo);
+	public void pullLikeValue(ReplyLikeVO vo);
 
-	public String getReplyLikeCount(Long reply_num);
+	public String getLikeCount(Long reply_num);
 
 }
