@@ -2,7 +2,8 @@ package org.my.service;
 	import java.util.List;
 	import org.my.domain.BoardVO;
 	import org.my.domain.Criteria;
-	import org.my.domain.BoardAttachVO;
+import org.my.domain.ReplyLikeVO;
+import org.my.domain.BoardAttachVO;
 import org.my.domain.BoardDisLikeVO;
 import org.my.domain.BoardLikeVO;
 
@@ -43,6 +44,16 @@ public interface BoardService {
 	public String getLikeCount(Long num);
 
 	public String getDisLikeCount(Long num);
+
+	public String checkReplyLikeValue(ReplyLikeVO vo);
+
+	public int registerReplyLike(ReplyLikeVO vo);
+
+	public int pushReplyLike(ReplyLikeVO vo);
+
+	public int pullReplyLike(ReplyLikeVO vo);
+
+	public String getReplyLikeCount(Long reply_num);
 
 	//public void removeAttach(Long num);
 }

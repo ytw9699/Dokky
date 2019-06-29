@@ -214,6 +214,28 @@ var replyService = (function() {
 		});
 	}
 	
+	function updateReplyLike(likeData, callback, error) {//좋아요 업데이트
+
+		console.log("likeData: " + likeData.num);
+
+		$.ajax({
+			type : 'put', 
+			url : '/dokky/board/replyLikeCount', 
+			data : JSON.stringify(likeData), 
+			contentType : "application/json; charset=utf-8",
+			success : function(result, status, xhr) {
+				if (callback) {
+					callback(result);
+				}
+			},
+			error : function(xhr, status, er) {
+				if (error) {
+					error(er);
+				}
+			}
+		});
+	}
+	
 	return {
 		add : add,
 		get : get,
@@ -222,7 +244,9 @@ var replyService = (function() {
 		update : update,
 		displayTime : displayTime,
 		updateLike : updateLike,
-		updateDisLike : updateDisLike
+		updateDisLike : updateDisLike,
+		updateReplyLike : updateReplyLike
+		
 	};
 
 })();

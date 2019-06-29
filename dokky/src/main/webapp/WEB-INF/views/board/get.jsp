@@ -293,11 +293,13 @@
 	       +" " + nickName
 	       +" " + data.list[i].reply_content
 	       +" "+replyService.displayTime(data.list[i].replyDate)
+	       +" "
 	       if(username == userId){
 			 str += "<button data-oper='modify' type='button' data-user_id='"+userId+"' data-reply_num='"+reply_nums+"'>수정</button>"
 		       +"<button data-oper='delete' type='button' data-user_id='"+userId+"' data-reply_num='"+reply_nums+"'>삭제</button>"
 	       } 
-				str += "<button data-oper='like' type='button' data-user_id='"+userId+"' data-reply_num='"+reply_nums+"'>좋아요</button>" 
+	  	        str += "  좋아요 <span id='replyLikeCount"+reply_nums+"'>"+data.list[i].likeCnt+"</span> "
+				str += " <button data-oper='like' type='button' data-user_id='"+userId+"' data-reply_num='"+reply_nums+"'>좋아요</button>" 
 			       +"<button data-oper='dislike' type='button' data-user_id='"+userId+"' data-reply_num='"+reply_nums+"'>싫어요</button>"
 			       +"<button data-oper='giveMoney' type='button' data-user_id='"+userId+"' data-reply_num='"+reply_nums+"'>기부금</button>"
 	       +"</li>";  
@@ -479,19 +481,23 @@
 		var loginCheck = "로그인후 좋아요를 눌러주세요.";
 		var likeCheck = "자신의 댓글에는 좋아요를 할 수 없습니다.";
 		var user_id = $(this).data("user_id");
+		var reply_num = $(this).data("reply_num");
 		
 		if(checkUser(user_id,loginCheck,null,likeCheck)){ 
 			return;
 		}
 		
-		alert("좋아요 하였습니다."); 
-		/* var reply_num = $(this).data("reply_num");//앞으로 댓글 좋아요 구현해야함
+		var likeData = {reply_num:reply_num,//댓글번호
+						userId:username//접속 아이디
+				};
+		
+		replyService.updateReplyLike(likeData, function(result){
 		 
-		 replyService.like(reply_num, function(result){
-	   	      //alert(result);
-	   	      showReplyList(pageNum);//삭제후 댓글 페이지 유지하면서 리스트 다시불름 
-	   	  }); 
-		} */
+		var replyLikeCount = $("#replyLikeCount"+reply_num);
+		replyLikeCount.html(result);
+			//console.log(result); 
+		  });
+		//추후 좋아요를 눌르면 이미지변경까지 취소하면 이미지변경 추가해보자
 	});//3. 댓글 좋아요 버튼 이벤트 설치
 	
 ///////////////////////////////////////////////////////

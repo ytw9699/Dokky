@@ -29,15 +29,15 @@ values (1, seq_dk_board.nextval, '제목1','닉네임1','콘텐트1');
 2.---------------------------------------------------------------------------------------
 
 create table DK_REPLY (
-reply_num number(10,0),
+reply_num number(10,0),--pk
 num number(10,0) not null,
 reply_content varchar2(1000) not null,
 nickName varchar2(50) not null,
 userId varchar2(50) not null,
 replyDate date default sysdate,
 updateDate date default sysdate,
-up number(10,0) default 0,
-down number(10,0) default 0,
+likeCnt number(10,0) default 0,
+dislikeCnt number(10,0) default 0,
 money number(10,0) default 0
 );
 alter table DK_REPLY add constraint pk_reply primary key (reply_num);
@@ -140,7 +140,7 @@ create table dk_board_like (
 
 drop table dk_board_like purge
 -----------------------------------------------------
-8.게시글 싫어요 테이블
+9.게시글 싫어요 테이블
 create table dk_board_dislike (
 	 userId varchar2(50) not null,
      num number(10,0) not null,
@@ -149,4 +149,24 @@ create table dk_board_dislike (
 );
 
 drop table dk_board_dislike purge
+-----------------------------------------------------
+10.댓글 좋아요 테이블
+create table dk_reply_like (
+	 userId varchar2(50) not null,
+     reply_num number(10,0) not null,
+     likeValue varchar2(50) not null,--좋아요 눌르면 push,다시 눌르면 pull
+     constraint fk_reply_like foreign key(reply_num) references DK_REPLY(reply_num) on delete cascade
+);
 
+drop table dk_reply_like purge
+
+-----------------------------------------------------
+11.댓글 싫어요 테이블
+create table dk_reply_dislike (
+	 userId varchar2(50) not null,
+     reply_num number(10,0) not null,
+     dislikeValue varchar2(50) not null,--싫어요 눌르면 push,다시 눌르면 pull
+     constraint fk_reply_dislike foreign key(reply_num) references DK_REPLY(reply_num) on delete cascade
+);
+
+drop table dk_reply_dislike purge

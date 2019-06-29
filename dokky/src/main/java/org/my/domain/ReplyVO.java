@@ -13,8 +13,8 @@ public class ReplyVO {
   private String userId;
   private Date replyDate;
   private Date updateDate;
-  private int up;
-  private int down;
+  private int likeCnt;
+  private int dislikeCnt;
   private int money;
 
 	  

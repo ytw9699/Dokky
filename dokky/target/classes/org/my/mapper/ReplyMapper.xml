@@ -24,11 +24,11 @@
 
 	<select id="getListWithPaging" resultType="org.my.domain.ReplyVO">
 	  <![CDATA[
-		 select reply_num, num, reply_content, nickName, userId, replydate, updatedate
+		 select reply_num, num, reply_content, nickName, userId, replydate, updatedate, likeCnt ,dislikeCnt
 		 from 
 		   (
 		    select /*+INDEX(DK_REPLY idx_reply) */ 
-		      rownum rn, reply_num, num, reply_content, nickName, userId, replydate, updatedate
+		      rownum rn, reply_num, num, reply_content, nickName, userId, replydate, updatedate, likeCnt ,dislikeCnt
 		    from DK_REPLY
 		    where num = #{num}
 		    and reply_num > 0

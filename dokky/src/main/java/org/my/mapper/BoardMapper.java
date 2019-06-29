@@ -5,6 +5,7 @@ import org.my.domain.BoardDisLikeVO;
 import org.my.domain.BoardLikeVO;
 import org.my.domain.BoardVO;
 	import org.my.domain.Criteria;
+import org.my.domain.ReplyLikeVO;
 
 public interface BoardMapper {
 
@@ -51,6 +52,20 @@ public interface BoardMapper {
 	public String getLikeCount(Long num);
 
 	public String getDisLikeCount(Long num);
+
+	public String checkReplyLikeValue(ReplyLikeVO vo);
+
+	public int pushReplyLike(Long reply_num);
+
+	public int registerReplyLike(ReplyLikeVO vo);
+
+	public void pushReplyLikeValue(ReplyLikeVO vo);
+
+	public int pullReplyLike(Long reply_num);
+
+	public void pullReplyLikeValue(ReplyLikeVO vo);
+
+	public String getReplyLikeCount(Long reply_num);
 
 
 }

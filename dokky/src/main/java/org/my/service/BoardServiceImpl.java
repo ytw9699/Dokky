@@ -2,7 +2,8 @@ package org.my.service;
 	import java.util.List;
 	import org.my.domain.BoardVO;
 	import org.my.domain.Criteria;
-	import org.my.mapper.BoardAttachMapper;
+import org.my.domain.ReplyLikeVO;
+import org.my.mapper.BoardAttachMapper;
 	import org.my.mapper.BoardMapper;
 	import org.springframework.beans.factory.annotation.Autowired;
 	import org.springframework.stereotype.Service;
@@ -110,6 +111,22 @@ public class BoardServiceImpl implements BoardService {
 		return mapper.getTotalCount(cri);
 	}
 	
+	@Override
+	public List<BoardAttachVO> getAttachList(Long num) {
+
+		log.info("get Attach list by num" + num);
+
+		return attachMapper.findByNum(num);
+	}
+	
+	/*@Override
+	public void removeAttach(Long num) {
+
+		log.info("remove all attach files");
+
+		attachMapper.deleteAll(num);
+	}*/
+	
 	@Transactional
 	@Override
 	public int registerLike(BoardLikeVO vo) {//좋아요 컬럼 등록 및 좋아요 push
@@ -184,7 +201,7 @@ public class BoardServiceImpl implements BoardService {
 		mapper.pushDislikeValue(vo); 
 		
 		log.info("pushDisLike...."+vo.getNum());
-		
+		 
 		return mapper.pushDisLike(vo.getNum());
 	}
 	
@@ -216,18 +233,60 @@ public class BoardServiceImpl implements BoardService {
 	}
 	
 	@Override
-	public List<BoardAttachVO> getAttachList(Long num) {
-
-		log.info("get Attach list by num" + num);
-
-		return attachMapper.findByNum(num);
+	public String checkReplyLikeValue(ReplyLikeVO vo) { 
+		
+		log.info("checkReplyLikeValue");
+		return mapper.checkReplyLikeValue(vo); 
 	}
+	
+	@Transactional
+	@Override
+	public int registerReplyLike(ReplyLikeVO vo) {//댓글 좋아요 컬럼 등록 및 좋아요 push
 
-	/*@Override
-	public void removeAttach(Long num) {
-
-		log.info("remove all attach files");
-
-		attachMapper.deleteAll(num);
-	}*/
+		log.info("registerReplyLike...." + vo);
+		
+		mapper.registerReplyLike(vo);
+		
+		log.info("pushReplyLike...."+vo.getReply_num());
+		
+		return mapper.pushReplyLike(vo.getReply_num()); 
+	}
+	
+	@Transactional
+	@Override
+	public int pushReplyLike(ReplyLikeVO vo) {//댓글 좋아요 누르기  
+		
+		log.info("pushLikeValue...."+vo);  
+		
+		mapper.pushReplyLikeValue(vo);
+		
+		log.info("pushReplyLike...."+vo.getReply_num());
+		
+		return mapper.pushReplyLike(vo.getReply_num()); 
+	}
+	
+	@Transactional 
+	@Override
+	public int pullReplyLike(ReplyLikeVO vo) {//댓글  좋아요 취소 pull
+		
+		log.info("pullReplyLikeValue...."+vo);
+		
+		mapper.pullReplyLikeValue(vo);
+		
+		log.info("pullReplyLike...."+vo.getReply_num());
+		
+		return mapper.pullReplyLike(vo.getReply_num());
+	}
+	
+	@Override
+	public String getReplyLikeCount(Long reply_num) {
+  
+		log.info("getReplyLikeCount");
+		return mapper.getReplyLikeCount(reply_num);
+	}
+	
+	
+	
+	
+	
 }
