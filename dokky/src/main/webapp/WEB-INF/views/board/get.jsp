@@ -698,7 +698,7 @@
 		
 		replyService.getUserCash(username, function(result){
 			
-			donateModal.find("input[name='myCash']").val(result);
+			donateModal.find("input[name='myCash']").val(parseInt(result));
 			
 			donateBackGround.css("display","block");
 			donateModal.css("display","block");
@@ -718,7 +718,7 @@
    			console.log(inputMoney);
    			console.log(myCash < inputMoney);
    			
-   			if(parseInt(myCash) < parseInt(inputMoney)){
+   			if(myCash < inputMoney){
 				alert("기부할수 있는 금액이 부족합니다.");
 				donateBackGround.css("display","none");
 				donateModal.css("display","none");
@@ -737,7 +737,7 @@
    				console.log("게시판변경금액");
 				console.log(result);    				
    				var boardMoney = $("#boardMoney");
-   			   	boardMoney.html(result);
+   			   	boardMoney.html(parseInt(result));
    			   	//console.log(result); 
    			   	donateBackGround.css("display","none");
 				donateModal.css("display","none");
