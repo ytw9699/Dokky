@@ -258,6 +258,43 @@ var replyService = (function() {
 		});
 	}
 	
+	function updateDonation(donateData, callback, error) {//기부하기
+		
+		console.log("donateData: " + donateData.num);
+
+		$.ajax({
+			type : 'put', 
+			url : '/dokky/board/donateMoney',  
+			data : JSON.stringify(donateData), 
+			contentType : "application/json; charset=utf-8",
+			success : function(result, status, xhr) {
+				if (callback) {
+					callback(result);
+				}
+			},
+			error : function(xhr, status, er) {
+				if (error) {
+					error(er);
+				}
+			}
+		});
+	}
+	
+	function getUserCash(username, callback, error) {
+
+		$.get("/dokky/board/usercash/" + username, function(result) {
+
+			if (callback) {
+				callback(result);
+			}
+
+		}).fail(function(xhr, status, err) {
+			if (error) {
+				error();
+			}
+		});
+	}
+	
 	return {
 		add : add,
 		get : get,
@@ -268,7 +305,9 @@ var replyService = (function() {
 		updateLike : updateLike,
 		updateDisLike : updateDisLike,
 		updateReplyLike : updateReplyLike,
-		updateReplyDisLike : updateReplyDisLike
+		updateReplyDisLike : updateReplyDisLike,
+		getUserCash : getUserCash,
+		updateDonation : updateDonation
 	};
 
 })();

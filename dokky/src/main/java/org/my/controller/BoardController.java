@@ -6,9 +6,10 @@ package org.my.controller;
 	import org.my.domain.BoardVO;
 	import org.my.domain.Criteria;
 	import org.my.domain.PageDTO;
-import org.my.domain.ReplyLikeVO;
-import org.my.domain.ReplyVO;
-import org.my.service.BoardService;
+	import org.my.domain.ReplyLikeVO;
+	import org.my.domain.ReplyVO;
+	import org.my.domain.donateVO;
+	import org.my.service.BoardService;
 	import org.springframework.http.HttpStatus;
 	import org.springframework.http.MediaType;
 	import org.springframework.http.ResponseEntity;
@@ -26,10 +27,9 @@ import org.my.service.BoardService;
 	import org.springframework.web.bind.annotation.ResponseBody;
 	import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 	import org.my.domain.BoardAttachVO;
-import org.my.domain.BoardDisLikeVO;
-import org.my.domain.BoardLikeVO;
-
-import lombok.AllArgsConstructor;
+	import org.my.domain.BoardDisLikeVO;
+	import org.my.domain.BoardLikeVO;
+	import lombok.AllArgsConstructor;
 	import lombok.extern.log4j.Log4j;
 
 @Controller
@@ -218,6 +218,36 @@ public class BoardController {
 			
 			return returnVal == 1 ? new ResponseEntity<>(service.getDisLikeCount(vo.getNum()), HttpStatus.OK)
 					: new ResponseEntity<>(HttpStatus.INTERNAL_SERVER_ERROR);
+		}
+	
+	@GetMapping(value = "/usercash/{username}", produces = "text/plain; charset=UTF-8")
+	@ResponseBody
+	public ResponseEntity<String> usermoney(@PathVariable("username") String username) {
+		 
+		log.info("username...="+username);
+		
+		String userCash = service.getuserCash(username);
+				
+		log.info("userCash...="+userCash); 
+		
+		return new ResponseEntity<>(userCash, HttpStatus.OK);
+	}
+	
+	@RequestMapping(method = { RequestMethod.PUT,RequestMethod.PATCH },
+			value = "/donateMoney", consumes = "application/json", produces = "text/plain; charset=UTF-8")
+		@ResponseBody
+		public ResponseEntity<String> donateMoney(@RequestBody donateVO vo) {//기부하기
+			
+			log.info("donateVO: " + vo);
+			log.info("userId: " + vo.getUserId());
+			log.info("num: " + vo.getNum());
+			log.info("boardId: " + vo.getBoardId());
+			log.info("money: " + vo.getMoney());
+			log.info("cash: " + vo.getCash());
+			
+			String BoardMoney = service.donateMoney(vo);
+			
+			return new ResponseEntity<>(BoardMoney, HttpStatus.OK);
 		}
 	
 	

@@ -2,15 +2,16 @@ package org.my.service;
 	import java.util.List;
 	import org.my.domain.BoardVO;
 	import org.my.domain.Criteria;
-import org.my.domain.ReplyLikeVO;
-import org.my.mapper.BoardAttachMapper;
+	import org.my.domain.ReplyLikeVO;
+	import org.my.domain.donateVO;
+	import org.my.mapper.BoardAttachMapper;
 	import org.my.mapper.BoardMapper;
 	import org.springframework.beans.factory.annotation.Autowired;
 	import org.springframework.stereotype.Service;
 	import org.springframework.transaction.annotation.Transactional;
 	import org.my.domain.BoardAttachVO;
-import org.my.domain.BoardDisLikeVO;
-import org.my.domain.BoardLikeVO;
+	import org.my.domain.BoardDisLikeVO;
+	import org.my.domain.BoardLikeVO;
 	import lombok.Setter;
 	import lombok.extern.log4j.Log4j;
 
@@ -231,5 +232,31 @@ public class BoardServiceImpl implements BoardService {
 		log.info("getDisLikeCount");
 		return mapper.getDisLikeCount(num);
 	}
+	
+	@Override
+	public String getuserCash(String username) { 
+ 
+		log.info("getUsermoney");
+		
+		return mapper.getuserCash(username);
+	}
+	
+	@Transactional
+	@Override 
+	public String donateMoney(donateVO vo) {
+		
+		log.info("updateMycash");
+		mapper.updateMycash(vo);
+		
+		log.info("updateBoardUserCash");
+		mapper.updateBoardUserCash(vo);
+		
+		log.info("updateBoardMoney");
+		mapper.updateBoardMoney(vo);
+		
+		log.info("getBoardMoney");
+		return mapper.getBoardMoney(vo);
+	}
+	
 	
 }

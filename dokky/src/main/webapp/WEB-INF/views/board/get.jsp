@@ -72,6 +72,73 @@
 	.bigPicture img {
 	  width:600px;
 	}
+	
+	.donateBackGround{
+	 	width: 100%;
+	    height: 100%;
+	    position: fixed;
+	    background: #383838;
+	    top: 0;
+	    left: 0;
+	    opacity: 0.6;
+	    display: none;
+	}
+
+	.donateModal{
+	    width: 30%;
+	    position: fixed;
+	    top: 25%;
+	    left: 33%;
+	    background-color: #fff;
+	    border: 7px solid #5a5e7f;
+	    box-sizing: border-box;
+	    display: none;
+	}
+	span.donaSubject {
+    color: #2a0055;
+    display: block;
+    background-color: #f2f2f4;
+    padding: 10px;
+    font-size: 15px;
+    font-weight: 600;
+	}
+	span.donaText {
+	    display: block;
+	    color: #888;
+	    font-size: 13px;
+	    margin-top: 20px;
+	    margin-bottom: 20px;
+	    margin-left: 16px;
+	}
+	.donateSubmit{
+		border: none;
+	    background-color: #ff7e00;
+	    color: white;
+	    padding: 10px;
+	    font-size: 15px;
+	    margin: 25px auto;
+	    width: 100px;
+	    display: block;
+	}
+	span.mydonaText {
+	    font-size: 15px;
+	}
+	
+	.selectWrap {
+	    width: 50%;
+	    margin: 0 auto;
+	}
+	
+	.donaSelect{
+	    font-size: 15px;
+	    font-weight: 600;
+	    box-sizing: border-box;
+	    padding: 10px;
+	}
+	.modal{
+	display: none;
+	}
+	
 </style>
 </head>
 <body> 
@@ -153,7 +220,7 @@
         
         <div class="form-group">
           <label>기부금</label> <span id="boardMoney"><c:out value="${board.money }"/></span>
-          <button id="giveMoney" data-user_id="${board.userId }">기부</button> 
+          <button id="donateMoney" data-user_id="${board.userId }">기부</button> 
         </div>
         <div class="form-group">
           <label>조회수</label> <c:out value="${board.hitCnt }"/> 
@@ -218,6 +285,23 @@
 	</sec:authorize>
 		
 </div> 
+
+<div class="donateBackGround" id="donateBackGround" onclick="javascript:donateClose();"></div>
+<div class="donateModal" id="donateModal">
+         <input type="hidden" value="" name="board_num"/>
+        <!-- 세션아이디 --> 
+         <span class="donaSubject">기부하기</span>
+         <span class="donaText">* 기부이후 환불은 불가능합니다</span>
+         
+         <div class="selectWrap">
+         	 <span class="mydonaText">남은금액</span>
+         	 <input class="donaSelect" name='myCash' value='' readonly="readonly">
+	         <span class="mydonaText">기부금액</span>
+	         	<input type="text" name='giveCash' value="" class="donaSelect"/>
+         </div>
+         <button id='modalSubmitBtn' type="button" class="donateSubmit">기부</button>
+		 <button id='modalCloseBtn' type="button" class="donateSubmit">취소</button>
+</div>
 <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
 <script type="text/javascript" src="/dokky/resources/js/reply.js"></script> <!--댓글 AJAX통신 -->
 <script>
@@ -302,7 +386,7 @@
 				str += " <button data-oper='like' type='button' data-user_id='"+userId+"' data-reply_num='"+reply_nums+"'>좋아요</button>" 
 				str += "  싫어요 <span id='replyDisLikeCount"+reply_nums+"'>"+data.list[i].dislikeCnt+"</span> "
 			       +"<button data-oper='dislike' type='button' data-user_id='"+userId+"' data-reply_num='"+reply_nums+"'>싫어요</button>"
-			       +"<button data-oper='giveMoney' type='button' data-user_id='"+userId+"' data-reply_num='"+reply_nums+"'>기부금</button>"
+			       +"<button data-oper='donateMoney' type='button' data-user_id='"+userId+"' data-reply_num='"+reply_nums+"'>기부금</button>"
 	       +"</li>";  
 			    /*  str += "<sec:authorize access='isAuthenticated()'>" */
 		       	/*   +"</sec:authorize>"  인증된사람만 보여주기*/
@@ -527,7 +611,7 @@
 	
 	});//4. 댓글 싫어요 버튼 이벤트 설치
 	
-	$(".replyList").on("click",'button[data-oper="giveMoney"]', function(event){//4. 댓글 기부금 버튼 이벤트 설치
+	$(".replyList").on("click",'button[data-oper="donateMoney"]', function(event){//4. 댓글 기부금 버튼 이벤트 설치
 			
 			var loginCheck = "로그인후 기부를 해주세요.";
 			var giveCheck = "자신의 댓글에는 기부를 할 수 없습니다.";
@@ -536,6 +620,9 @@
 			if(checkUser(user_id,loginCheck,null,giveCheck)){
 				return; 
 			}
+			var dislikeData = {reply_num:reply_num,//댓글번호
+					userId:username//접속 아이디
+			};
 			alert("기부 하였습니다."); 
 			
 		});//4. 댓글 기부금 버튼 이벤트 설치
@@ -583,17 +670,88 @@
 	   	    });
 	   	});
 	   	
-   		$("#giveMoney").on("click",function(event){//3. 기부금 버튼 이벤트 설치
+///////////////////////////////////////////////////////이하 기부 관련	
+
+	   	var donateBackGround = $(".donateBackGround");
+		var donateModal = $(".donateModal");
+		
+		function donateClose(){
+   			donateBackGround.css("display","none");
+   			donateModal.css("display","none");
+   		}
+		
+		var donatedId ="";
+		var inputMoney = 0;//기부금액
+		var myCash = 0;//내 캐시
+		
+   		$("#donateMoney").on("click",function(event){//3.기부 모달창 버튼 이벤트 설치
 		
 		var loginCheck = "로그인후 기부를 해주세요.";
-		var giveCheck = "자신에게는 기부를 할 수 없습니다."; 
-		var user_id = $(this).data("user_id");
+		var giveCheck = "자신에게는 기부를 할 수 없습니다.";
+			donatedId = $(this).data("user_id");
+			inputMoney = 0;
+			myCash = 0;
 		
-		if(checkUser(user_id,loginCheck,null,giveCheck)){
-			return; 
+		if(checkUser(donatedId,loginCheck,null,giveCheck)){
+			return;
 		}
-		alert("기부 하였습니다."); 
-	   	});
+		
+		replyService.getUserCash(username, function(result){
+			
+			donateModal.find("input[name='myCash']").val(result);
+			
+			donateBackGround.css("display","block");
+			donateModal.css("display","block");
+			console.log("myCash");
+   			console.log(result); 
+			myCash = result;
+			
+   	    });
+   		});
+   		 
+   		$("#modalSubmitBtn").on("click",function(event){//3-1.기부하기 버튼 이벤트 설치
+   			inputMoney = donateModal.find("input[name='giveCash']").val();
+   				
+   			console.log("myCash - inputMoney");
+   			console.log(myCash - inputMoney);
+   			console.log(myCash);
+   			console.log(inputMoney);
+   			console.log(myCash < inputMoney);
+   			
+   			if(parseInt(myCash) < parseInt(inputMoney)){
+				alert("기부할수 있는 금액이 부족합니다.");
+				donateBackGround.css("display","none");
+				donateModal.css("display","none");
+				return;
+			}
+   			
+   					
+   			var donateData = {num : numValue,//글번호
+							  userId : username,//기부하는 아이디
+							  boardId : donatedId,//기부받는 아이디
+							  money : inputMoney,//기부금액
+							  cash : myCash //내 캐시
+				};
+   		
+   			replyService.updateDonation(donateData, function(result){
+   				console.log("게시판변경금액");
+				console.log(result);    				
+   				var boardMoney = $("#boardMoney");
+   			   	boardMoney.html(result);
+   			   	//console.log(result); 
+   			   	donateBackGround.css("display","none");
+				donateModal.css("display","none");
+				donateModal.find("input").val("");
+   				alert("기부 하였습니다."); 
+   	   	    });
+   			
+   		});
+   		
+   		$("#modalCloseBtn").on("click",function(event){//5.기부하기 취소 버튼 이벤트 설치
+   			donateClose();
+   		});
+		
+   		
 ///////////////////////////////////////////////////////	
 	  
 	 	var pageNum = 1;

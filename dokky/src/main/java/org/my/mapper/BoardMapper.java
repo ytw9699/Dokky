@@ -6,6 +6,7 @@ import org.my.domain.BoardLikeVO;
 import org.my.domain.BoardVO;
 	import org.my.domain.Criteria;
 import org.my.domain.ReplyLikeVO;
+import org.my.domain.donateVO;
 
 public interface BoardMapper {
 
@@ -52,6 +53,18 @@ public interface BoardMapper {
 	public String getLikeCount(Long num);
 
 	public String getDisLikeCount(Long num);
+
+	public String getuserCash(String username); 
+
+	public String donateMoney(donateVO vo);
+
+	public void updateMycash(donateVO vo);
+
+	public void updateBoardUserCash(donateVO vo);
+
+	public void updateBoardMoney(donateVO vo);
+
+	public String getBoardMoney(donateVO vo);
 
 
 }
