@@ -80,6 +80,7 @@ create table dk_member(
       nickName varchar2(100) not null,
       email varchar2(100) not null,
       phoneNum varchar2(50),
+      cash number(10,0) default 0,
       bankName varchar2(50),
       account varchar2(50),
       regDate date default sysdate, 
@@ -127,9 +128,11 @@ EX) INSERT INTO TB_BOARD_TEMP (NUM, TITLE, CONTENTS) SELECT NUM, TITLE, CONTENTS
 7.기타 -----------------------------------------------------
 컬럼추가
 ALTER TABLE DK_BOARD ADD userId VARCHAR2(50) NOT NULL;
+ALTER TABLE DK_member ADD cash number(10,0) default 0;
 컬럼 이름 변경
 ALTER TABLE dk_board RENAME COLUMN down TO dislikeCnt;
-ALTER TABLE dk_board RENAME COLUMN STATUS TO BLIND;
+컬럼 디폴트 값 변경
+ALTER TABLE dk_board MODIFY (BLIND DEFAULT '미적용');
 -----------------------------------------------------
 8.게시글 좋아요 테이블
 create table dk_board_like (
