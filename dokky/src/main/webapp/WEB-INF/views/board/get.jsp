@@ -152,8 +152,8 @@
         </div>
         
         <div class="form-group">
-          <label>기부금</label> <c:out value="${board.money }"/>
-          <button id="giveMoney" data-user_id="${board.userId }">기부금,ajax구현</button> 
+          <label>기부금</label> <span id="boardMoney"><c:out value="${board.money }"/></span>
+          <button id="giveMoney" data-user_id="${board.userId }">기부</button> 
         </div>
         <div class="form-group">
           <label>조회수</label> <c:out value="${board.hitCnt }"/> 
