@@ -1,0 +1,67 @@
+<%@ page language="java" contentType="text/html; charset=UTF-8"
+    pageEncoding="UTF-8"%>
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="UTF-8">
+	<title>마이페이지</title>
+<style>
+	body{
+		background-color: #323639;  
+		}
+	.bodyWrap {
+	    width: 80%; 
+	    display: inline-block;
+	    margin-left: 2%;
+	    margin-top: 1%;
+	    min-height: 500px; 
+	    border-color: #e6e6e6;
+		border-style: solid;
+		background-color: #323639; 
+		color: #e6e6e6;
+	}
+	.ContentWrap{box-sizing: border-box;
+	    padding-top: 48px;
+	    padding-left: 20px;
+	    padding-right: 20px;
+	    width: 95%;
+		min-height: 750px;
+	    margin: 0 auto; 
+ 	}
+	#menuWrap .tab button {
+		background-color: inherit;
+		border: none;
+		outline:none;
+		cursor: pointer;
+		padding: 14px 16px;
+		transition: 0.3s;
+		font-size: 20px;  
+		color: #e6e6e6;
+	}
+	#menuWrap .tab button:hover {
+	background-color: #7b7676;
+	}
+	
+</style>
+</head>
+
+<%@include file="../includes/left.jsp"%>
+
+<body>
+<div class="bodyWrap">	
+	<div class="ContentWrap">
+		<div id="menuWrap">
+			<div class="tab">
+				<button >개인정보 변경</button>
+		        <button >비밀번호 변경</button>
+		        <button >나의 게시글</button>
+		        <button >나의 댓글</button>
+		        <button >스크랩</button>
+		        <button >캐시</button> 
+		     </div>
+		</div>
+	</div>
+</div>
+</body>
+
+</html>
