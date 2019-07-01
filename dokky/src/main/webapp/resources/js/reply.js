@@ -258,7 +258,22 @@ var replyService = (function() {
 		});
 	}
 	
-	function updateDonation(donateData, callback, error) {//기부하기
+	function getUserCash(username, callback, error) {
+
+		$.get("/dokky/board/usercash/" + username, function(result) {
+
+			if (callback) {
+				callback(result);
+			}
+
+		}).fail(function(xhr, status, err) {
+			if (error) {
+				error();
+			}
+		});
+	}
+	
+	function updateDonation(donateData, callback, error) {//게시글 기부하기
 		
 		console.log("donateData: " + donateData.num);
 
@@ -279,21 +294,29 @@ var replyService = (function() {
 			}
 		});
 	}
+		
+	function updateReplyDonation(replyDonateData, callback, error) {//댓글 기부하기
+			
+			console.log("replyDonateData: " + replyDonateData.num);
 	
-	function getUserCash(username, callback, error) {
-
-		$.get("/dokky/board/usercash/" + username, function(result) {
-
-			if (callback) {
-				callback(result);
-			}
-
-		}).fail(function(xhr, status, err) {
-			if (error) {
-				error();
-			}
-		});
-	}
+			$.ajax({
+				type : 'put', 
+				url : '/dokky/replies/replyDonateMoney',  
+				data : JSON.stringify(replyDonateData), 
+				contentType : "application/json; charset=utf-8",
+				success : function(result, status, xhr) {
+					if (callback) {
+						callback(result);
+					}
+				},
+				error : function(xhr, status, er) {
+					if (error) {
+						error(er);
+					}
+				}
+			});
+		}
+		
 	
 	return {
 		add : add,
@@ -307,7 +330,8 @@ var replyService = (function() {
 		updateReplyLike : updateReplyLike,
 		updateReplyDisLike : updateReplyDisLike,
 		getUserCash : getUserCash,
-		updateDonation : updateDonation
+		updateDonation : updateDonation,
+		updateReplyDonation : updateReplyDonation
 	};
 
 })();

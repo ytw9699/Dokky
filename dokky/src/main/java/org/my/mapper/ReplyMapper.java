@@ -8,6 +8,7 @@ import org.my.domain.Criteria;
 import org.my.domain.ReplyDisLikeVO;
 import org.my.domain.ReplyLikeVO;
 import org.my.domain.ReplyVO;
+import org.my.domain.replyDonateVO;
 
 public interface ReplyMapper {
 
@@ -52,4 +53,10 @@ public interface ReplyMapper {
 	public void pushDislikeValue(ReplyDisLikeVO vo);
 	
 	public String getDisLikeCount(Long num);
+
+	public void updateReplyUserCash(replyDonateVO vo);
+
+	public void updateReplyMoney(replyDonateVO vo);
+
+	public String getReplyMoney(replyDonateVO vo);
 }

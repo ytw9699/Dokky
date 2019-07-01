@@ -5,7 +5,9 @@ import org.my.domain.ReplyDisLikeVO;
 import org.my.domain.ReplyLikeVO;
 	import org.my.domain.ReplyPageDTO;
 	import org.my.domain.ReplyVO;
-	import org.my.service.ReplyService;
+import org.my.domain.donateVO;
+import org.my.domain.replyDonateVO;
+import org.my.service.ReplyService;
 	import org.springframework.http.HttpStatus;
 	import org.springframework.http.MediaType;
 	import org.springframework.http.ResponseEntity;
@@ -194,6 +196,18 @@ public class ReplyController {
 			
 			return returnVal == 1 ? new ResponseEntity<>(service.getDisLikeCount(vo.getReply_num()), HttpStatus.OK)
 					: new ResponseEntity<>(HttpStatus.INTERNAL_SERVER_ERROR);
+		}
+	
+		@RequestMapping(method = { RequestMethod.PUT,RequestMethod.PATCH },
+			value = "/replyDonateMoney", consumes = "application/json", produces = "text/plain; charset=UTF-8")
+		@ResponseBody
+		public ResponseEntity<String> replyDonateMoney(@RequestBody replyDonateVO vo) {//기부하기
+			
+			log.info("replyDonateVO: " + vo);
+			
+			String replyMoney = service.replyDonateMoney(vo);
+			
+			return new ResponseEntity<>(replyMoney, HttpStatus.OK);
 		}
 }
 

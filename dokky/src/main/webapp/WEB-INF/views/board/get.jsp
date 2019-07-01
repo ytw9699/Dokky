@@ -384,8 +384,9 @@
 				str += " <button data-oper='like' type='button' data-user_id='"+userId+"' data-reply_num='"+reply_nums+"'>좋아요</button>" 
 				str += "  싫어요 <span id='replyDisLikeCount"+reply_nums+"'>"+data.list[i].dislikeCnt+"</span> "
 			       +"<button data-oper='dislike' type='button' data-user_id='"+userId+"' data-reply_num='"+reply_nums+"'>싫어요</button>"
-			       +"<button data-oper='donateMoney' type='button' data-user_id='"+userId+"' data-reply_num='"+reply_nums+"'>기부금</button>"
-	       +"</li>";  
+			    str += "  기부금 <span id='replyMoney"+reply_nums+"'>"+data.list[i].money+"</span> "
+			       +"<button data-oper='donateMoney' type='button' data-user_id='"+userId+"' data-reply_num='"+reply_nums+"'>기부</button>"
+	       +"</li>";    
 			    /*  str += "<sec:authorize access='isAuthenticated()'>" */
 		       	/*   +"</sec:authorize>"  인증된사람만 보여주기*/
 	     }
@@ -609,22 +610,6 @@
 	
 	});//4. 댓글 싫어요 버튼 이벤트 설치
 	
-	$(".replyList").on("click",'button[data-oper="donateMoney"]', function(event){//4. 댓글 기부금 버튼 이벤트 설치
-			
-			var loginCheck = "로그인후 기부를 해주세요.";
-			var giveCheck = "자신의 댓글에는 기부를 할 수 없습니다.";
-			var user_id = $(this).data("user_id");
-			
-			if(checkUser(user_id,loginCheck,null,giveCheck)){
-				return; 
-			}
-			var dislikeData = {reply_num:reply_num,//댓글번호
-					userId:username//접속 아이디
-			};
-			alert("기부 하였습니다."); 
-			
-		});//4. 댓글 기부금 버튼 이벤트 설치
-		
 		$("#like").on("click",function(event){//3. 좋아요 버튼 이벤트 설치
 			var loginCheck = "로그인후 좋아요를 눌러주세요.";
 			var likeCheck = "자신의 글에는 좋아요를 할 수 없습니다.";
@@ -672,9 +657,12 @@
 
 	   	var donateBackGround = $("#donateBackGround");
 		var donateModal = $("#donateModal");
-		var donatedId ="";
-		var inputMoney = 0;//기부금액
-		var myCash = 0;//내 캐시
+		var donatedId;
+		var inputMoney;//기부금액
+		var myCash;//내 캐시
+		var option;//게시글 기부 or 댓글 기부 선택
+		var reply_num;//댓글 번호
+	
 		
 		function donateModalClose(){//모달창 가리기
    			donateBackGround.css("display","none");
@@ -689,7 +677,33 @@
    			donateModalClose();
    		});
 		
-   		$("#donateMoney").on("click",function(event){//기부 모달폼 열기 버튼 이벤트
+		
+		$(".replyList").on("click",'button[data-oper="donateMoney"]', function(event){//4. 댓글 기부 모달폼 버튼 이벤트
+			
+			var loginCheck = "로그인후 기부를 해주세요.";
+			var giveCheck = "자신의 댓글에는 기부를 할 수 없습니다.";
+				donatedId = $(this).data("user_id");
+				reply_num = $(this).data("reply_num");
+				inputMoney = 0;
+			
+			if(checkUser(donatedId, loginCheck, null, giveCheck)){
+				return;
+			}
+			
+			replyService.getUserCash(username, function(result){//나의 잔여 캐시 가져오기
+				
+				donateModal.find("input[name='myCash']").val(parseInt(result));
+				myCash = parseInt(result);
+				donateBackGround.css("display","block");
+				donateModal.css("display","block");
+				option = 'reply';
+			
+	   	    });
+	   	
+   		});// 댓글 기부 모달폼 버튼 이벤트 끝
+			
+	
+   		$("#donateMoney").on("click",function(event){//게시글 기부 모달폼 열기 버튼 이벤트
 		
 			var loginCheck = "로그인후 기부를 해주세요.";
 			var giveCheck = "자신에게는 기부를 할 수 없습니다.";
@@ -706,12 +720,12 @@
 				myCash = parseInt(result);
 				donateBackGround.css("display","block");
 				donateModal.css("display","block");
-			
+				option = 'board';
 	   	    });
 	   	
    		});//기부 모달폼 열기 버튼 이벤트 끝
    		 
-   		$("#modalSubmitBtn").on("click",function(event){//기부 하기 등록 버튼 이벤트
+   		$("#modalSubmitBtn").on("click",function(event){//게시글 or 댓글 기부 하기 등록 버튼 이벤트
    			
    			inputMoney = donateModal.find("input[name='giveCash']").val();
    		
@@ -720,26 +734,48 @@
 				donateModalClose();
 				return;
 			}
-   					
-   			var donateData = {num 	  : numValue, //글번호
-							  userId  : username, //기부하는 아이디
-							  boardId : donatedId, //기부받는 아이디
-							  money   : inputMoney, //기부금액
-							  cash 	  : myCash //내 캐시
-							 };
-   		
-   			replyService.updateDonation(donateData, function(result){
-				
-   				var boardMoney = $("#boardMoney");
-   			   	boardMoney.html(parseInt(result));
-   			   	
-   				donateModalClose();
-				donateModal.find("input").val("");
-				
-   				alert("기부 하였습니다."); 
-   	   	    });
    			
+   			if(option === 'board'){//게시글 기부시
+   				var donateData = {num 	  : numValue, //글번호
+								  userId  : username, //기부하는 아이디
+								  boardId : donatedId, //기부받는 아이디
+								  money   : inputMoney, //기부금액
+								  cash 	  : myCash //내 캐시
+								 };
+		
+				replyService.updateDonation(donateData, function(result){
+				
+					var boardMoney = $("#boardMoney");
+				   	boardMoney.html(parseInt(result));
+				   	
+					donateModalClose();
+					donateModal.find("input").val("");
+				
+					alert("기부 하였습니다."); 
+		   	    });
+   			}else if(option === 'reply'){//댓글 기부시
+   				
+   				var replyDonateData = {reply_num : reply_num, //댓글번호
+								  userId  	: username, //기부하는 아이디
+								  boardId 	: donatedId, //기부받는 아이디
+								  money   	: inputMoney, //기부금액
+								  cash 	 	 : myCash //내 캐시
+								 };
+				
+				replyService.updateReplyDonation(replyDonateData, function(result){
+				
+					var replyMoney= $("#replyMoney"+reply_num);
+					replyMoney.html(parseInt(result));
+				   	
+					donateModalClose();
+					donateModal.find("input").val("");
+				
+					alert("기부 하였습니다."); 
+		   	    });
+   			}
    		});//기부 하기 등록 버튼 이벤트 끝
+   		
+		
    		
 ///////////////////////////////////////////////////////	이상 기부 관련
 	  

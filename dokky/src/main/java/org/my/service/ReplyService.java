@@ -6,6 +6,7 @@ import org.my.domain.ReplyDisLikeVO;
 import org.my.domain.ReplyLikeVO;
 import org.my.domain.ReplyPageDTO;
 	import org.my.domain.ReplyVO;
+import org.my.domain.replyDonateVO;
 
 public interface ReplyService {
 
@@ -38,5 +39,7 @@ public interface ReplyService {
 	public int registerDisLike(ReplyDisLikeVO vo);
 	
 	public String getDisLikeCount(Long num);
+
+	public String replyDonateMoney(replyDonateVO vo);
 
 }

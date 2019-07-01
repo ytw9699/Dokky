@@ -176,7 +176,7 @@
 	    update dk_board set MONEY = MONEY + #{money} where num = #{num}
 	</update> 
 	
-	<!-- 게시글의 기부금액 가져오기 -->
+	<!-- 게시글의 기부금액 조회하기 -->
 	<select id="getBoardMoney" resultType="String">
 		select money from dk_board where num = #{num}
 	</select>

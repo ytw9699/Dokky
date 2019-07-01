@@ -6,7 +6,9 @@ import org.my.domain.ReplyDisLikeVO;
 import org.my.domain.ReplyLikeVO;
 import org.my.domain.ReplyPageDTO;
 	import org.my.domain.ReplyVO;
-	import org.my.mapper.BoardMapper;
+import org.my.domain.donateVO;
+import org.my.domain.replyDonateVO;
+import org.my.mapper.BoardMapper;
 	import org.my.mapper.ReplyMapper;
 	import org.springframework.beans.factory.annotation.Autowired;
 	import org.springframework.stereotype.Service;
@@ -183,6 +185,23 @@ public class ReplyServiceImpl implements ReplyService {
 	 
 			log.info("getDisLikeCount");
 			return mapper.getDisLikeCount(num);
+		}
+		
+		@Transactional
+		@Override 
+		public String replyDonateMoney(replyDonateVO vo) {
+			
+			log.info("updateMycash");
+			boardMapper.updateMycash(vo.getMoney(),vo.getUserId());
+			 
+			log.info("updateReplyUserCash");
+			mapper.updateReplyUserCash(vo);
+			
+			log.info("updateReplyMoney");
+			mapper.updateReplyMoney(vo);
+			
+			log.info("getReplyMoney");
+			return mapper.getReplyMoney(vo);
 		}
 }
 

@@ -57,9 +57,9 @@ public interface BoardMapper {
 	public String getuserCash(String username); 
 
 	public String donateMoney(donateVO vo);
-
-	public void updateMycash(donateVO vo);
-
+	
+	public void updateMycash(@Param("money") int money, @Param("userId") String userId);
+		
 	public void updateBoardUserCash(donateVO vo);
 
 	public void updateBoardMoney(donateVO vo);

@@ -246,7 +246,7 @@ public class BoardServiceImpl implements BoardService {
 	public String donateMoney(donateVO vo) {
 		
 		log.info("updateMycash");
-		mapper.updateMycash(vo);
+		mapper.updateMycash(vo.getMoney(),vo.getUserId());
 		
 		log.info("updateBoardUserCash");
 		mapper.updateBoardUserCash(vo);
