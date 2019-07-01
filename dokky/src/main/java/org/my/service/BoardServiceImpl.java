@@ -236,7 +236,7 @@ public class BoardServiceImpl implements BoardService {
 	@Override
 	public String getuserCash(String username) { 
  
-		log.info("getUsermoney");
+		log.info("getuserCash");
 		
 		return mapper.getuserCash(username);
 	}

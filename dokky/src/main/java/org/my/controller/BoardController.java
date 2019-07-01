@@ -239,11 +239,6 @@ public class BoardController {
 		public ResponseEntity<String> donateMoney(@RequestBody donateVO vo) {//기부하기
 			
 			log.info("donateVO: " + vo);
-			log.info("userId: " + vo.getUserId());
-			log.info("num: " + vo.getNum());
-			log.info("boardId: " + vo.getBoardId());
-			log.info("money: " + vo.getMoney());
-			log.info("cash: " + vo.getCash());
 			
 			String BoardMoney = service.donateMoney(vo);
 			

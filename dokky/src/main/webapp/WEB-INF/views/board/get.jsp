@@ -73,7 +73,7 @@
 	  width:600px;
 	}
 	
-	.donateBackGround{
+	#donateBackGround{
 	 	width: 100%;
 	    height: 100%;
 	    position: fixed;
@@ -84,7 +84,7 @@
 	    display: none;
 	}
 
-	.donateModal{
+	#donateModal{
 	    width: 30%;
 	    position: fixed;
 	    top: 25%;
@@ -286,10 +286,8 @@
 		
 </div> 
 
-<div class="donateBackGround" id="donateBackGround" onclick="javascript:donateClose();"></div>
-<div class="donateModal" id="donateModal">
-         <input type="hidden" value="" name="board_num"/>
-        <!-- 세션아이디 --> 
+<div id="donateBackGround"></div>
+<div id="donateModal">
          <span class="donaSubject">기부하기</span>
          <span class="donaText">* 기부이후 환불은 불가능합니다</span>
          
@@ -672,87 +670,78 @@
 	   	
 ///////////////////////////////////////////////////////이하 기부 관련	
 
-	   	var donateBackGround = $(".donateBackGround");
-		var donateModal = $(".donateModal");
-		
-		function donateClose(){
-   			donateBackGround.css("display","none");
-   			donateModal.css("display","none");
-   		}
-		
+	   	var donateBackGround = $("#donateBackGround");
+		var donateModal = $("#donateModal");
 		var donatedId ="";
 		var inputMoney = 0;//기부금액
 		var myCash = 0;//내 캐시
 		
-   		$("#donateMoney").on("click",function(event){//3.기부 모달창 버튼 이벤트 설치
+		function donateModalClose(){//모달창 가리기
+   			donateBackGround.css("display","none");
+   			donateModal.css("display","none"); 
+   		}
 		
-		var loginCheck = "로그인후 기부를 해주세요.";
-		var giveCheck = "자신에게는 기부를 할 수 없습니다.";
-			donatedId = $(this).data("user_id");
-			inputMoney = 0;
-			myCash = 0;
+		donateBackGround.on("click",function(){//모달창 취소 이벤트
+			donateModalClose();
+		});
 		
-		if(checkUser(donatedId,loginCheck,null,giveCheck)){
-			return;
-		}
-		
-		replyService.getUserCash(username, function(result){
-			
-			donateModal.find("input[name='myCash']").val(parseInt(result));
-			
-			donateBackGround.css("display","block");
-			donateModal.css("display","block");
-			console.log("myCash");
-   			console.log(result); 
-			myCash = result;
-			
-   	    });
+		$("#modalCloseBtn").on("click",function(event){//모달창 취소 이벤트
+   			donateModalClose();
    		});
-   		 
-   		$("#modalSubmitBtn").on("click",function(event){//3-1.기부하기 버튼 이벤트 설치
-   			inputMoney = donateModal.find("input[name='giveCash']").val();
-   				
-   			console.log("myCash - inputMoney");
-   			console.log(myCash - inputMoney);
-   			console.log(myCash);
-   			console.log(inputMoney);
-   			console.log(myCash < inputMoney);
-   			
-   			if(myCash < inputMoney){
-				alert("기부할수 있는 금액이 부족합니다.");
-				donateBackGround.css("display","none");
-				donateModal.css("display","none");
+		
+   		$("#donateMoney").on("click",function(event){//기부 모달폼 열기 버튼 이벤트
+		
+			var loginCheck = "로그인후 기부를 해주세요.";
+			var giveCheck = "자신에게는 기부를 할 수 없습니다.";
+				donatedId = $(this).data("user_id");
+				inputMoney = 0;
+		
+			if(checkUser(donatedId, loginCheck, null, giveCheck)){
 				return;
 			}
+		
+			replyService.getUserCash(username, function(result){//나의 잔여 캐시 가져오기
+				
+				donateModal.find("input[name='myCash']").val(parseInt(result));
+				myCash = parseInt(result);
+				donateBackGround.css("display","block");
+				donateModal.css("display","block");
+			
+	   	    });
+	   	
+   		});//기부 모달폼 열기 버튼 이벤트 끝
+   		 
+   		$("#modalSubmitBtn").on("click",function(event){//기부 하기 등록 버튼 이벤트
    			
+   			inputMoney = donateModal.find("input[name='giveCash']").val();
+   		
+   			if(myCash < inputMoney){
+				alert("기부할수 있는 금액이 부족합니다.");
+				donateModalClose();
+				return;
+			}
    					
-   			var donateData = {num : numValue,//글번호
-							  userId : username,//기부하는 아이디
-							  boardId : donatedId,//기부받는 아이디
-							  money : inputMoney,//기부금액
-							  cash : myCash //내 캐시
-				};
+   			var donateData = {num 	  : numValue, //글번호
+							  userId  : username, //기부하는 아이디
+							  boardId : donatedId, //기부받는 아이디
+							  money   : inputMoney, //기부금액
+							  cash 	  : myCash //내 캐시
+							 };
    		
    			replyService.updateDonation(donateData, function(result){
-   				console.log("게시판변경금액");
-				console.log(result);    				
+				
    				var boardMoney = $("#boardMoney");
    			   	boardMoney.html(parseInt(result));
-   			   	//console.log(result); 
-   			   	donateBackGround.css("display","none");
-				donateModal.css("display","none");
+   			   	
+   				donateModalClose();
 				donateModal.find("input").val("");
+				
    				alert("기부 하였습니다."); 
    	   	    });
    			
-   		});
+   		});//기부 하기 등록 버튼 이벤트 끝
    		
-   		$("#modalCloseBtn").on("click",function(event){//5.기부하기 취소 버튼 이벤트 설치
-   			donateClose();
-   		});
-		
-   		
-///////////////////////////////////////////////////////	
+///////////////////////////////////////////////////////	이상 기부 관련
 	  
 	 	var pageNum = 1;
 	    var replyPage = $(".replyPage");
