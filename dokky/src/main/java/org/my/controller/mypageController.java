@@ -16,8 +16,8 @@ public class mypageController {
 	private MypageService service;
 	
 	@GetMapping("/mypage")
-	public String mypage(Model model) {
+	public String mypage(Model model) { 
 		
-		return "mypage/mypage";
+		return "mypage/mypageMain";
 	}
 }

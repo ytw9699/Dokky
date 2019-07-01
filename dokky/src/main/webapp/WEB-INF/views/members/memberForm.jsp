@@ -45,14 +45,14 @@
 			<br/>
 			<div class="information">이메일</div>
 				<input type="email" name="email" id="email" class="inputclass"/>
-			<div class="information">핸드폰 번호(선택)</div>
+			<div class="information">연락처(선택)</div>
 				<input type="text" name="phoneNum" class="inputclass"/>
-			<br/>
-			<div class="information">계좌번호(선택)</div>
-				<input type="text" name="account" class="inputclass"/>
 			<br/>
 			<div class="information">은행명(선택)</div>
 				<input type="text" name="bankName" class="inputclass"/>
+			<br/>
+			<div class="information">계좌번호(선택)</div>
+				<input type="text" name="account" class="inputclass"/>
 			<br/>
 			</div>
 			<div class="nextWrap">
