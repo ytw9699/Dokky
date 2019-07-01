@@ -653,8 +653,7 @@
 	   	    });
 	   	});
 	   	
-///////////////////////////////////////////////////////이하 기부 관련	
-
+///////////////////////////////////////////////////////이하 게시판,댓글 기부 관련	
 	   	var donateBackGround = $("#donateBackGround");
 		var donateModal = $("#donateModal");
 		var donatedId;
@@ -664,21 +663,21 @@
 		var reply_num;//댓글 번호
 	
 		
-		function donateModalClose(){//모달창 가리기
+		function donateModalClose(){//모달창 가리기 함수
    			donateBackGround.css("display","none");
    			donateModal.css("display","none"); 
    		}
 		
-		donateBackGround.on("click",function(){//모달창 취소 이벤트
+		donateBackGround.on("click",function(){//1. 모달창 취소 이벤트1
 			donateModalClose();
 		});
 		
-		$("#modalCloseBtn").on("click",function(event){//모달창 취소 이벤트
+		$("#modalCloseBtn").on("click",function(event){//2. 모달창 취소 이벤트2
    			donateModalClose();
    		});
 		
 		
-		$(".replyList").on("click",'button[data-oper="donateMoney"]', function(event){//4. 댓글 기부 모달폼 버튼 이벤트
+		$(".replyList").on("click",'button[data-oper="donateMoney"]', function(event){//3. 댓글 기부 모달폼 버튼 이벤트
 			
 			var loginCheck = "로그인후 기부를 해주세요.";
 			var giveCheck = "자신의 댓글에는 기부를 할 수 없습니다.";
@@ -700,10 +699,10 @@
 			
 	   	    });
 	   	
-   		});// 댓글 기부 모달폼 버튼 이벤트 끝
+   		});//3.이벤트 끝
 			
 	
-   		$("#donateMoney").on("click",function(event){//게시글 기부 모달폼 열기 버튼 이벤트
+   		$("#donateMoney").on("click",function(event){//4. 게시글 기부 모달폼 열기 버튼 이벤트
 		
 			var loginCheck = "로그인후 기부를 해주세요.";
 			var giveCheck = "자신에게는 기부를 할 수 없습니다.";
@@ -723,14 +722,14 @@
 				option = 'board';
 	   	    });
 	   	
-   		});//기부 모달폼 열기 버튼 이벤트 끝
+   		});//4.이벤트 끝
    		 
-   		$("#modalSubmitBtn").on("click",function(event){//게시글 or 댓글 기부 하기 등록 버튼 이벤트
+   		$("#modalSubmitBtn").on("click",function(event){//5.게시글 or 댓글 기부 하기 등록 버튼 이벤트
    			
    			inputMoney = donateModal.find("input[name='giveCash']").val();
    		
    			if(myCash < inputMoney){
-				alert("기부할수 있는 금액이 부족합니다.");
+				alert("보유 캐시가 부족합니다.");
 				donateModalClose();
 				return;
 			}
@@ -770,14 +769,11 @@
 					donateModalClose();
 					donateModal.find("input").val("");
 				
-					alert("기부 하였습니다."); 
+					alert("기부 되었습니다.");  
 		   	    });
    			}
-   		});//기부 하기 등록 버튼 이벤트 끝
-   		
-		
-   		
-///////////////////////////////////////////////////////	이상 기부 관련
+   		});//6.이벤트 끝
+///////////////////////////////////////////////////////기부 관련 끝
 	  
 	 	var pageNum = 1;
 	    var replyPage = $(".replyPage");
