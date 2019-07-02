@@ -35,6 +35,8 @@
 </style>
 </head>
 <body>
+		<sec:authentication property="principal" var="userInfo"/>
+		
 	<div class="leftWrap">
 		<div class="mypage"><a href="/dokky/main">Dokky</a></div>
 		<div class="mypage"><a href="/dokky/board/list?category=1">공지사항</a></div>
@@ -42,7 +44,9 @@
 		<div class="mypage"><a href="/dokky/board/list?category=3">묻고답하기</a></div>
 		<div class="mypage"><a href="/dokky/board/list?category=4">칼럼/Tech</a></div>
 		<div class="mypage"><a href="/dokky/board/list?category=5">정기모임/스터디</a></div>
-		<div class="mypage"><a href="/dokky/mypage/mypage">마이페이지</a></div>
+		<sec:authorize access="isAuthenticated()">
+			<div class="mypage"><a href="/dokky/mypage/myInfo?userId=${userInfo.username}">내 정보</a></div>
+		</sec:authorize>
 		<div class="mypage">Today : 1 / Total : 10</div>
 		<div class="mypage">
 			<sec:authorize access="isAuthenticated()">

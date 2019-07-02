@@ -22,7 +22,7 @@
 	    <result property="userPw" column="userpw"/>
 	    <result property="nickName" column="nickname"/>
 	    <result property="regDate" column="regdate"/>
-	    <result property="updateDate" column="updatedate"/>
+	    <result property="loginDate" column="logindate"/>
     <collection property="authList" resultMap="authMap"></collection> 
   </resultMap>
 	<!--    회원 정보는 MemberVO 하나이고，AuthVO는 2개가 되어야 하는
@@ -34,7 +34,7 @@
   
   <select id="read" resultMap="memberMap">
 	SELECT 
-	  mem.userid, userpw, nickname, enabled, regdate, updatedate, auth
+	  mem.userid, userpw, nickname, enabled, regdate, logindate, auth
 	FROM 
 	  dk_member mem LEFT OUTER JOIN dk_member_auth auth on mem.userid = auth.userid 
 	WHERE mem.userid = #{userId} 

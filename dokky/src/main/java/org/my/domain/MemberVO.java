@@ -14,7 +14,7 @@ public class MemberVO {
 	private String account;
 	private String bankName;
 	private Date regDate;
-	private Date updateDate;
+	private Date loginDate;
 	private boolean enabled;
 	private List<AuthVO> authList;
 	

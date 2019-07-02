@@ -80,7 +80,7 @@
 	      bankName varchar2(50),
 	      account varchar2(50),
 	      regDate date default sysdate, 
-	      updateDate date default sysdate,
+	      loginDate date default sysdate,
 	      enabled char(1) default '1'
 	);
 	
@@ -173,5 +173,6 @@
 	ALTER TABLE DK_BOARD ADD(userId VARCAHR2(50) not null); 
 	컬럼 이름 변경
 	ALTER TABLE dk_board RENAME COLUMN down TO dislikeCnt;
+	ALTER TABLE DK_member RENAME COLUMN updateDate TO logindate;
 	컬럼 디폴트 값 변경
 	ALTER TABLE dk_board MODIFY (BLIND DEFAULT '미적용');

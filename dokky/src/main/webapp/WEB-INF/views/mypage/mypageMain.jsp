@@ -103,7 +103,7 @@
 	     				아이디
 	     			</td>
 	     			<td class="tableValue">
-	     				<input type="text" name="userId" value='' class="inputInfo" readonly="readonly">
+	     				<input type="text" name="userId" value="${myInfo.userId}" class="inputInfo" readonly="readonly">
 	     			</td>
 	     		</tr>
 	     		<tr>
@@ -111,7 +111,7 @@
 	     				닉네임
 	     			</td>
 	     			<td class="tableValue">
-	     				<input type="text" name="nickName" value='' class="inputInfo">
+	     				<input type="text" name="nickName" value="${myInfo.nickName}" class="inputInfo">
 	     			</td>
 	     		</tr>
 	     		<tr>
@@ -119,7 +119,7 @@
 	     			비밀번호
 	     			</td>
 	     			<td class="tableValue">
-	     				<input type="password" name="userPw" class="inputInfo">
+	     				<input type="password" name="userPw" value="" class="inputInfo">
 	     			</td>
 	     		</tr>
 	     		<tr> 
@@ -127,7 +127,7 @@
 	     				이메일 
 	     			</td>
 	     			<td class="tableValue">
-	     				<input type="text" name="email" value='' class="inputInfo" >
+	     				<input type="text" name="email" value="${myInfo.email}" class="inputInfo" >
 	     			</td>
 	     		</tr>
 	     		<tr>
@@ -135,7 +135,7 @@
 	     				연락처
 	     			</td>
 	     			<td class="tableValue">
-	     				<input type="text" name="phoneNum"  value='' class="inputInfo" >	
+	     				<input type="text" name="phoneNum"  value="${myInfo.phoneNum}" class="inputInfo" >	
 	     			</td>
 	     		</tr>
 	     		<tr>
@@ -143,7 +143,7 @@
 	     				은행명
 	     			</td>
 	     			<td class="tableValue">
-	     				<input type="text" name="bankName"  value='' class="inputInfo" >	
+	     				<input type="text" name="bankName"  value="${myInfo.bankName}" class="inputInfo" >	
 	     			</td>
 	     		</tr>
 	     		<tr>
@@ -151,7 +151,7 @@
 	     				계좌번호
 	     			</td>
 	     			<td class="tableValue">
-	     				<input type="text" name="account"  value='' class="inputInfo" >	
+	     				<input type="text" name="account"  value="${myInfo.account}" class="inputInfo" >	
 	     			</td>
 	     		</tr>
 	     		<tr>
@@ -159,7 +159,7 @@
 	     				가입일
 	     			</td>
 	     			<td class="tableValue"> 
-	     				<%-- <fmt:formatDate value="" pattern="yyyy년 MM월 dd일 hh:mm" /> --%>
+	     				<fmt:formatDate value="${myInfo.regDate}" pattern="yyyy년 MM월 dd일 hh:mm" />
 	     			</td>
 	     		</tr>
 	     	</table>

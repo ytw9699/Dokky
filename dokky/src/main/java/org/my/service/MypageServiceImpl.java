@@ -1,6 +1,6 @@
 package org.my.service;
 	import org.my.domain.MemberVO;
-	import org.my.mapper.MemberMapper;
+	import org.my.mapper.MypageMapper;
 	import org.springframework.beans.factory.annotation.Autowired;
 	import org.springframework.stereotype.Service;
 	import org.springframework.transaction.annotation.Transactional;
@@ -11,7 +11,15 @@ package org.my.service;
 @Service
 public class MypageServiceImpl implements MypageService {
 
-	//@Setter(onMethod_ = @Autowired)
-	//private MypageMapper mapper;
+	@Setter(onMethod_ = @Autowired)
+	private MypageMapper mapper;
+	
+	@Override
+	public MemberVO getMyInfo(String userId) {
+
+		log.info("get MemberVO");
+
+		return mapper.getMyInfo(userId);
+	}
 	
 }
