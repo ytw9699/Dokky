@@ -3,6 +3,10 @@ package org.my.service;
 
 public interface MypageService {
 
-	MemberVO getMyInfo(String userId);
+	public MemberVO getMyInfo(String userId);
+
+	public boolean updateMyInfo(MemberVO vo);
+
+	public String getMemberPW(String userId);
 	
 }

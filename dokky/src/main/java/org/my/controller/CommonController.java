@@ -82,6 +82,6 @@ public class CommonController {
 		
 		service.registerMembers(vo);
 		
-		return "redirect:/customLogin";
+		return "redirect:/accessError";
 	}
 }

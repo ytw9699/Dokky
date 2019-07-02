@@ -82,6 +82,7 @@
 </style>  
 </head>
 <body>
+<sec:authentication property="principal" var="userInfo"/>
 <div class="bodyWrap">	
 	<div class="ContentWrap">
 		<div id="menuWrap">
@@ -95,7 +96,7 @@
 		    </div> 
 		</div>
 		<div id="infomation" class="tabcontent">
-	       <form method='post' action="/dokky/members">	
+	       <form method='post' action="/dokky/mypage/myInfo" id="operForm">	
 	     	  <input type="hidden" name="${_csrf.parameterName}" value="${_csrf.token}" />
 	     	<table width="100%" style="margin-bottom: 30px;">
 	     		<tr>
@@ -162,11 +163,63 @@
 	     				<fmt:formatDate value="${myInfo.regDate}" pattern="yyyy년 MM월 dd일 hh:mm" />
 	     			</td>
 	     		</tr>
-	     	</table>
-	     		<input type="submit" value="변경하기" class="submitInfo" />
+	     	</table> 
+	     		<input type="button" id="SumbitMyInfo" value="변경하기" class="submitInfo" /> 
 	      </form>
      	</div>
 	</div> 
-</div>
+</div> 
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+<script>
+	var csrfHeaderName ="${_csrf.headerName}"; 
+	var csrfTokenValue="${_csrf.token}";
+
+	$(document).ajaxSend(function(e, xhr, options) { 
+	    xhr.setRequestHeader(csrfHeaderName, csrfTokenValue); //모든 AJAX전송시 CSRF토큰을 같이 전송하도록 셋팅
+	  });
+		
+		function checkPassword(checkData, callback, error) {
+			$.ajax({
+				type : 'post',
+				url : '/dokky/mypage/checkPassword',
+				data : JSON.stringify(checkData),
+				contentType : "application/json; charset=utf-8",
+				success : function(result, status, xhr) {
+					if (callback) {
+						callback(result,xhr);
+					}
+				},
+				error : function(xhr, status, er) {
+					if (error) {
+						error(xhr,er);
+					}
+				}
+			});
+		}
+
+	$("#SumbitMyInfo").on("click",function(event){
+		var operForm = $("#operForm");
+		
+		var userPw = operForm.find("input[name='userPw']").val();
+	    var userId = operForm.find("input[name='userId']").val();
+	    
+		var checkData = {	userPw : userPw,
+							userId : userId
+						};
+		
+		checkPassword(checkData, function(result,xhr){
+			 if(xhr.status == '200'){
+				 operForm.submit();
+				 alert("변경되었습니다.");
+	    	}
+		    }
+		,function(xhr,er){
+			if(xhr.status == '404'){
+			 alert("비밀번호가 맞지 않습니다.");
+			}
+		}
+		);
+		});
+</script>
 </body>
 </html>

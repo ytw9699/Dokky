@@ -5,5 +5,8 @@ public interface MypageMapper {
 
 	public MemberVO getMyInfo(String userId);
 
-	
+	public int updateMyInfo(MemberVO board);
+
+	public String getMemberPW(String userId);
+
 }

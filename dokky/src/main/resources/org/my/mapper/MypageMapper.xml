@@ -3,9 +3,27 @@
   PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
   "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="org.my.mapper.MypageMapper">
-
+	
+	<!-- 나의 정보 한줄 가져오기 -->
 	 <select id="getMyInfo" resultType="org.my.domain.MemberVO">
 		select * from DK_MEMBER where userId = #{userId}
 	</select>
+	
+	<!-- 나의 정보 변경하기 -->
+	<update id="updateMyInfo">
+		update DK_MEMBER set 
+			nickName = #{nickName},
+			email 	 = #{email},
+			phoneNum = #{phoneNum},
+			bankName = #{bankName},
+			account  = #{account}
+	  where userId   = #{userId}
+	</update>
+	
+	<!-- 비밀번호 가져오기 -->
+	 <select id="getMemberPW" resultType="String">
+		select userpw from DK_MEMBER where userId = #{userId}
+	</select>
+	
 	
 </mapper>
