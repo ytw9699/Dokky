@@ -111,7 +111,7 @@
 	     		</tr>
 	     		<tr>
 	     			<td class="tableText">
-	     			새로운 비밀번호
+	     			새 비밀번호
 	     			</td>
 	     			<td class="tableValue">
 	     				<input type="password" name="newPw" value="" class="inputInfo">
@@ -119,7 +119,7 @@
 	     		</tr>
 	     		<tr>
 	     			<td class="tableText"> 
-	     			새로운 비밀번호 확인
+	     			새 비밀번호 확인
 	     			</td>
 	     			<td class="tableValue">
 	     				<input type="password" name="checkPw" value="" class="inputInfo">
@@ -171,7 +171,7 @@
 	    	return;
 	    }
 	    if(newPw == "" || checkPw == "" ){
-	    	alert("새로운 비밀번호를 입력해주세요.");
+	    	alert("새 비밀번호를 입력해주세요.");
 	    	return;
 	    }
 	    
@@ -183,7 +183,7 @@
 			 if(xhr.status == '200'){
 				
 				if(newPw !== checkPw){
-					alert("새로운 비밀번호가 서로 일치 하지 않습니다.");
+					alert("새 비밀번호가 서로 일치 하지 않습니다.");
 				}else{
 					operForm.submit();
 				}
