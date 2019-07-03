@@ -20,10 +20,14 @@
 	  where userId   = #{userId}
 	</update>
 	
-	<!-- 비밀번호 가져오기 -->
+	<!-- 비밀번호 가져오기 --> 
 	 <select id="getMemberPW" resultType="String">
 		select userpw from DK_MEMBER where userId = #{userId}
 	</select>
 	
+	<!-- 비밀번호 변경 -->
+	<update id="updateMyPassword">
+		update DK_MEMBER set userpw = #{userPw} where userId = #{userId}
+	</update>
 	
 </mapper>

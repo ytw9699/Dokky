@@ -8,5 +8,7 @@ public interface MypageService {
 	public boolean updateMyInfo(MemberVO vo);
 
 	public String getMemberPW(String userId);
+
+	public boolean updateMyPassword(String userId, String userPw);
 	
 }

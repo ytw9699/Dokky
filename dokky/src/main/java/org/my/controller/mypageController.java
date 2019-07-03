@@ -40,7 +40,7 @@ public class mypageController {
 	
 	@PreAuthorize("isAuthenticated()") 
  	@GetMapping("/myInfoForm")  
-	public String myInfoForm(@RequestParam("userId") String userId, Model model) { 
+	public String myInfoForm(@RequestParam("userId") String userId, Model model) { //내 개인정보 변경폼
 		
 		model.addAttribute("myInfo", service.getMyInfo(userId));
 		
@@ -52,7 +52,7 @@ public class mypageController {
 	@PreAuthorize("isAuthenticated()") 
 	@PostMapping(value = "/checkPassword", consumes = "application/json", produces = "text/plain; charset=UTF-8")
 	@ResponseBody
-	public ResponseEntity<String> checkPassword(@RequestBody checkVO vo) {
+	public ResponseEntity<String> checkPassword(@RequestBody checkVO vo) {//나의 패스워드 체크
 		
 		log.info("userId...="+vo.getUserId());
 		log.info("getUserPw...="+vo.getUserPw());
@@ -68,7 +68,7 @@ public class mypageController {
 		 
 	@PreAuthorize("principal.username == #vo.userId")
 	@PostMapping("/myInfo")
-	public String updateMyInfo(MemberVO vo, Model model,RedirectAttributes rttr) {
+	public String updateMyInfo(MemberVO vo, Model model) {//개인정보 변경하기
 		
 		if(service.updateMyInfo(vo)) {
 			log.info("updateMyInfo-complete");
@@ -82,4 +82,32 @@ public class mypageController {
 		}
 			return "mypage/myInfoForm";
 	}
+	
+	@PreAuthorize("isAuthenticated()") 
+ 	@GetMapping("/rePasswordForm")  
+	public String rePasswordForm(@RequestParam("userId") String userId, Model model) { //내 패스워드 변경폼
+		
+		log.info("rePasswordForm");
+		
+		return "mypage/rePasswordForm";
+	}
+	
+	@PostMapping("/MyPassword")
+	public String updateMyPassword(@RequestParam("userId") String userId, @RequestParam("newPw") String newPw , Model model) {//개인정보 변경하기
+		
+		log.info("updateMyPassword");
+
+		String userPw = pwencoder.encode(newPw);//패스워드 암호화
+		
+		if(service.updateMyPassword(userId,userPw)) {
+			log.info("updateMyPassword-complete");
+			model.addAttribute("update", "complete");
+			
+		}else {
+			log.info("updateMyPassword-notComplete");
+			model.addAttribute("update", "notComplete");
+		}
+			return "mypage/rePasswordForm";
+	}
+	
 }

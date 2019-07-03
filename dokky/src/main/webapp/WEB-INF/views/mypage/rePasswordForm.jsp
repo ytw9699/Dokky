@@ -82,7 +82,8 @@
 </style>  
 </head>
 <body>
-<sec:authentication property="principal" var="userInfo"/>
+	<sec:authentication property="principal" var="userInfo"/>
+		
 <div class="bodyWrap">	
 	<div class="ContentWrap">
 		<div id="menuWrap">
@@ -96,83 +97,36 @@
 		    </div> 
 		</div>
 		<div id="infomation" class="tabcontent">
-	       <form method='post' action="/dokky/mypage/myInfo" id="operForm">	
+	       <form method='post' action="/dokky/mypage/MyPassword" id="operForm">	
 	     	  <input type="hidden" name="${_csrf.parameterName}" value="${_csrf.token}" />
+	     	  <input type="hidden" name="userId" value="${userInfo.username}" />
 	     	<table width="100%" style="margin-bottom: 30px;">
 	     		<tr>
-	     			<td class="tableText">
-	     				아이디
-	     			</td>
-	     			<td class="tableValue">
-	     				<input type="text" name="userId" value="${myInfo.userId}" class="inputInfo" readonly="readonly">
-	     			</td>
-	     		</tr>
-	     		<tr>
-	     			<td class="tableText">
-	     				닉네임
-	     			</td>
-	     			<td class="tableValue">
-	     				<input type="text" name="nickName" value="${myInfo.nickName}" class="inputInfo">
-	     			</td>
-	     		</tr>
-	     		<tr>
-	     			<td class="tableText">
-	     			비밀번호
+	     			<td class="tableText"> 
+	     			현재 비밀번호
 	     			</td>
 	     			<td class="tableValue">
 	     				<input type="password" name="userPw" value="" class="inputInfo">
 	     			</td>
 	     		</tr>
-	     		<tr> 
+	     		<tr>
 	     			<td class="tableText">
-	     				이메일 
+	     			새로운 비밀번호
 	     			</td>
 	     			<td class="tableValue">
-	     				<input type="text" name="email" value="${myInfo.email}" class="inputInfo" >
+	     				<input type="password" name="newPw" value="" class="inputInfo">
 	     			</td>
 	     		</tr>
 	     		<tr>
-	     			<td class="tableText">
-	     				연락처
+	     			<td class="tableText"> 
+	     			새로운 비밀번호 확인
 	     			</td>
 	     			<td class="tableValue">
-	     				<input type="text" name="phoneNum"  value="${myInfo.phoneNum}" class="inputInfo" >	
-	     			</td>
-	     		</tr>
-	     		<tr>
-	     			<td class="tableText">
-	     				은행명
-	     			</td>
-	     			<td class="tableValue">
-	     				<input type="text" name="bankName"  value="${myInfo.bankName}" class="inputInfo" >	
-	     			</td>
-	     		</tr>
-	     		<tr>
-	     			<td class="tableText">
-	     				계좌번호
-	     			</td>
-	     			<td class="tableValue">
-	     				<input type="text" name="account"  value="${myInfo.account}" class="inputInfo" >	
-	     			</td>
-	     		</tr>
-	     		<tr>
-	     			<td class="tableText">
-	     				가입일
-	     			</td>
-	     			<td class="tableValue"> 
-	     				<fmt:formatDate value="${myInfo.regDate}" pattern="yyyy년 MM월 dd일 hh:mm" />
-	     			</td>
-	     		</tr>
-	     		<tr>
-	     			<td class="tableText">
-	     				최근 로그인
-	     			</td>
-	     			<td class="tableValue"> 
-	     				<fmt:formatDate value="${myInfo.loginDate}" pattern="yyyy년 MM월 dd일 hh:mm" />
+	     				<input type="password" name="checkPw" value="" class="inputInfo">
 	     			</td>
 	     		</tr>
 	     	</table> 
-	     		<input type="button" id="SumbitMyInfo" value="변경하기" class="submitInfo" /> 
+	     		<input type="button" id="SumbitMyInfo" value="비밀번호 변경하기" class="submitInfo" /> 
 	      </form>
      	</div>
 	</div> 
@@ -207,9 +161,19 @@
 
 	$("#SumbitMyInfo").on("click",function(event){
 		var operForm = $("#operForm");
-		
 		var userPw = operForm.find("input[name='userPw']").val();
 	    var userId = operForm.find("input[name='userId']").val();
+	    var newPw   = operForm.find("input[name='newPw']").val();
+		var checkPw = operForm.find("input[name='checkPw']").val();
+		
+	    if(userPw == ""){
+	    	alert("현재 비밀번호를 입력해주세요.");
+	    	return;
+	    }
+	    if(newPw == "" || checkPw == "" ){
+	    	alert("새로운 비밀번호를 입력해주세요.");
+	    	return;
+	    }
 	    
 		var checkData = {	userPw : userPw,
 							userId : userId
@@ -217,12 +181,17 @@
 		
 		checkPassword(checkData, function(result,xhr){
 			 if(xhr.status == '200'){
-				 operForm.submit(); 
+				
+				if(newPw !== checkPw){
+					alert("새로운 비밀번호가 서로 일치 하지 않습니다.");
+				}else{
+					operForm.submit();
+				}
 	    	}
 		    }
 		,function(xhr,er){
 			if(xhr.status == '404'){
-			 alert("비밀번호가 맞지 않습니다.");
+			 alert("현재 비밀번호가 맞지 않습니다.");
 			}
 		}
 		);
@@ -232,7 +201,7 @@
 		       <c:when test="${update eq 'complete'}">
 		          		<script>
 					      $(document).ready(function(){
-					      	alert("변경되었습니다.");
+					      	alert("비밀번호가 변경되었습니다.");
 					      });
 				      	</script>
 		       </c:when>

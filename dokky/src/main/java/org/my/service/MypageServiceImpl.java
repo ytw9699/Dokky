@@ -42,5 +42,13 @@ public class MypageServiceImpl implements MypageService {
 		return mapper.getMemberPW(userId);
 	}
 	
-	
+	@Override
+	public boolean updateMyPassword(String userId, String userPw) {
+		
+		log.info("updateMyPassword1");
+		
+		boolean updateResult = mapper.updateMyPassword(userId,userPw) == 1; 
+		
+		return updateResult;
+	}
 }
