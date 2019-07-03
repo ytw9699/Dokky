@@ -20,6 +20,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
+import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import lombok.AllArgsConstructor;
 	import lombok.Setter;
@@ -36,7 +37,8 @@ public class mypageController {
 	
 	@Setter(onMethod_ = @Autowired)
 	private PasswordEncoder pwencoder;
-
+	
+	@PreAuthorize("isAuthenticated()") 
  	@GetMapping("/myInfoForm")  
 	public String myInfoForm(@RequestParam("userId") String userId, Model model) { 
 		
@@ -66,14 +68,18 @@ public class mypageController {
 		 
 	@PreAuthorize("principal.username == #vo.userId")
 	@PostMapping("/myInfo")
-	public String updateMyInfo(MemberVO vo, Model model) {
+	public String updateMyInfo(MemberVO vo, Model model,RedirectAttributes rttr) {
 		
-		service.updateMyInfo(vo);
-		
-		log.info("updateMyInfo");
-		
-		model.addAttribute("myInfo", service.getMyInfo(vo.getUserId()));
-		
-		return "mypage/myInfoForm";
+		if(service.updateMyInfo(vo)) {
+			log.info("updateMyInfo-complete");
+			
+			model.addAttribute("myInfo", service.getMyInfo(vo.getUserId()));
+			model.addAttribute("update", "complete");
+			
+		}else {
+			log.info("updateMyInfo-notComplete");
+			model.addAttribute("update", "notComplete");
+		}
+			return "mypage/myInfoForm";
 	}
 }

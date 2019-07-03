@@ -163,6 +163,14 @@
 	     				<fmt:formatDate value="${myInfo.regDate}" pattern="yyyy년 MM월 dd일 hh:mm" />
 	     			</td>
 	     		</tr>
+	     		<tr>
+	     			<td class="tableText">
+	     				최근 로그인
+	     			</td>
+	     			<td class="tableValue"> 
+	     				<fmt:formatDate value="${myInfo.loginDate}" pattern="yyyy년 MM월 dd일 hh:mm" />
+	     			</td>
+	     		</tr>
 	     	</table> 
 	     		<input type="button" id="SumbitMyInfo" value="변경하기" class="submitInfo" /> 
 	      </form>
@@ -209,8 +217,7 @@
 		
 		checkPassword(checkData, function(result,xhr){
 			 if(xhr.status == '200'){
-				 operForm.submit();
-				 alert("변경되었습니다.");
+				 operForm.submit(); 
 	    	}
 		    }
 		,function(xhr,er){
@@ -221,5 +228,21 @@
 		);
 		});
 </script>
+ 		<c:choose>
+		       <c:when test="${update eq 'complete'}">
+		          		<script>
+					      $(document).ready(function(){
+					      	alert("변경되었습니다.");
+					      });
+				      	</script>
+		       </c:when>
+		       <c:when test="${update eq 'notComplete'}">
+		       			<script>
+					      $(document).ready(function(){
+					      	alert("재시도해주세요.");
+					      });
+				    	</script>
+		       </c:when>
+		</c:choose>
 </body>
 </html>
