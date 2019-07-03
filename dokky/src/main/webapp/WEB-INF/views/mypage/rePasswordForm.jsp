@@ -90,7 +90,7 @@
 			<div class="tab"> 
 				<button onclick="location.href='myInfoForm?userId=${userInfo.username}'">개인정보 변경</button>
 		        <button onclick="location.href='rePasswordForm?userId=${userInfo.username}'">비밀번호 변경</button> 
-		        <button onclick="location.href='myInfoForm?userId=${userInfo.username}'">나의 게시글</button> 
+		       <button onclick="location.href='myBoardList?userId=${userInfo.username}'">나의 게시글</button>  
 		        <button onclick="location.href='myInfoForm?userId=${userInfo.username}'">나의 댓글</button> 
 		        <button onclick="location.href='myInfoForm?userId=${userInfo.username}'">스크랩</button>
 		        <button onclick="location.href='myInfoForm?userId=${userInfo.username}'">캐시</button>  
@@ -125,8 +125,8 @@
 	     				<input type="password" name="checkPw" value="" class="inputInfo">
 	     			</td>
 	     		</tr>
-	     	</table> 
-	     		<input type="button" id="SumbitMyInfo" value="비밀번호 변경하기" class="submitInfo" /> 
+	     	</table>  
+	     		<input type="button" id="SumbitMyInfo" value="변경하기" class="submitInfo" /> 
 	      </form>
      	</div>
 	</div> 

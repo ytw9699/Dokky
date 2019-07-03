@@ -1,5 +1,9 @@
 package org.my.service;
-	import org.my.domain.MemberVO;
+	import java.util.List;
+
+import org.my.domain.BoardVO;
+import org.my.domain.Criteria;
+import org.my.domain.MemberVO;
 	import org.my.mapper.MypageMapper;
 	import org.springframework.beans.factory.annotation.Autowired;
 	import org.springframework.security.crypto.password.PasswordEncoder;
@@ -51,4 +55,20 @@ public class MypageServiceImpl implements MypageService {
 		
 		return updateResult;
 	}
+	@Override
+	public List<BoardVO> getMyBoardList(Criteria cri) {
+
+		log.info("getMyBoardList with criteria: " + cri);
+
+		return mapper.getMyBoardList(cri);
+	}
+	
+	@Override
+	public int getMyBoardCount(Criteria cri) {
+
+		log.info("getMyBoardCount");
+		
+		return mapper.getMyBoardCount(cri);
+	}
+	
 }

@@ -30,4 +30,27 @@
 		update DK_MEMBER set userpw = #{userPw} where userId = #{userId}
 	</update>
 	
+	<select id="getMyBoardList" resultType="org.my.domain.BoardVO"> 
+	select num,
+		   title,
+		   replyCnt,
+		   hitCnt,
+		   category,
+		   regdate from 
+			 ( select /*+INDEX_DESC(DK_BOARD PK_DK_BOARD) */ rownum rn,
+			 														num,
+			 														title,
+			 														replyCnt,
+			 														hitCnt,
+			 														category,
+			 														regdate
+			from DK_BOARD where userId = #{userId} and <![CDATA[ rownum <= #{pageNum} * #{amount} )
+				  where rn > (#{pageNum} -1) * #{amount}  
+				  ]]>
+	</select>
+	
+	<select id="getMyBoardCount" resultType="int">
+		select count(*) from DK_BOARD where userId = #{userId} and num > 0
+	</select>
+	
 </mapper>

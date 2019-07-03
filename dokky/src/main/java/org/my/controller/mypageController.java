@@ -1,6 +1,8 @@
 package org.my.controller;
-	import org.my.domain.MemberVO;
-	import org.my.domain.checkVO;
+	import org.my.domain.Criteria;
+import org.my.domain.MemberVO;
+import org.my.domain.PageDTO;
+import org.my.domain.checkVO;
 	import org.my.service.MypageService;
 	import org.springframework.beans.factory.annotation.Autowired;
 	import org.springframework.http.HttpStatus;
@@ -103,5 +105,20 @@ public class mypageController {
 		}
 			return "mypage/rePasswordForm";
 	}
+	
+	@PreAuthorize("isAuthenticated()")
+ 	@GetMapping("/myBoardList") 
+	public String myBoardList(Criteria cri, Model model) { //내 게시글 가져오기
+		
+		model.addAttribute("MyBoard", service.getMyBoardList(cri));
+		
+		log.info("myBoardList");
+		
+		int total = service.getMyBoardCount(cri);//total은 내 게시판의 총 게시물수
+		
+		model.addAttribute("pageMaker", new PageDTO(cri, total));
+		
+		return "mypage/myBoardList";
+	} 
 	
 }

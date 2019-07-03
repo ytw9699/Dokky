@@ -1,6 +1,10 @@
 package org.my.mapper;
-	import org.apache.ibatis.annotations.Param;
-	import org.my.domain.MemberVO;
+	import java.util.List;
+
+import org.apache.ibatis.annotations.Param;
+import org.my.domain.BoardVO;
+import org.my.domain.Criteria;
+import org.my.domain.MemberVO;
 
 public interface MypageMapper {
 
@@ -12,4 +16,8 @@ public interface MypageMapper {
 	
 	public int updateMyPassword(@Param("userId") String userId, @Param("userPw") String userPw);
 
+	public List<BoardVO> getMyBoardList(Criteria cri);
+
+	public int getMyBoardCount(Criteria cri);
+	
 }
