@@ -142,4 +142,25 @@ public class mypageController {
 		
 		return "mypage/myReplylist";
 	} 
+	
+	@PostMapping(value = "/scrapData/{num}/{userId}", produces = "text/plain; charset=UTF-8")
+	@ResponseBody
+	public ResponseEntity<String> insertScrapData(@PathVariable("num") int num, @PathVariable("userId") String userId ) {
+		
+		log.info("getScrapCnt...num="+num+", userId="+userId);
+		
+		if(service.getScrapCnt(num,userId) == 1) {//스크랩을 이미 했다면
+			
+			return new ResponseEntity<>("cancel",HttpStatus.OK);
+		}
+		
+		log.info("insertScrapData...num="+num+", userId="+userId);
+		
+		if(service.insertScrapData(num,userId)) {
+			
+			return new ResponseEntity<>("success",HttpStatus.OK);
+		}
+		return new ResponseEntity<>("fail",HttpStatus.OK);
+	}
+	
 }

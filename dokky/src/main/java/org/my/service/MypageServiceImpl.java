@@ -89,5 +89,27 @@ public class MypageServiceImpl implements MypageService {
 		return mapper.getMyReplyCount(cri);
 	}
 	
+	@Override
+	public int getScrapCnt(int num, String userId) {
+		
+		log.info("getScrapCnt");
+		
+		int getResult = mapper.getScrapCnt(num,userId); 
+		
+		return getResult;
+	}
+	
+	
+	@Override
+	public boolean insertScrapData(int num, String userId) {
+		
+		log.info("insertScrapData");
+		
+		boolean inserResult = mapper.insertScrapData(num,userId) == 1; 
+		
+		return inserResult;
+	}
+	
+	
 }
 

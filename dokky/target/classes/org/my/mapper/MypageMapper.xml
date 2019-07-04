@@ -74,4 +74,17 @@
 		]]>
 	</select>
 	
+	<select id="getScrapCnt" resultType="int">
+		<![CDATA[
+		select count(*) from dk_scrap where userId = #{userId} and num = #{num}
+		]]>
+	</select>
+	
+	<insert id="insertScrapData">
+		insert into dk_scrap (userId, num) values (#{userId}, #{num})
+	</insert>
+	
+	
+	
+	
 </mapper>

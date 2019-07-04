@@ -233,7 +233,7 @@
 			<sec:authentication property="principal" var="userInfo"/>
 		
 		 	<sec:authorize access="isAuthenticated()">
-		 		     <button id="scrap">스크랩 </button>
+		 		     <button id="scrap" data-num="${board.num }">스크랩 </button>
 		 		     
 		        <c:if test="${userInfo.username eq board.userId}">
 		       		 <button id="modify_button">수정 </button> 
@@ -774,7 +774,32 @@
    			}
    		});//6.이벤트 끝
 ///////////////////////////////////////////////////////기부 관련 끝
-	  
+	 	 
+		$("#scrap").on("click",function(event){//4. 스크랩 이벤트
+			
+				var num = $(this).data("num");
+				
+			<sec:authorize access="isAuthenticated()">   
+			    var myId = '${userInfo.username}';//나의 아이디
+			</sec:authorize>
+			    
+			var scrapData = {num  : num, //글번호
+							userId : myId //내 아이디
+					 };
+			 	 
+			replyService.ScrapBoard(scrapData, function(result){//스크랩
+					 if(result == 'success'){
+						 alert("스크랩 하였습니다.");
+					}
+					 else if(result == 'cancel'){
+						 alert("스크랩을 취소하였습니다.");
+						 }
+					 else if(result == 'fail'){
+						 alert("스크랩을 실패하였습니다. 재시도해주세요");
+						 }
+				});
+		});//4.이벤트 끝 
+
 	 	var pageNum = 1;
 	    var replyPage = $(".replyPage");
 	    

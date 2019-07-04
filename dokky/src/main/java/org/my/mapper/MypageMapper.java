@@ -24,5 +24,9 @@ public interface MypageMapper {
 	public List<ReplyVO> getMyReplylist(Criteria cri);
 
 	public int getMyReplyCount(Criteria cri);
+
+	public int insertScrapData(@Param("num") int num, @Param("userId") String userId);
+ 
+	public int getScrapCnt(@Param("num") int num, @Param("userId") String userId);
 	
 }

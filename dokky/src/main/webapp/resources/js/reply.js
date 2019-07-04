@@ -316,6 +316,23 @@ var replyService = (function() {
 				}
 			});
 		}
+	
+	function ScrapBoard(scrapData, callback, error) {
+		$.ajax({
+			type : 'post',
+			url : '/dokky/mypage/scrapData/' + scrapData.num + '/' + scrapData.userId,
+			success : function(result, status, xhr) {
+				if (callback) {
+					callback(result,xhr);
+				}
+			},
+			error : function(xhr, status, er) {
+				if (error) {
+					error(xhr,er);
+				}
+			}
+		});
+	}
 		
 	
 	return {
@@ -331,7 +348,8 @@ var replyService = (function() {
 		updateReplyDisLike : updateReplyDisLike,
 		getUserCash : getUserCash,
 		updateDonation : updateDonation,
-		updateReplyDonation : updateReplyDonation
+		updateReplyDonation : updateReplyDonation,
+		ScrapBoard : ScrapBoard
 	};
 
 })();

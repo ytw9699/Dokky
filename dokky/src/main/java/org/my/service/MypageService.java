@@ -22,5 +22,9 @@ public interface MypageService {
 	public List<ReplyVO> getMyReplylist(Criteria cri);
 
 	public int getMyReplyCount(Criteria cri);
+
+	public boolean insertScrapData(int num, String userId);
+
+	public int getScrapCnt(int num, String userId);
 	
 }

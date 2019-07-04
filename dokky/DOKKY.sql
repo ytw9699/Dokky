@@ -168,7 +168,15 @@
 	drop table dk_reply_dislike purge
 	
 	-----------------------------------------------------
-	11.
+	11. 스크랩 테이블
+	create table dk_scrap (
+	     userId varchar2(50) not null,
+	     NUM number(10,0) not null,
+	     constraint fk_scrap foreign key(NUM) references dk_board(NUM) on delete cascade,
+    	 constraint pk_scrap PRIMARY KEY (userId, NUM)
+);
+
+	);
 	
 	14.기타 -----------------------------------------------------
 	컬럼추가
