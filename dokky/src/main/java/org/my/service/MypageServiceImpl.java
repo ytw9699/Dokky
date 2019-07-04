@@ -4,7 +4,9 @@ package org.my.service;
 import org.my.domain.BoardVO;
 import org.my.domain.Criteria;
 import org.my.domain.MemberVO;
-	import org.my.mapper.MypageMapper;
+import org.my.domain.ReplyPageDTO;
+import org.my.domain.ReplyVO;
+import org.my.mapper.MypageMapper;
 	import org.springframework.beans.factory.annotation.Autowired;
 	import org.springframework.security.crypto.password.PasswordEncoder;
 	import org.springframework.stereotype.Service;
@@ -71,4 +73,21 @@ public class MypageServiceImpl implements MypageService {
 		return mapper.getMyBoardCount(cri);
 	}
 	
+	@Override
+	 public List<ReplyVO> getMyReplylist(Criteria cri) {
+	       
+		log.info("getMyReplylist with criteria: " + cri);
+		
+	    return mapper.getMyReplylist(cri); 
+	 }
+	
+	@Override
+	public int getMyReplyCount(Criteria cri) {
+
+		log.info("getMyReplyCount");
+		
+		return mapper.getMyReplyCount(cri);
+	}
+	
 }
+

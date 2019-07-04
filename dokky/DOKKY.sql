@@ -25,6 +25,10 @@
 	values (1, seq_dk_board.nextval, '제목1','닉네임1','콘텐트1');
 	
 	2.---------------------------------------------------------------------------------------
+	
+	insert into DK_REPLY(reply_num, num, reply_content, nickName,userId)
+	(select seq_dk_reply.nextval, num, reply_content, nickName from DK_REPLY);
+	
 	create table DK_REPLY (--댓글 테이블
 	reply_num number(10,0),--pk
 	num number(10,0) not null,
@@ -176,3 +180,7 @@
 	ALTER TABLE DK_member RENAME COLUMN updateDate TO logindate;
 	컬럼 디폴트 값 변경
 	ALTER TABLE dk_board MODIFY (BLIND DEFAULT '미적용');
+	데이터 배로 증가
+	insert into tbl_board(bno, title, content, writer)
+	(select seq_board.nextval, title, content, writer from tbl_board);
+

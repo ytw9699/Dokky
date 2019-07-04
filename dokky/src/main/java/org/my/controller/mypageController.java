@@ -2,17 +2,20 @@ package org.my.controller;
 	import org.my.domain.Criteria;
 import org.my.domain.MemberVO;
 import org.my.domain.PageDTO;
+import org.my.domain.ReplyPageDTO;
 import org.my.domain.checkVO;
 	import org.my.service.MypageService;
 	import org.springframework.beans.factory.annotation.Autowired;
 	import org.springframework.http.HttpStatus;
-	import org.springframework.http.ResponseEntity;
+import org.springframework.http.MediaType;
+import org.springframework.http.ResponseEntity;
 	import org.springframework.security.access.prepost.PreAuthorize;
 	import org.springframework.security.crypto.password.PasswordEncoder;
 	import org.springframework.stereotype.Controller;
 	import org.springframework.ui.Model;
 	import org.springframework.web.bind.annotation.GetMapping;
-	import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.PostMapping;
 	import org.springframework.web.bind.annotation.RequestBody;
 	import org.springframework.web.bind.annotation.RequestMapping;
 	import org.springframework.web.bind.annotation.RequestParam;
@@ -121,4 +124,22 @@ public class mypageController {
 		return "mypage/myBoardList";
 	} 
 	
+	@PreAuthorize("isAuthenticated()")
+ 	@GetMapping("/myReplylist")  
+	public String myReplylist(Criteria cri, Model model) { //내 게시글 가져오기
+		
+		log.info("myReplylist "+cri);
+		
+		model.addAttribute("myReply", service.getMyReplylist(cri));
+		
+		log.info("getMyReplyCount");
+		
+		int total = service.getMyReplyCount(cri);//total은 내 댓글의 총 게시물수
+		
+		log.info("pageMaker");
+		
+		model.addAttribute("pageMaker", new PageDTO(cri, total));
+		
+		return "mypage/myReplylist";
+	} 
 }

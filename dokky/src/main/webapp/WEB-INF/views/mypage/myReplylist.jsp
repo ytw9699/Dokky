@@ -80,7 +80,7 @@
 <body>
 <sec:authentication property="principal" var="userInfo"/>
 <div class="bodyWrap">	
-	<div class="ContentWrap">
+	<div class="ContentWrap"> 
 		<div id="menuWrap">
 			<div class="tab"> 
 				<button onclick="location.href='myInfoForm?userId=${userInfo.username}'">개인정보 변경</button>
@@ -92,25 +92,21 @@
 		    </div> 
 		</div>
 	<div class="listWrapper">
-		<div class="">나의 게시글</div>
+		<div class="">나의 댓글</div>
 
-		<div><button id='regBtn' type="button" class="">새 글쓰기</button></div> 
 		<div><button id='deleteBtn' type="button" class="">삭제</button></div> 
 		
 		<div class="">
 			<table class=""> 
-				<c:forEach items="${MyBoard}" var="board">
+				<c:forEach items="${myReply}" var="Reply">
 					<tr>
 					<td>
 	                    <input type="checkbox" name="" id="" value="">
                     </td>
-						<td class="mypage"><a class='move' href='<c:out value="${board.num}"/>'> 
-							<c:out value="${board.title}" /></a></td> 
-						<td>댓글수[<c:out value="${board.replyCnt}" />]</td>
-						<td>조회수<c:out value="${board.hitCnt}" /></td>
-			                  
+						<td class="mypage"><a class='move' href='<c:out value="${Reply.num}"/>'> 
+							<c:out value="${Reply.reply_content}" /></a></td> 
 						<td><fmt:formatDate pattern="yyyy-MM-dd-HH:mm"
-								value="${board.regDate}" /></td>
+								value="${Reply.replyDate}" /></td>
 					</tr>
 				</c:forEach>
 			</table>
@@ -137,30 +133,23 @@
 					</c:if>
 				</ul>
 			</div>
-	<form id='actionForm' action="/dokky/mypage/myBoardList" method='get'>  
+	 <form id='actionForm' action="/dokky/mypage/myReplylist" method='get'>  
 		<input type='hidden' name='pageNum' value='${pageMaker.cri.pageNum}'><!--  $(this).attr("href") -->
 		<input type='hidden' name='amount' value='${pageMaker.cri.amount}'>
-		<input type='hidden' name='userId' value='${pageMaker.cri.userId}'>
-	</form> 
+		<input type='hidden' name='userId' value='${pageMaker.cri.userId}'> 
+	</form>
 		</div>
 	</div>
-</div> 
+</div>
 	
-<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script> 
-<script> 
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+<script>
 	   
-	$("#regBtn").on("click", function() { 
-	
-		self.location = "/dokky/board/register?category="+${pageMaker.cri.category};
-	}); 
-	
 	$("#deleteBtn").on("click", function() { 
 		
 		self.location = "/dokky/=";
 	}); 
 	
-	
-    
 	var actionForm = $("#actionForm");
 
 		$(".paginate_button a").on("click", function(e) {//결국pageNum값만 바꿔주기 위해
@@ -173,9 +162,13 @@
 				});
 	
 		$(".move").on("click",function(e) {
-			
+			 
 			e.preventDefault(); 
 			actionForm.append("<input type='hidden' name='num' value='"+ $(this).attr("href")+ "'>");
+			actionForm.find("input[name='pageNum']").remove();
+			actionForm.find("input[name='amount']").remove();
+			actionForm.find("input[name='userId']").remove(); 
+			 
 			actionForm.attr("action","/dokky/board/get");
 			actionForm.submit();   
 		});

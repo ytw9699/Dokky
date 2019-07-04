@@ -5,6 +5,7 @@ import org.apache.ibatis.annotations.Param;
 import org.my.domain.BoardVO;
 import org.my.domain.Criteria;
 import org.my.domain.MemberVO;
+import org.my.domain.ReplyVO;
 
 public interface MypageMapper {
 
@@ -19,5 +20,9 @@ public interface MypageMapper {
 	public List<BoardVO> getMyBoardList(Criteria cri);
 
 	public int getMyBoardCount(Criteria cri);
+
+	public List<ReplyVO> getMyReplylist(Criteria cri);
+
+	public int getMyReplyCount(Criteria cri);
 	
 }
