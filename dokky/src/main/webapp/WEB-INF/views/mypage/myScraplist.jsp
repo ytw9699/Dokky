@@ -87,19 +87,18 @@
 		        <button onclick="location.href='rePasswordForm?userId=${userInfo.username}'">비밀번호 변경</button> 
 		        <button onclick="location.href='myBoardList?userId=${userInfo.username}'">나의 게시글</button> 
 		        <button onclick="location.href='myReplylist?userId=${userInfo.username}'">나의 댓글</button> 
-		        <button onclick="location.href='myInfoForm?userId=${userInfo.username}'">스크랩</button>
+		        <button onclick="location.href='myScraplist?userId=${userInfo.username}'">스크랩</button>
 		        <button onclick="location.href='myInfoForm?userId=${userInfo.username}'">캐시</button>  
 		    </div> 
 		</div>
 	<div class="listWrapper">
-		<div class="">나의 게시글</div>
+		<div class="">나의 스크랩</div> 
 
-		<div><button id='regBtn' type="button" class="">새 글쓰기</button></div> 
 		<div><button id='deleteBtn' type="button" class="">삭제</button></div> 
 		
 		<div class="">
 			<table class=""> 
-				<c:forEach items="${MyBoard}" var="board">
+				<c:forEach items="${myScraplist}" var="board">
 					<tr>
 					<td>
 	                    <input type="checkbox" name="" id="" value="">
@@ -137,7 +136,7 @@
 					</c:if>
 				</ul>
 			</div>
-	<form id='actionForm' action="/dokky/mypage/myBoardList" method='get'>  
+	<form id='actionForm' action="/dokky/mypage/myScraplist" method='get'>  
 		<input type='hidden' name='pageNum' value='${pageMaker.cri.pageNum}'><!--  $(this).attr("href") -->
 		<input type='hidden' name='amount' value='${pageMaker.cri.amount}'>
 		<input type='hidden' name='userId' value='${pageMaker.cri.userId}'>
@@ -149,30 +148,23 @@
 <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script> 
 <script> 
 	   
-	$("#regBtn").on("click", function() { 
-	
-		self.location = "/dokky/board/register?category="+${pageMaker.cri.category};
-	}); 
-	
-	$("#deleteBtn").on("click", function() { 
-		
-		self.location = "/dokky/=";
-	}); 
-	
-	
+		$("#deleteBtn").on("click", function() { 
+			
+			self.location = "/dokky/=";
+		}); 
     
 	var actionForm = $("#actionForm");
 
-		$(".paginate_button a").on("click", function(e) {//결국pageNum값만 바꿔주기 위해
+		$(".paginate_button a").on("click", function(e) {
 	
 					e.preventDefault();
-	
-					actionForm.find("input[name='pageNum']").val($(this).attr("href"));//pageNum값을 바꿔주는것//this는 a태그의 href값을 가져오는것
+	 
+					actionForm.find("input[name='pageNum']").val($(this).attr("href"));
 					
 					actionForm.submit();
 				});
 	
-		$(".move").on("click",function(e) {
+		$(".move").on("click",function(e) {//게시판 조회
 			
 			e.preventDefault(); 
 			actionForm.append("<input type='hidden' name='num' value='"+ $(this).attr("href")+ "'>");

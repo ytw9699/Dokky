@@ -170,13 +170,16 @@
 	-----------------------------------------------------
 	11. 스크랩 테이블
 	create table dk_scrap (
+		 scrap_num number(10,0),
 	     userId varchar2(50) not null,
 	     NUM number(10,0) not null,
 	     constraint fk_scrap foreign key(NUM) references dk_board(NUM) on delete cascade,
-    	 constraint pk_scrap PRIMARY KEY (userId, NUM)
+    	 constraint pk_scrap PRIMARY KEY (scrap_num)
+    	 --constraint pk_scrap PRIMARY KEY (userId, NUM)
 );
-
-	);
+	create sequence seq_dk_scrap
+	
+	drop table dk_scrap purge
 	
 	14.기타 -----------------------------------------------------
 	컬럼추가
@@ -191,4 +194,5 @@
 	데이터 배로 증가
 	insert into tbl_board(bno, title, content, writer)
 	(select seq_board.nextval, title, content, writer from tbl_board);
+	
 

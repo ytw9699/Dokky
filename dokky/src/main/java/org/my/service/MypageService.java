@@ -26,5 +26,11 @@ public interface MypageService {
 	public boolean insertScrapData(int num, String userId);
 
 	public int getScrapCnt(int num, String userId);
+
+	public int deleteScrap(int num, String userId);
+
+	public List<BoardVO> getMyScraplist(Criteria cri);
+
+	public int getMyScrapCount(String userId);
 	
 }

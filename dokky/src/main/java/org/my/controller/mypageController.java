@@ -149,8 +149,8 @@ public class mypageController {
 		
 		log.info("getScrapCnt...num="+num+", userId="+userId);
 		
-		if(service.getScrapCnt(num,userId) == 1) {//스크랩을 이미 했다면
-			
+		if(service.getScrapCnt(num,userId) == 1 && service.deleteScrap(num,userId) == 1) {//스크랩을 이미 했다면, 스크랩 삭제
+		
 			return new ResponseEntity<>("cancel",HttpStatus.OK);
 		}
 		
@@ -162,5 +162,24 @@ public class mypageController {
 		}
 		return new ResponseEntity<>("fail",HttpStatus.OK);
 	}
+	
+	@PreAuthorize("isAuthenticated()")
+ 	@GetMapping("/myScraplist")  
+	public String myScraplist(Criteria cri, Model model) { //내 스크랩 글 가져오기
+		
+		log.info("getMyScrapCount");
+		
+		int total = service.getMyScrapCount(cri.getUserId());//total은 내 스크랩 총 게시물수
+		
+		log.info("myScraplist "+cri);
+		
+		model.addAttribute("myScraplist", service.getMyScraplist(cri));
+		
+		log.info("pageMaker");
+		
+		model.addAttribute("pageMaker", new PageDTO(cri, total));
+		
+		return "mypage/myScraplist";
+	} 
 	
 }

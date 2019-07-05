@@ -18,6 +18,8 @@ public interface MypageMapper {
 	public int updateMyPassword(@Param("userId") String userId, @Param("userPw") String userPw);
 
 	public List<BoardVO> getMyBoardList(Criteria cri);
+	
+	public List<BoardVO> getMyScraplist(Criteria cri);
 
 	public int getMyBoardCount(Criteria cri);
 
@@ -28,5 +30,9 @@ public interface MypageMapper {
 	public int insertScrapData(@Param("num") int num, @Param("userId") String userId);
  
 	public int getScrapCnt(@Param("num") int num, @Param("userId") String userId);
+
+	public int deleteScrap(@Param("num") int num, @Param("userId") String userId);
+
+	public int getMyScrapCount(String userId);
 	
 }

@@ -13,7 +13,7 @@ import org.my.mapper.MypageMapper;
 	import lombok.Setter;
 	import lombok.extern.log4j.Log4j;
 
-@Log4j
+@Log4j 
 @Service
 public class MypageServiceImpl implements MypageService {
 
@@ -99,6 +99,15 @@ public class MypageServiceImpl implements MypageService {
 		return getResult;
 	}
 	
+	@Override
+	public int deleteScrap(int num, String userId) {
+		
+		log.info("deleteScrap");
+		
+		int deleteResult = mapper.deleteScrap(num,userId); 
+		
+		return deleteResult;
+	}
 	
 	@Override
 	public boolean insertScrapData(int num, String userId) {
@@ -110,6 +119,23 @@ public class MypageServiceImpl implements MypageService {
 		return inserResult;
 	}
 	
+	@Override
+	public List<BoardVO> getMyScraplist(Criteria cri) {
+
+		log.info("getMyScraplist with criteria: " + cri);
+
+		return mapper.getMyScraplist(cri);
+	}
+	
+	@Override
+	public int getMyScrapCount(String userId) {
+		
+		log.info("getMyScrapCount");
+		
+		int getResult = mapper.getMyScrapCount(userId); 
+		
+		return getResult;
+	}
 	
 }
 
