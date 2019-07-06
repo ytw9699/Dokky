@@ -182,4 +182,13 @@ public class mypageController {
 		return "mypage/myScraplist";
 	} 
 	
+	@PreAuthorize("isAuthenticated()") 
+ 	@GetMapping("/myCashInfo")  
+	public String myCashInfo(@RequestParam("userId") String userId, Model model) { //내 캐시정보
+		
+		log.info("myCashInfo");
+		
+		return "mypage/myCashInfo";
+	}
+	
 }
