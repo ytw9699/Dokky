@@ -88,6 +88,14 @@
     padding: 50px;
     background-color: white;}
     
+    #reChargeCash{display: none;   width: 250px;
+    border-radius: 8px;
+    position: fixed;
+    top: 25%;
+    left: 35%;
+    padding: 50px;
+    background-color: white;}
+    
     .chargeWon{
 	    font-size: 40px;
 	     color: #ff7e00;
@@ -133,6 +141,18 @@
     background-color: #555;
     color: white;
     width: 200px;}
+    
+    .dotText{ font-size: 30px;
+    font-weight: 600;}
+    
+    .dotValue{color: #ff7e00;
+    font-size: 35px;}
+    
+    .dotContentWrap{ width: 50%;
+    margin: 0 auto;
+    }
+     
+    .tabcontent {padding: 6px 12px; border: 1px;}
 	
 </style>  
 </head>
@@ -144,11 +164,25 @@
 		 <form action="/dokky/mypage/myCashInfo" id="operForm" method='post'>	
 			<input type="hidden" name="${_csrf.parameterName}" value="${_csrf.token}" />
 	     	<input type="hidden" name="userId" value="${userInfo.username}" />
+	     	
 			<span class="chargeText">충전금액</span>
-			<input type="text" id="chargeWon" class="chargeWon" value="1000" />
-			<span class="chargeText">원</span>
+			<input type="text" id="chargeWon" class="chargeWon" value="" /> <span class="chargeText">원</span>
+			
 			<input type="button" id="chargeSubmit" class="chargeSubmit" value="확인" /> 
 			<input type="button" id="chargeCancel" class="chargeCancel" value="취소" />
+		</form>
+	</div>
+	
+	<div id="reChargeCash">
+		 <form action="/dokky/mypage/myCashInfo" id="operForm" method='post'>	
+			<input type="hidden" name="${_csrf.parameterName}" value="${_csrf.token}" />
+	     	<input type="hidden" name="userId" value="${userInfo.username}" />
+	     	
+			<span class="chargeText">환전금액</span>
+			<input type="text" id="reChargeWon" class="chargeWon" value="" /> <span class="chargeText">원</span>
+			
+			<input type="button" id="reChargeSubmit" class="chargeSubmit" value="확인" /> 
+			<input type="button" id="reChargeCancel" class="chargeCancel" value="취소" />
 		</form>
 	</div>
 	
@@ -165,13 +199,13 @@
 		    </div> 
 		</div>
 		
-		<div id="myDot" class="tabcontent">
-    		<div class="dotContentWrap">
-	     		<span class="dotText">DOT</span> <span class="dotValue"><s:property value="myInfomation.dot_sum"/></span>
-	     	</div>
+		<div class="tabcontent">
+    		<div class="dotContentWrap">  
+	     		<span class="dotText">Cash</span> <span class="dotValue">0원</span> 
+	     	</div> 
 	     	<div class="dotButtonWrap"> 
 		     	<input type="button" id="charging" class="dotButtons" value="충전하기"/>
-		     	<input type="button" class="dotButtons" value="환전하기" onclick="javascript:openRecharge();" />
+		     	<input type="button" id="recharging" class="dotButtons" value="환전하기" />
 		     	<input type="button" class="dotButtons" value="충전 & 환전 내역" onclick="javascript:location.href='myDotPayForm.action?od=ch'" />
 		     	<input type="button" class="dotButtons" value="사용내역" onclick="javascript:location.href='myDonationHistoryForm.action?od=give'" />
 	     	</div>
@@ -179,43 +213,68 @@
 	</div> 
 </div> 
 
-
 <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
 <script>
 
-	var csrfHeaderName ="${_csrf.headerName}"; 
-	var csrfTokenValue="${_csrf.token}";
-
-	$(document).ajaxSend(function(e, xhr, options) { 
-	    xhr.setRequestHeader(csrfHeaderName, csrfTokenValue); //모든 AJAX전송시 CSRF토큰을 같이 전송하도록 셋팅
-	  });
+		var csrfHeaderName ="${_csrf.headerName}"; 
+		var csrfTokenValue="${_csrf.token}";
+	
+		$(document).ajaxSend(function(e, xhr, options) { 
+		    xhr.setRequestHeader(csrfHeaderName, csrfTokenValue); //모든 AJAX전송시 CSRF토큰을 같이 전송하도록 셋팅
+		  });
 		
 		var profileBack = $("#profileGray");
 		var chargeDiv = $("#chargeCash");
+		var rechargeDiv = $("#reChargeCash");
+		var chargeInput = $("#chargeWon");
+		var rechargeInput = $("#reChargeWon");
 		
 		function openCharge(){
 			profileBack.css("display","block");
 			chargeDiv.css("display","block");
+			chargeInput.focus(); 
 		}
 		
 		function closeCharge(){
 			profileBack.css("display","none");
 			chargeDiv.css("display","none");
-			//rechargeDiv.css("display","none");
 		}
 		
-		$("#chargeCancel").on("click",function(event){//4.충전 폼 취소 이벤트
-			
-			closeCharge();
-				
-   		});//4.충전 폼 취소 이벤트
+		function openRecharge(){
+   			profileBack.css("display","block");
+   			rechargeDiv.css("display","block");
+   			rechargeInput.focus();
+   		}
 		
-		$("#charging").on("click",function(event){//4.충전 폼 열기 이벤트
+   		function closeRecharge(){
+			profileBack.css("display","none");
+			rechargeDiv.css("display","none");
+		}
+		
+		$("#charging").on("click",function(event){//1.충전 폼 열기 이벤트
 			
 			openCharge();
 				
-   		});//4.충전 폼 열기 이벤트
-	
+   		});//1.충전 폼 열기 이벤트
+		
+		$("#chargeCancel").on("click",function(event){//2.충전 폼 취소 이벤트
+			
+			closeCharge();
+				
+   		});//2.충전 폼 취소 이벤트
+   		
+		$("#recharging").on("click",function(event){//3.환전 폼 열기 이벤트
+			
+			openRecharge(); 
+				
+   		});//3.환전 폼 열기 이벤트
+   		 
+		$("#reChargeCancel").on("click",function(event){//4.환전 폼 취소 이벤트
+			
+			closeRecharge();
+				
+   		});//4.환전 폼 취소 이벤트
+   		
 </script>
 
 </body>
