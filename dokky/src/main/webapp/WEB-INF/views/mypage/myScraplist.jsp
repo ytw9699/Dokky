@@ -92,7 +92,7 @@
 		    </div> 
 		</div>
 	<div class="listWrapper">
-		<div class="">나의 스크랩</div> 
+		<div class="">나의 스크랩 최신순</div> 
 
 		<div><button id='deleteBtn' type="button" class="">삭제</button></div> 
 		
@@ -167,6 +167,7 @@
 		$(".move").on("click",function(e) {//게시판 조회
 			
 			e.preventDefault(); 
+		
 			actionForm.append("<input type='hidden' name='num' value='"+ $(this).attr("href")+ "'>");
 			actionForm.attr("action","/dokky/board/get");
 			actionForm.submit();   

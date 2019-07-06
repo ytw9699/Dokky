@@ -179,7 +179,11 @@
 );
 	create sequence seq_dk_scrap
 	
+	create index idx_scrap on dk_scrap(scrap_num desc);
+	
 	drop table dk_scrap purge
+	
+	
 	
 	14.기타 -----------------------------------------------------
 	컬럼추가

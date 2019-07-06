@@ -107,14 +107,27 @@
 		   
 	<select id="getMyScraplist" resultType="org.my.domain.BoardVO"> 
 		<![CDATA[
-		   select num, userId, title, replyCnt, hitCnt, category, regdate, scrap_num
+		   select num,
+		   		  userId,
+		   		  title,
+		   		  replyCnt,
+		   		  hitCnt,
+		   		  category,
+		   		  regdate
 			 from 
-			   ( SELECT  /*+INDEX_ASC(dk_scrap pk_scrap) */ 
-				  rownum rn, BOARD.num, BOARD.userId, title, replyCnt, hitCnt, category, regdate, scrap.scrap_num
+			   ( SELECT
+				  rownum rn,
+				  BOARD.num,
+				  BOARD.userId,
+				  title,
+				  replyCnt,
+				  hitCnt,
+				  category,
+				  regdate
 			FROM 
 				  DK_BOARD BOARD inner JOIN dk_scrap scrap on BOARD.num = scrap.num 
 				  
-			WHERE scrap.userid = #{userId} and rownum <= #{pageNum} * #{amount})
+			WHERE scrap.userid = #{userId} and rownum <= #{pageNum} * #{amount} order by scrap.scrap_num desc)
 			
 			where rn > (#{pageNum} -1) * #{amount}
 		]]>
