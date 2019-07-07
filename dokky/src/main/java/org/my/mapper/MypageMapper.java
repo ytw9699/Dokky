@@ -6,6 +6,7 @@ import org.my.domain.BoardVO;
 import org.my.domain.Criteria;
 import org.my.domain.MemberVO;
 import org.my.domain.ReplyVO;
+import org.my.domain.cashVO;
 
 public interface MypageMapper {
 
@@ -34,5 +35,13 @@ public interface MypageMapper {
 	public int deleteScrap(@Param("num") int num, @Param("userId") String userId);
 
 	public int getMyScrapCount(String userId);
+
+	public int insertChargeData(cashVO vo);
+
+	public int insertReChargeData(cashVO vo);
+
+	public List<cashVO> getMyCashHistory(Criteria cri);
+
+	public int getMyCashHistoryCount(String userId);
 	
 }

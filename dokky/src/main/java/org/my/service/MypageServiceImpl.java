@@ -6,6 +6,7 @@ import org.my.domain.Criteria;
 import org.my.domain.MemberVO;
 import org.my.domain.ReplyPageDTO;
 import org.my.domain.ReplyVO;
+import org.my.domain.cashVO;
 import org.my.mapper.MypageMapper;
 	import org.springframework.beans.factory.annotation.Autowired;
 	import org.springframework.security.crypto.password.PasswordEncoder;
@@ -136,6 +137,45 @@ public class MypageServiceImpl implements MypageService {
 		
 		return getResult;
 	}
+	
+	@Override
+	public boolean insertChargeData(cashVO vo) {
+		
+		log.info("insertChargeData");
+		
+		boolean inserResult = mapper.insertChargeData(vo) == 1; 
+		
+		return inserResult;
+	}
+	
+	@Override
+	public boolean insertReChargeData(cashVO vo) {
+		
+		log.info("insertReChargeData");
+		
+		boolean inserResult = mapper.insertReChargeData(vo) == 1; 
+		
+		return inserResult;
+	}
+	
+	@Override
+	public List<cashVO> getMyCashHistory(Criteria cri) {
+
+		log.info("getMyCashHistory");
+
+		return mapper.getMyCashHistory(cri);
+	}
+	
+	@Override
+	public int getMyCashHistoryCount(String userId) {
+		
+		log.info("getMyCashHistoryCount");
+		
+		int getResult = mapper.getMyCashHistoryCount(userId); 
+		
+		return getResult;
+	}
+	
 	
 }
 

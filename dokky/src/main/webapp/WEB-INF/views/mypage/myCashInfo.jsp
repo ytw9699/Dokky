@@ -102,7 +102,7 @@
 	     width: 53%; 
      }
     
-    .chargeSubmit{  font-size: 20px;
+    .Submit{  font-size: 20px;
 	    border: none;
 	    padding: 8px;
 	    width: 80%;
@@ -114,7 +114,7 @@
 	    background-color: #12b9ff;
 	 }
     
-    .chargeCancel{    font-size: 20px;
+    .Cancel{    font-size: 20px;
     border: none;
     padding: 8px;
     width: 80%;
@@ -129,8 +129,7 @@
     color: #555;
     font-weight: 600;}
     
-    .dotButtonWrap{width: 55%;
-    margin: 0 auto;}
+    .dotButtonWrap{width: 27%;} 
     
     .dotButtons{font-size: 20px;
     display: block;
@@ -146,13 +145,12 @@
     font-weight: 600;}
     
     .dotValue{color: #ff7e00;
-    font-size: 35px;}
+    font-size: 26px;}
     
     .dotContentWrap{ width: 50%;
-    margin: 0 auto;
     }
      
-    .tabcontent {padding: 6px 12px; border: 1px;}
+    .tabcontent {padding: 6px 12px; border: 1px solid #e6e6e6; width: 55%;}
 	
 </style>  
 </head>
@@ -162,27 +160,23 @@
 	<div id="profileGray"></div>
 	<div id="chargeCash">
 		 <form action="/dokky/mypage/myCashInfo" id="operForm" method='post'>	
-			<input type="hidden" name="${_csrf.parameterName}" value="${_csrf.token}" />
-	     	<input type="hidden" name="userId" value="${userInfo.username}" />
 	     	
 			<span class="chargeText">충전금액</span>
 			<input type="text" id="chargeWon" class="chargeWon" value="" /> <span class="chargeText">원</span>
 			
-			<input type="button" id="chargeSubmit" class="chargeSubmit" value="확인" /> 
-			<input type="button" id="chargeCancel" class="chargeCancel" value="취소" />
+			<input type="button" id="chargeSubmit" class="Submit" value="확인" /> 
+			<input type="button" id="chargeCancel" class="Cancel" value="취소" />
 		</form>
 	</div>
 	
 	<div id="reChargeCash">
 		 <form action="/dokky/mypage/myCashInfo" id="operForm" method='post'>	
-			<input type="hidden" name="${_csrf.parameterName}" value="${_csrf.token}" />
-	     	<input type="hidden" name="userId" value="${userInfo.username}" />
 	     	
 			<span class="chargeText">환전금액</span>
 			<input type="text" id="reChargeWon" class="chargeWon" value="" /> <span class="chargeText">원</span>
 			
-			<input type="button" id="reChargeSubmit" class="chargeSubmit" value="확인" /> 
-			<input type="button" id="reChargeCancel" class="chargeCancel" value="취소" />
+			<input type="button" id="reChargeSubmit" class="Submit" value="확인" /> 
+			<input type="button" id="reChargeCancel" class="Cancel" value="취소" />
 		</form>
 	</div>
 	
@@ -202,11 +196,14 @@
 		<div class="tabcontent">
     		<div class="dotContentWrap">  
 	     		<span class="dotText">Cash</span> <span class="dotValue">${userCash}원</span> 
+	     	</div>
+	     	<div class="dotContentWrap">  
+	     		<span class="dotText">입금 가상계좌</span> <span class="dotValue">신한 110-237-583410</span>  
 	     	</div> 
 	     	<div class="dotButtonWrap"> 
 		     	<input type="button" id="charging" class="dotButtons" value="충전하기"/>
 		     	<input type="button" id="recharging" class="dotButtons" value="환전하기" />
-		     	<input type="button" id="history" class="dotButtons" value="내역보기"/>
+		     	<input type="button" class="dotButtons" value="내역보기" onclick="location.href='myCashHistory?userId=${userInfo.username}'">
 	     	</div>
     	</div>
 	</div> 
@@ -221,6 +218,44 @@
 		$(document).ajaxSend(function(e, xhr, options) { 
 		    xhr.setRequestHeader(csrfHeaderName, csrfTokenValue); //모든 AJAX전송시 CSRF토큰을 같이 전송하도록 셋팅
 		  });
+		
+		function chargeCash(chargeData, callback, error) {//충전 요청
+			$.ajax({
+				type : 'post',
+				url : '/dokky/mypage/chargeData',
+				data : JSON.stringify(chargeData),
+				contentType : "application/json; charset=utf-8",
+				success : function(result, status, xhr) {
+					if (callback) {
+						callback(result,xhr);
+					}
+				},
+				error : function(xhr, status, er) {
+					if (error) {
+						error(xhr,er);
+					}
+				}
+			});
+		}
+		
+		function reChargeCash(reChargeData, callback, error) {//환전 요청
+			$.ajax({
+				type : 'post',
+				url : '/dokky/mypage/reChargeData',
+				data : JSON.stringify(reChargeData),
+				contentType : "application/json; charset=utf-8",
+				success : function(result, status, xhr) {
+					if (callback) {
+						callback(result,xhr);
+					}
+				},
+				error : function(xhr, status, er) {
+					if (error) {
+						error(xhr,er);
+					}
+				}
+			});
+		}
 		
 		var profileBack = $("#profileGray");
 		var chargeDiv = $("#chargeCash");
@@ -237,6 +272,7 @@
 		function closeCharge(){
 			profileBack.css("display","none");
 			chargeDiv.css("display","none");
+			chargeInput.val("");
 		}
 		
 		function openRecharge(){
@@ -248,6 +284,7 @@
    		function closeRecharge(){
 			profileBack.css("display","none");
 			rechargeDiv.css("display","none");
+			rechargeInput.val("");
 		}
 		
 		$("#charging").on("click",function(event){//1.충전 폼 열기 이벤트
@@ -262,17 +299,66 @@
 				
    		});//2.충전 폼 취소 이벤트
    		
-		$("#recharging").on("click",function(event){//3.환전 폼 열기 이벤트
+		$("#chargeSubmit").on("click",function(event){//3.충전 확인버튼 이벤트
+			
+			var chargeData = {
+					cashAmount:chargeInput.val(),
+					cashKind: '충전',
+					userId:'${userInfo.username}',
+					specification:'승인중'
+		          };
+		
+			chargeCash(chargeData, function(result){
+			        if(result == "success"){
+			        	alert("계좌 입금이 확인되면 캐시가 충전됩니다.");
+			        }
+			        else if(result == "fail"){
+			        	alert("잠시후 재시도 해주세요");
+			        }
+		     }); 
+			closeCharge();
+				
+   		});//3.충전 확인버튼 이벤트
+   		
+	  
+		$("#recharging").on("click",function(event){//4.환전 폼 열기 이벤트
 			
 			openRecharge(); 
 				
    		});//3.환전 폼 열기 이벤트
    		 
-		$("#reChargeCancel").on("click",function(event){//4.환전 폼 취소 이벤트
+		$("#reChargeCancel").on("click",function(event){//5.환전 폼 취소 이벤트
 			
 			closeRecharge();
 				
    		});//4.환전 폼 취소 이벤트
+   		
+		$("#reChargeSubmit").on("click",function(event){//6.충전 확인버튼 이벤트
+			
+			var reChargeData = {
+					cashAmount:rechargeInput.val(),
+					cashKind: '환전',
+					userId:'${userInfo.username}',
+					specification:'승인중'
+		          };
+			if(reChargeData.cashAmount > '${userCash}'){ 
+				alert("보유 캐시가 부족합니다.");
+				closeRecharge();
+				return;
+			}
+			
+			reChargeCash(reChargeData, function(result){
+			        if(result == "success"){
+			        	alert("관리자 승인후 환전됩니다.");
+			        }
+			        else if(result == "fail"){
+			        	alert("잠시후 재시도 해주세요");
+			        }
+		     }); 
+			
+			closeRecharge();
+				
+   		});//6.충전 확인버튼 이벤트
    		
 </script>
 

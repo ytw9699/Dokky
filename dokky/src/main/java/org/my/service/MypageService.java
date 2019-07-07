@@ -4,6 +4,7 @@ package org.my.service;
 	import org.my.domain.Criteria;
 	import org.my.domain.MemberVO;
 	import org.my.domain.ReplyVO;
+import org.my.domain.cashVO;
 
 public interface MypageService {
 
@@ -32,5 +33,13 @@ public interface MypageService {
 	public List<BoardVO> getMyScraplist(Criteria cri);
 
 	public int getMyScrapCount(String userId);
+
+	public boolean insertChargeData(cashVO vo);
+
+	public boolean insertReChargeData(cashVO vo);
+	
+	public List<cashVO> getMyCashHistory(Criteria cri);
+
+	public int getMyCashHistoryCount(String userId);
 	
 }

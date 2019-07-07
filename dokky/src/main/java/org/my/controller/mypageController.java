@@ -3,6 +3,7 @@ package org.my.controller;
 import org.my.domain.MemberVO;
 import org.my.domain.PageDTO;
 import org.my.domain.ReplyPageDTO;
+import org.my.domain.cashVO;
 import org.my.domain.checkVO;
 import org.my.service.BoardService;
 import org.my.service.MypageService;
@@ -191,7 +192,6 @@ public class mypageController {
 	public String myCashInfo(@RequestParam("userId") String userId, Model model) { //내 캐시정보
 		
 		log.info("myCashInfo");
-		log.info("username...="+userId);
 		
 		String userCash = boardService.getuserCash(userId);
 		
@@ -200,6 +200,55 @@ public class mypageController {
 		model.addAttribute("userCash", userCash);
 		
 		return "mypage/myCashInfo";
+	}
+	
+	@PostMapping(value = "/chargeData", produces = "text/plain; charset=UTF-8")
+	@ResponseBody
+	public ResponseEntity<String> chargeData(@RequestBody cashVO vo) {//캐시 충전하기
+		
+		if(service.insertChargeData(vo)) {
+			
+			log.info("insertChargeData...success "+vo);
+			
+			return new ResponseEntity<>("success", HttpStatus.OK);
+		}
+			log.info("insertChargeData...fail "+vo);
+			
+			return new ResponseEntity<>("fail", HttpStatus.OK);
+	}
+	
+	@PostMapping(value = "/reChargeData", produces = "text/plain; charset=UTF-8")
+	@ResponseBody
+	public ResponseEntity<String> reChargeData(@RequestBody cashVO vo) {//캐시 환전하기
+		
+		if(service.insertReChargeData(vo)) {
+			
+			log.info("insertReChargeData...success "+vo);
+			
+			return new ResponseEntity<>("success", HttpStatus.OK);
+		}
+			log.info("insertReChargeData...fail "+vo);
+			
+			return new ResponseEntity<>("fail", HttpStatus.OK);
+	}
+	
+	@PreAuthorize("isAuthenticated()") 
+ 	@GetMapping("/myCashHistory")  
+	public String myCashHistory(Criteria cri, Model model) { //내 캐시 내역
+		
+		log.info("getMyCashHistoryCount");
+		
+		int total = service.getMyCashHistoryCount(cri.getUserId());//total은 내 스크랩 총 게시물수
+		
+		log.info("myCashHistory");
+		
+		model.addAttribute("myCashHistory", service.getMyCashHistory(cri));
+		
+		log.info("pageMaker");
+		
+		model.addAttribute("pageMaker", new PageDTO(cri, total));
+		
+		return "mypage/myCashHistory"; 
 	}
 	
 }

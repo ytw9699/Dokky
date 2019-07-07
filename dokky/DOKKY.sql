@@ -30,16 +30,16 @@
 	(select seq_dk_reply.nextval, num, reply_content, nickName from DK_REPLY);
 	
 	create table DK_REPLY (--댓글 테이블
-	reply_num number(10,0),--pk
-	num number(10,0) not null,
-	reply_content varchar2(1000) not null,
-	nickName varchar2(50) not null,
-	userId varchar2(50) not null,
-	replyDate date default sysdate,
-	updateDate date default sysdate,
-	likeCnt number(10,0) default 0,
-	dislikeCnt number(10,0) default 0,
-	money number(10,0) default 0
+		reply_num number(10,0),--pk
+		num number(10,0) not null,
+		reply_content varchar2(1000) not null,
+		nickName varchar2(50) not null,
+		userId varchar2(50) not null,
+		replyDate date default sysdate,
+		updateDate date default sysdate,
+		likeCnt number(10,0) default 0,
+		dislikeCnt number(10,0) default 0,
+		money number(10,0) default 0
 	);
 	alter table DK_REPLY add constraint pk_reply primary key (reply_num);
 	
@@ -189,12 +189,33 @@
 		 regDate date default sysdate, 
 		 userId varchar2(50) not null,
 		 specification varchar2(50),--승인중/승인완료
-		 board_num number(10,0),
-		 reply_num number(10,0),
+		 board_num number(10,0) default 0,
+		 reply_num number(10,0) default 0,
 		 constraint fk_cash_board_num foreign key(board_num) references dk_board(NUM),
 		 constraint fk_cash_reply_num foreign key(reply_num) references dk_reply(reply_num),
 		 constraint pk_cash PRIMARY KEY (cash_num)
 	);
+	
+	create sequence seq_dk_cash
+	
+	drop table dk_cash purge
+	
+	insert into dk_cash (
+							cash_num,
+							cashKind,
+							cashAmount,
+							userId,
+							specification,
+							board_num
+							) values 
+										(
+										seq_dk_cash.nextval,
+										'기부하기',
+										10,
+										'admin90',
+										'게시판' ,
+										684
+										)
 	
 	14.기타 -----------------------------------------------------
 	컬럼추가
