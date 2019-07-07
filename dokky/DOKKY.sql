@@ -178,12 +178,23 @@
     	 --constraint pk_scrap PRIMARY KEY (userId, NUM)
 );
 	create sequence seq_dk_scrap
-	
-	create index idx_scrap on dk_scrap(scrap_num desc);
-	
+	--create index idx_scrap on dk_scrap(scrap_num desc);
 	drop table dk_scrap purge
 	
-	
+	12.캐시내역 테이블
+	create table dk_cash (
+		 cash_num number(10,0),--pk
+		 cashKind varchar2(50) not null,--충전,환전,기부하기,기부받기
+		 cashAmount number(10,0) not null,
+		 regDate date default sysdate, 
+		 userId varchar2(50) not null,
+		 specification varchar2(50) not null,--승인중/승인완료
+		 board_num number(10,0) not null,
+		 reply_num number(10,0),
+		 constraint fk_cash_board_num foreign key(board_num) references dk_board(NUM),
+		 constraint fk_cash_reply_num foreign key(reply_num) references dk_reply(reply_num),
+		 constraint pk_cash PRIMARY KEY (cash_num)
+	);
 	
 	14.기타 -----------------------------------------------------
 	컬럼추가

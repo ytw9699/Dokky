@@ -201,13 +201,12 @@
 		
 		<div class="tabcontent">
     		<div class="dotContentWrap">  
-	     		<span class="dotText">Cash</span> <span class="dotValue">0원</span> 
+	     		<span class="dotText">Cash</span> <span class="dotValue">${userCash}원</span> 
 	     	</div> 
 	     	<div class="dotButtonWrap"> 
 		     	<input type="button" id="charging" class="dotButtons" value="충전하기"/>
 		     	<input type="button" id="recharging" class="dotButtons" value="환전하기" />
-		     	<input type="button" class="dotButtons" value="충전 & 환전 내역" onclick="javascript:location.href='myDotPayForm.action?od=ch'" />
-		     	<input type="button" class="dotButtons" value="사용내역" onclick="javascript:location.href='myDonationHistoryForm.action?od=give'" />
+		     	<input type="button" id="history" class="dotButtons" value="내역보기"/>
 	     	</div>
     	</div>
 	</div> 

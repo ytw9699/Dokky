@@ -4,7 +4,8 @@ import org.my.domain.MemberVO;
 import org.my.domain.PageDTO;
 import org.my.domain.ReplyPageDTO;
 import org.my.domain.checkVO;
-	import org.my.service.MypageService;
+import org.my.service.BoardService;
+import org.my.service.MypageService;
 	import org.springframework.beans.factory.annotation.Autowired;
 	import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
@@ -32,6 +33,9 @@ public class mypageController {
 	
 	@Setter(onMethod_ = @Autowired)
 	private MypageService service;
+	
+	@Setter(onMethod_ = @Autowired)
+	private BoardService boardService;
 	
 	@Setter(onMethod_ = @Autowired)
 	private PasswordEncoder pwencoder;
@@ -187,6 +191,13 @@ public class mypageController {
 	public String myCashInfo(@RequestParam("userId") String userId, Model model) { //내 캐시정보
 		
 		log.info("myCashInfo");
+		log.info("username...="+userId);
+		
+		String userCash = boardService.getuserCash(userId);
+		
+		log.info("getuserCash...="+userCash);
+		
+		model.addAttribute("userCash", userCash);
 		
 		return "mypage/myCashInfo";
 	}
