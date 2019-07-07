@@ -188,8 +188,8 @@
 		 cashAmount number(10,0) not null,
 		 regDate date default sysdate, 
 		 userId varchar2(50) not null,
-		 specification varchar2(50) not null,--승인중/승인완료
-		 board_num number(10,0) not null,
+		 specification varchar2(50),--승인중/승인완료
+		 board_num number(10,0),
 		 reply_num number(10,0),
 		 constraint fk_cash_board_num foreign key(board_num) references dk_board(NUM),
 		 constraint fk_cash_reply_num foreign key(reply_num) references dk_reply(reply_num),
