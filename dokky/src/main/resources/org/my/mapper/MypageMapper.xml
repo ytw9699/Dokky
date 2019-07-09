@@ -104,10 +104,12 @@
 		    and reply_num > 0
 		    and rownum <= #{pageNum} * #{amount}
 		   ) where rn > (#{pageNum} -1) * #{amount}  -->
-		   
-	<select id="getMyScraplist" resultType="org.my.domain.BoardVO"> 
+		
+		
+		<select id="getMyScraplist" resultType="org.my.domain.BoardVO"> 
 		<![CDATA[
-		   select num,
+		   select 	 
+	 			  num,
 		   		  userId,
 		   		  title,
 		   		  replyCnt,
@@ -116,7 +118,7 @@
 		   		  regdate
 			 from 
 			   ( SELECT
-				  rownum rn,
+			   	  ROW_NUMBER() OVER(ORDER BY scrap.scrap_num desc) AS rn,
 				  BOARD.num,
 				  BOARD.userId,
 				  title,
@@ -127,12 +129,12 @@
 			FROM 
 				  DK_BOARD BOARD inner JOIN dk_scrap scrap on BOARD.num = scrap.num 
 				  
-			WHERE scrap.userid = #{userId} and rownum <= #{pageNum} * #{amount} order by scrap.scrap_num desc)
+			WHERE scrap.userid = #{userId} order by scrap.scrap_num desc)
 			
-			where rn > (#{pageNum} -1) * #{amount}
+			where rn > (#{pageNum} -1) * #{amount} and rn <= #{pageNum} * #{amount}
 		]]>
-	</select>
-	
+	</select>   
+		   
 	<insert id="insertChargeData">
 		insert into dk_cash (
 							cash_num,
@@ -209,7 +211,6 @@
 	<select id="getMyCashHistory" resultType="org.my.domain.cashVO"> 
 		<![CDATA[
 		   select 
-              rn,
                 cashKind,
 		   		  cashAmount,
 		   		  specification,
