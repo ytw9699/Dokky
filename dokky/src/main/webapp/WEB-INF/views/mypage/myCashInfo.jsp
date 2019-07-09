@@ -341,7 +341,7 @@
 					userId:'${userInfo.username}',
 					specification:'승인중'
 		          };
-			if(reChargeData.cashAmount > '${userCash}'){ 
+			if(reChargeData.cashAmount > parseInt('${userCash}') ){
 				alert("보유 캐시가 부족합니다.");
 				closeRecharge();
 				return;

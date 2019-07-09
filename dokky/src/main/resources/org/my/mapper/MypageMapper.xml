@@ -173,15 +173,17 @@
 		]]>
 	</select>
 	
-	<select id="getMyCashHistory" resultType="org.my.domain.cashVO"> 
+	<!-- <select id="getMyCashHistory" resultType="org.my.domain.cashVO"> 
 		<![CDATA[
-		   select cashKind,
+		   select 
+		   		  cashKind,
 		   		  cashAmount,
 		   		  specification,
 		   		  regDate,
 		   		  board_num,
 		   		  reply_content,
-		   		  title
+		   		  title,
+		   		  cash_num
 			 from 
 			   ( SELECT
 				  rownum rn,
@@ -191,7 +193,8 @@
 				  cash.regDate,
 				  cash.board_num, 
 				  reply.reply_content,
-				  board.title
+				  board.title,
+				  cash.cash_num
 			FROM 
 				  dk_cash cash inner JOIN dk_board board on board.num = cash.board_num 
 				  
@@ -200,6 +203,40 @@
 			WHERE cash.userid = #{userId} and rownum <= #{pageNum} * #{amount} order by cash.cash_num desc)
 			
 			where rn > (#{pageNum} -1) * #{amount}
+		]]>
+	</select> -->
+	
+	<select id="getMyCashHistory" resultType="org.my.domain.cashVO"> 
+		<![CDATA[
+		   select 
+              rn,
+                cashKind,
+		   		  cashAmount,
+		   		  specification,
+		   		  regDate,
+		   		  board_num,
+		   		  reply_content,
+		   		  title,
+		   		  cash_num
+			 from 
+			   ( SELECT
+				   ROW_NUMBER() OVER(ORDER BY cash.cash_num desc) AS rn,
+				  cash.cashKind,
+				  cash.cashAmount,
+				  cash.specification,
+				  cash.regDate,
+				  cash.board_num, 
+				  reply.reply_content,
+				  board.title,
+				  cash.cash_num
+			FROM 
+				  dk_cash cash inner JOIN dk_board board on board.num = cash.board_num 
+				  
+				  inner JOIN dk_reply reply on reply.reply_num = cash.reply_num 
+				  
+			WHERE cash.userid = #{userId} order by cash.cash_num desc)
+			
+			where rn > (#{pageNum} -1) * #{amount} and rn <= #{pageNum} * #{amount} 
 		]]>
 	</select>
 	

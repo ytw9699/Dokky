@@ -150,7 +150,7 @@
 					</c:if>
 				</ul>
 			</div>
-	<form id='actionForm' action="/dokky/mypage/myBoardList" method='get'>  
+	<form id='actionForm' action="/dokky/mypage/myCashHistory" method='get'>  
 		<input type='hidden' name='pageNum' value='${pageMaker.cri.pageNum}'><!--  $(this).attr("href") -->
 		<input type='hidden' name='amount' value='${pageMaker.cri.amount}'>
 		<input type='hidden' name='userId' value='${pageMaker.cri.userId}'>
