@@ -173,6 +173,7 @@
 		 scrap_num number(10,0),
 	     userId varchar2(50) not null,
 	     NUM number(10,0) not null,
+	     regDate date default sysdate,
 	     constraint fk_scrap foreign key(NUM) references dk_board(NUM) on delete cascade,
     	 constraint pk_scrap PRIMARY KEY (scrap_num)
     	 --constraint pk_scrap PRIMARY KEY (userId, NUM)

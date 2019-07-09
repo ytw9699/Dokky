@@ -111,21 +111,21 @@
 		   select 	 
 	 			  num,
 		   		  userId,
+		   		  regdate,
 		   		  title,
 		   		  replyCnt,
 		   		  hitCnt,
-		   		  category,
-		   		  regdate
+		   		  category
 			 from 
 			   ( SELECT
 			   	  ROW_NUMBER() OVER(ORDER BY scrap.scrap_num desc) AS rn,
 				  BOARD.num,
 				  BOARD.userId,
+				  scrap.regdate,
 				  title,
 				  replyCnt,
 				  hitCnt,
-				  category,
-				  regdate
+				  category
 			FROM 
 				  DK_BOARD BOARD inner JOIN dk_scrap scrap on BOARD.num = scrap.num 
 				  

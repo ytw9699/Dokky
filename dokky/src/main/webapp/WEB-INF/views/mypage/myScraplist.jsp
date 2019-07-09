@@ -92,12 +92,15 @@
 		    </div> 
 		</div>
 	<div class="listWrapper">
-		<div class="">나의 스크랩 최신순</div> 
+		<div class="">나의 게시글 스크랩</div> 
 
 		<div><button id='deleteBtn' type="button" class="">삭제</button></div> 
 		
 		<div class="">
 			<table class=""> 
+					<tr>
+					<td></td><td>제목</td><td>댓글수</td><td>조회수</td><td>스크랩날짜</td> 
+					</tr>
 				<c:forEach items="${myScraplist}" var="board">
 					<tr>
 					<td>
