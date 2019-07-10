@@ -248,8 +248,14 @@ public class BoardServiceImpl implements BoardService {
 		log.info("updateMycash");
 		mapper.updateMycash(vo.getMoney(),vo.getUserId());
 		
+		log.info("insertMyCashHistory");
+		mapper.insertMyCashHistory(vo);
+		
 		log.info("updateBoardUserCash");
 		mapper.updateBoardUserCash(vo);
+		
+		log.info("insertBoardUserCashHistory");
+		mapper.insertBoardUserCashHistory(vo);
 		
 		log.info("updateBoardMoney");
 		mapper.updateBoardMoney(vo);

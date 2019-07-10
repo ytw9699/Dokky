@@ -193,9 +193,16 @@ public class ReplyServiceImpl implements ReplyService {
 			
 			log.info("updateMycash");
 			boardMapper.updateMycash(vo.getMoney(),vo.getUserId());
+			
+			log.info("insertMyCashHistory");
+			mapper.insertMyCashHistory(vo); 
 			 
 			log.info("updateReplyUserCash");
+			log.info(vo);
 			mapper.updateReplyUserCash(vo);
+			 
+			log.info("insertReplyUserCashHistory");
+			   mapper.insertReplyUserCashHistory(vo);
 			
 			log.info("updateReplyMoney");
 			mapper.updateReplyMoney(vo);

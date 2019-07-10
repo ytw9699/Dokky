@@ -181,4 +181,47 @@
 		select money from dk_board where num = #{num}
 	</select>
 	
+	<!-- 내 캐시 히스토리 입력 -->
+	<insert id="insertMyCashHistory">
+		insert into dk_cash (
+							cash_num,
+							cashKind,
+							cashAmount,
+							userId,
+							specification,
+							board_num
+							) values 
+										(
+											seq_dk_cash.nextval,
+											'기부하기',
+											#{money},
+											#{userId},
+											'게시판' ,
+											#{num}
+										)
+	</insert>
+	
+	<!-- 게시글 유저 캐시 히스토리 입력 -->
+	<insert id="insertBoardUserCashHistory">
+		insert into dk_cash (
+								cash_num,
+								cashKind,
+								cashAmount,
+								userId,
+								specification,
+								board_num
+								) values 
+											(
+												seq_dk_cash.nextval,
+												'기부받기',
+												#{money},
+												#{boardId},
+												'게시판' ,
+												#{num}
+											)
+	</insert>
+	
+		
+	
+
 </mapper>

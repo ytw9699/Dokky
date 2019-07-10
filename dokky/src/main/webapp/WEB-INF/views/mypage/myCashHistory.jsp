@@ -105,12 +105,17 @@
 				<c:forEach items="${myCashHistory}" var="History">
 					<tr>
 						<td><c:out value="${History.cashKind}" /></td>
-						<td><c:out value="${History.cashAmount}" />원</td>
+						 <c:if test="${History.cashKind == '기부하기' || History.cashKind == '환전'}">
+							<td>-<c:out value="${History.cashAmount}" />원</td>
+						</c:if>  
+						<c:if test="${History.cashKind == '기부받기' || History.cashKind == '충전'}">
+							<td>+<c:out value="${History.cashAmount}" />원</td>
+						</c:if>
 						
 					<c:choose>
 					       <c:when test="${History.cashKind == '충전' || History.cashKind == '환전'}">
 					          	<td><c:out value="${History.specification}" /></td>
-					          	<td></td>  
+					          	<td></td>
 					       </c:when>
 					       <c:when test="${History.cashKind == '기부하기' || History.cashKind == '기부받기'}">
 				       			  <c:if test="${History.specification == '게시판'}">

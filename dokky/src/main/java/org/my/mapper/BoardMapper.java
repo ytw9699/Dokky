@@ -66,5 +66,9 @@ public interface BoardMapper {
 
 	public String getBoardMoney(donateVO vo);
 
+	public void insertMyCashHistory(donateVO vo);
+
+	public void insertBoardUserCashHistory(donateVO vo);
+
 
 }

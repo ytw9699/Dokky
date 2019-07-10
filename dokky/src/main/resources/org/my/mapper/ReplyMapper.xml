@@ -117,7 +117,7 @@
 	
 	<!-- 댓글 기부받는자 캐시 증감하기 -->
 	<update id="updateReplyUserCash">
-	    update dk_member set cash = cash + #{money} where userId = #{boardId}
+	    update dk_member set cash = cash + #{money} where userId = #{replyId}
 	</update> 
 	
 	<!-- 댓글의 기부금액 증감하기 -->
@@ -130,5 +130,48 @@
 		select money from DK_REPLY where reply_num = #{reply_num}
 	</select>
 	
+	<!-- 내 캐시 히스토리 입력 -->
+	<insert id="insertMyCashHistory">
+		insert into dk_cash (
+							cash_num,
+							cashKind,
+							cashAmount,
+							userId,
+							specification,
+							board_num,
+							reply_num
+							) values 
+										(
+											seq_dk_cash.nextval,
+											'기부하기',
+											#{money},
+											#{userId},
+											'댓글' ,
+											#{num},
+											#{reply_num}
+										)
+	</insert>
+	
+	<!-- 댓글 유저 캐시 히스토리 입력 -->
+	<insert id="insertReplyUserCashHistory">
+		insert into dk_cash (
+								cash_num,
+								cashKind,
+								cashAmount,
+								userId,
+								specification,
+								board_num,
+								reply_num
+								) values 
+											(
+												seq_dk_cash.nextval,
+												'기부받기',
+												#{money},
+												#{replyId},
+												'댓글' ,
+												#{num},
+												#{reply_num}
+											)
+	</insert>
 
 </mapper>

@@ -737,7 +737,7 @@
    			if(option === 'board'){//게시글 기부시
    				var donateData = {num 	  : numValue, //글번호
 								  userId  : username, //기부하는 아이디
-								  boardId : donatedId, //기부받는 아이디
+								  replyId : donatedId, //기부받는 아이디
 								  money   : inputMoney, //기부금액
 								  cash 	  : myCash //내 캐시
 								 };
@@ -754,12 +754,16 @@
 		   	    });
    			}else if(option === 'reply'){//댓글 기부시
    				
-   				var replyDonateData = {reply_num : reply_num, //댓글번호
-								  userId  	: username, //기부하는 아이디
-								  boardId 	: donatedId, //기부받는 아이디
-								  money   	: inputMoney, //기부금액
-								  cash 	 	 : myCash //내 캐시
+   				
+   				var replyDonateData = {
+				   					   num 	     : numValue, //글번호
+					   				   reply_num : reply_num, //댓글번호
+									   userId  	 : username, //기부하는 아이디
+									   replyId 	 : donatedId, //기부받는 아이디
+									   money     : inputMoney, //기부금액
+									   cash 	 : myCash //내 캐시
 								 };
+   			
 				
 				replyService.updateReplyDonation(replyDonateData, function(result){
 				

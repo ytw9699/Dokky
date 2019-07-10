@@ -59,4 +59,8 @@ public interface ReplyMapper {
 	public void updateReplyMoney(replyDonateVO vo);
 
 	public String getReplyMoney(replyDonateVO vo);
+
+	public void insertMyCashHistory(replyDonateVO vo);
+
+	public void insertReplyUserCashHistory(replyDonateVO vo);
 }
