@@ -16,7 +16,9 @@ public class Criteria {//349페이지 나중에다시봐보자
   
   private String type;
   private String keyword;
+  
   private String userId;
+  private String nickName;
 
   public Criteria() {
     this(1, 10);

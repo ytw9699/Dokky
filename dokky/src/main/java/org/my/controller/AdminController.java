@@ -32,12 +32,19 @@ public class AdminController {
 	@Setter(onMethod_ = @Autowired)
 	private AdminService service;
 	
-	@GetMapping("main")
-	public String admin() {
+	@GetMapping("memberList")
+	public String admin(Criteria cri, Model model) {
 		
-		log.info("admin/main");
+		log.info("admin/memberList");
+		log.info(cri);
 		
-		return "admin/main"; 
+		model.addAttribute("memberList", service.getMemberList(cri));
+		
+		int total = service.getMemberTotalCount(cri);
+		
+		model.addAttribute("pageMaker", new PageDTO(cri, total));
+		
+		return "admin/memberList"; 
 	}
 	
 	@GetMapping("cashRequest")

@@ -1,7 +1,8 @@
 package org.my.mapper;
 	import java.util.List;
 	import org.my.domain.Criteria;
-	import org.my.domain.cashVO;
+import org.my.domain.MemberVO;
+import org.my.domain.cashVO;
 
 public interface AdminMapper {
 
@@ -15,4 +16,8 @@ public interface AdminMapper {
 
 	public void updateMinuscash(cashVO vo);
 
+	public List<MemberVO> getMemberList(Criteria cri);
+
+	public int getMemberTotalCount(Criteria cri);
+	
 }

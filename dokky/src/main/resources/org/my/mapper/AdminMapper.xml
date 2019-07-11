@@ -40,4 +40,32 @@
 	    update dk_member set cash = cash - #{cashAmount} where userId = #{userId}
 	</update>
 	
+	
+	<sql id="criteria">
+		<trim prefix="where" suffix="" prefixOverrides="OR">
+			<foreach item='type' collection="typeArr">
+				<trim prefix="OR">
+					<choose>
+						<when test="type == 'I'.toString()">
+							userId like '%'||#{keyword}||'%'
+						</when>
+						<when test="type == 'N'.toString()">
+						 	nickName like '%'||#{keyword}||'%'
+						</when>
+					</choose>
+				</trim>
+			</foreach>
+		</trim>
+	</sql>
+	
+	 <select id="getMemberList" resultType="org.my.domain.MemberVO">
+		select * from DK_MEMBER  <include refid ="criteria"></include>  
+				
+	</select>
+	  
+	<select id="getMemberTotalCount" resultType="int">
+		select count(*) from dk_member <include refid ="criteria"></include>  
+				
+	</select>
+	
 </mapper>

@@ -64,10 +64,67 @@
 		border-color: #e6e6e6;/* 흰색 */
 		border-style: solid;
 	}
+	
+	.memberInfoWrap {  
+	    display: inline-block;
+	    background-color: #eeeeee;
+	    width: 23%;
+	    margin-top: 20px;
+	    margin-right: 16px;
+	    cursor: pointer;
+	    box-sizing: border-box;
+	    transition: 0.3s;
+	}
+	.memberInfoWrap:hover {
+	    border: 1px solid #12b9ff;
+	}
+	
+	.memberInfo {
+	    display: inline-block;
+	    float: left;
+	    width: 70px;
+	    /* margin: 20px; */
+	    margin-top: 30px;
+	    margin-left: 0;
+	}
+	
+	.memberProfile {
+	    display: inline-block;
+	    float: left;
+	    width: 60px;
+	    margin: 20px;
+	    /* border: 1px solid black; */
+	    border-radius: 70px;
+	}
+	
+	.infoWrap {
+	    width: 100%;
+	    margin: 0 auto;
+	}
+	.memberImage {
+	    width: 100%;
+	    border-radius: 70px;
+	    height: 60px; 
+	}
+	
+	span.userId {
+    color: #868686;
+    display: block;
+    margin-top: 5px;
+    /* font-weight: 600; */ 
+	}
+	
+	span.nickName {
+	    color: #131313;
+	    font-size: 15px;
+	    /* font-weight: 600; */
+	}
+
 </style>
 </head> 
 
 <%@include file="../includes/left.jsp"%>
+
 
 <body> 
 	<div class="bodyWrap">	 
@@ -79,30 +136,23 @@
 		        <button onclick="location.href='cashRequest'">결제관리</button> 
 		    </div> 
 		 </div> 
+		  
+	<%@include file="../includes/adminSearch.jsp"%> 
+		 
+	<div class="infoWrap"> 
+		<c:forEach items="${memberList}" var="member">
+			<div class="memberInfoWrap" onclick="location.href='memberDetail?id=<c:out value="${member.userId}" />&currentPage=<c:out value="${member.userId}" />'" >
+				<div class="memberProfile">
+					<img src="/dokky/resources/img/profile_img/<c:out value="${member.nickName}" />" class="memberImage" onerror="this.src='/dokky/resources/img/basicProfile.png'" />
+				</div>				 												 									
+				<div class="memberInfo">
+					<span class="nickName"><c:out value="${member.nickName}" /></span><br/>
+					<span class="userId"><c:out value="${member.userId}" /></span>
+				</div>
+			</div>
+		</c:forEach>
+	</div>
 	 
-	 <div class="listWrapper">
-		<div class="">
-			<table class=""> 
-					<tr>
-						<td>요청아이디</td><td>종류</td><td>요청날짜</td><td>금액</td><td>상태</td><td>승인하기</td>
-					</tr>
-						<c:forEach items="${cashRequest}" var="cash">
-					<tr>  
-						<td><c:out value="${cash.userId}" /></td> 
-						<td><c:out value="${cash.cashKind}" /></td> 
-						<td><fmt:formatDate pattern="yyyy-MM-dd-HH:mm" value="${cash.regDate}" /></td>
-						<td><c:out value="${cash.cashAmount}" />원</td>
-						<td id="specification${cash.cash_num}"><c:out value="${cash.specification}" /></td>   
-						<td>
-						 	<button class="approveButton" data-cash_kind="${cash.cashKind}" data-user_id="${cash.userId}" data-cash_amount="${cash.cashAmount}" data-cash_num="${cash.cash_num}">승인</button>
-						</td>
-					</tr>
-				</c:forEach>
-			</table>
-		</div>
-		</div>
-		
-		
 		<div class='pull-right'>
 				<ul class="pagination">
 					<c:if test="${pageMaker.prev}">
@@ -118,75 +168,23 @@
 					</c:forEach>
 
 					<c:if test="${pageMaker.next}">
-						<li class="paginate_button next">
+						<li class="paginate_button next"> 
 							<a href="${pageMaker.endPage +1 }">Next</a>
 						</li>
-					</c:if>
+					</c:if> 
 				</ul>
 		</div>
-			<form id='actionForm' action="/dokky/admin/cashRequest" method='get'>  
-				<input type='hidden' name='pageNum' value='${pageMaker.cri.pageNum}'><!--  $(this).attr("href") -->
+			<form id='actionForm' action="/dokky/admin/memberList" method='get'>  
+				<input type='hidden' name='pageNum' value='${pageMaker.cri.pageNum}'>
 				<input type='hidden' name='amount' value='${pageMaker.cri.amount}'>
+				<input type='hidden' name='type' value='<c:out value="${ pageMaker.cri.type }"/>'> 
+				<input type='hidden' name='keyword' value='<c:out value="${ pageMaker.cri.keyword }"/>'>
 			</form>  
-			
 	 </div>
 	</div> 
 	
 	<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script> 
 	<script>
-	
-			var csrfHeaderName ="${_csrf.headerName}"; 
-			var csrfTokenValue="${_csrf.token}";
-			    
-			 $(document).ajaxSend(function(e, xhr, options) { 
-		       xhr.setRequestHeader(csrfHeaderName, csrfTokenValue); //모든 AJAX전송시 CSRF토큰을 같이 전송하도록 셋팅
-		     });
-	 
-			 function approve(approveData, callback, error) {
-					$.ajax({
-						type : 'put',
-						url : '/dokky/admin/approve/',
-						data : JSON.stringify(approveData),
-						contentType : "application/json; charset=utf-8",
-						success : function(result, status, xhr) {
-							if (callback) {
-								callback(result,xhr);
-							}
-						},
-						error : function(xhr, status, er) {
-							if (error) {
-								error(xhr,er);
-							}
-						}
-					});
-				}
-			 
-			 
-			 $(".approveButton").on("click",function(event){// 이벤트  
-				 	var cash_num = $(this).data("cash_num");
-				 	var userId = $(this).data("user_id");
-				 	var cashAmount = $(this).data("cash_amount");
-				 	var cashKind = $(this).data("cash_kind");
-				 	 
-				 	var approveData = {
-				 			cash_num: cash_num,
-				 			userId:userId,
-				 			cashAmount:cashAmount,
-				 			cashKind:cashKind
-				          };
-				 	
-				 	approve(approveData, function(result){ 
-						if(result == 'success'){ 
-							
-							var specification = $("#specification"+cash_num); 
-							
-					 		specification.html("승인완료"); 
-					 		
-					 		alert("승인완료 되었습니다");
-						}
-			   	    });
-		   		});//이벤트 끝
-		   		
 		   		
 	   		var actionForm = $("#actionForm");
 

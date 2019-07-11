@@ -53,11 +53,11 @@
 				<a href="/dokky/customLogout">로그아웃</a>
 			</sec:authorize>
 			<sec:authorize access="isAnonymous()"> 
-				<a href="/dokky/customLogin">로그인</a> 
+				<a href="/dokky/customLogin">로그인</a>  
 				<a href="/dokky/memberForm">회원가입</a>
 			</sec:authorize>	
 		</div>
-		<div class="mypage"><a href="/dokky/admin/main">관리자 페이지</a></div>
+		<div class="mypage"><a href="/dokky/admin/memberList">관리자 페이지</a></div>
 	</div>
 </body>
 </html>
