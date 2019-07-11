@@ -134,6 +134,7 @@
 			<div class="tab">   
 		        <button onclick="location.href='memberList'">계정관리</button> 
 		        <button onclick="location.href='cashRequest'">결제관리</button> 
+		        <button onclick="location.href='userReportList'">신고관리</button>
 		    </div> 
 		 </div> 
 		  
@@ -141,7 +142,7 @@
 		 
 	<div class="infoWrap"> 
 		<c:forEach items="${memberList}" var="member">
-			<div class="memberInfoWrap" onclick="location.href='memberDetail?id=<c:out value="${member.userId}" />&currentPage=<c:out value="${member.userId}" />'" >
+			<div class="memberInfoWrap" onclick="location.href='userForm?userId=<c:out value="${member.userId}" />'" >
 				<div class="memberProfile">
 					<img src="/dokky/resources/img/profile_img/<c:out value="${member.nickName}" />" class="memberImage" onerror="this.src='/dokky/resources/img/basicProfile.png'" />
 				</div>				 												 									

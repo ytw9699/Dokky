@@ -16,4 +16,8 @@ public interface AdminService {
 
 	public int getMemberTotalCount(Criteria cri);
 
+	public MemberVO getUserForm(String userId);
+
+	public Object getUserReportList(Criteria cri);
+
 }

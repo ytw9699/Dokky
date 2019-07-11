@@ -66,6 +66,13 @@ public class AdminServiceImpl implements AdminService {
 		return mapper.getMemberList(cri);
 	}
 	
+	@Override
+	public MemberVO getUserForm(String userId) {
+
+		log.info("getUserForm: " + userId);
+
+		return mapper.getUserForm(userId);
+	}
 	
 	
 }

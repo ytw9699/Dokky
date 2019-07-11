@@ -65,7 +65,12 @@
 	  
 	<select id="getMemberTotalCount" resultType="int">
 		select count(*) from dk_member <include refid ="criteria"></include>  
-				
 	</select>
+	
+	<!-- 나의 정보 한줄 가져오기 -->
+	 <select id="getUserForm" resultType="org.my.domain.MemberVO">
+		select * from DK_MEMBER where userId = #{userId}
+	</select>
+	
 	
 </mapper>

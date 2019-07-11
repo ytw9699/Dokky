@@ -4,7 +4,8 @@ import org.my.domain.Criteria;
 import org.my.domain.PageDTO;
 import org.my.domain.cashVO;
 import org.my.service.AdminService;
-	import org.springframework.beans.factory.annotation.Autowired;
+import org.my.service.MypageService;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.prepost.PreAuthorize;
@@ -15,6 +16,7 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 
 import lombok.Setter;
@@ -31,6 +33,9 @@ public class AdminController {
 	
 	@Setter(onMethod_ = @Autowired)
 	private AdminService service;
+	
+	@Setter(onMethod_ = @Autowired)
+	private MypageService MypageService;
 	
 	@GetMapping("memberList")
 	public String admin(Criteria cri, Model model) {
@@ -70,7 +75,51 @@ public class AdminController {
 		
 		return service.updateApprove(vo) == 1 ? new ResponseEntity<>("success", HttpStatus.OK)
 				: new ResponseEntity<>("fail",HttpStatus.INTERNAL_SERVER_ERROR);
-}
+		}
 	
+	@PreAuthorize("isAuthenticated()")
+ 	@GetMapping("/userForm")  
+	public String userForm(@RequestParam("userId") String userId, Model model) {
+		
+		model.addAttribute("user", service.getUserForm(userId));
+		
+		log.info("userForm");
+		
+		return "admin/userForm";
+	} 
+	
+	@PreAuthorize("isAuthenticated()") 
+ 	@GetMapping("/userCashHistory")  
+	public String userCashHistory(Criteria cri, Model model) {
+		
+		log.info("getUserCashHistoryCount");
+		
+		int total = MypageService.getMyCashHistoryCount(cri.getUserId());
+		
+		log.info("userCashHistory");
+		
+		model.addAttribute("userCashHistory", MypageService.getMyCashHistory(cri));
+		
+		log.info("pageMaker");
+		
+		model.addAttribute("pageMaker", new PageDTO(cri, total));
+		
+		return "admin/userCashHistory"; 
+	}
+	
+	@GetMapping("userReportList")
+	public String userReportList(Criteria cri, Model model) {//게시글 댓글 신고
+		
+		log.info("admin/userReportList");
+		log.info(cri);
+		
+		model.addAttribute("getUserReportList", service.getUserReportList(cri));
+		
+		int total = service.getMemberTotalCount(cri);
+		
+		model.addAttribute("pageMaker", new PageDTO(cri, total));
+		
+		return "admin/userReportList"; 
+	}
 }
 	
