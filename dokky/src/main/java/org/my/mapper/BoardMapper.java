@@ -7,6 +7,7 @@ import org.my.domain.BoardVO;
 	import org.my.domain.Criteria;
 import org.my.domain.ReplyLikeVO;
 import org.my.domain.donateVO;
+import org.my.domain.reportVO;
 
 public interface BoardMapper {
 
@@ -69,6 +70,8 @@ public interface BoardMapper {
 	public void insertMyCashHistory(donateVO vo);
 
 	public void insertBoardUserCashHistory(donateVO vo);
+
+	public int insertReportdata(reportVO vo);
 
 
 }

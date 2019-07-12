@@ -12,7 +12,6 @@ public class reportVO {
 	private String reportedId;
 	private String reportedNick;
 	private Long board_num;
-	private Long reply_num;
 	private String reason;
 	private Date regDate;
 	

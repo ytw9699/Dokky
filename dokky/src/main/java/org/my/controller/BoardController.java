@@ -9,7 +9,8 @@ package org.my.controller;
 	import org.my.domain.ReplyLikeVO;
 	import org.my.domain.ReplyVO;
 	import org.my.domain.donateVO;
-	import org.my.service.BoardService;
+import org.my.domain.reportVO;
+import org.my.service.BoardService;
 	import org.springframework.http.HttpStatus;
 	import org.springframework.http.MediaType;
 	import org.springframework.http.ResponseEntity;
@@ -244,6 +245,23 @@ public class BoardController {
 			
 			return new ResponseEntity<>(BoardMoney, HttpStatus.OK);
 		}
+	
+	@PostMapping(value = "/report", consumes = "application/json", produces = "text/plain; charset=UTF-8")
+	@ResponseBody
+	public ResponseEntity<String> report(@RequestBody reportVO vo) {
+		
+		if(service.insertReportdata(vo)) {
+			
+			log.info("insertReportdata...success "+vo);
+			
+			return new ResponseEntity<>("success", HttpStatus.OK);
+		}else{
+			
+			log.info("insertChargeData...fail "+vo);
+			
+			return new ResponseEntity<>("fail", HttpStatus.OK);
+		}
+	}
 	
 	
 	@GetMapping(value = "/getAttachList",

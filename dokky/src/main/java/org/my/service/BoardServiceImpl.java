@@ -4,7 +4,8 @@ package org.my.service;
 	import org.my.domain.Criteria;
 	import org.my.domain.ReplyLikeVO;
 	import org.my.domain.donateVO;
-	import org.my.mapper.BoardAttachMapper;
+import org.my.domain.reportVO;
+import org.my.mapper.BoardAttachMapper;
 	import org.my.mapper.BoardMapper;
 	import org.springframework.beans.factory.annotation.Autowired;
 	import org.springframework.stereotype.Service;
@@ -263,6 +264,15 @@ public class BoardServiceImpl implements BoardService {
 		log.info("getBoardMoney");
 		return mapper.getBoardMoney(vo);
 	}
+	
+	@Override
+	public boolean insertReportdata(reportVO vo) {
+
+		log.info("insertReportdata");
+		
+		return mapper.insertReportdata(vo) == 1;
+	}
+	
 	
 	
 }

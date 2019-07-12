@@ -233,12 +233,14 @@
 			<sec:authentication property="principal" var="userInfo"/>
 		
 		 	<sec:authorize access="isAuthenticated()">
-		 		     <button id="scrap" data-num="${board.num }">스크랩 </button>
-		 		     
 		        <c:if test="${userInfo.username eq board.userId}">
 		       		 <button id="modify_button">수정 </button> 
 					 <button id="remove_button">삭제 </button>
 		        </c:if>
+		        
+		        <button id="scrap" data-num="${board.num }">스크랩 </button>
+		        <button id="report">신고 </button>
+		        
 	        </sec:authorize>
 	        
 					 <button id="list_button">목록보기 </button> 
@@ -386,6 +388,7 @@
 			       +"<button data-oper='dislike' type='button' data-user_id='"+userId+"' data-reply_num='"+reply_nums+"'>싫어요</button>"
 			    str += "  기부금 <span id='replyMoney"+reply_nums+"'>"+data.list[i].money+"</span> "
 			       +"<button data-oper='donateMoney' type='button' data-user_id='"+userId+"' data-reply_num='"+reply_nums+"'>기부</button>"
+			       +"<button data-oper='report' type='button' data-user_id='"+userId+"' data-nick_name='"+nickName+"'>신고</button>"
 	       +"</li>";    
 			    /*  str += "<sec:authorize access='isAuthenticated()'>" */
 		       	/*   +"</sec:authorize>"  인증된사람만 보여주기*/
@@ -779,6 +782,92 @@
    		});//6.이벤트 끝
 ///////////////////////////////////////////////////////기부 관련 끝
 	 	 
+	 	 $("#report").on("click",function(event){//4. 신고 이벤트
+	 		 
+	 		var reason;   
+	 			reason = prompt('신고 사유를 입력해주세요');
+	 			
+	 		if(reason == null)
+	 				return;
+	 		 
+	 		<sec:authorize access="isAuthenticated()">   
+		  		  var reportKind = '게시글';
+		  		  var reportingId = '${userInfo.username}';
+		  		  var reportingNick = '${userInfo.member.nickName}';
+		  		  var reportedId = '${board.userId }';
+		  		  var reportedNick = '${board.nickName }';
+		  		  var board_num = '${board.num}';
+			</sec:authorize>
+		    
+	 		var reportData = {  reportKind  : reportKind,
+				 				reportingId : reportingId, 
+				 				reportingNick : reportingNick, 
+				 				reportedId : reportedId, 
+				 				reportedNick : reportedNick, 
+				 				board_num : board_num, 
+				 				reason : reason
+			 };
+	 		//console.log(reportData);
+	 		
+	 		replyService.report(reportData, function(result){
+				 if(result == 'success'){
+					 alert("신고완료되었습니다.");
+				}
+				 else if(result == 'fail'){
+					 alert("잠시후 재시도해주세요");
+					 }
+				});
+	 		
+	 	});//4.이벤트 끝 
+	 	 
+	 	
+	$(".replyList").on("click",'button[data-oper="report"]', function(event){//3. 댓글 신고 버튼 이벤트
+			
+			var loginCheck = "로그인후 신고 해주세요.";
+			var reportCheck = "자신의 댓글에는 신고 할 수 없습니다.";
+			var	reportedId = $(this).data("user_id");
+			var	reportedNick = $(this).data("nick_name");
+			
+			if(checkUser(reportedId, loginCheck, null, reportCheck)){
+				return;
+			}
+			
+			var reason;   
+ 			reason = prompt('신고 사유를 입력해주세요');
+ 			
+	 		if(reason == null)
+	 				return;
+	 		 
+	 		<sec:authorize access="isAuthenticated()">   
+		  		  var reportKind = '댓글';
+		  		  var reportingId = '${userInfo.username}';
+		  		  var reportingNick = '${userInfo.member.nickName}';
+		  		  var board_num = '${board.num}';
+			</sec:authorize>
+		    
+	 		var reportData = {  reportKind  : reportKind,
+				 				reportingId : reportingId, 
+				 				reportingNick : reportingNick, 
+				 				reportedId : reportedId, 
+				 				reportedNick : reportedNick, 
+				 				board_num : board_num, 
+				 				reason : reason
+			 };
+	 		//console.log(reportData);
+	 		
+	 		replyService.report(reportData, function(result){
+				 if(result == 'success'){
+					 alert("신고완료되었습니다.");
+				}
+				 else if(result == 'fail'){
+					 alert("잠시후 재시도해주세요");
+					 }
+				});
+	   	
+   		});//3.이벤트 끝
+	 	 
+///////////////////////////////////////////////////////신고 끝
+	 	 
 		$("#scrap").on("click",function(event){//4. 스크랩 이벤트
 			
 				var num = $(this).data("num");
@@ -804,6 +893,7 @@
 				});
 		});//4.이벤트 끝 
 
+		
 	 	var pageNum = 1;
 	    var replyPage = $(".replyPage");
 	    

@@ -221,6 +221,31 @@
 											)
 	</insert>
 	
+	<insert id="insertReportdata">
+	
+			insert into dk_report (
+							report_num,
+							reportKind,
+							reportingId,
+							reportingNick,
+							reportedId,
+							reportedNick,
+							board_num,
+							reason
+							) values 
+										(
+											seq_dk_report.nextval,
+											#{reportKind},
+											#{reportingId},
+											#{reportingNick},
+											#{reportedId},
+											#{reportedNick},
+											#{board_num},
+											#{reason}
+										)
+	</insert>
+	
+	
 		
 	
 

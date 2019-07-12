@@ -24,5 +24,7 @@ public interface AdminMapper {
 	public MemberVO getUserForm(String userId);
 
 	public List<reportVO> getUserReportList(Criteria cri);
+
+	public int insertReportdata(reportVO vo);
 	
 }

@@ -333,7 +333,26 @@ var replyService = (function() {
 			}
 		});
 	}
-		
+	
+	function report(reportData, callback, error) {
+		console.log("report........."); 
+		$.ajax({
+			type : 'post',
+			url : '/dokky/board/report',
+			data : JSON.stringify(reportData),
+			contentType : "application/json; charset=utf-8",
+			success : function(result, status, xhr) {
+				if (callback) { 
+					callback(result);
+				}
+			},
+			error : function(xhr, status, er) {
+				if (error) {
+					error(er);
+				}
+			}
+		})
+	}
 	
 	return {
 		add : add,
@@ -349,7 +368,8 @@ var replyService = (function() {
 		getUserCash : getUserCash,
 		updateDonation : updateDonation,
 		updateReplyDonation : updateReplyDonation,
-		ScrapBoard : ScrapBoard
+		ScrapBoard : ScrapBoard,
+		report : report
 	};
 
 })();

@@ -82,6 +82,5 @@ public class AdminServiceImpl implements AdminService {
 
 		return mapper.getUserReportList(cri);
 	}
-
-	
+		
 }

@@ -3,7 +3,8 @@ package org.my.service;
 	import org.my.domain.BoardVO;
 	import org.my.domain.Criteria;
 	import org.my.domain.donateVO;
-	import org.my.domain.BoardAttachVO;
+import org.my.domain.reportVO;
+import org.my.domain.BoardAttachVO;
 	import org.my.domain.BoardDisLikeVO;
 	import org.my.domain.BoardLikeVO;
 
@@ -48,6 +49,8 @@ public interface BoardService {
 	public String getuserCash(String username);
 
 	public String donateMoney(donateVO vo);
+
+	public boolean insertReportdata(reportVO vo);
 
 	//public void removeAttach(Long num);
 }
