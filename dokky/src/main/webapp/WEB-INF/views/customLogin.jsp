@@ -103,17 +103,10 @@
 		로그인 페이지는 스프링 시큐리티의 기본 설정 
 		이므로 필요하다면 xml에서 logout-success-url 속성 등을 이용해서 변경
 		 <security:logout logout-url="/customLogout" invalidate-session="true"  logout-success-url="/" /> -->
-	<c:if test="${param.logout != null}">
-	      <script>
-		      $(document).ready(function(){
-		      	alert("로그아웃하였습니다."); 
-		      });
-	      </script> 
-	</c:if>  
 	<c:if test="${param.error != null}">
 	      <script>
 		      $(document).ready(function(){
-		      	alert("아이디와 비밀번호를 다시 확인해주세요.");
+		      	alert("잠시주 재시도 해주세요");
 		      });
 	      </script>
 	</c:if>  

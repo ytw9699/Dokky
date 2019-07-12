@@ -12,6 +12,7 @@
 <bean id="customUserDetailsService" class="org.my.security.CustomUserDetailsService"></bean>
 
 <bean id="loginFailHandler" class="org.my.security.CustomLoginFailHandler"></bean>
+															<!-- 로그인 실패시 -->
 
 	<security:http>
 	
