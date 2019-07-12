@@ -3,6 +3,7 @@ package org.my.mapper;
 	import org.my.domain.Criteria;
 	import org.my.domain.MemberVO;
 	import org.my.domain.cashVO;
+import org.my.domain.reportVO;
 
 public interface AdminMapper {
 
@@ -21,5 +22,7 @@ public interface AdminMapper {
 	public int getMemberTotalCount(Criteria cri);
 
 	public MemberVO getUserForm(String userId);
+
+	public List<reportVO> getUserReportList(Criteria cri);
 	
 }

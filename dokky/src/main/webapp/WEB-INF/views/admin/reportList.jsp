@@ -8,7 +8,7 @@
 <html>
 <head>
 <meta charset="UTF-8">
-	<title>메인</title>
+	<title>신고리스트</title>
 	
 <style>
 	body{
@@ -85,18 +85,15 @@
 		<div class="">
 			<table class=""> 
 					<tr>
-						<td>요청아이디</td><td>종류</td><td>요청날짜</td><td>금액</td><td>상태</td><td>승인하기</td>
+						<td>종류</td><td>신고 한 회원</td><td>신고받은 회원</td><td>사유<td><td>신고날짜</td>
 					</tr>
-						<c:forEach items="${cashRequest}" var="cash">
+						<c:forEach items="${reportList}" var="report">
 					<tr>  
-						<td><c:out value="${cash.userId}" /></td> 
-						<td><c:out value="${cash.cashKind}" /></td> 
-						<td><fmt:formatDate pattern="yyyy-MM-dd-HH:mm" value="${cash.regDate}" /></td>
-						<td><c:out value="${cash.cashAmount}" />원</td>
-						<td id="specification${cash.cash_num}"><c:out value="${cash.specification}" /></td>   
-						<td>
-						 	<button class="approveButton" data-cash_kind="${cash.cashKind}" data-user_id="${cash.userId}" data-cash_amount="${cash.cashAmount}" data-cash_num="${cash.cash_num}">승인</button>
-						</td>
+						<td><c:out value="${report.reportKind}" /></td> 
+						<td><c:out value="${report.reportingNick}" />(<c:out value="${report.reportingId}" />)</td> 
+						<td><c:out value="${report.reportedNick}"  />(<c:out value="${report.reportedId}" />)</td> 
+						<td onclick="location.href='/dokky/board/get?num=<c:out value="${report.board_num}" />'" >><c:out value="${report.reason}" /></td> 
+						<td><fmt:formatDate pattern="yyyy-MM-dd-HH:mm" value="${report.regDate}" /></td> 
 					</tr>
 				</c:forEach>
 			</table>
@@ -125,73 +122,18 @@
 					</c:if>
 				</ul>
 		</div>
-			<form id='actionForm' action="/dokky/admin/cashRequest" method='get'>  
-				<input type='hidden' name='pageNum' value='${pageMaker.cri.pageNum}'><!--  $(this).attr("href") -->
+			<form id='actionForm' action="/dokky/admin/userReportList" method='get'>  
+				<input type='hidden' name='pageNum' value='${pageMaker.cri.pageNum}'>
 				<input type='hidden' name='amount' value='${pageMaker.cri.amount}'>
 			</form>  
-			
 	 </div>
-	</div> 
-	
-	<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script> 
+	</div>  
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script> 
 	<script>
-	
-			var csrfHeaderName ="${_csrf.headerName}"; 
-			var csrfTokenValue="${_csrf.token}";
-			    
-			 $(document).ajaxSend(function(e, xhr, options) { 
-		       xhr.setRequestHeader(csrfHeaderName, csrfTokenValue); //모든 AJAX전송시 CSRF토큰을 같이 전송하도록 셋팅
-		     });
-	 
-			 function approve(approveData, callback, error) {
-					$.ajax({
-						type : 'put',
-						url : '/dokky/admin/approve/',
-						data : JSON.stringify(approveData),
-						contentType : "application/json; charset=utf-8",
-						success : function(result, status, xhr) {
-							if (callback) {
-								callback(result,xhr);
-							}
-						},
-						error : function(xhr, status, er) {
-							if (error) {
-								error(xhr,er);
-							}
-						}
-					});
-				}
-			 
-			 
-			 $(".approveButton").on("click",function(event){// 이벤트  
-				 	var cash_num = $(this).data("cash_num");
-				 	var userId = $(this).data("user_id");
-				 	var cashAmount = $(this).data("cash_amount");
-				 	var cashKind = $(this).data("cash_kind");
-				 	 
-				 	var approveData = {
-				 			cash_num: cash_num,
-				 			userId:userId,
-				 			cashAmount:cashAmount,
-				 			cashKind:cashKind
-				          };
-				 	
-				 	approve(approveData, function(result){ 
-						if(result == 'success'){ 
-							
-							var specification = $("#specification"+cash_num); 
-							
-					 		specification.html("승인완료"); 
-					 		
-					 		alert("승인완료 되었습니다");
-						}
-			   	    });
-		   		});//이벤트 끝
-		   		
 		   		
 	   		var actionForm = $("#actionForm");
 
-			$(".paginate_button a").on("click", function(e) {//페이징관련
+			$(".paginate_button a").on("click", function(e) {
 		
 						e.preventDefault();
 		

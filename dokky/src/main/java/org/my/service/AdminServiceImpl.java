@@ -3,7 +3,8 @@ package org.my.service;
 	import org.my.domain.Criteria;
 import org.my.domain.MemberVO;
 import org.my.domain.cashVO;
-	import org.my.mapper.AdminMapper;
+import org.my.domain.reportVO;
+import org.my.mapper.AdminMapper;
 	import org.springframework.beans.factory.annotation.Autowired;
 	import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -74,5 +75,13 @@ public class AdminServiceImpl implements AdminService {
 		return mapper.getUserForm(userId);
 	}
 	
+	@Override
+	public List<reportVO> getUserReportList(Criteria cri){
+	
+		log.info("getUserReportList: " + cri);
+
+		return mapper.getUserReportList(cri);
+	}
+
 	
 }

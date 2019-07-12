@@ -3,6 +3,7 @@ package org.my.service;
 	import org.my.domain.Criteria;
 	import org.my.domain.MemberVO;
 	import org.my.domain.cashVO;
+	import org.my.domain.reportVO;
 
 public interface AdminService {
 	
@@ -18,6 +19,6 @@ public interface AdminService {
 
 	public MemberVO getUserForm(String userId);
 
-	public Object getUserReportList(Criteria cri);
+	public List<reportVO> getUserReportList(Criteria cri);
 
 }

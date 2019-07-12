@@ -218,6 +218,45 @@
 										684
 										)
 	
+										12.캐시내역 테이블
+14.신고테이블 -----------------------------------------------------
+	create table dk_report (
+		 report_num number(10,0),--pk
+		 reportKind varchar2(50) not null,--게시글,댓글
+		 reportingId varchar2(50) not null,--신고 하는자 아이디
+		 reportingNick varchar2(50) not null,--신고 하는자 아이디
+		 reportedId varchar2(50) not null,--신고 받는자 아이디
+		 reportedNick varchar2(50) not null,--신고 받는자 아이디
+		 board_num number(10,0) default 0,--글번호
+		 reply_num number(10,0) default 0,--댓글번호
+		 reason varchar2(200) not null,--사유
+		 regDate date default sysdate, 
+		 constraint fk_report_board_num foreign key(board_num) references dk_board(NUM),
+		 constraint fk_report_reply_num foreign key(reply_num) references dk_reply(reply_num),
+		 constraint pk_report PRIMARY KEY (report_num)
+	);
+	
+	create sequence seq_dk_report
+	
+	drop table dk_report purge
+	
+	insert into dk_cash (
+							cash_num,
+							cashKind,
+							cashAmount,
+							userId,
+							specification,
+							board_num
+							) values 
+										(
+										seq_dk_cash.nextval,
+										'기부하기',
+										10,
+										'admin90',
+										'게시판' ,
+										684
+										)
+	
 	14.기타 -----------------------------------------------------
 	컬럼추가
 	ALTER TABLE DK_BOARD ADD userId VARCHAR2(50) NOT NULL;

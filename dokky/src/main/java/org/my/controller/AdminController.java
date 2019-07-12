@@ -113,13 +113,13 @@ public class AdminController {
 		log.info("admin/userReportList");
 		log.info(cri);
 		
-		model.addAttribute("getUserReportList", service.getUserReportList(cri));
+		model.addAttribute("reportList", service.getUserReportList(cri));
 		
 		int total = service.getMemberTotalCount(cri);
 		
 		model.addAttribute("pageMaker", new PageDTO(cri, total));
 		
-		return "admin/userReportList"; 
+		return "admin/reportList"; 
 	}
 }
 	

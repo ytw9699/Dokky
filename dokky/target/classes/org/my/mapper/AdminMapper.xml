@@ -72,5 +72,33 @@
 		select * from DK_MEMBER where userId = #{userId}
 	</select>
 	
-	
+	 <select id="getUserReportList" resultType="org.my.domain.reportVO">
+		
+		select report_num,
+			   reportKind,
+			   reportingId,
+			   reportingNick,
+			   reportedId,
+			   reportedNick,
+			   board_num,
+			   reply_num,
+			   reason,
+			   regDate
+			   from 
+				 ( select /*+INDEX_DESC(dk_report pk_report) */ rownum rn,
+				 											   report_num,
+															   reportKind,
+															   reportingId,
+															   reportingNick,
+															   reportedId,
+															   reportedNick,
+															   board_num,
+															   reply_num,
+															   reason,
+															   regDate
+				from dk_report where <![CDATA[ rownum <= #{pageNum} * #{amount} )
+					  where rn > (#{pageNum} -1) * #{amount}  
+					  ]]>
+					  
+	</select>
 </mapper>
