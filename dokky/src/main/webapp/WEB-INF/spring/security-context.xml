@@ -11,11 +11,13 @@
 
 <bean id="customUserDetailsService" class="org.my.security.CustomUserDetailsService"></bean>
 
+<bean id="loginFailHandler" class="org.my.security.CustomLoginFailHandler"></bean>
+
 	<security:http>
 	
 		<security:access-denied-handler ref="customAccessDenied" />
 		
-		<security:form-login login-page="/customLogin"/>
+		<security:form-login login-page="/customLogin" authentication-failure-handler-ref="loginFailHandler"/>
 	
 		 <security:remember-me data-source-ref="dataSource" token-validity-seconds="604800" />
 		

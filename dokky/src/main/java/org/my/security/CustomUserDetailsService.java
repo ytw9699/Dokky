@@ -1,6 +1,7 @@
 package org.my.security;
 	import org.my.security.domain.CustomUser;
 	import org.springframework.beans.factory.annotation.Autowired;
+	import org.springframework.security.authentication.BadCredentialsException;
 	import org.springframework.security.core.userdetails.UserDetails;
 	import org.springframework.security.core.userdetails.UserDetailsService;
 	import org.springframework.security.core.userdetails.UsernameNotFoundException;
@@ -24,7 +25,11 @@ public class CustomUserDetailsService implements UserDetailsService {
 
 		log.warn("queried by member mapper: " + vo);
 
-		return vo == null ? null : new CustomUser(vo);
+		if(vo == null) {
+			   throw new BadCredentialsException("NULL");
+		}
+			  return new CustomUser(vo);
 	} 
-
 }
+
+  

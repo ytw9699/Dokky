@@ -1,15 +1,20 @@
 package org.my.controller;
-	import org.my.domain.MemberVO;
-	import org.my.service.MemberService;
-	import org.springframework.beans.factory.annotation.Autowired;
-	import org.springframework.security.core.Authentication;
-	import org.springframework.security.crypto.password.PasswordEncoder;
-	import org.springframework.stereotype.Controller;
-	import org.springframework.ui.Model;
-	import org.springframework.web.bind.annotation.GetMapping;
-	import org.springframework.web.bind.annotation.PostMapping;
-	import lombok.Setter;
-	import lombok.extern.log4j.Log4j;
+	import java.io.UnsupportedEncodingException;
+import java.net.URLDecoder;
+import java.net.URLEncoder;
+
+import org.my.domain.MemberVO;
+import org.my.service.MemberService;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.core.Authentication;
+import org.springframework.security.crypto.password.PasswordEncoder;
+import org.springframework.stereotype.Controller;
+import org.springframework.ui.Model;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PostMapping;
+
+import lombok.Setter;
+import lombok.extern.log4j.Log4j;
 
 @Controller
 @Log4j 
@@ -40,11 +45,12 @@ public class CommonController {
 	}
 
 	@GetMapping("/customLogin")
-	public void loginInput(String error, String logout, Model model) {
+	public void loginInput(String error, String logout,String check, Model model) throws UnsupportedEncodingException {
 
 		log.info("error: " + error);
 		log.info("logout: " + logout);
-
+		log.info("check: " + check);
+		
 		if (error != null) {
 			model.addAttribute("error", "Login Error Check Your Account");
 		}
@@ -52,13 +58,21 @@ public class CommonController {
 		if (logout != null) {
 			model.addAttribute("logout", "Logout!!");
 		}
+		
+		if (check != null) {
+			if(check.equals("notId") ) {
+				model.addAttribute("check", "아이디가 없습니다.");
+			}else if(check.equals("notPassword") ) {
+				model.addAttribute("check", "비밀번호가 틀립니다.");
+			}
+		}
 	}
 
-	@GetMapping("/customLogout")
+	/*@GetMapping("/customLogout")
 	public void logoutGET() {
 
 		log.info("custom logout");
-	}
+	}*/   
 
 	@PostMapping("/customLogout")
 	public void logoutPost() {
@@ -82,6 +96,6 @@ public class CommonController {
 		
 		service.registerMembers(vo);
 		
-		return "redirect:/accessError";
+		return "redirect:/customLogin";
 	}
 }
