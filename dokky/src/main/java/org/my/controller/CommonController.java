@@ -42,7 +42,7 @@ public class CommonController {
 		log.info("access Denied : " + auth);
 
 		model.addAttribute("msg", "Access Denied 로그인 권한이 없습니다.");
-	}
+	}   
 
 	@GetMapping("/customLogin")
 	public void loginInput(String error, String logout,String check, Model model) throws UnsupportedEncodingException {
@@ -87,15 +87,19 @@ public class CommonController {
 	}
 	
 	@PostMapping("/members")
-	public String postMembers(MemberVO vo) {//회원가입
+	public String postMembers(MemberVO vo,Model model) {//회원가입
 		log.info("==========================");
 		log.info("post members: " + vo); 
 		log.info("==========================");
 		
 		vo.setUserPw(pwencoder.encode(vo.getUserPw()));//패스워드 암호화
 		
-		service.registerMembers(vo);
-		
-		return "redirect:/customLogin";
-	}
+		if(service.registerMembers(vo)){
+			model.addAttribute("check", "가입완료 되었습니다 로그인해주세요.");
+			
+			return "/customLogin";
+		}
+		model.addAttribute("check", "가입실패 하였습니다 관리자에게 문의주세요.");
+		return "/customLogin";
+}
 }

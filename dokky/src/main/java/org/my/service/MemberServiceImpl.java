@@ -16,13 +16,12 @@ public class MemberServiceImpl implements MemberService {
 	
 	@Transactional
 	@Override 
-	public void registerMembers(MemberVO vo) {
+	public boolean registerMembers(MemberVO vo) {
 
 		log.info("registerMembers..." + vo);
-		mapper.registerMembers(vo);
 		
 		log.info("registerMember_auth..." + vo);
-		mapper.registerMember_auth(vo); 
 		
+		return mapper.registerMembers(vo) == 1 && mapper.registerMember_auth(vo) == 1;
 	}
 }

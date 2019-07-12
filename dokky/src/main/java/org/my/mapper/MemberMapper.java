@@ -5,8 +5,8 @@ public interface MemberMapper {
 
 	public MemberVO read(String userId);
 
-	public void registerMembers(MemberVO vo);
+	public int registerMembers(MemberVO vo);
 
-	public void registerMember_auth(MemberVO vo);
+	public int registerMember_auth(MemberVO vo);
 	
 }

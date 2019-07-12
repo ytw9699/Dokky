@@ -27,21 +27,21 @@
 </head>
 <body>
 	<div class="bodyWrap">	
-		 <form method='post' action="/dokky/members">	
+		 <form id="" method='post' action="/dokky/members">	
 		  	<input type="hidden" name="${_csrf.parameterName}" value="${_csrf.token}" />
 		  	
 			<div class="bigbig">
 			<div class="information">아이디</div>
-				<input type="text" name="userId" class="inputclass"/>
+				<input type="text" name="userId" id="userId"  class="inputclass"/>
 			<br/>
 		    <div class="information">비밀번호</div>
 		   		 <input type="password" name="userPw" id="userpw" class="inputclass"/>
 		    <br/>
-		    <div class="information">비밀번호 재확인</div>
+		    <div class="information">비밀번호 재입력</div>
 		   		 <input type="password" name="userpwCheck" id="userpwCheck" class="inputclass"/>
 			<br/>
 			<div class="information">닉네임</div>
-				<input type="text" name="nickName" class="inputclass" />
+				<input type="text" name="nickName" id="nickName" class="inputclass" />
 			<br/>
 			<div class="information">이메일</div>
 				<input type="email" name="email" id="email" class="inputclass"/>
@@ -56,10 +56,83 @@
 			<br/>
 			</div>
 			<div class="nextWrap">
-				<input type="submit" class="pre" value="가입완료"/>
+				<input type="button" class="pre" id="join"  value="가입"/>
 			</div>
 		</form>
 	</div>
+	<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+  <script>
+	 function memberCheck(){
+		 var userId = $('#userId');
+	     var userIdVal = userId.val();
+	    	 userIdVal = $.trim(userIdVal);//공백제거
+	     
+			if(userIdVal == ""){ 
+				alert("아이디를 입력하세요."); 
+				userId.focus();  
+				   return true;
+			}
+	     
+		var userpw = $('#userpw');
+		var userpwVal = userpw.val();
+			userpwVal = $.trim(userpwVal);//공백제거
+	     
+			if(userpwVal == ""){ 
+				alert("비밀번호를 입력하세요.");
+				userpw.focus();  
+				  return true;
+			}
+			
+		var userpwCheck = $('#userpwCheck');
+		var userpwCheckVal = userpwCheck.val();
+			userpwCheckVal = $.trim(userpwCheckVal);//공백제거
+	     
+			if(userpwCheckVal == ""){ 
+				alert("비밀번호를 재입력하세요."); 
+				userpwCheck.focus();  
+				  return true;
+			}
+			if(userpwVal != userpwCheckVal ){ 
+				alert('비밀번호가 일치하지 않습니다');
+				userpwCheck.focus();
+				return true;
+			}
+			
+		var nickName = $('#nickName');
+		var nickNameVal = nickName.val();
+		nickNameVal = $.trim(nickNameVal);//공백제거
+	     
+			if(nickNameVal == ""){ 
+				nickName.focus();  
+				alert("닉네임을 입력하세요."); 
+				  return true;
+			}
+			
+		var email = $('#email');
+		var emailVal = email.val(); 
+		emailVal = $.trim(emailVal);//공백제거
+	       
+			if(emailVal == ""){ 
+				email.focus(); 
+				alert("이메일을 입력하세요.");  
+				  return true;
+			}
+		
+		return false;
+	  }
+	 
+	  $("#join").on("click", function(e){
+		    e.preventDefault();
+		    
+		    if(memberCheck()){
+		    return; 
+		    } 
+		    
+		    $("form").submit();
+	  });
+	  
+	  
+  </script>
 </body>
 </html>
 
