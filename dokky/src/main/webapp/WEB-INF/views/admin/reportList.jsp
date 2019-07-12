@@ -89,11 +89,11 @@
 					</tr>
 						<c:forEach items="${reportList}" var="report">
 					<tr>  
-						<td><c:out value="${report.reportKind}" /></td> 
-						<td><c:out value="${report.reportingNick}" />(<c:out value="${report.reportingId}" />)</td> 
-						<td><c:out value="${report.reportedNick}"  />(<c:out value="${report.reportedId}" />)</td> 
-						<td onclick="location.href='/dokky/board/get?num=<c:out value="${report.board_num}" />'" >><c:out value="${report.reason}" /></td> 
-						<td><fmt:formatDate pattern="yyyy-MM-dd-HH:mm" value="${report.regDate}" /></td> 
+						<td><c:out value="${report.reportKind}" /></td>  
+						<td onclick="location.href='userForm?userId=<c:out value="${report.reportingId}" />'" ><c:out value="${report.reportingNick}" />(<c:out value="${report.reportingId}" />)</td> 
+						<td onclick="location.href='userForm?userId=<c:out value="${report.reportedId}" />'" ><c:out value="${report.reportedNick}"  />(<c:out value="${report.reportedId}" />)</td> 
+						<td onclick="location.href='/dokky/board/get?num=<c:out value="${report.board_num}" />'" ><c:out value="${report.reason}" /></td> 
+						<td><fmt:formatDate pattern="yyyy-MM-dd-HH:mm" value="${report.regDate}" /></td>  
 					</tr>
 				</c:forEach>
 			</table>
