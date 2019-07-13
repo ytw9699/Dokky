@@ -75,6 +75,7 @@
 	
 	4.------------------------------------------------------------------------------------------
 	create table dk_member(--회원 테이블
+		  member_num number(10,0) unique,
 	      userId varchar2(50) not null primary key,
 	      userPw varchar2(100) not null,
 	      nickName varchar2(100) not null unique,
@@ -87,6 +88,8 @@
 	      loginDate date default sysdate,
 	      enabled char(1) default '1'
 	);
+	
+	create sequence seq_dk_member
 	
 	drop table dk_member purge 
 	

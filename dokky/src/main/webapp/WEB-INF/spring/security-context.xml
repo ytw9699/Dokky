@@ -5,13 +5,13 @@
 	xsi:schemaLocation="http://www.springframework.org/schema/security http://www.springframework.org/schema/security/spring-security.xsd
 		http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd">
 
-<bean id="customAccessDenied" class="org.my.security.CustomAccessDeniedHandler"></bean>
-
-<bean id="bcryptPasswordEncoder" class="org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder" />
-
-<bean id="customUserDetailsService" class="org.my.security.CustomUserDetailsService"></bean>
-
-<bean id="loginFailHandler" class="org.my.security.CustomLoginFailHandler"></bean>
+	<bean id="customAccessDenied" class="org.my.security.CustomAccessDeniedHandler"></bean>
+	
+	<bean id="bcryptPasswordEncoder" class="org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder" />
+	
+	<bean id="customUserDetailsService" class="org.my.security.CustomUserDetailsService"></bean>
+	
+	<bean id="loginFailHandler" class="org.my.security.CustomLoginFailHandler"></bean>
 															<!-- 로그인 실패시 -->
 
 	<security:http>

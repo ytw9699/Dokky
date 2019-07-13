@@ -58,12 +58,11 @@
 	</sql>
 	
 	 <select id="getMemberList" resultType="org.my.domain.MemberVO">
-		<!-- select * from DK_MEMBER  <include refid ="criteria"></include>   /*+INDEX_DESC(DK_BOARD PK_DK_BOARD) */ -->
 		 <![CDATA[  		
 		select userId, nickName 
 		
 			from 
-				( select rownum rn, userId, nickName 
+				( select /*+INDEX_DESC(dk_member seq_dk_member) */ rownum rn, userId, nickName 
 		 
 		        from dk_member where ]]> <include refid ="criteria"></include> 
 		  <![CDATA[  
