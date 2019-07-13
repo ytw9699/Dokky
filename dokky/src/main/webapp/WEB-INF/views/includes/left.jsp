@@ -50,7 +50,7 @@
 		<div class="mypage">Today : 1 / Total : 10</div>
 		<div class="mypage">
 			<sec:authorize access="isAuthenticated()">
-				<form role="form" method='post' action="/dokky/customLogout">
+				<form method='post' action="/dokky/customLogout">
 				    <input type="hidden" name="${_csrf.parameterName}" value="${_csrf.token}" />
 				    <input type="submit" value="Logout">
 				</form>
