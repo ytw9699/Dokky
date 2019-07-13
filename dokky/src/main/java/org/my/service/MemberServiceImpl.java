@@ -24,4 +24,12 @@ public class MemberServiceImpl implements MemberService {
 		
 		return mapper.registerMembers(vo) == 1 && mapper.registerMember_auth(vo) == 1;
 	}
+	
+	@Override 
+	public boolean getIdCheckedVal(String inputId) {
+
+		log.info("getDuplicatedId...");
+		
+		return mapper.IdCheckedCount(inputId) == 1;
+	}
 }

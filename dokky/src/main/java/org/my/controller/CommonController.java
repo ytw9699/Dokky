@@ -6,12 +6,16 @@ import java.net.URLEncoder;
 import org.my.domain.MemberVO;
 import org.my.service.MemberService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.ResponseBody;
 
 import lombok.Setter;
 import lombok.extern.log4j.Log4j;
@@ -102,4 +106,17 @@ public class CommonController {
 		model.addAttribute("check", "가입실패 하였습니다 관리자에게 문의주세요.");
 		return "/customLogin";
 }
+	
+	@GetMapping(value = "/idCheckedVal", produces = "text/plain; charset=UTF-8")
+	@ResponseBody
+	public ResponseEntity<String> getIdCheckedVal(String inputId) {
+		 
+		log.info("username...="+inputId);
+		
+		if(service.getIdCheckedVal(inputId)){
+			return new ResponseEntity<>("success", HttpStatus.OK);
+		}
+			return new ResponseEntity<>("fail", HttpStatus.OK);
+	}
+	
 }

@@ -62,17 +62,58 @@
 	</div>
 	<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
   <script>
+  	
+ 		 var csrfHeaderName ="${_csrf.headerName}"; 
+		 var csrfTokenValue="${_csrf.token}";
+		    
+		 $(document).ajaxSend(function(e, xhr, options) { 
+	       xhr.setRequestHeader(csrfHeaderName, csrfTokenValue); //모든 AJAX전송시 CSRF토큰을 같이 전송하도록 셋팅
+	   	 });
+		 
+		 function checkDuplicatedId(id, callback, error) {
+			 var checkReturn; 
+			 
+				$.ajax({
+					type : 'get',
+					url : '/dokky/idCheckedVal?inputId='+id,
+					async: false, //동기로 처리  
+					success : function(result, status, xhr) {
+						if (callback) {
+							if(callback(result,xhr)){
+								checkReturn = true; 
+							}
+						}
+					},
+					error : function(xhr, status, er) {
+						if (error) {
+							error(xhr,er);  
+						}
+					}
+				});
+				return checkReturn;  
+				
+			}
+  
 	 function memberCheck(){
 		 var userId = $('#userId');
 	     var userIdVal = userId.val();
 	    	 userIdVal = $.trim(userIdVal);//공백제거
 	     
 			if(userIdVal == ""){ 
-				alert("아이디를 입력하세요."); 
+				alert("아이디를 입력하세요.");
 				userId.focus();  
 				   return true;
 			}
-	     
+	    	
+	    	 if(checkDuplicatedId(userIdVal, function(result){ 
+					if(result == 'success'){ 
+				 		alert("아이디가 중복됩니다."); 
+				 		return true; 
+					}
+		   	    })){  
+	    		 return true;
+	    	 }
+	    	 
 		var userpw = $('#userpw');
 		var userpwVal = userpw.val();
 			userpwVal = $.trim(userpwVal);//공백제거

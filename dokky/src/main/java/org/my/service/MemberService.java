@@ -4,5 +4,7 @@ package org.my.service;
 public interface MemberService {
 	 
 	public boolean registerMembers(MemberVO vo);
+
+	public boolean getIdCheckedVal(String inputId);
 	
 }

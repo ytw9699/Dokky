@@ -63,4 +63,8 @@
 	 </insert>
 	 <!-- 회원가입 -->
 	 
+	  <select id="IdCheckedCount" resultType="int">
+	 	select count(*) from dk_member where userId= #{inputId}
+	 </select>
+	 
 </mapper>

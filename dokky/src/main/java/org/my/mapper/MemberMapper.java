@@ -8,5 +8,7 @@ public interface MemberMapper {
 	public int registerMembers(MemberVO vo);
 
 	public int registerMember_auth(MemberVO vo);
+
+	public int IdCheckedCount(String inputId);
 	
 }
