@@ -88,9 +88,8 @@
       <div class="panel-body">
 	        <form role="form" action="/dokky/board/register" method="post">  
 	        <div>
-	        ${category} 카테고리값에 따라 selected를 변경시켜줘야함
 				<select id="selectId" name="category" class="form-control">
-					   <option value=9 selected="selected">게시판을 선택해 주세요.</option>
+					   <option value=0>게시판을 선택해 주세요.</option>
                        <option value=1>공지사항</option>
                        <option value=2>자유게시판</option>
                        <option value=3>묻고답하기</option> 
@@ -124,6 +123,8 @@
 <script> 
 $(document).ready(function(e){
 	
+	 $("#selectId option[value='${category}']").attr('selected','selected');
+	
 	/* 스마트 에디터 */
 	var oEditors = [];
 	
@@ -148,7 +149,7 @@ $(document).ready(function(e){
 
     var selectedValue = $("#selectId option:selected").val();
     
-    if(selectedValue == 9){
+    if(selectedValue == 0){
     	alert("게시판을 선택 해주세요.");
     	return false;
     }
