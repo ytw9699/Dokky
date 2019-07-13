@@ -70,38 +70,37 @@
 <%@include file="../includes/left.jsp"%>
 
 <body> 
-	<div class="bodyWrap">	 
-	 <div class="ContentWrap">  
+ <div class="bodyWrap">	 
+  <div class="ContentWrap">  
+	 <div id="menuWrap"> 
+		<div class="tab">   
+	        <button onclick="location.href='memberList'">계정관리</button> 
+	        <button onclick="location.href='cashRequest'">결제관리</button> 
+	        <button onclick="location.href='userReportList'">신고관리</button> 
+	    </div> 
+	 </div> 
 	 
-		 <div id="menuWrap"> 
-			<div class="tab">   
-		        <button onclick="location.href='memberList'">계정관리</button> 
-		        <button onclick="location.href='cashRequest'">결제관리</button> 
-		        <button onclick="location.href='userReportList'">신고관리</button> 
-		    </div> 
-		 </div> 
-	 
-	 <div class="listWrapper">
-		<div class="">
-			<table class=""> 
-					<tr>
-						<td>요청아이디</td><td>종류</td><td>요청날짜</td><td>금액</td><td>상태</td><td>승인하기</td>
-					</tr>
-						<c:forEach items="${cashRequest}" var="cash">
-					<tr>  
-						<td><c:out value="${cash.userId}" /></td> 
-						<td><c:out value="${cash.cashKind}" /></td> 
-						<td><fmt:formatDate pattern="yyyy-MM-dd-HH:mm" value="${cash.regDate}" /></td>
-						<td><c:out value="${cash.cashAmount}" />원</td>
-						<td id="specification${cash.cash_num}"><c:out value="${cash.specification}" /></td>   
-						<td>
-						 	<button class="approveButton" data-cash_kind="${cash.cashKind}" data-user_id="${cash.userId}" data-cash_amount="${cash.cashAmount}" data-cash_num="${cash.cash_num}">승인</button>
-						</td>
-					</tr>
-				</c:forEach>
-			</table>
-		</div>
-		</div>
+  <div class="listWrapper">
+	<div class="">
+	 <table class=""> 
+		 <tr>
+			<td>요청아이디</td><td>종류</td><td>요청날짜</td><td>금액</td><td>상태</td><td>승인하기</td>
+		</tr>
+			<c:forEach items="${cashRequest}" var="cash">
+		<tr>  
+			<td onclick="location.href='userForm?userId=<c:out value="${cash.userId}" />'"><c:out value="${cash.userId}" /></td> 
+			<td><c:out value="${cash.cashKind}" /></td> 
+			<td><fmt:formatDate pattern="yyyy-MM-dd-HH:mm" value="${cash.regDate}" /></td>
+			<td><c:out value="${cash.cashAmount}" />원</td>
+			<td id="specification${cash.cash_num}"><c:out value="${cash.specification}" /></td>   
+			<td>
+			 	<button class="approveButton" data-cash_kind="${cash.cashKind}" data-user_id="${cash.userId}" data-cash_amount="${cash.cashAmount}" data-cash_num="${cash.cash_num}">승인</button>
+			</td>
+		</tr>
+	       </c:forEach>
+	 </table>
+	</div>
+	</div>
 		
 		
 		<div class='pull-right'>
