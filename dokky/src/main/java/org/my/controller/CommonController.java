@@ -118,5 +118,29 @@ public class CommonController {
 		}
 			return new ResponseEntity<>("fail", HttpStatus.OK);
 	}
+	 
+	@GetMapping(value = "/nickCheckedVal", produces = "text/plain; charset=UTF-8")
+	@ResponseBody
+	public ResponseEntity<String> getNicknameCheckedVal(String inputNickname) {
+		 
+		log.info("inputNickname...="+inputNickname);
+		
+		if(service.getNicknameCheckedVal(inputNickname)){
+			return new ResponseEntity<>("success", HttpStatus.OK);
+		}
+			return new ResponseEntity<>("fail", HttpStatus.OK);
+	}
+	
+	@GetMapping(value = "/emailCheckedVal", produces = "text/plain; charset=UTF-8")
+	@ResponseBody
+	public ResponseEntity<String> getEmailCheckedVal(String inputEmail) {
+		 
+		log.info("inputEmail...="+inputEmail);
+		
+		if(service.getEmailCheckedVal(inputEmail)){
+			return new ResponseEntity<>("success", HttpStatus.OK);
+		}
+			return new ResponseEntity<>("fail", HttpStatus.OK);
+	}
 	
 }

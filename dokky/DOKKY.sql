@@ -77,8 +77,8 @@
 	create table dk_member(--회원 테이블
 	      userId varchar2(50) not null primary key,
 	      userPw varchar2(100) not null,
-	      nickName varchar2(100) not null,
-	      email varchar2(100) not null,
+	      nickName varchar2(100) not null unique,
+	      email varchar2(100) not null unique,
 	      phoneNum varchar2(50),
 	      cash number(10,0) default 0,
 	      bankName varchar2(50),

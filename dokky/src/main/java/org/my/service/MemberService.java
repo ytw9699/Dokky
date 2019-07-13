@@ -6,5 +6,9 @@ public interface MemberService {
 	public boolean registerMembers(MemberVO vo);
 
 	public boolean getIdCheckedVal(String inputId);
+
+	public boolean getNicknameCheckedVal(String inputNickname);
+
+	public boolean getEmailCheckedVal(String inputEmail);
 	
 }

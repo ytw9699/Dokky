@@ -63,8 +63,23 @@
 	 </insert>
 	 <!-- 회원가입 -->
 	 
-	  <select id="IdCheckedCount" resultType="int">
+	 <!-- 아이디 중복 체크 카운트 구하기 -->
+	 <select id="IdCheckedCount" resultType="int">
 	 	select count(*) from dk_member where userId= #{inputId}
 	 </select>
+	 
+	 <!-- 닉네임 중복 체크 카운트 구하기 -->
+	 <select id="nicknameCheckedCount" resultType="int">
+	 	select count(*) from dk_member where nickname= #{inputNickname}
+	 </select>
+	 
+	 <!-- 이메일 중복 체크 카운트 구하기 -->
+	 <select id="emailCheckedCount" resultType="int">
+	 	select count(*) from dk_member where email= #{inputEmail}
+	 </select>
+	 
+	 
+	 
+	 
 	 
 </mapper>

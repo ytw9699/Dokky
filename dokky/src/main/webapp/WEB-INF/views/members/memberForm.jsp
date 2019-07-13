@@ -90,9 +90,56 @@
 						}
 					}
 				});
-				return checkReturn;  
+			return checkReturn;  
 				
-			}
+		}
+		 
+		 function checkDuplicatedNickname(nickname, callback, error) {
+			 var checkReturn; 
+			 
+				$.ajax({
+					type : 'get',
+					url : '/dokky/nickCheckedVal?inputNickname='+nickname,
+					async: false,  
+					success : function(result, status, xhr) {
+						if (callback) {
+							if(callback(result,xhr)){
+								checkReturn = true; 
+							}
+						}
+					},
+					error : function(xhr, status, er) {
+						if (error) {
+							error(xhr,er);  
+						}
+					}
+				});
+			return checkReturn;  
+		}
+		 
+		 function checkDuplicatedEmail(email, callback, error) {
+			 var checkReturn; 
+			 
+				$.ajax({
+					type : 'get',
+					url : '/dokky/emailCheckedVal?inputEmail='+email,
+					async: false, //동기로 처리  
+					success : function(result, status, xhr) {
+						if (callback) {
+							if(callback(result,xhr)){
+								checkReturn = true; 
+							}
+						}
+					},
+					error : function(xhr, status, er) {
+						if (error) {
+							error(xhr,er);  
+						}
+					}
+				});
+			return checkReturn;  
+		}
+		 
   
 	 function memberCheck(){
 		 var userId = $('#userId');
@@ -105,15 +152,6 @@
 				   return true;
 			}
 	    	
-	    	 if(checkDuplicatedId(userIdVal, function(result){ 
-					if(result == 'success'){ 
-				 		alert("아이디가 중복됩니다."); 
-				 		return true; 
-					}
-		   	    })){  
-	    		 return true;
-	    	 }
-	    	 
 		var userpw = $('#userpw');
 		var userpwVal = userpw.val();
 			userpwVal = $.trim(userpwVal);//공백제거
@@ -159,6 +197,36 @@
 				  return true;
 			}
 		
+	    if(checkDuplicatedId(userIdVal, function(result){ //아이디 중복체크
+				if(result == 'success'){ 
+			 		alert("아이디가 중복됩니다."); 
+			 		userId.focus(); 
+			 		return true; 
+				}
+	   	    })){  
+	   		 return true;
+	   	}
+	      
+	    if(checkDuplicatedNickname(nickNameVal, function(result){ //닉네임 중복체크
+			if(result == 'success'){ 
+		 		alert("닉네임이 중복됩니다."); 
+		 		nickName.focus(); 
+		 		return true; 
+			}
+   	    })){  
+   		 return true;
+   		}
+	    
+	    if(checkDuplicatedEmail(emailVal, function(result){ //이메일 중복체크
+			if(result == 'success'){ 
+		 		alert("이메일이 중복됩니다."); 
+		 		email.focus(); 
+		 		return true; 
+			}
+   	    })){  
+   		 return true;
+   		}
+	    
 		return false;
 	  }
 	 
@@ -166,7 +234,7 @@
 		    e.preventDefault();
 		    
 		    if(memberCheck()){
-		    return; 
+		    	return; 
 		    } 
 		    
 		    $("form").submit();

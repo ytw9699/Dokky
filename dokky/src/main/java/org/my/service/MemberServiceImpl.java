@@ -32,4 +32,20 @@ public class MemberServiceImpl implements MemberService {
 		
 		return mapper.IdCheckedCount(inputId) == 1;
 	}
+	
+	@Override 
+	public boolean getNicknameCheckedVal(String inputNickname){
+
+		log.info("getNicknameCheckedVal...");
+		
+		return mapper.nicknameCheckedCount(inputNickname) == 1;
+	}
+	@Override 
+	public boolean getEmailCheckedVal(String inputEmail){
+
+		log.info("getEmailCheckedVal...");
+		
+		return mapper.emailCheckedCount(inputEmail) == 1;
+	}
+	
 }
