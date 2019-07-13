@@ -21,4 +21,6 @@ public interface AdminService {
 
 	public List<reportVO> getUserReportList(Criteria cri);
 
+	public int getUserReportCount(Criteria cri);
+
 }

@@ -82,5 +82,16 @@ public class AdminServiceImpl implements AdminService {
 
 		return mapper.getUserReportList(cri);
 	}
+	
+	@Override
+	public int getUserReportCount(Criteria cri){
+
+		log.info("getUserReportCount: ");
+
+		return mapper.getUserReportCount(cri);
+	}
+	
 		
+	
+	
 }

@@ -96,6 +96,10 @@
 		select * from DK_MEMBER where userId = #{userId}
 	</select>
 	
+	<select id="getUserReportCount" resultType="int">
+		select count(*) from dk_report
+	</select>
+	
 	 <select id="getUserReportList" resultType="org.my.domain.reportVO">
 		
 			select report_num,
@@ -123,5 +127,7 @@
 						  ]]>
 					  
 	</select>
+	
+	
 	
 </mapper>

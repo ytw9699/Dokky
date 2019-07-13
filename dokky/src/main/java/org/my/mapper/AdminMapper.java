@@ -26,5 +26,7 @@ public interface AdminMapper {
 	public List<reportVO> getUserReportList(Criteria cri);
 
 	public int insertReportdata(reportVO vo);
+
+	public int getUserReportCount(Criteria cri);
 	
 }

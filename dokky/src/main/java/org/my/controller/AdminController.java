@@ -115,7 +115,7 @@ public class AdminController {
 		
 		model.addAttribute("reportList", service.getUserReportList(cri));
 		
-		int total = service.getMemberTotalCount(cri);
+		int total = service.getUserReportCount(cri);
 		
 		model.addAttribute("pageMaker", new PageDTO(cri, total));
 		
