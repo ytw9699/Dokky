@@ -92,16 +92,14 @@
 		    </div> 
 		</div>
 	<div class="listWrapper">
-		<div class="">나의 댓글</div>
-
-		<div><button id='deleteBtn' type="button" class="">삭제</button></div> 
+		
 		
 		<div class="">
 			<table class=""> 
 				<c:forEach items="${myReply}" var="Reply">
 					<tr>
 					<td>
-	                    <input type="checkbox" name="" id="" value="">
+						<input type="checkbox" name="checkRow" value="${Reply.reply_num}" />
                     </td>
 						<td class="mypage"><a class='move' href='<c:out value="${Reply.num}"/>'> 
 							<c:out value="${Reply.reply_content}" /></a></td> 
@@ -109,6 +107,10 @@
 								value="${Reply.replyDate}" /></td>
 					</tr>
 				</c:forEach>
+					<tr>
+				        <td><input type="checkbox" name="checkAll" id="checkAll" onclick="checkAll();"/>전체선택</td>
+				        <td><button id='deleteBtn' type="button" class="">삭제</button></td>
+				    </tr>
 			</table>
 		</div>
 		
@@ -145,10 +147,9 @@
 <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
 <script>
 	   
-	$("#deleteBtn").on("click", function() { 
-		
-		self.location = "/dokky/=";
-	}); 
+		$("#deleteBtn").on("click", function() { 
+			deleteAction(); 
+		});  
 	
 	var actionForm = $("#actionForm");
 
@@ -173,6 +174,37 @@
 			actionForm.submit();   
 		});
 	 
+		function checkAll(){
+		      if( $("#checkAll").is(':checked') ){ 
+		        $("input[name=checkRow]").prop("checked", true);
+		      }else{
+		        $("input[name=checkRow]").prop("checked", false);
+		      }
+		}
+		
+		function deleteAction(){
+			
+			  var checkRow = "";
+			  
+			  $( "input[name='checkRow']:checked" ).each (function (){
+			    	checkRow = checkRow + $(this).val()+"," ;
+			  });
+			  
+			  checkRow = checkRow.substring(0,checkRow.lastIndexOf( ","));
+			 
+			  if(checkRow == ''){
+			   	 alert("삭제할 댓글을 선택하세요.");
+			    return false;
+			  }
+			   
+			  if(confirm("정말 삭제 하시겠습니까?")){
+				  actionForm.attr("action","/dokky/replies/removeAll").attr("method","post");
+				  actionForm.append("<input type='hidden' name='checkRow' value='"+checkRow+"'>");
+				  actionForm.append("<input type='hidden' id='csrf' name='${_csrf.parameterName}' value='${_csrf.token}'/>");
+				  actionForm.submit();
+			  }
+		}
+		
 </script>
 	
 </body>

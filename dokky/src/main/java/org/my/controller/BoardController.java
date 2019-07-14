@@ -156,7 +156,7 @@ public class BoardController {
 	 
 	 @PreAuthorize("principal.username == #userId")   
 	 @PostMapping("/removeAll")//다중삭제
-		public String removeAll(@RequestParam("checkRow") String checkRow , @RequestParam("userId")String userId, Criteria cri, RedirectAttributes rttr) {
+		public String removeAll(@RequestParam("checkRow") String checkRow , @RequestParam("userId")String userId, Criteria cri) {
 		 
 		 	log.info("checkRow..." + checkRow);
 		 	
@@ -177,7 +177,7 @@ public class BoardController {
 					deleteFiles(attachList);
 				}
 		 	}
-			return "redirect:/mypage/myBoardList?userId="+userId;
+			return "redirect:/mypage/myBoardList?userId="+userId+"&pageNum="+cri.getPageNum()+"&amount="+cri.getAmount();
 		}
 	
 	@RequestMapping(method = { RequestMethod.PUT,RequestMethod.PATCH },

@@ -92,10 +92,6 @@
 		    </div> 
 		</div>
 	<div class="listWrapper">
-		<div class="">나의 게시글</div>
-
-		 
-		
 		<div class="">
 			<table class=""> 
 				<c:forEach items="${MyBoard}" var="board">
