@@ -7,6 +7,7 @@ import org.my.domain.MemberVO;
 import org.my.domain.ReplyPageDTO;
 import org.my.domain.ReplyVO;
 import org.my.domain.cashVO;
+import org.my.domain.scrapVO;
 import org.my.mapper.MypageMapper;
 	import org.springframework.beans.factory.annotation.Autowired;
 	import org.springframework.security.crypto.password.PasswordEncoder;
@@ -121,7 +122,7 @@ public class MypageServiceImpl implements MypageService {
 	}
 	
 	@Override
-	public List<BoardVO> getMyScraplist(Criteria cri) {
+	public List<scrapVO> getMyScraplist(Criteria cri) {
 
 		log.info("getMyScraplist with criteria: " + cri);
 
@@ -175,6 +176,15 @@ public class MypageServiceImpl implements MypageService {
 		
 		return getResult;
 	}
+	
+	@Override
+	
+	public void removeAllScrap(Long scrap_num) {
+		log.info("removeAllScrap");
+		
+		mapper.removeScrap(scrap_num);
+	}
+	
 	
 	
 }

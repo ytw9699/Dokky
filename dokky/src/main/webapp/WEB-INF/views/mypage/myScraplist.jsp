@@ -92,29 +92,29 @@
 		    </div> 
 		</div>
 	<div class="listWrapper">
-		<div class="">나의 게시글 스크랩</div> 
-
-		<div><button id='deleteBtn' type="button" class="">삭제</button></div> 
-		
 		<div class="">
 			<table class=""> 
 					<tr>
 					<td></td><td>제목</td><td>댓글수</td><td>조회수</td><td>스크랩날짜</td> 
 					</tr>
-				<c:forEach items="${myScraplist}" var="board">
+				<c:forEach items="${myScraplist}" var="scrap"> 
 					<tr>
-					<td>
-	                    <input type="checkbox" name="" id="" value="">
+						<td>
+						<input type="checkbox" name="checkRow" value="${scrap.scrap_num}" />
                     </td>
-						<td class="mypage"><a class='move' href='<c:out value="${board.num}"/>'> 
-							<c:out value="${board.title}" /></a></td> 
-						<td>댓글수[<c:out value="${board.replyCnt}" />]</td>
-						<td>조회수<c:out value="${board.hitCnt}" /></td>
+						<td class="mypage"><a class='move' href='<c:out value="${scrap.num}"/>'> 
+							<c:out value="${scrap.title}" /></a></td>  
+						<td>댓글수[<c:out value="${scrap.replyCnt}" />]</td>
+						<td>조회수<c:out value="${scrap.hitCnt}" /></td>
 			                  
 						<td><fmt:formatDate pattern="yyyy-MM-dd-HH:mm"
-								value="${board.regDate}" /></td>
+								value="${scrap.regDate}" /></td>
 					</tr>
 				</c:forEach>
+					<tr>
+				        <td><input type="checkbox" name="checkAll" id="checkAll" onclick="checkAll();"/>전체선택</td>
+				        <td><button id='deleteBtn' type="button" class="">삭제</button></td>
+				    </tr>
 			</table>
 		</div>
 		
@@ -152,8 +152,7 @@
 <script> 
 	   
 		$("#deleteBtn").on("click", function() { 
-			
-			self.location = "/dokky/=";
+			deleteAction(); 
 		}); 
     
 	var actionForm = $("#actionForm");
@@ -175,6 +174,38 @@
 			actionForm.attr("action","/dokky/board/get");
 			actionForm.submit();   
 		});
+		
+		function checkAll(){
+		      if( $("#checkAll").is(':checked') ){ 
+		        $("input[name=checkRow]").prop("checked", true);
+		      }else{
+		        $("input[name=checkRow]").prop("checked", false);
+		      }
+		}
+		
+		function deleteAction(){
+			
+			  var checkRow = "";
+			  
+			  $( "input[name='checkRow']:checked" ).each (function (){
+			    	checkRow = checkRow + $(this).val()+"," ;
+			  });
+			  
+			  checkRow = checkRow.substring(0,checkRow.lastIndexOf( ","));
+			 
+			  if(checkRow == ''){
+			   	 alert("삭제할 스크랩을 선택하세요.");
+			    return false;
+			  }
+			   
+			  if(confirm("정말 삭제 하시겠습니까?")){
+				  actionForm.attr("action","/dokky/mypage/removeAllScrap").attr("method","post");
+				  actionForm.append("<input type='hidden' name='checkRow' value='"+checkRow+"'>");
+				  actionForm.append("<input type='hidden' id='csrf' name='${_csrf.parameterName}' value='${_csrf.token}'/>");
+				  actionForm.submit();
+			  }
+		}
+		
 	 
 </script>
 	

@@ -7,6 +7,7 @@ import org.my.domain.Criteria;
 import org.my.domain.MemberVO;
 import org.my.domain.ReplyVO;
 import org.my.domain.cashVO;
+import org.my.domain.scrapVO;
 
 public interface MypageMapper {
 
@@ -20,7 +21,7 @@ public interface MypageMapper {
 
 	public List<BoardVO> getMyBoardList(Criteria cri);
 	
-	public List<BoardVO> getMyScraplist(Criteria cri);
+	public List<scrapVO> getMyScraplist(Criteria cri);
 
 	public int getMyBoardCount(Criteria cri);
 
@@ -43,5 +44,7 @@ public interface MypageMapper {
 	public List<cashVO> getMyCashHistory(Criteria cri);
 
 	public int getMyCashHistoryCount(String userId);
+
+	public void removeScrap(Long scrap_num);
 	
 }

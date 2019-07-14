@@ -106,12 +106,13 @@
 		   ) where rn > (#{pageNum} -1) * #{amount}  -->
 		
 		
-		<select id="getMyScraplist" resultType="org.my.domain.BoardVO"> 
+		<select id="getMyScraplist" resultType="org.my.domain.scrapVO"> 
 		<![CDATA[
 		   select 	 
 	 			  num,
 		   		  userId,
 		   		  regdate,
+		   		  scrap_num,
 		   		  title,
 		   		  replyCnt,
 		   		  hitCnt,
@@ -122,6 +123,7 @@
 				  BOARD.num,
 				  BOARD.userId,
 				  scrap.regdate,
+				  scrap.scrap_num,
 				  title,
 				  replyCnt,
 				  hitCnt,
@@ -240,5 +242,9 @@
 			where rn > (#{pageNum} -1) * #{amount} and rn <= #{pageNum} * #{amount} 
 		]]>
 	</select>
+	
+	<delete id="removeScrap">
+		delete from dk_scrap where scrap_num = #{scrap_num}
+	</delete>
 	
 </mapper>

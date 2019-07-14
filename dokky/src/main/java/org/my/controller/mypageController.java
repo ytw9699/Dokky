@@ -187,6 +187,25 @@ public class mypageController {
 		return "mypage/myScraplist";
 	} 
 	
+	 @PreAuthorize("principal.username == #userId")  
+	 @PostMapping("/removeAllScrap")//다중삭제
+		public String removeAllScrap(@RequestParam("checkRow") String checkRow , @RequestParam("userId")String userId, Criteria cri) {
+
+		log.info("checkRow..." + checkRow);
+	 	
+	 	String[] arrIdx = checkRow.split(",");
+	 	
+	 	for (int i=0; i<arrIdx.length; i++) {
+	 		
+	 		Long scrap_num = Long.parseLong(arrIdx[i]);  
+	 		
+	 		log.info("remove...reply_num=" + scrap_num);
+	 		
+	 		service.removeAllScrap(scrap_num);
+	 	}
+	 return "redirect:/mypage/myScraplist?userId="+userId+"&pageNum="+cri.getPageNum()+"&amount="+cri.getAmount();
+	}
+	
 	@PreAuthorize("isAuthenticated()") 
  	@GetMapping("/myCashInfo")  
 	public String myCashInfo(@RequestParam("userId") String userId, Model model) { //내 캐시정보
