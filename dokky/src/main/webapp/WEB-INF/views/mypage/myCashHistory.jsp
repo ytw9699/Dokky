@@ -128,8 +128,10 @@
 				       			  </c:if>
 					       </c:when>
 			       </c:choose>
-						<td><fmt:formatDate pattern="yyyy-MM-dd-HH:mm" value="${History.regDate}" /></td>
-					</tr>
+			     		 <td> 
+							<fmt:formatDate value="${History.regDate}" pattern="yyyy년 MM월 dd일 HH:mm" />
+						</td>
+					</tr> 
 				</c:forEach>
 			</table>
 		</div>

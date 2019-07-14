@@ -28,5 +28,11 @@ public interface AdminMapper {
 	public int insertReportdata(reportVO vo);
 
 	public int getUserReportCount(Criteria cri);
+
+	public int updateRoleStop(String userId);
+
+	public int updateRoleLimit(String userId);
+
+	public int updateRoleUser(String userId);
 	
 }

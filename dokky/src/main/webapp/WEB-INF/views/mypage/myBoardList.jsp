@@ -104,8 +104,9 @@
 						<td>댓글수[<c:out value="${board.replyCnt}" />]</td>
 						<td>조회수<c:out value="${board.hitCnt}" /></td>
 			                  
-						<td><fmt:formatDate pattern="yyyy-MM-dd-HH:mm"
-								value="${board.regDate}" /></td>
+						<td>
+							<fmt:formatDate value="${board.regDate}" pattern="yyyy년 MM월 dd일 HH:mm" />
+						</td>
 					</tr>
 				</c:forEach>
 				    <tr>

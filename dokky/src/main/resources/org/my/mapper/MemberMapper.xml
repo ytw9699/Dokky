@@ -78,8 +78,10 @@
 	 	select count(*) from dk_member where email= #{inputEmail}
 	 </select>
 	 
-	 
-	 
+	 <!-- 로긴 접속 날짜 업데이트 -->
+	 <update id="updateLoginDate">
+	 	update dk_member set loginDate = sysdate where userId = #{userId} 
+	 </update>
 	 
 	 
 </mapper>

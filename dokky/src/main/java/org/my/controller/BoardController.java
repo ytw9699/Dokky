@@ -53,15 +53,15 @@ public class BoardController {
 		return "board/list";
 	}
 	
+	@PreAuthorize("hasAnyRole('ROLE_ADMIN','ROLE_MEMBER')")
 	@GetMapping("/register")
-	@PreAuthorize("isAuthenticated()")
 	public String register(@ModelAttribute("category") int category) {
 		
 		return "board/register";
 	}
 	
+	@PreAuthorize("hasAnyRole('ROLE_ADMIN','ROLE_MEMBER')")
 	@PostMapping("/register")
-	@PreAuthorize("isAuthenticated()")
 	public String register(BoardVO board, RedirectAttributes rttr) {
 
 		//log.info("==========================");

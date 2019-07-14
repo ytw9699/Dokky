@@ -39,6 +39,7 @@ public class CustomUserDetailsService implements UserDetailsService {
 					throw new BadCredentialsException("limit");
 			}
 		}
+			memberMapper.updateLoginDate(userName);//로긴날짜찍기
 		 return new CustomUser(vo);
 	} 
 }

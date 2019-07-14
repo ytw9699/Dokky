@@ -14,5 +14,7 @@ public interface MemberMapper {
 	public int nicknameCheckedCount(String inputNickname);
 
 	public int emailCheckedCount(String inputEmail);
+
+	public void updateLoginDate(String userName);
 	
 }

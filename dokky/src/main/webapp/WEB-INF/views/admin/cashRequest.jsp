@@ -90,7 +90,9 @@
 		<tr>  
 			<td onclick="location.href='userForm?userId=<c:out value="${cash.userId}" />'"><c:out value="${cash.userId}" /></td> 
 			<td><c:out value="${cash.cashKind}" /></td> 
-			<td><fmt:formatDate pattern="yyyy-MM-dd-HH:mm" value="${cash.regDate}" /></td>
+			<td> 
+				<fmt:formatDate value="${cash.regDate}" pattern="yyyy년 MM월 dd일 HH:mm" />
+			</td>
 			<td><c:out value="${cash.cashAmount}" />원</td>
 			<td id="specification${cash.cash_num}"><c:out value="${cash.specification}" /></td>   
 			<td>

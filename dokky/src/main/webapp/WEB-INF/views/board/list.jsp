@@ -84,8 +84,9 @@
 						<td>조회수<c:out value="${board.hitCnt}" /></td>
 						<td><c:out value="${board.nickName}" /></td>
 			                  
-						<td><fmt:formatDate pattern="yyyy-MM-dd-HH:mm"
-								value="${board.regDate}" /></td>
+						<td>
+							<fmt:formatDate value="${board.regDate}" pattern="yyyy년 MM월 dd일 HH:mm" />
+						</td> 
 					</tr>
 				</c:forEach>
 			</table>

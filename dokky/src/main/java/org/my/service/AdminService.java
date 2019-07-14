@@ -23,4 +23,10 @@ public interface AdminService {
 
 	public int getUserReportCount(Criteria cri);
 
+	public int updateRoleStop(String userId);
+
+	public int updateRoleLimit(String userId);
+
+	public int updateRoleUser(String userId);
+
 }

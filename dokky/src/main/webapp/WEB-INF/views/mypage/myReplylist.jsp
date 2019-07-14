@@ -103,9 +103,10 @@
                     </td>
 						<td class="mypage"><a class='move' href='<c:out value="${Reply.num}"/>'> 
 							<c:out value="${Reply.reply_content}" /></a></td> 
-						<td><fmt:formatDate pattern="yyyy-MM-dd-HH:mm"
-								value="${Reply.replyDate}" /></td>
-					</tr>
+					   <td> 
+							<fmt:formatDate value="${Reply.replyDate}" pattern="yyyy년 MM월 dd일 HH:mm" />
+						</td>
+ 					</tr>
 				</c:forEach>
 					<tr>
 				        <td><input type="checkbox" name="checkAll" id="checkAll" onclick="checkAll();"/>전체선택</td>

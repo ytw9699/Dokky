@@ -90,11 +90,6 @@
 			</trim>				   
 	</select>
 	
-	<!-- 나의 정보 한줄 가져오기 -->
-	 <select id="getUserForm" resultType="org.my.domain.MemberVO">
-		select * from DK_MEMBER where userId = #{userId}
-	</select>
-	
 	<select id="getUserReportCount" resultType="int">
 		select count(*) from dk_report
 	</select>
@@ -127,6 +122,44 @@
 					  
 	</select>
 	
+	<update id="updateRoleStop"> 
+			update dk_member_auth set auth = 'ROLE_STOP' WHERE USERID = #{userId}  
+	</update>
 	
+	<update id="updateRoleLimit"> 
+			update dk_member_auth set auth = 'ROLE_LIMIT' WHERE USERID = #{userId}  
+	</update>
+	
+	<update id="updateRoleUser"> 
+			update dk_member_auth set auth = 'ROLE_USER' WHERE USERID = #{userId}  
+	</update>
+	
+	<resultMap id="authMap" type="org.my.domain.AuthVO" >
+	   	<result property="userId" column="userid"/>
+	   	<result property="auth" column="auth"/>
+ 	</resultMap>
+	
+  <resultMap id="memberMap" type="org.my.domain.MemberVO" >
+    <id property="userId" column="userId"/>
+	    <result property="userId" column="userid"/>
+	    <result property="userPw" column="userpw"/>
+	    <result property="nickName" column="nickname"/>
+	    <result property="email" column="email"/>
+	    <result property="phoneNum" column="phoneNum"/>
+	    <result property="bankName" column="bankName"/>
+	    <result property="account" column="account"/>
+	    <result property="regDate" column="regdate"/>
+	    <result property="loginDate" column="logindate"/>
+    <collection property="authList" resultMap="authMap"></collection> 
+  </resultMap>
+	
+	<!-- 나의 정보 한줄 가져오기 -->
+  <select id="getUserForm" resultMap="memberMap">
+		SELECT 
+		  mem.userid, userpw, nickname, email, phoneNum, bankName, account, regdate, logindate, auth
+		FROM 
+		  dk_member mem LEFT OUTER JOIN dk_member_auth auth on mem.userid = auth.userid 
+		WHERE mem.userid = #{userId} 
+  </select>
 	
 </mapper>

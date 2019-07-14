@@ -106,9 +106,9 @@
 							<c:out value="${scrap.title}" /></a></td>  
 						<td>댓글수[<c:out value="${scrap.replyCnt}" />]</td>
 						<td>조회수<c:out value="${scrap.hitCnt}" /></td>
-			                  
-						<td><fmt:formatDate pattern="yyyy-MM-dd-HH:mm"
-								value="${scrap.regDate}" /></td>
+						<td>
+							<fmt:formatDate value="${scrap.regDate}" pattern="yyyy년 MM월 dd일 HH:mm" />
+						</td>
 					</tr>
 				</c:forEach>
 					<tr>

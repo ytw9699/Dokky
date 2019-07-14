@@ -189,13 +189,11 @@
 	</div>
 
 		<div class="form-group">
-          <label>날짜</label>-<fmt:formatDate pattern="yyyy-MM-dd-HH:mm"
-								value="${board.regDate}" />
+          <label>날짜</label>-<fmt:formatDate value="${board.regDate}" pattern="yyyy년 MM월 dd일 HH:mm" />
         </div>
-        <div class="form-group">
-          <label>수정됨</label>-<fmt:formatDate pattern="yyyy-MM-dd-HH:mm"
-								value="${board.updateDate}" />
-        </div>						
+        <div class="form-group">  
+          <label>수정됨</label>-<fmt:formatDate value="${board.updateDate}" pattern="yyyy년 MM월 dd일 HH:mm" />
+        </div>						 
 		<div class="form-group">
           <label>닉네임</label>-<c:out value="${board.nickName }"/>  
         </div>

@@ -176,19 +176,29 @@
 	     			<td class="tableText"> 
 	     				계정상태 
 	     			</td>
-	     			<td class="tableValue">   
-	     				${user.account} 
+	     			<td id="currentState" class="tableValue"> 
+		     			<c:choose>
+		     				<c:when test="${user.authList[0].auth == 'ROLE_STOP'}">
+								모든 글쓰기 제한
+							</c:when>
+							<c:when test="${user.authList[0].auth == 'ROLE_ADMIN' || user.authList[0].auth == 'ROLE_USER'}">
+								정상 
+							</c:when>
+							<c:when test="${user.authList[0].auth == 'ROLE_LIMIT'}">
+								접속 제한 
+							</c:when>
+		     			</c:choose>  
 	     			</td>
 	     		</tr>
 	     		<tr>
 	     			<td class="tableText"> 
-	     				계정상태변경 
+	     				계정상태 변경 
 	     			</td>
 	     			<td class="tableValue">
 		     			<div class="changeButton">     
-						        <button onclick="location.href='userForm?userId=${user.userId}'">게시글제한</button> 
-						        <button onclick="location.href='userCashHistory?userId=${user.userId}'">접속제한</button> 
-						        <button onclick="location.href='userCashHistory?userId=${user.userId}'">계정복구</button> 
+						        <button id="stop" data-user_id="${user.userId}">모든 글쓰기 제한</button> 
+						        <button id="limit" data-user_id="${user.userId}">접속 제한</button> 
+						        <button id="recovery" data-user_id="${user.userId}">계정 복구</button> 
 			   			 </div>  
 	     			</td> 
 	     		</tr>
@@ -199,6 +209,91 @@
 </div> 
 <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
 <script>
+
+	var csrfHeaderName ="${_csrf.headerName}"; 
+	var csrfTokenValue="${_csrf.token}";
+	
+	$(document).ajaxSend(function(e, xhr, options) { 
+	    xhr.setRequestHeader(csrfHeaderName, csrfTokenValue); //모든 AJAX전송시 CSRF토큰을 같이 전송하도록 셋팅
+	  });
+	
+	function limitRegistering(userId, callback, error) {
+		$.ajax({
+			type : 'put',
+			url : '/dokky/admin/roleStop/'+ userId,
+			success : function(result, status, xhr) {
+				if (callback) {
+					callback(result,xhr);
+				}
+			},
+			error : function(xhr, status, er) {
+				if (error) {
+					error(xhr,er);
+				}
+			}
+		});
+	}
+	function limitLogin(userId, callback, error) {
+		$.ajax({
+			type : 'put',
+			url : '/dokky/admin/roleLimit/'+ userId,
+			success : function(result, status, xhr) {
+				if (callback) {
+					callback(result,xhr);
+				}
+			},
+			error : function(xhr, status, er) {
+				if (error) {
+					error(xhr,er);
+				}
+			}
+		});
+	}
+	function recovery(userId, callback, error) {
+		$.ajax({
+			type : 'put',
+			url : '/dokky/admin/roleUser/'+ userId,
+			success : function(result, status, xhr) {
+				if (callback) {
+					callback(result,xhr);
+				}
+			},
+			error : function(xhr, status, er) {
+				if (error) {
+					error(xhr,er);
+				}
+			}
+		});
+	}
+
+	$("#stop").on("click",function(event){//1. 게시글,댓글 제한 이벤트 설치
+		var userId = $(this).data("user_id");
+		
+		limitRegistering(userId, function(result){
+		   	var currentState = $("#currentState");
+		   	currentState.html("모든 글쓰기 제한");
+	   	  });
+	   	});
+	
+	$("#limit").on("click",function(event){//2. 접속 제한 이벤트 설치
+		var userId = $(this).data("user_id");
+		
+		limitLogin(userId, function(result){
+		   	var currentState = $("#currentState");
+		   	currentState.html("접속 제한");
+	   	  });
+	   	});
+	
+	$("#recovery").on("click",function(event){//3. 권한 정상 되돌리기 이벤트 설치
+		var userId = $(this).data("user_id");
+		
+		recovery(userId, function(result){
+		   	var currentState = $("#currentState");
+		   	currentState.html("정상");
+	   	  });
+	   	});
+	
+   	
 </script>
 </body>
 </html>

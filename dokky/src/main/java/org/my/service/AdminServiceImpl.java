@@ -91,7 +91,27 @@ public class AdminServiceImpl implements AdminService {
 		return mapper.getUserReportCount(cri);
 	}
 	
+	@Override
+	public int updateRoleStop(String userId) {
 		
+		log.info("updateRoleStop.."+userId);
+		
+		return mapper.updateRoleStop(userId);
+	}
+	@Override
+	public int updateRoleLimit(String userId) {
+		
+		log.info("updateRoleLimit.."+userId);
+		
+		return mapper.updateRoleLimit(userId);
+	}
 	
+	@Override
+	public int updateRoleUser(String userId) {
+		
+		log.info("updateRoleUser.."+userId);
+		
+		return mapper.updateRoleUser(userId);
+	}
 	
 }
