@@ -139,7 +139,7 @@ public class BoardController {
 	 
 	 @PreAuthorize("principal.username == #userId")   
 	 @PostMapping("/remove")//삭제시 글+댓글+첨부파일 모두 삭제
-		public String remove(@RequestParam("num") Long num,@RequestParam("userId")String userId, Criteria cri, RedirectAttributes rttr) {
+		public String remove(@RequestParam("num") Long num, @RequestParam("userId")String userId, Criteria cri, RedirectAttributes rttr) {
 
 		 	log.info("remove..." + num);
 
@@ -152,6 +152,32 @@ public class BoardController {
 				rttr.addFlashAttribute("result", "success");
 			}
 			return "redirect:/board/list" + cri.getListLink();
+		}
+	 
+	 @PreAuthorize("principal.username == #userId")   
+	 @PostMapping("/removeAll")//다중삭제
+		public String removeAll(@RequestParam("checkRow") String checkRow , @RequestParam("userId")String userId, Criteria cri, RedirectAttributes rttr) {
+		 
+		 	log.info("checkRow..." + checkRow);
+		 	
+		 	String[] arrIdx = checkRow.split(",");
+		 	
+		 	for (int i=0; i<arrIdx.length; i++) {
+		 		
+		 		Long num = Long.parseLong(arrIdx[i]); 
+		 		
+		 		if (service.remove(num)) {
+		 			
+		 			log.info("remove...num=" + num);
+					
+		 			List<BoardAttachVO> attachList = service.getAttachList(num);
+		 			
+		 			log.info("deleteFiles...attachList=");
+		 			
+					deleteFiles(attachList);
+				}
+		 	}
+			return "redirect:/mypage/myBoardList?userId="+userId;
 		}
 	
 	@RequestMapping(method = { RequestMethod.PUT,RequestMethod.PATCH },
