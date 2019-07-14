@@ -69,6 +69,9 @@ public class CommonController {
 			}else if(check.equals("notPassword") ) {
 				model.addAttribute("check", "비밀번호가 틀립니다.");
 			}
+			else if(check.equals("limit") ) {
+				model.addAttribute("check", "차단된 아이디입니다. 관리자에게 문의해주세요.");
+			}
 		}
 	}
 

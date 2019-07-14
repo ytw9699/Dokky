@@ -5,7 +5,10 @@ package org.my.security;
 	import org.springframework.security.core.userdetails.UserDetails;
 	import org.springframework.security.core.userdetails.UserDetailsService;
 	import org.springframework.security.core.userdetails.UsernameNotFoundException;
-	import org.my.domain.MemberVO;
+	import java.util.List;
+
+import org.my.domain.AuthVO;
+import org.my.domain.MemberVO;
 	import org.my.mapper.MemberMapper;
 	import lombok.Setter;
 	import lombok.extern.log4j.Log4j;
@@ -22,13 +25,21 @@ public class CustomUserDetailsService implements UserDetailsService {
 		log.warn("Load User By UserName(userId) : " + userName);// userName means userId
 		
 		MemberVO vo = memberMapper.read(userName);// userName means userId
-
+		
 		log.warn("queried by member mapper: " + vo);
-
-		if(vo == null) {
+		
+		if(vo == null ) {
 			   throw new BadCredentialsException("NULL");
 		}
-			  return new CustomUser(vo);
+		else if(vo != null) {
+			List<AuthVO> AuthList = vo.getAuthList(); 
+			
+			for(AuthVO authvo : AuthList){
+				if(authvo.getAuth().equals("ROLE_LIMIT"))
+					throw new BadCredentialsException("limit");
+			}
+		}
+		 return new CustomUser(vo);
 	} 
 }
 

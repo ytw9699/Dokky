@@ -20,6 +20,10 @@ public class CustomLoginFailHandler extends SimpleUrlAuthenticationFailureHandle
 	  if(exception.getMessage().equals("NULL")) {
 		  getRedirectStrategy().sendRedirect(request, response, "/customLogin?check=notId");
 	  }
+	  
+	  if(exception.getMessage().equals("limit")) {
+		  getRedirectStrategy().sendRedirect(request, response, "/customLogin?check=limit");
+	  }
 	   
 	  if(exception.getClass().getName().equals("org.springframework.security.authentication.BadCredentialsException")) {
 		  getRedirectStrategy().sendRedirect(request, response, "/customLogin?check=notPassword");
