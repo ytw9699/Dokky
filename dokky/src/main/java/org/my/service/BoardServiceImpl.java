@@ -35,6 +35,14 @@ public class BoardServiceImpl implements BoardService {
 		return mapper.getList(cri);
 	}
 	
+	@Override
+	public List<BoardVO> getAllList(Criteria cri) {
+
+		log.info("get getAllList with criteria: " + cri);
+
+		return mapper.getAllList(cri);
+	}
+	
 	@Transactional
 	@Override
 	public void register(BoardVO board) {
@@ -111,6 +119,12 @@ public class BoardServiceImpl implements BoardService {
 
 		log.info("get total count");
 		return mapper.getTotalCount(cri);
+	}
+	@Override
+	public int getAllTotalCount(Criteria cri) {
+
+		log.info("get AllTotal count");
+		return mapper.getAllTotalCount(cri);
 	}
 	
 	@Override

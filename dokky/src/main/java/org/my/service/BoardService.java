@@ -52,5 +52,9 @@ public interface BoardService {
 
 	public boolean insertReportdata(reportVO vo);
 
+	public List<BoardVO> getAllList(Criteria cri);
+
+	public int getAllTotalCount(Criteria cri);
+
 	//public void removeAttach(Long num);
 }

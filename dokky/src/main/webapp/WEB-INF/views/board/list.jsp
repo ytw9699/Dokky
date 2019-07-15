@@ -49,6 +49,9 @@
 	<div class="listWrapper">
 		<div class="">
 			   <c:choose>
+			   	   <c:when test="${pageMaker.cri.category == 0 }">
+			          		 전체보기 
+			       </c:when>
 			       <c:when test="${pageMaker.cri.category == 1 }">
 			          		 공지사항 
 			       </c:when>
@@ -104,7 +107,7 @@
 						<li class="paginate_button  ${pageMaker.cri.pageNum == num ? "active":""} ">
 							<a href="${num}">${num}</a>
 						</li>
-					</c:forEach>
+					</c:forEach> 
 
 					<c:if test="${pageMaker.next}">
 						<li class="paginate_button next"><a

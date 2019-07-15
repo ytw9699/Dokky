@@ -73,5 +73,9 @@ public interface BoardMapper {
 
 	public int insertReportdata(reportVO vo);
 
+	public List<BoardVO> getAllList(Criteria cri);
+
+	public int getAllTotalCount(Criteria cri);
+
 
 }

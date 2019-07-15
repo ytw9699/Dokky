@@ -43,6 +43,25 @@
 		  ]]>
 	</select>
 	
+	<select id="getAllList" resultType="org.my.domain.BoardVO"> 
+		  <![CDATA[
+		  select 
+		    	category,replyCnt, num, title, content, nickName, regdate, hitCnt
+		  from 
+		      (
+		     select /*+INDEX_DESC(DK_BOARD PK_DK_BOARD) */ rownum rn, category,replyCnt, num, title, content, 
+			
+			 nickName, regdate, hitCnt from DK_BOARD where
+		  ]]>
+				<include refid ="criteria"></include>  
+				
+		  <![CDATA[    
+		      rownum <= #{pageNum} * #{amount}
+		      )
+		  where rn > (#{pageNum} -1) * #{amount}   
+		  ]]>
+	</select>
+	
 	<!-- 입력+pk값을 알기 위한것 -->
 	<insert id="insertSelectKey">
 
@@ -77,6 +96,10 @@
 	
 	<select id="getTotalCount" resultType="int">
 		select count(*) from DK_BOARD where category = #{category} and <include refid="criteria"></include>  num > 0
+	</select>
+	
+	<select id="getAllTotalCount" resultType="int">
+		select count(*) from DK_BOARD where <include refid="criteria"></include>  num > 0
 	</select>
 	
   	<!-- 해당 글의 댓글 갯수 하나 늘리거나 빼기 --> 

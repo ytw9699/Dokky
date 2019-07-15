@@ -53,6 +53,19 @@ public class BoardController {
 		return "board/list";
 	}
 	
+	@GetMapping("/allList")
+	public String allList(Criteria cri, Model model) {
+		
+		model.addAttribute("list", service.getAllList(cri));
+		
+		int total = service.getAllTotalCount(cri);
+		
+		model.addAttribute("pageMaker", new PageDTO(cri, total));
+	
+		return "board/list";
+	}
+	
+	
 	@PreAuthorize("hasAnyRole('ROLE_ADMIN','ROLE_MEMBER')")
 	@GetMapping("/register")
 	public String register(@ModelAttribute("category") int category) {
