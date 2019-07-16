@@ -42,6 +42,21 @@
 				<button class='btn btn-default'>검색</button>
 			</form>
 		</div>
+		<script>
+			var searchForm = $("#searchForm");   
+		
+			$(".btn-default").on("click", function(e) { 
+			
+							e.preventDefault();
+							
+							var category = '${pageMaker.cri.category}';//전체보기
+							
+							if(category == 0){ //전체보기	
+								searchForm.attr("action","/dokky/board/allList");//전체보기
+							}
+							searchForm.submit(); 
+						});
+		</script>	
 	</body>
 </html>
 

@@ -43,6 +43,7 @@
 	}
 </style>
 </head>
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
 <%@include file="../includes/search.jsp"%>
 <%@include file="../includes/left.jsp"%>
 <body>
@@ -126,7 +127,6 @@
 	<input type='hidden' name='keyword' value='<c:out value="${ pageMaker.cri.keyword }"/>'>
 </form> 
 	
-<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
 <script>
 	   
 	$("#regBtn").on("click", function() { 
@@ -145,7 +145,12 @@
 
 				actionForm.find("input[name='pageNum']").val($(this).attr("href"));//pageNum값을 바꿔주는것//this는 a태그의 href값을 가져오는것
 				
-				actionForm.submit();
+				var category = '${pageMaker.cri.category}';//전체보기
+				
+				if(category == 0){ //전체보기	
+					actionForm.attr("action","/dokky/board/allList");//전체보기
+				}
+				actionForm.submit(); 
 			});
 	
 		$(".move").on("click",function(e) {
