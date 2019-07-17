@@ -1,12 +1,17 @@
 package org.my.controller;
 	import java.io.UnsupportedEncodingException;
 	import java.util.Locale;
-	import org.my.domain.MemberVO;
-	import org.my.service.MemberService;
-	import org.springframework.beans.factory.annotation.Autowired;
+
+import org.my.domain.Criteria;
+import org.my.domain.MemberVO;
+import org.my.domain.PageDTO;
+import org.my.service.MemberService;
+import org.my.service.MypageService;
+import org.springframework.beans.factory.annotation.Autowired;
 	import org.springframework.http.HttpStatus;
 	import org.springframework.http.ResponseEntity;
-	import org.springframework.security.core.Authentication;
+import org.springframework.security.access.prepost.PreAuthorize;
+import org.springframework.security.core.Authentication;
 	import org.springframework.security.crypto.password.PasswordEncoder;
 	import org.springframework.stereotype.Controller;
 	import org.springframework.ui.Model;
@@ -24,6 +29,9 @@ public class CommonController {
 	
 	@Setter(onMethod_ = @Autowired)
 	private MemberService service;
+	
+	@Setter(onMethod_ = @Autowired)
+	private MypageService mypageService;
 	
 	@Setter(onMethod_ = @Autowired)
 	private PasswordEncoder pwencoder;
@@ -166,5 +174,42 @@ public class CommonController {
 		}
 			return new ResponseEntity<>("fail", HttpStatus.OK);
 	}
+	@PreAuthorize("isAuthenticated()")
+ 	@GetMapping("/userBoardList") 
+	public String userBoardList(Criteria cri, Model model) { //유저 게시글 가져오기
+		
+		model.addAttribute("userBoard", mypageService.getMyBoardList(cri));
+		
+		log.info("userBoardList"); 
+		
+		int total = mypageService.getMyBoardCount(cri);
+		
+		model.addAttribute("pageMaker", new PageDTO(cri, total));
+		model.addAttribute("boardTotal",total);  
+		model.addAttribute("replyTotal", mypageService.getMyReplyCount(cri));
+		
+		return "members/userBoardList";
+	} 
+	
+	@PreAuthorize("isAuthenticated()")
+ 	@GetMapping("/userReplylist")  
+	public String userReplylist(Criteria cri, Model model) {
+		
+		log.info("userReplylist "+cri);
+		
+		model.addAttribute("userReply", mypageService.getMyReplylist(cri));
+		
+		log.info("getUserReplyCount");
+		
+		int total = mypageService.getMyReplyCount(cri);//total은 내 댓글의 총 게시물수
+		
+		log.info("pageMaker");
+		
+		model.addAttribute("boardTotal",mypageService.getMyBoardCount(cri));  
+		model.addAttribute("replyTotal", total);
+		model.addAttribute("pageMaker", new PageDTO(cri, total));
+		
+		return "members/userReplylist";
+	} 
 	
 }

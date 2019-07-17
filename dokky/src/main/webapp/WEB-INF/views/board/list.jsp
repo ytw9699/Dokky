@@ -81,13 +81,12 @@
 		<div class="">
 			<table class=""> 
 				<c:forEach items="${list}" var="board">
-					<tr>
+					<tr> 
 						<td class="mypage"><a class='move' href='<c:out value="${board.num}"/>'> 
 							<c:out value="${board.title}" /></a></td> 
 						<td>댓글수[<c:out value="${board.replyCnt}" />]</td>
 						<td>조회수<c:out value="${board.hitCnt}" /></td>
-						<td><c:out value="${board.nickName}" /></td>
-			                  
+						<td><a href="/dokky/userBoardList?userId=${board.userId}"><c:out value="${board.nickName}" /></a> </td>
 						<td>
 							<fmt:formatDate value="${board.regDate}" pattern="yyyy년 MM월 dd일 HH:mm" />
 						</td> 

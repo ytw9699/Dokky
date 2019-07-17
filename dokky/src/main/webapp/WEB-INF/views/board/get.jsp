@@ -194,8 +194,8 @@
         <div class="form-group">  
           <label>수정됨</label>-<fmt:formatDate value="${board.updateDate}" pattern="yyyy년 MM월 dd일 HH:mm" />
         </div>						 
-		<div class="form-group">
-          <label>닉네임</label>-<c:out value="${board.nickName }"/>  
+		<div class="form-group"> 
+          <label>닉네임</label><a href="/dokky/userBoardList?userId=${board.userId}">-<c:out value="${board.nickName }"/></a>  
         </div>
          <div class="form-group">
           <label>번호</label>-<c:out value="${board.num }"/>

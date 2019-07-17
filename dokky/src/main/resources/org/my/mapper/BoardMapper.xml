@@ -27,12 +27,12 @@
 	<select id="getList" resultType="org.my.domain.BoardVO"> 
 		  <![CDATA[
 		  select 
-		    	category,replyCnt, num, title, content, nickName, regdate, hitCnt
+		    	category,replyCnt, num, title, content, nickName, regdate, hitCnt,userId
 		  from 
 		      (
 		     select /*+INDEX_DESC(DK_BOARD PK_DK_BOARD) */ rownum rn, category,replyCnt, num, title, content, 
 			
-			 nickName, regdate, hitCnt from DK_BOARD where category = #{category} and
+			 nickName, regdate, hitCnt ,userId from DK_BOARD where category = #{category} and
 		  ]]>
 				<include refid ="criteria"></include>  
 			<!-- ( title like '%'||'keyword'||'%' OR content like '%'||'keyword'||'%' OR writer like '%'||'keyword'||'%' ) AND -->
@@ -46,12 +46,12 @@
 	<select id="getAllList" resultType="org.my.domain.BoardVO"> 
 		  <![CDATA[
 		  select 
-		    	category,replyCnt, num, title, content, nickName, regdate, hitCnt
+		    	category,replyCnt, num, title, content, nickName, regdate, hitCnt,userId
 		  from 
 		      (
 		     select /*+INDEX_DESC(DK_BOARD PK_DK_BOARD) */ rownum rn, category,replyCnt, num, title, content, 
 			
-			 nickName, regdate, hitCnt from DK_BOARD where
+			 nickName, regdate, hitCnt,userId from DK_BOARD where
 		  ]]>
 				<include refid ="criteria"></include>  
 				

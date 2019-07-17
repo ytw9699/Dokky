@@ -131,7 +131,7 @@ public class mypageController {
 	
 	@PreAuthorize("isAuthenticated()")
  	@GetMapping("/myReplylist")  
-	public String myReplylist(Criteria cri, Model model) { //내 게시글 가져오기
+	public String myReplylist(Criteria cri, Model model) {
 		
 		log.info("myReplylist "+cri);
 		
