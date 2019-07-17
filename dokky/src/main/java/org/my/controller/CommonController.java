@@ -31,6 +31,12 @@ public class CommonController {
 	@RequestMapping(value = "/main", method = RequestMethod.GET)
 	public String main(Model model) {
 		
+		model.addAttribute("realtimeList", service.getRealtimeList());
+		
+		model.addAttribute("monthlyList", service.getMonthlyList());
+		
+		model.addAttribute("donationList", service.getDonationList());
+		
 		return "main";
 	}
 	@RequestMapping(value = "/", method = RequestMethod.GET)

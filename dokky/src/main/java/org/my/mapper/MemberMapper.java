@@ -1,5 +1,8 @@
 package org.my.mapper;
-	import org.my.domain.MemberVO;
+	import java.util.List;
+
+import org.my.domain.BoardVO;
+import org.my.domain.MemberVO;
 
 public interface MemberMapper {
 
@@ -16,5 +19,11 @@ public interface MemberMapper {
 	public int emailCheckedCount(String inputEmail);
 
 	public void updateLoginDate(String userName);
+
+	public List<BoardVO> getRealtimeList();
+
+	public List<BoardVO> getMonthlyList();
+
+	public List<BoardVO> getDonationList();
 	
 }

@@ -1,5 +1,8 @@
 package org.my.service;
-	import org.my.domain.MemberVO;
+	import java.util.List;
+
+import org.my.domain.BoardVO;
+import org.my.domain.MemberVO;
 
 public interface MemberService {
 	 
@@ -10,5 +13,11 @@ public interface MemberService {
 	public boolean getNicknameCheckedVal(String inputNickname);
 
 	public boolean getEmailCheckedVal(String inputEmail);
+
+	public List<BoardVO> getRealtimeList();
+
+	public List<BoardVO> getMonthlyList();
+
+	public List<BoardVO> getDonationList();
 	
 }

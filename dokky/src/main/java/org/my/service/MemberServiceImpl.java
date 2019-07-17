@@ -1,5 +1,9 @@
 package org.my.service;
-	import org.my.domain.MemberVO;
+	import java.util.List;
+
+import org.my.domain.BoardVO;
+import org.my.domain.Criteria;
+import org.my.domain.MemberVO;
 	import org.my.mapper.MemberMapper;
 	import org.springframework.beans.factory.annotation.Autowired;
 	import org.springframework.stereotype.Service;
@@ -48,4 +52,25 @@ public class MemberServiceImpl implements MemberService {
 		return mapper.emailCheckedCount(inputEmail) == 1;
 	}
 	
+	@Override
+	public List<BoardVO> getRealtimeList() {
+
+		log.info("getRealtimeList: ");
+
+		return mapper.getRealtimeList();
+	}
+	@Override
+	public List<BoardVO> getMonthlyList() {
+
+		log.info("getMonthlyList: ");
+
+		return mapper.getMonthlyList();
+	}
+	@Override
+	public List<BoardVO> getDonationList() {
+
+		log.info("getDonationList: ");
+
+		return mapper.getDonationList();
+	}
 }
