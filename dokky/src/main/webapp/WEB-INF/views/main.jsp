@@ -43,10 +43,10 @@
 	<div class="bodyWrap">	 
 		<div class="mainLists"> 
 			실시간 게시글
-			<table class="">
+			<table class=""> 
 				<c:forEach items="${realtimeList}" var="board">
 					<tr>
-						<td class="mypage"><a class='move' href='<c:out value="${board.num}"/>'> 
+						<td class="mypage"><a class='move' href='/dokky/board/get?num=<c:out value="${board.num}"/>'> 
 							<c:out value="${board.title}" /></a></td> 
 						<td>댓글수[<c:out value="${board.replyCnt}" />]</td>
 						<td>조회수<c:out value="${board.hitCnt}" /></td>
@@ -65,7 +65,7 @@
 			<table class=""> 
 				<c:forEach items="${monthlyList}" var="board">
 					<tr>
-						<td class="mypage"><a class='move' href='<c:out value="${board.num}"/>'> 
+						<td class="mypage"><a class='move' href='/dokky/board/get?num=<c:out value="${board.num}"/>'> 
 							<c:out value="${board.title}" /></a></td> 
 						<td>댓글수[<c:out value="${board.replyCnt}" />]</td>
 						<td>조회수<c:out value="${board.hitCnt}" /></td>
@@ -83,8 +83,8 @@
 			monthly 최다 기부글
 			<table class="">
 				<c:forEach items="${donationList}" var="board">
-					<tr>
-						<td class="mypage"><a class='move' href='<c:out value="${board.num}"/>'> 
+					<tr> 
+						<td class="mypage"><a class='move' href='/dokky/board/get?num=<c:out value="${board.num}"/>'> 
 							<c:out value="${board.title}" /></a></td> 
 						<td>댓글수[<c:out value="${board.replyCnt}" />]</td>
 						<td>조회수<c:out value="${board.hitCnt}" /></td>
