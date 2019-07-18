@@ -185,6 +185,7 @@ public class mypageController {
 		log.info("pageMaker");
 		
 		model.addAttribute("pageMaker", new PageDTO(cri, total));
+		model.addAttribute("total", total);
 		
 		return "mypage/myScraplist";
 	} 
