@@ -113,8 +113,8 @@
 				        <td><input type="checkbox" name="checkAll" id="checkAll" onclick="checkAll();"/>전체선택</td>
 				        <td><button id='deleteBtn' type="button" class="">삭제</button></td>
 				        <td></td>
-				        <td></td>  
 						<td><button id='regBtn' type="button" class="">새 글쓰기</button></td> 
+						<td>총 게시글 ${total}개 </td>  
 				    </tr>
 			</table>
 		</div>

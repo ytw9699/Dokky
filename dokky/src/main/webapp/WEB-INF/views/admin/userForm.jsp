@@ -103,7 +103,8 @@
 			<div class="tab">    
 		        <button onclick="location.href='userForm?userId=${user.userId}'">유저 개인정보</button> 
 		        <button onclick="location.href='userCashHistory?userId=${user.userId}'">유저 캐시내역</button>
-		    </div>  	 
+		        <button onclick="location.href='/dokky/userBoardList?userId=${user.userId}'">유저 활동</button>  
+		    </div>   	 
 		 </div> 
 		 
 		<div id="infomation" class="tabcontent">

@@ -125,6 +125,7 @@ public class mypageController {
 		int total = service.getMyBoardCount(cri);//total은 내 게시판의 총 게시물수
 		
 		model.addAttribute("pageMaker", new PageDTO(cri, total));
+		model.addAttribute("total", total);
 		
 		return "mypage/myBoardList";
 	} 
@@ -143,7 +144,8 @@ public class mypageController {
 		
 		log.info("pageMaker");
 		
-		model.addAttribute("pageMaker", new PageDTO(cri, total));
+		model.addAttribute("pageMaker", new PageDTO(cri, total)); 
+		model.addAttribute("total", total);
 		
 		return "mypage/myReplylist";
 	} 

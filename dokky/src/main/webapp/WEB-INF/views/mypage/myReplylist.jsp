@@ -111,6 +111,7 @@
 					<tr>
 				        <td><input type="checkbox" name="checkAll" id="checkAll" onclick="checkAll();"/>전체선택</td>
 				        <td><button id='deleteBtn' type="button" class="">삭제</button></td>
+				        <td>총 댓글 ${total}개 </td>  
 				    </tr>
 			</table>
 		</div>

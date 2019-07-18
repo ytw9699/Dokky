@@ -94,8 +94,8 @@
 		</div>
 		<div id="menuWrap">
 			<div class="tab"> 
-		        <button onclick="location.href='userBoardList?userId=${pageMaker.cri.userId}'">유저 게시글</button> 
-		        <button onclick="location.href='userReplylist?userId=${pageMaker.cri.userId}'">유저 댓글</button> 
+		        <button onclick="location.href='userBoardList?userId=${pageMaker.cri.userId}'">등록한 게시글</button> 
+		        <button onclick="location.href='userReplylist?userId=${pageMaker.cri.userId}'">등록한 댓글</button>  
 		    </div> 
 		</div>
 	<div class="listWrapper">
