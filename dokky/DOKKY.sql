@@ -242,7 +242,23 @@
 	
 	drop table dk_report purge
 	
-	14.기타 -----------------------------------------------------
+14.방문자 테이블 -----------------------------------------------------
+
+	 CREATE TABLE dk_visitor(
+		 visitor_num number(10,0), --기본키
+		 ip varchar(100) not null, --접속자 아이피
+		 visit_time date default sysdate,  --접속자 접속시간
+		 refer varchar(300),--접속자가 어느사이트를 타고 들어왔는지
+		 agent varchar(400) not null,--접속자 브라우저 정보
+		 constraint pk_visitor PRIMARY KEY (visitor_num)
+    )
+    
+    create sequence seq_dk_visitor
+	
+	drop table dk_visitor purge
+    
+	
+14.기타 -----------------------------------------------------
 	컬럼추가
 	ALTER TABLE DK_BOARD ADD userId VARCHAR2(50) NOT NULL;
 	ALTER TABLE DK_member ADD cash number(10,0) default 0;
@@ -255,5 +271,5 @@
 	데이터 배로 증가
 	insert into tbl_board(bno, title, content, writer)
 	(select seq_board.nextval, title, content, writer from tbl_board);
-	
+
 

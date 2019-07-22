@@ -1,0 +1,36 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+  PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+  "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="org.my.mapper.CommonMapper">
+
+	  <insert id="insertVisitor">
+          insert into dk_visitor
+            (
+                visitor_num,
+                ip,
+	               <if test="refer != null and refer !=''">
+	              	  refer,
+	                </if>
+                agent
+            )
+            VALUES
+            (
+                seq_dk_visitor.NEXTVAL,
+                #{ip},
+	                <if test="refer != null and refer !=''">
+	               		 #{refer},
+	                </if>
+                #{agent}
+            )
+       </insert>
+       
+       <select id="getVisitTotalCount" resultType="int">
+			select count(*) from dk_visitor     
+       </select>
+       
+        <select id="getVisitTodayCount" resultType="int">
+			select count(*) from dk_visitor where substr(to_char(visit_time), 1, 9) = to_date(sysdate, 'yy/MM/dd')
+       </select>
+        
+</mapper>

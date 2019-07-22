@@ -48,8 +48,8 @@
 		<sec:authorize access="isAuthenticated()">
 			<div class="mypage"><a href="/dokky/mypage/myInfoForm?userId=${userInfo.username}">내 정보</a></div>
 		</sec:authorize>
-		<div class="mypage">Today : 1 / Total : 10</div>
-		<div class="mypage">
+		<div class="mypage">Today : ${sessionScope.todayCount} / Total : ${sessionScope.totalCount}</div>
+		<div class="mypage"> 
 			<sec:authorize access="isAuthenticated()">
 				<form method='post' action="/dokky/customLogout">
 				    <input type="hidden" name="${_csrf.parameterName}" value="${_csrf.token}" />
