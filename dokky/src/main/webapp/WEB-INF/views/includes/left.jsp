@@ -47,6 +47,7 @@
 		<div class="mypage"><a href="/dokky/board/list?category=5">정기모임/스터디</a></div>
 		<sec:authorize access="isAuthenticated()">
 			<div class="mypage"><a href="/dokky/mypage/myInfoForm?userId=${userInfo.username}">내 정보</a></div>
+			<div class="mypage"><a href="/dokky/mypage/myInfoForm?userId=${userInfo.username}">알림</a></div>
 		</sec:authorize>
 		<div class="mypage">Today : ${sessionScope.todayCount} / Total : ${sessionScope.totalCount}</div>
 		<div class="mypage"> 
@@ -61,7 +62,7 @@
 				<a href="/dokky/memberForm">회원가입</a>
 			</sec:authorize>	
 		</div>
-		<div class="mypage"><a href="/dokky/admin/memberList">관리자 페이지</a></div>
+		<div class="mypage"><a href="/dokky/admin/memberList">관리자</a></div>
 	</div>
 </body>
 </html>

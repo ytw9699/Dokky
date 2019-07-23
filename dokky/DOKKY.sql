@@ -256,6 +256,23 @@
     create sequence seq_dk_visitor
 	
 	drop table dk_visitor purge
+	
+14.방문자 테이블 -----------------------------------------------------
+
+ CREATE TABLE dk_alarm(
+	 alarmNum number(10,0), --기본키
+	 checking VARCHAR2(10) DEFAULT 'NO',
+	 target VARCHAR2(50) NOT NULL,
+	 writer VARCHAR2(50) NOT NULL,
+	 kind VARCHAR2(10) NOT NULL,
+	 regdate date default sysdate,
+	 
+	 constraint pk_alarm PRIMARY KEY (alarmNum)
+)
+
+create sequence seq_dk_alarm
+
+drop table dk_alarm purge
     
 	
 14.기타 -----------------------------------------------------

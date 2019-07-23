@@ -32,5 +32,29 @@
         <select id="getVisitTodayCount" resultType="int">
 			select count(*) from dk_visitor where substr(to_char(visit_time), 1, 9) = to_date(sysdate, 'yy/MM/dd')
        </select>
+       
+        <select id="getAlarmCount" resultType="int">
+			select count(*) from dk_alarm     
+       </select>
+       
+       <select id="getAlarmList" resultType="org.my.domain.alarmVO"> 
+			select alarmNum,
+				   checking,
+				   target,
+				   writer,
+				   kind,
+				   regdate from 
+					 ( select /*+INDEX_DESC(dk_alarm pk_alarm) */ rownum rn,
+					 														alarmNum,
+					 														checking,
+					 														target,
+					 														writer,
+					 														kind,
+					 														regdate
+					from dk_alarm where userId = #{userId} and <![CDATA[ rownum <= #{pageNum} * #{amount} )
+						  where rn > (#{pageNum} -1) * #{amount}  
+						  ]]>
+	   </select>
+       
         
 </mapper>

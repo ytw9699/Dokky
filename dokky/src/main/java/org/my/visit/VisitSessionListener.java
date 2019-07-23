@@ -12,7 +12,7 @@ package org.my.visit;
 	import org.springframework.web.context.support.WebApplicationContextUtils;
 	import lombok.extern.log4j.Log4j;
 
-@Log4j 
+@Log4j  
 @WebListener /* web.xml설정 안하고 @WebListener 어노테이션 설정함*/  
 public class VisitSessionListener implements HttpSessionListener{
 		
@@ -30,7 +30,7 @@ public class VisitSessionListener implements HttpSessionListener{
 		  HttpSession session = sessionEvent.getSession(); 	
 		  WebApplicationContext ctx = WebApplicationContextUtils.getWebApplicationContext(session.getServletContext());
 		  //service =  (CommonService) ctx.getBean("CommonServiceImpl"); 
-		  service =  (CommonService) ctx.getBean("CommonServiceImpl");
+		  service =  (CommonService) ctx.getBean("commonServiceImpl");
 		   
 		  HttpServletRequest request = ((ServletRequestAttributes)RequestContextHolder.currentRequestAttributes()).getRequest();
 			

@@ -38,9 +38,6 @@
 		<property name="dataSource" ref="dataSource"></property>
 	</bean>
 	
-	<bean id="CommonServiceImpl" class="org.my.service.CommonServiceImpl"></bean>
-	<!-- HttpSessionListener에서 가져다 쓰기 위해 등록 -->
-		
 	<tx:annotation-driven />
 		
 	<mybatis-spring:scan base-package="org.my.mapper" />

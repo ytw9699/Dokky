@@ -1,6 +1,10 @@
 package org.my.service;
-	import org.my.domain.VisitCountVO;
-	import org.my.mapper.CommonMapper;
+	import java.util.List;
+
+import org.my.domain.Criteria;
+import org.my.domain.VisitCountVO;
+import org.my.domain.alarmVO;
+import org.my.mapper.CommonMapper;
 	import org.springframework.beans.factory.annotation.Autowired;
 	import org.springframework.stereotype.Service;
 	import lombok.Setter;
@@ -35,5 +39,18 @@ public class CommonServiceImpl implements CommonService {
 		log.info("getVisitTotalCount..."); 
 		
 		return mapper.getVisitTotalCount();
+	}
+	
+	@Override 
+	public int getAlarmCount(Criteria cri) {
+		log.info("getAlarmCount");
+		
+		return mapper.getAlarmCount();
+	}
+	@Override
+	public List<alarmVO> getAlarmList(Criteria cri){
+		log.info("getAlarmList");
+		
+		return mapper.getAlarmList();
 	}
 }

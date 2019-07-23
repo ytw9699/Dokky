@@ -5,6 +5,7 @@ package org.my.controller;
 import org.my.domain.Criteria;
 import org.my.domain.MemberVO;
 import org.my.domain.PageDTO;
+import org.my.service.CommonService;
 import org.my.service.MemberService;
 import org.my.service.MypageService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -28,7 +29,10 @@ import org.springframework.security.core.Authentication;
 public class CommonController {
 	
 	@Setter(onMethod_ = @Autowired)
-	private MemberService service;
+	private CommonService commonService;
+	
+	@Setter(onMethod_ = @Autowired)
+	private MemberService memberService;
 	
 	@Setter(onMethod_ = @Autowired)
 	private MypageService mypageService;
@@ -39,22 +43,22 @@ public class CommonController {
 	@RequestMapping(value = "/main", method = RequestMethod.GET)
 	public String main(Model model) {
 		
-		model.addAttribute("realtimeList", service.getRealtimeList());
+		model.addAttribute("realtimeList", memberService.getRealtimeList());
 		
-		model.addAttribute("monthlyList", service.getMonthlyList());
+		model.addAttribute("monthlyList", memberService.getMonthlyList());
 		
-		model.addAttribute("donationList", service.getDonationList());
+		model.addAttribute("donationList", memberService.getDonationList());
 		
 		return "main";
 	}
 	@RequestMapping(value = "/", method = RequestMethod.GET)
 	public String home(Locale locale, Model model) {
 		
-		model.addAttribute("realtimeList", service.getRealtimeList());
+		model.addAttribute("realtimeList", memberService.getRealtimeList());
 		
-		model.addAttribute("monthlyList", service.getMonthlyList());
+		model.addAttribute("monthlyList", memberService.getMonthlyList());
 		
-		model.addAttribute("donationList", service.getDonationList());
+		model.addAttribute("donationList", memberService.getDonationList());
 		
 		return "main";
 	}
@@ -130,7 +134,7 @@ public class CommonController {
 		
 		vo.setUserPw(pwencoder.encode(vo.getUserPw()));//패스워드 암호화
 		
-		if(service.registerMembers(vo)){
+		if(memberService.registerMembers(vo)){
 			model.addAttribute("check", "가입완료 되었습니다 로그인해주세요.");
 			
 			return "/customLogin";
@@ -145,7 +149,7 @@ public class CommonController {
 		 
 		log.info("username...="+inputId);
 		
-		if(service.getIdCheckedVal(inputId)){
+		if(memberService.getIdCheckedVal(inputId)){
 			return new ResponseEntity<>("success", HttpStatus.OK);
 		}
 			return new ResponseEntity<>("fail", HttpStatus.OK);
@@ -157,7 +161,7 @@ public class CommonController {
 		 
 		log.info("inputNickname...="+inputNickname);
 		
-		if(service.getNicknameCheckedVal(inputNickname)){
+		if(memberService.getNicknameCheckedVal(inputNickname)){
 			return new ResponseEntity<>("success", HttpStatus.OK);
 		}
 			return new ResponseEntity<>("fail", HttpStatus.OK);
@@ -169,7 +173,7 @@ public class CommonController {
 		 
 		log.info("inputEmail...="+inputEmail);
 		
-		if(service.getEmailCheckedVal(inputEmail)){
+		if(memberService.getEmailCheckedVal(inputEmail)){
 			return new ResponseEntity<>("success", HttpStatus.OK);
 		}
 			return new ResponseEntity<>("fail", HttpStatus.OK);
@@ -212,4 +216,23 @@ public class CommonController {
 		return "members/userReplylist";
 	} 
 	
+	@PreAuthorize("isAuthenticated()")
+	@GetMapping("/alarmList")  
+	 public String getAlarmList(Criteria cri, Model model) {//내 알림 리스트 가져오기
+		
+		log.info("getAlarmCount "+cri);
+		
+		int total = commonService.getAlarmCount(cri);//total은 내 댓글의 총 게시물수
+		model.addAttribute("total", total);
+		
+		log.info("getAlarmList "+cri);
+		
+		model.addAttribute("alarmList", commonService.getAlarmList(cri));
+		
+		log.info("pageMaker");
+		
+		model.addAttribute("pageMaker", new PageDTO(cri, total));
+
+		return "common/alarmList";
+	}
 }
