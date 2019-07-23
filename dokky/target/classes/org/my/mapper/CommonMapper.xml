@@ -34,7 +34,7 @@
        </select>
        
         <select id="getAlarmCount" resultType="int">
-			select count(*) from dk_alarm     
+			select count(*) from dk_alarm where target = #{userId}
        </select>
        
        <select id="getAlarmList" resultType="org.my.domain.alarmVO"> 
@@ -51,10 +51,28 @@
 					 														writer,
 					 														kind,
 					 														regdate
-					from dk_alarm where userId = #{userId} and <![CDATA[ rownum <= #{pageNum} * #{amount} )
+					from dk_alarm where target = #{userId} and <![CDATA[ rownum <= #{pageNum} * #{amount} )
 						  where rn > (#{pageNum} -1) * #{amount}  
 						  ]]>
 	   </select>
-       
+	   
+	   <insert id="insertAlarm">
+          insert into dk_alarm(
+				                alarmNum,
+				               target,
+				               writer,
+				               kind,
+				               commonVar
+					          )
+					            VALUES
+						            (
+						                seq_dk_alarm.nextval,
+						                #{target},
+						                #{writer},
+						                #{kind},
+						                #{commonVar}
+						                
+						            )
+       </insert>
         
 </mapper>

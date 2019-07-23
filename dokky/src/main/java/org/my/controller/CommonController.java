@@ -5,6 +5,8 @@ package org.my.controller;
 import org.my.domain.Criteria;
 import org.my.domain.MemberVO;
 import org.my.domain.PageDTO;
+import org.my.domain.ReplyVO;
+import org.my.domain.alarmVO;
 import org.my.service.CommonService;
 import org.my.service.MemberService;
 import org.my.service.MypageService;
@@ -18,7 +20,8 @@ import org.springframework.security.core.Authentication;
 	import org.springframework.ui.Model;
 	import org.springframework.web.bind.annotation.GetMapping;
 	import org.springframework.web.bind.annotation.PostMapping;
-	import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.RequestMapping;
 	import org.springframework.web.bind.annotation.RequestMethod;
 	import org.springframework.web.bind.annotation.ResponseBody;
 	import lombok.Setter;
@@ -220,12 +223,12 @@ public class CommonController {
 	@GetMapping("/alarmList")  
 	 public String getAlarmList(Criteria cri, Model model) {//내 알림 리스트 가져오기
 		
-		log.info("getAlarmCount "+cri);
-		
+		log.info("getAlarmCount");
 		int total = commonService.getAlarmCount(cri);//total은 내 댓글의 총 게시물수
+		
 		model.addAttribute("total", total);
 		
-		log.info("getAlarmList "+cri);
+		log.info("getAlarmList");
 		
 		model.addAttribute("alarmList", commonService.getAlarmList(cri));
 		
@@ -235,4 +238,21 @@ public class CommonController {
 
 		return "common/alarmList";
 	}
+	
+	@PreAuthorize("isAuthenticated()")
+	@ResponseBody
+	@PostMapping(value = "/alarm", consumes = "application/json", produces = "text/plain; charset=UTF-8")
+	public ResponseEntity<String> insertAlarm(@RequestBody alarmVO vo) {
+
+		log.info("alarmVO: " + vo);
+
+		int insertCount = commonService.insertAlarm(vo);
+		
+		log.info("alarm INSERT COUNT: " + insertCount);
+
+		return insertCount == 1  
+				?  new ResponseEntity<>("알림이 입력되었습니다.", HttpStatus.OK) 
+				: new ResponseEntity<>(HttpStatus.INTERNAL_SERVER_ERROR);
+	}
+	
 }

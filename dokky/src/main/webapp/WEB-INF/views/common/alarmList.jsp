@@ -83,38 +83,32 @@
 	<div class="ContentWrap">
 		<div id="menuWrap">
 			<div class="tab"> 
-				<button onclick="location.href='myInfoForm?userId=${userInfo.username}'">개인정보 변경</button>
-		        <button onclick="location.href='rePasswordForm?userId=${userInfo.username}'">비밀번호 변경</button> 
-		        <button onclick="location.href='myBoardList?userId=${userInfo.username}'">나의 게시글</button> 
-		        <button onclick="location.href='myReplylist?userId=${userInfo.username}'">나의 댓글</button> 
-		        <button onclick="location.href='myScraplist?userId=${userInfo.username}'">스크랩</button>
-		        <button onclick="location.href='myCashInfo?userId=${userInfo.username}'">캐시</button>  
+				<button onclick="location.href='alarmList?userId=${userInfo.username}'">알림</button>
 		    </div> 
 		</div>
 	<div class="listWrapper">
 		<div class="">
 			<table class=""> 
-				<c:forEach items="${MyBoard}" var="board">
+				<c:forEach items="${alarmList}" var="alarm">
 					<tr>
 					<td>
-						<input type="checkbox" name="checkRow" value="${board.num}" />
+						<input type="checkbox" name="checkRow" value="${alarm.alarmNum}" />
                     </td>
-						<td class="mypage"><a class='move' href='<c:out value="${board.num}"/>'> 
-							<c:out value="${board.title}" /></a></td> 
-						<td>댓글수[<c:out value="${board.replyCnt}" />]</td>
-						<td>조회수<c:out value="${board.hitCnt}" /></td>
+						
+						<td>checking[<c:out value="${alarm.checking}" />]</td>
+						<td>target[<c:out value="${alarm.target}" />]</td>
+						<td>writer<c:out value="${alarm.writer}" /></td>
+						<td>kind<c:out value="${alarm.kind}" /></td>
 			                  
 						<td>
-							<fmt:formatDate value="${board.regDate}" pattern="yyyy년 MM월 dd일 HH:mm" />
+							<fmt:formatDate value="${alarm.regdate}" pattern="yyyy년 MM월 dd일 HH:mm" />
 						</td>
 					</tr>
 				</c:forEach>
 				    <tr>
 				        <td><input type="checkbox" name="checkAll" id="checkAll" onclick="checkAll();"/>전체선택</td>
 				        <td><button id='deleteBtn' type="button" class="">삭제</button></td>
-				        <td></td>
-						<td><button id='regBtn' type="button" class="">새 글쓰기</button></td> 
-						<td>총 게시글 ${total}개 </td>  
+						<td>총 알림 ${total}개 </td>  
 				    </tr>
 			</table>
 		</div>
@@ -140,7 +134,7 @@
 					</c:if>
 				</ul>
 			</div>
-	<form id='actionForm' action="/dokky/mypage/myBoardList" method='get'>  
+	<form id='actionForm' action="/dokky/alarmList" method='get'>  
 		<input type='hidden' name='pageNum' value='${pageMaker.cri.pageNum}'>
 		<input type='hidden' name='amount' value='${pageMaker.cri.amount}'>
 		<input type='hidden' name='userId' value='${pageMaker.cri.userId}'>
@@ -152,15 +146,6 @@
 <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script> 
 <script> 
 	   
-	$("#regBtn").on("click", function() { 
-	
-		self.location = "/dokky/board/register?category="+${pageMaker.cri.category};
-	}); 
-	
-	$("#deleteBtn").on("click", function() { 
-		deleteAction(); 
-	}); 
-    
 	var actionForm = $("#actionForm");
 
 		$(".paginate_button a").on("click", function(e) {//결국pageNum값만 바꿔주기 위해
@@ -182,6 +167,10 @@
 		});
 		
 		
+		$("#deleteBtn").on("click", function() { 
+			deleteAction(); 
+		}); 
+		
 	/* 체크박스 전체선택, 전체해제 */
 	function checkAll(){
 	      if( $("#checkAll").is(':checked') ){ 
@@ -202,7 +191,7 @@
 		  checkRow = checkRow.substring(0,checkRow.lastIndexOf( ","));
 		 
 		  if(checkRow == ''){
-		   	 alert("삭제할 글을 선택하세요.");
+		   	 alert("삭제할 알림을 선택하세요.");
 		    return false;
 		  }
 		  

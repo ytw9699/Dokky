@@ -265,6 +265,7 @@
 	 target VARCHAR2(50) NOT NULL,
 	 writer VARCHAR2(50) NOT NULL,
 	 kind VARCHAR2(10) NOT NULL,
+	 commonVar VARCHAR2(200),
 	 regdate date default sysdate,
 	 
 	 constraint pk_alarm PRIMARY KEY (alarmNum)
@@ -273,7 +274,10 @@
 create sequence seq_dk_alarm
 
 drop table dk_alarm purge
+	
+insert into dk_alrm (alarmNum,target,writer,kind) values (seq_dk_alarm.nextval,'admin90','test',0) ; 
     
+
 	
 14.기타 -----------------------------------------------------
 	컬럼추가

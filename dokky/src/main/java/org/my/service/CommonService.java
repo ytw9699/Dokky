@@ -16,4 +16,6 @@ public interface CommonService {
 
 	public List<alarmVO> getAlarmList(Criteria cri);
 
+	public int insertAlarm(alarmVO vo);
+
 }

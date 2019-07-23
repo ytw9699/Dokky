@@ -420,6 +420,8 @@
 	 <sec:authorize access="isAuthenticated()">   
 	     var reply_id = '${userInfo.username}';//댓글 작성자 아이디
 	 	 var reply_nickName = '${userInfo.member.nickName}';//댓글 작성자 닉네임
+	 	 var board_id = '${board.userId}';
+	 	 var board_title = '${board.title}';
    	</sec:authorize>
 
 		 replyRegisterBtn.on("click",function(e){// 0. 댓글 등록 이벤트 설치
@@ -430,11 +432,22 @@
 		            num:numValue, //글번호 
 		            nickName:reply_nickName //작성자 닉네임
 		          };
+			 
+			 var alarmData = {
+						target:board_id,
+						commonVar:board_title,
+						kind:0,
+						writer:reply_id
+			          };
 		      
 		     	 replyService.add(reply, function(result){//댓글 등록
 		        
 				        //alert(result);
 				        reply_contents.val("");//댓글등록후 폼 비우기
+				        
+				        replyService.postAlarm(alarmData, function(result){//알람 등록
+				        	alert(result);
+				     }); 
 				        
 				        showReplyList(-1);//댓글 목록 마지막 페이지 보여주기
 			     }); 

@@ -354,6 +354,27 @@ var replyService = (function() {
 		})
 	}
 	
+	function postAlarm(alarmData, callback, error) {
+		console.log("postAlarm..............."); 
+		
+		$.ajax({
+			type : 'post',
+			url : '/dokky/alarm',
+			data : JSON.stringify(alarmData),
+			contentType : "application/json; charset=utf-8",
+			success : function(result, status, xhr) {
+				if (callback) { 
+					callback(result);
+				}
+			},
+			error : function(xhr, status, er) {
+				if (error) {
+					error(er);
+				}
+			}
+		})
+	}
+	
 	return {
 		add : add,
 		get : get,
@@ -369,7 +390,8 @@ var replyService = (function() {
 		updateDonation : updateDonation,
 		updateReplyDonation : updateReplyDonation,
 		ScrapBoard : ScrapBoard,
-		report : report
+		report : report,
+		postAlarm : postAlarm
 	};
 
 })();

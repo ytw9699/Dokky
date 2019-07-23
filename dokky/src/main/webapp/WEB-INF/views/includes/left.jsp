@@ -47,7 +47,7 @@
 		<div class="mypage"><a href="/dokky/board/list?category=5">정기모임/스터디</a></div>
 		<sec:authorize access="isAuthenticated()">
 			<div class="mypage"><a href="/dokky/mypage/myInfoForm?userId=${userInfo.username}">내 정보</a></div>
-			<div class="mypage"><a href="/dokky/mypage/myInfoForm?userId=${userInfo.username}">알림</a></div>
+			<div class="mypage"><a href="/dokky/alarmList?userId=${userInfo.username}">알림</a></div>
 		</sec:authorize>
 		<div class="mypage">Today : ${sessionScope.todayCount} / Total : ${sessionScope.totalCount}</div>
 		<div class="mypage"> 

@@ -9,5 +9,6 @@ public class alarmVO {
 	  private String target;
 	  private String writer;
 	  private String kind;
+	  private String commonVar;
 	  private Date regdate;
 }
