@@ -1,30 +1,25 @@
 package org.my.controller;
 	import org.my.domain.Criteria;
-import org.my.domain.PageDTO;
-import org.my.domain.ReplyVO;
-import org.my.domain.cashVO;
-import org.my.domain.reportVO;
+	import org.my.domain.PageDTO;
+	import org.my.domain.cashVO;
+import org.my.domain.commonVO;
 import org.my.service.AdminService;
-import org.my.service.MypageService;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.http.HttpStatus;
-import org.springframework.http.MediaType;
-import org.springframework.http.ResponseEntity;
-import org.springframework.security.access.prepost.PreAuthorize;
-import org.springframework.stereotype.Controller;
-import org.springframework.ui.Model;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestMethod;
-import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.bind.annotation.ResponseBody;
-
-import lombok.Setter;
-import lombok.extern.log4j.Log4j;
-	
+	import org.my.service.MypageService;
+	import org.springframework.beans.factory.annotation.Autowired;
+	import org.springframework.http.HttpStatus;
+	import org.springframework.http.ResponseEntity;
+	import org.springframework.security.access.prepost.PreAuthorize;
+	import org.springframework.stereotype.Controller;
+	import org.springframework.ui.Model;
+	import org.springframework.web.bind.annotation.GetMapping;
+	import org.springframework.web.bind.annotation.PathVariable;
+	import org.springframework.web.bind.annotation.RequestBody;
+	import org.springframework.web.bind.annotation.RequestMapping;
+	import org.springframework.web.bind.annotation.RequestMethod;
+	import org.springframework.web.bind.annotation.RequestParam;
+	import org.springframework.web.bind.annotation.ResponseBody;
+	import lombok.Setter;
+	import lombok.extern.log4j.Log4j;
 	//import org.springframework.security.access.annotation.Secured;
 
 @Controller
@@ -72,13 +67,31 @@ public class AdminController {
 	@RequestMapping(method = { RequestMethod.PUT,RequestMethod.PATCH },
 			value = "/approve", consumes = "application/json", produces = "text/plain; charset=UTF-8")
 		@ResponseBody
-		public ResponseEntity<String> approve(@RequestBody cashVO vo) {
+		public ResponseEntity<String> approve(@RequestBody commonVO vo) {
 		
 		log.info("vo...="+vo);
 		
 		return service.updateApprove(vo) == 1 ? new ResponseEntity<>("success", HttpStatus.OK)
 				: new ResponseEntity<>("fail",HttpStatus.INTERNAL_SERVER_ERROR);
 		}
+	
+	/*@RequestMapping(method = { RequestMethod.PUT,RequestMethod.PATCH },
+			value = "/approve", consumes = "application/json", produces = "text/plain; charset=UTF-8")
+		@ResponseBody
+		public ResponseEntity<String> approve(@RequestBody Map<String, VoInterface> params) {
+		
+		log.info("params...="+params);
+		
+		//Map alarmData1 = (Map) params.get("alarmData1");
+		
+		VoInterface alarmVO = (alarmVO)params.get("alarmData1");
+		
+		//alarmVO.setTarget((String)alarmData1.get("target"));
+		
+		log.info("alarmVO...="+alarmVO);
+		
+		return new ResponseEntity<>("알림이 입력되었습니다.", HttpStatus.OK) ;
+		}*/
 	
 	@PreAuthorize("isAuthenticated()")
  	@GetMapping("/userForm")  

@@ -303,6 +303,8 @@
 <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
 <script type="text/javascript" src="/dokky/resources/js/reply.js"></script> <!--댓글 AJAX통신 -->
 <script>
+	//공통 변수 모음
+	var board_num = '${board.num}';
 
      function func_confirm(content){//단순 확인여부 함수
          if(confirm(content)){//true
@@ -435,9 +437,11 @@
 			 
 			 var alarmData = {
 						target:board_id,
-						commonVar:board_title,
+						commonVar1:board_title,
+						commonVar2:board_num,
 						kind:0,
-						writer:reply_id
+						writerNick:reply_nickName,
+						writerId:reply_id
 			          };
 		      
 		     	 replyService.add(reply, function(result){//댓글 등록
@@ -446,7 +450,7 @@
 				        reply_contents.val("");//댓글등록후 폼 비우기
 				        
 				        replyService.postAlarm(alarmData, function(result){//알람 등록
-				        	alert(result);
+				        	alert(result); 
 				     }); 
 				        
 				        showReplyList(-1);//댓글 목록 마지막 페이지 보여주기
@@ -588,12 +592,23 @@
 		var likeData = {reply_num:reply_num,//댓글번호
 						userId:username//접속 아이디
 				};
-		
+
+		var alarmData = { 
+					target:board_id,
+					commonVar1:board_title,
+					commonVar2:board_num,
+					kind:5,
+					writerNick:reply_nickName,
+					writerId:reply_id
+		          };
+
 		replyService.updateReplyLike(likeData, function(result){
 		 
 		var replyLikeCount = $("#replyLikeCount"+reply_num);
 			replyLikeCount.html(result);
 			//console.log(result); 
+			replyService.postAlarm(alarmData, function(result){//알람 등록
+			   }); 
 		  });
 		//추후 좋아요를 눌르면 이미지변경까지 취소하면 이미지변경 추가해보자
 	});//3. 댓글 좋아요 버튼 이벤트 설치
@@ -611,17 +626,27 @@
 		}
 		
 		var dislikeData = {reply_num:reply_num,//댓글번호
-						userId:username//접속 아이디
+						      userId:username//접속 아이디
 			};
 	
+		var alarmData = { 
+				target:board_id,
+				commonVar1:board_title,
+				commonVar2:board_num,
+				kind:6,
+				writerNick:reply_nickName,
+				writerId:reply_id
+	          };
+		
 		replyService.updateReplyDisLike(dislikeData, function(result){
 		 
 		var replyDisLikeCount = $("#replyDisLikeCount"+reply_num);
 			replyDisLikeCount.html(result);
 			//console.log(result); 
+		replyService.postAlarm(alarmData, function(result){//알람 등록
+		   }); 
  	 });
 	//추후 좋아요를 눌르면 이미지변경까지 취소하면 이미지변경 추가해보자
-	
 	});//4. 댓글 싫어요 버튼 이벤트 설치
 	
 		$("#like").on("click",function(event){//3. 좋아요 버튼 이벤트 설치
@@ -637,11 +662,22 @@
 							userId:username//접속 아이디
 							};
 			
+			 var alarmData = { 
+						target:board_id,
+						commonVar1:board_title,
+						commonVar2:board_num,
+						kind:1,
+						writerNick:reply_nickName,
+						writerId:reply_id
+			          };
+			 
 		   	replyService.updateLike(likeData, function(result){
 		   	 
-		   	var likeCount = $("#likeCount");
-		  	likeCount.html(result);
-		   		//console.log(result); 
+				   	var likeCount = $("#likeCount");
+				  	likeCount.html(result);
+		   				//console.log(result); 
+				  	 replyService.postAlarm(alarmData, function(result){//알람 등록
+				     }); 
 		   	  });
 		   	//추후 좋아요를 눌르면 이미지변경까지 취소하면 이미지변경 추가해보자
 		   	});
@@ -651,6 +687,15 @@
 			var loginCheck = "로그인후 싫어요를 눌러주세요.";
 			var likeCheck = "자신의 글에는 싫어요를 할 수 없습니다.";
 			var user_id = $(this).data("user_id");
+			
+			var alarmData = { 
+					target:board_id,
+					commonVar1:board_title,
+					commonVar2:board_num,
+					kind:2,
+					writerNick:reply_nickName,
+					writerId:reply_id
+		          };
 			
 			if(checkUser(user_id,loginCheck,null,likeCheck)){
 				return; 
@@ -663,7 +708,9 @@
 			   	 
 			   	var dislikeCount = $("#dislikeCount");
 			   	dislikeCount.html(result);
-			   		//console.log(result); 
+			   		//console.log(result);
+			    replyService.postAlarm(alarmData, function(result){//알람 등록
+			     }); 
 	   	    });
 	   	});
 	   	
@@ -726,7 +773,7 @@
 			if(checkUser(donatedId, loginCheck, null, giveCheck)){
 				return;
 			}
-		
+			
 			replyService.getUserCash(username, function(result){//나의 잔여 캐시 가져오기
 				
 				donateModal.find("input[name='myCash']").val(parseInt(result));
@@ -749,12 +796,21 @@
 			}
    			
    			if(option === 'board'){//게시글 기부시
-   				var donateData = {num 	  : numValue, //글번호
-								  userId  : username, //기부하는 아이디
-								  replyId : donatedId, //기부받는 아이디
-								  money   : inputMoney, //기부금액
-								  cash 	  : myCash //내 캐시
+   				var donateData = {num 	    : numValue, //글번호
+								  userId    : username, //기부하는 아이디
+								  donatedId : donatedId, //기부받는 아이디
+								  money     : inputMoney, //기부금액
+								  cash 	    : myCash //내 캐시
 								 };
+   			
+   				var alarmData = { 
+   						target:board_id,
+   						commonVar1:board_title,
+   						commonVar2:board_num,
+   						kind:3,
+   						writerNick:reply_nickName,
+   						writerId:reply_id
+   			          };
 		
 				replyService.updateDonation(donateData, function(result){
 				
@@ -763,8 +819,12 @@
 				   	
 					donateModalClose();
 					donateModal.find("input").val("");
-				
+					
+					replyService.postAlarm(alarmData, function(result){//알람 등록
+					 }); 
+					
 					alert("기부 하였습니다."); 
+					
 		   	    });
    			}else if(option === 'reply'){//댓글 기부시
    				
@@ -773,10 +833,19 @@
 				   					   num 	     : numValue, //글번호
 					   				   reply_num : reply_num, //댓글번호
 									   userId  	 : username, //기부하는 아이디
-									   replyId 	 : donatedId, //기부받는 아이디
+									   donatedId : donatedId, //기부받는 아이디
 									   money     : inputMoney, //기부금액
 									   cash 	 : myCash //내 캐시
 								 };
+   			
+   				var alarmData = { 
+   						target:board_id,
+   						commonVar1:board_title,
+   						commonVar2:board_num,
+   						kind:4,
+   						writerNick:reply_nickName,
+   						writerId:reply_id
+   			          };
    			
 				
 				replyService.updateReplyDonation(replyDonateData, function(result){
@@ -786,7 +855,10 @@
 				   	
 					donateModalClose();
 					donateModal.find("input").val("");
-				
+					
+					replyService.postAlarm(alarmData, function(result){//알람 등록
+					 }); 
+					
 					alert("기부 되었습니다.");  
 		   	    });
    			}

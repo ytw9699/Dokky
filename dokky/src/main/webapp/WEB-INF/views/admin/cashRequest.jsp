@@ -144,11 +144,13 @@
 		       xhr.setRequestHeader(csrfHeaderName, csrfTokenValue); //모든 AJAX전송시 CSRF토큰을 같이 전송하도록 셋팅
 		     });
 	 
-			 function approve(approveData, callback, error) {
+			 function approve(commonData, callback, error) {
+				 console.log(commonData); 
+				 
 					$.ajax({
 						type : 'put',
 						url : '/dokky/admin/approve/',
-						data : JSON.stringify(approveData),
+						data : JSON.stringify(commonData),
 						contentType : "application/json; charset=utf-8",
 						success : function(result, status, xhr) {
 							if (callback) {
@@ -163,21 +165,66 @@
 					});
 				}
 			 
+			 function postAlarm(approveData, callback, error) {//알림등록
+					console.log("postAlarm...............");  
+					
+					$.ajax({
+						type : 'post',
+						url : '/dokky/alarm',
+						//data : JSON.stringify(alarmData1),
+						data : JSON.stringify(approveData),
+						/* data : {
+							  alarmData : JSON.stringify(alarmData1),
+							  approveData : JSON.stringify(approveData)
+							}, */
+						contentType : "application/json; charset=utf-8",
+						success : function(result, status, xhr) {
+							if (callback) { 
+								callback(result);
+							}
+						},
+						error : function(xhr, status, er) {
+							if (error) {
+								error(er);
+							}
+						}
+					})
+				}
+			 
 			 
 			 $(".approveButton").on("click",function(event){// 이벤트  
 				 	var cash_num = $(this).data("cash_num");
 				 	var userId = $(this).data("user_id");
 				 	var cashAmount = $(this).data("cash_amount");
 				 	var cashKind = $(this).data("cash_kind");
-				 	 
-				 	var approveData = {
+				 	var kind;
+				 	
+				 	 if(cashKind == '충전'){
+				 		kind = 7;
+				 	 }else if(cashKind == '환전'){
+				 		 kind = 8;
+				 	 } 
+					  
+				 	var approveData = { //승인 데이타
 				 			cash_num: cash_num,
 				 			userId:userId,
 				 			cashAmount:cashAmount,
-				 			cashKind:cashKind
+				 			cashKind:cashKind  
 				          };
 				 	
-				 	approve(approveData, function(result){ 
+					var alarmData = { //알람 데이타
+	   						target:userId,
+	   						kind:kind,
+	   						writerNick:'관리자',
+	   						writerId:'admin'
+	   			          };
+					
+					var commonData ={
+							cashVO:approveData,
+							alarmVO:alarmData
+				 	}
+				 	
+				 	approve(commonData, function(result){
 						if(result == 'success'){ 
 							
 							var specification = $("#specification"+cash_num); 

@@ -1,12 +1,14 @@
 package org.my.controller;
 	import java.io.UnsupportedEncodingException;
 	import java.util.Locale;
+import java.util.Map;
 
 import org.my.domain.Criteria;
 import org.my.domain.MemberVO;
 import org.my.domain.PageDTO;
 import org.my.domain.ReplyVO;
 import org.my.domain.alarmVO;
+import org.my.domain.cashVO;
 import org.my.service.CommonService;
 import org.my.service.MemberService;
 import org.my.service.MypageService;
@@ -242,17 +244,16 @@ public class CommonController {
 	@PreAuthorize("isAuthenticated()")
 	@ResponseBody
 	@PostMapping(value = "/alarm", consumes = "application/json", produces = "text/plain; charset=UTF-8")
-	public ResponseEntity<String> insertAlarm(@RequestBody alarmVO vo) {
+	public ResponseEntity<String> insertAlarm(@RequestBody cashVO vo2 ) {
 
-		log.info("alarmVO: " + vo);
+		//log.info("alarmVO: " + vo);
+		log.info("cashVO: " + vo2);
 
-		int insertCount = commonService.insertAlarm(vo);
+		//int insertCount = commonService.insertAlarm(vo);
 		
-		log.info("alarm INSERT COUNT: " + insertCount);
+		//log.info("alarm INSERT COUNT: " + insertCount);
 
-		return insertCount == 1  
-				?  new ResponseEntity<>("알림이 입력되었습니다.", HttpStatus.OK) 
-				: new ResponseEntity<>(HttpStatus.INTERNAL_SERVER_ERROR);
+		return new ResponseEntity<>("알림이 입력되었습니다.", HttpStatus.OK) ;
+				
 	}
-	
 }

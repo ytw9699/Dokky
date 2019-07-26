@@ -3,9 +3,11 @@ package org.my.service;
 	import org.my.domain.Criteria;
 import org.my.domain.MemberVO;
 import org.my.domain.cashVO;
+import org.my.domain.commonVO;
 import org.my.domain.reportVO;
 import org.my.mapper.AdminMapper;
-	import org.springframework.beans.factory.annotation.Autowired;
+import org.my.mapper.CommonMapper;
+import org.springframework.beans.factory.annotation.Autowired;
 	import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -19,6 +21,9 @@ public class AdminServiceImpl implements AdminService {
 	@Setter(onMethod_ = @Autowired)
 	private AdminMapper mapper;
 	
+	@Setter(onMethod_ = @Autowired)
+	private CommonMapper commonMapper;
+	
 	@Override
 	public List<cashVO> getCashRequest(Criteria cri) {
 
@@ -28,19 +33,26 @@ public class AdminServiceImpl implements AdminService {
 	}
 	@Transactional
 	@Override
-	public int updateApprove(cashVO vo) {
+	public int updateApprove(commonVO vo) {
 
-		log.info("updateUsercash");
+		log.info("updateApprove");
 		log.info(vo);
 		
-		if(vo.getCashKind().equals("충전")) 
-			mapper.updatePluscash(vo);
-		else if(vo.getCashKind().equals("환전"))
-			mapper.updateMinuscash(vo);
+		cashVO cashVO = vo.getCashVO();
+		
+		log.info("updateUsercash");
+		
+		if(cashVO.getCashKind().equals("충전")) 
+			mapper.updatePluscash(cashVO);
+		else if(cashVO.getCashKind().equals("환전"))
+			mapper.updateMinuscash(cashVO);
+		
+		log.info("insertAlarm: ");
+		commonMapper.insertAlarm(vo.getAlarmVO());
 		
 		log.info("updateApprove: ");
 
-		return mapper.updateApprove(vo.getCash_num());
+		return mapper.updateApprove(cashVO.getCash_num());
 	}
 	
 	@Override

@@ -83,7 +83,7 @@
 	<div class="ContentWrap">
 		<div id="menuWrap">
 			<div class="tab"> 
-				<button onclick="location.href='alarmList?userId=${userInfo.username}'">알림</button>
+				<button onclick="location.href='alarmList?userId=${userInfo.username}'">총 알림 ${total}개</button> 
 		    </div> 
 		</div>
 	<div class="listWrapper">
@@ -94,12 +94,98 @@
 					<td>
 						<input type="checkbox" name="checkRow" value="${alarm.alarmNum}" />
                     </td>
-						
-						<td>checking[<c:out value="${alarm.checking}" />]</td>
-						<td>target[<c:out value="${alarm.target}" />]</td>
-						<td>writer<c:out value="${alarm.writer}" /></td>
-						<td>kind<c:out value="${alarm.kind}" /></td>
-			                  
+                    <c:choose>
+					       <c:when test="${alarm.kind == 0 }">
+					          		<td>  
+					          			     <a href="userBoardList?userId=${alarm.writerId}">${alarm.writerNick}</a>
+					          			 님께서 <a href="board/get?num=${alarm.commonVar2}">${alarm.commonVar1}</a>
+					          			 글에 댓글을 다셨습니다. 
+						          		 <c:if test="${alarm.checking == 'NO'}">
+												1					          		 	
+						          		 </c:if>
+					          		 </td>
+					       </c:when>
+					      <c:when test="${alarm.kind == 1 }">
+					          		<td> 
+					          			 <a href="userBoardList?userId=${alarm.writerId}">${alarm.writerNick}</a>
+					          		님께서 <a href="board/get?num=${alarm.commonVar2}">${alarm.commonVar1}</a>
+					          		글에 좋아요 표시를 했습니다. 
+						          		 <c:if test="${alarm.checking == 'NO'}">
+												1					          		 	
+						          		 </c:if>
+					          		 </td>
+					       </c:when> 
+					        <c:when test="${alarm.kind == 2 }">
+					          		<td>  
+					          			 <a href="userBoardList?userId=${alarm.writerId}">${alarm.writerNick}</a>
+					          		님께서 <a href="board/get?num=${alarm.commonVar2}">${alarm.commonVar1}</a>
+					          		글에 싫어요 표시를 했습니다.  
+						          		 <c:if test="${alarm.checking == 'NO'}">
+												1					          		 	
+						          		 </c:if>
+					          		 </td>
+					       </c:when> 
+					        <c:when test="${alarm.kind == 3 }">
+					          		<td>  
+					          			 <a href="userBoardList?userId=${alarm.writerId}">${alarm.writerNick}</a>
+					          		님께서 <a href="board/get?num=${alarm.commonVar2}">${alarm.commonVar1}</a>
+					          		글에 기부하셨습니다.  
+						          		 <c:if test="${alarm.checking == 'NO'}">
+												1					          		 	
+						          		 </c:if>
+					          		 </td>
+					       </c:when> 
+					       <c:when test="${alarm.kind == 4 }">
+					          		<td>  
+					          			 <a href="userBoardList?userId=${alarm.writerId}">${alarm.writerNick}</a>
+					          		님께서 <a href="board/get?num=${alarm.commonVar2}">${alarm.commonVar1}</a>
+					          		댓글에 기부하셨습니다.  
+						          		 <c:if test="${alarm.checking == 'NO'}">
+												1					          		 	
+						          		 </c:if>
+					          		 </td>
+					       </c:when>
+					       <c:when test="${alarm.kind == 5 }">
+					          		<td>  
+					          			 <a href="userBoardList?userId=${alarm.writerId}">${alarm.writerNick}</a>
+					          		님께서 <a href="board/get?num=${alarm.commonVar2}">${alarm.commonVar1}</a>
+					          		댓글에 좋아요 표시를 했습니다. 
+						          		 <c:if test="${alarm.checking == 'NO'}">
+												1					          		 	
+						          		 </c:if>
+					          		 </td>
+					       </c:when>
+					       <c:when test="${alarm.kind == 6 }">
+					          		<td>  
+					          			 <a href="userBoardList?userId=${alarm.writerId}">${alarm.writerNick}</a>
+					          		님께서 <a href="board/get?num=${alarm.commonVar2}">${alarm.commonVar1}</a>
+					          		댓글에 싫어요 표시를 했습니다. 
+						          		 <c:if test="${alarm.checking == 'NO'}">
+												1					          		 	
+						          		 </c:if>
+					          		 </td>
+					       </c:when>
+					       <c:when test="${alarm.kind == 7 }">
+					          		<td>  
+					          			 <a href="mypage/myCashHistory?userId=${userInfo.username}">
+					          			 	캐시충전이 완료되었습니다.
+					          			 </a>
+						          		 <c:if test="${alarm.checking == 'NO'}">
+												1					          		 	
+						          		 </c:if>
+					          		 </td>
+					       </c:when>
+					       <c:when test="${alarm.kind == 8 }">
+			          			<td>  
+			          			 	 <a href="mypage/myCashHistory?userId=${userInfo.username}">
+			          			 		캐시환전이 완료되었습니다.
+				          			 </a>
+					          		 <c:if test="${alarm.checking == 'NO'}">
+											1					          		 	
+					          		 </c:if>
+			          			 </td>
+					       </c:when>
+			       </c:choose> 
 						<td>
 							<fmt:formatDate value="${alarm.regdate}" pattern="yyyy년 MM월 dd일 HH:mm" />
 						</td>
@@ -108,7 +194,6 @@
 				    <tr>
 				        <td><input type="checkbox" name="checkAll" id="checkAll" onclick="checkAll();"/>전체선택</td>
 				        <td><button id='deleteBtn' type="button" class="">삭제</button></td>
-						<td>총 알림 ${total}개 </td>  
 				    </tr>
 			</table>
 		</div>

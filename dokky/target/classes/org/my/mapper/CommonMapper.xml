@@ -36,20 +36,26 @@
         <select id="getAlarmCount" resultType="int">
 			select count(*) from dk_alarm where target = #{userId}
        </select>
-       
+	  
        <select id="getAlarmList" resultType="org.my.domain.alarmVO"> 
 			select alarmNum,
 				   checking,
 				   target,
-				   writer,
+				   writerNick,
+				   writerId,
 				   kind,
+				   commonVar1,
+				   commonVar2,
 				   regdate from 
 					 ( select /*+INDEX_DESC(dk_alarm pk_alarm) */ rownum rn,
 					 														alarmNum,
 					 														checking,
 					 														target,
-					 														writer,
+					 														writerNick,
+					 														writerId,
 					 														kind,
+					 														commonVar1,
+																			commonVar2,
 					 														regdate
 					from dk_alarm where target = #{userId} and <![CDATA[ rownum <= #{pageNum} * #{amount} )
 						  where rn > (#{pageNum} -1) * #{amount}  
@@ -58,20 +64,31 @@
 	   
 	   <insert id="insertAlarm">
           insert into dk_alarm(
-				                alarmNum,
+				               alarmNum,
 				               target,
-				               writer,
-				               kind,
-				               commonVar
+				               writerNick,
+				  			   writerId,
+				  			   <if test="commonVar1 != null and commonVar1 !=''">
+				              	    commonVar1,
+				                </if>
+				                <if test="commonVar2 != null and commonVar2 !=''">
+				              	    commonVar2,
+				                </if>
+				               kind
 					          )
 					            VALUES
 						            (
 						                seq_dk_alarm.nextval,
 						                #{target},
-						                #{writer},
-						                #{kind},
-						                #{commonVar}
-						                
+						                #{writerNick},
+						                #{writerId},
+						                 <if test="commonVar1 != null and commonVar1 !=''">
+						               		 #{commonVar1},
+						                </if>
+						                <if test="commonVar2 != null and commonVar2 !=''">
+						               		  #{commonVar2},
+						                </if>
+						                #{kind}
 						            )
        </insert>
         

@@ -263,21 +263,23 @@
 	 alarmNum number(10,0), --기본키
 	 checking VARCHAR2(10) DEFAULT 'NO',
 	 target VARCHAR2(50) NOT NULL,
-	 writer VARCHAR2(50) NOT NULL,
+	 writerNick VARCHAR2(50) NOT NULL,
+	 writerId VARCHAR2(50) NOT NULL,
 	 kind VARCHAR2(10) NOT NULL,
-	 commonVar VARCHAR2(200),
+	 commonVar1 VARCHAR2(200),
+	 commonVar2 VARCHAR2(200),
 	 regdate date default sysdate,
 	 
 	 constraint pk_alarm PRIMARY KEY (alarmNum)
 )
 
+insert into dk_alarm( alarmNum, target, writerNick, writerId, kind, commonVar1, commonVar2, 
+) VALUES ( seq_dk_alarm.nextval, 'admin90', 'test닉', 'test', '1', 'ff' '742' )
+
 create sequence seq_dk_alarm
 
 drop table dk_alarm purge
 	
-insert into dk_alrm (alarmNum,target,writer,kind) values (seq_dk_alarm.nextval,'admin90','test',0) ; 
-    
-
 	
 14.기타 -----------------------------------------------------
 	컬럼추가

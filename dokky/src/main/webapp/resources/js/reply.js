@@ -355,7 +355,7 @@ var replyService = (function() {
 	}
 	
 	function postAlarm(alarmData, callback, error) {
-		console.log("postAlarm..............."); 
+		console.log("postAlarm...............");  
 		
 		$.ajax({
 			type : 'post',

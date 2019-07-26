@@ -191,7 +191,7 @@
 	
 	<!-- 기부받는자 캐시 증감하기 -->
 	<update id="updateBoardUserCash">
-	    update dk_member set cash = cash + #{money} where userId = #{boardId}
+	    update dk_member set cash = cash + #{money} where userId = #{donatedId}
 	</update> 
 	
 	<!-- 게시글의 기부금액 증감하기 -->
@@ -238,7 +238,7 @@
 												seq_dk_cash.nextval,
 												'기부받기',
 												#{money},
-												#{boardId},
+												#{donatedId},
 												'게시판' ,
 												#{num}
 											)

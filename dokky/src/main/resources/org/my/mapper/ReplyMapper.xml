@@ -117,7 +117,7 @@
 	
 	<!-- 댓글 기부받는자 캐시 증감하기 -->
 	<update id="updateReplyUserCash">
-	    update dk_member set cash = cash + #{money} where userId = #{replyId}
+	    update dk_member set cash = cash + #{money} where userId = #{donatedId}
 	</update> 
 	
 	<!-- 댓글의 기부금액 증감하기 -->
@@ -167,7 +167,7 @@
 												seq_dk_cash.nextval,
 												'기부받기',
 												#{money},
-												#{replyId},
+												#{donatedId},
 												'댓글' ,
 												#{num},
 												#{reply_num}
