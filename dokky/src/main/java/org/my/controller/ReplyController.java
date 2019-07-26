@@ -8,6 +8,7 @@ import org.my.domain.ReplyDisLikeVO;
 import org.my.domain.ReplyLikeVO;
 	import org.my.domain.ReplyPageDTO;
 	import org.my.domain.ReplyVO;
+import org.my.domain.commonVO;
 import org.my.domain.donateVO;
 import org.my.domain.replyDonateVO;
 import org.my.service.BoardService;
@@ -40,7 +41,7 @@ public class ReplyController {
 	@PreAuthorize("isAuthenticated()")
 	@ResponseBody
 	@PostMapping(value = "/new", consumes = "application/json", produces = "text/plain; charset=UTF-8")
-	public ResponseEntity<String> create(@RequestBody ReplyVO vo) {
+	public ResponseEntity<String> create(@RequestBody commonVO vo) {
 
 		log.info("ReplyVO: " + vo);
 

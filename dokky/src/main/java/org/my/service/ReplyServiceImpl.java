@@ -6,10 +6,12 @@ import org.my.domain.ReplyDisLikeVO;
 import org.my.domain.ReplyLikeVO;
 import org.my.domain.ReplyPageDTO;
 	import org.my.domain.ReplyVO;
+import org.my.domain.commonVO;
 import org.my.domain.donateVO;
 import org.my.domain.replyDonateVO;
 import org.my.mapper.BoardMapper;
-	import org.my.mapper.ReplyMapper;
+import org.my.mapper.CommonMapper;
+import org.my.mapper.ReplyMapper;
 	import org.springframework.beans.factory.annotation.Autowired;
 	import org.springframework.stereotype.Service;
 	import org.springframework.transaction.annotation.Transactional;
@@ -28,16 +30,26 @@ public class ReplyServiceImpl implements ReplyService {
 
 	@Setter(onMethod_ = @Autowired)
 	private BoardMapper boardMapper;
+	
+	@Setter(onMethod_ = @Autowired)
+	private CommonMapper commonMapper;
 		
 	@Transactional
 	@Override
-	public int register(ReplyVO vo) {
-
-		log.info("register......" + vo);
-
-		boardMapper.updateReplyCnt(vo.getNum(),1);
+	public int register(commonVO vo) {
 		
-		return mapper.insert(vo);
+		log.info("register......" + vo);
+		
+		ReplyVO replyVO = vo.getReplyVO();
+
+		log.info("updateReplyCnt......" + vo);
+		boardMapper.updateReplyCnt(replyVO.getNum(),1);
+		
+		log.info("insertAlarm: ");
+		commonMapper.insertAlarm(vo.getAlarmVO());
+		
+		log.info("insert......" + replyVO);
+		return mapper.insert(replyVO);
 
 	} 
 	

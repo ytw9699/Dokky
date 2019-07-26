@@ -427,7 +427,7 @@
    	</sec:authorize>
 
 		 replyRegisterBtn.on("click",function(e){// 0. 댓글 등록 이벤트 설치
-		    
+				
 		      var reply = {
 		    		reply_content:reply_contents.val(), //댓글 내용
 		    		userId:reply_id,//댓글 작성자 아이디
@@ -443,15 +443,16 @@
 						writerNick:reply_nickName,
 						writerId:reply_id
 			          };
+			 
+			var commonData ={ 
+					replyVO:reply,
+					alarmVO:alarmData
+		 	}
 		      
-		     	 replyService.add(reply, function(result){//댓글 등록
+		     	 replyService.add(commonData, function(result){//댓글 등록
 		        
 				        //alert(result);
 				        reply_contents.val("");//댓글등록후 폼 비우기
-				        
-				        replyService.postAlarm(alarmData, function(result){//알람 등록
-				        	alert(result); 
-				     }); 
 				        
 				        showReplyList(-1);//댓글 목록 마지막 페이지 보여주기
 			     }); 

@@ -7,4 +7,5 @@ import lombok.Data;
 public class commonVO { 
 	  private cashVO cashVO;
 	  private alarmVO alarmVO;
+	  private ReplyVO replyVO;
 }

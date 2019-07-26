@@ -221,7 +221,7 @@
 					
 					var commonData ={
 							cashVO:approveData,
-							alarmVO:alarmData
+							replyVO:alarmData
 				 	}
 				 	
 				 	approve(commonData, function(result){

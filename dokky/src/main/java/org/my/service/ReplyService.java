@@ -6,11 +6,12 @@ import org.my.domain.ReplyDisLikeVO;
 import org.my.domain.ReplyLikeVO;
 import org.my.domain.ReplyPageDTO;
 	import org.my.domain.ReplyVO;
+import org.my.domain.commonVO;
 import org.my.domain.replyDonateVO;
 
 public interface ReplyService {
 
-	public int register(ReplyVO vo);
+	public int register(commonVO vo);
 
 	public ReplyVO get(Long reply_num);
 
