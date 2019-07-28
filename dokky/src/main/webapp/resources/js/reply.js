@@ -230,14 +230,12 @@ var replyService = (function() {
 		});
 	}
 	
-	function updateReplyDisLike(dislikeData, callback, error) {//싫어요 업데이트
-
-		console.log("dislikeData: " + dislikeData.num);
+	function updateReplyDisLike(commonData, callback, error) {//싫어요 업데이트
 
 		$.ajax({
 			type : 'put', 
 			url : '/dokky/replies/dislikeCount',  
-			data : JSON.stringify(dislikeData), 
+			data : JSON.stringify(commonData), 
 			contentType : "application/json; charset=utf-8",
 			success : function(result, status, xhr) {
 				if (callback) {

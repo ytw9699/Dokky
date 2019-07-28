@@ -158,41 +158,50 @@ public class ReplyServiceImpl implements ReplyService {
 		
 		@Transactional
 		@Override
-		public int registerDisLike(ReplyDisLikeVO vo) {//싫어요 컬럼 등록 및 싫어요 push
+		public int registerDisLike(commonVO vo) {//싫어요 컬럼 등록 및 싫어요 push
 
+			ReplyDisLikeVO replyDisLikeVO = vo.getReplyDisLikeVO();
+			
 			log.info("registerDisLike...." + vo);
+			mapper.registerDisLike(replyDisLikeVO);
 			
-			mapper.registerDisLike(vo);
+			log.info("insertAlarm: ");
+			commonMapper.insertAlarm(vo.getAlarmVO());
 			
-			log.info("pushDisLike...."+vo.getReply_num());
-			
-			return mapper.pushDisLike(vo.getReply_num()); 
+			log.info("pushDisLike....");
+			return mapper.pushDisLike(replyDisLikeVO.getReply_num()); 
 		}
 		
 		@Transactional
 		@Override
-		public int pullDisLike(ReplyDisLikeVO vo) {//싫어요 취소 pull
+		public int pullDisLike(commonVO vo) {//싫어요 취소 pull
+			
+			ReplyDisLikeVO replyDisLikeVO = vo.getReplyDisLikeVO();
 			
 			log.info("pulldislikeCheck...."+vo);
+			mapper.pulldislikeCheck(replyDisLikeVO); 
 			
-			mapper.pulldislikeCheck(vo); 
+			log.info("insertAlarm: ");
+			commonMapper.deleteAlarm(vo.getAlarmVO());
 			
-			log.info("pullDisLike...."+vo.getReply_num());
-			
-			return mapper.pullDisLike(vo.getReply_num()); 
+			log.info("pullDisLike....");
+			return mapper.pullDisLike(replyDisLikeVO.getReply_num()); 
 		}
 		
 		@Transactional
 		@Override 
-		public int pushDisLike(ReplyDisLikeVO vo) {//싫어요 누르기
+		public int pushDisLike(commonVO vo) {//싫어요 누르기
+			
+			ReplyDisLikeVO replyDisLikeVO = vo.getReplyDisLikeVO();
 			
 			log.info("pushDislikeValue...."+vo);
+			mapper.pushDislikeValue(replyDisLikeVO); 
 			
-			mapper.pushDislikeValue(vo); 
+			log.info("insertAlarm: "); 
+			commonMapper.insertAlarm(vo.getAlarmVO());
 			
-			log.info("pushDisLike...."+vo.getReply_num());
-			 
-			return mapper.pushDisLike(vo.getReply_num());
+			log.info("pushDisLike....");
+			return mapper.pushDisLike(replyDisLikeVO.getReply_num());
 		}
 		
 		@Override

@@ -31,13 +31,13 @@ public interface ReplyService {
 
 	public String getLikeCount(Long reply_num);
 	
-	public int pullDisLike(ReplyDisLikeVO vo);
+	public int pullDisLike(commonVO vo);
 	
-	public int pushDisLike(ReplyDisLikeVO vo);
+	public int pushDisLike(commonVO vo);
 	
 	public String checkDisLikeValue(ReplyDisLikeVO vo);
 	
-	public int registerDisLike(ReplyDisLikeVO vo);
+	public int registerDisLike(commonVO vo);
 	
 	public String getDisLikeCount(Long num);
 

@@ -11,4 +11,5 @@ public class commonVO {
 	  private donateVO donateVO;
 	  private replyDonateVO replyDonateVO;
 	  private ReplyLikeVO replyLikeVO;
+	  private ReplyDisLikeVO replyDisLikeVO;
 }

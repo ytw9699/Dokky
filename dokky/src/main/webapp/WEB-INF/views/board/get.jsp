@@ -642,13 +642,16 @@
 				writerId:reply_id
 	          };
 		
-		replyService.updateReplyDisLike(dislikeData, function(result){
+		var commonData ={ 
+				replyDisLikeVO : dislikeData,
+			 	alarmVO     : alarmData
+	 	}
+		
+		replyService.updateReplyDisLike(commonData, function(result){
 		 
 		var replyDisLikeCount = $("#replyDisLikeCount"+reply_num);
 			replyDisLikeCount.html(result);
 			//console.log(result); 
-		replyService.postAlarm(alarmData, function(result){//알람 등록
-		   }); 
  	 });
 	//추후 좋아요를 눌르면 이미지변경까지 취소하면 이미지변경 추가해보자
 	});//4. 댓글 싫어요 버튼 이벤트 설치

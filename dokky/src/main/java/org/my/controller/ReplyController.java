@@ -197,12 +197,11 @@ public class ReplyController {
 	@RequestMapping(method = { RequestMethod.PUT,RequestMethod.PATCH },
 			value = "/dislikeCount", consumes = "application/json", produces = "text/plain; charset=UTF-8")
 		@ResponseBody
-		public ResponseEntity<String> updateDisLike(@RequestBody ReplyDisLikeVO vo) {//싫어요 누르기 및 취소
+		public ResponseEntity<String> updateDisLike(@RequestBody commonVO vo) {//싫어요 누르기 및 취소
 
-			log.info("userId: " + vo.getUserId());
-			log.info("num: " + vo.getReply_num());
+		ReplyDisLikeVO boardDisLikeVO = vo.getReplyDisLikeVO();
 			
-			String CheckResult = service.checkDisLikeValue(vo);
+			String CheckResult = service.checkDisLikeValue(boardDisLikeVO);
 			 
 			log.info("CheckResult: " + CheckResult);
 			
@@ -224,7 +223,7 @@ public class ReplyController {
 			
 			log.info("returnVal: " + returnVal);
 			
-			return returnVal == 1 ? new ResponseEntity<>(service.getDisLikeCount(vo.getReply_num()), HttpStatus.OK)
+			return returnVal == 1 ? new ResponseEntity<>(service.getDisLikeCount(boardDisLikeVO.getReply_num()), HttpStatus.OK)
 					: new ResponseEntity<>(HttpStatus.INTERNAL_SERVER_ERROR);
 		}
 	
