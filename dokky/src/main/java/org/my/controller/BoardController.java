@@ -44,9 +44,13 @@ public class BoardController {
 	
 	@GetMapping("/list")
 	public String list(Criteria cri, Model model) {
-		//log.info("list: " + cri);
-		
-		model.addAttribute("list", service.getList(cri));
+		log.info("list: " + cri);
+	
+		if(cri.getOrder() == 0) {
+			model.addAttribute("list", service.getList(cri));
+		}else {
+			model.addAttribute("list", service.getListWithOrder(cri));
+		}
 		
 		int total = service.getTotalCount(cri);//total은 특정게시판의 총 게시물수
 		model.addAttribute("pageMaker", new PageDTO(cri, total));

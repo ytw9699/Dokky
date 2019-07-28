@@ -12,7 +12,9 @@ import org.my.domain.BoardAttachVO;
 public interface BoardService {
 	
 	public List<BoardVO> getList(Criteria cri);
-
+	
+	public List<BoardVO> getListWithOrder(Criteria cri);
+	
 	public void register(BoardVO board);
 
 	public BoardVO get(Long num);

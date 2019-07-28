@@ -48,6 +48,25 @@
 <%@include file="../includes/left.jsp"%>
 <body>
 	<div class="listWrapper">
+		<div class="orderMethodWrap">
+			<ul class="orderMethodUL">
+				<li class="orderMethodLI active"> 
+					<a href="${requestScope['javax.servlet.forward.request_uri']}?category=${pageMaker.cri.category}&order=0">최신순</a> 
+				</li>
+				<li class="orderMethodLI ">
+				<a href="${requestScope['javax.servlet.forward.request_uri']}?category=${pageMaker.cri.category}&order=1">조회순</a>
+				</li>
+				<li class="orderMethodLI ">
+				<a href="${requestScope['javax.servlet.forward.request_uri']}?category=${pageMaker.cri.category}&order=2">댓글순</a>
+				</li>
+				<li class="orderMethodLI ">
+				<a href="${requestScope['javax.servlet.forward.request_uri']}?category=${pageMaker.cri.category}&order=3">좋아요순</a>
+				</li>
+				<li class="orderMethodLI ">
+				<a href="${requestScope['javax.servlet.forward.request_uri']}?category=${pageMaker.cri.category}&order=4">기부순</a>
+				</li>
+			</ul>
+		</div>
 		<div class="">
 			   <c:choose>
 			   	   <c:when test="${pageMaker.cri.category == 0 }">

@@ -41,6 +41,14 @@ public class BoardServiceImpl implements BoardService {
 	}
 	
 	@Override
+	public List<BoardVO> getListWithOrder(Criteria cri) {
+
+		log.info("getListWithOrder: " + cri);
+
+		return mapper.getListWithOrder(cri);
+	}
+	
+	@Override
 	public List<BoardVO> getAllList(Criteria cri) {
 
 		log.info("get getAllList with criteria: " + cri);

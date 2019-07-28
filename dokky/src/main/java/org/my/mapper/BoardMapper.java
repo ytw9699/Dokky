@@ -12,6 +12,8 @@ import org.my.domain.reportVO;
 public interface BoardMapper {
 
 	public List<BoardVO> getList(Criteria cri);
+	
+	public List<BoardVO> getListWithOrder(Criteria cri);
 
 	public Integer insertSelectKey(BoardVO board);
 
@@ -76,6 +78,5 @@ public interface BoardMapper {
 	public List<BoardVO> getAllList(Criteria cri);
 
 	public int getAllTotalCount(Criteria cri);
-
 
 }
