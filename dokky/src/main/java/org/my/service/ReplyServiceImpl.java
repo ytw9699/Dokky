@@ -1,6 +1,7 @@
 package org.my.service;
 
 	import org.my.domain.BoardDisLikeVO;
+import org.my.domain.BoardLikeVO;
 import org.my.domain.Criteria;
 import org.my.domain.ReplyDisLikeVO;
 import org.my.domain.ReplyLikeVO;
@@ -102,41 +103,50 @@ public class ReplyServiceImpl implements ReplyService {
 		
 		@Transactional
 		@Override
-		public int registerLike(ReplyLikeVO vo) {//댓글 좋아요 컬럼 등록 및 좋아요 push
+		public int registerLike(commonVO vo) {//댓글 좋아요 컬럼 등록 및 좋아요 push
 
+			ReplyLikeVO replyLikeVO = vo.getReplyLikeVO();
+			
 			log.info("registerLike...." + vo);
+			mapper.registerLike(replyLikeVO); 
 			
-			mapper.registerLike(vo); 
+			log.info("insertAlarm: ");
+			commonMapper.insertAlarm(vo.getAlarmVO());
 			
-			log.info("pushLike...."+vo.getReply_num());
-			
-			return mapper.pushLike(vo.getReply_num()); 
+			log.info("pushLike....");
+			return mapper.pushLike(replyLikeVO.getReply_num()); 
 		}
 		
 		@Transactional
 		@Override
-		public int pushLike(ReplyLikeVO vo) {//댓글 좋아요 누르기  
+		public int pushLike(commonVO vo) {//댓글 좋아요 누르기  
 			
-			log.info("pushLikeValue...."+vo);  
+			ReplyLikeVO replyLikeVO = vo.getReplyLikeVO();
 			
-			mapper.pushLikeValue(vo);
+			log.info("pushLikeValue...."+replyLikeVO);  
+			mapper.pushLikeValue(replyLikeVO);
 			
-			log.info("pushLike...."+vo.getReply_num());
+			log.info("insertAlarm: "+vo.getAlarmVO());
+			commonMapper.insertAlarm(vo.getAlarmVO());
 			
-			return mapper.pushLike(vo.getReply_num()); 
+			log.info("pushLike....");
+			return mapper.pushLike(replyLikeVO.getReply_num()); 
 		}
 		
 		@Transactional 
 		@Override
-		public int pullLike(ReplyLikeVO vo) {//댓글  좋아요 취소 pull
+		public int pullLike(commonVO vo) {//댓글  좋아요 취소 pull
+			
+			ReplyLikeVO replyLikeVO = vo.getReplyLikeVO();
 			
 			log.info("pullLikeValue...."+vo);
+			mapper.pullLikeValue(replyLikeVO);
 			
-			mapper.pullLikeValue(vo);
+			log.info("insertAlarm: ");
+			commonMapper.deleteAlarm(vo.getAlarmVO());
 			
-			log.info("pullLike...."+vo.getReply_num());
-			
-			return mapper.pullLike(vo.getReply_num());
+			log.info("pullLike....");
+			return mapper.pullLike(replyLikeVO.getReply_num());
 		}
 		
 		@Override

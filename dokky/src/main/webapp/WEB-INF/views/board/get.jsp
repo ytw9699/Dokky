@@ -602,14 +602,17 @@
 					writerNick:reply_nickName,
 					writerId:reply_id
 		          };
+		
+		var commonData ={
+				replyLikeVO : likeData,
+			 	alarmVO     : alarmData
+	 	}
 
-		replyService.updateReplyLike(likeData, function(result){
+		replyService.updateReplyLike(commonData, function(result){
 		 
 		var replyLikeCount = $("#replyLikeCount"+reply_num);
 			replyLikeCount.html(result);
 			//console.log(result); 
-			replyService.postAlarm(alarmData, function(result){//알람 등록
-			   }); 
 		  });
 		//추후 좋아요를 눌르면 이미지변경까지 취소하면 이미지변경 추가해보자
 	});//3. 댓글 좋아요 버튼 이벤트 설치

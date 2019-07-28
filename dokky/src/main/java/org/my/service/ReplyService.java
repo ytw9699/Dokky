@@ -23,11 +23,11 @@ public interface ReplyService {
 	
 	public String checkLikeValue(ReplyLikeVO vo);
 
-	public int registerLike(ReplyLikeVO vo);
+	public int registerLike(commonVO vo);
 
-	public int pushLike(ReplyLikeVO vo);
+	public int pushLike(commonVO vo);
 
-	public int pullLike(ReplyLikeVO vo);
+	public int pullLike(commonVO vo);
 
 	public String getLikeCount(Long reply_num);
 	
