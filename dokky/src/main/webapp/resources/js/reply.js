@@ -190,14 +190,12 @@ var replyService = (function() {
 		});
 	}
 	
-	function updateDisLike(dislikeData, callback, error) {//싫어요 업데이트
-
-		console.log("dislikeData: " + dislikeData.num);
+	function updateDisLike(commonData, callback, error) {//싫어요 업데이트
 
 		$.ajax({
 			type : 'put', 
 			url : '/dokky/board/dislikeCount',  
-			data : JSON.stringify(dislikeData), 
+			data : JSON.stringify(commonData), 
 			contentType : "application/json; charset=utf-8",
 			success : function(result, status, xhr) {
 				if (callback) {
@@ -271,14 +269,12 @@ var replyService = (function() {
 		});
 	}
 	
-	function updateDonation(donateData, callback, error) {//게시글 기부하기
+	function updateDonation(commonData, callback, error) {//게시글 기부하기
 		
-		console.log("donateData: " + donateData.num);
-
 		$.ajax({
 			type : 'put', 
 			url : '/dokky/board/donateMoney',  
-			data : JSON.stringify(donateData), 
+			data : JSON.stringify(commonData), 
 			contentType : "application/json; charset=utf-8",
 			success : function(result, status, xhr) {
 				if (callback) {
@@ -293,14 +289,12 @@ var replyService = (function() {
 		});
 	}
 		
-	function updateReplyDonation(replyDonateData, callback, error) {//댓글 기부하기
-			
-			console.log("replyDonateData: " + replyDonateData.num);
+	function updateReplyDonation(commonData, callback, error) {//댓글 기부하기
 	
 			$.ajax({
 				type : 'put', 
 				url : '/dokky/replies/replyDonateMoney',  
-				data : JSON.stringify(replyDonateData), 
+				data : JSON.stringify(commonData), 
 				contentType : "application/json; charset=utf-8",
 				success : function(result, status, xhr) {
 					if (callback) {

@@ -41,6 +41,6 @@ public interface ReplyService {
 	
 	public String getDisLikeCount(Long num);
 
-	public String replyDonateMoney(replyDonateVO vo);
+	public String replyDonateMoney(commonVO vo);
 
 }

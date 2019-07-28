@@ -232,7 +232,7 @@ public class ReplyController {
 		@RequestMapping(method = { RequestMethod.PUT,RequestMethod.PATCH },
 			value = "/replyDonateMoney", consumes = "application/json", produces = "text/plain; charset=UTF-8")
 		@ResponseBody
-		public ResponseEntity<String> replyDonateMoney(@RequestBody replyDonateVO vo) {//기부하기
+		public ResponseEntity<String> replyDonateMoney(@RequestBody commonVO vo) {//기부하기
 			
 			log.info("replyDonateVO: " + vo);
 			

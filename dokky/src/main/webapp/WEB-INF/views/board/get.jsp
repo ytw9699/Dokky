@@ -701,21 +701,27 @@
 					writerNick:reply_nickName,
 					writerId:reply_id
 		          };
-			
+			  
 			if(checkUser(user_id,loginCheck,null,likeCheck)){
 				return; 
 			}
-			var dislikeData = {num:numValue,//글번호
-					userId:username//접속 아이디
+			
+			var dislikeData = {   
+							 	   num:numValue,//글번호
+								userId:username//접속 아이디
 					};
 			
-			replyService.updateDisLike(dislikeData, function(result){
+			var commonData ={ 
+					    boardDisLikeVO : dislikeData,
+					 	alarmVO     : alarmData
+			 	}
+			
+			replyService.updateDisLike(commonData, function(result){
 			   	 
 			   	var dislikeCount = $("#dislikeCount");
+			   	
 			   	dislikeCount.html(result);
 			   		//console.log(result);
-			    replyService.postAlarm(alarmData, function(result){//알람 등록
-			     }); 
 	   	    });
 	   	});
 	   	
@@ -816,17 +822,19 @@
    						writerNick:reply_nickName,
    						writerId:reply_id
    			          };
+   				
+   				var commonData ={ 
+   						donateVO    : donateData,
+					 	alarmVO     : alarmData
+			 	}
 		
-				replyService.updateDonation(donateData, function(result){
+				replyService.updateDonation(commonData, function(result){
 				
 					var boardMoney = $("#boardMoney");
 				   	boardMoney.html(parseInt(result));
 				   	
 					donateModalClose();
 					donateModal.find("input").val("");
-					
-					replyService.postAlarm(alarmData, function(result){//알람 등록
-					 }); 
 					
 					alert("기부 하였습니다."); 
 					
@@ -851,18 +859,19 @@
    						writerNick:reply_nickName,
    						writerId:reply_id
    			          };
-   			
+   				
+   				var commonData ={ 
+   						replyDonateVO    : replyDonateData,
+					 	alarmVO          : alarmData
+			 	}
 				
-				replyService.updateReplyDonation(replyDonateData, function(result){
+				replyService.updateReplyDonation(commonData, function(result){
 				
 					var replyMoney= $("#replyMoney"+reply_num);
 					replyMoney.html(parseInt(result));
 				   	
 					donateModalClose();
 					donateModal.find("input").val("");
-					
-					replyService.postAlarm(alarmData, function(result){//알람 등록
-					 }); 
 					
 					alert("기부 되었습니다.");  
 		   	    });

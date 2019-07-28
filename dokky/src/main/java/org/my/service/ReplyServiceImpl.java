@@ -201,26 +201,31 @@ public class ReplyServiceImpl implements ReplyService {
 		
 		@Transactional
 		@Override 
-		public String replyDonateMoney(replyDonateVO vo) {
+		public String replyDonateMoney(commonVO vo) {
+			
+			replyDonateVO replyDonateVO = vo.getReplyDonateVO();
 			
 			log.info("updateMycash");
-			boardMapper.updateMycash(vo.getMoney(),vo.getUserId());
+			boardMapper.updateMycash(replyDonateVO.getMoney(),replyDonateVO.getUserId());
 			
 			log.info("insertMyCashHistory");
-			mapper.insertMyCashHistory(vo); 
+			mapper.insertMyCashHistory(replyDonateVO); 
 			 
 			log.info("updateReplyUserCash");
 			log.info(vo);
-			mapper.updateReplyUserCash(vo);
+			mapper.updateReplyUserCash(replyDonateVO);
 			 
 			log.info("insertReplyUserCashHistory");
-			   mapper.insertReplyUserCashHistory(vo);
+			   mapper.insertReplyUserCashHistory(replyDonateVO);
 			
 			log.info("updateReplyMoney");
-			mapper.updateReplyMoney(vo);
+			mapper.updateReplyMoney(replyDonateVO);
+			
+			log.info("insertAlarm: ");
+			commonMapper.insertAlarm(vo.getAlarmVO());
 			
 			log.info("getReplyMoney");
-			return mapper.getReplyMoney(vo);
+			return mapper.getReplyMoney(replyDonateVO);
 		}
 }
 

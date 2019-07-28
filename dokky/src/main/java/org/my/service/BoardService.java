@@ -25,11 +25,11 @@ public interface BoardService {
 
 	public int pushLike(commonVO vo);
 	
-	public int pullDisLike(BoardDisLikeVO vo);
+	public int pullDisLike(commonVO vo);
 	
 	public int pullLike(commonVO vo);
 	
-	public int pushDisLike(BoardDisLikeVO vo);
+	public int pushDisLike(commonVO vo);
 
 	public BoardVO getModifyForm(Long num);
 
@@ -41,7 +41,7 @@ public interface BoardService {
 
 	public int registerLike(commonVO vo); 
 	
-	public int registerDisLike(BoardDisLikeVO vo);
+	public int registerDisLike(commonVO vo);
 
 	public String getLikeCount(Long num);
 
@@ -49,7 +49,7 @@ public interface BoardService {
 
 	public String getuserCash(String username);
 
-	public String donateMoney(donateVO vo);
+	public String donateMoney(commonVO vo);
 
 	public boolean insertReportdata(reportVO vo);
 

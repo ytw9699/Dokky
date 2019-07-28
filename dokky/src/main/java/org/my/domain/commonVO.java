@@ -1,7 +1,5 @@
 package org.my.domain;
-	import java.util.Date;
-
-import lombok.Data;
+	import lombok.Data;
 	
 @Data
 public class commonVO { 
@@ -9,4 +7,7 @@ public class commonVO {
 	  private alarmVO alarmVO;
 	  private ReplyVO replyVO;
 	  private BoardLikeVO boardLikeVO;
+	  private BoardDisLikeVO boardDisLikeVO;
+	  private donateVO donateVO;
+	  private replyDonateVO replyDonateVO;
 }

@@ -231,12 +231,13 @@ public class BoardController {
 	@RequestMapping(method = { RequestMethod.PUT,RequestMethod.PATCH },
 			value = "/dislikeCount", consumes = "application/json", produces = "text/plain; charset=UTF-8")
 		@ResponseBody
-		public ResponseEntity<String> updateDisLike(@RequestBody BoardDisLikeVO vo) {//싫어요 누르기 및 취소
+		public ResponseEntity<String> updateDisLike(@RequestBody commonVO vo) {//싫어요 누르기 및 취소
 
-			log.info("userId: " + vo.getUserId());
-			log.info("num: " + vo.getNum());
-			
-			String CheckResult = service.checkDisLikeValue(vo);
+		log.info("vo: " +vo);
+		
+		BoardDisLikeVO boardDisLikeVO = vo.getBoardDisLikeVO();
+		
+			String CheckResult = service.checkDisLikeValue(boardDisLikeVO);
 			
 			log.info("CheckResult: " + CheckResult);
 			
@@ -258,7 +259,7 @@ public class BoardController {
 			
 			log.info("returnVal: " + returnVal);
 			
-			return returnVal == 1 ? new ResponseEntity<>(service.getDisLikeCount(vo.getNum()), HttpStatus.OK)
+			return returnVal == 1 ? new ResponseEntity<>(service.getDisLikeCount(boardDisLikeVO.getNum()), HttpStatus.OK)
 					: new ResponseEntity<>(HttpStatus.INTERNAL_SERVER_ERROR);
 		}
 	
@@ -278,9 +279,9 @@ public class BoardController {
 	@RequestMapping(method = { RequestMethod.PUT,RequestMethod.PATCH },
 			value = "/donateMoney", consumes = "application/json", produces = "text/plain; charset=UTF-8")
 		@ResponseBody
-		public ResponseEntity<String> donateMoney(@RequestBody donateVO vo) {//기부하기
+		public ResponseEntity<String> donateMoney(@RequestBody commonVO vo) {//기부하기
 			
-			log.info("donateVO: " + vo);
+			log.info("commonVO: " + vo);
 			
 			String BoardMoney = service.donateMoney(vo);
 			
