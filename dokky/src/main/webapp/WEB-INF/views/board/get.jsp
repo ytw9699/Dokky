@@ -671,15 +671,19 @@
 						writerNick:reply_nickName,
 						writerId:reply_id
 			          };
+			  
+			 var commonData ={
+					 	boardLikeVO : likeData,
+					 	alarmVO     : alarmData
+			 	}
 			 
-		   	replyService.updateLike(likeData, function(result){
+		   	replyService.updateLike(commonData, function(result){
+		   	
 		   	 
 				   	var likeCount = $("#likeCount");
 				  	likeCount.html(result);
 		   				//console.log(result); 
-				  	 replyService.postAlarm(alarmData, function(result){//알람 등록
 				     }); 
-		   	  });
 		   	//추후 좋아요를 눌르면 이미지변경까지 취소하면 이미지변경 추가해보자
 		   	});
 	   	

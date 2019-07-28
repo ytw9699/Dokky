@@ -3,11 +3,13 @@ package org.my.service;
 	import org.my.domain.BoardVO;
 	import org.my.domain.Criteria;
 	import org.my.domain.ReplyLikeVO;
-	import org.my.domain.donateVO;
+import org.my.domain.commonVO;
+import org.my.domain.donateVO;
 import org.my.domain.reportVO;
 import org.my.mapper.BoardAttachMapper;
 	import org.my.mapper.BoardMapper;
-	import org.springframework.beans.factory.annotation.Autowired;
+import org.my.mapper.CommonMapper;
+import org.springframework.beans.factory.annotation.Autowired;
 	import org.springframework.stereotype.Service;
 	import org.springframework.transaction.annotation.Transactional;
 	import org.my.domain.BoardAttachVO;
@@ -26,6 +28,9 @@ public class BoardServiceImpl implements BoardService {
 	
 	@Setter(onMethod_ = @Autowired)
 	private BoardAttachMapper attachMapper;
+	
+	@Setter(onMethod_ = @Autowired)
+	private CommonMapper commonMapper;
 	
 	@Override
 	public List<BoardVO> getList(Criteria cri) {
@@ -145,15 +150,20 @@ public class BoardServiceImpl implements BoardService {
 	
 	@Transactional
 	@Override
-	public int registerLike(BoardLikeVO vo) {//좋아요 컬럼 등록 및 좋아요 push
-
+	public int registerLike(commonVO vo) {//좋아요 컬럼 등록 및 좋아요 push
+		
+		BoardLikeVO boardLikeVO = vo.getBoardLikeVO();
+		
 		log.info("registerLike...." + vo);
 		
-		mapper.registerLike(vo);
+		mapper.registerLike(boardLikeVO);
 		
-		log.info("pushLike...."+vo.getNum());
+		log.info("insertAlarm: ");
+		commonMapper.insertAlarm(vo.getAlarmVO());
 		
-		return mapper.pushLike(vo.getNum()); 
+		log.info("pushLike....");
+		
+		return mapper.pushLike(boardLikeVO.getNum()); 
 	}
 	
 	@Transactional
@@ -171,15 +181,20 @@ public class BoardServiceImpl implements BoardService {
 	
 	@Transactional
 	@Override
-	public int pushLike(BoardLikeVO vo) {//좋아요 누르기  
+	public int pushLike(commonVO vo) {//좋아요 누르기  
+		
+		BoardLikeVO boardLikeVO = vo.getBoardLikeVO();
 		
 		log.info("pushLikeValue...."+vo);  
 		
-		mapper.pushLikeValue(vo);
+		mapper.pushLikeValue(boardLikeVO);
 		
-		log.info("pushLike...."+vo.getNum());
+		log.info("insertAlarm: "+vo.getAlarmVO());
+		commonMapper.insertAlarm(vo.getAlarmVO());
 		
-		return mapper.pushLike(vo.getNum()); 
+		log.info("pushLike....");
+		
+		return mapper.pushLike(boardLikeVO.getNum()); 
 	}
 	
 	@Transactional
@@ -197,15 +212,20 @@ public class BoardServiceImpl implements BoardService {
 	
 	@Transactional
 	@Override
-	public int pullLike(BoardLikeVO vo) {//좋아요 취소 pull
+	public int pullLike(commonVO vo) {//좋아요 취소 pull
+		
+		BoardLikeVO boardLikeVO = vo.getBoardLikeVO();
 		
 		log.info("pullLikeValue...."+vo);
 		
-		mapper.pullLikeValue(vo);
+		mapper.pullLikeValue(boardLikeVO);
 		
-		log.info("pullLike...."+vo.getNum());
+		log.info("insertAlarm: ");
+		commonMapper.deleteAlarm(vo.getAlarmVO());
 		
-		return mapper.pullLike(vo.getNum());
+		log.info("pullLike....");
+		
+		return mapper.pullLike(boardLikeVO.getNum());
 	}
 	
 	@Transactional

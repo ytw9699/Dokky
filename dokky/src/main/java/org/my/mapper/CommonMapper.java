@@ -18,5 +18,7 @@ public interface CommonMapper {
 	public List<alarmVO> getAlarmList(Criteria cri);
 
 	public int insertAlarm(alarmVO vo);
+	
+	public int deleteAlarm(alarmVO vo);
 
 }

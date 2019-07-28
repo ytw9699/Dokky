@@ -170,14 +170,12 @@ var replyService = (function() {
 	}
 	;
 
-	function updateLike(likeData, callback, error) {//좋아요 업데이트
-
-		console.log("likeData: " + likeData.num);
+	function updateLike(commonData, callback, error) {//좋아요 업데이트
 
 		$.ajax({
 			type : 'put', 
 			url : '/dokky/board/likeCount', 
-			data : JSON.stringify(likeData), 
+			data : JSON.stringify(commonData), 
 			contentType : "application/json; charset=utf-8",
 			success : function(result, status, xhr) {
 				if (callback) {

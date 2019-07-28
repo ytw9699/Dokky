@@ -2,7 +2,8 @@ package org.my.service;
 	import java.util.List;
 	import org.my.domain.BoardVO;
 	import org.my.domain.Criteria;
-	import org.my.domain.donateVO;
+import org.my.domain.commonVO;
+import org.my.domain.donateVO;
 import org.my.domain.reportVO;
 import org.my.domain.BoardAttachVO;
 	import org.my.domain.BoardDisLikeVO;
@@ -22,11 +23,11 @@ public interface BoardService {
 
 	public int getTotalCount(Criteria cri);
 
-	public int pushLike(BoardLikeVO vo);
+	public int pushLike(commonVO vo);
 	
 	public int pullDisLike(BoardDisLikeVO vo);
 	
-	public int pullLike(BoardLikeVO vo);
+	public int pullLike(commonVO vo);
 	
 	public int pushDisLike(BoardDisLikeVO vo);
 
@@ -38,7 +39,7 @@ public interface BoardService {
 	
 	public String checkDisLikeValue(BoardDisLikeVO vo);
 
-	public int registerLike(BoardLikeVO vo); 
+	public int registerLike(commonVO vo); 
 	
 	public int registerDisLike(BoardDisLikeVO vo);
 

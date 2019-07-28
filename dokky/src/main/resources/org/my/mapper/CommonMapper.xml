@@ -91,5 +91,14 @@
 						                #{kind}
 						            )
        </insert>
+       
+       <delete id="deleteAlarm">
+       		delete from dk_alarm where target = #{target} 
+       							and commonVar1 = #{commonVar1} 
+       							and commonVar2 = #{commonVar2} 
+       							and kind = #{kind}
+       							and writerNick = #{writerNick}
+       							and writerId = #{writerId}
+       </delete>
         
 </mapper>

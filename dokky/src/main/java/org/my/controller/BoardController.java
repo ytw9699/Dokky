@@ -8,7 +8,8 @@ package org.my.controller;
 	import org.my.domain.PageDTO;
 	import org.my.domain.ReplyLikeVO;
 	import org.my.domain.ReplyVO;
-	import org.my.domain.donateVO;
+import org.my.domain.commonVO;
+import org.my.domain.donateVO;
 import org.my.domain.reportVO;
 import org.my.service.BoardService;
 	import org.springframework.http.HttpStatus;
@@ -196,12 +197,13 @@ public class BoardController {
 	@RequestMapping(method = { RequestMethod.PUT,RequestMethod.PATCH },
 		value = "/likeCount", consumes = "application/json", produces = "text/plain; charset=UTF-8")
 	@ResponseBody
-	public ResponseEntity<String> updateLike(@RequestBody BoardLikeVO vo) {//좋아요 누르기 및 취소
-
-		log.info("userId: " + vo.getUserId());
-		log.info("num: " + vo.getNum());
+	public ResponseEntity<String> updateLike(@RequestBody commonVO vo) {//좋아요 누르기 및 취소
+			
+		log.info("commonVO: " + vo);
 		
-		String CheckResult = service.checkLikeValue(vo);
+		BoardLikeVO boardLikeVO = vo.getBoardLikeVO();
+		
+		String CheckResult = service.checkLikeValue(boardLikeVO);
 		
 		log.info("CheckResult: " + CheckResult);
 		
@@ -222,7 +224,7 @@ public class BoardController {
 		
 		log.info("returnVal: " + returnVal);
 		
-		return returnVal == 1 ? new ResponseEntity<>(service.getLikeCount(vo.getNum()), HttpStatus.OK)
+		return returnVal == 1 ? new ResponseEntity<>(service.getLikeCount(boardLikeVO.getNum()), HttpStatus.OK)
 				: new ResponseEntity<>(HttpStatus.INTERNAL_SERVER_ERROR);
 	}
 	
