@@ -15,6 +15,8 @@ public interface BoardService {
 	
 	public List<BoardVO> getListWithOrder(Criteria cri);
 	
+	public List<BoardVO> getAllListWithOrder(Criteria cri);
+	
 	public void register(BoardVO board);
 
 	public BoardVO get(Long num);

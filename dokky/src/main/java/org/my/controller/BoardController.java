@@ -60,8 +60,13 @@ public class BoardController {
 	
 	@GetMapping("/allList")
 	public String allList(Criteria cri, Model model) {
+		log.info("allList: " + cri);
 		
-		model.addAttribute("list", service.getAllList(cri));
+		if(cri.getOrder() == 0) {
+			model.addAttribute("list", service.getAllList(cri));
+		}else {
+			model.addAttribute("list", service.getAllListWithOrder(cri));
+		}
 		
 		int total = service.getAllTotalCount(cri);
 		

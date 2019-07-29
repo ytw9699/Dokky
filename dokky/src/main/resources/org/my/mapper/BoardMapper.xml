@@ -112,6 +112,56 @@
 		  ]]>
 	</select>
 	
+	<select id="getAllListWithOrder" resultType="org.my.domain.BoardVO"> 
+			 <![CDATA[
+		 	select 
+				category,
+				replyCnt,
+				likeCnt,
+				num,
+				title,
+				content,
+				nickName,
+				regdate,
+				hitCnt,
+				MONEY,
+				userId
+			from
+			(
+	  		  select 
+	                category,
+					replyCnt,
+					likeCnt,
+					num,
+					title,
+					content,
+					nickName,
+					regdate,
+					hitCnt,
+					MONEY,
+					userId
+				from DK_BOARD
+			]]>	
+					<choose> 
+						<when test='order == "1" '>
+							order by hitcnt desc
+						</when>
+						<when test='order == "2" '>
+							order by REPLYCNT desc
+						</when>
+						<when test='order == "3" '>
+							order by likeCnt desc
+						</when>
+						<when test='order == "4" '>
+							order by MONEY desc
+						</when>
+					</choose>
+				 )
+				  <![CDATA[
+				 where rownum > (#{pageNum} -1) * #{amount} and rownum <= #{pageNum} * #{amount}
+			]]>	
+	</select>
+	
 	<!-- 입력+pk값을 알기 위한것 -->
 	<insert id="insertSelectKey">
 

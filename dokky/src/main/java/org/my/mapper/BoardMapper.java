@@ -79,4 +79,6 @@ public interface BoardMapper {
 
 	public int getAllTotalCount(Criteria cri);
 
+	public List<BoardVO> getAllListWithOrder(Criteria cri);
+
 }
