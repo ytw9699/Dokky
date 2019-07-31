@@ -14,6 +14,7 @@
 	  MONEY number(10,0) default 0,
 	  HITCNT number(10,0) default 0,
 	  REPLYCNT number(10,0) default 0,
+	  delete_check varchar2(10) default 'possible',
 	  constraint PK_DK_BOARD primary key(NUM)
 	);
 	
@@ -39,7 +40,11 @@
 		updateDate date default sysdate,
 		likeCnt number(10,0) default 0,
 		dislikeCnt number(10,0) default 0,
-		money number(10,0) default 0
+		money number(10,0) default 0,
+		parent_num number(10,0) not null,--댓글 묶음 번호
+		order_step number(10,0) not null,--댓글 출력순서
+		reply_level number(10,0) not null,--댓글 깊이= 루트글인지,답변글인지,답변에 답변글인지
+		delete_check varchar2(10) default 'possible'
 	);
 	alter table DK_REPLY add constraint pk_reply primary key (reply_num);
 	
@@ -85,8 +90,8 @@
 	      bankName varchar2(50),
 	      account varchar2(50),
 	      regDate date default sysdate, 
-	      loginDate date default sysdate,
-	      enabled char(1) default '1'
+	      loginDate date default sysdate
+	      --enabled char(1) default '1'
 	);
 	
 	create sequence seq_dk_member
