@@ -262,7 +262,7 @@
 	
 	drop table dk_visitor purge
 	
-14.방문자 테이블 -----------------------------------------------------
+14.알림 테이블 -----------------------------------------------------
 
  CREATE TABLE dk_alarm(
 	 alarmNum number(10,0), --기본키
@@ -274,7 +274,6 @@
 	 commonVar1 VARCHAR2(200),
 	 commonVar2 VARCHAR2(200),
 	 regdate date default sysdate,
-	 
 	 constraint pk_alarm PRIMARY KEY (alarmNum)
 )
 
