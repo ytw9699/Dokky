@@ -54,7 +54,8 @@
 			<sec:authorize access="isAuthenticated()">
 				<form method='post' action="/dokky/customLogout">
 				    <input type="hidden" name="${_csrf.parameterName}" value="${_csrf.token}" />
-				    <input type="submit" value="Logout">
+				  	  <a href="/dokky/mypage/myInfoForm?userId=${userInfo.username}"><c:out value="${userInfo.member.nickName}"/></a>
+				    <input type="submit" value="Logout">  
 				</form>
 			</sec:authorize>
 			<sec:authorize access="isAnonymous()"> 
