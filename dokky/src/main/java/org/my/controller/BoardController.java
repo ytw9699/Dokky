@@ -125,7 +125,8 @@ public class BoardController {
 	 @PreAuthorize("principal.username == #board.userId")
 	 @PostMapping("/modify")
 	 public String modify(BoardVO board, Criteria cri, RedirectAttributes rttr) {
-		 //log.info("modify:" + board);
+		 log.info("modify BoardVO:" + board);
+		 log.info("modify Criteria:" + board);
 		
 		 /*if (service.modify(board)) { 
 		 rttr.addFlashAttribute("result", "success");

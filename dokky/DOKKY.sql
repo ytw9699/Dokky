@@ -63,11 +63,11 @@
 	
 	3.---------------------------------------------------------------------------------------
 	create table dk_attach(--업로드 테이블
-	uuid varchar2(100) not null,
-	uploadPath varchar2(200) not null,-- 실제 파일이 업로드된 경로
-	fileName varchar2(100) not null, --파일 이름을 의미
-	fileType char(1) default 'I', --이미지 파일 여부를판단
-	NUM number(10,0) -- 해당 게시물 번호를 저장
+		uuid varchar2(100) not null,
+		uploadPath varchar2(200) not null,-- 실제 파일이 업로드된 경로
+		fileName varchar2(100) not null, --파일 이름을 의미
+		fileType char(1) default 'I', --이미지 파일 여부를판단
+		NUM number(10,0) -- 해당 게시물 번호를 저장
 	);
 	
 	alter table dk_attach add constraint pk_attach primary key (uuid);
@@ -90,8 +90,8 @@
 	      bankName varchar2(50),
 	      account varchar2(50),
 	      regDate date default sysdate, 
-	      loginDate date default sysdate
-	      --enabled char(1) default '1'
+	      loginDate date default sysdate,
+	      enabled char(1) default '1'--enabled는 스프링 시큐리티에서 사용하는 값. 현재 사용자 계정이 유효한가를 의미
 	);
 	
 	create sequence seq_dk_member

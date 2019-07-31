@@ -42,14 +42,18 @@
   	
   	 <!-- 회원가입 -->
 	 <insert id="registerMembers">
-		 insert into dk_member(userid,
+		 insert into dk_member(
+		 					   member_num,
+		 					   userid,
 		 					   userpw,
 		 					   nickName,
 		 					   email,
 		 					   phoneNum,
 		 					   bankname, 
 		 					   account
-		 					   ) values(#{userId},
+		 					   ) values(
+		 					   			seq_dk_member.nextval,
+		 					   			#{userId},
  					   				    #{userPw},
  					   				    #{nickName},
  					   				    #{email},

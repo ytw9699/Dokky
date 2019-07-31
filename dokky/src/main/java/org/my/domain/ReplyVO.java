@@ -16,6 +16,9 @@ public class ReplyVO {
   private int likeCnt;
   private int dislikeCnt;
   private int money;
-
-	  
+  private int parent_num;
+  private int order_step;
+  private int reply_level;
+  private String delete_check;
+  
 }
