@@ -374,7 +374,7 @@
 	       reply_nums = data.list[i].reply_num;   
 	       
 	       str +="<div style='display:none' id=replace"+reply_nums+"></div><li data-reply_num='"+reply_nums+"'>"+reply_nums
-	       +" " + nickName
+	       +" " + "<a href='/dokky/userBoardList?userId="+userId+"'>-"+nickName+"</a>"  
 	       +" " + data.list[i].reply_content
 	       +" "+replyService.displayTime(data.list[i].replyDate)
 	       +" "
