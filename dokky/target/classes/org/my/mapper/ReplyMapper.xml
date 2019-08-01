@@ -5,10 +5,24 @@
 <mapper namespace="org.my.mapper.ReplyMapper">
 
 	<insert id="insert">
-		insert into DK_REPLY (reply_num, num, reply_content, nickName,userId)
-		values (seq_dk_reply.nextval, #{num}, #{reply_content}, #{nickName}, #{userId})
+		insert into DK_REPLY (reply_num, num, reply_content, nickName, userId, parent_num, order_step, reply_level)
+		values (seq_dk_reply.nextval, #{num}, #{reply_content}, #{nickName}, #{userId}, seq_dk_reply.currval, 0, 0)
 	</insert>
-
+	
+	<insert id="reInsert">
+		insert into DK_REPLY (reply_num, num, reply_content, nickName, userId, parent_num, order_step, reply_level)
+		values (seq_dk_reply.nextval, #{num}, #{reply_content}, #{nickName}, #{userId}, #{parent_num}, #{order_step} , #{reply_level}+1 )
+	</insert>
+	 
+	<select id="selectNextReply" resultType="org.my.domain.ReplyVO">
+		  <![CDATA[ select * from dk_reply where parent_num = #{parent_num} and order_step > #{order_step} and reply_level <= #{reply_level} order by order_step asc   ]]>
+	</select>
+	
+	<!-- 그룹번호에 해당하는 가장 마지막줄의 step_order를 가져오는것 -->
+	<select id="lastReplyStep" resultType="int">
+		SELECT order_step FROM (SELECT order_step FROM dk_reply where parent_num = #{parent_num} order by order_step desc) WHERE ROWNUM = 1
+	</select>
+	
 	<select id="read" resultType="org.my.domain.ReplyVO">
 		select * from DK_REPLY where reply_num = #{reply_num}
 	</select>
@@ -24,11 +38,11 @@
 
 	<select id="getListWithPaging" resultType="org.my.domain.ReplyVO">
 	  <![CDATA[
-		 select reply_num, num, reply_content, nickName, userId, replydate, updatedate, likeCnt ,dislikeCnt,money
+		 select reply_num, num, reply_content, nickName, userId, replydate, updatedate, likeCnt ,dislikeCnt,money,parent_num, order_step, reply_level
 		 from 
 		   (
 		    select /*+INDEX(DK_REPLY idx_reply) */ 
-		      rownum rn, reply_num, num, reply_content, nickName, userId, replydate, updatedate, likeCnt ,dislikeCnt,money
+		      rownum rn, reply_num, num, reply_content, nickName, userId, replydate, updatedate, likeCnt ,dislikeCnt,money, parent_num, order_step, reply_level
 		    from DK_REPLY
 		    where num = #{num}
 		    and reply_num > 0

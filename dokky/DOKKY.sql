@@ -198,8 +198,8 @@
 		 regDate date default sysdate, 
 		 userId varchar2(50) not null,
 		 specification varchar2(50),--승인중/승인완료
-		 board_num number(10,0) default 0,
-		 reply_num number(10,0) default 0,
+		 board_num number(10,0) default 0,--무결성제약조건에 걸리지않기 위해 디폴트값 입력바람
+		 reply_num number(10,0) default 0,--무결성제약조건에 걸리지않기 위해 디폴트값 입력바람
 		 constraint fk_cash_board_num foreign key(board_num) references dk_board(NUM),
 		 constraint fk_cash_reply_num foreign key(reply_num) references dk_reply(reply_num),
 		 constraint pk_cash PRIMARY KEY (cash_num)
@@ -208,6 +208,8 @@
 	create sequence seq_dk_cash
 	
 	drop table dk_cash purge
+	
+	
 	
 	insert into dk_cash (
 							cash_num,
@@ -298,5 +300,8 @@ drop table dk_alarm purge
 	데이터 배로 증가
 	insert into tbl_board(bno, title, content, writer)
 	(select seq_board.nextval, title, content, writer from tbl_board);
+	
+	시퀀스 삭제
+	drop sequence seq_dk_reply ;
 
 

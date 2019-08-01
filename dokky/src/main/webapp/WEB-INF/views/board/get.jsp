@@ -138,6 +138,10 @@
 	.modal{
 	display: none;
 	}
+	.reReplyWriteForm{
+	display: none;
+	}
+	
 	
 </style>
 </head>
@@ -282,6 +286,12 @@
            </div>  
    		   <button id='replyRegisterBtn' type="button">등록</button>
 		</div> 
+		<div class="reReplyWriteForm"><!--  대댓글쓰기 폼 -->
+		   <div> 
+                <textarea id="reReply_contents" rows="3" name='reReply_content'></textarea> 
+           </div>  
+   		   <button id='reReplyRegisterBtn' type="button">등록</button>
+		</div> 
 	</sec:authorize>
 		
 </div> 
@@ -389,7 +399,8 @@
 			    str += "  기부금 <span id='replyMoney"+reply_nums+"'>"+data.list[i].money+"</span> "
 			       +"<button data-oper='donateMoney' type='button' data-user_id='"+userId+"' data-reply_num='"+reply_nums+"'>기부</button>"
 			       +"<button data-oper='report' type='button' data-user_id='"+userId+"' data-nick_name='"+nickName+"'>신고</button>"
-	       +"</li>";    
+			       +"<button data-oper='reReplyForm' type='button' data-user_id='"+userId+"' data-parent_num='"+ data.list[i].parent_num+"' data-order_step='"+data.list[i].order_step+"' data-reply_level='"+data.list[i].reply_level+"'>답글</button>"
+	       +"</li>";     
 			    /*  str += "<sec:authorize access='isAuthenticated()'>" */
 		       	/*   +"</sec:authorize>"  인증된사람만 보여주기*/
 	     }
@@ -418,7 +429,13 @@
       });
 	/////////////////////////////////////////////////////////
 		 var replyRegisterBtn = $("#replyRegisterBtn");//댓글 등록 버튼
+		 var reReplyRegisterBtn = $("#reReplyRegisterBtn");//대댓글 등록 버튼
 		 var reply_contents = $("#reply_contents");//댓글 내용
+		 var reReplyWriteForm = $(".reReplyWriteForm");
+		 var parent_num;  
+		 var order_step;  
+	     var reply_level; 
+	     var reReply_id;
 	 <sec:authorize access="isAuthenticated()">   
 	     var reply_id = '${userInfo.username}';//댓글 작성자 아이디
 	 	 var reply_nickName = '${userInfo.member.nickName}';//댓글 작성자 닉네임
@@ -434,7 +451,7 @@
 		            num:numValue, //글번호 
 		            nickName:reply_nickName //작성자 닉네임
 		          };
-			 
+			  
 			 var alarmData = {
 						target:board_id,
 						commonVar1:board_title,
@@ -457,8 +474,64 @@
 				        showReplyList(-1);//댓글 목록 마지막 페이지 보여주기
 			     }); 
 		   });
+	/////////////////////////////////////////////////////////댓글에 댓글
+	
+	$(".replyList").on("click",'button[data-oper="reReplyForm"]', function(event){//0. 대댓글 폼 버튼
+		
+		reReplyWriteForm.css("display","block"); 
+	
+		parent_num = $(this).data("parent_num");  
+		order_step = $(this).data("order_step");  
+		reply_level = $(this).data("reply_level");  
+		reReply_id = $(this).data("user_id");  
+		
+		console.log(parent_num); 
+		console.log(order_step);   
+		console.log(reply_level); 
+		console.log(reReply_id); 
+		
+	   });
+	
+	reReplyRegisterBtn.on("click",function(e){// 0. 대댓글 등록 버튼
+		
+		var reReply_contents = $("#reReply_contents");//댓글 내용
+		
+	      		var reply = {
+		    		reply_content:reReply_contents.val(), //댓글 내용
+		    		userId:reply_id,//댓글 작성자 아이디
+		            num:numValue, //글번호 
+		            nickName:reply_nickName, //작성자 닉네임
+		            parent_num:parent_num,
+		            order_step:order_step,
+		            reply_level:reply_level
+	       	   };
+		  
+			 var alarmData = {
+						target:reReply_id,
+						commonVar1:board_title,
+						commonVar2:board_num,
+						kind:0,	
+						writerNick:reply_nickName,
+						writerId:reply_id
+			  };
+		 
+			var commonData ={ 
+					replyVO:reply,
+					alarmVO:alarmData
+		 	}
+	      	
+	     	 replyService.add(commonData, function(result){//대댓글 등록
+	        	
+	     			reReplyWriteForm.css("display","none"); 
+	     	 
+	     			reReply_contents.val("");//대댓글등록후 폼 비우기
+			        
+			        showReplyList(-1);//댓글 목록 마지막 페이지 보여주기
+		     }); 
+	   });
+	
 	/////////////////////////////////////////////////////////이하는 댓글 수정,삭제,수정후 취소
-
+	
 	 	var RecentReplaceTag; //더미 <div>가 댓글 수정폼으로 교체되어지기전 백업해둔 현재 <div>태그
 	 	var isReplaceTag = false;//더미 <div>가 댓글 수정폼으로 교체되었는지 체크여부
 	 	var replyModFormId ;//현재 댓글 수정폼의 아이디

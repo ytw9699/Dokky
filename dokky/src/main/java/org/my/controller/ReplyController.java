@@ -44,9 +44,9 @@ public class ReplyController {
 	public ResponseEntity<String> create(@RequestBody commonVO vo) {
 
 		log.info("ReplyVO: " + vo);
-
-		int insertCount = service.register(vo);
 		
+		int insertCount = service.register(vo);//댓글입력+알람입력
+			
 		log.info("Reply INSERT COUNT: " + insertCount);
 
 		return insertCount == 1  
