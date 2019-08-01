@@ -52,10 +52,9 @@
 		<div class="mypage">Today : ${sessionScope.todayCount} / Total : ${sessionScope.totalCount}</div>
 		<div class="mypage"> 
 			<sec:authorize access="isAuthenticated()">
-				<form method='post' action="/dokky/customLogout">
-				    <input type="hidden" name="${_csrf.parameterName}" value="${_csrf.token}" />
+				<form id="logoutForm" method='post' action="/dokky/customLogout">
 				  	  <a href="/dokky/mypage/myInfoForm?userId=${userInfo.username}"><c:out value="${userInfo.member.nickName}"/></a>
-				    <input type="submit" value="Logout">  
+				    <input id="logoutBtn" type="submit" value="Logout">  
 				</form>
 			</sec:authorize>
 			<sec:authorize access="isAnonymous()"> 
@@ -65,5 +64,22 @@
 		</div>
 		<div class="mypage"><a href="/dokky/admin/memberList">관리자</a></div>
 	</div>
+	<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+	<script>
+	$(document).ready(function() {
+			
+		 var parameterName = '${_csrf.parameterName}';
+		 var token = '${_csrf.token}';
+		 var logoutForm = $("#logoutForm");
+		  
+		  $("#logoutBtn").on("click", function(e){
+			  
+			  var str = "<input type='hidden' name='"+parameterName+"' value='"+token+"'>";
+			  
+			  logoutForm.append(str).submit();
+			  
+		  }); 
+	});
+	</script>
 </body>
 </html>
