@@ -1,6 +1,7 @@
 package org.my.service;
 
 	import java.util.List;
+import java.util.ListIterator;
 
 import org.my.domain.BoardDisLikeVO;
 import org.my.domain.BoardLikeVO;
@@ -54,8 +55,8 @@ public class ReplyServiceImpl implements ReplyService {
 		log.info("insert......" + replyVO); 
 		
 		if(replyVO.getParent_num() == 0 ) {//시퀀스값은 디폴트 1부터 시작하니까 0으로 기준을 잡자
-			return mapper.insert(replyVO);
-		}else {
+			return mapper.insert(replyVO);//일반 루트 부모 댓글 입력
+		}else {//자식 댓글 입력
 			List<ReplyVO> list = mapper.selectNextReply(replyVO);//이게 댓글의 순서를 결정하는 아주 중요한 핵심
 			/*한개의 루트그룹 기준으로 생각할때 대댓글의 그룹순서는 대댓글을 달고자 하는 대상인 부모댓글(루트가 아닌 경우도 포함)보다
 			그룹 순서가 크면서(밑에 있으면서) 깊이가 작거나 같은 최초의 댓글의 그룹순서가 된다*/
@@ -65,9 +66,16 @@ public class ReplyServiceImpl implements ReplyService {
 				replyVO.setOrder_step(lastReplyStep+1);//순서번호에 +1을 해준다 
 				
 				return mapper.reInsert(replyVO);
-			}else{
-				log.info("notEmpty......");
-				return mapper.reInsert(replyVO);
+			}else{// 최초의 댓글이 있다면
+				ReplyVO firstVO = list.get(0);
+				
+				replyVO.setOrder_step(firstVO.getOrder_step());
+				
+				log.info("updateOrder_step......");
+				mapper.updateOrder_step(replyVO);//나머지 아래 스텝값 모두 1씩 올려줌
+				
+				log.info("reInsertreplyVO......" + replyVO);
+				return mapper.reInsert(replyVO);//최초의 댓글에 해당하는 스텝값으로 변경
 			}
 		}
 	} 

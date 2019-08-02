@@ -303,5 +303,14 @@ drop table dk_alarm purge
 	
 	시퀀스 삭제
 	drop sequence seq_dk_reply ;
+	
+	테이블 데이터만 삭제
+	DELETE FROM DK_REPLY
+	
+	테이블 깔끔히 삭제
+	TRUNCATE TABLE DK_REPLY
+	
+	인덱스 만드는 방법
+	create unique index idx_board_reg_date on boardtable (reg_date, idx) 
 
 

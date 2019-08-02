@@ -70,4 +70,6 @@ public interface ReplyMapper {
 
 	public int lastReplyStep(int parent_num);
 
+	public int updateOrder_step(ReplyVO replyVO);
+
 }

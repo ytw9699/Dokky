@@ -142,6 +142,23 @@
 	display: none;
 	}
 	
+	.reply{
+		margin-left: 0%;
+	}
+	
+	.first {
+ 		  margin-left: 2%;
+	}
+	.second {
+ 		  margin-left: 4%;
+	}
+	.third {
+ 		  margin-left: 6%;
+	}
+	.other {
+ 		  margin-left: 8%;
+	}
+	
 	
 </style>
 </head>
@@ -369,6 +386,8 @@
 	     var nickName=""; 
 	     var userId=""; 
 	     var reply_nums=""; 
+	     var reply_level; 
+	     
 		     <sec:authorize access="isAuthenticated()">
 		    	 username = '${userInfo.username}';
 		     </sec:authorize>
@@ -382,8 +401,22 @@
 	       nickName = data.list[i].nickName; 
 	       userId = data.list[i].userId;  
 	       reply_nums = data.list[i].reply_num;   
+	       reply_level = data.list[i].reply_level;
 	       
-	       str +="<div style='display:none' id=replace"+reply_nums+"></div><li data-reply_num='"+reply_nums+"'>"+reply_nums
+	       str +="<div style='display:none' id=replace"+reply_nums+"></div>";
+	       
+	       if(reply_level == 0 ){
+	    	  str +=" " + "<div class='reply' data-reply_num='"+reply_nums+"'>"+reply_nums 
+	       }else if(reply_level == 1){   
+	    	  str +=" " + "<div class='reply first' data-reply_num='"+reply_nums+"'>└ "+reply_nums 
+	       }else if(reply_level == 2){
+	    	  str +=" " + "<div class='reply second' data-reply_num='"+reply_nums+"'>└ "+reply_nums
+	       }else if(reply_level == 3){
+	    	  str +=" " + "<div class='reply third' data-reply_num='"+reply_nums+"'>└ "+reply_nums
+	       }else{ 
+	    	  str +=" " + "<div class='reply other' data-reply_num='"+reply_nums+"'>└ "+reply_nums  
+	       }
+	        
 	       +" " + "<a href='/dokky/userBoardList?userId="+userId+"'>-"+nickName+"</a>"  
 	       +" " + data.list[i].reply_content
 	       +" "+replyService.displayTime(data.list[i].replyDate)
@@ -400,7 +433,7 @@
 			       +"<button data-oper='donateMoney' type='button' data-user_id='"+userId+"' data-reply_num='"+reply_nums+"'>기부</button>"
 			       +"<button data-oper='report' type='button' data-user_id='"+userId+"' data-nick_name='"+nickName+"'>신고</button>"
 			       +"<button data-oper='reReplyForm' type='button' data-user_id='"+userId+"' data-parent_num='"+ data.list[i].parent_num+"' data-order_step='"+data.list[i].order_step+"' data-reply_level='"+data.list[i].reply_level+"'>답글</button>"
-	       +"</li>";     
+	       +"</div>";      
 			    /*  str += "<sec:authorize access='isAuthenticated()'>" */
 		       	/*   +"</sec:authorize>"  인증된사람만 보여주기*/
 	     }
