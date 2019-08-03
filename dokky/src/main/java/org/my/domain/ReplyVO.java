@@ -11,6 +11,8 @@ public class ReplyVO {
   private String reply_content;
   private String nickName;
   private String userId;
+  private String toNickName;
+  private String toUserId;
   private Date replyDate;
   private Date updateDate;
   private int likeCnt;

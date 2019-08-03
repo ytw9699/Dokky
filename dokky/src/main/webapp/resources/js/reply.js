@@ -4,8 +4,6 @@ var replyService = (function() {
 
 	function add(commonData, callback, error) {//reply를 객체,
 		console.log("add reply..............."); 
-		console.log(JSON.stringify(commonData));
-		console.log(commonData.replyVO); 
 		$.ajax({
 			type : 'post',
 			url : '/dokky/replies/new',

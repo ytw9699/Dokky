@@ -230,16 +230,28 @@
         
         <div class="form-group">
           <label>좋아요</label> <span id="likeCount"><c:out value="${board.likeCnt }"/></span>
-          <button id="like" data-user_id="${board.userId }">좋아요</button>  
+            <sec:authorize access="isAuthenticated()">
+		        <c:if test="${userInfo.username != board.userId}">
+		       		<button id="like" data-user_id="${board.userId }">좋아요</button>  
+		        </c:if>
+	        </sec:authorize> 
         </div> 
         <div class="form-group">
           <label>싫어요</label> <span id="dislikeCount"><c:out value="${board.dislikeCnt }"/></span>
-          <button id="dislike" data-user_id="${board.userId }">싫어요</button> 
+         	<sec:authorize access="isAuthenticated()">
+		        <c:if test="${userInfo.username != board.userId}">
+		       	  <button id="dislike" data-user_id="${board.userId }">싫어요</button> 
+		        </c:if>
+	        </sec:authorize>
         </div>
         
         <div class="form-group">
           <label>기부금</label> <span id="boardMoney"><c:out value="${board.money }"/></span>
-          <button id="donateMoney" data-user_id="${board.userId }">기부</button> 
+          	<sec:authorize access="isAuthenticated()">
+		        <c:if test="${userInfo.username != board.userId}">
+		       	  <button id="donateMoney" data-user_id="${board.userId }">기부</button> 
+		        </c:if>
+	        </sec:authorize>
         </div>
         <div class="form-group">
           <label>조회수</label> <c:out value="${board.hitCnt }"/> 
@@ -250,7 +262,9 @@
 		<div> 
 		
 			<sec:authentication property="principal" var="userInfo"/>
-		
+			
+			<button id="list_button">목록보기 </button> 
+			  
 		 	<sec:authorize access="isAuthenticated()">
 		        <c:if test="${userInfo.username eq board.userId}">
 		       		 <button id="modify_button">수정 </button> 
@@ -258,11 +272,12 @@
 		        </c:if>
 		        
 		        <button id="scrap" data-num="${board.num }">스크랩 </button>
-		        <button id="report">신고 </button>
+		        
+		        <c:if test="${userInfo.username != board.userId}">
+		       		 <button id="report">신고 </button> 
+		        </c:if>
 		        
 	        </sec:authorize>
-	        
-					 <button id="list_button">목록보기 </button> 
 	        
 			<form id='operForm' action="/dokky/board/modify" method="get">
 			  
@@ -308,6 +323,7 @@
                 <textarea id="reReply_contents" rows="3" name='reReply_content'></textarea> 
            </div>  
    		   <button id='reReplyRegisterBtn' type="button">등록</button>
+   		   <button id='reReplyCancelBtn' type="button">취소</button>
 		</div> 
 	</sec:authorize>
 		
@@ -385,6 +401,8 @@
 	     var len = data.list.length;
 	     var nickName=""; 
 	     var userId=""; 
+	     var toNickName=""; 
+	     var toUserId=""; 
 	     var reply_nums=""; 
 	     var reply_level; 
 	     
@@ -402,38 +420,57 @@
 	       userId = data.list[i].userId;  
 	       reply_nums = data.list[i].reply_num;   
 	       reply_level = data.list[i].reply_level;
+	       toNickName=data.list[i].toNickName;  
+		   toUserId=data.list[i].toUserId;   
 	       
 	       str +="<div style='display:none' id=replace"+reply_nums+"></div>";
 	       
 	       if(reply_level == 0 ){
-	    	  str +=" " + "<div class='reply' data-reply_num='"+reply_nums+"'>"+reply_nums 
+	    	  str +=" " + "<div class='reply' data-reply_num='"+reply_nums+"'>"; 
+	    	  str +=" " + "<a href='/dokky/userBoardList?userId="+userId+"'>-"+nickName+"</a>"+replyService.displayTime(data.list[i].replyDate)
+	    	  +" <button data-oper='reReplyForm' type='button' data-user_id='"+userId+"' data-nick_name='"+nickName+"' data-parent_num='"+ data.list[i].parent_num+"' data-order_step='"+data.list[i].order_step+"' data-reply_level='"+data.list[i].reply_level+"'>답글</button>"		  
+	    	  +"<div>";
 	       }else if(reply_level == 1){   
-	    	  str +=" " + "<div class='reply first' data-reply_num='"+reply_nums+"'>└ "+reply_nums 
+	    	  str +=" " + "<div class='reply first' data-reply_num='"+reply_nums+"'>└ ";  
+	    	  str +=" " + "From<a href='/dokky/userBoardList?userId="+userId+"'>-"+nickName+"</a>To-<a href='/dokky/userBoardList?userId="+toUserId+"'>-"+toNickName+"</a> "+replyService.displayTime(data.list[i].replyDate);
+	    	  str +=" <button data-oper='reReplyForm' type='button' data-user_id='"+userId+"' data-nick_name='"+nickName+"' data-parent_num='"+ data.list[i].parent_num+"' data-order_step='"+data.list[i].order_step+"' data-reply_level='"+data.list[i].reply_level+"'>답글</button>"  
+	    	  str +="<div>"; 
 	       }else if(reply_level == 2){
-	    	  str +=" " + "<div class='reply second' data-reply_num='"+reply_nums+"'>└ "+reply_nums
+	    	  str +=" " + "<div class='reply second' data-reply_num='"+reply_nums+"'>└ ";
+	    	  str +=" " + "From<a href='/dokky/userBoardList?userId="+userId+"'>-"+nickName+"</a>To-<a href='/dokky/userBoardList?userId="+toUserId+"'>-"+toNickName+"</a> "+replyService.displayTime(data.list[i].replyDate);
+	    	  str +=" <button data-oper='reReplyForm' type='button' data-user_id='"+userId+"' data-nick_name='"+nickName+"' data-parent_num='"+ data.list[i].parent_num+"' data-order_step='"+data.list[i].order_step+"' data-reply_level='"+data.list[i].reply_level+"'>답글</button>"  
+	    	  str +="<div>";
 	       }else if(reply_level == 3){
-	    	  str +=" " + "<div class='reply third' data-reply_num='"+reply_nums+"'>└ "+reply_nums
-	       }else{ 
-	    	  str +=" " + "<div class='reply other' data-reply_num='"+reply_nums+"'>└ "+reply_nums  
+	    	  str +=" " + "<div class='reply third' data-reply_num='"+reply_nums+"'>└ ";
+	    	  str +=" " + "From<a href='/dokky/userBoardList?userId="+userId+"'>-"+nickName+"</a>To-<a href='/dokky/userBoardList?userId="+toUserId+"'>-"+toNickName+"</a> "+replyService.displayTime(data.list[i].replyDate);
+	    	  str +=" <button data-oper='reReplyForm' type='button' data-user_id='"+userId+"' data-nick_name='"+nickName+"' data-parent_num='"+ data.list[i].parent_num+"' data-order_step='"+data.list[i].order_step+"' data-reply_level='"+data.list[i].reply_level+"'>답글</button>"  
+	    	  str +="<div>"; 
+	       }else{  
+	    	  str +=" " + "<div class='reply other' data-reply_num='"+reply_nums+"'>└ " ; 
+	    	  str +=" " + "From<a href='/dokky/userBoardList?userId="+userId+"'>-"+nickName+"</a>To-<a href='/dokky/userBoardList?userId="+toUserId+"'>-"+toNickName+"</a> "+replyService.displayTime(data.list[i].replyDate);
+	    	  str +=" <button data-oper='reReplyForm' type='button' data-user_id='"+userId+"' data-nick_name='"+nickName+"' data-parent_num='"+ data.list[i].parent_num+"' data-order_step='"+data.list[i].order_step+"' data-reply_level='"+data.list[i].reply_level+"'>답글</button>"  
+	    	  str +="<div>";
 	       }
-	        
-	       +" " + "<a href='/dokky/userBoardList?userId="+userId+"'>-"+nickName+"</a>"  
-	       +" " + data.list[i].reply_content
-	       +" "+replyService.displayTime(data.list[i].replyDate)
+	         
+	       str +=" " + data.list[i].reply_content
 	       +" "
+	       str += "  좋아요 <span id='replyLikeCount"+reply_nums+"'>"+data.list[i].likeCnt+"</span> "
+	       str += "  싫어요 <span id='replyDisLikeCount"+reply_nums+"'>"+data.list[i].dislikeCnt+"</span> "
+	       str += "  기부금 <span id='replyMoney"+reply_nums+"'>"+data.list[i].money+"</span> "
+	       
 	       if(username == userId){
 			 str += "<button data-oper='modify' type='button' data-user_id='"+userId+"' data-reply_num='"+reply_nums+"'>수정</button>"
 		       +"<button data-oper='delete' type='button' data-user_id='"+userId+"' data-reply_num='"+reply_nums+"'>삭제</button>"
 	       } 
-	  	        str += "  좋아요 <span id='replyLikeCount"+reply_nums+"'>"+data.list[i].likeCnt+"</span> "
-				str += " <button data-oper='like' type='button' data-user_id='"+userId+"' data-reply_num='"+reply_nums+"'>좋아요</button>" 
-				str += "  싫어요 <span id='replyDisLikeCount"+reply_nums+"'>"+data.list[i].dislikeCnt+"</span> "
-			       +"<button data-oper='dislike' type='button' data-user_id='"+userId+"' data-reply_num='"+reply_nums+"'>싫어요</button>"
-			    str += "  기부금 <span id='replyMoney"+reply_nums+"'>"+data.list[i].money+"</span> "
-			       +"<button data-oper='donateMoney' type='button' data-user_id='"+userId+"' data-reply_num='"+reply_nums+"'>기부</button>"
-			       +"<button data-oper='report' type='button' data-user_id='"+userId+"' data-nick_name='"+nickName+"'>신고</button>"
-			       +"<button data-oper='reReplyForm' type='button' data-user_id='"+userId+"' data-parent_num='"+ data.list[i].parent_num+"' data-order_step='"+data.list[i].order_step+"' data-reply_level='"+data.list[i].reply_level+"'>답글</button>"
-	       +"</div>";      
+	        
+	       if(username != userId){
+	    	   str += " <button data-oper='like' type='button' data-user_id='"+userId+"' data-reply_num='"+reply_nums+"'>좋아요</button>" 
+		       +"<button data-oper='dislike' type='button' data-user_id='"+userId+"' data-reply_num='"+reply_nums+"'>싫어요</button>"
+		       +"<button data-oper='donateMoney' type='button' data-user_id='"+userId+"' data-reply_num='"+reply_nums+"'>기부</button>"
+		       +"<button data-oper='report' type='button' data-user_id='"+userId+"' data-nick_name='"+nickName+"'>신고</button>"
+	       } 
+				
+	       str += "</div></div>";       
 			    /*  str += "<sec:authorize access='isAuthenticated()'>" */
 		       	/*   +"</sec:authorize>"  인증된사람만 보여주기*/
 	     }
@@ -463,12 +500,14 @@
 	/////////////////////////////////////////////////////////
 		 var replyRegisterBtn = $("#replyRegisterBtn");//댓글 등록 버튼
 		 var reReplyRegisterBtn = $("#reReplyRegisterBtn");//대댓글 등록 버튼
+		 var reReplyCancelBtn = $("#reReplyCancelBtn");//대댓글 등록 취소 버튼
 		 var reply_contents = $("#reply_contents");//댓글 내용
 		 var reReplyWriteForm = $(".reReplyWriteForm");
 		 var parent_num;  
 		 var order_step;  
 	     var reply_level; 
-	     var reReply_id;
+	     var toUserId;
+	     var toNickName;
 	 <sec:authorize access="isAuthenticated()">   
 	     var reply_id = '${userInfo.username}';//댓글 작성자 아이디
 	 	 var reply_nickName = '${userInfo.member.nickName}';//댓글 작성자 닉네임
@@ -516,12 +555,8 @@
 		parent_num = $(this).data("parent_num");  
 		order_step = $(this).data("order_step");  
 		reply_level = $(this).data("reply_level");  
-		reReply_id = $(this).data("user_id");  
-		
-		console.log(parent_num); 
-		console.log(order_step);   
-		console.log(reply_level); 
-		console.log(reReply_id); 
+		toUserId = $(this).data("user_id");  
+		toNickName = $(this).data("nick_name");  
 		
 	   });
 	
@@ -532,15 +567,17 @@
 	      		var reply = {
 		    		reply_content:reReply_contents.val(), //댓글 내용
 		    		userId:reply_id,//댓글 작성자 아이디
+		    		nickName:reply_nickName, //작성자 닉네임
+		            toUserId:toUserId,//to 아이디
+		            toNickName:toNickName, //to 닉네임
 		            num:numValue, //글번호 
-		            nickName:reply_nickName, //작성자 닉네임
 		            parent_num:parent_num,
 		            order_step:order_step,
 		            reply_level:reply_level
 	       	   };
 		  
 			 var alarmData = {
-						target:reReply_id,
+						target:toUserId,
 						commonVar1:board_title,
 						commonVar2:board_num,
 						kind:0,	
@@ -562,6 +599,15 @@
 			        showReplyList(-1);//댓글 목록 마지막 페이지 보여주기
 		     }); 
 	   });
+	
+		reReplyCancelBtn.on("click",function(e){ 
+			
+			var reReply_contents = $("#reReply_contents");
+			
+				reReplyWriteForm.css("display","none"); 
+		    	 
+					reReply_contents.val("");
+			});
 	
 	/////////////////////////////////////////////////////////이하는 댓글 수정,삭제,수정후 취소
 	

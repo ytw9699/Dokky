@@ -10,8 +10,8 @@
 	</insert>
 	
 	<insert id="reInsert">
-		insert into DK_REPLY (reply_num, num, reply_content, nickName, userId, parent_num, order_step, reply_level)
-		values (seq_dk_reply.nextval, #{num}, #{reply_content}, #{nickName}, #{userId}, #{parent_num}, #{order_step} , #{reply_level}+1 )
+		insert into DK_REPLY (reply_num, num, reply_content, nickName, userId, parent_num, order_step, reply_level, toUserId, toNickName)
+		values (seq_dk_reply.nextval, #{num}, #{reply_content}, #{nickName}, #{userId}, #{parent_num}, #{order_step}, #{reply_level}+1, #{toUserId}, #{toNickName} )
 	</insert>
 	 
 	<select id="selectNextReply" resultType="org.my.domain.ReplyVO">
@@ -42,10 +42,10 @@
 
 	<select id="getListWithPaging" resultType="org.my.domain.ReplyVO">
 	  <![CDATA[
-	    select reply_num, num, reply_content, nickName, userId, replydate, updatedate, likeCnt ,dislikeCnt,money,parent_num, order_step, reply_level
+	    select reply_num, num, reply_content, nickName, userId, replydate, updatedate, likeCnt ,dislikeCnt,money,parent_num, order_step, reply_level,toNickName,toUserId
 	 	from 
 	   (
-	    select ROW_NUMBER() OVER(ORDER BY parent_num ASC, order_step ASC) AS rn, reply_num, num, reply_content, nickName, userId, replydate, updatedate, likeCnt ,dislikeCnt,money, parent_num, order_step, reply_level
+	    select ROW_NUMBER() OVER(ORDER BY parent_num ASC, order_step ASC) AS rn, reply_num, num, reply_content, nickName, userId, replydate, updatedate, likeCnt ,dislikeCnt,money, parent_num, order_step, reply_level, toNickName, toUserId
 	    from
 	    DK_REPLY  
 	    where num = #{num} 

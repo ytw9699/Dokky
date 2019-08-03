@@ -36,6 +36,8 @@
 		reply_content varchar2(1000) not null,
 		nickName varchar2(50) not null,
 		userId varchar2(50) not null,
+		toUserId varchar2(50),
+		toNickName varchar2(50),
 		replyDate date default sysdate,
 		updateDate date default sysdate,
 		likeCnt number(10,0) default 0,
