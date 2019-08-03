@@ -39,7 +39,7 @@
 		
 	<div class="leftWrap">
 		<div class="mypage"><a href="/dokky/main">Dokky</a></div> 
-		<div class="mypage"><a href="/dokky/board/allList?category=0">전체보기</a></div>
+		<div class="mypage"><a href="/dokky/board/allList?category=0">전체글보기</a></div>
 		<div class="mypage"><a href="/dokky/board/list?category=1">공지사항</a></div>
 		<div class="mypage"><a href="/dokky/board/list?category=2">자유게시판</a></div>
 		<div class="mypage"><a href="/dokky/board/list?category=3">묻고답하기</a></div>
