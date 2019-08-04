@@ -21,4 +21,6 @@ public interface CommonMapper {
 	
 	public int deleteAlarm(alarmVO vo);
 
+	public String getAlarmRealCount(String userId);
+
 }

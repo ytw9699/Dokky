@@ -18,4 +18,6 @@ public interface CommonService {
 
 	public int insertAlarm(alarmVO vo);
 
+	public String getAlarmRealCount(String userId);
+
 }

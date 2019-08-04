@@ -47,10 +47,11 @@
 		<div class="mypage"><a href="/dokky/board/list?category=5">정기모임/스터디</a></div>
 		<sec:authorize access="isAuthenticated()">
 			<div class="mypage"><a href="/dokky/mypage/myInfoForm?userId=${userInfo.username}">내 정보</a></div>
-			<div class="mypage"><a href="/dokky/alarmList?userId=${userInfo.username}">알림</a></div>
+			<div class="mypage"><a href="/dokky/alarmList?userId=${userInfo.username}">알림</a>-</div>
+			<div class="mypage"><a class="alarmCount" href="/dokky/alarmList?userId=${userInfo.username}"></a></div> 
 		</sec:authorize>
 		<div class="mypage">Today : ${sessionScope.todayCount} / Total : ${sessionScope.totalCount}</div>
-		<div class="mypage"> 
+		<div class="mypage">  
 			<sec:authorize access="isAuthenticated()">
 				<form id="logoutForm" method='post' action="/dokky/customLogout">
 				  	  <a href="/dokky/mypage/myInfoForm?userId=${userInfo.username}"><c:out value="${userInfo.member.nickName}"/></a>
@@ -66,8 +67,41 @@
 	</div>
 	<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
 	<script>
+	
+	function getAlarmRealCount(userId, callback, error) {
+		$.ajax({
+			type : 'get',
+			url : '/dokky/alarmRealCount/'+ userId,
+			success : function(result, status, xhr) {
+				if (callback) {
+					callback(result,xhr);
+				}
+			},
+			error : function(xhr, status, er) {
+				if (error) {
+					error(xhr,er);
+				}
+			}
+		});
+	}
+	
+	<sec:authorize access="isAuthenticated()"> 
+		var alarmCount = $(".alarmCount");
+		var userId = '${userInfo.username}';
+	</sec:authorize>
+	
+	function schedule(){
+	    getAlarmRealCount(userId, function(result){
+	    	alarmCount.html(result);
+	 	 });
+	} 
+	
 	$(document).ready(function() {
-			
+		<sec:authorize access="isAuthenticated()">  
+			schedule();
+		 	setInterval(schedule, 3000);//30초마다 알람카운트 불러오기
+		</sec:authorize>
+		
 		 var parameterName = '${_csrf.parameterName}';
 		 var token = '${_csrf.token}';
 		 var logoutForm = $("#logoutForm");
@@ -80,6 +114,7 @@
 			  
 		  }); 
 	});
+	
 	</script>
 </body>
 </html>

@@ -21,7 +21,8 @@ import org.springframework.security.core.Authentication;
 	import org.springframework.stereotype.Controller;
 	import org.springframework.ui.Model;
 	import org.springframework.web.bind.annotation.GetMapping;
-	import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 	import org.springframework.web.bind.annotation.RequestMethod;
@@ -221,12 +222,21 @@ public class CommonController {
 		return "members/userReplylist";
 	} 
 	
+	@GetMapping(value = "/alarmRealCount/{userId}", produces = "text/plain; charset=UTF-8")
+	@ResponseBody
+	public ResponseEntity<String> getAlarmRealCount(@PathVariable("userId") String userId) {
+		 
+		log.info("getAlarmRealCount...="+userId);
+		
+		return  new ResponseEntity<>(commonService.getAlarmRealCount(userId), HttpStatus.OK);
+	}
+	
 	@PreAuthorize("isAuthenticated()")
 	@GetMapping("/alarmList")  
 	 public String getAlarmList(Criteria cri, Model model) {//내 알림 리스트 가져오기
 		
 		log.info("getAlarmCount");
-		int total = commonService.getAlarmCount(cri);//total은 내 댓글의 총 게시물수
+		int total = commonService.getAlarmCount(cri);
 		
 		model.addAttribute("total", total);
 		

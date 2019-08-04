@@ -47,6 +47,13 @@ public class CommonServiceImpl implements CommonService {
 		
 		return mapper.getAlarmCount(cri);
 	}
+	@Override 
+	public String getAlarmRealCount(String userId) {
+		log.info("getAlarmRealCount");
+		
+		return mapper.getAlarmRealCount(userId);
+	}
+	
 	@Override
 	public List<alarmVO> getAlarmList(Criteria cri){
 		log.info("getAlarmList");
