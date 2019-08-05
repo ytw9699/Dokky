@@ -23,4 +23,6 @@ public interface CommonMapper {
 
 	public String getAlarmRealCount(String userId);
 
+	public int updateAlarmCheck(String alarmNum);
+
 }

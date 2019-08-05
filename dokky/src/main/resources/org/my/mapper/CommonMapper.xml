@@ -104,5 +104,10 @@
        							and writerNick = #{writerNick}
        							and writerId = #{writerId}
        </delete>
-        
+       
+       	<!-- 알림 읽기, 알림 체크 값 바꿔주기 -->
+       <update id="updateAlarmCheck"> 
+       		update dk_alarm set checking = 'YES' where alarmNum = #{alarmNum}
+       </update>
+  
 </mapper>

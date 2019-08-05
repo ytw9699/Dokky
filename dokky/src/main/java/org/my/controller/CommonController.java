@@ -23,6 +23,7 @@ import org.springframework.security.core.Authentication;
 	import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 	import org.springframework.web.bind.annotation.RequestMethod;
@@ -265,5 +266,18 @@ public class CommonController {
 
 		return new ResponseEntity<>("알림이 입력되었습니다.", HttpStatus.OK) ;
 				
+	}
+	
+	@PreAuthorize("isAuthenticated()")  
+	@ResponseBody
+	@PutMapping(value = "/updateAlarmCheck/{alarmNum}",produces = "text/plain; charset=UTF-8")
+	public ResponseEntity<String> updateAlarmCheck(@PathVariable("alarmNum") String alarmNum) {
+
+		log.info("updateAlarmCheck: " + alarmNum);
+		
+		if(commonService.updateAlarmCheck(alarmNum) == 1) {//알림 체크값을 바꿨다면
+			return new ResponseEntity<>("success", HttpStatus.OK) ;
+		} 
+			return new ResponseEntity<>("fail", HttpStatus.OK) ;
 	}
 }

@@ -20,4 +20,6 @@ public interface CommonService {
 
 	public String getAlarmRealCount(String userId);
 
+	public int updateAlarmCheck(String alarmNum);
+
 }

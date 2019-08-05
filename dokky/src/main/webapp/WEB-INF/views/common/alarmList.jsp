@@ -96,73 +96,101 @@
                     </td>
                     <c:choose>
 					       <c:when test="${alarm.kind == 0 }">
-					          		<td>  
-					          			     <a href="userBoardList?userId=${alarm.writerId}">${alarm.writerNick}</a>
-					          			 님께서 <a href="board/get?num=${alarm.commonVar2}">${alarm.commonVar1}</a>
-					          			 글에 댓글을 다셨습니다. 
+					      			 <td>  
+						          		<a href="userBoardList?userId=${alarm.writerId}">${alarm.writerNick}</a>
+						          		님께서 
+					          		</td>
+					          		<td data-alarm_num="${alarm.alarmNum}" data-board_num="${alarm.commonVar2}" class="getBoard">
+						          		${alarm.commonVar1} 글에 댓글을 다셨습니다. 
+						          	</td>
+					          		 <td class="checkAlarm${alarm.alarmNum}"> 
 						          		 <c:if test="${alarm.checking == 'NO'}">
 												1					          		 	
-						          		 </c:if>
+						          		 </c:if> 
 					          		 </td>
 					       </c:when>
 					      <c:when test="${alarm.kind == 1 }">
-					          		<td> 
-					          			 <a href="userBoardList?userId=${alarm.writerId}">${alarm.writerNick}</a>
-					          		님께서 <a href="board/get?num=${alarm.commonVar2}">${alarm.commonVar1}</a>
-					          		글에 좋아요 표시를 했습니다. 
+					     			 <td>  
+						          		<a href="userBoardList?userId=${alarm.writerId}">${alarm.writerNick}</a>
+						          		님께서 
+					          		</td>
+					          		<td data-alarm_num="${alarm.alarmNum}" data-board_num="${alarm.commonVar2}" class="getBoard">
+						          		${alarm.commonVar1} 글에 좋아요 표시를 했습니다. 
+						          	</td>
+					          		 <td class="checkAlarm${alarm.alarmNum}"> 
 						          		 <c:if test="${alarm.checking == 'NO'}">
 												1					          		 	
-						          		 </c:if>
+						          		 </c:if> 
 					          		 </td>
 					       </c:when> 
 					        <c:when test="${alarm.kind == 2 }">
-					          		<td>  
-					          			 <a href="userBoardList?userId=${alarm.writerId}">${alarm.writerNick}</a>
-					          		님께서 <a href="board/get?num=${alarm.commonVar2}">${alarm.commonVar1}</a>
-					          		글에 싫어요 표시를 했습니다.  
+					      			 <td>  
+						          		<a href="userBoardList?userId=${alarm.writerId}">${alarm.writerNick}</a>
+						          		님께서 
+					          		</td>
+					          		<td data-alarm_num="${alarm.alarmNum}" data-board_num="${alarm.commonVar2}" class="getBoard">
+						          		${alarm.commonVar1}글에 싫어요 표시를 했습니다.  
+						          	</td>
+					          		  <td class="checkAlarm${alarm.alarmNum}"> 
 						          		 <c:if test="${alarm.checking == 'NO'}">
 												1					          		 	
-						          		 </c:if>
+						          		 </c:if> 
 					          		 </td>
 					       </c:when> 
 					        <c:when test="${alarm.kind == 3 }">
-					          		<td>  
-					          			 <a href="userBoardList?userId=${alarm.writerId}">${alarm.writerNick}</a>
-					          		님께서 <a href="board/get?num=${alarm.commonVar2}">${alarm.commonVar1}</a>
-					          		글에 기부하셨습니다.  
+					        		 <td>  
+						          		<a href="userBoardList?userId=${alarm.writerId}">${alarm.writerNick}</a>
+						          		님께서 
+					          		</td>
+					          		<td data-alarm_num="${alarm.alarmNum}" data-board_num="${alarm.commonVar2}" class="getBoard">
+						          		${alarm.commonVar1}글에 기부하셨습니다.  
+						          	</td>
+					          		  <td class="checkAlarm${alarm.alarmNum}"> 
 						          		 <c:if test="${alarm.checking == 'NO'}">
 												1					          		 	
-						          		 </c:if>
+						          		 </c:if> 
 					          		 </td>
 					       </c:when> 
 					       <c:when test="${alarm.kind == 4 }">
-					          		<td>  
-					          			 <a href="userBoardList?userId=${alarm.writerId}">${alarm.writerNick}</a>
-					          		님께서 <a href="board/get?num=${alarm.commonVar2}">${alarm.commonVar1}</a>
-					          		댓글에 기부하셨습니다.  
+					 			      <td>  
+						          		<a href="userBoardList?userId=${alarm.writerId}">${alarm.writerNick}</a>
+						          		님께서 
+					          		</td>
+					          		<td data-alarm_num="${alarm.alarmNum}" data-board_num="${alarm.commonVar2}" class="getBoard">
+						          		${alarm.commonVar1}댓글에 기부하셨습니다.  
+						          	</td>
+					          		 <td class="checkAlarm${alarm.alarmNum}"> 
 						          		 <c:if test="${alarm.checking == 'NO'}">
 												1					          		 	
-						          		 </c:if>
+						          		 </c:if> 
 					          		 </td>
 					       </c:when>
 					       <c:when test="${alarm.kind == 5 }">
-					          		<td>  
-					          			 <a href="userBoardList?userId=${alarm.writerId}">${alarm.writerNick}</a>
-					          		님께서 <a href="board/get?num=${alarm.commonVar2}">${alarm.commonVar1}</a>
-					          		댓글에 좋아요 표시를 했습니다. 
+					      		  	<td>  
+						          		<a href="userBoardList?userId=${alarm.writerId}">${alarm.writerNick}</a>
+						          		님께서 
+					          		</td>
+					          		<td data-alarm_num="${alarm.alarmNum}" data-board_num="${alarm.commonVar2}" class="getBoard">
+						          		${alarm.commonVar1}댓글에 좋아요 표시를 했습니다. 
+						          	</td>
+					          		 <td class="checkAlarm${alarm.alarmNum}"> 
 						          		 <c:if test="${alarm.checking == 'NO'}">
 												1					          		 	
-						          		 </c:if>
+						          		 </c:if> 
 					          		 </td>
 					       </c:when>
 					       <c:when test="${alarm.kind == 6 }">
-					          		<td>  
-					          			 <a href="userBoardList?userId=${alarm.writerId}">${alarm.writerNick}</a>
-					          		님께서 <a href="board/get?num=${alarm.commonVar2}">${alarm.commonVar1}</a>
-					          		댓글에 싫어요 표시를 했습니다. 
+					   				  <td>  
+						          		<a href="userBoardList?userId=${alarm.writerId}">${alarm.writerNick}</a>
+						          		님께서 
+					          		</td>
+					          		<td data-alarm_num="${alarm.alarmNum}" data-board_num="${alarm.commonVar2}" class="getBoard">
+						          		${alarm.commonVar1} 댓글에 싫어요 표시를 했습니다. 
+						          	</td> 
+					          		 <td class="checkAlarm${alarm.alarmNum}"> 
 						          		 <c:if test="${alarm.checking == 'NO'}">
 												1					          		 	
-						          		 </c:if>
+						          		 </c:if> 
 					          		 </td>
 					       </c:when>
 					       <c:when test="${alarm.kind == 7 }">
@@ -170,9 +198,11 @@
 					          			 <a href="mypage/myCashHistory?userId=${userInfo.username}">
 					          			 	캐시충전이 완료되었습니다.
 					          			 </a>
+						          	</td>
+					          		   <td class="checkAlarm${alarm.alarmNum}"> 
 						          		 <c:if test="${alarm.checking == 'NO'}">
 												1					          		 	
-						          		 </c:if>
+						          		 </c:if> 
 					          		 </td>
 					       </c:when>
 					       <c:when test="${alarm.kind == 8 }">
@@ -180,10 +210,12 @@
 			          			 	 <a href="mypage/myCashHistory?userId=${userInfo.username}">
 			          			 		캐시환전이 완료되었습니다.
 				          			 </a>
-					          		 <c:if test="${alarm.checking == 'NO'}">
-											1					          		 	
-					          		 </c:if>
-			          			 </td>
+					          		</td>
+					          		 <td class="checkAlarm${alarm.alarmNum}"> 
+						          		 <c:if test="${alarm.checking == 'NO'}">
+												1					          		 	
+						          		 </c:if>
+					          		 </td>
 					       </c:when>
 			       </c:choose> 
 						<td>
@@ -224,13 +256,40 @@
 		<input type='hidden' name='amount' value='${pageMaker.cri.amount}'>
 		<input type='hidden' name='userId' value='${pageMaker.cri.userId}'>
 	</form> 
+	
+	<form id='boardForm' action="/dokky/board/get" method='get'>  
+	</form> 
+	
 		</div>
 	</div>
 </div> 
 	
 <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script> 
 <script> 
-	   
+		var csrfHeaderName ="${_csrf.headerName}"; 
+		var csrfTokenValue="${_csrf.token}";
+		
+		$(document).ajaxSend(function(e, xhr, options) { 
+		    xhr.setRequestHeader(csrfHeaderName, csrfTokenValue); //모든 AJAX전송시 CSRF토큰을 같이 전송하도록 셋팅
+		  });
+  
+		function updateAlarmCheck(alarmNum, callback, error) {
+			$.ajax({
+				type : 'put',
+				url : '/dokky/updateAlarmCheck/'+ alarmNum,
+				success : function(result, status, xhr) {
+					if (callback) {
+						callback(result,xhr);
+					}
+				},
+				error : function(xhr, status, er) {
+					if (error) {
+						error(xhr,er);
+					}
+				}
+			});
+		}
+
 	var actionForm = $("#actionForm");
 
 		$(".paginate_button a").on("click", function(e) {//결국pageNum값만 바꿔주기 위해
@@ -255,6 +314,24 @@
 		$("#deleteBtn").on("click", function() { 
 			deleteAction(); 
 		}); 
+		
+		var boardForm = $("#boardForm");
+		
+		$(".getBoard").on("click",function(e) {//글 상세보기+알람 읽기 체크
+					var num = $(this).data("board_num");  
+					var alarmNum = $(this).data("alarm_num");  
+					
+					updateAlarmCheck(alarmNum, function(result){//알람 읽기 체크
+						var checkAlarm = $("#checkAlarm+"+alarmNum);
+							if(result == "success"){
+								
+								checkAlarm.html("");//알림 숫자 1 없애주기
+								
+								boardForm.append("<input type='hidden' name='num' value='"+num+"'/>");
+								boardForm.submit();//글 상세보기 
+								}
+				   	  });
+				});
 		
 	/* 체크박스 전체선택, 전체해제 */
 	function checkAll(){

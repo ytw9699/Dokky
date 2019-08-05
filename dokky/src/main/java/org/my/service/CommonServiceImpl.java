@@ -68,4 +68,13 @@ public class CommonServiceImpl implements CommonService {
 		 
 		return mapper.insertAlarm(vo) ;
 	}
+	
+	@Override
+	public int updateAlarmCheck(String alarmNum){
+		log.info("updateAlarmCheck");
+		
+		return mapper.updateAlarmCheck(alarmNum);
+	}
+	
+	
 }
