@@ -25,6 +25,10 @@
 	insert into DK_BOARD(CATEGORY, NUM, TITLE, NICKNAME, CONTENT)
 	values (1, seq_dk_board.nextval, '제목1','닉네임1','콘텐트1');
 	
+	--디폴트값 입력 필요 캐시 충전
+	insert into DK_BOARD(CATEGORY, NUM, TITLE, NICKNAME, CONTENT,userId)
+	values (0, 0, '디폴트','디폴트','디폴트','admin');
+	
 	2.---------------------------------------------------------------------------------------
 	
 	insert into DK_REPLY(reply_num, num, reply_content, nickName,userId)
@@ -61,6 +65,10 @@
 	select /* INDEX(dk_reply idx_reply) */
 	rownum rn,num,reply_num,reply_content,nickname from dk_reply where num =221 and reply_num > 0
 	
+	--디폴트값입력해줘야 캐시충전됨
+	insert into dk_reply(reply_num,num,reply_content,nickName,userId,parent_num,order_step,reply_level)
+	 values (0,0, '디폴트', '디폴트','admin',0,0,0)
+ 
 	insert into dk_reply(reply_num,num,reply_content,nickName) values (seq_dk_reply.nextval,221, 'test', 'test')
 	
 	3.---------------------------------------------------------------------------------------
