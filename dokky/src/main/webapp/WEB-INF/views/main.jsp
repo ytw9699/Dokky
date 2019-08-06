@@ -50,7 +50,9 @@
 							<c:out value="${board.title}" /></a></td> 
 						<td>댓글수[<c:out value="${board.replyCnt}" />]</td>
 						<td>조회수<c:out value="${board.hitCnt}" /></td>
-						<td><a href="/dokky/userBoardList?userId=${board.userId}"><c:out value="${board.nickName}" /></a> </td>
+						<td><a href="/dokky/userBoardList?userId=${board.userId}">
+						 <img width="30px" src="/dokky/resources/img/profile_img/<c:out value="${board.userId}" />" class="memberImage" onerror="this.src='/dokky/resources/img/basicProfile.png'" />
+						<c:out value="${board.nickName}" /></a> </td>
 						<td><c:out value="${board.money}" />기부</td>
 						<td>
 							<fmt:formatDate value="${board.regDate}" pattern="yyyy년 MM월 dd일 HH:mm" />
@@ -69,7 +71,9 @@
 							<c:out value="${board.title}" /></a></td> 
 						<td>댓글수[<c:out value="${board.replyCnt}" />]</td>
 						<td>조회수<c:out value="${board.hitCnt}" /></td>
-						<td><a href="/dokky/userBoardList?userId=${board.userId}"><c:out value="${board.nickName}" /></a> </td>
+						<td><a href="/dokky/userBoardList?userId=${board.userId}">
+						<img width="30px" src="/dokky/resources/img/profile_img/<c:out value="${board.userId}" />" class="memberImage" onerror="this.src='/dokky/resources/img/basicProfile.png'" />
+						<c:out value="${board.nickName}" /></a> </td>
 						<td><c:out value="${board.money}" />기부</td>
 						<td>
 							<fmt:formatDate value="${board.regDate}" pattern="yyyy년 MM월 dd일 HH:mm" />
@@ -88,7 +92,9 @@
 							<c:out value="${board.title}" /></a></td> 
 						<td>댓글수[<c:out value="${board.replyCnt}" />]</td>
 						<td>조회수<c:out value="${board.hitCnt}" /></td> 
-						<td><a href="/dokky/userBoardList?userId=${board.userId}"><c:out value="${board.nickName}" /></a> </td>
+						<td><a href="/dokky/userBoardList?userId=${board.userId}">
+						<img width="30px" src="/dokky/resources/img/profile_img/<c:out value="${board.userId}" />" class="memberImage" onerror="this.src='/dokky/resources/img/basicProfile.png'" />
+						<c:out value="${board.nickName}" /></a> </td>
 						<td><c:out value="${board.money}" />기부</td>
 						<td>
 							<fmt:formatDate value="${board.regDate}" pattern="yyyy년 MM월 dd일 HH:mm" />

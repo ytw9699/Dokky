@@ -97,7 +97,10 @@
                     <c:choose>
 					       <c:when test="${alarm.kind == 0 }">
 					      			 <td>  
-						          		<a href="userBoardList?userId=${alarm.writerId}">${alarm.writerNick}</a>
+						          		<a href="userBoardList?userId=${alarm.writerId}">
+						          	<img width="30" src="/dokky/resources/img/profile_img/<c:out value="${alarm.writerId}" />" class="memberImage" onerror="this.src='/dokky/resources/img/basicProfile.png'" />
+						          		${alarm.writerNick}
+						          		</a>
 						          		님께서 
 					          		</td>
 					          		<td data-alarm_num="${alarm.alarmNum}" data-board_num="${alarm.commonVar2}" class="getBoard">
@@ -111,7 +114,10 @@
 					       </c:when>
 					      <c:when test="${alarm.kind == 1 }">
 					     			 <td>  
-						          		<a href="userBoardList?userId=${alarm.writerId}">${alarm.writerNick}</a>
+						          		<a href="userBoardList?userId=${alarm.writerId}">
+						          	<img width="30" src="/dokky/resources/img/profile_img/<c:out value="${alarm.writerId}" />" class="memberImage" onerror="this.src='/dokky/resources/img/basicProfile.png'" />
+						          		${alarm.writerNick}
+						          		</a>
 						          		님께서 
 					          		</td>
 					          		<td data-alarm_num="${alarm.alarmNum}" data-board_num="${alarm.commonVar2}" class="getBoard">
@@ -124,9 +130,11 @@
 					          		 </td>
 					       </c:when> 
 					        <c:when test="${alarm.kind == 2 }">
-					      			 <td>  
-						          		<a href="userBoardList?userId=${alarm.writerId}">${alarm.writerNick}</a>
-						          		님께서 
+					      			<td>  
+						          		<a href="userBoardList?userId=${alarm.writerId}">
+						          	<img width="30" src="/dokky/resources/img/profile_img/<c:out value="${alarm.writerId}" />" class="memberImage" onerror="this.src='/dokky/resources/img/basicProfile.png'" />
+						          		${alarm.writerNick}
+						          		</a>
 					          		</td>
 					          		<td data-alarm_num="${alarm.alarmNum}" data-board_num="${alarm.commonVar2}" class="getBoard">
 						          		${alarm.commonVar1}글에 싫어요 표시를 했습니다.  
@@ -139,8 +147,10 @@
 					       </c:when> 
 					        <c:when test="${alarm.kind == 3 }">
 					        		 <td>  
-						          		<a href="userBoardList?userId=${alarm.writerId}">${alarm.writerNick}</a>
-						          		님께서 
+						          		<a href="userBoardList?userId=${alarm.writerId}">
+						          	<img width="30" src="/dokky/resources/img/profile_img/<c:out value="${alarm.writerId}" />" class="memberImage" onerror="this.src='/dokky/resources/img/basicProfile.png'" />
+						          		${alarm.writerNick}
+						          		</a>
 					          		</td>
 					          		<td data-alarm_num="${alarm.alarmNum}" data-board_num="${alarm.commonVar2}" class="getBoard">
 						          		${alarm.commonVar1}글에 기부하셨습니다.  
@@ -152,9 +162,11 @@
 					          		 </td>
 					       </c:when> 
 					       <c:when test="${alarm.kind == 4 }">
-					 			      <td>  
-						          		<a href="userBoardList?userId=${alarm.writerId}">${alarm.writerNick}</a>
-						          		님께서 
+					 			     <td>  
+						          		<a href="userBoardList?userId=${alarm.writerId}">
+						          	<img width="30" src="/dokky/resources/img/profile_img/<c:out value="${alarm.writerId}" />" class="memberImage" onerror="this.src='/dokky/resources/img/basicProfile.png'" />
+						          		${alarm.writerNick}
+						          		</a>
 					          		</td>
 					          		<td data-alarm_num="${alarm.alarmNum}" data-board_num="${alarm.commonVar2}" class="getBoard">
 						          		${alarm.commonVar1}댓글에 기부하셨습니다.  
@@ -167,8 +179,10 @@
 					       </c:when>
 					       <c:when test="${alarm.kind == 5 }">
 					      		  	<td>  
-						          		<a href="userBoardList?userId=${alarm.writerId}">${alarm.writerNick}</a>
-						          		님께서 
+						          		<a href="userBoardList?userId=${alarm.writerId}">
+						          	<img width="30" src="/dokky/resources/img/profile_img/<c:out value="${alarm.writerId}" />" class="memberImage" onerror="this.src='/dokky/resources/img/basicProfile.png'" />
+						          		${alarm.writerNick}
+						          		</a>
 					          		</td>
 					          		<td data-alarm_num="${alarm.alarmNum}" data-board_num="${alarm.commonVar2}" class="getBoard">
 						          		${alarm.commonVar1}댓글에 좋아요 표시를 했습니다. 
@@ -180,9 +194,11 @@
 					          		 </td>
 					       </c:when>
 					       <c:when test="${alarm.kind == 6 }">
-					   				  <td>  
-						          		<a href="userBoardList?userId=${alarm.writerId}">${alarm.writerNick}</a>
-						          		님께서 
+					   				 <td>  
+						          		<a href="userBoardList?userId=${alarm.writerId}">
+						          	<img width="30" src="/dokky/resources/img/profile_img/<c:out value="${alarm.writerId}" />" class="memberImage" onerror="this.src='/dokky/resources/img/basicProfile.png'" />
+						          		${alarm.writerNick}
+						          		</a>
 					          		</td>
 					          		<td data-alarm_num="${alarm.alarmNum}" data-board_num="${alarm.commonVar2}" class="getBoard">
 						          		${alarm.commonVar1} 댓글에 싫어요 표시를 했습니다. 
@@ -203,7 +219,7 @@
 												1					          		 	
 						          		 </c:if> 
 					          		 </td>
-					       </c:when> 
+					       </c:when>
 					       <c:when test="${alarm.kind == 8 }">
 					   			    <td>관리자에 의해</td> 
 					       			<td data-alarm_num="${alarm.alarmNum}" class="getMyCashHistory">

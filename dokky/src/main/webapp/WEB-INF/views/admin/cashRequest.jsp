@@ -88,7 +88,9 @@
 		</tr>
 			<c:forEach items="${cashRequest}" var="cash">
 		<tr>  
-			<td onclick="location.href='userForm?userId=<c:out value="${cash.userId}" />'"><c:out value="${cash.userId}" /></td> 
+			<td onclick="location.href='userForm?userId=<c:out value="${cash.userId}" />'">
+			 <img width="30px" src="/dokky/resources/img/profile_img/<c:out value="${cash.userId}" />" class="memberImage" onerror="this.src='/dokky/resources/img/basicProfile.png'" />
+			<c:out value="${cash.userId}" /></td> 
 			<td><c:out value="${cash.cashKind}" /></td> 
 			<td> 
 				<fmt:formatDate value="${cash.regDate}" pattern="yyyy년 MM월 dd일 HH:mm" />

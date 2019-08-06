@@ -90,8 +90,12 @@
 						<c:forEach items="${reportList}" var="report">
 					<tr>  
 						<td><c:out value="${report.reportKind}" /></td>  
-						<td onclick="location.href='userForm?userId=<c:out value="${report.reportingId}" />'" ><c:out value="${report.reportingNick}" />(<c:out value="${report.reportingId}" />)</td> 
-						<td onclick="location.href='userForm?userId=<c:out value="${report.reportedId}" />'" ><c:out value="${report.reportedNick}"  />(<c:out value="${report.reportedId}" />)</td> 
+						<td onclick="location.href='userForm?userId=<c:out value="${report.reportingId}" />'" >
+						 <img width="30px" src="/dokky/resources/img/profile_img/<c:out value="${report.reportingId}" />" class="memberImage" onerror="this.src='/dokky/resources/img/basicProfile.png'" />
+						<c:out value="${report.reportingNick}" />(<c:out value="${report.reportingId}" />)</td> 
+						<td onclick="location.href='userForm?userId=<c:out value="${report.reportedId}" />'" >
+						<img width="30px" src="/dokky/resources/img/profile_img/<c:out value="${report.reportingId}" />" class="memberImage" onerror="this.src='/dokky/resources/img/basicProfile.png'" />
+						<c:out value="${report.reportedNick}"  />(<c:out value="${report.reportedId}" />)</td> 
 						<td onclick="location.href='/dokky/board/get?num=<c:out value="${report.board_num}" />'" ><c:out value="${report.reason}" /></td> 
 						 <td> 
 							<fmt:formatDate value="${report.regDate}" pattern="yyyy년 MM월 dd일 HH:mm" />

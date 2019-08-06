@@ -32,6 +32,7 @@
     color: white;
     text-decoration:none;
 }
+
 </style>
 </head>
 <body>
@@ -53,10 +54,12 @@
 		<div class="mypage">Today : ${sessionScope.todayCount} / Total : ${sessionScope.totalCount}</div>
 		<div class="mypage">  
 			<sec:authorize access="isAuthenticated()">
-				<form id="logoutForm" method='post' action="/dokky/customLogout">
-				  	  <a href="/dokky/mypage/myInfoForm?userId=${userInfo.username}"><c:out value="${userInfo.member.nickName}"/></a>
-				    <input id="logoutBtn" type="submit" value="Logout">  
-				</form>
+					<form id="logoutForm" method='post' action="/dokky/customLogout">
+					  	  <a href="/dokky/mypage/myInfoForm?userId=${userInfo.username}">
+					  	  <img width="30px" src="/dokky/resources/img/profile_img/<c:out value="${userInfo.username}" />" class="memberImage" onerror="this.src='/dokky/resources/img/basicProfile.png'" />
+					  	  <c:out value="${userInfo.member.nickName}"/></a>
+					    <input id="logoutBtn" type="submit" value="Logout">  
+					</form>  
 			</sec:authorize>
 			<sec:authorize access="isAnonymous()"> 
 				<a href="/dokky/customLogin">로그인</a>  

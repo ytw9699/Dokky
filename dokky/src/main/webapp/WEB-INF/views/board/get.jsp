@@ -216,7 +216,9 @@
           <label>수정됨</label>-<fmt:formatDate value="${board.updateDate}" pattern="yyyy년 MM월 dd일 HH:mm" />
         </div>						 
 		<div class="form-group"> 
-          <label>닉네임</label><a href="/dokky/userBoardList?userId=${board.userId}">-<c:out value="${board.nickName }"/></a>  
+          <label>닉네임</label><a href="/dokky/userBoardList?userId=${board.userId}">	
+          <img width="30" src="/dokky/resources/img/profile_img/<c:out value="${userInfo.username}" />" class="memberImage" onerror="this.src='/dokky/resources/img/basicProfile.png'" />
+		<c:out value="${board.nickName }"/></a>  
         </div>
          <div class="form-group">
           <label>번호</label>-<c:out value="${board.num }"/>
@@ -427,29 +429,29 @@
 	       
 	       if(reply_level == 0 ){
 	    	  str +=" " + "<div class='reply' data-reply_num='"+reply_nums+"'>"; 
-	    	  str +=" " + "<a href='/dokky/userBoardList?userId="+userId+"'>-"+nickName+"</a>"+replyService.displayTime(data.list[i].replyDate)
+	    	  str +=" " + "<a href='/dokky/userBoardList?userId="+userId+"'><img width='30' src='/dokky/resources/img/profile_img/d>' class='memberImage' onerror='this.src=\"/dokky/resources/img/basicProfile.png\"' />-"+nickName+"</a>"+replyService.displayTime(data.list[i].replyDate) 
 	    	  +" <button data-oper='reReplyForm' type='button' data-user_id='"+userId+"' data-nick_name='"+nickName+"' data-parent_num='"+ data.list[i].parent_num+"' data-order_step='"+data.list[i].order_step+"' data-reply_level='"+data.list[i].reply_level+"'>답글</button>"		  
 	    	  +"<div>";
 	       }else if(reply_level == 1){   
 	    	  str +=" " + "<div class='reply first' data-reply_num='"+reply_nums+"'>└ ";  
-	    	  str +=" " + "From<a href='/dokky/userBoardList?userId="+userId+"'>-"+nickName+"</a>To-<a href='/dokky/userBoardList?userId="+toUserId+"'>-"+toNickName+"</a> "+replyService.displayTime(data.list[i].replyDate);
+	    	  str +=" " + "From <a href='/dokky/userBoardList?userId="+userId+"'><img width='30' src='/dokky/resources/img/profile_img/d>' class='memberImage' onerror='this.src=\"/dokky/resources/img/basicProfile.png\"' />-"+nickName+"</a>To-<a href='/dokky/userBoardList?userId="+toUserId+"'><img width='30' src='/dokky/resources/img/profile_img/d>' class='memberImage' onerror='this.src=\"/dokky/resources/img/basicProfile.png\"' />-"+toNickName+"</a> "+replyService.displayTime(data.list[i].replyDate);
 	    	  str +=" <button data-oper='reReplyForm' type='button' data-user_id='"+userId+"' data-nick_name='"+nickName+"' data-parent_num='"+ data.list[i].parent_num+"' data-order_step='"+data.list[i].order_step+"' data-reply_level='"+data.list[i].reply_level+"'>답글</button>"  
 	    	  str +="<div>"; 
 	       }else if(reply_level == 2){
 	    	  str +=" " + "<div class='reply second' data-reply_num='"+reply_nums+"'>└ ";
-	    	  str +=" " + "From<a href='/dokky/userBoardList?userId="+userId+"'>-"+nickName+"</a>To-<a href='/dokky/userBoardList?userId="+toUserId+"'>-"+toNickName+"</a> "+replyService.displayTime(data.list[i].replyDate);
+	    	  str +=" " + "From <a href='/dokky/userBoardList?userId="+userId+"'><img width='30' src='/dokky/resources/img/profile_img/d>' class='memberImage' onerror='this.src=\"/dokky/resources/img/basicProfile.png\"' />-"+nickName+"</a>To-<a href='/dokky/userBoardList?userId="+toUserId+"'><img width='30' src='/dokky/resources/img/profile_img/d>' class='memberImage' onerror='this.src=\"/dokky/resources/img/basicProfile.png\"' />-"+toNickName+"</a> "+replyService.displayTime(data.list[i].replyDate);
 	    	  str +=" <button data-oper='reReplyForm' type='button' data-user_id='"+userId+"' data-nick_name='"+nickName+"' data-parent_num='"+ data.list[i].parent_num+"' data-order_step='"+data.list[i].order_step+"' data-reply_level='"+data.list[i].reply_level+"'>답글</button>"  
 	    	  str +="<div>";
 	       }else if(reply_level == 3){
 	    	  str +=" " + "<div class='reply third' data-reply_num='"+reply_nums+"'>└ ";
-	    	  str +=" " + "From<a href='/dokky/userBoardList?userId="+userId+"'>-"+nickName+"</a>To-<a href='/dokky/userBoardList?userId="+toUserId+"'>-"+toNickName+"</a> "+replyService.displayTime(data.list[i].replyDate);
-	    	  str +=" <button data-oper='reReplyForm' type='button' data-user_id='"+userId+"' data-nick_name='"+nickName+"' data-parent_num='"+ data.list[i].parent_num+"' data-order_step='"+data.list[i].order_step+"' data-reply_level='"+data.list[i].reply_level+"'>답글</button>"  
-	    	  str +="<div>"; 
-	       }else{  
-	    	  str +=" " + "<div class='reply other' data-reply_num='"+reply_nums+"'>└ " ; 
-	    	  str +=" " + "From<a href='/dokky/userBoardList?userId="+userId+"'>-"+nickName+"</a>To-<a href='/dokky/userBoardList?userId="+toUserId+"'>-"+toNickName+"</a> "+replyService.displayTime(data.list[i].replyDate);
+	    	  str +=" " + "From <a href='/dokky/userBoardList?userId="+userId+"'><img width='30' src='/dokky/resources/img/profile_img/d>' class='memberImage' onerror='this.src=\"/dokky/resources/img/basicProfile.png\"' />-"+nickName+"</a>To-<a href='/dokky/userBoardList?userId="+toUserId+"'><img width='30' src='/dokky/resources/img/profile_img/d>' class='memberImage' onerror='this.src=\"/dokky/resources/img/basicProfile.png\"' />-"+toNickName+"</a> "+replyService.displayTime(data.list[i].replyDate);
 	    	  str +=" <button data-oper='reReplyForm' type='button' data-user_id='"+userId+"' data-nick_name='"+nickName+"' data-parent_num='"+ data.list[i].parent_num+"' data-order_step='"+data.list[i].order_step+"' data-reply_level='"+data.list[i].reply_level+"'>답글</button>"  
 	    	  str +="<div>";
+	       }else{  
+	    	  str +=" " + "<div class='reply other' data-reply_num='"+reply_nums+"'>└ " ; 
+	    	  str +=" " + "From <a href='/dokky/userBoardList?userId="+userId+"'><img width='30' src='/dokky/resources/img/profile_img/d>' class='memberImage' onerror='this.src=\"/dokky/resources/img/basicProfile.png\"' />-"+nickName+"</a>To-<a href='/dokky/userBoardList?userId="+toUserId+"'><img width='30' src='/dokky/resources/img/profile_img/d>' class='memberImage' onerror='this.src=\"/dokky/resources/img/basicProfile.png\"' />-"+toNickName+"</a> "+replyService.displayTime(data.list[i].replyDate);
+	    	  str +=" <button data-oper='reReplyForm' type='button' data-user_id='"+userId+"' data-nick_name='"+nickName+"' data-parent_num='"+ data.list[i].parent_num+"' data-order_step='"+data.list[i].order_step+"' data-reply_level='"+data.list[i].reply_level+"'>답글</button>"  
+	    	  str +="<div>"; 
 	       }
 	         
 	       str +=" " + data.list[i].reply_content

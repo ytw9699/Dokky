@@ -9,6 +9,7 @@ public class scrapVO {
 	  private int category;
 	  private Long num;
 	  private String userId;
+	  private String nickName; 
 	  private String title;
 	  private Date regDate;
 	  private int replyCnt;

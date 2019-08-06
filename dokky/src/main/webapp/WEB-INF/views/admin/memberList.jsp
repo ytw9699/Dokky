@@ -101,11 +101,11 @@
 	    width: 100%;
 	    margin: 0 auto;
 	}
-	.memberImage {
+	/* .memberImage {
 	    width: 100%;
 	    border-radius: 70px;
 	    height: 60px; 
-	}
+	} */ 
 	
 	span.userId {
     color: #868686;

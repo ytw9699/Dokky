@@ -111,6 +111,7 @@
 		   select 	 
 	 			  num,
 		   		  userId,
+		   		  nickName,
 		   		  regdate,
 		   		  scrap_num,
 		   		  title,
@@ -122,6 +123,7 @@
 			   	  ROW_NUMBER() OVER(ORDER BY scrap.scrap_num desc) AS rn,
 				  BOARD.num,
 				  BOARD.userId,
+				  BOARD.nickName,
 				  scrap.regdate,
 				  scrap.scrap_num,
 				  title,

@@ -95,7 +95,7 @@
 		<div class="">
 			<table class=""> 
 					<tr>
-					<td></td><td>제목</td><td>댓글수</td><td>조회수</td><td>스크랩날짜</td> 
+					<td></td><td>제목</td><td>댓글수</td><td>조회수</td><td>닉네임</td><td>스크랩날짜</td> 
 					</tr>
 				<c:forEach items="${myScraplist}" var="scrap"> 
 					<tr>
@@ -106,6 +106,9 @@
 							<c:out value="${scrap.title}" /></a></td>  
 						<td>댓글수[<c:out value="${scrap.replyCnt}" />]</td>
 						<td>조회수<c:out value="${scrap.hitCnt}" /></td>
+						<td onclick="location.href='/dokky/userBoardList?userId=<c:out value="${scrap.userId}" />'" >
+						 <img width="30px" src="/dokky/resources/img/profile_img/<c:out value="${scrap.userId}" />" class="memberImage" onerror="this.src='/dokky/resources/img/basicProfile.png'" />
+						<c:out value="${scrap.nickName}" /></td>   
 						<td>
 							<fmt:formatDate value="${scrap.regDate}" pattern="yyyy년 MM월 dd일 HH:mm" />
 						</td>

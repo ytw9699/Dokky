@@ -78,6 +78,15 @@
 	    border-radius: 8px;
 	    width: 7%;
     }
+    .memberProfile {
+	    display: inline-block;
+	    float: left; 
+	    /* width: 60px;
+	    margin: 20px;
+	    border: 1px solid black;
+	    border-radius: 70px; */
+	}
+	
 	
 </style>  
 </head>
@@ -95,6 +104,9 @@
 		        <button onclick="location.href='myCashInfo?userId=${userInfo.username}'">캐시</button>  
 		    </div> 
 		</div>
+		<div class="memberProfile">
+			<img src="/dokky/resources/img/profile_img/<c:out value="${userInfo.username}" />" class="memberImage" onerror="this.src='/dokky/resources/img/basicProfile.png'" />
+		</div>	
 		<div id="infomation" class="tabcontent">
 	       <form method='post' action="/dokky/mypage/myInfo" id="operForm">	
 	     	  <input type="hidden" name="${_csrf.parameterName}" value="${_csrf.token}" />
