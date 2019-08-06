@@ -194,27 +194,25 @@
 					          		 </td>
 					       </c:when>
 					       <c:when test="${alarm.kind == 7 }">
-					          		<td>  
-					          			 <a href="mypage/myCashHistory?userId=${userInfo.username}">
-					          			 	캐시충전이 완료되었습니다.
-					          			 </a>
-						          	</td>
+					       			<td>관리자에 의해</td> 
+					       			<td data-alarm_num="${alarm.alarmNum}" class="getMyCashHistory">
+						          		캐시충전이 완료되었습니다.
+						          	</td> 
 					          		   <td class="checkAlarm${alarm.alarmNum}"> 
 						          		 <c:if test="${alarm.checking == 'NO'}">
 												1					          		 	
 						          		 </c:if> 
 					          		 </td>
-					       </c:when>
+					       </c:when> 
 					       <c:when test="${alarm.kind == 8 }">
-			          			<td>  
-			          			 	 <a href="mypage/myCashHistory?userId=${userInfo.username}">
-			          			 		캐시환전이 완료되었습니다.
-				          			 </a>
-					          		</td>
-					          		 <td class="checkAlarm${alarm.alarmNum}"> 
+					   			    <td>관리자에 의해</td> 
+					       			<td data-alarm_num="${alarm.alarmNum}" class="getMyCashHistory">
+						          		캐시환전이 완료되었습니다.
+						          	</td> 
+					          		   <td class="checkAlarm${alarm.alarmNum}"> 
 						          		 <c:if test="${alarm.checking == 'NO'}">
 												1					          		 	
-						          		 </c:if>
+						          		 </c:if> 
 					          		 </td>
 					       </c:when>
 			       </c:choose> 
@@ -257,8 +255,8 @@
 		<input type='hidden' name='userId' value='${pageMaker.cri.userId}'>
 	</form> 
 	
-	<form id='boardForm' action="/dokky/board/get" method='get'>  
-	</form> 
+	<form id='commonForm' action="/dokky/board/get" method='get'>  
+	</form>
 	
 		</div>
 	</div>
@@ -315,7 +313,7 @@
 			deleteAction(); 
 		}); 
 		
-		var boardForm = $("#boardForm");
+		var commonForm = $("#commonForm");
 		
 		$(".getBoard").on("click",function(e) {//글 상세보기+알람 읽기 체크
 					var num = $(this).data("board_num");  
@@ -327,11 +325,27 @@
 								
 								checkAlarm.html("");//알림 숫자 1 없애주기
 								
-								boardForm.append("<input type='hidden' name='num' value='"+num+"'/>");
-								boardForm.submit();//글 상세보기 
+								commonForm.append("<input type='hidden' name='num' value='"+num+"'/>");
+								commonForm.submit();//글 상세보기 
 								}
 				   	  });
 				});
+		
+		$(".getMyCashHistory").on("click",function(e) {//알람 읽기 체크+캐시 히스토리 가져오기
+			var alarmNum = $(this).data("alarm_num");  
+			
+			updateAlarmCheck(alarmNum, function(result){//알람 읽기 체크
+				var checkAlarm = $("#checkAlarm+"+alarmNum);
+				var userId = '${userInfo.username}';
+				
+					if(result == "success"){
+						checkAlarm.html("");//알림 숫자 1 없애주기 
+						commonForm.attr("action", "/dokky/mypage/myCashHistory");
+						commonForm.append("<input type='hidden' name='userId' value='"+userId+"'/>");
+						commonForm.submit();//글 상세보기 
+						}
+		   	  });
+		});
 		
 	/* 체크박스 전체선택, 전체해제 */
 	function checkAll(){
