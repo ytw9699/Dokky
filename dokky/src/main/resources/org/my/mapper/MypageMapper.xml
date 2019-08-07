@@ -133,7 +133,7 @@
 			FROM 
 				  DK_BOARD BOARD inner JOIN dk_scrap scrap on BOARD.num = scrap.num 
 				  
-			WHERE scrap.userid = #{userId} order by scrap.scrap_num desc)
+			WHERE scrap.userid = #{userId})
 			
 			where rn > (#{pageNum} -1) * #{amount} and rn <= #{pageNum} * #{amount}
 		]]>

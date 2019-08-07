@@ -51,45 +51,47 @@
 		<div class="orderMethodWrap">
 			<ul class="orderMethodUL">
 				<li class="orderMethodLI active"> 
-					<a href="${requestScope['javax.servlet.forward.request_uri']}?category=${pageMaker.cri.category}&order=0">최신순</a> 
+					<a href="${requestScope['javax.servlet.forward.request_uri']}?category=${pageMaker.cri.category}&order=0
+					&type=${pageMaker.cri.type}&keyword=${pageMaker.cri.keyword}&pageNum=${pageMaker.cri.pageNum}&amount=${pageMaker.cri.amount}">최신순</a> 
+				</li> 
+				<li class="orderMethodLI ">
+				<a href="${requestScope['javax.servlet.forward.request_uri']}?category=${pageMaker.cri.category}&order=1
+				&type=${pageMaker.cri.type}&keyword=${pageMaker.cri.keyword}&pageNum=${pageMaker.cri.pageNum}&amount=${pageMaker.cri.amount}">조회순</a>
 				</li>
 				<li class="orderMethodLI ">
-				<a href="${requestScope['javax.servlet.forward.request_uri']}?category=${pageMaker.cri.category}&order=1">조회순</a>
+				<a href="${requestScope['javax.servlet.forward.request_uri']}?category=${pageMaker.cri.category}&order=2
+				&type=${pageMaker.cri.type}&keyword=${pageMaker.cri.keyword}&pageNum=${pageMaker.cri.pageNum}&amount=${pageMaker.cri.amount}">댓글순</a>
 				</li>
 				<li class="orderMethodLI ">
-				<a href="${requestScope['javax.servlet.forward.request_uri']}?category=${pageMaker.cri.category}&order=2">댓글순</a>
+				<a href="${requestScope['javax.servlet.forward.request_uri']}?category=${pageMaker.cri.category}&order=3
+				&type=${pageMaker.cri.type}&keyword=${pageMaker.cri.keyword}&pageNum=${pageMaker.cri.pageNum}&amount=${pageMaker.cri.amount}">좋아요순</a>
 				</li>
 				<li class="orderMethodLI ">
-				<a href="${requestScope['javax.servlet.forward.request_uri']}?category=${pageMaker.cri.category}&order=3">좋아요순</a>
-				</li>
-				<li class="orderMethodLI ">
-				<a href="${requestScope['javax.servlet.forward.request_uri']}?category=${pageMaker.cri.category}&order=4">기부순</a>
+				<a href="${requestScope['javax.servlet.forward.request_uri']}?category=${pageMaker.cri.category}&order=4
+				&type=${pageMaker.cri.type}&keyword=${pageMaker.cri.keyword}&pageNum=${pageMaker.cri.pageNum}&amount=${pageMaker.cri.amount}">기부순</a>
 				</li>
 			</ul>
 		</div>
 		<div class="">
 			   <c:choose>
 			   	   <c:when test="${pageMaker.cri.category == 0 }">
-			          		 전체보기 
+			          	<div class="mypage"><a href="/dokky/board/allList?category=0">전체글보기</a></div>
 			       </c:when>
 			       <c:when test="${pageMaker.cri.category == 1 }">
-			          		 공지사항 
+			          	<div class="mypage"><a href="/dokky/board/list?category=1">공지사항</a></div>
 			       </c:when>
 			       <c:when test="${pageMaker.cri.category == 2 }">
-			       			  자유게시판
+			       		<div class="mypage"><a href="/dokky/board/list?category=2">자유게시판</a></div>
 			       </c:when>
 			        <c:when test="${pageMaker.cri.category == 3 }">
-			     		 	  묻고답하기
+			     		<div class="mypage"><a href="/dokky/board/list?category=3">묻고답하기</a></div>
 			       </c:when>
 			        <c:when test="${pageMaker.cri.category == 4 }">
-			   		   	  	  칼럼/Tech
+			   		   	<div class="mypage"><a href="/dokky/board/list?category=4">칼럼/Tech</a></div>
 			       </c:when>
 			       <c:when test="${pageMaker.cri.category == 5 }">
-			   		   		  정기모임/스터디 
-			       </c:when>
-			        <c:when test="${pageMaker.cri.category == 6 }"> 
-			   		   		    마이페이지
-			       </c:when>
+			   		   	<div class="mypage"><a href="/dokky/board/list?category=5">정기모임/스터디</a></div>
+			       </c:when> 
 			       <%-- <c:otherwise>
 			       </c:otherwise> --%>
 		       </c:choose>
@@ -180,27 +182,32 @@
 			actionForm.attr("action","/dokky/board/get");
 			actionForm.submit();   
 		});
-	 
+	
 		var searchForm = $("#searchForm");
-
+ 
 		$("#searchForm button").on("click", function(e) {
+					
+					e.preventDefault();
 
-					if (!searchForm.find("option:selected")
+					/* if (!searchForm.find("option:selected")
 							.val()) {
 						alert("검색종류를 선택하세요");
 						return false;
-					}
+					} */
 
 					if (!searchForm.find(
 							"input[name='keyword']").val()) {
-						alert("키워드를 입력하세요");
+						alert("키워드를 입력해주세요.");
 						return false;
 					}
 
-					searchForm.find("input[name='pageNum']")
-							.val("1");
+					searchForm.find("input[name='pageNum']").val("1");
 					
-					e.preventDefault();
+					var category = '${pageMaker.cri.category}';//전체보기
+					
+					if(category == 0){ //전체보기	
+						searchForm.attr("action","/dokky/board/allList");//전체보기
+					}
 
 					searchForm.submit();
 				});

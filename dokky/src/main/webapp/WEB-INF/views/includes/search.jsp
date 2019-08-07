@@ -20,12 +20,12 @@
 				<select name='type'>
 					<option value="TC"
 						<c:out value="${pageMaker.cri.type == null || pageMaker.cri.type eq 'TC'?'selected':''}"/>>제목+내용</option>
+					<%-- <option value="TC"
+						<c:out value="${pageMaker.cri.type eq 'TC'?'selected':''}"/>>제목+내용</option> --%>
 					<option value="T"
 						<c:out value="${pageMaker.cri.type eq 'T'?'selected':''}"/>>제목</option>
 					<option value="C"
 						<c:out value="${pageMaker.cri.type eq 'C'?'selected':''}"/>>내용</option>
-					<%-- <option value="TC"
-						<c:out value="${pageMaker.cri.type eq 'TC'?'selected':''}"/>>제목+내용</option> --%>
 					<option value="N"
 						<c:out value="${pageMaker.cri.type eq 'N'?'selected':''}"/>>닉네임</option>
 					<option value="TN"
@@ -42,7 +42,7 @@
 				<button class='btn btn-default'>검색</button>
 			</form>
 		</div>
-		<script>
+		<!-- <script>
 			var searchForm = $("#searchForm");   
 		
 			$(".btn-default").on("click", function(e) { 
@@ -56,7 +56,7 @@
 							}
 							searchForm.submit(); 
 						});
-		</script>	
+		</script> -->	
 	</body>
 </html>
 

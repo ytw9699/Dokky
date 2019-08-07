@@ -24,18 +24,54 @@
 		</trim>
 	</sql>
 	
+	<sql id="criteriaWithOrder">
+		<trim prefix="and (" suffix=")" prefixOverrides="OR">
+			<foreach item='type' collection="typeArr">
+				<trim prefix="OR">
+					<choose>
+						<when test="type == 'T'.toString()">
+							title like '%'||#{keyword}||'%'
+						</when>
+						<when test="type == 'C'.toString()">
+							content like '%'||#{keyword}||'%'
+						</when>
+						<when test="type == 'N'.toString()">
+							nickName like '%'||#{keyword}||'%'
+						</when>
+					</choose>
+				</trim>
+			</foreach>
+		</trim>
+	</sql>
+	
 	<select id="getList" resultType="org.my.domain.BoardVO"> 
 		  <![CDATA[
 		  select 
-		    	category,replyCnt, num, title, content, nickName, regdate, hitCnt,userId
+		    	category,
+		    	replyCnt,
+		    	num,
+		    	title,
+		    	content,
+		    	nickName,
+		    	regdate,
+		    	hitCnt,
+		    	userId
 		  from 
 		      (
-		     select /*+INDEX_DESC(DK_BOARD PK_DK_BOARD) */ rownum rn, category,replyCnt, num, title, content, 
-			
-			 nickName, regdate, hitCnt ,userId from DK_BOARD where category = #{category} and
+		     select /*+INDEX_DESC(DK_BOARD PK_DK_BOARD) */ rownum rn,
+						     								category,
+													    	replyCnt,
+													    	num,
+													    	title,
+													    	content,
+													    	nickName,
+													    	regdate,
+													    	hitCnt,
+													    	userId 
+				from DK_BOARD where category = #{category} and
 		  ]]>
 				<include refid ="criteria"></include>  
-			<!-- ( title like '%'||'keyword'||'%' OR content like '%'||'keyword'||'%' OR writer like '%'||'keyword'||'%' ) AND -->
+<!-- ( title like '%'||'keyword'||'%' OR content like '%'||'keyword'||'%' OR writer like '%'||'keyword'||'%' ) AND -->
 		  <![CDATA[    
 		      rownum <= #{pageNum} * #{amount}
 		      )
@@ -44,7 +80,6 @@
 	</select>
 	
 	<select id="getListWithOrder" resultType="org.my.domain.BoardVO">
-		 <![CDATA[
 		 	select 
 				category,
 				replyCnt,
@@ -59,7 +94,21 @@
 				userId
 			from
 			(
-	  		  select 
+	  		  select  		  	
+		  		        <choose>
+							<when test='order == "1" '>
+								ROW_NUMBER() OVER(order by hitcnt desc) AS rn,
+							</when>
+							<when test='order == "2" '>
+								ROW_NUMBER() OVER(order by REPLYCNT desc) AS rn,
+							</when>
+							<when test='order == "3" '>
+								ROW_NUMBER() OVER(order by likeCnt desc) AS rn,
+							</when>
+							<when test='order == "4" '>
+								ROW_NUMBER() OVER(order by MONEY desc) AS rn,
+							</when>
+						</choose>
 	                category,
 					replyCnt,
 					likeCnt,
@@ -72,24 +121,11 @@
 					MONEY,
 					userId
 				from DK_BOARD where category = #{category} 
-			]]>	
-					<choose>
-						<when test='order == "1" '>
-							order by hitcnt desc
-						</when>
-						<when test='order == "2" '>
-							order by REPLYCNT desc
-						</when>
-						<when test='order == "3" '>
-							order by likeCnt desc
-						</when>
-						<when test='order == "4" '>
-							order by MONEY desc
-						</when>
-					</choose>
+					<include refid ="criteriaWithOrder"></include>  
+<!-- and ( title like '%'||'keyword'||'%' OR content like '%'||'keyword'||'%' OR writer like '%'||'keyword'||'%' ) -->
 				 )
 				  <![CDATA[
-				 where rownum > (#{pageNum} -1) * #{amount} and rownum <= #{pageNum} * #{amount}
+				 where rn > (#{pageNum} -1) * #{amount} and rn <= #{pageNum} * #{amount}
 			]]>	
 	</select>
 			
