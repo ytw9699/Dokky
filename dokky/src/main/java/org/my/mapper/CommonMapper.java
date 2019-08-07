@@ -25,4 +25,6 @@ public interface CommonMapper {
 
 	public int updateAlarmCheck(String alarmNum);
 
+	public int deleteAllAlarm(Long alarmNum);
+
 }

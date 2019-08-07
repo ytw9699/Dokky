@@ -7,7 +7,9 @@ import org.my.domain.alarmVO;
 import org.my.mapper.CommonMapper;
 	import org.springframework.beans.factory.annotation.Autowired;
 	import org.springframework.stereotype.Service;
-	import lombok.Setter;
+import org.springframework.transaction.annotation.Transactional;
+
+import lombok.Setter;
 	import lombok.extern.log4j.Log4j;
 
 @Log4j
@@ -59,6 +61,14 @@ public class CommonServiceImpl implements CommonService {
 		log.info("getAlarmList");
 		
 		return mapper.getAlarmList(cri);
+	}
+	
+	@Override
+	public boolean deleteAllAlarm(Long alarmNum) {
+
+		log.info("remove...." + alarmNum);
+
+		return mapper.deleteAllAlarm(alarmNum) == 1;
 	}
 	
 	@Override 

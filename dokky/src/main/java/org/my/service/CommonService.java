@@ -22,4 +22,6 @@ public interface CommonService {
 
 	public int updateAlarmCheck(String alarmNum);
 
+	public boolean deleteAllAlarm(Long alarmNum);
+
 }

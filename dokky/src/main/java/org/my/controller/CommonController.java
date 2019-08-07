@@ -1,8 +1,10 @@
 package org.my.controller;
 	import java.io.UnsupportedEncodingException;
-	import java.util.Locale;
+import java.util.List;
+import java.util.Locale;
 import java.util.Map;
 
+import org.my.domain.BoardAttachVO;
 import org.my.domain.Criteria;
 import org.my.domain.MemberVO;
 import org.my.domain.PageDTO;
@@ -27,7 +29,8 @@ import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 	import org.springframework.web.bind.annotation.RequestMethod;
-	import org.springframework.web.bind.annotation.ResponseBody;
+import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.ResponseBody;
 	import lombok.Setter;
 	import lombok.extern.log4j.Log4j;
 
@@ -251,6 +254,26 @@ public class CommonController {
 
 		return "common/alarmList";
 	}
+	
+	@PreAuthorize("principal.username == #userId")   
+	 @PostMapping("/removeAllAlarm")//다중알람삭제
+		public String removeAllAlarm(@RequestParam("checkRow") String checkRow , @RequestParam("userId")String userId, Criteria cri) {
+		 
+		 	log.info("checkRow..." + checkRow);
+		 	
+		 	String[] arrIdx = checkRow.split(",");
+		 	
+		 	for (int i=0; i<arrIdx.length; i++) {
+		 		
+		 		Long alarmNum = Long.parseLong(arrIdx[i]); 
+		 		
+		 		if (commonService.deleteAllAlarm(alarmNum)) {
+		 			log.info("delete...deleteAllAlarm=" + alarmNum);
+				}
+		 	}
+			return "redirect:/alarmList?userId="+userId+"&pageNum="+cri.getPageNum()+"&amount="+cri.getAmount();
+		}
+	
 	
 	@PreAuthorize("isAuthenticated()")
 	@ResponseBody

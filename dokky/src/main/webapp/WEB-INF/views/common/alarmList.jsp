@@ -397,7 +397,7 @@
 		  //console.log(checkRow);
 		  
 		  if(confirm("정말 삭제 하시겠습니까?")){
-			  actionForm.attr("action","/dokky/board/removeAll").attr("method","post");
+			  actionForm.attr("action","/dokky/removeAllAlarm").attr("method","post");
 			  actionForm.append("<input type='hidden' name='checkRow' value='"+checkRow+"'>");
 			  actionForm.append("<input type='hidden' id='csrf' name='${_csrf.parameterName}' value='${_csrf.token}'/>");
 			  actionForm.submit();
