@@ -217,9 +217,9 @@
         </div>						 
 		<div class="form-group"> 
           <label>닉네임</label><a href="/dokky/userBoardList?userId=${board.userId}">	
-          <img width="30" src="/dokky/resources/img/profile_img/<c:out value="${userInfo.username}" />" class="memberImage" onerror="this.src='/dokky/resources/img/basicProfile.png'" />
+          <img width="30" src="/dokky/resources/img/profile_img/<c:out value="${board.userId}" />" class="memberImage" onerror="this.src='/dokky/resources/img/basicProfile.png'" />
 		<c:out value="${board.nickName }"/></a>  
-        </div>
+        </div> 
          <div class="form-group">
           <label>번호</label>-<c:out value="${board.num }"/>
         </div>
