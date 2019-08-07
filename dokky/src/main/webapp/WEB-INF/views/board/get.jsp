@@ -11,6 +11,13 @@
 <title>Dokky</title>
 <%@include file="../includes/left.jsp"%>
 <style>
+	a  {   
+			color:#e6e6e6; text-decoration: none;
+		}
+	a:hover {   
+	     color: #7151fc;
+	    text-decoration: underline;
+	}
 	body{
 		background-color: #323639; 
 	}
