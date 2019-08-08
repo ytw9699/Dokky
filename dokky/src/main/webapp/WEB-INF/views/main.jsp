@@ -12,14 +12,15 @@
 	
 <style>
 	a  {    
-			color:#e6e6e6; text-decoration: none;
+			color:#e6e6e6;
+			text-decoration: none;
 		}
 	a:hover {   
 	     color: #7151fc;
 	    text-decoration: underline;
 	}
 	body{
-		background-color: #323639;  
+		background-color: #323639;   
 		}
 	.bodyWrap {
 	    width: 80%; 
@@ -39,6 +40,9 @@
 	    margin-top: 1%;
 	    width: 80%; 
 	}
+	.replyCnt{  
+	  color: #ff2f3b;  
+	}
 	
 </style>
 </head>
@@ -46,21 +50,34 @@
 <%@include file="includes/left.jsp"%>
 
 <body>
-
 	<div class="bodyWrap">	 
 		<div class="mainLists"> 
 			실시간 게시글
 			<table class=""> 
 				<c:forEach items="${realtimeList}" var="board">
 					<tr>
-						<td class="mypage"><a class='move' href='/dokky/board/get?num=<c:out value="${board.num}"/>'> 
-							<c:out value="${board.title}" /></a></td> 
-						<td>댓글수[<c:out value="${board.replyCnt}" />]</td>
-						<td>조회수<c:out value="${board.hitCnt}" /></td>
-						<td><a href="/dokky/userBoardList?userId=${board.userId}">
-						 <img width="30px" src="/dokky/resources/img/profile_img/<c:out value="${board.userId}" />" class="memberImage" onerror="this.src='/dokky/resources/img/basicProfile.png'" />
-						<c:out value="${board.nickName}" /></a> </td>
-						<td><c:out value="${board.money}" />기부</td>
+						<td>  
+							<a class='move' href='/dokky/board/get?num=<c:out value="${board.num}"/>'> 
+							<c:out value="${board.title}" /></a>
+							<a class="replyCnt">[<c:out value="${board.replyCnt}" />]</a>
+						</td> 
+						<td>
+							<img width="20px" src="/dokky/resources/img/read.png"/>
+							<c:out value="${board.hitCnt}" />
+						</td>
+						<td>   
+							<img width="20px" src="/dokky/resources/img/like.png"/>
+							<c:out value="${board.likeCnt}" />
+						</td>
+						<td> 
+							\<fmt:formatNumber type="number" maxFractionDigits="3" value="${board.money}"/>
+						</td>
+						<td>
+							<a href="/dokky/userBoardList?userId=${board.userId}"> 
+								<img width="25px" src="/dokky/resources/img/profile_img/<c:out value="${board.userId}" />" class="memberImage" onerror="this.src='/dokky/resources/img/basicProfile.png'" />
+								<c:out value="${board.nickName}" />
+							</a> 
+						</td>
 						<td>
 							<fmt:formatDate value="${board.regDate}" pattern="yyyy년 MM월 dd일 HH:mm" />
 						</td> 
@@ -74,14 +91,28 @@
 			<table class=""> 
 				<c:forEach items="${monthlyList}" var="board">
 					<tr>
-						<td class="mypage"><a class='move' href='/dokky/board/get?num=<c:out value="${board.num}"/>'> 
-							<c:out value="${board.title}" /></a></td> 
-						<td>댓글수[<c:out value="${board.replyCnt}" />]</td>
-						<td>조회수<c:out value="${board.hitCnt}" /></td>
-						<td><a href="/dokky/userBoardList?userId=${board.userId}">
-						<img width="30px" src="/dokky/resources/img/profile_img/<c:out value="${board.userId}" />" class="memberImage" onerror="this.src='/dokky/resources/img/basicProfile.png'" />
-						<c:out value="${board.nickName}" /></a> </td>
-						<td><c:out value="${board.money}" />기부</td>
+						<td>  
+							<a class='move' href='/dokky/board/get?num=<c:out value="${board.num}"/>'> 
+							<c:out value="${board.title}" /></a>
+							<a class="replyCnt">[<c:out value="${board.replyCnt}" />]</a>
+						</td> 
+						<td>
+							<img width="20px" src="/dokky/resources/img/read.png"/>
+							<c:out value="${board.hitCnt}" />
+						</td>
+						<td>   
+							<img width="20px" src="/dokky/resources/img/like.png"/>
+							<c:out value="${board.likeCnt}" />
+						</td>
+						<td> 
+							\<fmt:formatNumber type="number" maxFractionDigits="3" value="${board.money}"/>
+						</td>
+						<td>
+							<a href="/dokky/userBoardList?userId=${board.userId}"> 
+								<img width="25px" src="/dokky/resources/img/profile_img/<c:out value="${board.userId}" />" class="memberImage" onerror="this.src='/dokky/resources/img/basicProfile.png'" />
+								<c:out value="${board.nickName}" />
+							</a> 
+						</td>
 						<td>
 							<fmt:formatDate value="${board.regDate}" pattern="yyyy년 MM월 dd일 HH:mm" />
 						</td> 
@@ -94,15 +125,29 @@
 			monthly 최다 기부글
 			<table class="">
 				<c:forEach items="${donationList}" var="board">
-					<tr> 
-						<td class="mypage"><a class='move' href='/dokky/board/get?num=<c:out value="${board.num}"/>'> 
-							<c:out value="${board.title}" /></a></td> 
-						<td>댓글수[<c:out value="${board.replyCnt}" />]</td>
-						<td>조회수<c:out value="${board.hitCnt}" /></td> 
-						<td><a href="/dokky/userBoardList?userId=${board.userId}">
-						<img width="30px" src="/dokky/resources/img/profile_img/<c:out value="${board.userId}" />" class="memberImage" onerror="this.src='/dokky/resources/img/basicProfile.png'" />
-						<c:out value="${board.nickName}" /></a> </td>
-						<td><c:out value="${board.money}" />기부</td>
+					<tr>
+						<td>  
+							<a class='move' href='/dokky/board/get?num=<c:out value="${board.num}"/>'> 
+							<c:out value="${board.title}" /></a>
+							<a class="replyCnt">[<c:out value="${board.replyCnt}" />]</a>
+						</td> 
+						<td>
+							<img width="20px" src="/dokky/resources/img/read.png"/>
+							<c:out value="${board.hitCnt}" />
+						</td>
+						<td>   
+							<img width="20px" src="/dokky/resources/img/like.png"/>
+							<c:out value="${board.likeCnt}" />
+						</td>
+						<td> 
+							\<fmt:formatNumber type="number" maxFractionDigits="3" value="${board.money}"/>
+						</td>
+						<td>
+							<a href="/dokky/userBoardList?userId=${board.userId}"> 
+								<img width="25px" src="/dokky/resources/img/profile_img/<c:out value="${board.userId}" />" class="memberImage" onerror="this.src='/dokky/resources/img/basicProfile.png'" />
+								<c:out value="${board.nickName}" />
+							</a> 
+						</td>
 						<td>
 							<fmt:formatDate value="${board.regDate}" pattern="yyyy년 MM월 dd일 HH:mm" />
 						</td> 
