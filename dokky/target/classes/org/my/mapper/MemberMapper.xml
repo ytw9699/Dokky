@@ -88,7 +88,7 @@
 	 </update>
 	 
 	 <select id="getRealtimeList" resultType="org.my.domain.BoardVO"> 
-		 SELECT /*+INDEX_DESC(DK_BOARD PK_DK_BOARD) */ money,replyCnt, num, title, nickName, regdate, hitCnt,userId
+		 SELECT /*+INDEX_DESC(DK_BOARD PK_DK_BOARD) */ money,replyCnt, num, title, nickName, regdate, hitCnt,userId,likeCnt
 		  from dk_board where <![CDATA[ rownum <= 5  ]]>
 	</select>
 	 
@@ -101,7 +101,8 @@
 			 	nickName, 
 			 	regdate, 
 			 	hitCnt,
-			 	userId
+			 	userId,
+			 	likeCnt
 			 from (
 		SELECT 
 			money,
@@ -111,8 +112,9 @@
 		 	nickName, 
 		 	regdate, 
 		 	hitCnt,
-		 	userId
-		  from dk_board WHERE REGDATE >= TO_CHAR(SYSDATE-30,'YYYYMMDD') order by hitcnt desc,replycnt desc )
+		 	userId,
+		 	likeCnt
+		  from dk_board WHERE REGDATE >= TO_CHAR(SYSDATE-30,'YYYYMMDD') order by likeCnt desc,hitcnt desc,replycnt desc )
 		  where <![CDATA[ rownum <= 5 ]]>
 	</select>
 	
@@ -126,7 +128,8 @@
 	 			 nickName, 
 	 			 regdate, 
 	 			 hitCnt,
-	 			 userId
+	 			 userId,
+	 			 likeCnt
 			 from 
 			   ( 
 			   SELECT
@@ -137,7 +140,8 @@
 			   	 nickName, 
 			   	 regdate, 
 			   	 hitCnt,
-			   	 userId
+			   	 userId,
+			   	 likeCnt
 			FROM 
 				  dk_board WHERE REGDATE >= TO_CHAR(SYSDATE-30,'YYYYMMDD') order by money desc )
 			
