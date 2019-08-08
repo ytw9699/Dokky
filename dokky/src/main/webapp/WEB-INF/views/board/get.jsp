@@ -1265,7 +1265,11 @@
 	    	    if(liObj.data("type")){
 	    	      showImage(path.replace(new RegExp(/\\/g),"/"));
 	    	    }else {
-	    	      self.location ="/dokky/download?fileName="+path
+	    	    	  /* replyService.download(path, function(data) {
+	    	    		  alert(data); 
+	    		  		  alert("다운완료");
+	    			    }); */
+	    	    	self.location ="/dokky/download?fileName="+path 
 	    	    }
 	    	    
 	    	  });

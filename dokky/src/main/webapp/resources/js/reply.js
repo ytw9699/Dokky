@@ -361,6 +361,24 @@ var replyService = (function() {
 			}
 		})
 	}
+	/*function download(path, callback, error) {
+		console.log("download...............");  
+		 
+		$.ajax({
+			type : 'get',
+			url : '/dokky/download?fileName='+path,
+			success : function(result, status, xhr) {
+				if (callback) { 
+					callback(result);
+				}
+			},
+			error : function(xhr, status, er) {
+				if (error) {
+					error(er);
+				}
+			}
+		})
+	}*/
 	
 	return {
 		add : add,
@@ -379,6 +397,7 @@ var replyService = (function() {
 		ScrapBoard : ScrapBoard,
 		report : report,
 		postAlarm : postAlarm
+		/*download: download*/
 	};
 
 })();
