@@ -4,7 +4,7 @@
   "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="org.my.mapper.BoardMapper">
 	
-	<sql id="criteria">
+	<sql id="criteria"> 
 		<trim prefix="(" suffix=") AND " prefixOverrides="OR">
 			<foreach item='type' collection="typeArr">
 				<trim prefix="OR">
@@ -69,6 +69,7 @@
 		  select 
 		    	category,
 		    	replyCnt,
+		    	likeCnt,
 		    	num,
 		    	title,
 		    	content,
@@ -81,6 +82,7 @@
 		     select /*+INDEX_DESC(DK_BOARD PK_DK_BOARD) */ rownum rn,
 						     								category,
 													    	replyCnt,
+													    	likeCnt,
 													    	num,
 													    	title,
 													    	content,
@@ -154,6 +156,7 @@
 		   select 
 		    	category,
 		    	replyCnt,
+		    	likeCnt,
 		    	num,
 		    	title,
 		    	content,
@@ -166,6 +169,7 @@
 		        select /*+INDEX_DESC(DK_BOARD PK_DK_BOARD) */ rownum rn,
 						     								category,
 													    	replyCnt,
+													    	likeCnt,
 													    	num,
 													    	title,
 													    	content,

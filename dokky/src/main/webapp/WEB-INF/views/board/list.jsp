@@ -48,6 +48,9 @@
 		border-color: #e6e6e6;/* 흰색 */
 		border-style: solid;
 	}
+	.replyCnt{  
+	  color: #ff2f3b;  
+	} 
 </style>
 </head>
 <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
@@ -109,15 +112,30 @@
 		<div class="">
 			<table class=""> 
 				<c:forEach items="${list}" var="board">
-					<tr> 
-						<td class="mypage"><a class='move' href='<c:out value="${board.num}"/>'> 
-							<c:out value="${board.title}" /></a></td> 
-						<td>[<c:out value="${board.replyCnt}" />]</td> 
-						<td>조회수<c:out value="${board.hitCnt}" /></td>
-						<td><a href="/dokky/userBoardList?userId=${board.userId}">
-						<img width="30" src="/dokky/resources/img/profile_img/<c:out value="${board.userId}" />" class="memberImage" onerror="this.src='/dokky/resources/img/basicProfile.png'" />
-						<c:out value="${board.nickName}" /></a> </td>
+					<tr>
+						<td>  
+							<a class='move' href='<c:out value="${board.num}"/>'> 
+							<c:out value="${board.title}" /></a>
+							<a class="replyCnt">[<c:out value="${board.replyCnt}" />]</a>
+						</td> 
+						<td>
+							<img width="20px" src="/dokky/resources/img/read.png"/>
+							<c:out value="${board.hitCnt}" />
+						</td>
+						<td>   
+							<img width="20px" src="/dokky/resources/img/like.png"/>
+							<c:out value="${board.likeCnt}" />
+						</td>
 						<td> 
+							\<fmt:formatNumber type="number" maxFractionDigits="3" value="${board.money}"/>
+						</td>
+						<td>
+							<a href="/dokky/userBoardList?userId=${board.userId}"> 
+								<img width="25px" src="/dokky/resources/img/profile_img/<c:out value="${board.userId}" />" class="memberImage" onerror="this.src='/dokky/resources/img/basicProfile.png'" />
+								<c:out value="${board.nickName}" />
+							</a> 
+						</td>
+						<td>
 							<fmt:formatDate value="${board.regDate}" pattern="yyyy년 MM월 dd일 HH:mm" />
 						</td> 
 					</tr>
