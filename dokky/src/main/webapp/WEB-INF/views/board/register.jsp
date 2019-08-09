@@ -15,6 +15,49 @@
 
 <title>Dokky 새 글쓰기</title>
 <style>
+@media screen and (max-width:500px){ 
+		.registerWrapper { 
+				    width: 80%;  
+				    display: inline-block;
+				    margin-left: 15%;
+				    margin-top: 1%;
+				    min-height: 500px; 
+				    border-color: #e6e6e6;
+					border-style: solid;
+					background-color: #323639; 
+					color: #e6e6e6;
+					display: inline-block;
+				}     
+        }
+        @media screen and (min-width: 501px) and (max-width:1500px){
+	        .registerWrapper {
+				    width: 80%; 
+				    display: inline-block;
+				    margin-left: 15%;
+				    margin-top: 1%;
+				    min-height: 500px; 
+				    border-color: #e6e6e6;
+					border-style: solid;
+					background-color: #323639; 
+					color: #e6e6e6;
+					display: inline-block;
+				}
+        }
+        @media screen and (min-width: 1501px){    
+          .registerWrapper { 
+			    width: 51%; 
+			    display: inline-block;
+			    margin-left: 29%;
+			    margin-top: 1%;
+			    min-height: 500px; 
+			    border-color: #e6e6e6;
+				border-style: solid;
+				background-color: #323639; 
+				color: #e6e6e6;
+				display: inline-block;
+			}
+        }
+        
 .uploadResult { 
 	width: 100%;
 	background-color: gray;
@@ -41,86 +84,103 @@
 	body{
 		background-color: #323639; 
 	}
-	.registerWrapper { 
-	    border-color: #e6e6e6;
-		border-style: solid;
-		background-color: #323639; 
-		color: white;
-		margin-left: 15%;
-		margin-top: 1%; 
-	}
 </style>
 <body>
 <div class="registerWrapper">
 
-<div class="row">
-  <div class="col-lg-12">
-    <h1 class="page-header">새 글쓰기</h1>  
-  </div>
-</div>
+	<div class="row">
+	  <div class="col-lg-12">
+	    <h1 class="page-header">새 글쓰기</h1>  
+	  </div>
+	</div>
+	
+	<div class="row">
+	  <div class="col-lg-12">
+	    <div class="panel panel-default">
+	      <div class="panel-heading"></div>
+	      <!-- /.panel-heading -->
+	      <div class="panel-body">
+	        <div class="form-group uploadDiv">
+	            <input type="file" name='uploadFile' multiple>
+	        </div>
+	        <div class='uploadResult'> 
+	          <ul>
+	          </ul>
+	        </div>
+	      </div>
+	      <!--  end panel-body -->
+	    </div>
+	    <!--  end panel-body -->
+	  </div>
+	  <!-- end panel -->
+	</div>
+	<!-- /.row -->
 
-<div class="row">
-  <div class="col-lg-12">
-    <div class="panel panel-default">
-      <div class="panel-heading"></div>
-      <!-- /.panel-heading -->
-      <div class="panel-body">
-        <div class="form-group uploadDiv">
-            <input type="file" name='uploadFile' multiple>
-        </div>
-        <div class='uploadResult'> 
-          <ul>
-          </ul>
-        </div>
-      </div>
-      <!--  end panel-body -->
-    </div>
-    <!--  end panel-body -->
-  </div>
-  <!-- end panel -->
-</div>
-<!-- /.row -->
 
-
-<div class="row">
-  <div class="col-lg-12">
-    <div class="panel panel-default">
-      <div class="panel-body">
-	        <form role="form" action="/dokky/board/register" method="post">  
-	        <div>
-				<select id="selectId" name="category" class="form-control">
-					   <option value=0>게시판을 선택해 주세요.</option>
-                       <option value=1>공지사항</option>
-                       <option value=2>자유게시판</option>
-                       <option value=3>묻고답하기</option> 
-                       <option value=4>칼럼/Tech</option>
-                       <option value=5>정기모임/스터디</option>
-			     </select>
-			</div>
-		          <div class="form-group">
-		            <input id="title" class="form-control" placeholder="제목을 입력해 주세요" name='title'>
-		          </div>
-		
-		          <div class="form-group"> 
-		          <textarea class="form-control" name="content" id="ir1" rows="20" cols="100"></textarea>
-		          </div>
-		          <input type='hidden' name='nickName' value='<sec:authentication property="principal.member.nickName"/>' /> 
-		          <input type='hidden' name='userId' value='<sec:authentication property="principal.username"/>' /> 
-		        <%--   <input type='hidden' name='amount' value='<c:out value="${pageMaker.cri.amount}"/>' /> --%>
-								
-				  <input type="hidden" name="${_csrf.parameterName}" value="${_csrf.token}"/>
-				  
-		    	  <button type="submit" class="btn btn-default">등록</button>
-		          
-		          <button type="reset" class="btn btn-default">다시쓰기</button>
-	        </form>
-      </div>
-    </div>
+	<div class="row">
+	  <div class="col-lg-12">
+	    <div class="panel panel-default">
+	      <div class="panel-body">
+		        <form role="form" action="/dokky/board/register" method="post">  
+		        <div>
+					<select id="selectId" name="category" class="form-control">
+						   <option value=0>게시판을 선택해 주세요.</option>
+	                       <option value=1>공지사항</option>
+	                       <option value=2>자유게시판</option>
+	                       <option value=3>묻고답하기</option> 
+	                       <option value=4>칼럼/Tech</option>
+	                       <option value=5>정기모임/스터디</option>
+				     </select>
+				</div>
+			          <div class="form-group">
+			            <input id="title" class="form-control" placeholder="제목을 입력해 주세요" name='title' oninput="checkLength(this,30);"/> 
+			          </div>
+			
+			          <div class="form-group"> 
+			      		    <textarea class="form-control" name="content" id="ir1" rows="20" cols="100" ></textarea>
+			          </div>
+			          <input type='hidden' name='nickName' value='<sec:authentication property="principal.member.nickName"/>' /> 
+			          <input type='hidden' name='userId' value='<sec:authentication property="principal.username"/>' /> 
+			        <%--   <input type='hidden' name='amount' value='<c:out value="${pageMaker.cri.amount}"/>' /> --%>
+									
+					  <input type="hidden" name="${_csrf.parameterName}" value="${_csrf.token}"/>
+					  
+			    	  <button type="submit" class="btn btn-default">등록</button>
+			          
+			          <button type="reset" class="btn btn-default">다시쓰기</button>
+		        </form>
+	      </div>
+	    </div>
   </div>
 </div>
 </div>
 
 <script> 
+
+function checkLength(obj, maxlength) {    
+	var str = obj.value; // 이벤트가 일어난 컨트롤의 value 값    
+	var str_length = str.length; // 전체길이       // 변수초기화     
+	var max_length = maxlength; // 제한할 글자수 크기     
+	var i = 0; // for문에 사용     
+	var ko_byte = 0; // 한글일경우는 2 그밗에는 1을 더함     
+	var li_len = 0; // substring하기 위해서 사용     
+	var one_char = ""; // 한글자씩 검사한다     
+	var reStr = ""; // 글자수를 초과하면 제한할수 글자전까지만 보여준다.       
+	for (i = 0; i < str_length; i++) {         // 한글자추출         
+		one_char = str.charAt(i);            
+		ko_byte++;        
+	}              
+	if (ko_byte <= max_length) {// 전체 크기가 max_length를 넘지않으면                
+		li_len = i + 1;         
+	}       
+	if (ko_byte > max_length) {// 전체길이를 초과하면          
+			alert(max_length + " 글자 이상 입력할 수 없습니다.");         
+			reStr = str.substr(0, max_length);         
+			obj.value = reStr;      
+			}     
+		obj.focus();  
+	}
+
 $(document).ready(function(e){
 	
 	 $("#selectId option[value='${category}']").attr('selected','selected');

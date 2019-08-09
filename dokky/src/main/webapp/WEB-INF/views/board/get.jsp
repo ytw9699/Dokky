@@ -341,7 +341,7 @@
     </div>
     
       <div id="replyModForm" ><!-- 댓글 수정 폼+값 불러오기 --> 
-              <input name='reply_content' value=''> 
+              <input name='reply_content' value='' oninput="checkLength(this,900);"> 
               <button id='replyModFormModBtn' type="button" >수정</button> 
    			  <button id='replyModFormCloseBtn' type="button" >취소</button>
    			  
@@ -352,13 +352,13 @@
 	<sec:authorize access="isAuthenticated()">
 		<div class="replyWriteForm"><!--  댓글쓰기 폼 -->
 		   <div> 
-                <textarea id="reply_contents" rows="3" name='reply_content'></textarea> 
+                <textarea id="reply_contents" rows="3" name='reply_content' oninput="checkLength(this,900);"></textarea> 
            </div>  
    		   <button id='replyRegisterBtn' type="button">등록</button>
-		</div> 
+		</div>  
 		<div class="reReplyWriteForm"><!--  대댓글쓰기 폼 -->
 		   <div> 
-                <textarea id="reReply_contents" rows="3" name='reReply_content'></textarea> 
+                <textarea id="reReply_contents" rows="3" name='reReply_content' oninput="checkLength(this,900);"></textarea>
            </div>  
    		   <button id='reReplyRegisterBtn' type="button">등록</button>
    		   <button id='reReplyCancelBtn' type="button">취소</button>
@@ -384,6 +384,30 @@
 <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
 <script type="text/javascript" src="/dokky/resources/js/reply.js"></script> <!--댓글 AJAX통신 -->
 <script>
+function checkLength(obj, maxlength) {    
+	var str = obj.value; // 이벤트가 일어난 컨트롤의 value 값    
+	var str_length = str.length; // 전체길이       // 변수초기화     
+	var max_length = maxlength; // 제한할 글자수 크기     
+	var i = 0; // for문에 사용     
+	var ko_byte = 0; // 한글일경우는 2 그밗에는 1을 더함     
+	var li_len = 0; // substring하기 위해서 사용     
+	var one_char = ""; // 한글자씩 검사한다     
+	var reStr = ""; // 글자수를 초과하면 제한할수 글자전까지만 보여준다.       
+	for (i = 0; i < str_length; i++) {         // 한글자추출         
+		one_char = str.charAt(i);            
+		ko_byte++;        
+	}              
+	if (ko_byte <= max_length) {// 전체 크기가 max_length를 넘지않으면                
+		li_len = i + 1;         
+	}       
+	if (ko_byte > max_length) {// 전체길이를 초과하면          
+			alert(max_length + " 글자 이상 입력할 수 없습니다.");         
+			reStr = str.substr(0, max_length);         
+			obj.value = reStr;      
+			}     
+		obj.focus();  
+	}
+	
 	//공통 변수 모음
 	var board_num = '${board.num}';
 

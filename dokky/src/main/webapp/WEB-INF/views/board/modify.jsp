@@ -11,16 +11,51 @@
 <title>Dokky</title>
 </head>
 <style>
+
+@media screen and (max-width:500px){ 
+		.modifyWrapper { 
+				    width: 80%;  
+				    display: inline-block;
+				    margin-left: 15%;
+				    margin-top: 1%;
+				    min-height: 500px; 
+				    border-color: #e6e6e6;
+					border-style: solid;
+					background-color: #323639; 
+					color: #e6e6e6;
+					display: inline-block;
+				}     
+        }
+        @media screen and (min-width: 501px) and (max-width:1500px){
+	        .modifyWrapper {
+				    width: 80%; 
+				    display: inline-block;
+				    margin-left: 15%;
+				    margin-top: 1%;
+				    min-height: 500px; 
+				    border-color: #e6e6e6;
+					border-style: solid;
+					background-color: #323639; 
+					color: #e6e6e6;
+					display: inline-block;
+				}
+        }
+        @media screen and (min-width: 1501px){    
+          .modifyWrapper { 
+			    width: 51%; 
+			    display: inline-block;
+			    margin-left: 29%;
+			    margin-top: 1%;
+			    min-height: 500px; 
+			    border-color: #e6e6e6;
+				border-style: solid;
+				background-color: #323639; 
+				color: #e6e6e6;
+				display: inline-block;
+			}
+        }
 	body{
 		background-color: #323639; 
-	}
-	.modifyWrapper { 
-	    border-color: #e6e6e6;
-		border-style: solid;
-		background-color: #323639; 
-		color: white;
-		margin-left: 15%;
-		margin-top: 1%; 
 	}
 	
 	.uploadResult {
@@ -104,12 +139,11 @@
 				
 			<div class="form-group">
 			  <label>제목</label> 
-			  <input class="form-control" name='title' 
-			    value='<c:out value="${board.title }"/>' >
+			  <input class="form-control" name='title' oninput="checkLength(this,30);" value='<c:out value="${board.title }"/>'>
 			</div>
 			<div class="form-group">
 			  <label>내용</label>
-			  <textarea class="form-control" rows="3" name='content' ><c:out value="${board.content}"/></textarea>
+			  <textarea class="form-control" rows="3" name='content' oninput="checkLength(this,3500);"><c:out value="${board.content}"/></textarea>
 			</div>
 			
 		   <input type="hidden" name="${_csrf.parameterName}" value="${_csrf.token}"/> 
@@ -135,6 +169,31 @@
 </div>
 <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
 <script> 
+
+function checkLength(obj, maxlength) {    
+	var str = obj.value; // 이벤트가 일어난 컨트롤의 value 값    
+	var str_length = str.length; // 전체길이       // 변수초기화     
+	var max_length = maxlength; // 제한할 글자수 크기     
+	var i = 0; // for문에 사용     
+	var ko_byte = 0; // 한글일경우는 2 그밗에는 1을 더함     
+	var li_len = 0; // substring하기 위해서 사용     
+	var one_char = ""; // 한글자씩 검사한다     
+	var reStr = ""; // 글자수를 초과하면 제한할수 글자전까지만 보여준다.       
+	for (i = 0; i < str_length; i++) {         // 한글자추출         
+		one_char = str.charAt(i);            
+		ko_byte++;        
+	}              
+	if (ko_byte <= max_length) {// 전체 크기가 max_length를 넘지않으면                
+		li_len = i + 1;         
+	}       
+	if (ko_byte > max_length) {// 전체길이를 초과하면          
+			alert(max_length + " 글자 이상 입력할 수 없습니다.");         
+			reStr = str.substr(0, max_length);         
+			obj.value = reStr;      
+			}     
+		obj.focus();  
+	}
+	
 $(document).ready(function() {
 
 	  var formObj = $("form");
