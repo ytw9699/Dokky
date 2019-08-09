@@ -9,8 +9,47 @@
 <head>
 <meta charset="UTF-8">
 	<title>메인</title>
-	
 <style>
+	    @media screen and (max-width:500px){ 
+	           .bodyWrap {
+				    width: 50%;
+				    display: inline-block; 
+				    margin-left: 29%;
+				    margin-top: 1%;
+				    min-height: 500px;
+				    border-color: #e6e6e6;
+				    border-style: solid;
+				    background-color: #323639;
+				    color: #e6e6e6;
+				}
+        }
+        @media screen and (min-width: 501px) and (max-width:1500px){
+          	.bodyWrap {
+			    width: 80%;
+			    display: inline-block;
+			    margin-left: 15%;
+			    margin-top: 1%;
+			    min-height: 500px;
+			    border-color: #e6e6e6;
+			    border-style: solid;
+			    background-color: #323639;
+			    color: #e6e6e6;
+			}
+        }
+        @media screen and (min-width: 1501px){    
+            .bodyWrap {
+			    width: 50%;
+			    display: inline-block; 
+			    margin-left: 29%;
+			    margin-top: 1%;
+			    min-height: 500px;
+			    border-color: #e6e6e6;
+			    border-style: solid;
+			    background-color: #323639;
+			    color: #e6e6e6;
+			}
+        }
+            
 	a  {    
 			color:#e6e6e6;
 			text-decoration: none;
@@ -22,23 +61,13 @@
 	body{
 		background-color: #323639;   
 		}
-	.bodyWrap {
-	    width: 80%; 
-	    display: inline-block;
-	    margin-left: 2%;
-	    margin-top: 1%;
-	    min-height: 500px; 
-	    border-color: #e6e6e6;
-		border-style: solid;
-		background-color: #323639; 
-		color: #e6e6e6;
-	}
+	
 	.mainLists{
 		border-color: #e6e6e6; 
 		border-style: solid;
 		margin-left: 2%;
 	    margin-top: 1%;
-	    width: 80%; 
+	    width: 95%; 
 	}
 	.replyCnt{  
 	  color: #ff2f3b;  

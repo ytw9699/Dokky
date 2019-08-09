@@ -10,6 +10,43 @@
 <meta charset="UTF-8">
 <title>Dokky</title>
 <style>
+ 		@media screen and (max-width:500px){ 
+	           .listWrapper {
+			    border-color: #e6e6e6;
+			    border-style: solid;
+			    background-color: #323639;
+			    color: #e6e6e6;
+			    margin-left: 15%;
+			    margin-top: 1%;
+			    width: 80%;
+			    display: inline-block;
+			}
+        }
+        @media screen and (min-width: 501px) and (max-width:1500px){
+          .listWrapper {
+			    border-color: #e6e6e6;
+			    border-style: solid;
+			    background-color: #323639;
+			    color: #e6e6e6;
+			    margin-left: 15%;
+			    margin-top: 1%;
+			    width: 80%;
+			    display: inline-block;
+			}
+        }
+        @media screen and (min-width: 1501px){    
+          .listWrapper {
+			    border-color: #e6e6e6;
+			    border-style: solid;
+			    background-color: #323639;
+			    color: #e6e6e6;
+			    margin-left: 29%;
+			    margin-top: 1%;
+			    width: 51%;
+			    display: inline-block; 
+			}
+        }
+        
 	a  {   
 		color:#e6e6e6; text-decoration: none;
 	}
@@ -20,18 +57,10 @@
 	body{
 		background-color: #323639; 
 	}
-	.listWrapper { 
-	    border-color: #e6e6e6;/* 흰색 */
-		border-style: solid;
-		background-color: #323639; 
-		color: #e6e6e6;
-		margin-left: 15%;
-		margin-top: 1%; 
-	}
 	.mypage a { 
     color: white;
-}
-.pagination { 
+	}
+	.pagination { 
 	    display: inline-block;
 	    padding-left: 0;
 	    margin: 20px 0;
@@ -51,13 +80,15 @@
 	.replyCnt{  
 	  color: #ff2f3b;  
 	} 
+	
 </style>
 </head>
 <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
-<%@include file="../includes/search.jsp"%>
 <%@include file="../includes/left.jsp"%>
 <body>
 	<div class="listWrapper">
+		<%@include file="../includes/search.jsp"%> 
+		
 		<div class="orderMethodWrap">
 			<ul class="orderMethodUL">
 				<li class="orderMethodLI active"> 
@@ -102,8 +133,8 @@
 			       <c:when test="${pageMaker.cri.category == 5 }">
 			   		   	<div class="mypage"><a href="/dokky/board/list?category=5">정기모임/스터디</a></div>
 			       </c:when> 
-			       <%-- <c:otherwise>
-			       </c:otherwise> --%>
+			       <c:otherwise>
+			       </c:otherwise>
 		       </c:choose>
   	    </div>
 

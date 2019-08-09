@@ -7,22 +7,54 @@
 <head>
 <meta charset="UTF-8"> 
 <style>
-.leftWrap {
-	width: 12%;
-    margin-top: 20px;
-    margin-left: 1%;
-    display: inline-block;
-    float: left;
-    border-color: #e6e6e6;
-	border-style: solid;
-	background-color: #323639; 
-    
-}
+
+      @media screen and (max-width:500px){ 
+	              .leftWrap {
+		   				width: 10%;
+					    margin-top: 1%;
+					    margin-left: 0%;
+					    display: inline-block;
+					    float: left;
+					    border-color: #e6e6e6;
+					    border-style: solid;
+					    background-color: #323639;
+					    position: fixed;
+					}
+           }
+      @media screen and (min-width: 501px) and (max-width:1500px){
+	           .leftWrap {
+	   				width: 14%;
+				    margin-top: 1%;
+				    margin-left: 0%;
+				    display: inline-block;
+				    float: left;
+				    border-color: #e6e6e6;
+				    border-style: solid;
+				    background-color: #323639;
+				    position: fixed;
+				}
+      }
+      @media screen and (min-width: 1501px){    
+         	 .leftWrap {
+	   				width: 10%;
+				    margin-top: 1%;
+				    margin-left: 18%;
+				    display: inline-block;
+				    float: left;
+				    border-color: #e6e6e6;
+				    border-style: solid;
+				    background-color: #323639;
+				    position: fixed;
+				}
+      }
+
 .mypage {
     padding: 10px;
     box-sizing: border-box;
-   	width: 252px;
+   	width: 100%;
     color: #e6e6e6;
+    border-color: #e6e6e6;
+    border-style: solid; 
     
 }
 .mypage:hover > a, .mypage:hover {

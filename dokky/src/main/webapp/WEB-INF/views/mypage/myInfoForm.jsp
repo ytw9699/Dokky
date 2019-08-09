@@ -9,20 +9,52 @@
 <meta charset="UTF-8">
 	<title>마이페이지</title>
 <style>
+	@media screen and (max-width:500px){ 
+    	.myinfoWrap {
+				    width: 80%; 
+				    display: inline-block;
+				    margin-left: 15%;
+				    margin-top: 1%;
+				    min-height: 500px; 
+				    border-color: #e6e6e6;
+					border-style: solid;
+					background-color: #323639; 
+					color: #e6e6e6;
+					display: inline-block;
+				}     
+        }
+        @media screen and (min-width: 501px) and (max-width:1500px){
+	        .myinfoWrap {
+				    width: 80%; 
+				    display: inline-block;
+				    margin-left: 15%;
+				    margin-top: 1%;
+				    min-height: 500px; 
+				    border-color: #e6e6e6;
+					border-style: solid;
+					background-color: #323639; 
+					color: #e6e6e6;
+					display: inline-block;
+				}
+        }
+        @media screen and (min-width: 1501px){    
+          .myinfoWrap {
+			    width: 51%; 
+			    display: inline-block;
+			    margin-left: 29%;
+			    margin-top: 1%;
+			    min-height: 500px; 
+			    border-color: #e6e6e6;
+				border-style: solid;
+				background-color: #323639; 
+				color: #e6e6e6;
+				display: inline-block;
+			}
+        }
+        
 	body{
 		background-color: #323639;  
 		}
-	.bodyWrap {
-	    width: 80%; 
-	    display: inline-block;
-	    margin-left: 2%;
-	    margin-top: 1%;
-	    min-height: 500px; 
-	    border-color: #e6e6e6;
-		border-style: solid;
-		background-color: #323639; 
-		color: #e6e6e6;
-	}
 	.ContentWrap{box-sizing: border-box;
 	    padding-top: 48px;
 	    padding-left: 20px;
@@ -76,7 +108,7 @@
 	    color: #e6e6e6;
 	    padding: 8px;
 	    border-radius: 8px;
-	    width: 7%;
+	    width: 12%;
     }
     .memberProfile {
 	    display: inline-block;
@@ -92,7 +124,7 @@
 </head>
 <body>
 <sec:authentication property="principal" var="userInfo"/>
-<div class="bodyWrap">	
+<div class="myinfoWrap">	
 	<div class="ContentWrap">
 		<div id="menuWrap">
 			<div class="tab">  

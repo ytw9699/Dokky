@@ -11,6 +11,48 @@
 <meta charset="UTF-8">
 <title>Dokky</title>
 <style>
+		@media screen and (max-width:500px){ 
+		.myscrapWrap { 
+				    width: 80%;  
+				    display: inline-block;
+				    margin-left: 15%;
+				    margin-top: 1%;
+				    min-height: 500px; 
+				    border-color: #e6e6e6;
+					border-style: solid;
+					background-color: #323639; 
+					color: #e6e6e6;
+					display: inline-block;
+				}     
+        }
+        @media screen and (min-width: 501px) and (max-width:1500px){
+	        .myscrapWrap {
+				    width: 80%; 
+				    display: inline-block;
+				    margin-left: 15%;
+				    margin-top: 1%;
+				    min-height: 500px; 
+				    border-color: #e6e6e6;
+					border-style: solid;
+					background-color: #323639; 
+					color: #e6e6e6;
+					display: inline-block;
+				}
+        }
+        @media screen and (min-width: 1501px){    
+          .myscrapWrap { 
+			    width: 51%; 
+			    display: inline-block;
+			    margin-left: 29%;
+			    margin-top: 1%;
+			    min-height: 500px; 
+			    border-color: #e6e6e6;
+				border-style: solid;
+				background-color: #323639; 
+				color: #e6e6e6;
+				display: inline-block;
+			}
+        }
 	body{
 		background-color: #323639; 
 	}
@@ -22,7 +64,7 @@
 		margin-left: 1%;
 		margin-top: 1%; 
 	}
-	.mypage a { 
+	.boardTitle a { 
     color: white;
 	}
 	.pagination { 
@@ -38,21 +80,11 @@
    		color: #e6e6e6;  
 	}
 	.pull-right{
-		width: 80%;
+		width: 80%; 
 		border-color: #e6e6e6;/* 흰색 */
 		border-style: solid;
 	}
-		.bodyWrap {
-	    width: 80%; 
-	    display: inline-block;
-	    margin-left: 2%;
-	    margin-top: 1%;
-	    min-height: 500px; 
-	    border-color: #e6e6e6;
-		border-style: solid;
-		background-color: #323639; 
-		color: #e6e6e6;
-	}
+		
 	.ContentWrap{box-sizing: border-box;
 	    padding-top: 48px;
 	    padding-left: 20px;
@@ -79,7 +111,7 @@
 <%@include file="../includes/left.jsp"%>
 <body>
 <sec:authentication property="principal" var="userInfo"/>
-<div class="bodyWrap">	
+<div class="myscrapWrap">	
 	<div class="ContentWrap">
 		<div id="menuWrap">
 			<div class="tab"> 
@@ -102,7 +134,7 @@
 						<td>
 						<input type="checkbox" name="checkRow" value="${scrap.scrap_num}" />
                     </td>
-						<td class="mypage"><a class='move' href='<c:out value="${scrap.num}"/>'> 
+						<td class="boardTitle"><a class='move' href='<c:out value="${scrap.num}"/>'>  
 							<c:out value="${scrap.title}" /></a></td>  
 						<td>댓글수[<c:out value="${scrap.replyCnt}" />]</td>
 						<td>조회수<c:out value="${scrap.hitCnt}" /></td>

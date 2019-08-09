@@ -11,20 +11,53 @@
 	<title>메인</title>
 	
 <style>
+		@media screen and (max-width:500px){ 
+	     .memberListWrap {
+			    width: 80%; 
+			    display: inline-block;
+			    margin-left: 15%;
+			    margin-top: 1%;
+			    min-height: 500px; 
+			    border-color: #e6e6e6;
+				border-style: solid;
+				background-color: #323639; 
+				color: #e6e6e6;
+				display: inline-block;
+			}
+        }
+        @media screen and (min-width: 501px) and (max-width:1500px){
+          .memberListWrap {
+			    width: 80%; 
+			    display: inline-block;
+			    margin-left: 15%;
+			    margin-top: 1%;
+			    min-height: 500px; 
+			    border-color: #e6e6e6;
+				border-style: solid;
+				background-color: #323639; 
+				color: #e6e6e6;
+				display: inline-block;
+			}
+        }
+        @media screen and (min-width: 1501px){    
+          .memberListWrap {
+			    width: 51%; 
+			    display: inline-block;
+			    margin-left: 29%;
+			    margin-top: 1%;
+			    min-height: 500px; 
+			    border-color: #e6e6e6;
+				border-style: solid;
+				background-color: #323639; 
+				color: #e6e6e6;
+				display: inline-block;
+			}
+        }
+        
 	body{
 		background-color: #323639;  
 		}
-	.bodyWrap {
-	    width: 80%; 
-	    display: inline-block;
-	    margin-left: 2%;
-	    margin-top: 1%;
-	    min-height: 500px; 
-	    border-color: #e6e6e6;
-		border-style: solid;
-		background-color: #323639; 
-		color: #e6e6e6;
-	}
+	
 	.ContentWrap{box-sizing: border-box;
 	    padding-top: 48px;
 	    padding-left: 20px;
@@ -127,7 +160,7 @@
 
 
 <body> 
-	<div class="bodyWrap">	 
+	<div class="memberListWrap">	 
 	 <div class="ContentWrap">  
 	 
 		 <div id="menuWrap"> 

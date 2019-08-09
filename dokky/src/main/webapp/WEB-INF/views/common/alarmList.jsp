@@ -11,6 +11,49 @@
 <meta charset="UTF-8">
 <title>Dokky</title>
 <style>
+
+		@media screen and (max-width:500px){ 
+		     .alarmWrap {
+				    width: 80%; 
+				    display: inline-block;
+				    margin-left: 15%;
+				    margin-top: 1%;
+				    min-height: 500px; 
+				    border-color: #e6e6e6;
+					border-style: solid;
+					background-color: #323639; 
+					color: #e6e6e6;
+					display: inline-block;
+				}
+        }
+        @media screen and (min-width: 501px) and (max-width:1500px){
+          .alarmWrap {
+			    width: 80%; 
+			    display: inline-block;
+			    margin-left: 15%;
+			    margin-top: 1%;
+			    min-height: 500px; 
+			    border-color: #e6e6e6;
+				border-style: solid;
+				background-color: #323639; 
+				color: #e6e6e6;
+				display: inline-block;
+			}
+        }
+        @media screen and (min-width: 1501px){    
+		      .alarmWrap {
+			    width: 51%; 
+			    display: inline-block;
+			    margin-left: 29%;
+			    margin-top: 1%;
+			    min-height: 500px; 
+			    border-color: #e6e6e6;
+				border-style: solid;
+				background-color: #323639; 
+				color: #e6e6e6;
+				display: inline-block;
+			}
+        }
 	a  {    
 			color:#e6e6e6; text-decoration: none;
 		}
@@ -49,18 +92,10 @@
 		border-color: #e6e6e6;/* 흰색 */
 		border-style: solid;
 	}
-		.bodyWrap {
-	    width: 80%; 
-	    display: inline-block;
-	    margin-left: 2%;
-	    margin-top: 1%;
-	    min-height: 500px; 
-	    border-color: #e6e6e6;
+	.ContentWrap{
+	 	border-color: #e6e6e6;
 		border-style: solid;
-		background-color: #323639; 
-		color: #e6e6e6;
-	}
-	.ContentWrap{box-sizing: border-box;
+		box-sizing: border-box;
 	    padding-top: 48px;
 	    padding-left: 20px;
 	    padding-right: 20px;
@@ -86,7 +121,7 @@
 <%@include file="../includes/left.jsp"%>
 <body>
 <sec:authentication property="principal" var="userInfo"/>
-<div class="bodyWrap">	
+<div class="alarmWrap">	
 	<div class="ContentWrap">
 		<div id="menuWrap">
 			<div class="tab"> 

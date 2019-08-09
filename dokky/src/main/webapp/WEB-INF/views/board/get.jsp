@@ -11,6 +11,43 @@
 <title>Dokky</title>
 <%@include file="../includes/left.jsp"%>
 <style>
+
+		@media screen and (max-width:500px){ 
+			     .getWrapper {
+				    border-color: #e6e6e6;
+				    border-style: solid;
+				    background-color: #323639;
+				    color: #e6e6e6;
+				    margin-left: 15%;
+				    margin-top: 1%;
+				    width: 80%;
+				    display: inline-block; 
+				}    
+        }
+        @media screen and (min-width: 501px) and (max-width:1500px){
+	          .getWrapper {
+				    border-color: #e6e6e6;
+				    border-style: solid;
+				    background-color: #323639;
+				    color: #e6e6e6;
+				    margin-left: 15%;
+				    margin-top: 1%;
+				    width: 80%;
+				    display: inline-block; 
+				}
+        }
+        @media screen and (min-width: 1501px){    
+          .getWrapper {
+			    border-color: #e6e6e6;
+			    border-style: solid;
+			    background-color: #323639;
+			    color: #e6e6e6;
+			    margin-left: 29%;
+			    margin-top: 1%;
+			    width: 51%;
+			    display: inline-block; 
+			}
+        }
 	a  {   
 			color:#e6e6e6; text-decoration: none;
 		}
@@ -21,14 +58,6 @@
 	body{
 		background-color: #323639; 
 	}
-	.getWrapper { 
-	    border-color: #e6e6e6; 
-		border-style: solid; 
-		background-color: #323639; 
-		color: #e6e6e6;
-		margin-left: 15%;
-		margin-top: 1%; 
-	}  
     #replyModForm{ 
       display:none;
     }  

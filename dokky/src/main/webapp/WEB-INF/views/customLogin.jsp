@@ -8,22 +8,55 @@
 	<head>
 	<meta charset="utf-8">
 <style>
+		@media screen and (max-width:500px){ 
+			 .loginWrap {
+			    width: 80%; 
+			    display: inline-block;
+			    margin-left: 15%;
+			    margin-top: 1%;
+			    min-height: 500px;  
+			    border-color: #e6e6e6;
+				border-style: solid;
+				background-color: #323639; 
+				color: #e6e6e6;
+				display: inline-block;
+			}          
+		        }
+        @media screen and (min-width: 501px) and (max-width:1500px){
+           .loginWrap {
+			    width: 80%; 
+			    display: inline-block;
+			    margin-left: 15%;
+			    margin-top: 1%; 
+			    min-height: 500px; 
+			    border-color: #e6e6e6;
+				border-style: solid;
+				background-color: #323639; 
+				color: #e6e6e6;
+				display: inline-block;
+			}
+        }
+        @media screen and (min-width: 1501px){    
+		       .loginWrap {
+			    width: 51%; 
+			    display: inline-block;
+			    margin-left: 29%;
+			    margin-top: 1%;
+			    min-height: 500px; 
+			    border-color: #e6e6e6;
+				border-style: solid;
+				background-color: #323639; 
+				color: #e6e6e6;
+				display: inline-block;
+			}
+        }
+        
 	body{
 		background-color: #323639;  
 		}
-	.bodyWrap {
-	    width: 80%; 
-	    display: inline-block;
-	    margin-left: 2%;
-	    margin-top: 1%;
-	    min-height: 500px; 
-	    border-color: #e6e6e6;
-		border-style: solid;
-		background-color: #323639; 
-		color: #e6e6e6;
-	}
+
 	.container {
-	    width: 40%;
+	    width: 50%;
 	    display: inline-block;
 	    margin-left: 10%;
 	    margin-top: 6%;
@@ -37,7 +70,7 @@
 		/* display: inline-block; */  
 	    margin-top: 3%;
 	    margin-left:  30%;
-	    width: 35%;
+	    width: 45%;
 	    height: 50px;
 	    font-size: 20px;
 	   /*  border-color: #e6e6e6;
@@ -70,7 +103,7 @@
 </style> 
 	</head>
 <body> 
-<div class="bodyWrap">
+<div class="loginWrap">
  <div class="container"> 
 	<form role="form" method='post' action="/dokky/login">
 			<div class="form-group">
