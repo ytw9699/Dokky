@@ -106,6 +106,35 @@
 	#menuWrap .tab button:hover {
 	background-color: #7b7676;
 	}
+	.userMenubar{
+	    display: none;
+	    border-style: solid;
+	    border-color: #e6e6e6;
+	    width: 6%;
+	    height: 55px;
+	    position: fixed;
+	    background-color: #323639;
+	    margin-left: 1.3%;
+	}
+	.userMenubar li {
+	    list-style: none;
+	    border-style: solid;
+	    border-color: #e6e6e6;
+	    width: 155%;  
+	    margin-left: -60%;
+	}
+	.userMenubar ul { 
+	    border-style : solid;
+	    border-color: #e6e6e6;
+	    margin: auto;
+	}
+	a:hover {   
+	    color: #7151fc;
+	    text-decoration: underline;
+	}  
+	a  {    
+			color:#e6e6e6; text-decoration: none;
+		} 
 </style> 
 </head>
 <%@include file="../includes/left.jsp"%>
@@ -137,10 +166,19 @@
 						<td class="boardTitle"><a class='move' href='<c:out value="${scrap.num}"/>'>  
 							<c:out value="${scrap.title}" /></a></td>  
 						<td>댓글수[<c:out value="${scrap.replyCnt}" />]</td>
-						<td>조회수<c:out value="${scrap.hitCnt}" /></td>
-						<td onclick="location.href='/dokky/userBoardList?userId=<c:out value="${scrap.userId}" />'" >
-						 <img width="30px" src="/dokky/resources/img/profile_img/<c:out value="${scrap.userId}" />" class="memberImage" onerror="this.src='/dokky/resources/img/basicProfile.png'" />
-						<c:out value="${scrap.nickName}" /></td>   
+						<td>조회수<c:out value="${scrap.hitCnt}" /></td> 
+						<td> 
+							<a href="#" class="userMenu" data-scrap_num="${scrap.scrap_num}">
+								<img width="25px" src="/dokky/resources/img/profile_img/<c:out value="${scrap.userId}" />" class="memberImage hideUsermenu" onerror="this.src='/dokky/resources/img/basicProfile.png'" />
+								<c:out value="${scrap.nickName}" /> 
+							</a>   
+							 <div id="userMenubar_${scrap.scrap_num}" class="userMenubar">
+								<ul class="hideUsermenu"> 
+									<li class="hideUsermenu"><a href="/dokky/userBoardList?userId=${scrap.userId}" class="hideUsermenu"><span class="hideUsermenu">게시글보기</span></a></li>
+									<li class="hideUsermenu"><a href="#" class="hideUsermenu"><span class="hideUsermenu">쪽지보내기</span></a></li>
+								</ul>      
+						     </div> 
+						</td>
 						<td>
 							<fmt:formatDate value="${scrap.regDate}" pattern="yyyy년 MM월 dd일 HH:mm" />
 						</td>
@@ -186,6 +224,26 @@
 	
 <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script> 
 <script> 
+
+		$(".userMenu").on("click",function(event){//해당 메뉴바 보이기 이벤트
+			
+			var	scrap_num = $(this).data("scrap_num");
+			var userMenubar = $("#userMenubar_"+scrap_num);
+					
+			if($(".addBlockClass").length > 0){
+				$(".addBlockClass").css("display","none");  
+				$(".addBlockClass").removeClass('addBlockClass');
+			}
+			userMenubar.css("display","block"); 
+			userMenubar.addClass('addBlockClass'); 
+		 });
+		 
+		$('html').click(function(e) { //html안 Usermenu, hideUsermenu클래스를 가지고있는 곳 제외하고 클릭하면 숨김 이벤트발생
+			if( !$(e.target).is('.userMenu, .hideUsermenu') ) {  	
+			    var userMenu = $(".userMenubar");     
+				userMenu.css("display","none");  
+			} 
+		});
 	   
 		$("#deleteBtn").on("click", function() { 
 			deleteAction(); 
