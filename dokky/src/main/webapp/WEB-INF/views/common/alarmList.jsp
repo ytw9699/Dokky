@@ -65,12 +65,13 @@
 		background-color: #323639; 
 	}
 	.listWrapper { 
-	    border-color: #e6e6e6;/* 흰색 */
-		border-style: solid;   
-		background-color: #323639; 
-		color: #e6e6e6;
-		margin-left: 1%;
-		margin-top: 1%; 
+	    border-color: #e6e6e6; 
+	    border-style: solid;
+	    background-color: #323639;
+	    color: #e6e6e6;
+	    margin-left: 0%;
+	    margin-top: 1%;
+	    width: 100%;
 	}
 	.mypage a { 
     color: white;
@@ -99,7 +100,7 @@
 	    padding-top: 48px;
 	    padding-left: 20px;
 	    padding-right: 20px;
-	    width: 95%;
+	    width: 100%;
 		min-height: 750px;
 	    margin: 0 auto; 
  	} 
@@ -115,6 +116,29 @@
 	}
 	#menuWrap .tab button:hover {
 	background-color: #7b7676;
+	}
+	
+	.userMenubar{
+	    display: none;
+	    border-style: solid;
+	    border-color: #e6e6e6;
+	    width: 6%;
+	    height: 55px;
+	    position: fixed;
+	    background-color: #323639;
+	    margin-left: 1.3%;
+	}
+	.userMenubar li {
+	    list-style: none;
+	    border-style: solid;
+	    border-color: #e6e6e6;
+	    width: 155%;  
+	    margin-left: -60%;
+	}
+	.userMenubar ul { 
+	    border-style : solid;
+	    border-color: #e6e6e6;
+	    margin: auto;
 	}
 </style> 
 </head>
@@ -137,14 +161,20 @@
 						<input type="checkbox" name="checkRow" value="${alarm.alarmNum}" />
                     </td>
                     <c:choose>
-					       <c:when test="${alarm.kind == 0 }">
-					      			 <td>  
-						          		<a href="userBoardList?userId=${alarm.writerId}">
-						          	<img width="30" src="/dokky/resources/img/profile_img/<c:out value="${alarm.writerId}" />" class="memberImage" onerror="this.src='/dokky/resources/img/basicProfile.png'" />
-						          		${alarm.writerNick}
-						          		</a>
-						          		님께서 
-					          		</td>
+					       <c:when test="${alarm.kind == 0 }"> 
+					          		<td> 
+										<a href="#" class="userMenu" data-alarm_num="${alarm.alarmNum}">
+											<img width="25px" src="/dokky/resources/img/profile_img/<c:out value="${alarm.writerId}" />" class="memberImage hideUsermenu" onerror="this.src='/dokky/resources/img/basicProfile.png'" />
+											<c:out value="${alarm.writerNick}" /> 
+										</a>   
+										 <div id="userMenubar_${alarm.alarmNum}" class="userMenubar">
+											<ul class="hideUsermenu"> 
+												<li class="hideUsermenu"><a href="/dokky/userBoardList?userId=${alarm.writerId}" class="hideUsermenu"><span class="hideUsermenu">게시글보기</span></a></li>
+												<li class="hideUsermenu"><a href="#" class="hideUsermenu"><span class="hideUsermenu">쪽지보내기</span></a></li>
+											</ul>      
+									     </div> 
+									</td>
+						
 					          		<td data-alarm_num="${alarm.alarmNum}" data-board_num="${alarm.commonVar2}" class="getBoard">
 						          		${alarm.commonVar1} 글에 댓글을 다셨습니다. 
 						          	</td>
@@ -155,13 +185,18 @@
 					          		 </td>
 					       </c:when>
 					      <c:when test="${alarm.kind == 1 }">
-					     			 <td>  
-						          		<a href="userBoardList?userId=${alarm.writerId}">
-						          	<img width="30" src="/dokky/resources/img/profile_img/<c:out value="${alarm.writerId}" />" class="memberImage" onerror="this.src='/dokky/resources/img/basicProfile.png'" />
-						          		${alarm.writerNick}
-						          		</a>
-						          		님께서 
-					          		</td>
+					     			<td> 
+										<a href="#" class="userMenu" data-alarm_num="${alarm.alarmNum}">
+											<img width="25px" src="/dokky/resources/img/profile_img/<c:out value="${alarm.writerId}" />" class="memberImage hideUsermenu" onerror="this.src='/dokky/resources/img/basicProfile.png'" />
+											<c:out value="${alarm.writerNick}" /> 
+										</a>   
+										 <div id="userMenubar_${alarm.alarmNum}" class="userMenubar">
+											<ul class="hideUsermenu"> 
+												<li class="hideUsermenu"><a href="/dokky/userBoardList?userId=${alarm.writerId}" class="hideUsermenu"><span class="hideUsermenu">게시글보기</span></a></li>
+												<li class="hideUsermenu"><a href="#" class="hideUsermenu"><span class="hideUsermenu">쪽지보내기</span></a></li>
+											</ul>      
+									     </div> 
+									</td>
 					          		<td data-alarm_num="${alarm.alarmNum}" data-board_num="${alarm.commonVar2}" class="getBoard">
 						          		${alarm.commonVar1} 글에 좋아요 표시를 했습니다. 
 						          	</td>
@@ -172,12 +207,18 @@
 					          		 </td>
 					       </c:when> 
 					        <c:when test="${alarm.kind == 2 }">
-					      			<td>  
-						          		<a href="userBoardList?userId=${alarm.writerId}">
-						          	<img width="30" src="/dokky/resources/img/profile_img/<c:out value="${alarm.writerId}" />" class="memberImage" onerror="this.src='/dokky/resources/img/basicProfile.png'" />
-						          		${alarm.writerNick}
-						          		</a>
-					          		</td>
+					      			<td> 
+										<a href="#" class="userMenu" data-alarm_num="${alarm.alarmNum}">
+											<img width="25px" src="/dokky/resources/img/profile_img/<c:out value="${alarm.writerId}" />" class="memberImage hideUsermenu" onerror="this.src='/dokky/resources/img/basicProfile.png'" />
+											<c:out value="${alarm.writerNick}" /> 
+										</a>   
+										 <div id="userMenubar_${alarm.alarmNum}" class="userMenubar">
+											<ul class="hideUsermenu"> 
+												<li class="hideUsermenu"><a href="/dokky/userBoardList?userId=${alarm.writerId}" class="hideUsermenu"><span class="hideUsermenu">게시글보기</span></a></li>
+												<li class="hideUsermenu"><a href="#" class="hideUsermenu"><span class="hideUsermenu">쪽지보내기</span></a></li>
+											</ul>      
+									     </div> 
+									</td>
 					          		<td data-alarm_num="${alarm.alarmNum}" data-board_num="${alarm.commonVar2}" class="getBoard">
 						          		${alarm.commonVar1}글에 싫어요 표시를 했습니다.  
 						          	</td>
@@ -188,12 +229,18 @@
 					          		 </td>
 					       </c:when> 
 					        <c:when test="${alarm.kind == 3 }">
-					        		 <td>  
-						          		<a href="userBoardList?userId=${alarm.writerId}">
-						          	<img width="30" src="/dokky/resources/img/profile_img/<c:out value="${alarm.writerId}" />" class="memberImage" onerror="this.src='/dokky/resources/img/basicProfile.png'" />
-						          		${alarm.writerNick}
-						          		</a>
-					          		</td>
+					        		 <td> 
+										<a href="#" class="userMenu" data-alarm_num="${alarm.alarmNum}">
+											<img width="25px" src="/dokky/resources/img/profile_img/<c:out value="${alarm.writerId}" />" class="memberImage hideUsermenu" onerror="this.src='/dokky/resources/img/basicProfile.png'" />
+											<c:out value="${alarm.writerNick}" /> 
+										</a>   
+										 <div id="userMenubar_${alarm.alarmNum}" class="userMenubar">
+											<ul class="hideUsermenu"> 
+												<li class="hideUsermenu"><a href="/dokky/userBoardList?userId=${alarm.writerId}" class="hideUsermenu"><span class="hideUsermenu">게시글보기</span></a></li>
+												<li class="hideUsermenu"><a href="#" class="hideUsermenu"><span class="hideUsermenu">쪽지보내기</span></a></li>
+											</ul>      
+									     </div> 
+									</td>
 					          		<td data-alarm_num="${alarm.alarmNum}" data-board_num="${alarm.commonVar2}" class="getBoard">
 						          		${alarm.commonVar1}글에 기부하셨습니다.  
 						          	</td>
@@ -204,12 +251,18 @@
 					          		 </td>
 					       </c:when> 
 					       <c:when test="${alarm.kind == 4 }">
-					 			     <td>  
-						          		<a href="userBoardList?userId=${alarm.writerId}">
-						          	<img width="30" src="/dokky/resources/img/profile_img/<c:out value="${alarm.writerId}" />" class="memberImage" onerror="this.src='/dokky/resources/img/basicProfile.png'" />
-						          		${alarm.writerNick}
-						          		</a>
-					          		</td>
+					 			    <td> 
+										<a href="#" class="userMenu" data-alarm_num="${alarm.alarmNum}">
+											<img width="25px" src="/dokky/resources/img/profile_img/<c:out value="${alarm.writerId}" />" class="memberImage hideUsermenu" onerror="this.src='/dokky/resources/img/basicProfile.png'" />
+											<c:out value="${alarm.writerNick}" /> 
+										</a>   
+										 <div id="userMenubar_${alarm.alarmNum}" class="userMenubar">
+											<ul class="hideUsermenu"> 
+												<li class="hideUsermenu"><a href="/dokky/userBoardList?userId=${alarm.writerId}" class="hideUsermenu"><span class="hideUsermenu">게시글보기</span></a></li>
+												<li class="hideUsermenu"><a href="#" class="hideUsermenu"><span class="hideUsermenu">쪽지보내기</span></a></li>
+											</ul>      
+									     </div> 
+									</td>
 					          		<td data-alarm_num="${alarm.alarmNum}" data-board_num="${alarm.commonVar2}" class="getBoard">
 						          		${alarm.commonVar1}댓글에 기부하셨습니다.  
 						          	</td>
@@ -220,12 +273,18 @@
 					          		 </td>
 					       </c:when>
 					       <c:when test="${alarm.kind == 5 }">
-					      		  	<td>  
-						          		<a href="userBoardList?userId=${alarm.writerId}">
-						          	<img width="30" src="/dokky/resources/img/profile_img/<c:out value="${alarm.writerId}" />" class="memberImage" onerror="this.src='/dokky/resources/img/basicProfile.png'" />
-						          		${alarm.writerNick}
-						          		</a>
-					          		</td>
+					      		  	<td> 
+										<a href="#" class="userMenu" data-alarm_num="${alarm.alarmNum}">
+											<img width="25px" src="/dokky/resources/img/profile_img/<c:out value="${alarm.writerId}" />" class="memberImage hideUsermenu" onerror="this.src='/dokky/resources/img/basicProfile.png'" />
+											<c:out value="${alarm.writerNick}" /> 
+										</a>   
+										 <div id="userMenubar_${alarm.alarmNum}" class="userMenubar">
+											<ul class="hideUsermenu"> 
+												<li class="hideUsermenu"><a href="/dokky/userBoardList?userId=${alarm.writerId}" class="hideUsermenu"><span class="hideUsermenu">게시글보기</span></a></li>
+												<li class="hideUsermenu"><a href="#" class="hideUsermenu"><span class="hideUsermenu">쪽지보내기</span></a></li>
+											</ul>      
+									     </div> 
+									</td>
 					          		<td data-alarm_num="${alarm.alarmNum}" data-board_num="${alarm.commonVar2}" class="getBoard">
 						          		${alarm.commonVar1}댓글에 좋아요 표시를 했습니다. 
 						          	</td>
@@ -236,12 +295,18 @@
 					          		 </td>
 					       </c:when>
 					       <c:when test="${alarm.kind == 6 }">
-					   				 <td>  
-						          		<a href="userBoardList?userId=${alarm.writerId}">
-						          	<img width="30" src="/dokky/resources/img/profile_img/<c:out value="${alarm.writerId}" />" class="memberImage" onerror="this.src='/dokky/resources/img/basicProfile.png'" />
-						          		${alarm.writerNick}
-						          		</a>
-					          		</td>
+					   				<td> 
+										<a href="#" class="userMenu" data-alarm_num="${alarm.alarmNum}">
+											<img width="25px" src="/dokky/resources/img/profile_img/<c:out value="${alarm.writerId}" />" class="memberImage hideUsermenu" onerror="this.src='/dokky/resources/img/basicProfile.png'" />
+											<c:out value="${alarm.writerNick}" /> 
+										</a>   
+										 <div id="userMenubar_${alarm.alarmNum}" class="userMenubar">
+											<ul class="hideUsermenu"> 
+												<li class="hideUsermenu"><a href="/dokky/userBoardList?userId=${alarm.writerId}" class="hideUsermenu"><span class="hideUsermenu">게시글보기</span></a></li>
+												<li class="hideUsermenu"><a href="#" class="hideUsermenu"><span class="hideUsermenu">쪽지보내기</span></a></li>
+											</ul>      
+									     </div> 
+									</td>
 					          		<td data-alarm_num="${alarm.alarmNum}" data-board_num="${alarm.commonVar2}" class="getBoard">
 						          		${alarm.commonVar1} 댓글에 싫어요 표시를 했습니다. 
 						          	</td> 
@@ -272,9 +337,9 @@
 												1					          		 	
 						          		 </c:if> 
 					          		 </td>
-					       </c:when>
+					       </c:when> 
 			       </c:choose> 
-						<td>
+						<td> 
 							<fmt:formatDate value="${alarm.regdate}" pattern="yyyy년 MM월 dd일 HH:mm" />
 						</td>
 					</tr>
@@ -329,6 +394,26 @@
 		    xhr.setRequestHeader(csrfHeaderName, csrfTokenValue); //모든 AJAX전송시 CSRF토큰을 같이 전송하도록 셋팅
 		  });
   
+		$(".userMenu").on("click",function(event){//해당 메뉴바 보이기 이벤트
+			
+			var	alarm_num = $(this).data("alarm_num");
+			var userMenubar = $("#userMenubar_"+alarm_num);
+					
+			if($(".addBlockClass").length > 0){
+				$(".addBlockClass").css("display","none");  
+				$(".addBlockClass").removeClass('addBlockClass');
+			}
+			userMenubar.css("display","block"); 
+			userMenubar.addClass('addBlockClass'); 
+		 });
+		 
+		$('html').click(function(e) { //html안 Usermenu, hideUsermenu클래스를 가지고있는 곳 제외하고 클릭하면 숨김 이벤트발생
+			if( !$(e.target).is('.userMenu, .hideUsermenu') ) {  //("Usermenu") || $(e.target).hasClass("perid-layer")) { 	
+			    var userMenu = $(".userMenubar");     
+				userMenu.css("display","none");  
+			} 
+		});
+		
 		function updateAlarmCheck(alarmNum, callback, error) {
 			$.ajax({
 				type : 'put',

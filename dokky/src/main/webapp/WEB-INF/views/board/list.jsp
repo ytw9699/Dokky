@@ -102,8 +102,6 @@
 	    border-style : solid;
 	    border-color: #e6e6e6;
 	    margin: auto;
-	   /*  width: 95%;
-	    margin-left: 18%; */
 	}
 	 
 </style>
