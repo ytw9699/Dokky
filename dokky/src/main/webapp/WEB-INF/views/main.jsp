@@ -38,7 +38,7 @@
         }
         @media screen and (min-width: 1501px){    
             .bodyWrap {
-			    width: 50%;
+			    width: 51%;
 			    display: inline-block; 
 			    margin-left: 29%;
 			    margin-top: 1%;
@@ -62,12 +62,12 @@
 		background-color: #323639;   
 		}
 	
-	.mainLists{
-		border-color: #e6e6e6; 
-		border-style: solid;
-		margin-left: 2%;
+	.mainLists {
+	    border-color: #e6e6e6;
+	    border-style: solid;
+	    margin-left: 1%;
 	    margin-top: 1%;
-	    width: 95%; 
+	    width: 98%;
 	}
 	.replyCnt{  
 	  color: #ff2f3b;  
