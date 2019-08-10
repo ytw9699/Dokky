@@ -80,6 +80,7 @@
 	    height: 55px;
 	    position: fixed;
 	    background-color: #323639;
+	    margin-left: 1.3%;
 	}
 	.userMenubar li {
 	    list-style: none;
@@ -244,8 +245,9 @@
 				var userMenu = $("#userMenubar_donate_"+board_num);
 		}
 		if($(".addBlockClass").length > 0){
-			$(".addBlockClass").css("display","none");  
-		}
+			$(".addBlockClass").css("display","none"); 
+			$(".addBlockClass").removeClass('addBlockClass');
+		}    
 		userMenu.css("display","block"); 
 		userMenu.addClass('addBlockClass'); 
 		

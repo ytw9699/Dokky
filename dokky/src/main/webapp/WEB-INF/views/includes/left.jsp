@@ -73,6 +73,7 @@
     height: 55px;
     position: fixed;
     background-color: #323639;
+    margin-left: 1.3%;  
 	/* position : absolute; */ 
 	/* style="display: block; position: absolute; width: 109px; z-index: 1000; top: 332px; left: 535px;" */
 }
@@ -82,7 +83,7 @@
     border-color: #e6e6e6;
     width: 155%;  
     margin-left: -60%;
-}
+} 
 .perid-layer ul {
     border-style : solid;
     border-color: #e6e6e6;
