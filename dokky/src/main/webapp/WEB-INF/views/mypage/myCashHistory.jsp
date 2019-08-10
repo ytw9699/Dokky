@@ -11,6 +11,45 @@
 <meta charset="UTF-8">
 <title>Dokky</title>
 <style>
+		@media screen and (max-width:500px){ 
+	           .mycashHisWrap {
+				    width: 50%;
+				    display: inline-block; 
+				    margin-left: 29%;
+				    margin-top: 1%;
+				    min-height: 500px;
+				    border-color: #e6e6e6;
+				    border-style: solid;
+				    background-color: #323639;
+				    color: #e6e6e6;
+				}
+        }
+        @media screen and (min-width: 501px) and (max-width:1500px){
+          	.mycashHisWrap {
+			    width: 80%;
+			    display: inline-block;
+			    margin-left: 15%;
+			    margin-top: 1%;
+			    min-height: 500px;
+			    border-color: #e6e6e6;
+			    border-style: solid;
+			    background-color: #323639;
+			    color: #e6e6e6;
+			}
+        }
+        @media screen and (min-width: 1501px){    
+            .mycashHisWrap {
+			    width: 51%;
+			    display: inline-block; 
+			    margin-left: 29%;
+			    margin-top: 1%;
+			    min-height: 500px;
+			    border-color: #e6e6e6;
+			    border-style: solid;
+			    background-color: #323639;
+			    color: #e6e6e6;
+			}
+        }
 	body{
 		background-color: #323639; 
 	}
@@ -42,17 +81,7 @@
 		border-color: #e6e6e6;/* 흰색 */
 		border-style: solid;
 	}
-		.bodyWrap {
-	    width: 80%; 
-	    display: inline-block;
-	    margin-left: 2%;
-	    margin-top: 1%;
-	    min-height: 500px; 
-	    border-color: #e6e6e6;
-		border-style: solid;
-		background-color: #323639; 
-		color: #e6e6e6;
-	}
+		
 	.ContentWrap{box-sizing: border-box;
 	    padding-top: 48px;
 	    padding-left: 20px;
@@ -79,7 +108,7 @@
 <%@include file="../includes/left.jsp"%>
 <body>
 <sec:authentication property="principal" var="userInfo"/>
-<div class="bodyWrap">	
+<div class="mycashHisWrap">	
 	<div class="ContentWrap">
 		<div id="menuWrap">
 			<div class="tab"> 
