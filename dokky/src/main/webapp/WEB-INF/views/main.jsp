@@ -72,11 +72,36 @@
 	.replyCnt{  
 	  color: #ff2f3b;  
 	}
+	.userMenubar{
+	    display: none;
+	    border-style: solid;
+	    border-color: #e6e6e6;
+	    width: 6%;
+	    height: 55px;
+	    position: fixed;
+	    background-color: #323639;
+	}
+	.userMenubar li {
+	    list-style: none;
+	    border-style: solid;
+	    border-color: #e6e6e6;
+	    width: 155%;  
+	    margin-left: -60%;
+	}
+	.userMenubar ul { 
+	    border-style : solid;
+	    border-color: #e6e6e6;
+	    margin: auto;
+	   /*  width: 95%;
+	    margin-left: 18%; */
+	}
+
 	
 </style>
 </head>
 
 <%@include file="includes/left.jsp"%>
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
 
 <body>
 	<div class="bodyWrap">	 
@@ -101,15 +126,21 @@
 						<td> 
 							\<fmt:formatNumber type="number" maxFractionDigits="3" value="${board.money}"/>
 						</td>
-						<td>
-							<a href="/dokky/userBoardList?userId=${board.userId}"> 
-								<img width="25px" src="/dokky/resources/img/profile_img/<c:out value="${board.userId}" />" class="memberImage" onerror="this.src='/dokky/resources/img/basicProfile.png'" />
-								<c:out value="${board.nickName}" />
+						<td> 
+							<a href="#" class="userMenu" data-board_num="${board.num}" data-board_kind="realtime">
+								<img width="25px" src="/dokky/resources/img/profile_img/<c:out value="${board.userId}" />" class="memberImage hideUsermenu" onerror="this.src='/dokky/resources/img/basicProfile.png'" />
+								<c:out value="${board.nickName}" /> 
 							</a> 
+							 <div id="userMenubar_realtime_${board.num}" class="userMenubar">
+								<ul class="hideUsermenu"> 
+									<li class="hideUsermenu"><a href="/dokky/userBoardList?userId=${board.userId}" class="hideUsermenu"><span class="hideUsermenu">게시글보기</span></a></li>
+									<li class="hideUsermenu"><a href="#" class="hideUsermenu"><span class="hideUsermenu">쪽지보내기</span></a></li>
+								</ul>  
+						     </div>
 						</td>
 						<td>
 							<fmt:formatDate value="${board.regDate}" pattern="yyyy년 MM월 dd일 HH:mm" />
-						</td> 
+						</td>  
 					</tr>
 				</c:forEach>
 			</table>
@@ -136,11 +167,17 @@
 						<td> 
 							\<fmt:formatNumber type="number" maxFractionDigits="3" value="${board.money}"/>
 						</td>
-						<td>
-							<a href="/dokky/userBoardList?userId=${board.userId}"> 
-								<img width="25px" src="/dokky/resources/img/profile_img/<c:out value="${board.userId}" />" class="memberImage" onerror="this.src='/dokky/resources/img/basicProfile.png'" />
+						<td> 
+							<a href="#" class="userMenu" data-board_num="${board.num}" data-board_kind="like">
+								<img width="25px" src="/dokky/resources/img/profile_img/<c:out value="${board.userId}" />" class="memberImage hideUsermenu" onerror="this.src='/dokky/resources/img/basicProfile.png'" />
 								<c:out value="${board.nickName}" />
 							</a> 
+							 <div id="userMenubar_like_${board.num}" class="userMenubar">
+								<ul class="hideUsermenu"> 
+									<li class="hideUsermenu"><a href="/dokky/userBoardList?userId=${board.userId}" class="hideUsermenu"><span class="hideUsermenu">게시글보기</span></a></li>
+									<li class="hideUsermenu"><a href="#" class="hideUsermenu"><span class="hideUsermenu">쪽지보내기</span></a></li>
+								</ul>  
+						     </div>
 						</td>
 						<td>
 							<fmt:formatDate value="${board.regDate}" pattern="yyyy년 MM월 dd일 HH:mm" />
@@ -171,13 +208,19 @@
 						<td> 
 							\<fmt:formatNumber type="number" maxFractionDigits="3" value="${board.money}"/>
 						</td>
-						<td>
-							<a href="/dokky/userBoardList?userId=${board.userId}"> 
-								<img width="25px" src="/dokky/resources/img/profile_img/<c:out value="${board.userId}" />" class="memberImage" onerror="this.src='/dokky/resources/img/basicProfile.png'" />
+						<td> 
+							<a href="#" class="userMenu" data-board_num="${board.num}" data-board_kind="donate"> 
+								<img width="25px" src="/dokky/resources/img/profile_img/<c:out value="${board.userId}" />" class="memberImage hideUsermenu" onerror="this.src='/dokky/resources/img/basicProfile.png'" />
 								<c:out value="${board.nickName}" />
 							</a> 
+							 <div id="userMenubar_donate_${board.num}" class="userMenubar">
+								<ul class="hideUsermenu"> 
+									<li class="hideUsermenu"><a href="/dokky/userBoardList?userId=${board.userId}" class="hideUsermenu"><span class="hideUsermenu">게시글보기</span></a></li>
+									<li class="hideUsermenu"><a href="#" class="hideUsermenu"><span class="hideUsermenu">쪽지보내기</span></a></li>
+								</ul>  
+						     </div>
 						</td>
-						<td>
+						<td> 
 							<fmt:formatDate value="${board.regDate}" pattern="yyyy년 MM월 dd일 HH:mm" />
 						</td> 
 					</tr>
@@ -187,7 +230,35 @@
 		
 		
 	</div>
-	
+	<script>
+	$(".userMenu").on("click",function(event){//해당 메뉴바 보이기 이벤트
+		
+		var	board_num = $(this).data("board_num");
+		var	board_kind = $(this).data("board_kind");
+		
+		if(board_kind == 'like'){
+				var userMenu = $("#userMenubar_like_"+board_num);
+		}else if(board_kind == 'realtime'){
+				var userMenu = $("#userMenubar_realtime_"+board_num);
+		}else if(board_kind == 'donate'){
+				var userMenu = $("#userMenubar_donate_"+board_num);
+		}
+		if($(".addBlockClass").length > 0){
+			$(".addBlockClass").css("display","none");  
+		}
+		userMenu.css("display","block"); 
+		userMenu.addClass('addBlockClass'); 
+		
+	 });
+	 
+	$('html').click(function(e) { //html안 Usermenu, hideUsermenu클래스를 가지고있는 곳 제외하고 클릭하면 숨김 이벤트발생
+		if( !$(e.target).is('.userMenu, .hideUsermenu') ) {  //("Usermenu") || $(e.target).hasClass("perid-layer")) { 	
+		    var userMenu = $(".userMenubar");    
+			userMenu.css("display","none"); 
+		} 
+	});
+	 
+	</script>
 </body>
 
 </html>

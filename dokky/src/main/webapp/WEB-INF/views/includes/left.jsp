@@ -118,14 +118,10 @@
 						  	  <img width="30px" src="/dokky/resources/img/profile_img/<c:out value="${userInfo.username}" />" class="memberImage hideUsermenu" onerror="this.src='/dokky/resources/img/basicProfile.png'" />
 						  	  <c:out value="${userInfo.member.nickName}"/>    
 					  	  </a> 
-					  	<%--    <a href="/dokky/mypage/myInfoForm?userId=${userInfo.username}" onmousedown="getUsermenu()">
-						  	  <img width="30px" src="/dokky/resources/img/profile_img/<c:out value="${userInfo.username}" />" class="memberImage" onerror="this.src='/dokky/resources/img/basicProfile.png'" />
-						  	  <c:out value="${userInfo.member.nickName}"/>
-					  	  </a> --%>
 					  	  
 					  	  <div id="" class="perid-layer">
 								<ul class="hideUsermenu"> 
-									<li class="hideUsermenu"><a href="#" class="hideUsermenu"><span class="hideUsermenu">게시글보기</span></a></li>
+									<li class="hideUsermenu"><a href="/dokky/userBoardList?userId=${userInfo.username}" class="hideUsermenu"><span class="hideUsermenu">게시글보기</span></a></li>
 									<li class="hideUsermenu"><a href="#" class="hideUsermenu"><span class="hideUsermenu">쪽지보내기</span></a></li>
 								</ul>  
 						  </div> 
@@ -142,17 +138,19 @@
 	</div>
 	<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
 	<script>
-	function getUsermenu() { //메뉴바 보이기 이벤트
+	function getUsermenu() { //메뉴바 보이기 이벤트 
 		var userMenu = $(".perid-layer"); 
 		userMenu.css("display","block"); 
 	}
 	 
-	$('html').click(function(e) { //html안 Usermenu, hideUsermenu클래스를 가지고있는 곳 제외하고 클릭하면 숨김 이벤트발생
+	 $('html').click(function(e) { //html안 Usermenu, hideUsermenu클래스를 가지고있는 곳 제외하고 클릭하면 숨김 이벤트발생
+		console.log(e.target);
+		console.log($(e.target).is('.Usermenu, .hideUsermenu'));
 		if( !$(e.target).is('.Usermenu, .hideUsermenu') ) {  //("Usermenu") || $(e.target).hasClass("perid-layer")) { 	
 		var userMenu = $(".perid-layer"); 
 			userMenu.css("display","none"); 
 		} 
-	});
+	}); 
 
 	
 	function getAlarmRealCount(userId, callback, error) {
