@@ -65,6 +65,33 @@
     text-decoration:none;
 }
 
+.perid-layer{
+    display: none;
+    border-style: solid;
+    border-color: #e6e6e6;
+    width: 6%;
+    height: 55px;
+    position: fixed;
+    background-color: #323639;
+	/* position : absolute; */ 
+	/* style="display: block; position: absolute; width: 109px; z-index: 1000; top: 332px; left: 535px;" */
+}
+.perid-layer li {
+    list-style: none;
+    border-style: solid;
+    border-color: #e6e6e6;
+    width: 155%;  
+    margin-left: -60%;
+}
+.perid-layer ul {
+    border-style : solid;
+    border-color: #e6e6e6;
+    margin: auto;
+   /*  width: 95%;
+    margin-left: 18%; */
+}
+
+
 </style>
 </head>
 <body>
@@ -87,9 +114,22 @@
 		<div class="mypage">  
 			<sec:authorize access="isAuthenticated()">
 					<form id="logoutForm" method='post' action="/dokky/customLogout">
-					  	  <a href="/dokky/mypage/myInfoForm?userId=${userInfo.username}">
-					  	  <img width="30px" src="/dokky/resources/img/profile_img/<c:out value="${userInfo.username}" />" class="memberImage" onerror="this.src='/dokky/resources/img/basicProfile.png'" />
-					  	  <c:out value="${userInfo.member.nickName}"/></a>
+					  	  <a href="#" onClick="getUsermenu()" class="Usermenu">
+						  	  <img width="30px" src="/dokky/resources/img/profile_img/<c:out value="${userInfo.username}" />" class="memberImage hideUsermenu" onerror="this.src='/dokky/resources/img/basicProfile.png'" />
+						  	  <c:out value="${userInfo.member.nickName}"/>    
+					  	  </a> 
+					  	<%--    <a href="/dokky/mypage/myInfoForm?userId=${userInfo.username}" onmousedown="getUsermenu()">
+						  	  <img width="30px" src="/dokky/resources/img/profile_img/<c:out value="${userInfo.username}" />" class="memberImage" onerror="this.src='/dokky/resources/img/basicProfile.png'" />
+						  	  <c:out value="${userInfo.member.nickName}"/>
+					  	  </a> --%>
+					  	  
+					  	  <div id="" class="perid-layer">
+								<ul class="hideUsermenu"> 
+									<li class="hideUsermenu"><a href="#" class="hideUsermenu"><span class="hideUsermenu">게시글보기</span></a></li>
+									<li class="hideUsermenu"><a href="#" class="hideUsermenu"><span class="hideUsermenu">쪽지보내기</span></a></li>
+								</ul>  
+						  </div> 
+
 					    <input id="logoutBtn" type="submit" value="Logout">  
 					</form>  
 			</sec:authorize>
@@ -102,6 +142,18 @@
 	</div>
 	<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
 	<script>
+	function getUsermenu() { 
+		var userMenu = $(".perid-layer"); 
+		userMenu.css("display","block"); 
+	}
+	 
+	$('html').click(function(e) { //html안 Usermenu클래스를 가지고있는 곳 제외하고 클릭하면 이벤트발생
+		if( !$(e.target).is('.Usermenu, .hideUsermenu') ) {  //("Usermenu") || $(e.target).hasClass("perid-layer")) { 	
+		var userMenu = $(".perid-layer"); 
+			userMenu.css("display","none"); 
+		} 
+	});
+
 	
 	function getAlarmRealCount(userId, callback, error) {
 		$.ajax({
