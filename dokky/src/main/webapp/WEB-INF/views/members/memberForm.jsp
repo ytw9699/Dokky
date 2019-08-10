@@ -9,24 +9,53 @@
 <meta charset="UTF-8">
 	<title>Dokky회원가입</title>
 <style>
+ 		@media screen and (max-width:500px){ 
+	           .memberFormWrap {
+				    width: 50%;
+				    display: inline-block; 
+				    margin-left: 29%;
+				    margin-top: 1%;
+				    min-height: 500px;
+				    border-color: #e6e6e6;
+				    border-style: solid;
+				    background-color: #323639;
+				    color: #e6e6e6;
+				}
+        }
+        @media screen and (min-width: 501px) and (max-width:1500px){
+          	.memberFormWrap {
+			    width: 80%;
+			    display: inline-block;
+			    margin-left: 15%;
+			    margin-top: 1%;
+			    min-height: 500px;
+			    border-color: #e6e6e6;
+			    border-style: solid;
+			    background-color: #323639;
+			    color: #e6e6e6;
+			}
+        }
+        @media screen and (min-width: 1501px){    
+            .memberFormWrap {
+			    width: 51%;
+			    display: inline-block; 
+			    margin-left: 29%;
+			    margin-top: 1%;
+			    min-height: 500px;
+			    border-color: #e6e6e6;
+			    border-style: solid;
+			    background-color: #323639;
+			    color: #e6e6e6;
+			}
+        }
 	body{
 		background-color: #323639;  
 		}
-	.bodyWrap {
-	    width: 80%; 
-	    display: inline-block;
-	    margin-left: 2%;
-	    margin-top: 1%;
-	    min-height: 500px; 
-	    border-color: #e6e6e6;
-		border-style: solid;
-		background-color: #323639; 
-		color: #e6e6e6;
-	}
+	
 </style>
 </head>
 <body>
-	<div class="bodyWrap">	
+	<div class="memberFormWrap">	
 		 <form id="" method='post' action="/dokky/members">	
 		  	<input type="hidden" name="${_csrf.parameterName}" value="${_csrf.token}" />
 		  	
