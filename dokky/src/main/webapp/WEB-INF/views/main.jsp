@@ -113,8 +113,9 @@
 					<tr>
 						<td>  
 							<a class='move' href='/dokky/board/get?num=<c:out value="${board.num}"/>'> 
-							<c:out value="${board.title}" /></a>
-							<a class="replyCnt">[<c:out value="${board.replyCnt}" />]</a>
+								<c:out value="${board.title}" /> 
+								<span class="replyCnt">[<c:out value="${board.replyCnt}" />]</span>
+							</a>
 						</td> 
 						<td>
 							<img width="20px" src="/dokky/resources/img/read.png"/>
