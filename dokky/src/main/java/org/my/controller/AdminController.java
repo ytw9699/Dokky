@@ -19,7 +19,7 @@ package org.my.controller;
 	import org.springframework.web.bind.annotation.ResponseBody;
 	import lombok.Setter;
 	import lombok.extern.log4j.Log4j;
-	//import org.springframework.security.access.annotation.Secured;
+		//import org.springframework.security.access.annotation.Secured;
 
 @Controller
 @Log4j

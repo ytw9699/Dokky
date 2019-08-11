@@ -22,7 +22,7 @@ package org.my.controller;
 	import org.springframework.web.bind.annotation.ResponseBody;
 	import lombok.AllArgsConstructor;
 	import lombok.extern.log4j.Log4j;
-		
+			
 @RequestMapping("/replies/")
 @Controller
 @Log4j
