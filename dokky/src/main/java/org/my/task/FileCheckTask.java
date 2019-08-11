@@ -1,22 +1,19 @@
 package org.my.task;
-
-import java.io.File;
-import java.nio.file.Path;
-import java.nio.file.Paths;
-import java.text.SimpleDateFormat;
-import java.util.Calendar;
-import java.util.Date;
-import java.util.List;
-import java.util.stream.Collectors;
-
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.scheduling.annotation.Scheduled;
-import org.springframework.stereotype.Component;
-import org.my.domain.BoardAttachVO;
-import org.my.mapper.BoardAttachMapper;
-
-import lombok.Setter;
-import lombok.extern.log4j.Log4j;
+	import java.io.File;
+	import java.nio.file.Path;
+	import java.nio.file.Paths;
+	import java.text.SimpleDateFormat;
+	import java.util.Calendar;
+	import java.util.Date;
+	import java.util.List;
+	import java.util.stream.Collectors;
+	import org.springframework.beans.factory.annotation.Autowired;
+	import org.springframework.scheduling.annotation.Scheduled;
+	import org.springframework.stereotype.Component;
+	import org.my.domain.BoardAttachVO;
+	import org.my.mapper.BoardAttachMapper;
+	import lombok.Setter;
+	import lombok.extern.log4j.Log4j;
 
 @Log4j
 @Component

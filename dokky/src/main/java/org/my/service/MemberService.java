@@ -1,8 +1,7 @@
 package org.my.service;
 	import java.util.List;
-
-import org.my.domain.BoardVO;
-import org.my.domain.MemberVO;
+	import org.my.domain.BoardVO;
+	import org.my.domain.MemberVO;
 
 public interface MemberService {
 	 

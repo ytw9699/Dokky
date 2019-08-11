@@ -1,14 +1,12 @@
 package org.my.service;
 	import java.util.List;
-
-import org.my.domain.BoardVO;
-import org.my.domain.Criteria;
-import org.my.domain.MemberVO;
-import org.my.domain.ReplyPageDTO;
-import org.my.domain.ReplyVO;
-import org.my.domain.cashVO;
-import org.my.domain.scrapVO;
-import org.my.mapper.MypageMapper;
+	import org.my.domain.BoardVO;
+	import org.my.domain.Criteria;
+	import org.my.domain.MemberVO;
+	import org.my.domain.ReplyVO;
+	import org.my.domain.cashVO;
+	import org.my.domain.scrapVO;
+	import org.my.mapper.MypageMapper;
 	import org.springframework.beans.factory.annotation.Autowired;
 	import org.springframework.security.crypto.password.PasswordEncoder;
 	import org.springframework.stereotype.Service;

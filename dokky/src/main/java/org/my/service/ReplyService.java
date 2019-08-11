@@ -1,13 +1,10 @@
 package org.my.service;
-
-	import org.my.domain.BoardDisLikeVO;
-import org.my.domain.Criteria;
-import org.my.domain.ReplyDisLikeVO;
-import org.my.domain.ReplyLikeVO;
-import org.my.domain.ReplyPageDTO;
+	import org.my.domain.Criteria;
+	import org.my.domain.ReplyDisLikeVO;
+	import org.my.domain.ReplyLikeVO;
+	import org.my.domain.ReplyPageDTO;
 	import org.my.domain.ReplyVO;
-import org.my.domain.commonVO;
-import org.my.domain.replyDonateVO;
+	import org.my.domain.commonVO;
 
 public interface ReplyService {
 

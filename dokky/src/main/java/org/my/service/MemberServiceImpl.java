@@ -1,9 +1,7 @@
 package org.my.service;
 	import java.util.List;
-
-import org.my.domain.BoardVO;
-import org.my.domain.Criteria;
-import org.my.domain.MemberVO;
+	import org.my.domain.BoardVO;
+	import org.my.domain.MemberVO;
 	import org.my.mapper.MemberMapper;
 	import org.springframework.beans.factory.annotation.Autowired;
 	import org.springframework.stereotype.Service;

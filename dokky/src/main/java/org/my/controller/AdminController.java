@@ -1,9 +1,8 @@
 package org.my.controller;
 	import org.my.domain.Criteria;
 	import org.my.domain.PageDTO;
-	import org.my.domain.cashVO;
-import org.my.domain.commonVO;
-import org.my.service.AdminService;
+	import org.my.domain.commonVO;
+	import org.my.service.AdminService;
 	import org.my.service.MypageService;
 	import org.springframework.beans.factory.annotation.Autowired;
 	import org.springframework.http.HttpStatus;

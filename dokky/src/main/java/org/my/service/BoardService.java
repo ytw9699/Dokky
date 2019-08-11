@@ -2,10 +2,9 @@ package org.my.service;
 	import java.util.List;
 	import org.my.domain.BoardVO;
 	import org.my.domain.Criteria;
-import org.my.domain.commonVO;
-import org.my.domain.donateVO;
-import org.my.domain.reportVO;
-import org.my.domain.BoardAttachVO;
+	import org.my.domain.commonVO;
+	import org.my.domain.reportVO;
+	import org.my.domain.BoardAttachVO;
 	import org.my.domain.BoardDisLikeVO;
 	import org.my.domain.BoardLikeVO;
 

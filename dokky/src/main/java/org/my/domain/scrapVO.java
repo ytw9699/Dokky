@@ -1,7 +1,5 @@
 package org.my.domain;
 	import java.util.Date;
-	import java.util.List;
-	import org.my.domain.BoardAttachVO;
 	import lombok.Data;
 	
 @Data

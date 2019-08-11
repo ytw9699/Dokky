@@ -1,15 +1,12 @@
 package org.my.service;
 	import java.util.List;
-
-import org.my.domain.Criteria;
-import org.my.domain.VisitCountVO;
-import org.my.domain.alarmVO;
-import org.my.mapper.CommonMapper;
+	import org.my.domain.Criteria;
+	import org.my.domain.VisitCountVO;
+	import org.my.domain.alarmVO;
+	import org.my.mapper.CommonMapper;
 	import org.springframework.beans.factory.annotation.Autowired;
 	import org.springframework.stereotype.Service;
-import org.springframework.transaction.annotation.Transactional;
-
-import lombok.Setter;
+	import lombok.Setter;
 	import lombok.extern.log4j.Log4j;
 
 @Log4j

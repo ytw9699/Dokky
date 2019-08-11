@@ -6,9 +6,8 @@ package org.my.security;
 	import org.springframework.security.core.userdetails.UserDetailsService;
 	import org.springframework.security.core.userdetails.UsernameNotFoundException;
 	import java.util.List;
-
-import org.my.domain.AuthVO;
-import org.my.domain.MemberVO;
+	import org.my.domain.AuthVO;
+	import org.my.domain.MemberVO;
 	import org.my.mapper.MemberMapper;
 	import lombok.Setter;
 	import lombok.extern.log4j.Log4j;

@@ -1,6 +1,5 @@
 package org.my.domain;
-
-import lombok.Data;
+	import lombok.Data;
 
 @Data
 public class BoardAttachVO {

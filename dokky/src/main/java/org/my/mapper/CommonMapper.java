@@ -1,9 +1,8 @@
 package org.my.mapper;
 	import java.util.List;
-
-import org.my.domain.Criteria;
-import org.my.domain.VisitCountVO;
-import org.my.domain.alarmVO;
+	import org.my.domain.Criteria;
+	import org.my.domain.VisitCountVO;
+	import org.my.domain.alarmVO;
 
 public interface CommonMapper {
 

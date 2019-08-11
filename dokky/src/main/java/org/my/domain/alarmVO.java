@@ -1,7 +1,6 @@
 package org.my.domain;
 	import java.util.Date;
-
-import lombok.Data;
+	import lombok.Data;
 	
 @Data
 public class alarmVO { 

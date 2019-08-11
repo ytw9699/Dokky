@@ -1,36 +1,28 @@
 package org.my.controller;
-	import java.util.List;
-
-import org.my.domain.BoardAttachVO;
-import org.my.domain.BoardDisLikeVO;
-import org.my.domain.Criteria;
-import org.my.domain.ReplyDisLikeVO;
-import org.my.domain.ReplyLikeVO;
+	import org.my.domain.Criteria;
+	import org.my.domain.ReplyDisLikeVO;
+	import org.my.domain.ReplyLikeVO;
 	import org.my.domain.ReplyPageDTO;
 	import org.my.domain.ReplyVO;
-import org.my.domain.commonVO;
-import org.my.domain.donateVO;
-import org.my.domain.replyDonateVO;
-import org.my.service.BoardService;
-import org.my.service.ReplyService;
+	import org.my.domain.commonVO;
+	import org.my.service.ReplyService;
 	import org.springframework.http.HttpStatus;
 	import org.springframework.http.MediaType;
 	import org.springframework.http.ResponseEntity;
 	import org.springframework.security.access.prepost.PreAuthorize;
-import org.springframework.stereotype.Controller;
-import org.springframework.web.bind.annotation.DeleteMapping;
+	import org.springframework.stereotype.Controller;
+	import org.springframework.web.bind.annotation.DeleteMapping;
 	import org.springframework.web.bind.annotation.GetMapping;
 	import org.springframework.web.bind.annotation.PathVariable;
 	import org.springframework.web.bind.annotation.PostMapping;
 	import org.springframework.web.bind.annotation.RequestBody;
 	import org.springframework.web.bind.annotation.RequestMapping;
 	import org.springframework.web.bind.annotation.RequestMethod;
-import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.bind.annotation.ResponseBody;
-	import org.springframework.web.bind.annotation.RestController;
+	import org.springframework.web.bind.annotation.RequestParam;
+	import org.springframework.web.bind.annotation.ResponseBody;
 	import lombok.AllArgsConstructor;
 	import lombok.extern.log4j.Log4j;
-	
+		
 @RequestMapping("/replies/")
 @Controller
 @Log4j

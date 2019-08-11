@@ -3,7 +3,7 @@ package org.my.mapper;
 	import org.my.domain.Criteria;
 	import org.my.domain.MemberVO;
 	import org.my.domain.cashVO;
-import org.my.domain.reportVO;
+	import org.my.domain.reportVO;
 
 public interface AdminMapper {
 

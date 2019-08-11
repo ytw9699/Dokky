@@ -9,8 +9,8 @@
 <meta charset="UTF-8">
 	<title>마이페이지</title>
 <style>
-	@media screen and (max-width:500px){ 
-    	.repasswordWrap {
+		@media screen and (max-width:500px){ 
+    		.repasswordWrap {
 				    width: 80%; 
 				    display: inline-block;
 				    margin-left: 15%;

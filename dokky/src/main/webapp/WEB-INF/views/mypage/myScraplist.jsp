@@ -12,7 +12,7 @@
 <title>Dokky</title>
 <style>
 		@media screen and (max-width:500px){ 
-		.myscrapWrap { 
+			.myscrapWrap { 
 				    width: 80%;  
 				    display: inline-block;
 				    margin-left: 15%;

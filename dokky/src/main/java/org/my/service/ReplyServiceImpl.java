@@ -1,28 +1,21 @@
 package org.my.service;
-
 	import java.util.List;
-import java.util.ListIterator;
-
-import org.my.domain.BoardDisLikeVO;
-import org.my.domain.BoardLikeVO;
-import org.my.domain.Criteria;
-import org.my.domain.ReplyDisLikeVO;
-import org.my.domain.ReplyLikeVO;
-import org.my.domain.ReplyPageDTO;
+	import org.my.domain.Criteria;
+	import org.my.domain.ReplyDisLikeVO;
+	import org.my.domain.ReplyLikeVO;
+	import org.my.domain.ReplyPageDTO;
 	import org.my.domain.ReplyVO;
-import org.my.domain.commonVO;
-import org.my.domain.donateVO;
-import org.my.domain.replyDonateVO;
-import org.my.mapper.BoardMapper;
-import org.my.mapper.CommonMapper;
-import org.my.mapper.ReplyMapper;
+	import org.my.domain.commonVO;
+	import org.my.domain.replyDonateVO;
+	import org.my.mapper.BoardMapper;
+	import org.my.mapper.CommonMapper;
+	import org.my.mapper.ReplyMapper;
 	import org.springframework.beans.factory.annotation.Autowired;
 	import org.springframework.stereotype.Service;
 	import org.springframework.transaction.annotation.Transactional;
-	
 	import lombok.Setter;
 	//import lombok.AllArgsConstructor;
-	import lombok.extern.log4j.Log4j;
+		import lombok.extern.log4j.Log4j;
 
 @Service
 @Log4j
