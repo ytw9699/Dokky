@@ -128,7 +128,7 @@
 							\<fmt:formatNumber type="number" maxFractionDigits="3" value="${board.money}"/>
 						</td>
 						<td> 
-							<a href="#" class="userMenu" data-board_num="${board.num}" data-board_kind="realtime">
+							<a href="#" class="userMenu" data-board_num="${board.num}" data-menu_kind="realtime">
 								<img width="25px" src="/dokky/resources/img/profile_img/<c:out value="${board.userId}" />" class="memberImage hideUsermenu" onerror="this.src='/dokky/resources/img/basicProfile.png'" />
 								<c:out value="${board.nickName}" /> 
 							</a> 
@@ -169,7 +169,7 @@
 							\<fmt:formatNumber type="number" maxFractionDigits="3" value="${board.money}"/>
 						</td>
 						<td> 
-							<a href="#" class="userMenu" data-board_num="${board.num}" data-board_kind="like">
+							<a href="#" class="userMenu" data-board_num="${board.num}" data-menu_kind="like">
 								<img width="25px" src="/dokky/resources/img/profile_img/<c:out value="${board.userId}" />" class="memberImage hideUsermenu" onerror="this.src='/dokky/resources/img/basicProfile.png'" />
 								<c:out value="${board.nickName}" />
 							</a> 
@@ -210,7 +210,7 @@
 							\<fmt:formatNumber type="number" maxFractionDigits="3" value="${board.money}"/>
 						</td>
 						<td> 
-							<a href="#" class="userMenu" data-board_num="${board.num}" data-board_kind="donate"> 
+							<a href="#" class="userMenu" data-board_num="${board.num}" data-menu_kind="donate"> 
 								<img width="25px" src="/dokky/resources/img/profile_img/<c:out value="${board.userId}" />" class="memberImage hideUsermenu" onerror="this.src='/dokky/resources/img/basicProfile.png'" />
 								<c:out value="${board.nickName}" />
 							</a> 
@@ -235,13 +235,13 @@
 	$(".userMenu").on("click",function(event){//해당 메뉴바 보이기 이벤트
 		
 		var	board_num = $(this).data("board_num");
-		var	board_kind = $(this).data("board_kind");
+		var	menu_kind = $(this).data("menu_kind");
 		
-		if(board_kind == 'like'){
+		if(menu_kind == 'like'){
 				var userMenu = $("#userMenubar_like_"+board_num);
-		}else if(board_kind == 'realtime'){
+		}else if(menu_kind == 'realtime'){
 				var userMenu = $("#userMenubar_realtime_"+board_num);
-		}else if(board_kind == 'donate'){
+		}else if(menu_kind == 'donate'){
 				var userMenu = $("#userMenubar_donate_"+board_num);
 		}
 		if($(".addBlockClass").length > 0){
