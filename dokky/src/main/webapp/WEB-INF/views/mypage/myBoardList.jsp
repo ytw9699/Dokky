@@ -106,6 +106,10 @@
 	#menuWrap .tab button:hover {
 	background-color: #7b7676;
 	}
+	.replyCnt{  
+	  color: #ff2f3b;  
+	}
+	
 </style> 
 </head>
 <%@include file="../includes/left.jsp"%>
@@ -131,11 +135,16 @@
 					<td>
 						<input type="checkbox" name="checkRow" value="${board.num}" />
                     </td>
-						<td class="boardTitle"><a class='move' href='<c:out value="${board.num}"/>'> 
-							<c:out value="${board.title}" /></a></td> 
-						<td>댓글수[<c:out value="${board.replyCnt}" />]</td>
-						<td>조회수<c:out value="${board.hitCnt}" /></td>
-			                  
+						<td class="boardTitle">
+							<a class='move' href='<c:out value="${board.num}"/>'> 
+								<c:out value="${board.title}" />
+								<span class="replyCnt">[<c:out value="${board.replyCnt}" />]</span>
+							</a>
+						</td>  
+						<td>
+							<img width="20px" src="/dokky/resources/img/read.png"/>
+							<c:out value="${board.hitCnt}" />
+						</td>
 						<td>
 							<fmt:formatDate value="${board.regDate}" pattern="yyyy년 MM월 dd일 HH:mm" />
 						</td>
