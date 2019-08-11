@@ -135,6 +135,9 @@
 	a  {    
 			color:#e6e6e6; text-decoration: none;
 		} 
+	.replyCnt{   
+	  color: #ff2f3b;  
+	}
 </style> 
 </head>
 <%@include file="../includes/left.jsp"%>
@@ -154,19 +157,22 @@
 		</div>
 	<div class="listWrapper">
 		<div class="">
-			<table class=""> 
-					<tr>
-					<td></td><td>제목</td><td>댓글수</td><td>조회수</td><td>닉네임</td><td>스크랩날짜</td> 
-					</tr>
+			<table class="">  
 				<c:forEach items="${myScraplist}" var="scrap"> 
 					<tr>
 						<td>
 						<input type="checkbox" name="checkRow" value="${scrap.scrap_num}" />
                     </td>
-						<td class="boardTitle"><a class='move' href='<c:out value="${scrap.num}"/>'>  
-							<c:out value="${scrap.title}" /></a></td>  
-						<td>댓글수[<c:out value="${scrap.replyCnt}" />]</td>
-						<td>조회수<c:out value="${scrap.hitCnt}" /></td> 
+						<td class="boardTitle">
+							<a class='move' href='<c:out value="${scrap.num}"/>'>  
+								<c:out value="${scrap.title}" />
+								<span class="replyCnt">[<c:out value="${scrap.replyCnt}" />]</span>
+							</a>
+						</td>  
+						<td>
+							<img width="20px" src="/dokky/resources/img/read.png"/>
+							<c:out value="${scrap.hitCnt}" />
+						</td>
 						<td> 
 							<a href="#" class="userMenu" data-scrap_num="${scrap.scrap_num}">
 								<img width="25px" src="/dokky/resources/img/profile_img/<c:out value="${scrap.userId}" />" class="memberImage hideUsermenu" onerror="this.src='/dokky/resources/img/basicProfile.png'" />
