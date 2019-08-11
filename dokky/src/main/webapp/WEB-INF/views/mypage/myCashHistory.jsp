@@ -103,6 +103,13 @@
 	#menuWrap .tab button:hover {
 	background-color: #7b7676;
 	}
+	a:hover {   
+	    color: #7151fc;
+	    text-decoration: underline;
+	}  
+	a  {    
+			color:#e6e6e6; text-decoration: none;
+		}   
 </style> 
 </head>
 <%@include file="../includes/left.jsp"%>
