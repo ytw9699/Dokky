@@ -18,6 +18,7 @@
 				    margin-top: 1%;
 				    min-height: 500px;
 				    border-color: #e6e6e6;
+				    border-width: 1px;
 				    border-style: solid;
 				    background-color: #323639;
 				    color: #e6e6e6;
@@ -32,6 +33,7 @@
 			    min-height: 500px;
 			    border-color: #e6e6e6;
 			    border-style: solid;
+			    border-width: 1px;
 			    background-color: #323639;
 			    color: #e6e6e6;
 			}
@@ -45,13 +47,14 @@
 			    min-height: 500px;
 			    border-color: #e6e6e6;
 			    border-style: solid;
+			    border-width: 1px;
 			    background-color: #323639;
 			    color: #e6e6e6;
 			}
         }
             
 	a  {    
-			color:#e6e6e6;
+			color:#e6e6e6; 
 			text-decoration: none;
 		}
 	a:hover {   
@@ -65,6 +68,7 @@
 	.mainLists {
 	    border-color: #e6e6e6;
 	    border-style: solid;
+	    border-width: 1px;
 	    margin-left: 1%;
 	    margin-top: 1%;
 	    width: 98%;
@@ -75,6 +79,7 @@
 	.userMenubar{
 	    display: none;
 	    border-style: solid;
+	    border-width: 1px;
 	    border-color: #e6e6e6;
 	    width: 6%;
 	    height: 55px;
@@ -85,14 +90,16 @@
 	.userMenubar li {
 	    list-style: none;
 	    border-style: solid;
+	    border-width: 1px;
 	    border-color: #e6e6e6;
 	    width: 155%;  
 	    margin-left: -60%;
 	}
 	.userMenubar ul { 
 	    border-style : solid;
+	    border-width: 1px;
 	    border-color: #e6e6e6;
-	    margin: auto;
+	    margin: auto; 
 	   /*  width: 95%;
 	    margin-left: 18%; */
 	}
@@ -155,8 +162,9 @@
 					<tr>
 						<td>  
 							<a class='move' href='/dokky/board/get?num=<c:out value="${board.num}"/>'> 
-							<c:out value="${board.title}" /></a>
-							<a class="replyCnt">[<c:out value="${board.replyCnt}" />]</a>
+								<c:out value="${board.title}" /> 
+								<span class="replyCnt">[<c:out value="${board.replyCnt}" />]</span>
+							</a>
 						</td> 
 						<td>
 							<img width="20px" src="/dokky/resources/img/read.png"/>
@@ -196,8 +204,9 @@
 					<tr>
 						<td>  
 							<a class='move' href='/dokky/board/get?num=<c:out value="${board.num}"/>'> 
-							<c:out value="${board.title}" /></a>
-							<a class="replyCnt">[<c:out value="${board.replyCnt}" />]</a>
+								<c:out value="${board.title}" /> 
+								<span class="replyCnt">[<c:out value="${board.replyCnt}" />]</span>
+							</a>    
 						</td> 
 						<td>
 							<img width="20px" src="/dokky/resources/img/read.png"/>

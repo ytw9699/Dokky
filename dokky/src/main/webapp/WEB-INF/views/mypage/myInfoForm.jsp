@@ -253,7 +253,12 @@
 		var operForm = $("#operForm");
 		
 		var userPw = operForm.find("input[name='userPw']").val();
-	    var userId = operForm.find("input[name='userId']").val();
+		var userId = operForm.find("input[name='userId']").val();
+		
+		if(userPw == ""){  
+			alert("비밀번호를 입력해주세요.");
+			return;
+		} 
 	    
 		var checkData = {	userPw : userPw,
 							userId : userId

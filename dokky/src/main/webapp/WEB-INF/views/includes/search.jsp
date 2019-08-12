@@ -7,14 +7,19 @@
 <title>Dokky-검색</title>
 <style>
 .searchWrapper {
-	width: 12%;
+    width: 12%; 
     margin-top: 20px;
     margin-left: 1%;
     display: inline-block;
+    width: 24%;
+    margin-top: -51px;
+    margin-left: 74%;
+    border-style: solid;
+    border-color: #e6e6e6; 
 }
 </style>
 </head>
-	<body>
+	<body> 
 		<div class="searchWrapper">
 			<form id='searchForm' action="/dokky/board/list" method='get'>
 				<select name='type'>

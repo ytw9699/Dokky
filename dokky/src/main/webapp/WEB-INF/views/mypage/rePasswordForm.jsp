@@ -202,8 +202,12 @@
 	    	alert("현재 비밀번호를 입력해주세요.");
 	    	return;
 	    }
-	    if(newPw == "" || checkPw == "" ){
+	    if(newPw == ""){
 	    	alert("새 비밀번호를 입력해주세요.");
+	    	return;
+	    }
+	    if(checkPw == ""){
+	    	alert("새 비밀번호를 다시 입력해주세요."); 
 	    	return;
 	    }
 	    

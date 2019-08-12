@@ -14,7 +14,8 @@
 	           .listWrapper {
 			    border-color: #e6e6e6;
 			    border-style: solid;
-			    background-color: #323639;
+			    border-width: 1px;
+			    background-color: #323639; 
 			    color: #e6e6e6;
 			    margin-left: 15%;
 			    margin-top: 1%;
@@ -26,6 +27,7 @@
           .listWrapper {
 			    border-color: #e6e6e6;
 			    border-style: solid;
+			    border-width: 1px;
 			    background-color: #323639;
 			    color: #e6e6e6;
 			    margin-left: 15%;
@@ -38,6 +40,7 @@
           .listWrapper {
 			    border-color: #e6e6e6;
 			    border-style: solid;
+			    border-width: 1px;
 			    background-color: #323639;
 			    color: #e6e6e6;
 			    margin-left: 29%;
@@ -48,7 +51,8 @@
         }
         
 	a  {   
-		color:#e6e6e6; text-decoration: none;
+		color:#e6e6e6;
+		 text-decoration: none;
 	}
 	a:hover {   
 	    color: #7151fc;
@@ -57,8 +61,18 @@
 	body{
 		background-color: #323639; 
 	}
-	.mypage a { 
-    color: white;
+	.boardKind{
+		border-style: solid;
+		border-width: 1px;
+		border-color: #e6e6e6;
+		width: 98%;
+		margin-left:1% ; 
+		margin-right:1%; 
+		margin-top:1%;
+		height: 40px; 
+	}
+	.boardKind a { 
+    	color: white;
 	}
 	.pagination { 
 	    display: inline-block;
@@ -76,6 +90,7 @@
 		width: 80%;
 		border-color: #e6e6e6;/* 흰색 */
 		border-style: solid;
+		border-width: 1px;
 	}
 	.replyCnt{  
 	  color: #ff2f3b;  
@@ -84,6 +99,7 @@
 	.userMenubar{
 	    display: none;
 	    border-style: solid;
+	    border-width: 1px;
 	    border-color: #e6e6e6;
 	    width: 6%;
 	    height: 55px;
@@ -94,14 +110,39 @@
 	.userMenubar li {
 	    list-style: none;
 	    border-style: solid;
+	    border-width: 1px;
 	    border-color: #e6e6e6;
 	    width: 155%;  
 	    margin-left: -60%;
 	}
 	.userMenubar ul { 
 	    border-style : solid;
+	    border-width: 1px;
 	    border-color: #e6e6e6;
 	    margin: auto;
+	} 
+	#regBtn {
+	    border-style: solid;
+	    border-width: 1px;
+	    border-color: #e6e6e6;
+	    width: 8%;
+	    margin-left: 80%;
+	    margin-right: 1%;
+	    margin-top: 1%; 
+	    height: 30px;
+	}
+	.orderMethodWrap{
+		border-style: solid;
+	    border-width: 1px;
+	    border-color: #e6e6e6;
+	    width: 99%;
+	    margin-left: 1%;
+	    margin-right: 1%;
+	    margin-top: 1%; 
+	    height: 100px;
+	}
+	.orderMethodLI{
+	 	display: inline;
 	}
 	 
 </style>
@@ -110,8 +151,36 @@
 <%@include file="../includes/left.jsp"%>
 <body>
 	<div class="listWrapper">
-		<%@include file="../includes/search.jsp"%> 
-		
+		<div class="boardKind">
+			 <span>
+			   <c:choose>
+			   	   <c:when test="${pageMaker.cri.category == 0 }">
+			          	<a href="/dokky/board/allList?category=0">전체글보기</a>
+			       </c:when>
+			       <c:when test="${pageMaker.cri.category == 1 }">
+			          	<a href="/dokky/board/list?category=1">공지사항</a>
+			       </c:when>
+			       <c:when test="${pageMaker.cri.category == 2 }">
+			       		<a href="/dokky/board/list?category=2">자유게시판</a>
+			       </c:when>
+			        <c:when test="${pageMaker.cri.category == 3 }">
+			     		<a href="/dokky/board/list?category=3">묻고답하기</a>
+			       </c:when>
+			        <c:when test="${pageMaker.cri.category == 4 }">
+			   		   <a href="/dokky/board/list?category=4">칼럼/Tech</a>
+			       </c:when>
+			       <c:when test="${pageMaker.cri.category == 5 }">
+			   		   	<a href="/dokky/board/list?category=5">정기모임/스터디</a>
+			       </c:when> 
+			       <c:otherwise>
+			       </c:otherwise>
+		       </c:choose>
+		      </span>   
+		      <span class="regBtn"> 
+		      	<button id='regBtn' type="button" class="">새 글쓰기</button>
+		      </span>
+	     </div>
+	     
 		<div class="orderMethodWrap">
 			<ul class="orderMethodUL">
 				<li class="orderMethodLI active"> 
@@ -135,42 +204,18 @@
 				&type=${pageMaker.cri.type}&keyword=${pageMaker.cri.keyword}&pageNum=${pageMaker.cri.pageNum}&amount=${pageMaker.cri.amount}">기부순</a>
 				</li>
 			</ul>
+			<%@include file="../includes/search.jsp"%>
 		</div>
-		<div class="">
-			   <c:choose>
-			   	   <c:when test="${pageMaker.cri.category == 0 }">
-			          	<div class="mypage"><a href="/dokky/board/allList?category=0">전체글보기</a></div>
-			       </c:when>
-			       <c:when test="${pageMaker.cri.category == 1 }">
-			          	<div class="mypage"><a href="/dokky/board/list?category=1">공지사항</a></div>
-			       </c:when>
-			       <c:when test="${pageMaker.cri.category == 2 }">
-			       		<div class="mypage"><a href="/dokky/board/list?category=2">자유게시판</a></div>
-			       </c:when>
-			        <c:when test="${pageMaker.cri.category == 3 }">
-			     		<div class="mypage"><a href="/dokky/board/list?category=3">묻고답하기</a></div>
-			       </c:when>
-			        <c:when test="${pageMaker.cri.category == 4 }">
-			   		   	<div class="mypage"><a href="/dokky/board/list?category=4">칼럼/Tech</a></div>
-			       </c:when>
-			       <c:when test="${pageMaker.cri.category == 5 }">
-			   		   	<div class="mypage"><a href="/dokky/board/list?category=5">정기모임/스터디</a></div>
-			       </c:when> 
-			       <c:otherwise>
-			       </c:otherwise>
-		       </c:choose>
-  	    </div>
-
-		<div><button id='regBtn' type="button" class="">새 글쓰기</button></div> 
-		
+		 
 		<div class="">
 			<table class=""> 
 				<c:forEach items="${list}" var="board">
 					<tr>
-						<td>  
+						<td>   
 							<a class='move' href='<c:out value="${board.num}"/>'> 
-							<c:out value="${board.title}" /></a>
-							<a class="replyCnt">[<c:out value="${board.replyCnt}" />]</a>
+								<c:out value="${board.title}" />
+								<span class="replyCnt">[<c:out value="${board.replyCnt}" />]</span>
+							</a> 
 						</td> 
 						<td>
 							<img width="20px" src="/dokky/resources/img/read.png"/>
