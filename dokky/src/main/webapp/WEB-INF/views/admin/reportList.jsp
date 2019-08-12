@@ -126,7 +126,7 @@
 		<div class="">
 			<table class=""> 
 					<tr>
-						<td>종류</td><td>신고 한 회원</td><td>신고받은 회원</td><td>사유<td><td>신고날짜</td>
+						<td>종류</td><td>신고 한 회원</td><td>신고받은 회원</td><td>사유</td><td>신고날짜</td>
 					</tr>
 						<c:forEach items="${reportList}" var="report">
 					<tr>  
@@ -143,7 +143,11 @@
 							  <c:out value="${report.reportedNick}" />(<c:out value="${report.reportedId}" />)
 							</a> 
 						</td> 
-						<td onclick="location.href='/dokky/board/get?num=<c:out value="${report.board_num}" />'" ><c:out value="${report.reason}" /></td> 
+						<td>
+							<a href='/dokky/board/get?num=<c:out value="${report.board_num}"/>'> 
+							  <c:out value="${report.reason}" />
+							</a> 
+						</td>  
 						 <td> 
 							<fmt:formatDate value="${report.regDate}" pattern="yyyy년 MM월 dd일 HH:mm" />
 						</td>  
