@@ -1,16 +1,14 @@
 package org.my.service;
-
-	import org.my.domain.BoardDisLikeVO;
-import org.my.domain.Criteria;
-import org.my.domain.ReplyDisLikeVO;
-import org.my.domain.ReplyLikeVO;
-import org.my.domain.ReplyPageDTO;
+	import org.my.domain.Criteria;
+	import org.my.domain.ReplyDisLikeVO;
+	import org.my.domain.ReplyLikeVO;
+	import org.my.domain.ReplyPageDTO;
 	import org.my.domain.ReplyVO;
-import org.my.domain.replyDonateVO;
+	import org.my.domain.commonVO;
 
 public interface ReplyService {
 
-	public int register(ReplyVO vo);
+	public int register(commonVO vo);
 
 	public ReplyVO get(Long reply_num);
 
@@ -22,24 +20,24 @@ public interface ReplyService {
 	
 	public String checkLikeValue(ReplyLikeVO vo);
 
-	public int registerLike(ReplyLikeVO vo);
+	public int registerLike(commonVO vo);
 
-	public int pushLike(ReplyLikeVO vo);
+	public int pushLike(commonVO vo);
 
-	public int pullLike(ReplyLikeVO vo);
+	public int pullLike(commonVO vo);
 
 	public String getLikeCount(Long reply_num);
 	
-	public int pullDisLike(ReplyDisLikeVO vo);
+	public int pullDisLike(commonVO vo);
 	
-	public int pushDisLike(ReplyDisLikeVO vo);
+	public int pushDisLike(commonVO vo);
 	
 	public String checkDisLikeValue(ReplyDisLikeVO vo);
 	
-	public int registerDisLike(ReplyDisLikeVO vo);
+	public int registerDisLike(commonVO vo);
 	
 	public String getDisLikeCount(Long num);
 
-	public String replyDonateMoney(replyDonateVO vo);
+	public String replyDonateMoney(commonVO vo);
 
 }

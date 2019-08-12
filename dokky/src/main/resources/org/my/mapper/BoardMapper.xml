@@ -4,8 +4,48 @@
   "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="org.my.mapper.BoardMapper">
 	
-	<sql id="criteria">
+	<sql id="criteria"> 
 		<trim prefix="(" suffix=") AND " prefixOverrides="OR">
+			<foreach item='type' collection="typeArr">
+				<trim prefix="OR">
+					<choose>
+						<when test="type == 'T'.toString()">
+							title like '%'||#{keyword}||'%'
+						</when>
+						<when test="type == 'C'.toString()">
+							content like '%'||#{keyword}||'%'
+						</when>
+						<when test="type == 'N'.toString()">
+							nickName like '%'||#{keyword}||'%'
+						</when>
+					</choose>
+				</trim>
+			</foreach>
+		</trim>
+	</sql>
+	
+	<sql id="criteriaWithOrder">
+		<trim prefix="and (" suffix=")" prefixOverrides="OR">
+			<foreach item='type' collection="typeArr">
+				<trim prefix="OR">
+					<choose>
+						<when test="type == 'T'.toString()">
+							title like '%'||#{keyword}||'%'
+						</when>
+						<when test="type == 'C'.toString()">
+							content like '%'||#{keyword}||'%'
+						</when>
+						<when test="type == 'N'.toString()">
+							nickName like '%'||#{keyword}||'%'
+						</when>
+					</choose>
+				</trim>
+			</foreach>
+		</trim>
+	</sql>
+	
+	<sql id="criteriaAllWithOrder">
+		<trim prefix="where (" suffix=") " prefixOverrides="OR">
 			<foreach item='type' collection="typeArr">
 				<trim prefix="OR">
 					<choose>
@@ -27,20 +67,173 @@
 	<select id="getList" resultType="org.my.domain.BoardVO"> 
 		  <![CDATA[
 		  select 
-		    	category,replyCnt, num, title, content, nickName, regdate, hitCnt
+		    	category,
+		    	replyCnt,
+		    	likeCnt,
+		    	num,
+		    	title,
+		    	content,
+		    	nickName,
+		    	regdate,
+		    	hitCnt,
+		    	userId
 		  from 
 		      (
-		     select /*+INDEX_DESC(DK_BOARD PK_DK_BOARD) */ rownum rn, category,replyCnt, num, title, content, 
-			
-			 nickName, regdate, hitCnt from DK_BOARD where category = #{category} and
+		     select /*+INDEX_DESC(DK_BOARD PK_DK_BOARD) */ rownum rn,
+						     								category,
+													    	replyCnt,
+													    	likeCnt,
+													    	num,
+													    	title,
+													    	content,
+													    	nickName,
+													    	regdate,
+													    	hitCnt,
+													    	userId 
+				from DK_BOARD where category = #{category} and
 		  ]]>
 				<include refid ="criteria"></include>  
-			<!-- ( title like '%'||'keyword'||'%' OR content like '%'||'keyword'||'%' OR writer like '%'||'keyword'||'%' ) AND -->
+<!-- ( title like '%'||'keyword'||'%' OR content like '%'||'keyword'||'%' OR writer like '%'||'keyword'||'%' ) AND -->
 		  <![CDATA[    
 		      rownum <= #{pageNum} * #{amount}
 		      )
 		  where rn > (#{pageNum} -1) * #{amount}   
 		  ]]>
+	</select>
+	
+	<select id="getListWithOrder" resultType="org.my.domain.BoardVO">
+		 	select 
+				category,
+				replyCnt,
+				likeCnt,
+				num,
+				title,
+				content,
+				nickName,
+				regdate,
+				hitCnt,
+				MONEY,
+				userId
+			from
+			(
+	  		  select  		  	
+		  		        <choose>
+							<when test='order == "1" '>
+								ROW_NUMBER() OVER(order by hitcnt desc) AS rn,
+							</when>
+							<when test='order == "2" '>
+								ROW_NUMBER() OVER(order by REPLYCNT desc) AS rn,
+							</when>
+							<when test='order == "3" '>
+								ROW_NUMBER() OVER(order by likeCnt desc) AS rn,
+							</when>
+							<when test='order == "4" '>
+								ROW_NUMBER() OVER(order by MONEY desc) AS rn,
+							</when>
+						</choose>
+	                category,
+					replyCnt,
+					likeCnt,
+					num,
+					title,
+					content,
+					nickName,
+					regdate,
+					hitCnt,
+					MONEY,
+					userId
+				from DK_BOARD where category = #{category} 
+					<include refid ="criteriaWithOrder"></include>  
+<!-- and ( title like '%'||'keyword'||'%' OR content like '%'||'keyword'||'%' OR writer like '%'||'keyword'||'%' ) -->
+				 )
+				  <![CDATA[
+				 where rn > (#{pageNum} -1) * #{amount} and rn <= #{pageNum} * #{amount}
+			]]>	
+	</select>
+			
+	<select id="getAllList" resultType="org.my.domain.BoardVO"> 
+		  <![CDATA[
+		   select 
+		    	category,
+		    	replyCnt,
+		    	likeCnt,
+		    	num,
+		    	title,
+		    	content,
+		    	nickName,
+		    	regdate,
+		    	hitCnt,
+		    	userId
+		  from 
+		      (
+		        select /*+INDEX_DESC(DK_BOARD PK_DK_BOARD) */ rownum rn,
+						     								category,
+													    	replyCnt,
+													    	likeCnt,
+													    	num,
+													    	title,
+													    	content,
+													    	nickName,
+													    	regdate,
+													    	hitCnt,
+													    	userId 
+					 from DK_BOARD where
+		  ]]>
+				<include refid ="criteria"></include>  
+		  <![CDATA[    
+		      rownum <= #{pageNum} * #{amount}
+		      )
+		  where rn > (#{pageNum} -1) * #{amount}   
+		  ]]>
+	</select>
+	
+	<select id="getAllListWithOrder" resultType="org.my.domain.BoardVO"> 
+			 select 
+				category,
+				replyCnt,
+				likeCnt,
+				num,
+				title,
+				content,
+				nickName,
+				regdate,
+				hitCnt,
+				MONEY,
+				userId
+			from
+			(
+	  		   select 
+	  				   <choose>
+							<when test='order == "1" '>
+								ROW_NUMBER() OVER(order by hitcnt desc) AS rn,
+							</when>
+							<when test='order == "2" '>
+								ROW_NUMBER() OVER(order by REPLYCNT desc) AS rn,
+							</when>
+							<when test='order == "3" '>
+								ROW_NUMBER() OVER(order by likeCnt desc) AS rn,
+							</when>
+							<when test='order == "4" '>
+								ROW_NUMBER() OVER(order by MONEY desc) AS rn,
+							</when>
+						</choose>
+                category,
+				replyCnt,
+				likeCnt,
+				num,
+				title,
+				content,
+				nickName,
+				regdate,
+				hitCnt,
+				MONEY,
+				userId
+					from DK_BOARD 
+					<include refid ="criteriaAllWithOrder"></include>   
+		<!-- where ( title like '%'||'keyword'||'%' OR content like '%'||'keyword'||'%' OR writer like '%'||'keyword'||'%' ) -->
+				  ) <![CDATA[
+				 where rn > (#{pageNum} -1) * #{amount} and rn <= #{pageNum} * #{amount}
+			]]>	
 	</select>
 	
 	<!-- 입력+pk값을 알기 위한것 -->
@@ -77,6 +270,10 @@
 	
 	<select id="getTotalCount" resultType="int">
 		select count(*) from DK_BOARD where category = #{category} and <include refid="criteria"></include>  num > 0
+	</select>
+	
+	<select id="getAllTotalCount" resultType="int">
+		select count(*) from DK_BOARD where <include refid="criteria"></include>  num > 0
 	</select>
 	
   	<!-- 해당 글의 댓글 갯수 하나 늘리거나 빼기 --> 
@@ -168,7 +365,7 @@
 	
 	<!-- 기부받는자 캐시 증감하기 -->
 	<update id="updateBoardUserCash">
-	    update dk_member set cash = cash + #{money} where userId = #{boardId}
+	    update dk_member set cash = cash + #{money} where userId = #{donatedId}
 	</update> 
 	
 	<!-- 게시글의 기부금액 증감하기 -->
@@ -215,7 +412,7 @@
 												seq_dk_cash.nextval,
 												'기부받기',
 												#{money},
-												#{boardId},
+												#{donatedId},
 												'게시판' ,
 												#{num}
 											)

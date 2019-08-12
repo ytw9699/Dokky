@@ -11,20 +11,52 @@
 	<title>신고리스트</title>
 	
 <style>
+@media screen and (max-width:500px){ 
+	     .userReporWrap {
+			    width: 80%; 
+			    display: inline-block;
+			    margin-left: 15%;
+			    margin-top: 1%;
+			    min-height: 500px; 
+			    border-color: #e6e6e6;
+				border-style: solid;
+				background-color: #323639; 
+				color: #e6e6e6;
+				display: inline-block;
+			}
+        }
+        @media screen and (min-width: 501px) and (max-width:1500px){
+          .userReporWrap {
+			    width: 80%; 
+			    display: inline-block;
+			    margin-left: 15%;
+			    margin-top: 1%;
+			    min-height: 500px; 
+			    border-color: #e6e6e6;
+				border-style: solid;
+				background-color: #323639; 
+				color: #e6e6e6;
+				display: inline-block;
+			}
+        }
+        @media screen and (min-width: 1501px){    
+          .userReporWrap {
+			    width: 51%; 
+			    display: inline-block;
+			    margin-left: 29%;
+			    margin-top: 1%;
+			    min-height: 500px; 
+			    border-color: #e6e6e6;
+				border-style: solid;
+				background-color: #323639; 
+				color: #e6e6e6;
+				display: inline-block;
+			}
+        }
 	body{
 		background-color: #323639;  
 		}
-	.bodyWrap {
-	    width: 80%; 
-	    display: inline-block;
-	    margin-left: 2%;
-	    margin-top: 1%;
-	    min-height: 500px; 
-	    border-color: #e6e6e6;
-		border-style: solid;
-		background-color: #323639; 
-		color: #e6e6e6;
-	}
+	
 	.ContentWrap{box-sizing: border-box;
 	    padding-top: 48px;
 	    padding-left: 20px;
@@ -64,13 +96,22 @@
 		border-color: #e6e6e6;/* 흰색 */
 		border-style: solid;
 	}
+	a:hover {    
+	    color: #7151fc;
+	    text-decoration: underline;
+	}  
+	a  {    
+			color:#e6e6e6; text-decoration: none;
+		}  
+	
+	
 </style>
 </head> 
 
 <%@include file="../includes/left.jsp"%>
 
 <body> 
-	<div class="bodyWrap">	 
+	<div class="userReporWrap">	 
 	 <div class="ContentWrap">  
 	 
 		 <div id="menuWrap"> 
@@ -85,15 +126,31 @@
 		<div class="">
 			<table class=""> 
 					<tr>
-						<td>종류</td><td>신고 한 회원</td><td>신고받은 회원</td><td>사유<td><td>신고날짜</td>
+						<td>종류</td><td>신고 한 회원</td><td>신고받은 회원</td><td>사유</td><td>신고날짜</td>
 					</tr>
 						<c:forEach items="${reportList}" var="report">
 					<tr>  
-						<td><c:out value="${report.reportKind}" /></td>  
-						<td onclick="location.href='userForm?userId=<c:out value="${report.reportingId}" />'" ><c:out value="${report.reportingNick}" />(<c:out value="${report.reportingId}" />)</td> 
-						<td onclick="location.href='userForm?userId=<c:out value="${report.reportedId}" />'" ><c:out value="${report.reportedNick}"  />(<c:out value="${report.reportedId}" />)</td> 
-						<td onclick="location.href='/dokky/board/get?num=<c:out value="${report.board_num}" />'" ><c:out value="${report.reason}" /></td> 
-						<td><fmt:formatDate pattern="yyyy-MM-dd-HH:mm" value="${report.regDate}" /></td>  
+						<td><c:out value="${report.reportKind}" /></td>   
+						<td>
+							<a href='userForm?userId=<c:out value="${report.reportingId}"/>'> 
+							  <img width="30px" src="/dokky/resources/img/profile_img/<c:out value="${report.reportingId}" />" class="memberImage" onerror="this.src='/dokky/resources/img/basicProfile.png'" />
+							  <c:out value="${report.reportingNick}" />(<c:out value="${report.reportingId}" />)
+							</a> 
+						</td>
+						<td>
+							<a href='userForm?userId=<c:out value="${report.reportedId}"/>'> 
+							  <img width="30px" src="/dokky/resources/img/profile_img/<c:out value="${report.reportedId}" />" class="memberImage" onerror="this.src='/dokky/resources/img/basicProfile.png'" />
+							  <c:out value="${report.reportedNick}" />(<c:out value="${report.reportedId}" />)
+							</a> 
+						</td> 
+						<td>
+							<a href='/dokky/board/get?num=<c:out value="${report.board_num}"/>'> 
+							  <c:out value="${report.reason}" />
+							</a> 
+						</td>  
+						 <td> 
+							<fmt:formatDate value="${report.regDate}" pattern="yyyy년 MM월 dd일 HH:mm" />
+						</td>  
 					</tr>
 				</c:forEach>
 			</table>

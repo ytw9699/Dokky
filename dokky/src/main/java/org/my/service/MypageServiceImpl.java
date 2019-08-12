@@ -1,13 +1,12 @@
 package org.my.service;
 	import java.util.List;
-
-import org.my.domain.BoardVO;
-import org.my.domain.Criteria;
-import org.my.domain.MemberVO;
-import org.my.domain.ReplyPageDTO;
-import org.my.domain.ReplyVO;
-import org.my.domain.cashVO;
-import org.my.mapper.MypageMapper;
+	import org.my.domain.BoardVO;
+	import org.my.domain.Criteria;
+	import org.my.domain.MemberVO;
+	import org.my.domain.ReplyVO;
+	import org.my.domain.cashVO;
+	import org.my.domain.scrapVO;
+	import org.my.mapper.MypageMapper;
 	import org.springframework.beans.factory.annotation.Autowired;
 	import org.springframework.security.crypto.password.PasswordEncoder;
 	import org.springframework.stereotype.Service;
@@ -121,7 +120,7 @@ public class MypageServiceImpl implements MypageService {
 	}
 	
 	@Override
-	public List<BoardVO> getMyScraplist(Criteria cri) {
+	public List<scrapVO> getMyScraplist(Criteria cri) {
 
 		log.info("getMyScraplist with criteria: " + cri);
 
@@ -175,6 +174,15 @@ public class MypageServiceImpl implements MypageService {
 		
 		return getResult;
 	}
+	
+	@Override
+	
+	public void removeAllScrap(Long scrap_num) {
+		log.info("removeAllScrap");
+		
+		mapper.removeScrap(scrap_num);
+	}
+	
 	
 	
 }

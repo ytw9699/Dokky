@@ -14,6 +14,7 @@
 	  MONEY number(10,0) default 0,
 	  HITCNT number(10,0) default 0,
 	  REPLYCNT number(10,0) default 0,
+	  delete_check varchar2(10) default 'possible',
 	  constraint PK_DK_BOARD primary key(NUM)
 	);
 	
@@ -23,6 +24,10 @@
 	
 	insert into DK_BOARD(CATEGORY, NUM, TITLE, NICKNAME, CONTENT)
 	values (1, seq_dk_board.nextval, '제목1','닉네임1','콘텐트1');
+	
+	--디폴트값 입력 필요 캐시 충전
+	insert into DK_BOARD(CATEGORY, NUM, TITLE, NICKNAME, CONTENT,userId)
+	values (0, 0, '디폴트','디폴트','디폴트','admin');
 	
 	2.---------------------------------------------------------------------------------------
 	
@@ -35,11 +40,17 @@
 		reply_content varchar2(1000) not null,
 		nickName varchar2(50) not null,
 		userId varchar2(50) not null,
+		toUserId varchar2(50),
+		toNickName varchar2(50),
 		replyDate date default sysdate,
 		updateDate date default sysdate,
 		likeCnt number(10,0) default 0,
 		dislikeCnt number(10,0) default 0,
-		money number(10,0) default 0
+		money number(10,0) default 0,
+		parent_num number(10,0) not null,--댓글 묶음 번호
+		order_step number(10,0) not null,--댓글 출력순서
+		reply_level number(10,0) not null,--댓글 깊이= 루트글인지,답변글인지,답변에 답변글인지
+		delete_check varchar2(10) default 'possible'
 	);
 	alter table DK_REPLY add constraint pk_reply primary key (reply_num);
 	
@@ -54,15 +65,19 @@
 	select /* INDEX(dk_reply idx_reply) */
 	rownum rn,num,reply_num,reply_content,nickname from dk_reply where num =221 and reply_num > 0
 	
+	--디폴트값입력해줘야 캐시충전됨
+	insert into dk_reply(reply_num,num,reply_content,nickName,userId,parent_num,order_step,reply_level)
+	 values (0,0, '디폴트', '디폴트','admin',0,0,0)
+ 
 	insert into dk_reply(reply_num,num,reply_content,nickName) values (seq_dk_reply.nextval,221, 'test', 'test')
 	
 	3.---------------------------------------------------------------------------------------
 	create table dk_attach(--업로드 테이블
-	uuid varchar2(100) not null,
-	uploadPath varchar2(200) not null,-- 실제 파일이 업로드된 경로
-	fileName varchar2(100) not null, --파일 이름을 의미
-	fileType char(1) default 'I', --이미지 파일 여부를판단
-	NUM number(10,0) -- 해당 게시물 번호를 저장
+		uuid varchar2(100) not null,
+		uploadPath varchar2(200) not null,-- 실제 파일이 업로드된 경로
+		fileName varchar2(100) not null, --파일 이름을 의미
+		fileType char(1) default 'I', --이미지 파일 여부를판단
+		NUM number(10,0) -- 해당 게시물 번호를 저장
 	);
 	
 	alter table dk_attach add constraint pk_attach primary key (uuid);
@@ -75,18 +90,21 @@
 	
 	4.------------------------------------------------------------------------------------------
 	create table dk_member(--회원 테이블
+		  member_num number(10,0) unique,
 	      userId varchar2(50) not null primary key,
 	      userPw varchar2(100) not null,
-	      nickName varchar2(100) not null,
-	      email varchar2(100) not null,
+	      nickName varchar2(100) not null unique,
+	      email varchar2(100) not null unique,
 	      phoneNum varchar2(50),
 	      cash number(10,0) default 0,
 	      bankName varchar2(50),
 	      account varchar2(50),
 	      regDate date default sysdate, 
 	      loginDate date default sysdate,
-	      enabled char(1) default '1'
+	      enabled char(1) default '1'--enabled는 스프링 시큐리티에서 사용하는 값. 현재 사용자 계정이 유효한가를 의미
 	);
+	
+	create sequence seq_dk_member
 	
 	drop table dk_member purge 
 	
@@ -190,8 +208,8 @@
 		 regDate date default sysdate, 
 		 userId varchar2(50) not null,
 		 specification varchar2(50),--승인중/승인완료
-		 board_num number(10,0) default 0,
-		 reply_num number(10,0) default 0,
+		 board_num number(10,0) default 0,--무결성제약조건에 걸리지않기 위해 디폴트값 입력바람
+		 reply_num number(10,0) default 0,--무결성제약조건에 걸리지않기 위해 디폴트값 입력바람
 		 constraint fk_cash_board_num foreign key(board_num) references dk_board(NUM),
 		 constraint fk_cash_reply_num foreign key(reply_num) references dk_reply(reply_num),
 		 constraint pk_cash PRIMARY KEY (cash_num)
@@ -200,6 +218,8 @@
 	create sequence seq_dk_cash
 	
 	drop table dk_cash purge
+	
+	
 	
 	insert into dk_cash (
 							cash_num,
@@ -239,7 +259,45 @@
 	
 	drop table dk_report purge
 	
-	14.기타 -----------------------------------------------------
+14.방문자 테이블 -----------------------------------------------------
+
+	 CREATE TABLE dk_visitor(
+		 visitor_num number(10,0), --기본키
+		 ip varchar(100) not null, --접속자 아이피
+		 visit_time date default sysdate,  --접속자 접속시간
+		 refer varchar(300),--접속자가 어느사이트를 타고 들어왔는지
+		 agent varchar(400) not null,--접속자 브라우저 정보
+		 constraint pk_visitor PRIMARY KEY (visitor_num)
+    )
+    
+    create sequence seq_dk_visitor
+	
+	drop table dk_visitor purge
+	
+14.알림 테이블 -----------------------------------------------------
+
+ CREATE TABLE dk_alarm(
+	 alarmNum number(10,0), --기본키
+	 checking VARCHAR2(10) DEFAULT 'NO',
+	 target VARCHAR2(50) NOT NULL,
+	 writerNick VARCHAR2(50) NOT NULL,
+	 writerId VARCHAR2(50) NOT NULL,
+	 kind VARCHAR2(10) NOT NULL,
+	 commonVar1 VARCHAR2(200),
+	 commonVar2 VARCHAR2(200),
+	 regdate date default sysdate,
+	 constraint pk_alarm PRIMARY KEY (alarmNum)
+)
+
+insert into dk_alarm( alarmNum, target, writerNick, writerId, kind, commonVar1, commonVar2, 
+) VALUES ( seq_dk_alarm.nextval, 'admin90', 'test닉', 'test', '1', 'ff' '742' )
+
+create sequence seq_dk_alarm
+
+drop table dk_alarm purge
+	
+	
+14.기타 -----------------------------------------------------
 	컬럼추가
 	ALTER TABLE DK_BOARD ADD userId VARCHAR2(50) NOT NULL;
 	ALTER TABLE DK_member ADD cash number(10,0) default 0;
@@ -253,4 +311,16 @@
 	insert into tbl_board(bno, title, content, writer)
 	(select seq_board.nextval, title, content, writer from tbl_board);
 	
+	시퀀스 삭제
+	drop sequence seq_dk_reply ;
+	
+	테이블 데이터만 삭제
+	DELETE FROM DK_REPLY
+	
+	테이블 깔끔히 삭제
+	TRUNCATE TABLE DK_REPLY
+	
+	인덱스 만드는 방법
+	create unique index idx_board_reg_date on boardtable (reg_date, idx) 
+
 

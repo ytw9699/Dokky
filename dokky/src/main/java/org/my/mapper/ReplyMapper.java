@@ -1,18 +1,17 @@
 package org.my.mapper;
-
 	import java.util.List;
-	
 	import org.apache.ibatis.annotations.Param;
-import org.my.domain.BoardDisLikeVO;
-import org.my.domain.Criteria;
-import org.my.domain.ReplyDisLikeVO;
-import org.my.domain.ReplyLikeVO;
-import org.my.domain.ReplyVO;
-import org.my.domain.replyDonateVO;
+	import org.my.domain.Criteria;
+	import org.my.domain.ReplyDisLikeVO;
+	import org.my.domain.ReplyLikeVO;
+	import org.my.domain.ReplyVO;
+	import org.my.domain.replyDonateVO;
 
 public interface ReplyMapper {
 
 	public int insert(ReplyVO vo);
+	
+	public int reInsert(ReplyVO replyVO);
 
 	public ReplyVO read(Long num);
 
@@ -63,4 +62,11 @@ public interface ReplyMapper {
 	public void insertMyCashHistory(replyDonateVO vo);
 
 	public void insertReplyUserCashHistory(replyDonateVO vo);
+
+	public List<ReplyVO> selectNextReply(ReplyVO replyVO);
+
+	public int lastReplyStep(int parent_num);
+
+	public int updateOrder_step(ReplyVO replyVO);
+
 }

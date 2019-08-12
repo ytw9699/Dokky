@@ -1,7 +1,6 @@
 package org.my.domain;
-
-import lombok.Getter;
-import lombok.ToString;
+	import lombok.Getter;
+	import lombok.ToString;
 
 @Getter
 @ToString

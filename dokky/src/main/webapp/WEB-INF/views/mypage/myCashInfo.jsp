@@ -9,20 +9,52 @@
 <meta charset="UTF-8">
 	<title>나의 캐시</title>
 <style>
+	@media screen and (max-width:500px){ 
+		.mycashInfoWrap { 
+				    width: 80%;  
+				    display: inline-block;
+				    margin-left: 15%;
+				    margin-top: 1%;
+				    min-height: 500px; 
+				    border-color: #e6e6e6;
+					border-style: solid;
+					background-color: #323639; 
+					color: #e6e6e6;
+					display: inline-block;
+				}     
+        }
+        @media screen and (min-width: 501px) and (max-width:1500px){
+	        .mycashInfoWrap {
+				    width: 80%; 
+				    display: inline-block;
+				    margin-left: 15%;
+				    margin-top: 1%;
+				    min-height: 500px; 
+				    border-color: #e6e6e6;
+					border-style: solid;
+					background-color: #323639; 
+					color: #e6e6e6;
+					display: inline-block;
+				}
+        }
+        @media screen and (min-width: 1501px){    
+          .mycashInfoWrap { 
+			    width: 51%; 
+			    display: inline-block;
+			    margin-left: 29%;
+			    margin-top: 1%;
+			    min-height: 500px; 
+			    border-color: #e6e6e6;
+				border-style: solid;
+				background-color: #323639; 
+				color: #e6e6e6;
+				display: inline-block;
+			}
+        }
 	body{
 		background-color: #323639;  
 		}
-	.bodyWrap {
-	    width: 80%; 
-	    display: inline-block;
-	    margin-left: 2%;
-	    margin-top: 1%;
-	    min-height: 500px; 
-	    border-color: #e6e6e6;
-		border-style: solid;
-		background-color: #323639; 
-		color: #e6e6e6;
-	}
+	 
 	.ContentWrap{box-sizing: border-box;
 	    padding-top: 48px;
 	    padding-left: 20px;
@@ -147,10 +179,10 @@
     .dotValue{color: #ff7e00;
     font-size: 26px;}
     
-    .dotContentWrap{ width: 50%;
+    .dotContentWrap{ width: 80%;
     }
      
-    .tabcontent {padding: 6px 12px; border: 1px solid #e6e6e6; width: 55%;}
+    .tabcontent {padding: 6px 12px; border: 1px solid #e6e6e6; width: 70%;}
 	
 </style>  
 </head>
@@ -180,7 +212,7 @@
 		</form>
 	</div>
 	
-<div class="bodyWrap">	
+<div class="mycashInfoWrap">	
 	<div class="ContentWrap">
 		<div id="menuWrap">
 			<div class="tab"> 

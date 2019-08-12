@@ -10,7 +10,7 @@
 <title>Insert title here</title>
 </head>
 <body>
-<h1>Access Denied Page</h1> 
+<h1>Access Denied Page1</h1> 
 
 	<h2><c:out value="${SPRING_SECURITY_403_EXCEPTION.getMessage()}"/></h2>
 	<!-- SPRING_SECURITY_403_EXCEPTION’이라는 이름으로 Access DeniedException 객체가 전달 -->

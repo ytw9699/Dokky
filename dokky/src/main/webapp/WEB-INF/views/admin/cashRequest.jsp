@@ -11,20 +11,52 @@
 	<title>메인</title>
 	
 <style>
+	@media screen and (max-width:500px){ 
+	     .cashRequestWrap {
+			    width: 80%; 
+			    display: inline-block;
+			    margin-left: 15%;
+			    margin-top: 1%;
+			    min-height: 500px; 
+			    border-color: #e6e6e6;
+				border-style: solid;
+				background-color: #323639; 
+				color: #e6e6e6;
+				display: inline-block;
+			}
+        }
+        @media screen and (min-width: 501px) and (max-width:1500px){
+          .cashRequestWrap {
+			    width: 80%; 
+			    display: inline-block;
+			    margin-left: 15%;
+			    margin-top: 1%;
+			    min-height: 500px; 
+			    border-color: #e6e6e6;
+				border-style: solid;
+				background-color: #323639; 
+				color: #e6e6e6;
+				display: inline-block;
+			}
+        }
+        @media screen and (min-width: 1501px){    
+          .cashRequestWrap {
+			    width: 51%; 
+			    display: inline-block;
+			    margin-left: 29%;
+			    margin-top: 1%;
+			    min-height: 500px; 
+			    border-color: #e6e6e6;
+				border-style: solid;
+				background-color: #323639; 
+				color: #e6e6e6;
+				display: inline-block;
+			}
+        }
 	body{
 		background-color: #323639;  
 		}
-	.bodyWrap {
-	    width: 80%; 
-	    display: inline-block;
-	    margin-left: 2%;
-	    margin-top: 1%;
-	    min-height: 500px; 
-	    border-color: #e6e6e6;
-		border-style: solid;
-		background-color: #323639; 
-		color: #e6e6e6;
-	}
+	
 	.ContentWrap{box-sizing: border-box;
 	    padding-top: 48px;
 	    padding-left: 20px;
@@ -64,44 +96,58 @@
 		border-color: #e6e6e6;/* 흰색 */
 		border-style: solid;
 	}
+	a:hover {   
+	    color: #7151fc;
+	    text-decoration: underline;
+	}  
+	a  {    
+			color:#e6e6e6; text-decoration: none;
+		}       
 </style>
 </head> 
 
 <%@include file="../includes/left.jsp"%>
 
 <body> 
-	<div class="bodyWrap">	 
-	 <div class="ContentWrap">  
+ <div class="cashRequestWrap">	 
+  <div class="ContentWrap">  
+	 <div id="menuWrap"> 
+		<div class="tab">   
+	        <button onclick="location.href='memberList'">계정관리</button> 
+	        <button onclick="location.href='cashRequest'">결제관리</button> 
+	        <button onclick="location.href='userReportList'">신고관리</button> 
+	    </div> 
+	 </div> 
 	 
-		 <div id="menuWrap"> 
-			<div class="tab">   
-		        <button onclick="location.href='memberList'">계정관리</button> 
-		        <button onclick="location.href='cashRequest'">결제관리</button> 
-		        <button onclick="location.href='userReportList'">신고관리</button> 
-		    </div> 
-		 </div> 
-	 
-	 <div class="listWrapper">
-		<div class="">
-			<table class=""> 
-					<tr>
-						<td>요청아이디</td><td>종류</td><td>요청날짜</td><td>금액</td><td>상태</td><td>승인하기</td>
-					</tr>
-						<c:forEach items="${cashRequest}" var="cash">
-					<tr>  
-						<td><c:out value="${cash.userId}" /></td> 
-						<td><c:out value="${cash.cashKind}" /></td> 
-						<td><fmt:formatDate pattern="yyyy-MM-dd-HH:mm" value="${cash.regDate}" /></td>
-						<td><c:out value="${cash.cashAmount}" />원</td>
-						<td id="specification${cash.cash_num}"><c:out value="${cash.specification}" /></td>   
-						<td>
-						 	<button class="approveButton" data-cash_kind="${cash.cashKind}" data-user_id="${cash.userId}" data-cash_amount="${cash.cashAmount}" data-cash_num="${cash.cash_num}">승인</button>
-						</td>
-					</tr>
-				</c:forEach>
-			</table>
-		</div>
-		</div>
+  <div class="listWrapper">
+	<div class="">
+	 <table class=""> 
+		 <tr>
+			<td>요청아이디</td><td>종류</td><td>금액</td><td>요청날짜</td><td>상태</td><td>승인하기</td>
+		</tr>
+			<c:forEach items="${cashRequest}" var="cash">
+		<tr>  
+		
+			<td>
+				<a href='userForm?userId=<c:out value="${cash.userId}"/>'> 
+				  <img width="30px" src="/dokky/resources/img/profile_img/<c:out value="${cash.userId}" />" class="memberImage" onerror="this.src='/dokky/resources/img/basicProfile.png'" />
+				  <c:out value="${cash.userId}" />
+				</a> 
+			</td> 
+			<td><c:out value="${cash.cashKind}" /></td> 
+			<td><fmt:formatNumber type="number" maxFractionDigits="3" value="${cash.cashAmount}"/>원</td>
+			<td>  
+				<fmt:formatDate value="${cash.regDate}" pattern="yyyy년 MM월 dd일 HH:mm" />
+			</td>
+			<td id="specification${cash.cash_num}"><c:out value="${cash.specification}" /></td>   
+			<td>
+			 	<button class="approveButton" data-cash_kind="${cash.cashKind}" data-user_id="${cash.userId}" data-cash_amount="${cash.cashAmount}" data-cash_num="${cash.cash_num}">승인</button>
+			</td>
+		</tr>
+	       </c:forEach>
+	 </table>
+	</div>
+	</div>
 		
 		
 		<div class='pull-right'>
@@ -143,11 +189,13 @@
 		       xhr.setRequestHeader(csrfHeaderName, csrfTokenValue); //모든 AJAX전송시 CSRF토큰을 같이 전송하도록 셋팅
 		     });
 	 
-			 function approve(approveData, callback, error) {
+			 function approve(commonData, callback, error) {
+				 console.log(commonData); 
+				 
 					$.ajax({
 						type : 'put',
 						url : '/dokky/admin/approve/',
-						data : JSON.stringify(approveData),
+						data : JSON.stringify(commonData),
 						contentType : "application/json; charset=utf-8",
 						success : function(result, status, xhr) {
 							if (callback) {
@@ -162,21 +210,66 @@
 					});
 				}
 			 
+			 function postAlarm(approveData, callback, error) {//알림등록
+					console.log("postAlarm...............");  
+					
+					$.ajax({
+						type : 'post',
+						url : '/dokky/alarm',
+						//data : JSON.stringify(alarmData1),
+						data : JSON.stringify(approveData),
+						/* data : {
+							  alarmData : JSON.stringify(alarmData1),
+							  approveData : JSON.stringify(approveData)
+							}, */
+						contentType : "application/json; charset=utf-8",
+						success : function(result, status, xhr) {
+							if (callback) { 
+								callback(result);
+							}
+						},
+						error : function(xhr, status, er) {
+							if (error) {
+								error(er);
+							}
+						}
+					})
+				}
+			 
 			 
 			 $(".approveButton").on("click",function(event){// 이벤트  
 				 	var cash_num = $(this).data("cash_num");
 				 	var userId = $(this).data("user_id");
 				 	var cashAmount = $(this).data("cash_amount");
 				 	var cashKind = $(this).data("cash_kind");
-				 	 
-				 	var approveData = {
+				 	var kind;
+				 	
+				 	 if(cashKind == '충전'){
+				 		kind = 7;
+				 	 }else if(cashKind == '환전'){
+				 		 kind = 8;
+				 	 } 
+					  
+				 	var approveData = { //승인 데이타
 				 			cash_num: cash_num,
 				 			userId:userId,
 				 			cashAmount:cashAmount,
-				 			cashKind:cashKind
+				 			cashKind:cashKind  
 				          };
 				 	
-				 	approve(approveData, function(result){ 
+					var alarmData = { //알람 데이타
+	   						target:userId,
+	   						kind:kind,
+	   						writerNick:'관리자',
+	   						writerId:'admin'
+	   			          };
+					
+					var commonData ={
+							cashVO:approveData,
+							alarmVO:alarmData
+				 	}
+				 	
+				 	approve(commonData, function(result){
 						if(result == 'success'){ 
 							
 							var specification = $("#specification"+cash_num); 

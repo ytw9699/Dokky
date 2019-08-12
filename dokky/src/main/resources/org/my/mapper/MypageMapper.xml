@@ -106,12 +106,14 @@
 		   ) where rn > (#{pageNum} -1) * #{amount}  -->
 		
 		
-		<select id="getMyScraplist" resultType="org.my.domain.BoardVO"> 
+		<select id="getMyScraplist" resultType="org.my.domain.scrapVO"> 
 		<![CDATA[
 		   select 	 
 	 			  num,
 		   		  userId,
+		   		  nickName,
 		   		  regdate,
+		   		  scrap_num,
 		   		  title,
 		   		  replyCnt,
 		   		  hitCnt,
@@ -121,7 +123,9 @@
 			   	  ROW_NUMBER() OVER(ORDER BY scrap.scrap_num desc) AS rn,
 				  BOARD.num,
 				  BOARD.userId,
+				  BOARD.nickName,
 				  scrap.regdate,
+				  scrap.scrap_num,
 				  title,
 				  replyCnt,
 				  hitCnt,
@@ -129,7 +133,7 @@
 			FROM 
 				  DK_BOARD BOARD inner JOIN dk_scrap scrap on BOARD.num = scrap.num 
 				  
-			WHERE scrap.userid = #{userId} order by scrap.scrap_num desc)
+			WHERE scrap.userid = #{userId})
 			
 			where rn > (#{pageNum} -1) * #{amount} and rn <= #{pageNum} * #{amount}
 		]]>
@@ -240,5 +244,9 @@
 			where rn > (#{pageNum} -1) * #{amount} and rn <= #{pageNum} * #{amount} 
 		]]>
 	</select>
+	
+	<delete id="removeScrap">
+		delete from dk_scrap where scrap_num = #{scrap_num}
+	</delete>
 	
 </mapper>

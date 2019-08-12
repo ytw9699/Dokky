@@ -11,6 +11,48 @@
 <meta charset="UTF-8">
 <title>Dokky</title>
 <style>
+		@media screen and (max-width:500px){ 
+			.myscrapWrap { 
+				    width: 80%;  
+				    display: inline-block;
+				    margin-left: 15%;
+				    margin-top: 1%;
+				    min-height: 500px; 
+				    border-color: #e6e6e6;
+					border-style: solid;
+					background-color: #323639; 
+					color: #e6e6e6;
+					display: inline-block;
+				}     
+        }
+        @media screen and (min-width: 501px) and (max-width:1500px){
+	        .myscrapWrap {
+				    width: 80%; 
+				    display: inline-block;
+				    margin-left: 15%;
+				    margin-top: 1%;
+				    min-height: 500px; 
+				    border-color: #e6e6e6;
+					border-style: solid;
+					background-color: #323639; 
+					color: #e6e6e6;
+					display: inline-block;
+				}
+        }
+        @media screen and (min-width: 1501px){    
+          .myscrapWrap { 
+			    width: 51%; 
+			    display: inline-block;
+			    margin-left: 29%;
+			    margin-top: 1%;
+			    min-height: 500px; 
+			    border-color: #e6e6e6;
+				border-style: solid;
+				background-color: #323639; 
+				color: #e6e6e6;
+				display: inline-block;
+			}
+        }
 	body{
 		background-color: #323639; 
 	}
@@ -22,7 +64,7 @@
 		margin-left: 1%;
 		margin-top: 1%; 
 	}
-	.mypage a { 
+	.boardTitle a { 
     color: white;
 	}
 	.pagination { 
@@ -38,21 +80,11 @@
    		color: #e6e6e6;  
 	}
 	.pull-right{
-		width: 80%;
+		width: 80%; 
 		border-color: #e6e6e6;/* 흰색 */
 		border-style: solid;
 	}
-		.bodyWrap {
-	    width: 80%; 
-	    display: inline-block;
-	    margin-left: 2%;
-	    margin-top: 1%;
-	    min-height: 500px; 
-	    border-color: #e6e6e6;
-		border-style: solid;
-		background-color: #323639; 
-		color: #e6e6e6;
-	}
+		
 	.ContentWrap{box-sizing: border-box;
 	    padding-top: 48px;
 	    padding-left: 20px;
@@ -74,12 +106,44 @@
 	#menuWrap .tab button:hover {
 	background-color: #7b7676;
 	}
+	.userMenubar{
+	    display: none;
+	    border-style: solid;
+	    border-color: #e6e6e6;
+	    width: 6%;
+	    height: 55px;
+	    position: fixed;
+	    background-color: #323639;
+	    margin-left: 1.3%;
+	}
+	.userMenubar li {
+	    list-style: none;
+	    border-style: solid;
+	    border-color: #e6e6e6;
+	    width: 155%;  
+	    margin-left: -60%;
+	}
+	.userMenubar ul { 
+	    border-style : solid;
+	    border-color: #e6e6e6;
+	    margin: auto;
+	}
+	a:hover {   
+	    color: #7151fc;
+	    text-decoration: underline;
+	}  
+	a  {    
+			color:#e6e6e6; text-decoration: none;
+		} 
+	.replyCnt{   
+	  color: #ff2f3b;  
+	}
 </style> 
 </head>
 <%@include file="../includes/left.jsp"%>
 <body>
 <sec:authentication property="principal" var="userInfo"/>
-<div class="bodyWrap">	
+<div class="myscrapWrap">	
 	<div class="ContentWrap">
 		<div id="menuWrap">
 			<div class="tab"> 
@@ -92,29 +156,45 @@
 		    </div> 
 		</div>
 	<div class="listWrapper">
-		<div class="">나의 게시글 스크랩</div> 
-
-		<div><button id='deleteBtn' type="button" class="">삭제</button></div> 
-		
 		<div class="">
-			<table class=""> 
+			<table class="">  
+				<c:forEach items="${myScraplist}" var="scrap"> 
 					<tr>
-					<td></td><td>제목</td><td>댓글수</td><td>조회수</td><td>스크랩날짜</td> 
-					</tr>
-				<c:forEach items="${myScraplist}" var="board">
-					<tr>
-					<td>
-	                    <input type="checkbox" name="" id="" value="">
+						<td>
+						<input type="checkbox" name="checkRow" value="${scrap.scrap_num}" />
                     </td>
-						<td class="mypage"><a class='move' href='<c:out value="${board.num}"/>'> 
-							<c:out value="${board.title}" /></a></td> 
-						<td>댓글수[<c:out value="${board.replyCnt}" />]</td>
-						<td>조회수<c:out value="${board.hitCnt}" /></td>
-			                  
-						<td><fmt:formatDate pattern="yyyy-MM-dd-HH:mm"
-								value="${board.regDate}" /></td>
+						<td class="boardTitle">
+							<a class='move' href='<c:out value="${scrap.num}"/>'>  
+								<c:out value="${scrap.title}" />
+								<span class="replyCnt">[<c:out value="${scrap.replyCnt}" />]</span>
+							</a>
+						</td>  
+						<td>
+							<img width="20px" src="/dokky/resources/img/read.png"/>
+							<c:out value="${scrap.hitCnt}" />
+						</td>
+						<td> 
+							<a href="#" class="userMenu" data-scrap_num="${scrap.scrap_num}">
+								<img width="25px" src="/dokky/resources/img/profile_img/<c:out value="${scrap.userId}" />" class="memberImage hideUsermenu" onerror="this.src='/dokky/resources/img/basicProfile.png'" />
+								<c:out value="${scrap.nickName}" /> 
+							</a>   
+							 <div id="userMenubar_${scrap.scrap_num}" class="userMenubar">
+								<ul class="hideUsermenu"> 
+									<li class="hideUsermenu"><a href="/dokky/userBoardList?userId=${scrap.userId}" class="hideUsermenu"><span class="hideUsermenu">게시글보기</span></a></li>
+									<li class="hideUsermenu"><a href="#" class="hideUsermenu"><span class="hideUsermenu">쪽지보내기</span></a></li>
+								</ul>      
+						     </div> 
+						</td>
+						<td>
+							<fmt:formatDate value="${scrap.regDate}" pattern="yyyy년 MM월 dd일 HH:mm" />
+						</td>
 					</tr>
 				</c:forEach>
+					<tr>
+				        <td><input type="checkbox" name="checkAll" id="checkAll" onclick="checkAll();"/>전체선택</td>
+				        <td><button id='deleteBtn' type="button" class="">삭제</button></td>
+				         <td>총 스크랩수 ${total}개 </td> 
+				    </tr>
 			</table>
 		</div>
 		
@@ -150,10 +230,29 @@
 	
 <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script> 
 <script> 
+
+		$(".userMenu").on("click",function(event){//해당 메뉴바 보이기 이벤트
+			
+			var	scrap_num = $(this).data("scrap_num");
+			var userMenubar = $("#userMenubar_"+scrap_num);
+					
+			if($(".addBlockClass").length > 0){
+				$(".addBlockClass").css("display","none");  
+				$(".addBlockClass").removeClass('addBlockClass');
+			}
+			userMenubar.css("display","block"); 
+			userMenubar.addClass('addBlockClass'); 
+		 });
+		 
+		$('html').click(function(e) { //html안 Usermenu, hideUsermenu클래스를 가지고있는 곳 제외하고 클릭하면 숨김 이벤트발생
+			if( !$(e.target).is('.userMenu, .hideUsermenu') ) {  	
+			    var userMenu = $(".userMenubar");     
+				userMenu.css("display","none");  
+			} 
+		});
 	   
 		$("#deleteBtn").on("click", function() { 
-			
-			self.location = "/dokky/=";
+			deleteAction(); 
 		}); 
     
 	var actionForm = $("#actionForm");
@@ -175,6 +274,38 @@
 			actionForm.attr("action","/dokky/board/get");
 			actionForm.submit();   
 		});
+		
+		function checkAll(){
+		      if( $("#checkAll").is(':checked') ){ 
+		        $("input[name=checkRow]").prop("checked", true);
+		      }else{
+		        $("input[name=checkRow]").prop("checked", false);
+		      }
+		}
+		
+		function deleteAction(){
+			
+			  var checkRow = "";
+			  
+			  $( "input[name='checkRow']:checked" ).each (function (){
+			    	checkRow = checkRow + $(this).val()+"," ;
+			  });
+			  
+			  checkRow = checkRow.substring(0,checkRow.lastIndexOf( ","));
+			 
+			  if(checkRow == ''){
+			   	 alert("삭제할 스크랩을 선택하세요.");
+			    return false;
+			  }
+			   
+			  if(confirm("정말 삭제 하시겠습니까?")){
+				  actionForm.attr("action","/dokky/mypage/removeAllScrap").attr("method","post");
+				  actionForm.append("<input type='hidden' name='checkRow' value='"+checkRow+"'>");
+				  actionForm.append("<input type='hidden' id='csrf' name='${_csrf.parameterName}' value='${_csrf.token}'/>");
+				  actionForm.submit();
+			  }
+		}
+		
 	 
 </script>
 	

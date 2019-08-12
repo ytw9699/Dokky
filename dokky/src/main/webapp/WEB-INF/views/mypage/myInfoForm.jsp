@@ -9,20 +9,52 @@
 <meta charset="UTF-8">
 	<title>마이페이지</title>
 <style>
+	@media screen and (max-width:500px){ 
+    	.myinfoWrap {
+				    width: 80%; 
+				    display: inline-block;
+				    margin-left: 15%;
+				    margin-top: 1%;
+				    min-height: 500px; 
+				    border-color: #e6e6e6;
+					border-style: solid;
+					background-color: #323639; 
+					color: #e6e6e6;
+					display: inline-block;
+				}     
+        }
+        @media screen and (min-width: 501px) and (max-width:1500px){
+	        .myinfoWrap {
+				    width: 80%; 
+				    display: inline-block;
+				    margin-left: 15%;
+				    margin-top: 1%;
+				    min-height: 500px; 
+				    border-color: #e6e6e6;
+					border-style: solid;
+					background-color: #323639; 
+					color: #e6e6e6;
+					display: inline-block;
+				}
+        }
+        @media screen and (min-width: 1501px){    
+          .myinfoWrap {
+			    width: 51%; 
+			    display: inline-block;
+			    margin-left: 29%;
+			    margin-top: 1%;
+			    min-height: 500px; 
+			    border-color: #e6e6e6;
+				border-style: solid;
+				background-color: #323639; 
+				color: #e6e6e6;
+				display: inline-block;
+			}
+        }
+        
 	body{
 		background-color: #323639;  
 		}
-	.bodyWrap {
-	    width: 80%; 
-	    display: inline-block;
-	    margin-left: 2%;
-	    margin-top: 1%;
-	    min-height: 500px; 
-	    border-color: #e6e6e6;
-		border-style: solid;
-		background-color: #323639; 
-		color: #e6e6e6;
-	}
 	.ContentWrap{box-sizing: border-box;
 	    padding-top: 48px;
 	    padding-left: 20px;
@@ -76,14 +108,23 @@
 	    color: #e6e6e6;
 	    padding: 8px;
 	    border-radius: 8px;
-	    width: 7%;
+	    width: 12%;
     }
+    .memberProfile {
+	    display: inline-block;
+	    float: left; 
+	    /* width: 60px;
+	    margin: 20px;
+	    border: 1px solid black;
+	    border-radius: 70px; */
+	}
+	
 	
 </style>  
 </head>
 <body>
 <sec:authentication property="principal" var="userInfo"/>
-<div class="bodyWrap">	
+<div class="myinfoWrap">	
 	<div class="ContentWrap">
 		<div id="menuWrap">
 			<div class="tab">  
@@ -95,6 +136,9 @@
 		        <button onclick="location.href='myCashInfo?userId=${userInfo.username}'">캐시</button>  
 		    </div> 
 		</div>
+		<div class="memberProfile">
+			<img src="/dokky/resources/img/profile_img/<c:out value="${userInfo.username}" />" class="memberImage" onerror="this.src='/dokky/resources/img/basicProfile.png'" />
+		</div>	
 		<div id="infomation" class="tabcontent">
 	       <form method='post' action="/dokky/mypage/myInfo" id="operForm">	
 	     	  <input type="hidden" name="${_csrf.parameterName}" value="${_csrf.token}" />
@@ -168,7 +212,7 @@
 	     				최근 로그인
 	     			</td>
 	     			<td class="tableValue"> 
-	     				<fmt:formatDate value="${myInfo.loginDate}" pattern="yyyy년 MM월 dd일 hh:mm" />
+	     				<fmt:formatDate value="${myInfo.loginDate}" pattern="yyyy년 MM월 dd일 HH:mm" />
 	     			</td>
 	     		</tr>
 	     	</table> 

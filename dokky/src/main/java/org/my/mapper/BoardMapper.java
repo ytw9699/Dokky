@@ -1,17 +1,18 @@
 package org.my.mapper;
 	import java.util.List;
 	import org.apache.ibatis.annotations.Param;
-import org.my.domain.BoardDisLikeVO;
-import org.my.domain.BoardLikeVO;
-import org.my.domain.BoardVO;
+	import org.my.domain.BoardDisLikeVO;
+	import org.my.domain.BoardLikeVO;
+	import org.my.domain.BoardVO;
 	import org.my.domain.Criteria;
-import org.my.domain.ReplyLikeVO;
-import org.my.domain.donateVO;
-import org.my.domain.reportVO;
+	import org.my.domain.donateVO;
+	import org.my.domain.reportVO;
 
 public interface BoardMapper {
 
 	public List<BoardVO> getList(Criteria cri);
+	
+	public List<BoardVO> getListWithOrder(Criteria cri);
 
 	public Integer insertSelectKey(BoardVO board);
 
@@ -73,5 +74,10 @@ public interface BoardMapper {
 
 	public int insertReportdata(reportVO vo);
 
+	public List<BoardVO> getAllList(Criteria cri);
+
+	public int getAllTotalCount(Criteria cri);
+
+	public List<BoardVO> getAllListWithOrder(Criteria cri);
 
 }

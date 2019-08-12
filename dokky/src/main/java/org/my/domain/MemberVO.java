@@ -6,6 +6,7 @@ package org.my.domain;
 @Data
 public class MemberVO {
 
+	private Long member_num;
 	private String userId;
 	private String userPw;
 	private String nickName;
