@@ -3,8 +3,6 @@ package org.my.domain;
 
 @Data
 public class checkVO {
-
-  private String userId;
-  private String userPw;
-  
+	  private String userId;
+	  private String userPw;
 }

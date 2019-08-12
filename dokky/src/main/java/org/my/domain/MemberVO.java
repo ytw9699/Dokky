@@ -5,7 +5,6 @@ package org.my.domain;
 
 @Data
 public class MemberVO {
-
 	private Long member_num;
 	private String userId;
 	private String userPw;
@@ -18,5 +17,4 @@ public class MemberVO {
 	private Date loginDate;
 	private boolean enabled;
 	private List<AuthVO> authList;
-	
 }

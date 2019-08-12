@@ -9,5 +9,4 @@ public class replyDonateVO {
 	  private String donatedId;//기부받는 아이디
 	  private int money;//기부금액
 	  private int cash;//내 캐시
-	
 }

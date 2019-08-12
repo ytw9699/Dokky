@@ -8,7 +8,6 @@ package org.my.domain;
 @AllArgsConstructor
 @Getter
 public class ReplyPageDTO {
-
-  private int replyCnt;
-  private List<ReplyVO> list;
+	  private int replyCnt;
+	  private List<ReplyVO> list;
 }
