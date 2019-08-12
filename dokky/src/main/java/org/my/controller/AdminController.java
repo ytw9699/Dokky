@@ -19,13 +19,12 @@ package org.my.controller;
 	import org.springframework.web.bind.annotation.ResponseBody;
 	import lombok.Setter;
 	import lombok.extern.log4j.Log4j;
-		//import org.springframework.security.access.annotation.Secured;
+  //import org.springframework.security.access.annotation.Secured;
 
 @Controller
 @Log4j
 @RequestMapping("/admin/*")
-//@Secured({"ROLE_ADMIN"}) 아래와 같은거
-@PreAuthorize("hasRole('ROLE_ADMIN')") //관리자권한이있어야함
+@PreAuthorize("hasRole('ROLE_ADMIN')") //관리자권한이있어야함 @Secured({"ROLE_ADMIN"}) 같은거
 public class AdminController {
 	
 	@Setter(onMethod_ = @Autowired)
@@ -34,11 +33,11 @@ public class AdminController {
 	@Setter(onMethod_ = @Autowired)
 	private MypageService MypageService;
 	
-	@GetMapping("memberList")
+	@GetMapping("memberList")//계정관리 회원리스트 가져오기
 	public String admin(Criteria cri, Model model) {
 		
-		log.info("admin/memberList");
-		log.info(cri);
+		log.info("/admin/memberList");
+		log.info("cri"+cri);
 		
 		model.addAttribute("memberList", service.getMemberList(cri));
 		
@@ -49,7 +48,7 @@ public class AdminController {
 		return "admin/memberList"; 
 	}
 	
-	@GetMapping("cashRequest")
+	@GetMapping("cashRequest")//결제관리 충전,환전 요청내역 리스트가져오기
 	public String cashRequest(Criteria cri,Model model) {
 		
 		log.info("admin/cashRequest");
@@ -68,7 +67,8 @@ public class AdminController {
 		@ResponseBody
 		public ResponseEntity<String> approve(@RequestBody commonVO vo) {
 		
-		log.info("vo...="+vo);
+		log.info("/approve");
+		log.info("commonVO...="+vo);
 		
 		return service.updateApprove(vo) == 1 ? new ResponseEntity<>("success", HttpStatus.OK)
 				: new ResponseEntity<>("fail",HttpStatus.INTERNAL_SERVER_ERROR);
@@ -94,11 +94,11 @@ public class AdminController {
 	
 	@PreAuthorize("isAuthenticated()")
  	@GetMapping("/userForm")  
-	public String userForm(@RequestParam("userId") String userId, Model model) {
+	public String userForm(@RequestParam("userId") String userId, Model model) {//관리자가 회원정보가져오기
+		
+		log.info("admin/userForm");
 		
 		model.addAttribute("user", service.getUserForm(userId));
-		
-		log.info("userForm");
 		
 		return "admin/userForm";
 	} 
@@ -111,7 +111,7 @@ public class AdminController {
 		
 		int total = MypageService.getMyCashHistoryCount(cri.getUserId());
 		
-		log.info("userCashHistory");
+		log.info("/userCashHistory");
 		
 		model.addAttribute("userCashHistory", MypageService.getMyCashHistory(cri));
 		
@@ -142,6 +142,7 @@ public class AdminController {
 		@ResponseBody
 		public ResponseEntity<String> updateRoleStop(@PathVariable("userId") String userId) {
 		
+		log.info("admin/roleStop");
 		log.info("userId...="+userId);
 		
 		return service.updateRoleStop(userId) == 1 ? new ResponseEntity<>("success", HttpStatus.OK)
@@ -153,6 +154,7 @@ public class AdminController {
 		@ResponseBody
 		public ResponseEntity<String> updateRoleLimit(@PathVariable("userId") String userId) {
 		
+		log.info("admin/roleLimit");
 		log.info("userId...="+userId);
 		
 		return service.updateRoleLimit(userId) == 1 ? new ResponseEntity<>("success", HttpStatus.OK)
@@ -164,6 +166,7 @@ public class AdminController {
 		@ResponseBody
 		public ResponseEntity<String> updateRoleUser(@PathVariable("userId") String userId) {
 		
+		log.info("admin/roleUser");
 		log.info("userId...="+userId);
 		
 		return service.updateRoleUser(userId) == 1 ? new ResponseEntity<>("success", HttpStatus.OK)
