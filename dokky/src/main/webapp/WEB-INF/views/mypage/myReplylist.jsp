@@ -66,6 +66,7 @@
 	}
 	.replyTitle a { 
     color: white;
+    text-decoration: none; 
 	}
 	.pagination { 
 	    display: inline-block;

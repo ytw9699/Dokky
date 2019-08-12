@@ -65,7 +65,8 @@
 		margin-top: 1%; 
 	}
 	.boardTitle a {  
-    color: white;
+    	color: white;
+	    text-decoration: none; 
 	}
 	.pagination { 
 	    display: inline-block;

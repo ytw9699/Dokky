@@ -65,9 +65,14 @@
 		margin-left: 1%;
 		margin-top: 1%; 
 	}
-	.boardTitle a {  
+	.boardTitle a {   
     	color: white;
+    	text-decoration:none;
 	}
+	.boardTitle a:hover {   
+   		 color: #7151fc;
+	}
+	
 	.pagination { 
 	    display: inline-block;
 	    padding-left: 0;
@@ -136,11 +141,16 @@
 			<table class=""> 
 				<c:forEach items="${userBoard}" var="board">
 					<tr>
-						<td class="boardTitle"><a class='move' href='<c:out value="${board.num}"/>'> 
-							<c:out value="${board.title}" /></a></td> 
-						<td>댓글수[<c:out value="${board.replyCnt}" />]</td>
-						<td>조회수<c:out value="${board.hitCnt}" /></td>
-			                  
+						<td class="boardTitle">  
+							<a class='move' href='<c:out value="${board.num}"/>'> 
+								<c:out value="${board.title}" /> 
+								<span class="replyCnt">[<c:out value="${board.replyCnt}" />]</span>
+							</a>
+						</td> 
+						<td>
+							<img width="20px" src="/dokky/resources/img/read.png"/>
+							<c:out value="${board.hitCnt}" />
+						</td>
 						<td>
 							<fmt:formatDate value="${board.regDate}" pattern="yyyy년 MM월 dd일 HH:mm" />
 						</td>

@@ -66,7 +66,11 @@
 		margin-top: 1%; 
 	}
 	.replyTitle a { 
-    color: white;
+	    color: white;
+	    text-decoration:none;
+	}
+	.replyTitle a:hover {   
+   		 color: #7151fc;
 	}
 	.pagination { 
 	    display: inline-block;

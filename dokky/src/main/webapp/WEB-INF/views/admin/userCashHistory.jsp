@@ -106,6 +106,13 @@
 	#menuWrap .tab button:hover {
 	background-color: #7b7676;
 	}
+	.content{
+		 color: white;
+    	 text-decoration:none;
+	}
+	.content:hover {  
+   	 color: #7151fc;
+	}
 </style> 
 </head>
 <%@include file="../includes/left.jsp"%>
@@ -150,11 +157,11 @@
 					       <c:when test="${History.cashKind == '기부하기' || History.cashKind == '기부받기'}">
 				       			  <c:if test="${History.specification == '게시판'}">
 				       			  		<td><c:out value="${History.specification}" /></td>
-				       			  		<td><a href="/dokky/board/get?num=${History.board_num}"><c:out value="${History.title}" /></a></td>
+				       			  		<td><a href="/dokky/board/get?num=${History.board_num}" class="content"><c:out value="${History.title}" /></a></td>
 				       			  </c:if>
 				       			  <c:if test="${History.specification == '댓글'}">
 				       			  		<td><c:out value="${History.specification}" /></td>
-				       					<td><a href="/dokky/board/get?num=${History.board_num}"><c:out value="${History.reply_content}" /></a></td>
+				       					<td><a href="/dokky/board/get?num=${History.board_num}" class="content"><c:out value="${History.reply_content}" /></a></td>
 				       			  </c:if>
 					       </c:when>
 			       </c:choose>
