@@ -16,7 +16,8 @@
 			     .getWrapper {
 				    border-color: #e6e6e6;
 				    border-style: solid;
-				    background-color: #323639;
+				    border-width: 1px;
+				    background-color: #323639; 
 				    color: #e6e6e6;
 				    margin-left: 15%;
 				    margin-top: 1%;
@@ -28,6 +29,7 @@
 	          .getWrapper {
 				    border-color: #e6e6e6;
 				    border-style: solid;
+				    border-width: 1px;
 				    background-color: #323639;
 				    color: #e6e6e6;
 				    margin-left: 15%;
@@ -40,6 +42,7 @@
           .getWrapper {
 			    border-color: #e6e6e6;
 			    border-style: solid;
+			    border-width: 1px;
 			    background-color: #323639;
 			    color: #e6e6e6;
 			    margin-left: 29%;
@@ -131,12 +134,12 @@
 	    display: none;
 	}
 	span.donaSubject {
-    color: #2a0055;
-    display: block;
-    background-color: #f2f2f4;
-    padding: 10px;
-    font-size: 15px;
-    font-weight: 600;
+	    color: #2a0055;
+	    display: block;
+	    background-color: #f2f2f4;
+	    padding: 10px;
+	    font-size: 15px;
+	    font-weight: 600;
 	}
 	span.donaText {
 	    display: block;
@@ -179,9 +182,16 @@
 	}
 	
 	.reply{
-		margin-left: 0%;
+		border-style: solid;
+		border-width: 1px;
+		border-color: #e6e6e6;
+		width: 90%;
+		margin-left:0% ; 
+		margin-right:1%; 
+		margin-top:1%;
+		margin-bottom:1%;
+		height: 55px;  
 	}
-	
 	.first {
  		  margin-left: 2%;
 	}
@@ -197,6 +207,7 @@
 	 .userMenubar{
 	    display: none;
 	    border-style: solid;
+	    border-width: 1px;
 	    border-color: #e6e6e6;
 	    width: 6%; 
 	    height: 55px;  
@@ -207,171 +218,243 @@
 	.userMenubar li {
 	    list-style: none;
 	    border-style: solid;
+	    border-width: 1px;
 	    border-color: #e6e6e6;
 	    width: 155%;  
 	    margin-left: -60%; 
 	}
 	.userMenubar ul { 
 	    border-style : solid;
+	    border-width: 1px;
 	    border-color: #e6e6e6;
 	    margin: auto;
 	}
 	.to{
 	    margin-left: 11%;
 	}
+	.getKind{
+		border-style : solid;
+		border-width: 1px;
+		border-color: #e6e6e6; 
+		width: 97%; 
+		margin-left:1% ; 
+		margin-right:1%;
+		margin-top:1%;
+		height: 30px; 
+		font-size: 20px; 
+	} 
+	.title{
+		border-style: solid;
+		border-width: 1px;
+		border-color: #e6e6e6;
+		width: 97%;
+		margin-left:1% ; 
+		margin-right:1%;
+		margin-top:1%;
+		height: 60px; 
+		font-size: 30px; 
+	} 
+	#titleNum{
+		font-size: 11px;   
+	}
+	.nickName{
+		border-style: solid;
+		border-width: 1px;
+		border-color: #e6e6e6;
+		width: 97%;
+		margin-left:1% ; 
+		margin-right:1%;
+		margin-top:1%;
+		height: 60px; 
+	}
+	.content{
+		border-style: solid;
+		border-width: 1px;
+		border-color: #e6e6e6;
+		width: 97%;
+		margin-left:1% ; 
+		margin-right:1%;
+		margin-top:1%;
+		height: 200px; 
+	}
+
+	.contentInformation {
+		/* align-content: right; */ 
+	    border-style: solid;
+	    border-width: 1px;
+	    border-color: #e6e6e6;
+	    width: 61%;
+	    margin-left: 37%;
+	    margin-right: 1%;
+	    margin-top: 6%;
+	    height: 50px;
+	}
+	#replyCntVal{
+		border-style: solid;
+		border-width: 1px;
+		border-color: #e6e6e6;
+		width: 97%;
+		margin-left:1% ; 
+		margin-right:1%; 
+		margin-top:1%;
+		height: 20px; 
+	}
+	.replyPage{
+		border-style: solid;
+		border-width: 1px;
+		border-color: #e6e6e6;
+		width: 97%;
+		margin-left:1% ; 
+		margin-right:1%; 
+		margin-top:1%;
+		margin-bottom:1%;
+		height: 45px;  
+	}
 	
+	.replyInformation{
+		border-style: solid;
+		border-width: 1px;
+		border-color: #e6e6e6;
+		width: 97%;
+		margin-left:44%;  
+		margin-right:1%; 
+		margin-top:1%;
+		margin-bottom:1%; 
+	}
 	
 </style>
 </head>
 <body> 
 <div class="getWrapper"> 
-	<div class="col-lg-12">
-     <h1 class="page-header">
-		 <c:choose>
-		       <c:when test="${board.category == 1 }">
-		          		 공지사항 
-		       </c:when>
-		       <c:when test="${board.category == 2 }">
-		       			  자유게시판
-		       </c:when>
-		        <c:when test="${board.category == 3 }">
-		     		 	  묻고답하기
-		       </c:when>
-		        <c:when test="${board.category == 4 }">
-		   		   	  	  칼럼/Tech
-		       </c:when>
-		       <c:when test="${board.category == 5 }">
-		   		   		  정기모임/스터디 
-		       </c:when>
-		        <c:when test="${board.category == 6 }"> 
-		   		   		    마이페이지  
-		       </c:when>
-       </c:choose>
-     </h1>
+	<div class="getKind">
+			 <c:choose>
+			       <c:when test="${board.category == 1 }">
+			          		 공지사항 
+			       </c:when>
+			       <c:when test="${board.category == 2 }">
+			       			  자유게시판
+			       </c:when>
+			        <c:when test="${board.category == 3 }">
+			     		 	  묻고답하기
+			       </c:when>
+			        <c:when test="${board.category == 4 }">
+			   		   	  	  칼럼/Tech
+			       </c:when>
+			       <c:when test="${board.category == 5 }">
+			   		   		  정기모임/스터디 
+			       </c:when>
+			        <c:when test="${board.category == 6 }"> 
+			   		   		    마이페이지  
+			       </c:when>
+	       </c:choose> 
     </div>
-    
-    <div class='bigPictureWrapper'>
-	  <div class='bigPicture'>
-	  </div>
-	</div>
-
-	<div class="row">
-  <div class="col-lg-12">
-    <div class="panel panel-default">
-
-      <div class="panel-heading"></div>
-      <div class="panel-body">
-        <div class='uploadResult'> 
-          <ul>
-          </ul>
-	        </div>
-	      </div>
-	    </div>
-	  </div>
-	</div>
-
-		<div class="form-group">
-          <label>날짜</label>-<fmt:formatDate value="${board.regDate}" pattern="yyyy년 MM월 dd일 HH:mm" />
-        </div>
-        <div class="form-group">  
-          <label>수정됨</label>-<fmt:formatDate value="${board.updateDate}" pattern="yyyy년 MM월 dd일 HH:mm" />
-        </div>						 
-		<div class="form-group"> 
-          <label>닉네임</label>
-          
+     
+    <div class="nickName">
 			<a href="#" class="userMenu">
 				<img width="25px" src="/dokky/resources/img/profile_img/<c:out value="${board.userId}" />" class="memberImage hideUsermenu" onerror="this.src='/dokky/resources/img/basicProfile.png'" />
 				<c:out value="${board.nickName}" /> 
-			</a> 
-			 <div id="UserMenubar_board" class="userMenubar">
+			</a>
+			<div>
+				<span>
+						<fmt:formatDate value="${board.regDate}" pattern="yyyy년 MM월 dd일 HH:mm" /><label> 작성</label>
+					<c:if test="${board.regDate != board.updateDate}">
+					    , <fmt:formatDate value="${board.updateDate}" pattern="yyyy년 MM월 dd일 HH:mm" /><label> 수정됨</label> 
+					</c:if>
+				</span>
+				<span>
+					<img width="20px" src="/dokky/resources/img/read.png"/>
+					<c:out value="${board.hitCnt }"/>
+				</span>
+			</div>  
+			
+			<div id="UserMenubar_board" class="userMenubar">
 				<ul class="hideUsermenu">  
 					<li class="hideUsermenu"><a href="/dokky/userBoardList?userId=${board.userId}" class="hideUsermenu"><span class="hideUsermenu">게시글보기</span></a></li>
 					<li class="hideUsermenu"><a href="#" class="hideUsermenu"><span class="hideUsermenu">쪽지보내기</span></a></li>
 				</ul>    
-		     </div> 
-        </div>  
-         <div class="form-group">
-          <label>번호</label>-<c:out value="${board.num }"/>
-        </div>
-        <div class="form-group">
-          <label>제목</label>-<c:out value="${board.title }"/>
-        </div>   
-        <div class="form-group">
-          <label>내용</label>-${board.content }
-        </div>
+		    </div> 
+    </div>
         
-        <div class="form-group">
-          <label>좋아요</label> <span id="likeCount"><c:out value="${board.likeCnt }"/></span>
-            <sec:authorize access="isAuthenticated()">
-		        <c:if test="${userInfo.username != board.userId}">
-		       		<button id="like" data-user_id="${board.userId }">좋아요</button>  
-		        </c:if>
-	        </sec:authorize> 
-        </div> 
-        <div class="form-group">
-          <label>싫어요</label> <span id="dislikeCount"><c:out value="${board.dislikeCnt }"/></span>
-         	<sec:authorize access="isAuthenticated()">
-		        <c:if test="${userInfo.username != board.userId}">
-		       	  <button id="dislike" data-user_id="${board.userId }">싫어요</button> 
-		        </c:if>
-	        </sec:authorize>
-        </div>
-        
-        <div class="form-group">
-          <label>기부금</label> <span id="boardMoney"><c:out value="${board.money }"/></span>
-          	<sec:authorize access="isAuthenticated()">
-		        <c:if test="${userInfo.username != board.userId}">
-		       	  <button id="donateMoney" data-user_id="${board.userId }">기부</button> 
-		        </c:if>
-	        </sec:authorize>
-        </div>
-        <div class="form-group">
-          <label>조회수</label> <c:out value="${board.hitCnt }"/> 
-        </div>
-        <div id="replyCntVal" class="form-group"> 
-          <%-- <label>댓글</label>-${board.replyCnt } --%>
-        </div>
-		<div> 
-		
-			<sec:authentication property="principal" var="userInfo"/>
-			
-			<button id="list_button">목록보기 </button> 
-			  
-		 	<sec:authorize access="isAuthenticated()">
-		        <c:if test="${userInfo.username eq board.userId}">
-		       		 <button id="modify_button">수정 </button> 
-					 <button id="remove_button">삭제 </button>
-		        </c:if>
-		        
-		        <button id="scrap" data-num="${board.num }">스크랩 </button>
-		        
-		        <c:if test="${userInfo.username != board.userId}">
-		       		 <button id="report">신고 </button> 
-		        </c:if>
-		        
-	        </sec:authorize>
+   	<div class="title">
+   		<div id="titleNum">
+   			#<c:out value="${board.num }"/>
+   		</div>
+   		<div>
+   		 	<c:out value="${board.title}"/>
+   		</div>
+    </div> 
+          
+    <div class="content">
+    	<div>
+      		${board.content }
+      	</div>
+      	<div class="contentInformation">
+      		<span>
+	          <label>좋아요</label> <span id="likeCount"><c:out value="${board.likeCnt }"/></span>
+	            <sec:authorize access="isAuthenticated()">
+			        <c:if test="${userInfo.username != board.userId}">
+			       		<button id="like" data-user_id="${board.userId }">좋아요</button>  
+			        </c:if>
+		        </sec:authorize>
+	        </span> 
+	        <span>
+		        <label>싫어요</label> <span id="dislikeCount"><c:out value="${board.dislikeCnt }"/></span>
+	         	<sec:authorize access="isAuthenticated()">
+			        <c:if test="${userInfo.username != board.userId}">
+			       	  <button id="dislike" data-user_id="${board.userId }">싫어요</button> 
+			        </c:if>
+		        </sec:authorize>
+	         </span> 
+	        <span>
+	        	<label>기부금</label> <span id="boardMoney"><c:out value="${board.money }"/></span>
+	          	<sec:authorize access="isAuthenticated()">
+			        <c:if test="${userInfo.username != board.userId}">
+			       	  <button id="donateMoney" data-user_id="${board.userId }">기부</button> 
+			        </c:if>
+		        </sec:authorize>
+	        </span>
+	        <span>
+	        	<sec:authentication property="principal" var="userInfo"/>
 	        
-			<form id='operForm' action="/dokky/board/modify" method="get">
-			  
-				  <input type="hidden" id='csrf' name="${_csrf.parameterName}" value="${_csrf.token}"/>
-				  
-				  <input type='hidden' id='userId' name='userId' value='<c:out value="${board.userId}"/>'>    
-				   
-				  <input type='hidden' id='num' name='num' value='<c:out value="${board.num}"/>'>
-				  <input type='hidden' name='category' value='<c:out value="${board.category}"/>'>
-				  <input type='hidden' name='pageNum' value='<c:out value="${cri.pageNum}"/>'>
-				  <input type='hidden' name='amount' value='<c:out value="${cri.amount}"/>'>
-				  <input type='hidden' name='keyword' value='<c:out value="${cri.keyword}"/>'>
-	  			  <input type='hidden' name='type' value='<c:out value="${cri.type}"/>'>  
-			</form>
-
-		</div>
-	<!-- ///////////////////////////////////////////////////////// -->
-	<div><!-- 댓글 목록 -->
+		        	<sec:authorize access="isAuthenticated()">
+				        <c:if test="${userInfo.username eq board.userId}">
+				       		 <button id="modify_button">수정 </button> 
+							 <button id="remove_button">삭제 </button>
+				        </c:if>
+				        
+				        <button id="scrap" data-num="${board.num }">스크랩 </button>
+				        
+				        <c:if test="${userInfo.username != board.userId}">
+				       		 <button id="report">신고 </button> 
+				        </c:if>
+		        	</sec:authorize>
+	        	
+	        		<button id="list_button">목록보기 </button> 
+	        </span>
+        </div> 
+    </div>
+    <div id="replyCntVal">
+    	<!-- 댓글수 -->
+    </div> 
+	<div> 
+		<form id='operForm' action="/dokky/board/modify" method="get">
+			  <input type="hidden" id='csrf' name="${_csrf.parameterName}" value="${_csrf.token}"/>
+			  <input type='hidden' id='userId' name='userId' value='<c:out value="${board.userId}"/>'>    
+			  <input type='hidden' id='num' name='num' value='<c:out value="${board.num}"/>'>
+			  <input type='hidden' name='category' value='<c:out value="${board.category}"/>'>
+			  <input type='hidden' name='pageNum' value='<c:out value="${cri.pageNum}"/>'>
+			  <input type='hidden' name='amount' value='<c:out value="${cri.amount}"/>'>
+			  <input type='hidden' name='keyword' value='<c:out value="${cri.keyword}"/>'>
+  			  <input type='hidden' name='type' value='<c:out value="${cri.type}"/>'>  
+		</form>
+	</div> 
+	<div>
         <ul class="replyList">
+        <!-- 댓글 목록 -->
         </ul>
     </div>  
-    <div class="replyPage"> <!-- 댓글페이지 -->
+    <div class="replyPage">
+    	<!-- 댓글페이지 -->
     </div>
     
       <div id="replyModForm" ><!-- 댓글 수정 폼+값 불러오기 --> 
@@ -639,15 +722,15 @@ function checkLength(obj, maxlength) {
 				  
 		    	  str += replyService.displayTime(data.list[i].replyDate);
 		    	  str +=" <button data-oper='reReplyForm' type='button' data-user_id='"+userId+"' data-nick_name='"+nickName+"' data-parent_num='"+ data.list[i].parent_num+"' data-order_step='"+data.list[i].order_step+"' data-reply_level='"+data.list[i].reply_level+"'>답글</button>"  
-		    	  str +="<div>";
+		    	  str +="<div><span>";
 	       }
 	         
 	       str +=" " + data.list[i].reply_content
-	       +" "
-	       str += "  좋아요 <span id='replyLikeCount"+reply_nums+"'>"+data.list[i].likeCnt+"</span> "
+	       +" </span>" 
+	       str += "  <span class='replyInformation'>좋아요 <span id='replyLikeCount"+reply_nums+"'>"+data.list[i].likeCnt+"</span> "
 	       str += "  싫어요 <span id='replyDisLikeCount"+reply_nums+"'>"+data.list[i].dislikeCnt+"</span> "
 	       str += "  기부금 <span id='replyMoney"+reply_nums+"'>"+data.list[i].money+"</span> "
-	        
+	         
 	    		    
 	       if(username == userId){
 			 str += "<button data-oper='modify' type='button' data-user_id='"+userId+"' data-reply_num='"+reply_nums+"'>수정</button>"
@@ -661,7 +744,7 @@ function checkLength(obj, maxlength) {
 		       +"<button data-oper='report' type='button' data-user_id='"+userId+"' data-nick_name='"+nickName+"'>신고</button>"
 	       } 
 				
-	       str += "</div></div>";       
+	       str += "</span></div></div>";       
 			    /*  str += "<sec:authorize access='isAuthenticated()'>" */
 		       	/*   +"</sec:authorize>"  인증된사람만 보여주기*/
 	     }
