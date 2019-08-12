@@ -167,10 +167,11 @@
 			<table class=""> 
 				<c:forEach items="${list}" var="board">
 					<tr>
-						<td>  
+						<td>   
 							<a class='move' href='<c:out value="${board.num}"/>'> 
-							<c:out value="${board.title}" /></a>
-							<a class="replyCnt">[<c:out value="${board.replyCnt}" />]</a>
+								<c:out value="${board.title}" />
+								<span class="replyCnt">[<c:out value="${board.replyCnt}" />]</span>
+							</a> 
 						</td> 
 						<td>
 							<img width="20px" src="/dokky/resources/img/read.png"/>
