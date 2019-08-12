@@ -47,11 +47,13 @@ public class CommonController {
 	@RequestMapping(value = "/main", method = RequestMethod.GET)
 	public String main(Model model) {
 		
-		model.addAttribute("realtimeList", memberService.getRealtimeList());
+		log.info("/main");
 		
-		model.addAttribute("monthlyList", memberService.getMonthlyList());
+		model.addAttribute("realtimeList", memberService.getRealtimeList());//실시간 게시글
 		
-		model.addAttribute("donationList", memberService.getDonationList());
+		model.addAttribute("monthlyList", memberService.getMonthlyList());//한달 인길글
+		
+		model.addAttribute("donationList", memberService.getDonationList());//한달 최다 기부글
 		
 		return "main";
 	}
@@ -70,7 +72,7 @@ public class CommonController {
 	@GetMapping("/adminError")
 	public String adminError(Model model) {
 
-		log.info("adminError");
+		log.info("/adminError");
 		
 		model.addAttribute("msg", "Access Denied 관리자 권한이 없습니다.");
 		
@@ -78,8 +80,10 @@ public class CommonController {
 	}
 
 	@GetMapping("/accessError")
-	public void accessDenied(Authentication auth, Model model) {
-		//는 Authentication 타입의 파라미터를 받도록 설계해서 필요한 경우에 사용자의 정보를 확인할 수 있도록 합니
+	public void accessDenied(Authentication auth, Model model) {//Authentication 타입의 파라미터를 받도록 설계해서 필요한 경우에 사용자의 정보를 확인할 수 있도록
+		
+		log.info("/accessError");
+		
 		log.info("access Denied : " + auth);
 
 		model.addAttribute("msg", "Access Denied 로그인 권한이 없습니다.");
@@ -87,7 +91,8 @@ public class CommonController {
 
 	@GetMapping("/customLogin")
 	public void loginInput(String error, String logout,String check, Model model) throws UnsupportedEncodingException {
-
+		
+		log.info("/customLogin");
 		log.info("error: " + error);
 		log.info("logout: " + logout);
 		log.info("check: " + check);
@@ -112,46 +117,44 @@ public class CommonController {
 		}
 	}
 
-	/*@GetMapping("/customLogout")
-	public void logoutGET() {
-
-		log.info("custom logout");
-	}*/   
-
 	@PostMapping("/customLogout")
 	public void logoutPost() {
-
-		log.info("post custom logout");
+		
+		log.info("/customLogout");
 	}
+	
 	@GetMapping("/memberForm")
 	public String memberForm() {
 
-		log.info("get memberForm");
+		log.info("/memberForm");
+		
 		return "members/memberForm";
 	}
 	
 	@PostMapping("/members")
 	public String postMembers(MemberVO vo,Model model) {//회원가입
-		log.info("==========================");
-		log.info("post members: " + vo); 
-		log.info("==========================");
+		
+		log.info("/members: vo" + vo); 
 		
 		vo.setUserPw(pwencoder.encode(vo.getUserPw()));//패스워드 암호화
 		
 		if(memberService.registerMembers(vo)){
+			
 			model.addAttribute("check", "가입완료 되었습니다 로그인해주세요.");
 			
 			return "/customLogin";
 		}
-		model.addAttribute("check", "가입실패 하였습니다 관리자에게 문의주세요.");
-		return "/customLogin";
-}
+		
+			model.addAttribute("check", "가입실패 하였습니다 관리자에게 문의주세요.");
+			
+			return "/customLogin";
+	}
 	
 	@GetMapping(value = "/idCheckedVal", produces = "text/plain; charset=UTF-8")
 	@ResponseBody
 	public ResponseEntity<String> getIdCheckedVal(String inputId) {
-		 
-		log.info("username...="+inputId);
+		
+		log.info("/idCheckedVal"); 
 		
 		if(memberService.getIdCheckedVal(inputId)){
 			return new ResponseEntity<>("success", HttpStatus.OK);
@@ -163,7 +166,7 @@ public class CommonController {
 	@ResponseBody
 	public ResponseEntity<String> getNicknameCheckedVal(String inputNickname) {
 		 
-		log.info("inputNickname...="+inputNickname);
+		log.info("/nickCheckedVal"); 
 		
 		if(memberService.getNicknameCheckedVal(inputNickname)){
 			return new ResponseEntity<>("success", HttpStatus.OK);
@@ -175,20 +178,21 @@ public class CommonController {
 	@ResponseBody
 	public ResponseEntity<String> getEmailCheckedVal(String inputEmail) {
 		 
-		log.info("inputEmail...="+inputEmail);
+		log.info("/emailCheckedVal"); 
 		
 		if(memberService.getEmailCheckedVal(inputEmail)){
 			return new ResponseEntity<>("success", HttpStatus.OK);
 		}
 			return new ResponseEntity<>("fail", HttpStatus.OK);
 	}
+	
 	@PreAuthorize("isAuthenticated()")
  	@GetMapping("/userBoardList") 
 	public String userBoardList(Criteria cri, Model model) { //유저 게시글 가져오기
 		
-		model.addAttribute("userBoard", mypageService.getMyBoardList(cri));
+		log.info("/userBoardList"); 
 		
-		log.info("userBoardList"); 
+		model.addAttribute("userBoard", mypageService.getMyBoardList(cri));
 		
 		int total = mypageService.getMyBoardCount(cri);
 		
@@ -203,15 +207,11 @@ public class CommonController {
  	@GetMapping("/userReplylist")  
 	public String userReplylist(Criteria cri, Model model) {
 		
-		log.info("userReplylist "+cri);
+		log.info("userReplylist cri"+cri);
 		
 		model.addAttribute("userReply", mypageService.getMyReplylist(cri));
 		
-		log.info("getUserReplyCount");
-		
-		int total = mypageService.getMyReplyCount(cri);//total은 내 댓글의 총 게시물수
-		
-		log.info("pageMaker");
+		int total = mypageService.getMyReplyCount(cri);
 		
 		model.addAttribute("boardTotal",mypageService.getMyBoardCount(cri));  
 		model.addAttribute("replyTotal", total);
@@ -224,7 +224,7 @@ public class CommonController {
 	@ResponseBody
 	public ResponseEntity<String> getAlarmRealCount(@PathVariable("userId") String userId) {
 		 
-		log.info("getAlarmRealCount...="+userId);
+		log.info("/alarmRealCount...="+userId);
 		
 		return  new ResponseEntity<>(commonService.getAlarmRealCount(userId), HttpStatus.OK);
 	}
@@ -233,16 +233,13 @@ public class CommonController {
 	@GetMapping("/alarmList")  
 	 public String getAlarmList(Criteria cri, Model model) {//내 알림 리스트 가져오기
 		
-		log.info("getAlarmCount");
+		log.info("/alarmList");
+		
 		int total = commonService.getAlarmCount(cri);
 		
 		model.addAttribute("total", total);
 		
-		log.info("getAlarmList");
-		
 		model.addAttribute("alarmList", commonService.getAlarmList(cri));
-		
-		log.info("pageMaker");
 		
 		model.addAttribute("pageMaker", new PageDTO(cri, total));
 
@@ -253,6 +250,7 @@ public class CommonController {
 	 @PostMapping("/removeAllAlarm")//다중알람삭제
 		public String removeAllAlarm(@RequestParam("checkRow") String checkRow , @RequestParam("userId")String userId, Criteria cri) {
 		 
+			log.info("/removeAllAlarm");
 		 	log.info("checkRow..." + checkRow);
 		 	
 		 	String[] arrIdx = checkRow.split(",");
@@ -272,10 +270,9 @@ public class CommonController {
 	@PreAuthorize("isAuthenticated()")
 	@ResponseBody
 	@PostMapping(value = "/alarm", consumes = "application/json", produces = "text/plain; charset=UTF-8")
-	public ResponseEntity<String> insertAlarm(@RequestBody cashVO vo2 ) {
+	public ResponseEntity<String> insertAlarm(@RequestBody cashVO vo) {
 
-		//log.info("alarmVO: " + vo);
-		log.info("cashVO: " + vo2);
+		log.info("/alarm...cashVO: " + vo);
 
 		//int insertCount = commonService.insertAlarm(vo);
 		
@@ -289,8 +286,8 @@ public class CommonController {
 	@ResponseBody
 	@PutMapping(value = "/updateAlarmCheck/{alarmNum}",produces = "text/plain; charset=UTF-8")
 	public ResponseEntity<String> updateAlarmCheck(@PathVariable("alarmNum") String alarmNum) {
-
-		log.info("updateAlarmCheck: " + alarmNum);
+		
+		log.info("/updateAlarmCheck:... " + alarmNum);
 		
 		if(commonService.updateAlarmCheck(alarmNum) == 1) {//알림 체크값을 바꿨다면
 			return new ResponseEntity<>("success", HttpStatus.OK) ;
