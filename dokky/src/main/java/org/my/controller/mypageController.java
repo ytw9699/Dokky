@@ -42,10 +42,10 @@ public class mypageController {
 	@PreAuthorize("isAuthenticated()")
  	@GetMapping("/myInfoForm")  
 	public String myInfoForm(@RequestParam("userId") String userId, Model model) { //내 개인정보 변경폼
+
+		log.info("/mypage/myInfoForm");
 		
 		model.addAttribute("myInfo", service.getMyInfo(userId));
-		
-		log.info("myInfoForm");
 		
 		return "mypage/myInfoForm";
 	} 
@@ -54,14 +54,14 @@ public class mypageController {
 	@PostMapping("/myInfo")
 	public String updateMyInfo(MemberVO vo, Model model) {//개인정보 변경하기
 		
+		log.info("/mypage/myInfo");
+		
 		if(service.updateMyInfo(vo)) {
-			log.info("updateMyInfo-complete");
 			
 			model.addAttribute("myInfo", service.getMyInfo(vo.getUserId()));
 			model.addAttribute("update", "complete");
 			
 		}else {
-			log.info("updateMyInfo-notComplete");
 			model.addAttribute("update", "notComplete");
 		}
 			return "mypage/myInfoForm";
@@ -72,23 +72,26 @@ public class mypageController {
 	@ResponseBody
 	public ResponseEntity<String> checkPassword(@RequestBody checkVO vo) {//나의 패스워드 체크
 		
-		log.info("userId...="+vo.getUserId());
-		log.info("getUserPw...="+vo.getUserPw());
+		log.info("/mypage/checkPassword");
+		log.info("checkVO.."+vo);
 		
 		String getPw = service.getMemberPW(vo.getUserId());
 		
 		if(!pwencoder.matches(vo.getUserPw(), getPw)) {//비밀번호 일치하지 않는다면
-	        	
+			
 			return new ResponseEntity<>(HttpStatus.NOT_FOUND);//404
+			
+	    }else {
+			
+	    	return new ResponseEntity<>("success",HttpStatus.OK);//200
 	    }
-			return new ResponseEntity<>("success",HttpStatus.OK);//200
 	}
 	
 	@PreAuthorize("isAuthenticated()") 
  	@GetMapping("/rePasswordForm")  
 	public String rePasswordForm(@RequestParam("userId") String userId, Model model) { //내 패스워드 변경폼
 		
-		log.info("rePasswordForm");
+		log.info("/mypage/rePasswordForm");
 		
 		return "mypage/rePasswordForm";
 	}
@@ -97,16 +100,14 @@ public class mypageController {
 	@PostMapping("/MyPassword")
 	public String updateMyPassword(@RequestParam("userId") String userId, @RequestParam("newPw") String newPw , Model model) {//패스워드 변경
 		
-		log.info("updateMyPassword");
+		log.info("/mypage/MyPassword");
 
 		String userPw = pwencoder.encode(newPw);//패스워드 암호화
 		
 		if(service.updateMyPassword(userId,userPw)) {
-			log.info("updateMyPassword-complete");
 			model.addAttribute("update", "complete");
 			
 		}else {
-			log.info("updateMyPassword-notComplete");
 			model.addAttribute("update", "notComplete");
 		}
 			return "mypage/rePasswordForm";
@@ -118,9 +119,9 @@ public class mypageController {
 		
 		model.addAttribute("MyBoard", service.getMyBoardList(cri));
 		
-		log.info("myBoardList");
+		log.info("/mypage/myBoardList");
 		
-		int total = service.getMyBoardCount(cri);//total은 내 게시판의 총 게시물수
+		int total = service.getMyBoardCount(cri);
 		
 		model.addAttribute("pageMaker", new PageDTO(cri, total));
 		model.addAttribute("total", total);
@@ -132,13 +133,11 @@ public class mypageController {
  	@GetMapping("/myReplylist")  
 	public String myReplylist(Criteria cri, Model model) {
 		
-		log.info("myReplylist "+cri);
+		log.info("/mypage/myReplylist...cri "+cri);
 		
 		model.addAttribute("myReply", service.getMyReplylist(cri));
 		
-		log.info("getMyReplyCount");
-		
-		int total = service.getMyReplyCount(cri);//total은 내 댓글의 총 게시물수
+		int total = service.getMyReplyCount(cri);
 		
 		log.info("pageMaker");
 		
@@ -152,6 +151,7 @@ public class mypageController {
 	@ResponseBody
 	public ResponseEntity<String> insertScrapData(@PathVariable("num") int num, @PathVariable("userId") String userId ) {
 		
+		log.info("/mypage/scrapData");
 		log.info("getScrapCnt...num="+num+", userId="+userId);
 		
 		if(service.getScrapCnt(num,userId) == 1 && service.deleteScrap(num,userId) == 1) {//스크랩을 이미 했다면, 스크랩 삭제
@@ -172,16 +172,12 @@ public class mypageController {
  	@GetMapping("/myScraplist")  
 	public String myScraplist(Criteria cri, Model model) { //내 스크랩 글 가져오기
 		
-		log.info("getMyScrapCount");
+		log.info("/mypage/myScraplist");
+		log.info("myScraplist "+cri);
 		
 		int total = service.getMyScrapCount(cri.getUserId());//total은 내 스크랩 총 게시물수
 		
-		log.info("myScraplist "+cri);
-		
 		model.addAttribute("myScraplist", service.getMyScraplist(cri));
-		
-		log.info("pageMaker");
-		
 		model.addAttribute("pageMaker", new PageDTO(cri, total));
 		model.addAttribute("total", total);
 		
@@ -191,7 +187,8 @@ public class mypageController {
 	 @PreAuthorize("principal.username == #userId")  
 	 @PostMapping("/removeAllScrap")//다중삭제
 		public String removeAllScrap(@RequestParam("checkRow") String checkRow , @RequestParam("userId")String userId, Criteria cri) {
-
+		 
+		log.info("/mypage/removeAllScrap");
 		log.info("checkRow..." + checkRow);
 	 	
 	 	String[] arrIdx = checkRow.split(",");
@@ -211,7 +208,7 @@ public class mypageController {
  	@GetMapping("/myCashInfo")  
 	public String myCashInfo(@RequestParam("userId") String userId, Model model) { //내 캐시정보
 		
-		log.info("myCashInfo");
+		log.info("/mypage/myCashInfo");
 		
 		String userCash = boardService.getuserCash(userId);
 		
@@ -225,6 +222,8 @@ public class mypageController {
 	@PostMapping(value = "/chargeData", produces = "text/plain; charset=UTF-8")
 	@ResponseBody
 	public ResponseEntity<String> chargeData(@RequestBody cashVO vo) {//캐시 충전하기
+		
+		log.info("/mypage/chargeData");
 		
 		if(service.insertChargeData(vo)) {
 			
@@ -241,6 +240,8 @@ public class mypageController {
 	@ResponseBody
 	public ResponseEntity<String> reChargeData(@RequestBody cashVO vo) {//캐시 환전하기
 		
+		log.info("/mypage/reChargeData");
+		
 		if(service.insertReChargeData(vo)) {
 			
 			log.info("insertReChargeData...success "+vo);
@@ -256,15 +257,11 @@ public class mypageController {
  	@GetMapping("/myCashHistory")  
 	public String myCashHistory(Criteria cri, Model model) { //내 캐시 내역
 		
-		log.info("getMyCashHistoryCount");
+		log.info("/mypage/myCashHistory");
 		
 		int total = service.getMyCashHistoryCount(cri.getUserId());//total은 내 스크랩 총 게시물수
 		
-		log.info("myCashHistory");
-		
 		model.addAttribute("myCashHistory", service.getMyCashHistory(cri));
-		
-		log.info("pageMaker");
 		
 		model.addAttribute("pageMaker", new PageDTO(cri, total));
 		
