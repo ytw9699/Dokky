@@ -65,170 +65,163 @@
 	</sql>
 	
 	<select id="getList" resultType="org.my.domain.BoardVO"> 
-		  <![CDATA[
-		  select 
-		    	category,
-		    	replyCnt,
-		    	likeCnt,
-		    	num,
-		    	title,
-		    	content,
-		    	nickName,
-		    	regdate,
-		    	hitCnt,
-		    	userId
-		  from 
-		      (
-		     select /*+INDEX_DESC(DK_BOARD PK_DK_BOARD) */ rownum rn,
-						     								category,
-													    	replyCnt,
-													    	likeCnt,
-													    	num,
-													    	title,
-													    	content,
-													    	nickName,
-													    	regdate,
-													    	hitCnt,
-													    	userId 
-				from DK_BOARD where category = #{category} and
-		  ]]>
-				<include refid ="criteria"></include>  
-<!-- ( title like '%'||'keyword'||'%' OR content like '%'||'keyword'||'%' OR writer like '%'||'keyword'||'%' ) AND -->
-		  <![CDATA[    
-		      rownum <= #{pageNum} * #{amount}
-		      )
-		  where rn > (#{pageNum} -1) * #{amount}   
-		  ]]>
-	</select>
+	  <![CDATA[
+			   select category
+			    	, replyCnt
+			    	, likeCnt
+			    	, num
+			    	, title
+			    	, content
+			    	, nickName
+			    	, regdate
+			    	, hitCnt
+			    	, userId
+			    from 
+			      ( select /*+INDEX_DESC(DK_BOARD PK_DK_BOARD) */ rownum rn
+							     								, category
+														    	, replyCnt
+														    	, likeCnt
+														    	, num
+														    	, title
+														    	, content
+														    	, nickName
+														    	, regdate
+														    	, hitCnt
+														    	, userId 
+					from DK_BOARD 
+					  where category = #{category} and
+			  ]]>
+					<include refid ="criteria"></include>  
+	<!-- ( title like '%'||'keyword'||'%' OR content like '%'||'keyword'||'%' OR writer like '%'||'keyword'||'%' ) AND -->
+			 	 <![CDATA[    
+			      rownum <= #{pageNum} * #{amount}
+			      )
+			  		where rn > (#{pageNum} -1) * #{amount}   
+			 	 ]]>
+		</select>
 	
 	<select id="getListWithOrder" resultType="org.my.domain.BoardVO">
-		 	select 
-				category,
-				replyCnt,
-				likeCnt,
-				num,
-				title,
-				content,
-				nickName,
-				regdate,
-				hitCnt,
-				MONEY,
-				userId
+		 	select category
+				 , replyCnt
+				 , likeCnt
+				 , num
+				 , title
+				 , content
+				 , nickName
+				 , regdate
+				 , hitCnt
+				 , MONEY
+				 , userId
 			from
-			(
-	  		  select  		  	
+				(  select  		  	
 		  		        <choose>
 							<when test='order == "1" '>
-								ROW_NUMBER() OVER(order by hitcnt desc) AS rn,
+								ROW_NUMBER() OVER(order by hitcnt desc) AS rn
 							</when>
 							<when test='order == "2" '>
-								ROW_NUMBER() OVER(order by REPLYCNT desc) AS rn,
+								ROW_NUMBER() OVER(order by REPLYCNT desc) AS rn
 							</when>
 							<when test='order == "3" '>
-								ROW_NUMBER() OVER(order by likeCnt desc) AS rn,
+								ROW_NUMBER() OVER(order by likeCnt desc) AS rn
 							</when>
 							<when test='order == "4" '>
-								ROW_NUMBER() OVER(order by MONEY desc) AS rn,
+								ROW_NUMBER() OVER(order by MONEY desc) AS rn
 							</when>
 						</choose>
-	                category,
-					replyCnt,
-					likeCnt,
-					num,
-					title,
-					content,
-					nickName,
-					regdate,
-					hitCnt,
-					MONEY,
-					userId
-				from DK_BOARD where category = #{category} 
+	                , category
+					, replyCnt
+					, likeCnt
+					, num
+					, title
+					, content
+					, nickName
+					, regdate
+					, hitCnt
+					, MONEY
+					, userId
+				  from DK_BOARD 
+				  	where category = #{category} 
 					<include refid ="criteriaWithOrder"></include>  
 <!-- and ( title like '%'||'keyword'||'%' OR content like '%'||'keyword'||'%' OR writer like '%'||'keyword'||'%' ) -->
-				 )
-				  <![CDATA[
+				)
+				<![CDATA[
 				 where rn > (#{pageNum} -1) * #{amount} and rn <= #{pageNum} * #{amount}
-			]]>	
+				]]>	
 	</select>
 			
 	<select id="getAllList" resultType="org.my.domain.BoardVO"> 
-		  <![CDATA[
-		   select 
-		    	category,
-		    	replyCnt,
-		    	likeCnt,
-		    	num,
-		    	title,
-		    	content,
-		    	nickName,
-		    	regdate,
-		    	hitCnt,
-		    	userId
-		  from 
-		      (
-		        select /*+INDEX_DESC(DK_BOARD PK_DK_BOARD) */ rownum rn,
-						     								category,
-													    	replyCnt,
-													    	likeCnt,
-													    	num,
-													    	title,
-													    	content,
-													    	nickName,
-													    	regdate,
-													    	hitCnt,
-													    	userId 
-					 from DK_BOARD where
-		  ]]>
+		 <![CDATA[
+		   select category
+		   		, replyCnt
+		    	, likeCnt
+		    	, num
+		    	, title
+		    	, content
+		    	, nickName
+		    	, regdate
+		    	, hitCnt
+		    	, userId
+		    from 
+		         ( select /*+INDEX_DESC(DK_BOARD PK_DK_BOARD) */ rownum rn
+							     								, category
+														    	, replyCnt
+														    	, likeCnt
+														    	, num
+														    	, title
+														    	, content
+														    	, nickName
+														    	, regdate
+														    	, hitCnt
+														    	, userId 
+				   from DK_BOARD where
+		  	]]>
 				<include refid ="criteria"></include>  
-		  <![CDATA[    
-		      rownum <= #{pageNum} * #{amount}
-		      )
-		  where rn > (#{pageNum} -1) * #{amount}   
-		  ]]>
+		  	<![CDATA[    
+		          rownum <= #{pageNum} * #{amount}
+		        )
+		          where rn > (#{pageNum} -1) * #{amount}   
+		  	]]>
 	</select>
 	
 	<select id="getAllListWithOrder" resultType="org.my.domain.BoardVO"> 
-			 select 
-				category,
-				replyCnt,
-				likeCnt,
-				num,
-				title,
-				content,
-				nickName,
-				regdate,
-				hitCnt,
-				MONEY,
-				userId
-			from
-			(
-	  		   select 
+			 select category
+					, replyCnt
+					, likeCnt
+					, num
+					, title
+					, content
+					, nickName
+					, regdate
+					, hitCnt
+					, MONEY
+					, userId
+			from ( select 
 	  				   <choose>
 							<when test='order == "1" '>
-								ROW_NUMBER() OVER(order by hitcnt desc) AS rn,
+								ROW_NUMBER() OVER(order by hitcnt desc) AS rn
 							</when>
 							<when test='order == "2" '>
-								ROW_NUMBER() OVER(order by REPLYCNT desc) AS rn,
+								ROW_NUMBER() OVER(order by REPLYCNT desc) AS rn
 							</when>
 							<when test='order == "3" '>
-								ROW_NUMBER() OVER(order by likeCnt desc) AS rn,
+								ROW_NUMBER() OVER(order by likeCnt desc) AS rn
 							</when>
 							<when test='order == "4" '>
-								ROW_NUMBER() OVER(order by MONEY desc) AS rn,
+								ROW_NUMBER() OVER(order by MONEY desc) AS rn
 							</when>
 						</choose>
-                category,
-				replyCnt,
-				likeCnt,
-				num,
-				title,
-				content,
-				nickName,
-				regdate,
-				hitCnt,
-				MONEY,
-				userId
-					from DK_BOARD 
+                	, category
+					, replyCnt
+					, likeCnt
+					, num
+					, title
+					, content
+					, nickName
+					, regdate
+					, hitCnt
+					, MONEY
+					, userId
+				   from DK_BOARD 
 					<include refid ="criteriaAllWithOrder"></include>   
 		<!-- where ( title like '%'||'keyword'||'%' OR content like '%'||'keyword'||'%' OR writer like '%'||'keyword'||'%' ) -->
 				  ) <![CDATA[
@@ -238,14 +231,24 @@
 	
 	<!-- 입력+pk값을 알기 위한것 -->
 	<insert id="insertSelectKey">
-
 		<selectKey keyProperty="num" order="BEFORE" resultType="long">
-			select seq_dk_board.nextval from dual
+				select seq_dk_board.nextval from dual
 		</selectKey>
 
-		insert into DK_BOARD (num,category,title,content,nickName,userId)
-		values (#{num},#{category},#{title}, #{content}, #{nickName},#{userId})
-		
+		insert into DK_BOARD ( num
+							 , category
+							 , title
+							 , content
+							 , nickName
+							 , userId
+							 )
+		               values (  #{num}
+				               , #{category}
+				               , #{title}
+				               , #{content}
+				               , #{nickName}
+				               , #{userId}
+		               )
 	</insert>
 	
 	<select id="read" resultType="org.my.domain.BoardVO">
@@ -333,14 +336,19 @@
 	
 	<!-- 좋아요 컬럼 등록 -->
 	<insert id="registerLike">
-		insert into dk_board_like (userId, num, likeValue)
-		values (#{userId},#{num},'push')
+		insert into dk_board_like (   userId
+									, num
+									, likeValue
+								  )
+							values (  #{userId}
+									, #{num}
+									, 'push')
 	</insert>
 	
 	<!-- 싫어요 컬럼 등록 -->
 	<insert id="registerDisLike">
-		insert into dk_board_dislike (userId, num, dislikeValue)
-		values (#{userId},#{num},'push')
+		insert into dk_board_dislike(  userId, num, dislikeValue)
+							 values (#{userId},#{num},'push')
 	</insert>
 	
 	<!-- 좋아요 카운트 가져오기 -->
@@ -380,70 +388,63 @@
 	
 	<!-- 내 캐시 히스토리 입력 -->
 	<insert id="insertMyCashHistory">
-		insert into dk_cash (
-							cash_num,
-							cashKind,
-							cashAmount,
-							userId,
-							specification,
-							board_num
+			insert into dk_cash ( cash_num
+								, cashKind
+								, cashAmount
+								, userId
+								, specification
+								, board_num
 							) values 
-										(
-											seq_dk_cash.nextval,
-											'기부하기',
-											#{money},
-											#{userId},
-											'게시판' ,
-											#{num}
-										)
+									(
+										  seq_dk_cash.nextval
+										, '기부하기'
+										, #{money}
+										, #{userId}
+										, '게시판'
+										, #{num}
+									)
 	</insert>
 	
 	<!-- 게시글 유저 캐시 히스토리 입력 -->
 	<insert id="insertBoardUserCashHistory">
-		insert into dk_cash (
-								cash_num,
-								cashKind,
-								cashAmount,
-								userId,
-								specification,
-								board_num
-								) values 
-											(
-												seq_dk_cash.nextval,
-												'기부받기',
-												#{money},
-												#{donatedId},
-												'게시판' ,
-												#{num}
-											)
-	</insert>
-	
-	<insert id="insertReportdata">
-	
-			insert into dk_report (
-							report_num,
-							reportKind,
-							reportingId,
-							reportingNick,
-							reportedId,
-							reportedNick,
-							board_num,
-							reason
-							) values 
+			insert into dk_cash ( cash_num
+								, cashKind
+								, cashAmount
+								, userId
+								, specification
+								, board_num
+								)   
+								 values 
 										(
-											seq_dk_report.nextval,
-											#{reportKind},
-											#{reportingId},
-											#{reportingNick},
-											#{reportedId},
-											#{reportedNick},
-											#{board_num},
-											#{reason}
+											seq_dk_cash.nextval
+											, '기부받기'
+											, #{money}
+											, #{donatedId}
+											, '게시판'
+											, #{num}
 										)
 	</insert>
 	
-	
-		
-	
+	<insert id="insertReportdata">
+			insert into dk_report ( 	report_num
+									  , reportKind
+									  , reportingId
+									  , reportingNick
+									  , reportedId
+									  , reportedNick
+									  , board_num
+									  , reason
+							      ) 
+							      	values 
+										(     seq_dk_report.nextval
+											, #{reportKind}
+											, #{reportingId}
+											, #{reportingNick}
+											, #{reportedId}
+											, #{reportedNick}
+											, #{board_num}
+											, #{reason}
+										)
+	</insert>
 
 </mapper>
