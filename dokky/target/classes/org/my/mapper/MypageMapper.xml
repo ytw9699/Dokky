@@ -55,16 +55,24 @@
 	
 	<select id="getMyReplylist" resultType="org.my.domain.ReplyVO">
 	  <![CDATA[
-		 select reply_num, num, reply_content, userId, replydate
+		 select reply_num
+			  , num
+			  , reply_content
+			  , userId
+			  , replydate
 		 from 
 		   (
-		    select /*+INDEX_DESC(DK_REPLY pk_reply) */ 
-		      rownum rn, reply_num, num, reply_content, userId, replydate
-		    from DK_REPLY
-		    where userId = #{userId}
-		    and reply_num > 0
-		    and rownum <= #{pageNum} * #{amount}
-		   ) where rn > (#{pageNum} -1) * #{amount}
+		    select /*+INDEX_DESC(DK_REPLY pk_reply) */ rownum rn
+												     , reply_num
+												     , num
+												     , reply_content
+												     , userId
+												     , replydate
+		   		from DK_REPLY
+		    		where userId = #{userId}
+				    and reply_num > 0
+				    and rownum <= #{pageNum} * #{amount}
+			) where rn > (#{pageNum} -1) * #{amount}
 	  ]]>
 	</select>
 	
