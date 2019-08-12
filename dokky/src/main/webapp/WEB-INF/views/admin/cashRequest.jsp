@@ -96,6 +96,13 @@
 		border-color: #e6e6e6;/* 흰색 */
 		border-style: solid;
 	}
+	a:hover {   
+	    color: #7151fc;
+	    text-decoration: underline;
+	}  
+	a  {    
+			color:#e6e6e6; text-decoration: none;
+		}       
 </style>
 </head> 
 
@@ -116,18 +123,22 @@
 	<div class="">
 	 <table class=""> 
 		 <tr>
-			<td>요청아이디</td><td>종류</td><td>요청날짜</td><td>금액</td><td>상태</td><td>승인하기</td>
+			<td>요청아이디</td><td>종류</td><td>금액</td><td>요청날짜</td><td>상태</td><td>승인하기</td>
 		</tr>
 			<c:forEach items="${cashRequest}" var="cash">
 		<tr>  
-			<td onclick="location.href='userForm?userId=<c:out value="${cash.userId}" />'">
-			 <img width="30px" src="/dokky/resources/img/profile_img/<c:out value="${cash.userId}" />" class="memberImage" onerror="this.src='/dokky/resources/img/basicProfile.png'" />
-			<c:out value="${cash.userId}" /></td> 
+		
+			<td>
+				<a href='userForm?userId=<c:out value="${cash.userId}"/>'> 
+				  <img width="30px" src="/dokky/resources/img/profile_img/<c:out value="${cash.userId}" />" class="memberImage" onerror="this.src='/dokky/resources/img/basicProfile.png'" />
+				  <c:out value="${cash.userId}" />
+				</a> 
+			</td> 
 			<td><c:out value="${cash.cashKind}" /></td> 
-			<td> 
+			<td><fmt:formatNumber type="number" maxFractionDigits="3" value="${cash.cashAmount}"/>원</td>
+			<td>  
 				<fmt:formatDate value="${cash.regDate}" pattern="yyyy년 MM월 dd일 HH:mm" />
 			</td>
-			<td><c:out value="${cash.cashAmount}" />원</td>
 			<td id="specification${cash.cash_num}"><c:out value="${cash.specification}" /></td>   
 			<td>
 			 	<button class="approveButton" data-cash_kind="${cash.cashKind}" data-user_id="${cash.userId}" data-cash_amount="${cash.cashAmount}" data-cash_num="${cash.cash_num}">승인</button>
