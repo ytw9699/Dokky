@@ -1,0 +1,117 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+  PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+  "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="org.my.mapper.CommonMapper">
+
+	  <insert id="insertVisitor">
+          insert into dk_visitor
+            (
+                visitor_num,
+                ip,
+	               <if test="refer != null and refer !=''">
+	              	  refer,
+	                </if>
+                agent
+            )
+            VALUES
+            (
+                seq_dk_visitor.NEXTVAL,
+                #{ip},
+	                <if test="refer != null and refer !=''">
+	               		 #{refer},
+	                </if>
+                #{agent}
+            )
+       </insert>
+       
+       <select id="getVisitTotalCount" resultType="int">
+			select count(*) from dk_visitor     
+       </select>
+       
+        <select id="getVisitTodayCount" resultType="int">
+			select count(*) from dk_visitor where substr(to_char(visit_time), 1, 9) = to_date(sysdate, 'yy/MM/dd')
+       </select>
+       
+        <select id="getAlarmCount" resultType="int">
+			select count(*) from dk_alarm where target = #{userId}
+       </select>
+	  
+	  <select id="getAlarmRealCount" resultType="String">
+			select count(*) from dk_alarm where target = #{userId} and checking = 'NO'
+       </select>
+	  
+       <select id="getAlarmList" resultType="org.my.domain.alarmVO"> 
+			select alarmNum,
+				   checking,
+				   target,
+				   writerNick,
+				   writerId,
+				   kind,
+				   commonVar1,
+				   commonVar2,
+				   regdate from 
+					 ( select /*+INDEX_DESC(dk_alarm pk_alarm) */ rownum rn,
+					 														alarmNum,
+					 														checking,
+					 														target,
+					 														writerNick,
+					 														writerId,
+					 														kind,
+					 														commonVar1,
+																			commonVar2,
+					 														regdate
+					from dk_alarm where target = #{userId} and <![CDATA[ rownum <= #{pageNum} * #{amount} )
+						  where rn > (#{pageNum} -1) * #{amount}  
+						  ]]>
+	   </select>
+	   
+	   <insert id="insertAlarm">
+          insert into dk_alarm(
+				               alarmNum,
+				               target,
+				               writerNick,
+				  			   writerId,
+				  			   <if test="commonVar1 != null and commonVar1 !=''">
+				              	    commonVar1,
+				                </if>
+				                <if test="commonVar2 != null and commonVar2 !=''">
+				              	    commonVar2,
+				                </if>
+				               kind
+					          )
+					            VALUES
+						            (
+						                seq_dk_alarm.nextval,
+						                #{target},
+						                #{writerNick},
+						                #{writerId},
+						                 <if test="commonVar1 != null and commonVar1 !=''">
+						               		 #{commonVar1},
+						                </if>
+						                <if test="commonVar2 != null and commonVar2 !=''">
+						               		  #{commonVar2},
+						                </if>
+						                #{kind}
+						            )
+       </insert>
+       
+       <delete id="deleteAlarm">
+       		delete from dk_alarm where target = #{target} 
+       							and commonVar1 = #{commonVar1} 
+       							and commonVar2 = #{commonVar2} 
+       							and kind = #{kind}
+       							and writerNick = #{writerNick}
+       							and writerId = #{writerId}
+       </delete>
+       
+       <delete id="deleteAllAlarm">
+       		delete from dk_alarm where alarmNum = #{alarmNum} 
+       </delete>
+       
+       	<!-- 알림 읽기, 알림 체크 값 바꿔주기 -->
+       <update id="updateAlarmCheck"> 
+       		update dk_alarm set checking = 'YES' where alarmNum = #{alarmNum}
+       </update>
+  
+</mapper>
