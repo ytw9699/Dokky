@@ -55,7 +55,7 @@ public class CommonController {
 		
 		model.addAttribute("donationList", memberService.getDonationList());//한달 최다 기부글
 		
-		return "main";
+		return "common/main";
 	}
 	@RequestMapping(value = "/", method = RequestMethod.GET)
 	public String home(Locale locale, Model model) {
@@ -66,7 +66,7 @@ public class CommonController {
 		
 		model.addAttribute("donationList", memberService.getDonationList());
 		
-		return "main";
+		return "common/main";
 	}
 	
 	@GetMapping("/adminError")
@@ -80,17 +80,19 @@ public class CommonController {
 	}
 
 	@GetMapping("/accessError")
-	public void accessDenied(Authentication auth, Model model) {//Authentication 타입의 파라미터를 받도록 설계해서 필요한 경우에 사용자의 정보를 확인할 수 있도록
+	public String accessDenied(Authentication auth, Model model) {//Authentication 타입의 파라미터를 받도록 설계해서 필요한 경우에 사용자의 정보를 확인할 수 있도록
 		
 		log.info("/accessError");
 		
 		log.info("access Denied : " + auth);
 
 		model.addAttribute("msg", "Access Denied 로그인 권한이 없습니다.");
+		
+		return "common/accessError";
 	}   
 
 	@GetMapping("/customLogin")
-	public void loginInput(String error, String logout,String check, Model model) throws UnsupportedEncodingException {
+	public String loginInput(String error, String logout,String check, Model model) throws UnsupportedEncodingException {
 		
 		log.info("/customLogin");
 		log.info("error: " + error);
@@ -115,6 +117,7 @@ public class CommonController {
 				model.addAttribute("check", "차단된 아이디입니다. 관리자에게 문의해주세요.");
 			}
 		}
+		return "common/customLogin";  
 	}
 
 	@PostMapping("/customLogout")
@@ -128,7 +131,7 @@ public class CommonController {
 
 		log.info("/memberForm");
 		
-		return "members/memberForm";
+		return "common/memberForm";
 	}
 	
 	@PostMapping("/members")
@@ -142,12 +145,12 @@ public class CommonController {
 			
 			model.addAttribute("check", "가입완료 되었습니다 로그인해주세요.");
 			
-			return "/customLogin";
+			return "common/customLogin";
 		}
 		
 			model.addAttribute("check", "가입실패 하였습니다 관리자에게 문의주세요.");
 			
-			return "/customLogin";
+			return "common/customLogin"; 
 	}
 	
 	@GetMapping(value = "/idCheckedVal", produces = "text/plain; charset=UTF-8")
@@ -200,7 +203,7 @@ public class CommonController {
 		model.addAttribute("boardTotal",total);  
 		model.addAttribute("replyTotal", mypageService.getMyReplyCount(cri));
 		
-		return "members/userBoardList";
+		return "common/userBoardList"; 
 	} 
 	
 	@PreAuthorize("isAuthenticated()")
@@ -217,7 +220,7 @@ public class CommonController {
 		model.addAttribute("replyTotal", total);
 		model.addAttribute("pageMaker", new PageDTO(cri, total));
 		
-		return "members/userReplylist";
+		return "common/userReplylist";
 	} 
 	
 	@GetMapping(value = "/alarmRealCount/{userId}", produces = "text/plain; charset=UTF-8")
