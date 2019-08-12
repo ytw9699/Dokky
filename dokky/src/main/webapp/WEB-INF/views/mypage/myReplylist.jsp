@@ -11,6 +11,48 @@
 <meta charset="UTF-8">
 <title>Dokky</title>
 <style>
+@media screen and (max-width:500px){ 
+    	.myreplyWrap {
+				    width: 80%;  
+				    display: inline-block;
+				    margin-left: 15%;
+				    margin-top: 1%;
+				    min-height: 500px; 
+				    border-color: #e6e6e6;
+					border-style: solid;
+					background-color: #323639; 
+					color: #e6e6e6;
+					display: inline-block;
+				}     
+        }
+        @media screen and (min-width: 501px) and (max-width:1500px){
+	        .myreplyWrap {
+				    width: 80%; 
+				    display: inline-block;
+				    margin-left: 15%;
+				    margin-top: 1%;
+				    min-height: 500px; 
+				    border-color: #e6e6e6;
+					border-style: solid;
+					background-color: #323639; 
+					color: #e6e6e6;
+					display: inline-block;
+				}
+        }
+        @media screen and (min-width: 1501px){    
+          .myreplyWrap { 
+			    width: 51%; 
+			    display: inline-block;
+			    margin-left: 29%;
+			    margin-top: 1%;
+			    min-height: 500px; 
+			    border-color: #e6e6e6;
+				border-style: solid;
+				background-color: #323639; 
+				color: #e6e6e6;
+				display: inline-block;
+			}
+        }
 	body{
 		background-color: #323639; 
 	}
@@ -22,7 +64,7 @@
 		margin-left: 1%;
 		margin-top: 1%; 
 	}
-	.mypage a { 
+	.replyTitle a { 
     color: white;
 	}
 	.pagination { 
@@ -42,17 +84,7 @@
 		border-color: #e6e6e6;/* 흰색 */
 		border-style: solid;
 	}
-		.bodyWrap {
-	    width: 80%; 
-	    display: inline-block;
-	    margin-left: 2%;
-	    margin-top: 1%;
-	    min-height: 500px; 
-	    border-color: #e6e6e6;
-		border-style: solid;
-		background-color: #323639; 
-		color: #e6e6e6;
-	}
+		
 	.ContentWrap{box-sizing: border-box;
 	    padding-top: 48px;
 	    padding-left: 20px;
@@ -79,7 +111,7 @@
 <%@include file="../includes/left.jsp"%>
 <body>
 <sec:authentication property="principal" var="userInfo"/>
-<div class="bodyWrap">	
+<div class="myreplyWrap">	
 	<div class="ContentWrap"> 
 		<div id="menuWrap">
 			<div class="tab"> 
@@ -92,23 +124,27 @@
 		    </div> 
 		</div>
 	<div class="listWrapper">
-		<div class="">나의 댓글</div>
-
-		<div><button id='deleteBtn' type="button" class="">삭제</button></div> 
+		
 		
 		<div class="">
 			<table class=""> 
 				<c:forEach items="${myReply}" var="Reply">
 					<tr>
 					<td>
-	                    <input type="checkbox" name="" id="" value="">
+						<input type="checkbox" name="checkRow" value="${Reply.reply_num}" />
                     </td>
-						<td class="mypage"><a class='move' href='<c:out value="${Reply.num}"/>'> 
+						<td class="replyTitle"><a class='move' href='<c:out value="${Reply.num}"/>'> 
 							<c:out value="${Reply.reply_content}" /></a></td> 
-						<td><fmt:formatDate pattern="yyyy-MM-dd-HH:mm"
-								value="${Reply.replyDate}" /></td>
-					</tr>
+					   <td> 
+							<fmt:formatDate value="${Reply.replyDate}" pattern="yyyy년 MM월 dd일 HH:mm" />
+						</td>
+ 					</tr>
 				</c:forEach>
+					<tr>
+				        <td><input type="checkbox" name="checkAll" id="checkAll" onclick="checkAll();"/>전체선택</td>
+				        <td><button id='deleteBtn' type="button" class="">삭제</button></td>
+				        <td>총 댓글 ${total}개 </td>  
+				    </tr>
 			</table>
 		</div>
 		
@@ -145,10 +181,9 @@
 <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
 <script>
 	   
-	$("#deleteBtn").on("click", function() { 
-		
-		self.location = "/dokky/=";
-	}); 
+		$("#deleteBtn").on("click", function() { 
+			deleteAction(); 
+		});  
 	
 	var actionForm = $("#actionForm");
 
@@ -173,6 +208,37 @@
 			actionForm.submit();   
 		});
 	 
+		function checkAll(){
+		      if( $("#checkAll").is(':checked') ){ 
+		        $("input[name=checkRow]").prop("checked", true);
+		      }else{
+		        $("input[name=checkRow]").prop("checked", false);
+		      }
+		}
+		
+		function deleteAction(){
+			
+			  var checkRow = "";
+			  
+			  $( "input[name='checkRow']:checked" ).each (function (){
+			    	checkRow = checkRow + $(this).val()+"," ;
+			  });
+			  
+			  checkRow = checkRow.substring(0,checkRow.lastIndexOf( ","));
+			 
+			  if(checkRow == ''){
+			   	 alert("삭제할 댓글을 선택하세요.");
+			    return false;
+			  }
+			   
+			  if(confirm("정말 삭제 하시겠습니까?")){
+				  actionForm.attr("action","/dokky/replies/removeAll").attr("method","post");
+				  actionForm.append("<input type='hidden' name='checkRow' value='"+checkRow+"'>");
+				  actionForm.append("<input type='hidden' id='csrf' name='${_csrf.parameterName}' value='${_csrf.token}'/>");
+				  actionForm.submit();
+			  }
+		}
+		
 </script>
 	
 </body>

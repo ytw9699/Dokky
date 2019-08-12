@@ -1,23 +1,21 @@
 package org.my.controller;
 	import org.my.domain.Criteria;
-import org.my.domain.MemberVO;
-import org.my.domain.PageDTO;
-import org.my.domain.ReplyPageDTO;
-import org.my.domain.cashVO;
-import org.my.domain.checkVO;
-import org.my.service.BoardService;
-import org.my.service.MypageService;
+	import org.my.domain.MemberVO;
+	import org.my.domain.PageDTO;
+	import org.my.domain.cashVO;
+	import org.my.domain.checkVO;
+	import org.my.service.BoardService;
+	import org.my.service.MypageService;
 	import org.springframework.beans.factory.annotation.Autowired;
 	import org.springframework.http.HttpStatus;
-import org.springframework.http.MediaType;
-import org.springframework.http.ResponseEntity;
+	import org.springframework.http.ResponseEntity;
 	import org.springframework.security.access.prepost.PreAuthorize;
 	import org.springframework.security.crypto.password.PasswordEncoder;
 	import org.springframework.stereotype.Controller;
 	import org.springframework.ui.Model;
 	import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.PostMapping;
+	import org.springframework.web.bind.annotation.PathVariable;
+	import org.springframework.web.bind.annotation.PostMapping;
 	import org.springframework.web.bind.annotation.RequestBody;
 	import org.springframework.web.bind.annotation.RequestMapping;
 	import org.springframework.web.bind.annotation.RequestParam;
@@ -125,13 +123,14 @@ public class mypageController {
 		int total = service.getMyBoardCount(cri);//total은 내 게시판의 총 게시물수
 		
 		model.addAttribute("pageMaker", new PageDTO(cri, total));
+		model.addAttribute("total", total);
 		
 		return "mypage/myBoardList";
 	} 
 	
 	@PreAuthorize("isAuthenticated()")
  	@GetMapping("/myReplylist")  
-	public String myReplylist(Criteria cri, Model model) { //내 게시글 가져오기
+	public String myReplylist(Criteria cri, Model model) {
 		
 		log.info("myReplylist "+cri);
 		
@@ -143,7 +142,8 @@ public class mypageController {
 		
 		log.info("pageMaker");
 		
-		model.addAttribute("pageMaker", new PageDTO(cri, total));
+		model.addAttribute("pageMaker", new PageDTO(cri, total)); 
+		model.addAttribute("total", total);
 		
 		return "mypage/myReplylist";
 	} 
@@ -183,9 +183,29 @@ public class mypageController {
 		log.info("pageMaker");
 		
 		model.addAttribute("pageMaker", new PageDTO(cri, total));
+		model.addAttribute("total", total);
 		
 		return "mypage/myScraplist";
 	} 
+	
+	 @PreAuthorize("principal.username == #userId")  
+	 @PostMapping("/removeAllScrap")//다중삭제
+		public String removeAllScrap(@RequestParam("checkRow") String checkRow , @RequestParam("userId")String userId, Criteria cri) {
+
+		log.info("checkRow..." + checkRow);
+	 	
+	 	String[] arrIdx = checkRow.split(",");
+	 	
+	 	for (int i=0; i<arrIdx.length; i++) {
+	 		
+	 		Long scrap_num = Long.parseLong(arrIdx[i]);  
+	 		
+	 		log.info("remove...reply_num=" + scrap_num);
+	 		
+	 		service.removeAllScrap(scrap_num);
+	 	}
+	 return "redirect:/mypage/myScraplist?userId="+userId+"&pageNum="+cri.getPageNum()+"&amount="+cri.getAmount();
+	}
 	
 	@PreAuthorize("isAuthenticated()") 
  	@GetMapping("/myCashInfo")  

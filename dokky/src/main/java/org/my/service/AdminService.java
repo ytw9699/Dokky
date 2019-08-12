@@ -3,13 +3,14 @@ package org.my.service;
 	import org.my.domain.Criteria;
 	import org.my.domain.MemberVO;
 	import org.my.domain.cashVO;
+	import org.my.domain.commonVO;
 	import org.my.domain.reportVO;
 
 public interface AdminService {
 	
 	public List<cashVO> getCashRequest(Criteria cri);
 
-	public int updateApprove(cashVO vo);
+	public int updateApprove(commonVO vo);
 
 	public int getTotalCount();
 
@@ -20,5 +21,13 @@ public interface AdminService {
 	public MemberVO getUserForm(String userId);
 
 	public List<reportVO> getUserReportList(Criteria cri);
+
+	public int getUserReportCount(Criteria cri);
+
+	public int updateRoleStop(String userId);
+
+	public int updateRoleLimit(String userId);
+
+	public int updateRoleUser(String userId);
 
 }

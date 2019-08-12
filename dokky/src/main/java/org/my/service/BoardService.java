@@ -2,16 +2,20 @@ package org.my.service;
 	import java.util.List;
 	import org.my.domain.BoardVO;
 	import org.my.domain.Criteria;
-	import org.my.domain.donateVO;
-import org.my.domain.reportVO;
-import org.my.domain.BoardAttachVO;
+	import org.my.domain.commonVO;
+	import org.my.domain.reportVO;
+	import org.my.domain.BoardAttachVO;
 	import org.my.domain.BoardDisLikeVO;
 	import org.my.domain.BoardLikeVO;
 
 public interface BoardService {
 	
 	public List<BoardVO> getList(Criteria cri);
-
+	
+	public List<BoardVO> getListWithOrder(Criteria cri);
+	
+	public List<BoardVO> getAllListWithOrder(Criteria cri);
+	
 	public void register(BoardVO board);
 
 	public BoardVO get(Long num);
@@ -22,13 +26,13 @@ public interface BoardService {
 
 	public int getTotalCount(Criteria cri);
 
-	public int pushLike(BoardLikeVO vo);
+	public int pushLike(commonVO vo);
 	
-	public int pullDisLike(BoardDisLikeVO vo);
+	public int pullDisLike(commonVO vo);
 	
-	public int pullLike(BoardLikeVO vo);
+	public int pullLike(commonVO vo);
 	
-	public int pushDisLike(BoardDisLikeVO vo);
+	public int pushDisLike(commonVO vo);
 
 	public BoardVO getModifyForm(Long num);
 
@@ -38,9 +42,9 @@ public interface BoardService {
 	
 	public String checkDisLikeValue(BoardDisLikeVO vo);
 
-	public int registerLike(BoardLikeVO vo); 
+	public int registerLike(commonVO vo); 
 	
-	public int registerDisLike(BoardDisLikeVO vo);
+	public int registerDisLike(commonVO vo);
 
 	public String getLikeCount(Long num);
 
@@ -48,9 +52,13 @@ public interface BoardService {
 
 	public String getuserCash(String username);
 
-	public String donateMoney(donateVO vo);
+	public String donateMoney(commonVO vo);
 
 	public boolean insertReportdata(reportVO vo);
+
+	public List<BoardVO> getAllList(Criteria cri);
+
+	public int getAllTotalCount(Criteria cri);
 
 	//public void removeAttach(Long num);
 }

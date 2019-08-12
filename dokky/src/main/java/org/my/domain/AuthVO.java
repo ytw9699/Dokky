@@ -1,5 +1,4 @@
 package org.my.domain;
-
 	import lombok.Data;
 
 @Data

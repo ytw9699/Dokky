@@ -3,14 +3,15 @@ package org.my.controller;
 	import java.nio.file.Path;
 	import java.nio.file.Paths;
 	import java.util.List;
+	import org.my.domain.BoardAttachVO;
+	import org.my.domain.BoardDisLikeVO;
+	import org.my.domain.BoardLikeVO;
 	import org.my.domain.BoardVO;
 	import org.my.domain.Criteria;
 	import org.my.domain.PageDTO;
-	import org.my.domain.ReplyLikeVO;
-	import org.my.domain.ReplyVO;
-	import org.my.domain.donateVO;
-import org.my.domain.reportVO;
-import org.my.service.BoardService;
+	import org.my.domain.commonVO;
+	import org.my.domain.reportVO;
+	import org.my.service.BoardService;
 	import org.springframework.http.HttpStatus;
 	import org.springframework.http.MediaType;
 	import org.springframework.http.ResponseEntity;
@@ -27,9 +28,6 @@ import org.my.service.BoardService;
 	import org.springframework.web.bind.annotation.RequestParam;
 	import org.springframework.web.bind.annotation.ResponseBody;
 	import org.springframework.web.servlet.mvc.support.RedirectAttributes;
-	import org.my.domain.BoardAttachVO;
-	import org.my.domain.BoardDisLikeVO;
-	import org.my.domain.BoardLikeVO;
 	import lombok.AllArgsConstructor;
 	import lombok.extern.log4j.Log4j;
 
@@ -43,9 +41,13 @@ public class BoardController {
 	
 	@GetMapping("/list")
 	public String list(Criteria cri, Model model) {
-		//log.info("list: " + cri);
-		
-		model.addAttribute("list", service.getList(cri));
+		log.info("list: " + cri);
+	
+		if(cri.getOrder() == 0) {
+			model.addAttribute("list", service.getList(cri));
+		}else {
+			model.addAttribute("list", service.getListWithOrder(cri));
+		}
 		
 		int total = service.getTotalCount(cri);//total은 특정게시판의 총 게시물수
 		model.addAttribute("pageMaker", new PageDTO(cri, total));
@@ -53,15 +55,33 @@ public class BoardController {
 		return "board/list";
 	}
 	
+	@GetMapping("/allList")
+	public String allList(Criteria cri, Model model) {
+		log.info("allList: " + cri);
+		
+		if(cri.getOrder() == 0) {
+			model.addAttribute("list", service.getAllList(cri));
+		}else {
+			model.addAttribute("list", service.getAllListWithOrder(cri));
+		}
+		
+		int total = service.getAllTotalCount(cri);
+		
+		model.addAttribute("pageMaker", new PageDTO(cri, total));
+	
+		return "board/list";
+	}
+	
+	
+	@PreAuthorize("hasAnyRole('ROLE_ADMIN','ROLE_USER')")
 	@GetMapping("/register")
-	@PreAuthorize("isAuthenticated()")
 	public String register(@ModelAttribute("category") int category) {
 		
 		return "board/register";
 	}
 	
+	@PreAuthorize("hasAnyRole('ROLE_ADMIN','ROLE_USER')")
 	@PostMapping("/register")
-	@PreAuthorize("isAuthenticated()")
 	public String register(BoardVO board, RedirectAttributes rttr) {
 
 		//log.info("==========================");
@@ -102,7 +122,8 @@ public class BoardController {
 	 @PreAuthorize("principal.username == #board.userId")
 	 @PostMapping("/modify")
 	 public String modify(BoardVO board, Criteria cri, RedirectAttributes rttr) {
-		 //log.info("modify:" + board);
+		 log.info("modify BoardVO:" + board);
+		 log.info("modify Criteria:" + board);
 		
 		 /*if (service.modify(board)) { 
 		 rttr.addFlashAttribute("result", "success");
@@ -139,7 +160,7 @@ public class BoardController {
 	 
 	 @PreAuthorize("principal.username == #userId")   
 	 @PostMapping("/remove")//삭제시 글+댓글+첨부파일 모두 삭제
-		public String remove(@RequestParam("num") Long num,@RequestParam("userId")String userId, Criteria cri, RedirectAttributes rttr) {
+		public String remove(@RequestParam("num") Long num, @RequestParam("userId")String userId, Criteria cri, RedirectAttributes rttr) {
 
 		 	log.info("remove..." + num);
 
@@ -153,16 +174,43 @@ public class BoardController {
 			}
 			return "redirect:/board/list" + cri.getListLink();
 		}
+	 
+	 @PreAuthorize("principal.username == #userId")   
+	 @PostMapping("/removeAll")//다중삭제
+		public String removeAll(@RequestParam("checkRow") String checkRow , @RequestParam("userId")String userId, Criteria cri) {
+		 
+		 	log.info("checkRow..." + checkRow);
+		 	
+		 	String[] arrIdx = checkRow.split(",");
+		 	
+		 	for (int i=0; i<arrIdx.length; i++) {
+		 		
+		 		Long num = Long.parseLong(arrIdx[i]); 
+		 		
+		 		if (service.remove(num)) {
+		 			
+		 			log.info("remove...num=" + num);
+					
+		 			List<BoardAttachVO> attachList = service.getAttachList(num);
+		 			
+		 			log.info("deleteFiles...attachList=");
+		 			
+					deleteFiles(attachList);
+				}
+		 	}
+			return "redirect:/mypage/myBoardList?userId="+userId+"&pageNum="+cri.getPageNum()+"&amount="+cri.getAmount();
+		}
 	
 	@RequestMapping(method = { RequestMethod.PUT,RequestMethod.PATCH },
 		value = "/likeCount", consumes = "application/json", produces = "text/plain; charset=UTF-8")
 	@ResponseBody
-	public ResponseEntity<String> updateLike(@RequestBody BoardLikeVO vo) {//좋아요 누르기 및 취소
-
-		log.info("userId: " + vo.getUserId());
-		log.info("num: " + vo.getNum());
+	public ResponseEntity<String> updateLike(@RequestBody commonVO vo) {//좋아요 누르기 및 취소
+			
+		log.info("commonVO: " + vo);
 		
-		String CheckResult = service.checkLikeValue(vo);
+		BoardLikeVO boardLikeVO = vo.getBoardLikeVO();
+		
+		String CheckResult = service.checkLikeValue(boardLikeVO);
 		
 		log.info("CheckResult: " + CheckResult);
 		
@@ -183,19 +231,20 @@ public class BoardController {
 		
 		log.info("returnVal: " + returnVal);
 		
-		return returnVal == 1 ? new ResponseEntity<>(service.getLikeCount(vo.getNum()), HttpStatus.OK)
+		return returnVal == 1 ? new ResponseEntity<>(service.getLikeCount(boardLikeVO.getNum()), HttpStatus.OK)
 				: new ResponseEntity<>(HttpStatus.INTERNAL_SERVER_ERROR);
 	}
 	
 	@RequestMapping(method = { RequestMethod.PUT,RequestMethod.PATCH },
 			value = "/dislikeCount", consumes = "application/json", produces = "text/plain; charset=UTF-8")
 		@ResponseBody
-		public ResponseEntity<String> updateDisLike(@RequestBody BoardDisLikeVO vo) {//싫어요 누르기 및 취소
+		public ResponseEntity<String> updateDisLike(@RequestBody commonVO vo) {//싫어요 누르기 및 취소
 
-			log.info("userId: " + vo.getUserId());
-			log.info("num: " + vo.getNum());
-			
-			String CheckResult = service.checkDisLikeValue(vo);
+		log.info("vo: " +vo);
+		
+		BoardDisLikeVO boardDisLikeVO = vo.getBoardDisLikeVO();
+		
+			String CheckResult = service.checkDisLikeValue(boardDisLikeVO);
 			
 			log.info("CheckResult: " + CheckResult);
 			
@@ -217,7 +266,7 @@ public class BoardController {
 			
 			log.info("returnVal: " + returnVal);
 			
-			return returnVal == 1 ? new ResponseEntity<>(service.getDisLikeCount(vo.getNum()), HttpStatus.OK)
+			return returnVal == 1 ? new ResponseEntity<>(service.getDisLikeCount(boardDisLikeVO.getNum()), HttpStatus.OK)
 					: new ResponseEntity<>(HttpStatus.INTERNAL_SERVER_ERROR);
 		}
 	
@@ -237,9 +286,9 @@ public class BoardController {
 	@RequestMapping(method = { RequestMethod.PUT,RequestMethod.PATCH },
 			value = "/donateMoney", consumes = "application/json", produces = "text/plain; charset=UTF-8")
 		@ResponseBody
-		public ResponseEntity<String> donateMoney(@RequestBody donateVO vo) {//기부하기
+		public ResponseEntity<String> donateMoney(@RequestBody commonVO vo) {//기부하기
 			
-			log.info("donateVO: " + vo);
+			log.info("commonVO: " + vo);
 			
 			String BoardMoney = service.donateMoney(vo);
 			

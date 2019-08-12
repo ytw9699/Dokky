@@ -5,10 +5,28 @@
 <mapper namespace="org.my.mapper.ReplyMapper">
 
 	<insert id="insert">
-		insert into DK_REPLY (reply_num, num, reply_content, nickName,userId)
-		values (seq_dk_reply.nextval, #{num}, #{reply_content}, #{nickName}, #{userId})
+		insert into DK_REPLY (reply_num, num, reply_content, nickName, userId, parent_num, order_step, reply_level)
+		values (seq_dk_reply.nextval, #{num}, #{reply_content}, #{nickName}, #{userId}, seq_dk_reply.currval, 0, 0)
 	</insert>
-
+	
+	<insert id="reInsert">
+		insert into DK_REPLY (reply_num, num, reply_content, nickName, userId, parent_num, order_step, reply_level, toUserId, toNickName)
+		values (seq_dk_reply.nextval, #{num}, #{reply_content}, #{nickName}, #{userId}, #{parent_num}, #{order_step}, #{reply_level}+1, #{toUserId}, #{toNickName} )
+	</insert>
+	 
+	<select id="selectNextReply" resultType="org.my.domain.ReplyVO">
+		  <![CDATA[ select * from dk_reply where parent_num = #{parent_num} and order_step > #{order_step} and reply_level <= #{reply_level} order by order_step asc   ]]>
+	</select>
+	
+	<!-- 그룹번호에 해당하는 가장 마지막줄의 step_order를 가져오는것 -->
+	<select id="lastReplyStep" resultType="int">
+		SELECT order_step FROM (SELECT order_step FROM dk_reply where parent_num = #{parent_num} order by order_step desc) WHERE ROWNUM = 1
+	</select>
+	
+	<update id="updateOrder_step">
+	 	<![CDATA[update dk_reply set order_step = order_step+1 where parent_num = #{parent_num} and order_step >= #{order_step} ]]>
+	</update>
+	
 	<select id="read" resultType="org.my.domain.ReplyVO">
 		select * from DK_REPLY where reply_num = #{reply_num}
 	</select>
@@ -24,18 +42,26 @@
 
 	<select id="getListWithPaging" resultType="org.my.domain.ReplyVO">
 	  <![CDATA[
-		 select reply_num, num, reply_content, nickName, userId, replydate, updatedate, likeCnt ,dislikeCnt,money
+	    select reply_num, num, reply_content, nickName, userId, replydate, updatedate, likeCnt ,dislikeCnt,money,parent_num, order_step, reply_level,toNickName,toUserId
+	 	from 
+	   (
+	    select ROW_NUMBER() OVER(ORDER BY parent_num ASC, order_step ASC) AS rn, reply_num, num, reply_content, nickName, userId, replydate, updatedate, likeCnt ,dislikeCnt,money, parent_num, order_step, reply_level, toNickName, toUserId
+	    from
+	    DK_REPLY  
+	    where num = #{num} 
+	   ) where rn <= #{cri.pageNum} * #{cri.amount} and rn > (#{cri.pageNum} -1) * #{cri.amount}
+	  ]]>
+	</select>
+	 <!-- select reply_num, num, reply_content, nickName, userId, replydate, updatedate, likeCnt ,dislikeCnt,money,parent_num, order_step, reply_level
 		 from 
 		   (
 		    select /*+INDEX(DK_REPLY idx_reply) */ 
-		      rownum rn, reply_num, num, reply_content, nickName, userId, replydate, updatedate, likeCnt ,dislikeCnt,money
+		      rownum rn, reply_num, num, reply_content, nickName, userId, replydate, updatedate, likeCnt ,dislikeCnt,money, parent_num, order_step, reply_level
 		    from DK_REPLY
 		    where num = #{num}
 		    and reply_num > 0
 		    and rownum <= #{cri.pageNum} * #{cri.amount}
-		   ) where rn > (#{cri.pageNum} -1) * #{cri.amount}
-	  ]]>
-	</select>
+		   ) where rn > (#{cri.pageNum} -1) * #{cri.amount} -->
 
 	<select id="getCountBynum" resultType="int">
 		<![CDATA[
@@ -117,7 +143,7 @@
 	
 	<!-- 댓글 기부받는자 캐시 증감하기 -->
 	<update id="updateReplyUserCash">
-	    update dk_member set cash = cash + #{money} where userId = #{replyId}
+	    update dk_member set cash = cash + #{money} where userId = #{donatedId}
 	</update> 
 	
 	<!-- 댓글의 기부금액 증감하기 -->
@@ -167,7 +193,7 @@
 												seq_dk_cash.nextval,
 												'기부받기',
 												#{money},
-												#{replyId},
+												#{donatedId},
 												'댓글' ,
 												#{num},
 												#{reply_num}

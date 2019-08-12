@@ -1,5 +1,4 @@
 package org.my.mapper;
-
 	import java.util.List;
 	import org.my.domain.BoardAttachVO;
 

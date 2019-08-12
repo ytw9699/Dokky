@@ -4,7 +4,8 @@ package org.my.service;
 	import org.my.domain.Criteria;
 	import org.my.domain.MemberVO;
 	import org.my.domain.ReplyVO;
-import org.my.domain.cashVO;
+	import org.my.domain.cashVO;
+	import org.my.domain.scrapVO;
 
 public interface MypageService {
 
@@ -30,7 +31,7 @@ public interface MypageService {
 
 	public int deleteScrap(int num, String userId);
 
-	public List<BoardVO> getMyScraplist(Criteria cri);
+	public List<scrapVO> getMyScraplist(Criteria cri);
 
 	public int getMyScrapCount(String userId);
 
@@ -41,5 +42,7 @@ public interface MypageService {
 	public List<cashVO> getMyCashHistory(Criteria cri);
 
 	public int getMyCashHistoryCount(String userId);
+
+	public void removeAllScrap(Long scrap_num);
 	
 }
