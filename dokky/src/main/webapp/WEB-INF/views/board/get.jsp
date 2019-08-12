@@ -321,6 +321,15 @@
 		margin-top:1%;
 		margin-bottom:1%; 
 	}
+	#reply_contents{
+		width: 80%; 
+	}
+	.replyWriteForm{  
+		margin-left:1%; 
+		margin-top:1%; 
+		margin-bottom:10%;  
+	}
+	
 	
 </style>
 </head>
@@ -468,11 +477,9 @@
       
 	<sec:authorize access="isAuthenticated()">
 		<div class="replyWriteForm"><!--  댓글쓰기 폼 -->
-		   <div> 
-                <textarea id="reply_contents" rows="3" name='reply_content' oninput="checkLength(this,900);"></textarea> 
-           </div>  
-   		   <button id='replyRegisterBtn' type="button">등록</button>
-		</div>  
+                <textarea id="reply_contents" rows="3" placeholder="댓글을 입력하세요" name='reply_content' oninput="checkLength(this,900);"></textarea> 
+            	 <button id='replyRegisterBtn' type="button">등록</button> 
+		</div>   
 		<div class="reReplyWriteForm"><!--  대댓글쓰기 폼 -->
 		   <div> 
                 <textarea id="reReply_contents" rows="3" name='reReply_content' oninput="checkLength(this,900);"></textarea>
