@@ -352,9 +352,6 @@
 			       <c:when test="${board.category == 5 }">
 			   		   		  정기모임/스터디 
 			       </c:when>
-			        <c:when test="${board.category == 6 }"> 
-			   		   		    마이페이지  
-			       </c:when>
 	       </c:choose> 
     </div>
      
