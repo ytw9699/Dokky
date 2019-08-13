@@ -1,21 +1,22 @@
 	1.-----------------------------------------------------
 	create table DK_BOARD (--게시판 테이블
-	  CATEGORY number(10,0) not null,-- 1~10번 게시판
-	  NUM number(10,0),--PK
-	  TITLE varchar2(200) not null,
-	  NICKNAME varchar2(50) not null,
-	  userId varchar2(50) not null,
-	  CONTENT varchar2(4000) not null,
-	  BLIND varchar2(50) default '미적용',
-	  REGDATE date default sysdate, 
-	  UPDATEDATE date default sysdate,
-	  likeCnt number(10,0) default 0,
-	  dislikeCnt number(10,0) default 0,
-	  MONEY number(10,0) default 0,
-	  HITCNT number(10,0) default 0,
-	  REPLYCNT number(10,0) default 0,
-	  delete_check varchar2(10) default 'possible',
-	  constraint PK_DK_BOARD primary key(NUM)
+		  CATEGORY number(10,0) not null,-- 1~5번 게시판
+		  NUM number(10,0),--PK
+		  TITLE varchar2(200) not null,
+		  NICKNAME varchar2(50) not null,
+		  userId varchar2(50) not null,
+		  CONTENT varchar2(4000) not null,
+		  BLIND varchar2(10) default '미적용',
+		  STATUS varchar2(10) default '정상',
+		  REGDATE date default sysdate, 
+		  UPDATEDATE date default sysdate,
+		  likeCnt number(10,0) default 0,
+		  dislikeCnt number(10,0) default 0,
+		  MONEY number(10,0) default 0,
+		  HITCNT number(10,0) default 0,
+		  REPLYCNT number(10,0) default 0,
+		  delete_check varchar2(10) default 'possible',
+		  constraint PK_DK_BOARD primary key(NUM)
 	);
 	
 	create sequence seq_dk_board;
@@ -31,12 +32,9 @@
 	
 	2.---------------------------------------------------------------------------------------
 	
-	insert into DK_REPLY(reply_num, num, reply_content, nickName,userId)
-	(select seq_dk_reply.nextval, num, reply_content, nickName from DK_REPLY);
-	
 	create table DK_REPLY (--댓글 테이블
 		reply_num number(10,0),--pk
-		num number(10,0) not null,
+		num number(10,0) not null, --게시글 번호
 		reply_content varchar2(1000) not null,
 		nickName varchar2(50) not null,
 		userId varchar2(50) not null,
@@ -60,35 +58,18 @@
 	
 	create index idx_reply on DK_REPLY(num desc, reply_num asc);
 	
-	DROP TABLE DK_REPLY PURGE;
-	
-	select /* INDEX(dk_reply idx_reply) */
-	rownum rn,num,reply_num,reply_content,nickname from dk_reply where num =221 and reply_num > 0
-	
 	--디폴트값입력해줘야 캐시충전됨
 	insert into dk_reply(reply_num,num,reply_content,nickName,userId,parent_num,order_step,reply_level)
 	 values (0,0, '디폴트', '디폴트','admin',0,0,0)
- 
+	 
+	DROP TABLE DK_REPLY PURGE;
+	
 	insert into dk_reply(reply_num,num,reply_content,nickName) values (seq_dk_reply.nextval,221, 'test', 'test')
 	
-	3.---------------------------------------------------------------------------------------
-	create table dk_attach(--업로드 테이블
-		uuid varchar2(100) not null,
-		uploadPath varchar2(200) not null,-- 실제 파일이 업로드된 경로
-		fileName varchar2(100) not null, --파일 이름을 의미
-		fileType char(1) default 'I', --이미지 파일 여부를판단
-		NUM number(10,0) -- 해당 게시물 번호를 저장
-	);
+	insert into DK_REPLY(reply_num, num, reply_content, nickName,userId)
+	(select seq_dk_reply.nextval, num, reply_content, nickName from DK_REPLY);
 	
-	alter table dk_attach add constraint pk_attach primary key (uuid);
-	alter table dk_attach add constraint fk_board_attach foreign key (NUM) references DK_BOARD(NUM);
-	
-	insert into dk_attach(uuid, uploadPath, fileName, NUM)
-	values ('11', '테스트 제목','테스트 내용',3);
-	
-	DROP TABLE dk_attach PURGE;
-	
-	4.------------------------------------------------------------------------------------------
+	3.------------------------------------------------------------------------------------------
 	create table dk_member(--회원 테이블
 		  member_num number(10,0) unique,
 	      userId varchar2(50) not null primary key,
@@ -108,8 +89,26 @@
 	
 	drop table dk_member purge 
 	
+	4.---------------------------------------------------------------------------------------
+	create table dk_attach(--업로드 테이블
+		uuid varchar2(100) not null,
+		uploadPath varchar2(200) not null,-- 실제 파일이 업로드된 경로
+		fileName varchar2(100) not null, --파일 이름을 의미
+		fileType char(1) default 'I', --이미지 파일 여부를판단
+		NUM number(10,0) -- 해당 게시물 번호를 저장
+	);
+	
+	alter table dk_attach add constraint pk_attach primary key (uuid);
+	alter table dk_attach add constraint fk_board_attach foreign key (NUM) references DK_BOARD(NUM);
+	
+	insert into dk_attach(uuid, uploadPath, fileName, NUM)
+	values ('11', '테스트 제목','테스트 내용',3);
+	
+	DROP TABLE dk_attach PURGE;
+	
+	
 	5.------------------------------------------------------------------------------------------
-	create table dk_member_auth (--인증 테이블
+	create table dk_member_auth (--권한 테이블
 	     userId varchar2(50) not null,
 	     auth varchar2(50) default 'ROLE_USER',
 	     constraint fk_member_auth foreign key(userId) references dk_member(userId)
@@ -117,7 +116,8 @@
 	
 	drop table dk_member_auth purge 
 	
-	create table persistent_logins (
+	6.------------------------------------------------------------------------------------------
+	create table persistent_logins ( --인증 테이블
 		username varchar(64) not null,--username은 userid임
 		series varchar(64) primary key,
 		token varchar(64) not null,
@@ -126,22 +126,6 @@
 	--테이블을 생성하는 스크립트는 특정한 데이터베이스에 맞게 테이블 이름과 칼럼명을 제
 	--외한 칼럼의 타입 등을 적당히 조정해서 사용하면 됩니다. 오라클에서는 varchar를 그대
 	--로 이용하거나 varchar2로 변경해서 사용하면 됩니다
-	
-	6.-----------------------------------------------------
-	테이블 복사 방법
-	테이블은 이미 생성되어 있고 데이터만 복사 (테이블 구조가 동일할 때)
-	
-	INSERT INTO 복사할테이블명 SELECT * FROM 테이블명 [WHERE 절]
-	
-	EX) INSERT INTO TB_BOARD_TEMP SELECT * FROM TB_BOARD
-	
-	테이블은 이미 생성되어 있고 데이터만 복사 (테이블 구조가 다를 때)
-	
-	INSERT INTO 복사할테이블명 (NUM, TITLE, CONTENTS) SELECT NUM, TITLE, CONTENTS FROM 테이블명
-	
-	EX) INSERT INTO TB_BOARD_TEMP (NUM, TITLE, CONTENTS) SELECT NUM, TITLE, CONTENTS FROM TB_BOARD
-	
-	출처: https://server-engineer.tistory.com/500 [HelloWorld]
 	
 	-----------------------------------------------------
 	7.게시글 좋아요 테이블
@@ -218,8 +202,6 @@
 	create sequence seq_dk_cash
 	
 	drop table dk_cash purge
-	
-	
 	
 	insert into dk_cash (
 							cash_num,
@@ -323,4 +305,19 @@ drop table dk_alarm purge
 	인덱스 만드는 방법
 	create unique index idx_board_reg_date on boardtable (reg_date, idx) 
 
+6.-----------------------------------------------------
+테이블 복사 방법
+테이블은 이미 생성되어 있고 데이터만 복사 (테이블 구조가 동일할 때)
+
+INSERT INTO 복사할테이블명 SELECT * FROM 테이블명 [WHERE 절]
+
+EX) INSERT INTO TB_BOARD_TEMP SELECT * FROM TB_BOARD
+
+테이블은 이미 생성되어 있고 데이터만 복사 (테이블 구조가 다를 때)
+
+INSERT INTO 복사할테이블명 (NUM, TITLE, CONTENTS) SELECT NUM, TITLE, CONTENTS FROM 테이블명
+
+EX) INSERT INTO TB_BOARD_TEMP (NUM, TITLE, CONTENTS) SELECT NUM, TITLE, CONTENTS FROM TB_BOARD
+
+출처: https://server-engineer.tistory.com/500 [HelloWorld]
 
