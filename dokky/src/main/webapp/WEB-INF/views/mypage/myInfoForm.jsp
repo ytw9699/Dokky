@@ -74,13 +74,12 @@
 		color: #e6e6e6;
 	}
 	#menuWrap .tab button:hover {
-	background-color: #7b7676;
+		background-color: #7b7676;
 	}
-	/* #menuWrap .tabcontent {  
-		display: none; 
-		padding: 6px 12px;
-		border: 1px;
-	}  */
+	.tabcontent {  
+		 border-color: #e6e6e6; 
+		 border-style: solid; 
+	} 
 	.tableText{
 		width: 10%;
 		font-size: 20px;  
@@ -118,8 +117,81 @@
 	    border: 1px solid black;
 	    border-radius: 70px; */
 	}
-	
-	
+	#profileGray{
+		position: fixed; 
+		width: 100%; 
+		height: 100%; 
+		top: 0; 
+		left: 0; 
+		background-color: #000; 
+		opacity: 0.6; 
+		display: none;
+	}
+		
+	#modprofile{    
+	    display: none;
+	    width: 310px;
+	    border-radius: 8px;
+	    position: absolute;
+	    top: 20%;
+	    left: 39%;
+	    padding: 34px;
+	    background-color: white;
+	}
+    .modprofileText { 
+	    display: block;
+	    font-size: 23px;
+	    text-align: center;
+	    margin-bottom: 5%;
+	    color: #7151fc; 
+	}
+	.profileButtons {
+	    width: 32%;
+	    margin: 0 auto;
+	    margin-left: 0%;
+	    border: none;
+	    color: white;
+	    background-color: #7151fc;
+	    padding: 7%;
+	    font-size: 12px;
+	    height: 0px;
+	    line-height: 0;
+	} 
+   .mainImgWrap {
+	    width: 33%;  
+	    margin: 0 auto; 
+	    /* border-style: solid; */
+	    /* min-height: 150px;
+	    max-height: 300px; */
+	}
+	#mainImg {
+	    width: 90px;
+	    height:90px;  
+	    border-radius: 50px;  
+	    /* border-style: solid; */
+	    /* max-height: 360px;
+	    margin-top: 47px; */
+	}
+	#profile { /* 파일 필드 숨기기 */
+		display:none;
+	}
+	#profileSearch { 
+	    background-color: white;
+	    /* border-style: solid; */ 
+	    width: 98%;
+	    color: #7151fc;
+	    display: block; 
+	    font-size: 20px; 
+	    text-align: center;
+	    margin-top: 5%;
+	}
+	 
+	#myImage{
+	    width: 70px;
+	    border-radius: 80px;
+	    height: 70px;
+	}
+		
 </style>  
 </head>
 <body>
@@ -136,13 +208,38 @@
 		        <button onclick="location.href='myCashInfo?userId=${userInfo.username}'">캐시</button>  
 		    </div> 
 		</div>
-		<div class="memberProfile">
-			<img src="/dokky/resources/img/profile_img/<c:out value="${userInfo.username}" />" class="memberImage" onerror="this.src='/dokky/resources/img/basicProfile.png'" />
-		</div>	
+		<!-- 프로필 이미지 관련 -->
+		<div id="profileGray"></div>
+		<div id="modprofile">
+			<span class="modprofileText">이미지를 선택해주세요</span>
+			<form action="/dokky/mypage/profileFile" id="profileForm" name="profileForm" method="post" enctype="multipart/form-data">
+				<div class="mainImgWrap">  
+					<img class="mainImgtag" id="mainImg" src="/dokky/resources/img/profile_img/<c:out value="${userInfo.username}" />.png" onerror="this.src='/dokky/resources/img/basicProfile.png'" />
+				</div>   
+		        <label for="profile" id="profileSearch">프로필 이미지 찾기</label>    
+				<input type="file" name="profileFile" id="profile" /><br>
+				<input type="hidden" name="userId" value="${userInfo.username}"/> 
+				<input type="hidden" name="${_csrf.parameterName}" value="${_csrf.token}" />
+				<input type="button" class="profileButtons" id="profileConfirm" value="확인" />
+				<input type="button" class="profileButtons" id="defaultImage" value="기본이미지"/>
+				<input type="button" class="profileButtons" id="imageCancle"  value="취소" />
+			</form>
+		</div>
+		<!-- 프로필 이미지 관련  끝-->
 		<div id="infomation" class="tabcontent">
 	       <form method='post' action="/dokky/mypage/myInfo" id="operForm">	
 	     	  <input type="hidden" name="${_csrf.parameterName}" value="${_csrf.token}" />
 	     	<table width="100%" style="margin-bottom: 30px;">
+	     		<tr>
+	     			<td class="tableText">
+	     				프로필 
+	     			</td>
+	     			<td class="tableValue">
+	     				<div class="memberProfile">
+							<img src="/dokky/resources/img/profile_img/<c:out value="${userInfo.username}" />.png" id="myImage" onerror="this.src='/dokky/resources/img/basicProfile.png'" />
+						</div> 
+	     			</td>
+	     		</tr>
 	     		<tr>
 	     			<td class="tableText">
 	     				아이디
@@ -229,6 +326,73 @@
 	$(document).ajaxSend(function(e, xhr, options) { 
 	    xhr.setRequestHeader(csrfHeaderName, csrfTokenValue); //모든 AJAX전송시 CSRF토큰을 같이 전송하도록 셋팅
 	  });
+	
+		/* 프로필 이미지 관련 */
+		var profileBack = $("#profileGray");
+		var profileDiv = $("#modprofile");
+	
+		$("#myImage").on("click",function(event){
+			profileBack.css("display","block"); 
+			profileDiv.css("display","block");
+		});
+		
+		$("#imageCancle").on("click",function(event){
+			profileBack.css("display","none"); 
+			profileDiv.css("display","none");
+		});
+		
+	 	$("#profileConfirm").on("click",function(event){
+			
+			var profileForm = $("#profileForm");
+			var profileFileValue = profileForm.find("input[name='profileFile']").val();
+
+			 if(profileFileValue == ""){  
+				 alert("이미지를 선택해주세요");
+				 return; 
+			 }else if(!validationType(profileFileValue)){ 
+				 return; 
+			 }else{
+				 profileForm.submit(); 	    
+			 } 
+		});
+		
+		function readURL(input) {
+			if (input.files && input.files[0]) {
+				var reader = new FileReader(); //파일을 읽기 위한 FileReader객체 생성
+				reader.onload = function (e) { 
+				//파일 읽어들이기를 성공했을때 호출되는 이벤트 핸들러
+					$('#mainImg').attr('src', e.target.result);
+					//이미지 Tag의 SRC속성에 읽어들인 File내용을 지정
+					//(아래 코드에서 읽어들인 dataURL형식)
+				}			  		
+				reader.readAsDataURL(input.files[0]);
+				//File내용을 읽어 dataURL형식의 문자열로 저장
+			}
+		}
+		
+		function validationType(fileName){
+			var type = fileName.substring(fileName.lastIndexOf('.')+1, fileName.length);
+			if(type.toUpperCase() == 'JPG' || type.toUpperCase() == 'GIF' || type.toUpperCase() == 'PNG' || type.toUpperCase() == 'BMP'){
+				return true;
+			}else{
+				alert("사진파일이 아닙니다");
+				return false;
+			}
+		}
+		 
+		$("#profile").change(function(e){ 
+			if(validationType(this.value)){
+				readURL(this);
+			}
+		}); 
+		
+		$("#defaultImage").on("click",function(event){
+			var profileForm = $("#profileForm");
+			profileForm.attr("action","/dokky/mypage/deleteProfile");
+	    	profileForm.submit(); 
+		});
+		
+		/* 프로필 이미지 관련 끝 */
 		
 		function checkPassword(checkData, callback, error) {
 			$.ajax({

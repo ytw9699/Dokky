@@ -152,6 +152,12 @@
 		color:red;
 	}
 	
+	.memberImage{
+		border-radius: 50px;
+		width: 25px;
+		height: 25px; 
+	}
+	
 		
 </style> 
 </head>
@@ -177,7 +183,7 @@
 					       <c:when test="${alarm.kind == 0 }"> 
 				          		<td> 
 									<a href="#" class="userMenu" data-alarm_num="${alarm.alarmNum}">
-										<img width="25px" src="/dokky/resources/img/profile_img/<c:out value="${alarm.writerId}" />" class="memberImage hideUsermenu" onerror="this.src='/dokky/resources/img/basicProfile.png'" />
+										<img src="/dokky/resources/img/profile_img/<c:out value="${alarm.writerId}" />.png"  class="memberImage hideUsermenu" onerror="this.src='/dokky/resources/img/basicProfile.png'" />
 										<c:out value="${alarm.writerNick}" /> 
 									</a>   
 									 <div id="userMenubar_${alarm.alarmNum}" class="userMenubar">
@@ -201,7 +207,7 @@
 					      <c:when test="${alarm.kind == 1 }">
 				     			<td> 
 									<a href="#" class="userMenu" data-alarm_num="${alarm.alarmNum}">
-										<img width="25px" src="/dokky/resources/img/profile_img/<c:out value="${alarm.writerId}" />" class="memberImage hideUsermenu" onerror="this.src='/dokky/resources/img/basicProfile.png'" />
+										<img src="/dokky/resources/img/profile_img/<c:out value="${alarm.writerId}"  />.png"  class="memberImage hideUsermenu" onerror="this.src='/dokky/resources/img/basicProfile.png'" />
 										<c:out value="${alarm.writerNick}" /> 
 									</a>   
 									 <div id="userMenubar_${alarm.alarmNum}" class="userMenubar">
@@ -225,7 +231,7 @@
 					        <c:when test="${alarm.kind == 2 }">
 				      			<td> 
 									<a href="#" class="userMenu" data-alarm_num="${alarm.alarmNum}">
-										<img width="25px" src="/dokky/resources/img/profile_img/<c:out value="${alarm.writerId}" />" class="memberImage hideUsermenu" onerror="this.src='/dokky/resources/img/basicProfile.png'" />
+										<img src="/dokky/resources/img/profile_img/<c:out value="${alarm.writerId}"  />.png"  class="memberImage hideUsermenu" onerror="this.src='/dokky/resources/img/basicProfile.png'" />
 										<c:out value="${alarm.writerNick}" /> 
 									</a>   
 									 <div id="userMenubar_${alarm.alarmNum}" class="userMenubar">
@@ -249,7 +255,7 @@
 					        <c:when test="${alarm.kind == 3 }">
 				        		 <td> 
 									<a href="#" class="userMenu" data-alarm_num="${alarm.alarmNum}">
-										<img width="25px" src="/dokky/resources/img/profile_img/<c:out value="${alarm.writerId}" />" class="memberImage hideUsermenu" onerror="this.src='/dokky/resources/img/basicProfile.png'" />
+										<img src="/dokky/resources/img/profile_img/<c:out value="${alarm.writerId}"  />.png"  class="memberImage hideUsermenu" onerror="this.src='/dokky/resources/img/basicProfile.png'" />
 										<c:out value="${alarm.writerNick}" /> 
 									</a>   
 									 <div id="userMenubar_${alarm.alarmNum}" class="userMenubar">
@@ -273,7 +279,7 @@
 					       <c:when test="${alarm.kind == 4 }">
 				 			    <td> 
 									<a href="#" class="userMenu" data-alarm_num="${alarm.alarmNum}">
-										<img width="25px" src="/dokky/resources/img/profile_img/<c:out value="${alarm.writerId}" />" class="memberImage hideUsermenu" onerror="this.src='/dokky/resources/img/basicProfile.png'" />
+										<img src="/dokky/resources/img/profile_img/<c:out value="${alarm.writerId}"  />.png"  class="memberImage hideUsermenu" onerror="this.src='/dokky/resources/img/basicProfile.png'" />
 										<c:out value="${alarm.writerNick}" /> 
 									</a>   
 									 <div id="userMenubar_${alarm.alarmNum}" class="userMenubar">
@@ -297,7 +303,7 @@
 					       <c:when test="${alarm.kind == 5 }">
 				      		  	<td> 
 									<a href="#" class="userMenu" data-alarm_num="${alarm.alarmNum}">
-										<img width="25px" src="/dokky/resources/img/profile_img/<c:out value="${alarm.writerId}" />" class="memberImage hideUsermenu" onerror="this.src='/dokky/resources/img/basicProfile.png'" />
+										<img src="/dokky/resources/img/profile_img/<c:out value="${alarm.writerId}"  />.png"  class="memberImage hideUsermenu" onerror="this.src='/dokky/resources/img/basicProfile.png'" />
 										<c:out value="${alarm.writerNick}" /> 
 									</a>   
 									 <div id="userMenubar_${alarm.alarmNum}" class="userMenubar">
@@ -321,7 +327,7 @@
 					       <c:when test="${alarm.kind == 6 }">
 				   				<td> 
 									<a href="#" class="userMenu" data-alarm_num="${alarm.alarmNum}">
-										<img width="25px" src="/dokky/resources/img/profile_img/<c:out value="${alarm.writerId}" />" class="memberImage hideUsermenu" onerror="this.src='/dokky/resources/img/basicProfile.png'" />
+										<img src="/dokky/resources/img/profile_img/<c:out value="${alarm.writerId}" />.png"  class="memberImage hideUsermenu" onerror="this.src='/dokky/resources/img/basicProfile.png'" />
 										<c:out value="${alarm.writerNick}" /> 
 									</a>   
 									 <div id="userMenubar_${alarm.alarmNum}" class="userMenubar">

@@ -215,7 +215,7 @@
 	    margin-left: 1.3%;
 	    position: absolute;
 	}
-	.userMenubar li {
+	.userMenubar li{ 
 	    list-style: none;
 	    border-style: solid;
 	    border-width: 1px;
@@ -357,7 +357,7 @@
      
     <div class="nickName">
 			<a href="#" class="userMenu">
-				<img width="25px" src="/dokky/resources/img/profile_img/<c:out value="${board.userId}" />" class="memberImage hideUsermenu" onerror="this.src='/dokky/resources/img/basicProfile.png'" />
+				<img src="/dokky/resources/img/profile_img/<c:out value="${board.userId}" />.png"  class="memberImage hideUsermenu" onerror="this.src='/dokky/resources/img/basicProfile.png'" />
 				<c:out value="${board.nickName}" /> 
 			</a>
 			<div>
@@ -610,10 +610,9 @@ function checkLength(obj, maxlength) {
 	       str +="<div style='display:none' id=replace"+reply_nums+"></div>";
 	       
 	       if(reply_level == 0 ){ 
-	    	  str +=" " + "<div class='reply' data-reply_num='"+reply_nums+"'>"; 
-	    	  
+	    	  str +=" " + "<div class='reply' data-reply_num='"+reply_nums+"'>";  
 	    	  str +=" " +"<a href='#' class='userMenu' data-reply_num='"+reply_nums+"' data-menu_kind='from'>"  
-			  str += "<img width='25px' src='/dokky/resources/img/profile_img/"+userId+"' class='memberImage hideUsermenu' onerror='this.src=\"/dokky/resources/img/basicProfile.png\"' />"
+			  str += "<img src='/dokky/resources/img/profile_img/"+userId+".png' class='memberImage hideUsermenu' onerror='this.src=\"/dokky/resources/img/basicProfile.png\"' />"
 		      str += nickName+"</a>" 
 			  str += "<div id='userMenubar_reply_from_"+reply_nums+"' class='userMenubar'>" 
 			  str += "<ul class='hideUsermenu'>"
@@ -628,7 +627,7 @@ function checkLength(obj, maxlength) {
 	    	  str +=" " + "<div class='reply first' data-reply_num='"+reply_nums+"'>└ ";  
 	    	  str +=" " + "From" 
 	    	  str +=" " +"<a href='#' class='userMenu' data-reply_num='"+reply_nums+"' data-menu_kind='from'>"  
-			  str += "<img width='25px' src='/dokky/resources/img/profile_img/"+userId+"' class='memberImage hideUsermenu' onerror='this.src=\"/dokky/resources/img/basicProfile.png\"' />"
+			  str += "<img src='/dokky/resources/img/profile_img/"+userId+".png' class='memberImage hideUsermenu' onerror='this.src=\"/dokky/resources/img/basicProfile.png\"' />"
 		      str += nickName+"</a>" 
 			  str += "<div id='userMenubar_reply_from_"+reply_nums+"' class='userMenubar'>" 
 			  str += "<ul class='hideUsermenu'>"
@@ -638,7 +637,7 @@ function checkLength(obj, maxlength) {
 			  
 			  str += "To-"
 			  str +=" " +"<a href='#' class='userMenu' data-reply_num='"+reply_nums+"' data-menu_kind='to'>"  
-			  str += "<img width='25px' src='/dokky/resources/img/profile_img/"+toUserId+"' class='memberImage hideUsermenu' onerror='this.src=\"/dokky/resources/img/basicProfile.png\"' />"
+			  str += "<img src='/dokky/resources/img/profile_img/"+toUserId+".png' class='memberImage hideUsermenu' onerror='this.src=\"/dokky/resources/img/basicProfile.png\"' />"
 		      str += toNickName+"</a>" 
 			  str += "<div id='userMenubar_reply_to_"+reply_nums+"' class='userMenubar to'>"  
 			  str += "<ul class='hideUsermenu'>"
@@ -654,7 +653,7 @@ function checkLength(obj, maxlength) {
 	    	  str +=" " + "From" 
 	    	  
 	    	  str +=" " +"<a href='#' class='userMenu' data-reply_num='"+reply_nums+"' data-menu_kind='from'>"  
-			  str += "<img width='25px' src='/dokky/resources/img/profile_img/"+userId+"' class='memberImage hideUsermenu' onerror='this.src=\"/dokky/resources/img/basicProfile.png\"' />"
+			  str += "<img src='/dokky/resources/img/profile_img/"+userId+".png' class='memberImage hideUsermenu' onerror='this.src=\"/dokky/resources/img/basicProfile.png\"' />"
 		      str += nickName+"</a>" 
 			  str += "<div id='userMenubar_reply_from_"+reply_nums+"' class='userMenubar'>" 
 			  str += "<ul class='hideUsermenu'>"
@@ -664,7 +663,7 @@ function checkLength(obj, maxlength) {
 			  
 			  str += "To-"
 			  str +=" " +"<a href='#' class='userMenu' data-reply_num='"+reply_nums+"' data-menu_kind='to'>"  
-			  str += "<img width='25px' src='/dokky/resources/img/profile_img/"+toUserId+"' class='memberImage hideUsermenu' onerror='this.src=\"/dokky/resources/img/basicProfile.png\"' />"
+			  str += "<img src='/dokky/resources/img/profile_img/"+toUserId+".png' class='memberImage hideUsermenu' onerror='this.src=\"/dokky/resources/img/basicProfile.png\"' />"
 		      str += toNickName+"</a>" 
 			  str += "<div id='userMenubar_reply_to_"+reply_nums+"' class='userMenubar to'>"  
 			  str += "<ul class='hideUsermenu'>"
@@ -680,7 +679,7 @@ function checkLength(obj, maxlength) {
 		    	  str +=" " + "From" 
 		    	  
 		    	  str +=" " +"<a href='#' class='userMenu' data-reply_num='"+reply_nums+"' data-menu_kind='from'>"  
-				  str += "<img width='25px' src='/dokky/resources/img/profile_img/"+userId+"' class='memberImage hideUsermenu' onerror='this.src=\"/dokky/resources/img/basicProfile.png\"' />"
+				  str += "<img src='/dokky/resources/img/profile_img/"+userId+".png' class='memberImage hideUsermenu' onerror='this.src=\"/dokky/resources/img/basicProfile.png\"' />"
 			      str += nickName+"</a>" 
 				  str += "<div id='userMenubar_reply_from_"+reply_nums+"' class='userMenubar'>" 
 				  str += "<ul class='hideUsermenu'>"
@@ -688,9 +687,9 @@ function checkLength(obj, maxlength) {
 				  str += "<li class='hideUsermenu'><a href='#' class='hideUsermenu'><span class='hideUsermenu'>쪽지보내기</span></a></li>"
 				  str += "</ul></div>"
 				  
-				  str += "To-"
+				  str += "To-" 
 				  str +=" " +"<a href='#' class='userMenu' data-reply_num='"+reply_nums+"' data-menu_kind='to'>"  
-				  str += "<img width='25px' src='/dokky/resources/img/profile_img/"+toUserId+"' class='memberImage hideUsermenu' onerror='this.src=\"/dokky/resources/img/basicProfile.png\"' />"
+				  str += "<img src='/dokky/resources/img/profile_img/"+toUserId+".png' class='memberImage hideUsermenu' onerror='this.src=\"/dokky/resources/img/basicProfile.png\"' />"
 			      str += toNickName+"</a>" 
 				  str += "<div id='userMenubar_reply_to_"+reply_nums+"' class='userMenubar to'>"  
 				  str += "<ul class='hideUsermenu'>"
@@ -706,7 +705,7 @@ function checkLength(obj, maxlength) {
 		    	  str +=" " + "From"  
 		    	  
 		    	  str +=" " +"<a href='#' class='userMenu' data-reply_num='"+reply_nums+"' data-menu_kind='from'>"  
-				  str += "<img width='25px' src='/dokky/resources/img/profile_img/"+userId+"' class='memberImage hideUsermenu' onerror='this.src=\"/dokky/resources/img/basicProfile.png\"' />"
+				  str += "<img src='/dokky/resources/img/profile_img/"+userId+".png' class='memberImage hideUsermenu' onerror='this.src=\"/dokky/resources/img/basicProfile.png\"' />"
 			      str += nickName+"</a>" 
 				  str += "<div id='userMenubar_reply_from_"+reply_nums+"' class='userMenubar'>" 
 				  str += "<ul class='hideUsermenu'>"
@@ -716,7 +715,7 @@ function checkLength(obj, maxlength) {
 				  
 				  str += "To-"
 				  str +=" " +"<a href='#' class='userMenu' data-reply_num='"+reply_nums+"' data-menu_kind='to'>"  
-				  str += "<img width='25px' src='/dokky/resources/img/profile_img/"+toUserId+"' class='memberImage hideUsermenu' onerror='this.src=\"/dokky/resources/img/basicProfile.png\"' />"
+				  str += "<img src='/dokky/resources/img/profile_img/"+toUserId+".png' class='memberImage hideUsermenu' onerror='this.src=\"/dokky/resources/img/basicProfile.png\"' />"
 			      str += toNickName+"</a>" 
 				  str += "<div id='userMenubar_reply_to_"+reply_nums+"' class='userMenubar to'>"  
 				  str += "<ul class='hideUsermenu'>"
@@ -727,7 +726,7 @@ function checkLength(obj, maxlength) {
 		    	  str += replyService.displayTime(data.list[i].replyDate);
 		    	  str +=" <button data-oper='reReplyForm' type='button' data-user_id='"+userId+"' data-nick_name='"+nickName+"' data-parent_num='"+ data.list[i].parent_num+"' data-order_step='"+data.list[i].order_step+"' data-reply_level='"+data.list[i].reply_level+"'>답글</button>"  
 		    	  str +="<div><span>";
-	       }
+	       } 
 	         
 	       str +=" " + data.list[i].reply_content
 	       +" </span>" 

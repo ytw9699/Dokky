@@ -127,18 +127,18 @@
 	    width: 60px;
 	    margin: 20px;
 	    /* border: 1px solid black; */
-	    border-radius: 70px;
+	    border-radius: 50px;
 	}
+	 #memberProfile {
+	    width: 100%;
+	    border-radius: 80px;
+	    height: 60px; 
+	}  
 	
 	.infoWrap {
 	    width: 100%;
 	    margin: 0 auto;
 	}
-	/* .memberImage {
-	    width: 100%;
-	    border-radius: 70px;
-	    height: 60px; 
-	} */ 
 	
 	span.userId {
     color: #868686;
@@ -177,8 +177,8 @@
 		<c:forEach items="${memberList}" var="member">
 			<div class="memberInfoWrap" onclick="location.href='userForm?userId=<c:out value="${member.userId}" />'" >
 				<div class="memberProfile">
-					<img src="/dokky/resources/img/profile_img/<c:out value="${member.nickName}" />" class="memberImage" onerror="this.src='/dokky/resources/img/basicProfile.png'" />
-				</div>				 												 									
+					<img src="/dokky/resources/img/profile_img/<c:out value="${member.userId}"/>.png" id="memberProfile" onerror="this.src='/dokky/resources/img/basicProfile.png'" />
+				</div>		 		 												 									
 				<div class="memberInfo">
 					<span class="nickName"><c:out value="${member.nickName}" /></span><br/>
 					<span class="userId"><c:out value="${member.userId}" /></span>

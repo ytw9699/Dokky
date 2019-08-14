@@ -102,7 +102,13 @@
 	}  
 	a  {    
 			color:#e6e6e6; text-decoration: none;
-		}       
+		}  
+	.memberImage{ 
+		border-radius: 50px;
+		width: 25px; 
+		height: 25px;
+	}
+	     
 </style>
 </head> 
 
@@ -130,7 +136,7 @@
 		
 			<td>
 				<a href='userForm?userId=<c:out value="${cash.userId}"/>'> 
-				  <img width="30px" src="/dokky/resources/img/profile_img/<c:out value="${cash.userId}" />" class="memberImage" onerror="this.src='/dokky/resources/img/basicProfile.png'" />
+				  <img src="/dokky/resources/img/profile_img/<c:out value="${cash.userId}"/>.png"  class="memberImage" onerror="this.src='/dokky/resources/img/basicProfile.png'" />
 				  <c:out value="${cash.userId}" />
 				</a> 
 			</td> 

@@ -142,7 +142,12 @@
 	    height: 100px;
 	}
 	.orderMethodLI{
-	 	display: inline;
+	 	display: inline; 
+	}
+	.memberImage{
+		border-radius: 50px;
+		width: 25px; 
+		height: 25px;  
 	}
 	 
 </style>
@@ -230,7 +235,7 @@
 						</td>
 						<td> 
 							<a href="#" class="userMenu" data-board_num="${board.num}">
-								<img width="25px" src="/dokky/resources/img/profile_img/<c:out value="${board.userId}" />" class="memberImage hideUsermenu" onerror="this.src='/dokky/resources/img/basicProfile.png'" />
+								<img src="/dokky/resources/img/profile_img/<c:out value="${board.userId}"  />.png"  class="memberImage hideUsermenu" onerror="this.src='/dokky/resources/img/basicProfile.png'" />
 								<c:out value="${board.nickName}" /> 
 							</a> 
 							 <div id="userMenubar_${board.num}" class="userMenubar">

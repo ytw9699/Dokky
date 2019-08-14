@@ -1,5 +1,10 @@
 package org.my.controller;
-	import org.my.domain.Criteria;
+	import java.io.File;
+import java.io.UnsupportedEncodingException;
+import java.net.URLDecoder;
+import java.util.Date;
+
+import org.my.domain.Criteria;
 	import org.my.domain.MemberVO;
 	import org.my.domain.PageDTO;
 	import org.my.domain.cashVO;
@@ -13,14 +18,19 @@ package org.my.controller;
 	import org.springframework.security.crypto.password.PasswordEncoder;
 	import org.springframework.stereotype.Controller;
 	import org.springframework.ui.Model;
-	import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.DeleteMapping;
+import org.springframework.web.bind.annotation.GetMapping;
 	import org.springframework.web.bind.annotation.PathVariable;
 	import org.springframework.web.bind.annotation.PostMapping;
 	import org.springframework.web.bind.annotation.RequestBody;
 	import org.springframework.web.bind.annotation.RequestMapping;
-	import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.RequestParam;
 	import org.springframework.web.bind.annotation.ResponseBody;
-	import lombok.AllArgsConstructor;
+import org.springframework.web.multipart.MultipartFile;
+import org.springframework.web.multipart.MultipartHttpServletRequest;
+
+import lombok.AllArgsConstructor;
 	import lombok.Setter;
 	import lombok.extern.log4j.Log4j;
 	
@@ -268,4 +278,46 @@ public class mypageController {
 		return "mypage/myCashHistory"; 
 	}
 	
+	@PostMapping(value = "/profileFile")
+	public String registerProfileFile(MultipartHttpServletRequest request) { //프로필 이미지 올리기
+		
+		log.info("/mypage/profileFile"); 
+		
+		String uploadPath =request.getSession().getServletContext().getRealPath("/")+File.separator+"resources/img/profile_img";
+		log.info(uploadPath);
+		
+		String userId = request.getParameter("userId");
+		MultipartFile profileFile = request.getFile("profileFile");
+		 
+		File uploadFile = new File(uploadPath , userId+".png");  
+		
+		try {
+			profileFile.transferTo(uploadFile);
+		} catch (Exception e) {
+			
+		}
+		return "redirect:/mypage/myInfoForm?userId="+userId;
+	}
+	
+	@PostMapping(value = "/deleteProfile") 
+	public String deleteProfile(MultipartHttpServletRequest request){//기본 이미지 파일로 변경은 기존 파일 삭제로 구현
+		
+		log.info("/mypage/deleteProfile"); 
+		
+		String uploadPath =request.getSession().getServletContext().getRealPath("/")+File.separator+"resources/img/profile_img/";
+		String userId = request.getParameter("userId");
+		
+		try {
+			  File file = new File(uploadPath+userId+".png");
+			  
+			   if( file.exists() ){
+				   file.delete();
+			   }
+			   
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+		
+		return "redirect:/mypage/myInfoForm?userId="+userId;
+	}
 }

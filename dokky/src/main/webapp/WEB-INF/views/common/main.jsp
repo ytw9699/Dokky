@@ -103,6 +103,11 @@
 	   /*  width: 95%;
 	    margin-left: 18%; */
 	}
+	.memberImage{
+		border-radius: 50px;
+		width: 25px; 
+		height: 25px;  
+	}
 
 	
 </style>
@@ -137,7 +142,7 @@
 						</td>
 						<td> 
 							<a href="#" class="userMenu" data-board_num="${board.num}" data-menu_kind="realtime">
-								<img width="25px" src="/dokky/resources/img/profile_img/<c:out value="${board.userId}" />" class="memberImage hideUsermenu" onerror="this.src='/dokky/resources/img/basicProfile.png'" />
+								<img src="/dokky/resources/img/profile_img/<c:out value="${board.userId}" />.png"  class="memberImage hideUsermenu" onerror="this.src='/dokky/resources/img/basicProfile.png'" />
 								<c:out value="${board.nickName}" /> 
 							</a> 
 							 <div id="userMenubar_realtime_${board.num}" class="userMenubar">
@@ -179,7 +184,7 @@
 						</td>
 						<td> 
 							<a href="#" class="userMenu" data-board_num="${board.num}" data-menu_kind="like">
-								<img width="25px" src="/dokky/resources/img/profile_img/<c:out value="${board.userId}" />" class="memberImage hideUsermenu" onerror="this.src='/dokky/resources/img/basicProfile.png'" />
+								<img width="25px" src="/dokky/resources/img/profile_img/<c:out value="${board.userId}" />.png"  class="memberImage hideUsermenu" onerror="this.src='/dokky/resources/img/basicProfile.png'" />
 								<c:out value="${board.nickName}" />
 							</a> 
 							 <div id="userMenubar_like_${board.num}" class="userMenubar">
@@ -221,7 +226,7 @@
 						</td>
 						<td> 
 							<a href="#" class="userMenu" data-board_num="${board.num}" data-menu_kind="donate"> 
-								<img width="25px" src="/dokky/resources/img/profile_img/<c:out value="${board.userId}" />" class="memberImage hideUsermenu" onerror="this.src='/dokky/resources/img/basicProfile.png'" />
+								<img width="25px" src="/dokky/resources/img/profile_img/<c:out value="${board.userId}" />.png"  class="memberImage hideUsermenu" onerror="this.src='/dokky/resources/img/basicProfile.png'" />
 								<c:out value="${board.nickName}" />
 							</a> 
 							 <div id="userMenubar_donate_${board.num}" class="userMenubar">

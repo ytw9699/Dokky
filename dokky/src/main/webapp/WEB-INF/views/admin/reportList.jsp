@@ -103,7 +103,13 @@
 	a  {    
 			color:#e6e6e6; text-decoration: none;
 		}  
+	.memberImage{ 
+		border-radius: 50px;
+		width: 25px; 
+		height: 25px;
+	}
 	
+	 
 	
 </style>
 </head> 
@@ -133,13 +139,13 @@
 						<td><c:out value="${report.reportKind}" /></td>   
 						<td>
 							<a href='userForm?userId=<c:out value="${report.reportingId}"/>'> 
-							  <img width="30px" src="/dokky/resources/img/profile_img/<c:out value="${report.reportingId}" />" class="memberImage" onerror="this.src='/dokky/resources/img/basicProfile.png'" />
+							  <img src="/dokky/resources/img/profile_img/<c:out value="${report.reportingId}" />.png"  class="memberImage" onerror="this.src='/dokky/resources/img/basicProfile.png'" />
 							  <c:out value="${report.reportingNick}" />(<c:out value="${report.reportingId}" />)
 							</a> 
 						</td>
 						<td>
 							<a href='userForm?userId=<c:out value="${report.reportedId}"/>'> 
-							  <img width="30px" src="/dokky/resources/img/profile_img/<c:out value="${report.reportedId}" />" class="memberImage" onerror="this.src='/dokky/resources/img/basicProfile.png'" />
+							  <img src="/dokky/resources/img/profile_img/<c:out value="${report.reportedId}" />.png"  class="memberImage" onerror="this.src='/dokky/resources/img/basicProfile.png'" />
 							  <c:out value="${report.reportedNick}" />(<c:out value="${report.reportedId}" />)
 							</a> 
 						</td> 

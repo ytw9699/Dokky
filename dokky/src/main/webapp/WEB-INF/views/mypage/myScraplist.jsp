@@ -138,6 +138,12 @@
 	.replyCnt{   
 	  color: #ff2f3b;  
 	}
+	.memberImage{
+		border-radius: 50px;
+		width: 25px; 
+		height: 25px;  
+	}
+	
 </style> 
 </head>
 <%@include file="../includes/left.jsp"%>
@@ -174,8 +180,8 @@
 							<c:out value="${scrap.hitCnt}" />
 						</td>
 						<td> 
-							<a href="#" class="userMenu" data-scrap_num="${scrap.scrap_num}">
-								<img width="25px" src="/dokky/resources/img/profile_img/<c:out value="${scrap.userId}" />" class="memberImage hideUsermenu" onerror="this.src='/dokky/resources/img/basicProfile.png'" />
+							<a href="#" class="userMenu" data-scrap_num="${scrap.scrap_num}"> 
+								<img src="/dokky/resources/img/profile_img/<c:out value="${scrap.userId}"  />.png"  class="memberImage hideUsermenu" onerror="this.src='/dokky/resources/img/basicProfile.png'" />
 								<c:out value="${scrap.nickName}" /> 
 							</a>   
 							 <div id="userMenubar_${scrap.scrap_num}" class="userMenubar">

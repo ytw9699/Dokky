@@ -51,55 +51,62 @@
 				}
       }
 
-.mypage {
-    padding: 10px;
-    box-sizing: border-box;
-   	width: 100%;
-    color: #e6e6e6;
-    border-color: #e6e6e6;
-    border-style: solid; 
-    border-width: 1px;
-    
-}
-.mypage:hover > a, .mypage:hover {
-    color: #7151fc;
-}
-.mypage a { 
-    color: white;
-    text-decoration:none;
-}
-
-.perid-layer{
-    display: none;
-    border-style: solid;
-    border-width: 1px;
-    border-color: #e6e6e6;
-    width: 6%;
-    height: 55px;
-    position: fixed;
-    background-color: #323639;
-    margin-left: 1.3%;  
-	/* position : absolute; */ 
-	/* style="display: block; position: absolute; width: 109px; z-index: 1000; top: 332px; left: 535px;" */
-}
-.perid-layer li {
-    list-style: none;
-    border-style: solid;
-    border-width: 1px;
-    border-color: #e6e6e6;
-    width: 155%;  
-    margin-left: -60%;
-} 
-.perid-layer ul {
-    border-style : solid;
-    border-width: 1px;
-    border-color: #e6e6e6;
-    margin: auto;
-   /*  width: 95%;
-    margin-left: 18%; */
-} 
-
-
+	.mypage {
+	    padding: 10px;
+	    box-sizing: border-box;
+	   	width: 100%;
+	    color: #e6e6e6;
+	    border-color: #e6e6e6;
+	    border-style: solid; 
+	    border-width: 1px;
+	    
+	}
+	.mypage:hover > a, .mypage:hover {
+	    color: #7151fc;
+	}
+	.mypage a { 
+	    color: white;
+	    text-decoration:none;
+	}
+	
+	.perid-layer{
+	    display: none;
+	    border-style: solid;
+	    border-width: 1px;
+	    border-color: #e6e6e6;
+	    width: 6%;
+	    height: 55px;
+	    position: fixed;
+	    background-color: #323639;
+	    margin-left: 1.3%;  
+		/* position : absolute; */ 
+		/* style="display: block; position: absolute; width: 109px; z-index: 1000; top: 332px; left: 535px;" */
+	}
+	.perid-layer li {
+	    list-style: none;
+	    border-style: solid;
+	    border-width: 1px;
+	    border-color: #e6e6e6;
+	    width: 155%;  
+	    margin-left: -60%;
+	} 
+	.perid-layer ul {
+	    border-style : solid;
+	    border-width: 1px;
+	    border-color: #e6e6e6;
+	    margin: auto;
+	   /*  width: 95%;
+	    margin-left: 18%; */
+	} 
+	#leftProfile{
+		border-radius: 50px;
+		width: 30px
+	}
+	.memberImage{ 
+			border-radius: 50px;
+			width: 25px; 
+			height: 30px;
+		}
 </style>
 </head>
 <body>
@@ -124,8 +131,8 @@
 			<sec:authorize access="isAuthenticated()">
 					<form id="logoutForm" method='post' action="/dokky/customLogout">
 					  	  <a href="#" onClick="getUsermenu()" class="leftUsermenu">
-						  	  <img width="30px" src="/dokky/resources/img/profile_img/<c:out value="${userInfo.username}" />" class="memberImage leftHideusermenu" onerror="this.src='/dokky/resources/img/basicProfile.png'" />
-						  	  <c:out value="${userInfo.member.nickName}"/>    
+						  	  <img id="leftProfile" src="/dokky/resources/img/profile_img/<c:out value="${userInfo.username}"/>.png" class="memberImage leftHideusermenu" onerror="this.src='/dokky/resources/img/basicProfile.png'" />
+						  	  <c:out value="${userInfo.member.nickName}"/>     
 					  	  </a> 
 					  	  
 					  	  <div id="" class="perid-layer">
