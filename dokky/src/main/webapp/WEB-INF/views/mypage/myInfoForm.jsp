@@ -342,14 +342,14 @@
 		});
 		
 	 	$("#profileConfirm").on("click",function(event){
-			
 			var profileForm = $("#profileForm");
-			var profileFileValue = profileForm.find("input[name='profileFile']").val();
-
-			 if(profileFileValue == ""){  
+			var fileName = profileForm.find("input[name='profileFile']").val();
+			var fileSize = profileForm.find("input[name='profileFile']")[0].files[0].size; 
+			
+			 if(fileName == ""){    
 				 alert("이미지를 선택해주세요");
 				 return; 
-			 }else if(!validationType(profileFileValue)){ 
+			 }else if(!checkFile(fileName,fileSize)){ 
 				 return; 
 			 }else{
 				 profileForm.submit(); 	    
@@ -370,18 +370,29 @@
 			}
 		}
 		
-		function validationType(fileName){
+		function checkFile(fileName, fileSize) {
+			var maxSize = 5242880; //5MB
 			var type = fileName.substring(fileName.lastIndexOf('.')+1, fileName.length);
-			if(type.toUpperCase() == 'JPG' || type.toUpperCase() == 'GIF' || type.toUpperCase() == 'PNG' || type.toUpperCase() == 'BMP'){
-				return true;
-			}else{
-				alert("사진파일이 아닙니다");
+			
+			if (fileSize >= maxSize) {
+				alert("파일 사이즈가 5MB를 초과하였습니다.");
 				return false;
 			}
+			if(type.toUpperCase() == 'JPG' || type.toUpperCase() == 'GIF' || type.toUpperCase() == 'PNG' || type.toUpperCase() == 'BMP'){
+				return true; 
+			}else{
+				alert("해당 확장자 파일은 업로드할 수 없습니다.");
+				return false;
+			}
+			return true;
 		}
-		 
+		
 		$("#profile").change(function(e){ 
-			if(validationType(this.value)){
+			
+			var fileSize = this.files[0].size; 
+			var fileName= this.value;
+				
+			if(checkFile(fileName, fileSize)){
 				readURL(this);
 			}
 		}); 
