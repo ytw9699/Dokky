@@ -44,7 +44,7 @@ public class UploadController {
 		return str.replace("-", File.separator);
 	}
 
-	private boolean checkImageType(File file) {
+	private boolean checkImageType(File file) {//이미지 파일확인 여부
 
 		try {
 			String contentType = Files.probeContentType(file.toPath());
