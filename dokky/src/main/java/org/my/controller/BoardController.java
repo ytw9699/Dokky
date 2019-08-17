@@ -123,9 +123,6 @@ public class BoardController {
 		 log.info("/modify BoardVO:" + board);
 		 log.info("/modify Criteria:" + cri);
 		
-		 /*if (service.modify(board)) { 
-		 rttr.addFlashAttribute("result", "success");
-		 }*/
 		 service.modify(board);
 		 
 		 rttr.addAttribute("pageNum", cri.getPageNum());

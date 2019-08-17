@@ -109,7 +109,7 @@ public class BoardServiceImpl implements BoardService {
 
 		log.info("modify......" + board); 
 
-		attachMapper.deleteAll(board.getNum());//일단 첨부파일 모두 삭제
+		attachMapper.deleteAll(board.getNum());//일단 디비에서 첨부파일 정보 모두다 삭제,실제파일은 삭제안됨
 
 		boolean modifyResult = mapper.update(board) == 1; 
 		
@@ -118,7 +118,7 @@ public class BoardServiceImpl implements BoardService {
 			board.getAttachList().forEach(attach -> {
 
 				attach.setNum(board.getNum());
-				attachMapper.insert(attach);
+				attachMapper.insert(attach);//다시 모든파일 정보를 다 디비에 넣어준다
 			});
 		}
 		return modifyResult;
