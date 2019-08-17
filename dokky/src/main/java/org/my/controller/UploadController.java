@@ -116,18 +116,19 @@ public class UploadController {
 
 			try {
 				File saveFile = new File(uploadPath, uploadFileName);
+				
 				multipartFile.transferTo(saveFile);
 
 				attachDTO.setUuid(uuid.toString());//uuid저장
 				attachDTO.setUploadPath(uploadFolderPath);//폴더 경로저장
 
-				if (checkImageType(saveFile)) {
+				if (checkImageType(saveFile)) {//이미지 파일 이라면
 					
 					attachDTO.setImage(true);
 					
 					FileOutputStream thumbnail = new FileOutputStream(new File(uploadPath, "s_" + uploadFileName));
 
-					Thumbnailator.createThumbnail(multipartFile.getInputStream(), thumbnail, 100, 100);
+					Thumbnailator.createThumbnail(multipartFile.getInputStream(), thumbnail, 100, 100);//썸네일 만들기
 
 					thumbnail.close();
 				}
@@ -191,11 +192,11 @@ public class UploadController {
 		try {
 			file = new File("c:\\upload\\" + URLDecoder.decode(fileName, "UTF-8"));
 
-			file.delete();
+			file.delete();//일반파일 or 썸네일파일 지우는것
 
-			if (type.equals("image")) {
+			if (type.equals("image")) {//만약 이미지파일이었다면
 
-				String largeFileName = file.getAbsolutePath().replace("s_", "");
+				String largeFileName = file.getAbsolutePath().replace("s_", "");//오리지날 파일도 지워주기
 
 				log.info("largeFileName: " + largeFileName);
 

@@ -334,6 +334,12 @@
 </style>
 </head>
 <body> 
+
+<div class='bigPictureWrapper'>
+  <div class='bigPicture'>
+  </div>
+</div>
+
 <div class="getWrapper"> 
 	<div class="getKind">
 			 <c:choose>
@@ -394,6 +400,10 @@
     	<div>
       		${board.content }
       	</div>
+   		<div class='uploadResult'> 
+          <ul>
+          </ul>
+        </div>
       	<div class="contentInformation">
       		<span>
 	          <label>좋아요</label> <span id="likeCount"><c:out value="${board.likeCnt }"/></span>
@@ -1486,79 +1496,78 @@ function checkLength(obj, maxlength) {
 		       showReplyList(pageNum);
 	     });    
 	    
-	    $(document).ready(function(){//첨부파일 즉시 함수
-	    	  
-	    	  (function(){
-	    	  
-	    	    var num = '<c:out value="${board.num}"/>';
-	    	   
-	    	    $.getJSON("/dokky/board/getAttachList", {num: num}, function(arr){
-	    	        
+   $(document).ready(function(){//첨부파일 즉시 함수
+    	  
+   	  (function(){//즉시실행함수
+   	  
+	   	    var num = '<c:out value="${board.num}"/>';
+	   	   
+	   	    $.getJSON("/dokky/board/getAttachList", {num: num}, function(arr){
+	   	        
 	    	       //console.log(arr);
 	    	       
 	    	       var str = "";
 	    	       
 	    	       $(arr).each(function(i, attach){
 	    	       
-	    	         if(attach.fileType){ //image type
-	    	           var fileCallPath =  encodeURIComponent( attach.uploadPath+ "/s_"+attach.uuid +"_"+attach.fileName);
-	    	           
-	    	           str += "<li data-path='"+attach.uploadPath+"' data-uuid='"+attach.uuid+"' data-filename='"+attach.fileName+"' data-type='"+attach.fileType+"' ><div>";
-	    	           str += "<img src='/dokky/display?fileName="+fileCallPath+"'>";
-	    	           str += "</div>";
-	    	           str +"</li>";
+	    	         if(attach.fileType){ //이미지라면
+		    	           var fileCallPath =  encodeURIComponent( attach.uploadPath+ "/s_"+attach.uuid +"_"+attach.fileName);
+		    	           
+		    	           str += "<li data-path='"+attach.uploadPath+"' data-uuid='"+attach.uuid+"' data-filename='"+attach.fileName+"' data-type='"+attach.fileType+"' ><div>";
+		    	           str += "<img src='/dokky/display?fileName="+fileCallPath+"'>";
+		    	           str += "</div>";
+		    	           str +"</li>";
 	    	         }else{
-	    	           str += "<li data-path='"+attach.uploadPath+"' data-uuid='"+attach.uuid+"' data-filename='"+attach.fileName+"' data-type='"+attach.fileType+"' ><div>";
-	    	           str += "<span> "+ attach.fileName+"</span><br/>";
-	    	           str += "<img src='/dokky/resources/img/attach.png'></a>";
-	    	           str += "</div>"; 
-	    	           str +"</li>";
+		    	           str += "<li data-path='"+attach.uploadPath+"' data-uuid='"+attach.uuid+"' data-filename='"+attach.fileName+"' data-type='"+attach.fileType+"' ><div>";
+		    	           str += "<span> "+ attach.fileName+"</span><br/>";
+		    	           str += "<img src='/dokky/resources/img/attach.png'></a>";
+		    	           str += "</div>"; 
+		    	           str +"</li>";
 	    	         }
 	    	       });
 	    	       
-	    	       $(".uploadResult ul").html(str);
+	    	       $(".uploadResult ul").html(str); 
 	    	       
 	    	     });//end getjson
-	    	    
-	    	  })();//end function
+   	    
+   	  })();//end function
 	    	  
-	    	  $(".uploadResult").on("click","li", function(e){
-	    	      
-	    	    //console.log("view image");
-	    	    
-	    	    var liObj = $(this);
-	    	    
-	    	    var path = encodeURIComponent(liObj.data("path")+"/" + liObj.data("uuid")+"_" + liObj.data("filename"));
-	    	    
-	    	    if(liObj.data("type")){
-	    	      showImage(path.replace(new RegExp(/\\/g),"/"));
-	    	    }else {
-	    	    	  /* replyService.download(path, function(data) {
-	    	    		  alert(data); 
-	    		  		  alert("다운완료");
-	    			    }); */
-	    	    	self.location ="/dokky/download?fileName="+path 
-	    	    }
-	    	    
-	    	  });
+   	  $(".uploadResult").on("click","li", function(e){
+   	      
+    	    //console.log("view image");
+    	    
+    	    var liObj = $(this);
+    	    
+    	    var path = encodeURIComponent(liObj.data("path")+"/" + liObj.data("uuid")+"_" + liObj.data("filename"));
+    	    
+    	    if(liObj.data("type")){
+    	      showImage(path.replace(new RegExp(/\\/g),"/"));
+    	    }else {
+    	    	  /* replyService.download(path, function(data) {
+    	    		  alert(data); 
+    		  		  alert("다운완료");
+    			    }); */
+    	    	self.location ="/dokky/download?fileName="+path 
+    	    }
+   	    
+   	  });
 	    	  
-	    	  function showImage(fileCallPath){
-	    	    
-	    	    $(".bigPictureWrapper").css("display","flex").show();
-	    	    
-	    	    $(".bigPicture")
-	    	    .html("<img src='/dokky/display?fileName="+fileCallPath+"' >")
-	    	    .animate({width:'100%', height: '100%'}, 1000);
-	    	  }
+   	  function showImage(fileCallPath){
+    	    
+    	    $(".bigPictureWrapper").css("display","flex").show();
+    	    
+    	    $(".bigPicture")
+    	    .html("<img src='/dokky/display?fileName="+fileCallPath+"' >")
+    	    .animate({width:'100%', height: '100%'}, 1000);
+    	  }
 
-	    	  $(".bigPictureWrapper").on("click", function(e){
-	    	    $(".bigPicture").animate({width:'0%', height: '0%'}, 1000);
-	    	    setTimeout(function(){
-	    	      $('.bigPictureWrapper').hide();
-	    	    }, 1000);
-	    	  });
-	    	  
-	    	});
+    	  $(".bigPictureWrapper").on("click", function(e){
+    	    $(".bigPicture").animate({width:'0%', height: '0%'}, 1000);
+    	    setTimeout(function(){
+    	      $('.bigPictureWrapper').hide();
+    	    }, 1000);
+    	  });
+     });
 	      
 		$(".replyList").on("click",'.userMenu', function(event){//해당 댓글 메뉴바 보이기 이벤트
 			

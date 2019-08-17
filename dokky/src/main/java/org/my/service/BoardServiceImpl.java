@@ -67,16 +67,17 @@ public class BoardServiceImpl implements BoardService {
 	@Override
 	public void register(BoardVO board) {
 
-		//log.info("register......" + board);
+		log.info("register......" + board);
 
 		mapper.insertSelectKey(board); 
 
-		if (board.getAttachList() == null || board.getAttachList().size() <= 0) {
+		if (board.getAttachList() == null || board.getAttachList().size() <= 0) {//첨부파일 여부확인
 			return;
 		}
+		
+		log.info("register......getAttachList");
 
 		board.getAttachList().forEach(attach -> {// attach는 BoardAttachVO
-
 			attach.setNum(board.getNum());
 			attachMapper.insert(attach);
 		});

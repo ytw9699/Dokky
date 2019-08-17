@@ -21,6 +21,5 @@ public class BoardVO {
 	  private Long hitCnt;
 	  private int replyCnt;
 	  private String delete_check;
-	  
 	  private List<BoardAttachVO> attachList;//첨부파일관련
 }

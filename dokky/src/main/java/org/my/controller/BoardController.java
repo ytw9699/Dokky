@@ -89,9 +89,9 @@ public class BoardController {
 
 		log.info("/register: " + board);
 		
-		/*if (board.getAttachList() != null) {
+		if (board.getAttachList() != null) {
 			board.getAttachList().forEach(attach -> log.info(attach));
-		}*/
+		}
 		
 		service.register(board);
 
@@ -144,10 +144,9 @@ public class BoardController {
 
 		 	log.info("/remove..." + num);
 
-			List<BoardAttachVO> attachList = service.getAttachList(num);
-
-			if (service.remove(num)) { 
-				deleteFiles(attachList); //첨부파일 모두 삭제
+			if (service.remove(num)) { //첨부파일 디비 삭제 + 글삭제
+				List<BoardAttachVO> attachList = service.getAttachList(num);
+				deleteFiles(attachList); //실제 첨부파일 모두 삭제
 				rttr.addFlashAttribute("result", "success");
 			}
 			return "redirect:/board/list" + cri.getListLink();

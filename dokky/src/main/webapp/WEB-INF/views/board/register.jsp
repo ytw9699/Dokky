@@ -113,7 +113,7 @@
 	      <div class="panel-heading"></div>
 	      <!-- /.panel-heading -->
 	      <div class="panel-body">
-	        <div class="form-group uploadDiv">
+	        <div class="uploadDiv">
 	            <input type="file" name='uploadFile' multiple>
 	        </div>
 	        <div class='uploadResult'> 
@@ -136,7 +136,7 @@
 	      <div class="panel-body">
 		        <form role="form" action="/dokky/board/register" method="post">  
 				      <div>
-						<select id="selectId" name="category" class="form-control">
+						<select id="selectId" name="category" class="">
 							   <option value=0>게시판을 선택해 주세요.</option>
 		                       <option value=1>공지사항</option>
 		                       <option value=2>자유게시판</option>
@@ -145,17 +145,15 @@
 		                       <option value=5>정기모임/스터디</option>
 					     </select>
 					 </div>
-			          <div class="form-group">
-			            <input id="title" class="form-control" placeholder="제목을 입력해 주세요" name='title' oninput="checkLength(this,30);"/> 
+			          <div class="">
+			            <input id="title" class="" placeholder="제목을 입력해 주세요" name='title' oninput="checkLength(this,30);"/> 
 			          </div>
 			
-			          <div class="form-group"> 
-			      		    <textarea class="form-control" name="content" id="ir1" rows="20" cols="100" ></textarea>
+			          <div class="">  
+			      		    <textarea class="" name="content" id="ir1" rows="20" cols="100" ></textarea>
 			          </div>
 			          <input type='hidden' name='nickName' value='<sec:authentication property="principal.member.nickName"/>' /> 
 			          <input type='hidden' name='userId' value='<sec:authentication property="principal.username"/>' /> 
-			        <%--   <input type='hidden' name='amount' value='<c:out value="${pageMaker.cri.amount}"/>' /> --%>
-									
 					  <input type="hidden" name="${_csrf.parameterName}" value="${_csrf.token}"/>
 					  
 			    	  <button type="submit" class="btn btn-default">등록</button> 
@@ -168,7 +166,8 @@
 
 <script> 
 
-function checkLength(obj, maxlength) {    
+function checkLength(obj, maxlength) {  
+	
 	var str = obj.value; // 이벤트가 일어난 컨트롤의 value 값    
 	var str_length = str.length; // 전체길이       // 변수초기화     
 	var max_length = maxlength; // 제한할 글자수 크기     
@@ -176,14 +175,17 @@ function checkLength(obj, maxlength) {
 	var ko_byte = 0; // 한글일경우는 2 그밗에는 1을 더함     
 	var li_len = 0; // substring하기 위해서 사용     
 	var one_char = ""; // 한글자씩 검사한다     
-	var reStr = ""; // 글자수를 초과하면 제한할수 글자전까지만 보여준다.       
+	var reStr = ""; // 글자수를 초과하면 제한할수 글자전까지만 보여준다.  
+	
 	for (i = 0; i < str_length; i++) {         // 한글자추출         
 		one_char = str.charAt(i);            
 		ko_byte++;        
-	}              
+	}     
+	
 	if (ko_byte <= max_length) {// 전체 크기가 max_length를 넘지않으면                
 		li_len = i + 1;         
-	}       
+	}  
+	
 	if (ko_byte > max_length) {// 전체길이를 초과하면          
 			alert(max_length + " 글자 이상 입력할 수 없습니다.");         
 			reStr = str.substr(0, max_length);         
@@ -214,51 +216,48 @@ $(document).ready(function(e){
   
   var formObj = $("form[role='form']");
   
-  $("button[type='submit']").on("click", function(e){
+  $("button[type='submit']").on("click", function(e){//글쓰기 등록
     
-    e.preventDefault();
-
-    var selectedValue = $("#selectId option:selected").val();
-    
-    if(selectedValue == 0){
-    	alert("게시판을 선택 해주세요.");
-    	return false;
-    }
-    
-    var title = $("#title").val();
-		 title = $.trim(title);//공백제거
-		
-	if(title == ""){ 
-		alert("제목을 입력하세요."); 
-		   return false;
-	}
-    
-    oEditors.getById["ir1"].exec("UPDATE_CONTENTS_FIELD", []);// 스마트 에디터 - textarea에 값 옮겨주기
-    
-    //console.log("submit clicked"); 
-    
-    var str = "";
-    
-    $(".uploadResult ul li").each(function(i, obj){
-      
-      var jobj = $(obj);
-      
-      console.dir(jobj);
-      console.log("-------------------------");
-      console.log(jobj.data("filename"));
-      
-      
-      str += "<input type='hidden' name='attachList["+i+"].fileName' value='"+jobj.data("filename")+"'>";
-      str += "<input type='hidden' name='attachList["+i+"].uuid' value='"+jobj.data("uuid")+"'>";
-      str += "<input type='hidden' name='attachList["+i+"].uploadPath' value='"+jobj.data("path")+"'>";
-      str += "<input type='hidden' name='attachList["+i+"].fileType' value='"+ jobj.data("type")+"'>";
-      
-    });
-    
-    console.log(str);
-    
-    formObj.append(str).submit();
-    
+	    e.preventDefault();
+	
+	    var selectedValue = $("#selectId option:selected").val();
+	    
+	    if(selectedValue == 0){
+	    	alert("게시판을 선택 해주세요.");
+	    	return false;
+	    }
+	    
+	    var title = $("#title").val();
+			 title = $.trim(title);//공백제거
+			
+		if(title == ""){ 
+			alert("제목을 입력하세요."); 
+			   return false;
+		}
+	    
+	    oEditors.getById["ir1"].exec("UPDATE_CONTENTS_FIELD", []);// 스마트 에디터 - textarea에 값 옮겨주기
+	    
+	    var str = "";
+	    
+	    $(".uploadResult ul li").each(function(i, obj){
+	      
+		      var jobj = $(obj);
+		      
+		      console.dir(jobj);
+		      console.log("-------------------------");
+		      console.log(jobj.data("filename"));
+		      
+		      
+		      str += "<input type='hidden' name='attachList["+i+"].fileName' value='"+jobj.data("filename")+"'>";
+		      str += "<input type='hidden' name='attachList["+i+"].uuid' value='"+jobj.data("uuid")+"'>";
+		      str += "<input type='hidden' name='attachList["+i+"].uploadPath' value='"+jobj.data("path")+"'>";
+		      str += "<input type='hidden' name='attachList["+i+"].fileType' value='"+ jobj.data("type")+"'>";
+	    });
+	    
+	    //console.log(str);
+	    
+	    formObj.append(str).submit();
+	    
   });
   
   var regex = new RegExp("(.*?)\.(exe|sh|zip|alz)$");
@@ -266,16 +265,16 @@ $(document).ready(function(e){
   
   function checkExtension(fileName, fileSize){
     
-    if(fileSize >= maxSize){
-      alert("파일 사이즈는 5MB를 초과할 수 없습니다.");
-      return false;
-    }
-    
-    if(regex.test(fileName)){
-      alert("해당 종류의 파일은 업로드할 수 없습니다.");
-      return false;
-    }
-    return true;
+	    if(fileSize >= maxSize){
+	      alert("파일 사이즈는 5MB를 초과할 수 없습니다.");
+	      return false;
+	    }
+	    
+	    if(regex.test(fileName)){
+	      alert("해당 종류의 파일은 업로드할 수 없습니다.");
+	      return false;
+	    }
+	    return true;
   }
   
   var csrfHeaderName ="${_csrf.headerName}"; 
@@ -283,98 +282,103 @@ $(document).ready(function(e){
   
   $("input[type='file']").change(function(e){
 
-    var formData = new FormData();
-    
-    var inputFile = $("input[name='uploadFile']");
-    
-    var files = inputFile[0].files;
-    
-    //console.log(files); 
-    
-    for(var i = 0; i < files.length; i++){
-      if(!checkExtension(files[i].name, files[i].size) ){
-        return false;
-      }
-      formData.append("uploadFile", files[i]);
-      
-    }
-	    $.ajax({
-	      url: '/dokky/uploadAjaxAction',
-	      processData: false, 
-	      contentType: false,
-	      beforeSend: function(xhr) {
-	          xhr.setRequestHeader(csrfHeaderName, csrfTokenValue);
-	      },
-	      data: formData,
-	      type: 'POST',
-	      dataType:'json',
-	        success: function(result){
-	          //console.log(result); 
-			  showUploadResult(result); //업로드 결과 처리 함수 
-	      }
-	    }); //$.ajax
+	    var formData = new FormData();
+	    
+	    var inputFile = $("input[name='uploadFile']");
+	    
+	    var files = inputFile[0].files;
+	    
+	    //console.log(files); 
+	    
+	    for(var i = 0; i < files.length; i++){
+	    	
+		      if(!checkExtension(files[i].name, files[i].size) ){
+		        return false;
+		      }
+		      
+	      formData.append("uploadFile", files[i]);
+	      
+	    }
+		    $.ajax({
+			      url: '/dokky/uploadAjaxAction',
+			      processData: false, 
+			      contentType: false,
+			      beforeSend: function(xhr) {
+			          xhr.setRequestHeader(csrfHeaderName, csrfTokenValue);
+			      },
+			      data: formData,
+			      type: 'POST',
+			      dataType:'json',
+		          success: function(result){
+			          //console.log(result); 
+					  showUploadResult(result); //업로드 결과 처리 함수 
+			      }
+		    });//$.ajax
   });  
   
   function showUploadResult(uploadResultArr){
 	    
-    if(!uploadResultArr || uploadResultArr.length == 0){ 
-    	return; 
-    }
-    
-    var uploadUL = $(".uploadResult ul");
-    
-    var str ="";
-    
-    $(uploadResultArr).each(function(i, obj){
-		if(obj.image){
-			var fileCallPath =  encodeURIComponent( obj.uploadPath+ "/s_"+obj.uuid +"_"+obj.fileName);
-			str += "<li data-path='"+obj.uploadPath+"'";
-			str +=" data-uuid='"+obj.uuid+"' data-filename='"+obj.fileName+"' data-type='"+obj.image+"'"
-			str +" ><div>";
-			str += "<span> "+ obj.fileName+"</span>";
-			str += "<button type='button' data-file=\'"+fileCallPath+"\' "
-			str += "data-type='image' class='btn btn-warning btn-circle'><i class='fa fa-times'></i></button><br>";
-			str += "<img src='/dokky/display?fileName="+fileCallPath+"'>";
-			str += "</div>";
-			str +"</li>";
-		}else{
-			var fileCallPath =  encodeURIComponent( obj.uploadPath+"/"+ obj.uuid +"_"+obj.fileName);			      
-		    var fileLink = fileCallPath.replace(new RegExp(/\\/g),"/");
-		      
-			str += "<li "
-			str += "data-path='"+obj.uploadPath+"' data-uuid='"+obj.uuid+"' data-filename='"+obj.fileName+"' data-type='"+obj.image+"' ><div>";
-			str += "<span> "+ obj.fileName+"</span>";
-			str += "<button type='button' data-file=\'"+fileCallPath+"\' data-type='file' " 
-			str += "class='btn btn-warning btn-circle'><i class='fa fa-times'></i></button><br>";
-			str += "<img src='/dokky/resources/img/attach.png'></a>";
-			str += "</div>";
-			str +"</li>";
-		}
-    });
-    	uploadUL.append(str);
+	    if(!uploadResultArr || uploadResultArr.length == 0){ 
+	    	return; 
+	    }
+	    
+	    var uploadUL = $(".uploadResult ul");
+	    
+	    var str ="";
+	    
+	    $(uploadResultArr).each(function(i, obj){
+			if(obj.image){//이미지라면
+				var fileCallPath =  encodeURIComponent( obj.uploadPath+ "/s_"+obj.uuid +"_"+obj.fileName);
+				str += "<li data-path='"+obj.uploadPath+"'";
+				str +=" data-uuid='"+obj.uuid+"' data-filename='"+obj.fileName+"' data-type='"+obj.image+"'"
+				str +" ><div>";
+				str += "<span> "+ obj.fileName+"</span>";
+				str += "<button type='button' data-file=\'"+fileCallPath+"\' "
+				str += "data-type='image' class='btn btn-warning btn-circle'><i class='fa fa-times'></i></button><br>";
+				str += "<img src='/dokky/display?fileName="+fileCallPath+"'>";
+				str += "</div>";
+				str +"</li>";
+			}else{//일반파일이라면
+				var fileCallPath =  encodeURIComponent( obj.uploadPath+"/"+ obj.uuid +"_"+obj.fileName);			      
+			    //var fileLink = fileCallPath.replace(new RegExp(/\\/g),"/");
+			      
+				str += "<li "
+				str += "data-path='"+obj.uploadPath+"' data-uuid='"+obj.uuid+"' data-filename='"+obj.fileName+"' data-type='"+obj.image+"' ><div>";
+				str += "<span> "+ obj.fileName+"</span>";
+				str += "<button type='button' data-file=\'"+fileCallPath+"\' data-type='file' " 
+				str += "class='btn btn-warning btn-circle'><i class='fa fa-times'></i></button><br>";
+				str += "<img src='/dokky/resources/img/attach.png'></a>";
+				str += "</div>";
+				str +"</li>";
+			}
+	    });
+	    	uploadUL.append(str);
   }
 
-  $(".uploadResult").on("click", "button", function(e){
+  $(".uploadResult").on("click", "button", function(e){//업로드 삭제
 	    
-    console.log("delete file"); 
-      	
-    var targetFile = $(this).data("file");
-    var type = $(this).data("type");
-    
-    var targetLi = $(this).closest("li");//가장가까운
-    
-    $.ajax({
-      url: '/dokky/deleteFile',
-      data: {fileName: targetFile, type:type},
-      beforeSend: function(xhr) {
-          xhr.setRequestHeader(csrfHeaderName, csrfTokenValue);
-      },
-      dataType:'text',
-      type: 'POST',
-        success: function(result){
-           targetLi.remove();
-         }
-    }); //$.ajax
+	    //console.log("delete file"); 
+	      	
+	    var targetFile = $(this).data("file");
+	    var type = $(this).data("type");
+	    
+	    var targetLi = $(this).closest("li");
+	    
+	    $.ajax({
+		      url: '/dokky/deleteFile',
+		      type: 'POST',
+		      dataType:'text',
+		      data: {	
+		    	  		fileName: targetFile,
+		    	  		    type: type
+		    	  	},
+		      beforeSend: function(xhr) {
+		          xhr.setRequestHeader(csrfHeaderName, csrfTokenValue);
+		      },
+	          success: function(result){
+		           targetLi.remove();
+		         }
+	    }); //$.ajax
    });
   
 });
