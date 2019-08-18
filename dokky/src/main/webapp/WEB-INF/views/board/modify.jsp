@@ -102,6 +102,19 @@
 .bigPicture img {
   width:600px;
 }
+#title{
+	width: 70%; 
+	height: 30px;
+	margin-bottom: 10px; 
+}
+#content{
+	width: 80%; 
+	height: 400px;
+	margin-bottom: 10px; 
+}
+.getKind{
+	font-size: 30px;  
+}
 </style>
 <body>
 <div class="modifyWrapper">
@@ -151,14 +164,12 @@
 	<form role="form" action="/dokky/board/modify" method="post"> 
 				
 			<div class="form-group">
-			  <label>제목</label> 
-			  <input class="form-control" name='title' oninput="checkLength(this,30);" value='<c:out value="${board.title }"/>'>
+			  <input id="title" class="form-control" placeholder="제목을 입력해 주세요" name='title' oninput="checkLength(this,30);" value='<c:out value="${board.title }"/>'>
 			</div>
 			<div class="form-group">
-			  <label>내용</label>
-			  <textarea class="form-control" rows="3" name='content' oninput="checkLength(this,3500);"><c:out value="${board.content}"/></textarea>
+			  <textarea id="content" class="form-control" rows="3" name='content' oninput="checkLength(this,3500);"><c:out value="${board.content}"/></textarea>
 			</div>
-			
+			 
 		   <input type="hidden" name="${_csrf.parameterName}" value="${_csrf.token}"/> 
 			
 		   <input type='hidden' name='userId' value='<c:out value="${board.userId }"/>'>  
