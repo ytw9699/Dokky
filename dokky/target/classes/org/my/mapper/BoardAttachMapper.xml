@@ -25,14 +25,16 @@
 
 	<select id="findByNum" resultType="org.my.domain.BoardAttachVO">
 			select * from dk_attach where num = #{num}
+			<!-- 특정 게시물의 번호로 첨부파일을 찾는 작업  -->
 	</select>
 
 	<delete id="deleteAll">
 			delete dk_attach where num = #{num}
 	</delete>
 
-	<select id="getOldFiles" resultType="org.my.domain.BoardAttachVO">
+	<select id="getYesterdayFiles" resultType="org.my.domain.BoardAttachVO">
 			select * from dk_attach where uploadpath = to_char(sysdate -1 ,'yyyy\mm\dd')
+			<!-- 어제 날짜 모든첨부파일 목록 가져오기 -->
 	</select>
 
 </mapper>

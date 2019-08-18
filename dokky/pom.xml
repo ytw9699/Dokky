@@ -16,44 +16,45 @@
 	<dependencies>
 		
 		<!-- 시큐리티  -->
-		<dependency>
-		    <groupId>org.springframework.security</groupId>
-		    <artifactId>spring-security-web</artifactId>
-		    <version>5.0.7.RELEASE</version>
-		</dependency>
-		
-		<dependency>
-		    <groupId>org.springframework.security</groupId>
-		    <artifactId>spring-security-config</artifactId>
-		    <version>5.0.7.RELEASE</version>
-		</dependency>
-		
-		<dependency>
-		    <groupId>org.springframework.security</groupId>
-		    <artifactId>spring-security-core</artifactId>
-		    <version>5.0.7.RELEASE</version>
-		</dependency>
-		
-		<dependency>
-		    <groupId>org.springframework.security</groupId>
-		    <artifactId>spring-security-taglibs</artifactId>
-		    <version>5.0.7.RELEASE</version>
-		</dependency>
+			<dependency>
+			    <groupId>org.springframework.security</groupId>
+			    <artifactId>spring-security-web</artifactId>
+			    <version>5.0.7.RELEASE</version>
+			</dependency>
+			
+			<dependency>
+			    <groupId>org.springframework.security</groupId>
+			    <artifactId>spring-security-config</artifactId>
+			    <version>5.0.7.RELEASE</version>
+			</dependency>
+			
+			<dependency>
+			    <groupId>org.springframework.security</groupId>
+			    <artifactId>spring-security-core</artifactId>
+			    <version>5.0.7.RELEASE</version>
+			</dependency>
+			
+			<dependency>
+			    <groupId>org.springframework.security</groupId>
+			    <artifactId>spring-security-taglibs</artifactId>
+			    <version>5.0.7.RELEASE</version>
+			</dependency>
 		<!-- 시큐리티  -->
 	
-		<!-- https://mvnrepository.com/artifact/org.quartz-scheduler/quartz -->
-		<dependency>
-		    <groupId>org.quartz-scheduler</groupId>
-		    <artifactId>quartz</artifactId>
-		    <version>2.3.0</version>
-		</dependency>
-	
-		<!-- https://mvnrepository.com/artifact/org.quartz-scheduler/quartz-jobs -->
-		<dependency>
-			<groupId>org.quartz-scheduler</groupId>
-			<artifactId>quartz-jobs</artifactId>
-			<version>2.3.0</version>
-		</dependency>
+		<!-- 스케쥴링 -->
+			<!-- https://mvnrepository.com/artifact/org.quartz-scheduler/quartz -->
+			<dependency>
+			    <groupId>org.quartz-scheduler</groupId>
+			    <artifactId>quartz</artifactId>
+			    <version>2.3.0</version>
+			</dependency>
+			<!-- https://mvnrepository.com/artifact/org.quartz-scheduler/quartz-jobs -->
+			<dependency>
+				<groupId>org.quartz-scheduler</groupId>
+				<artifactId>quartz-jobs</artifactId>
+				<version>2.3.0</version>
+			</dependency>
+		<!-- 스케쥴링 -->
 		
 		<!-- 섬네일 이미지 작업처리  -->
 		<!-- https://mvnrepository.com/artifact/net.coobird/thumbnailator -->
@@ -185,36 +186,38 @@
     </dependency>
     
     <!-- mybatis이용을 위해 -->
-    <dependency>
-	  <groupId>com.zaxxer</groupId>
-	  <artifactId>HikariCP</artifactId>
-	  <version>2.7.8</version>
-	</dependency>
-	    <!-- https://mvnrepository.com/artifact/org.mybatis/mybatis -->
-	<dependency>
-	  <groupId>org.mybatis</groupId>
-	  <artifactId>mybatis</artifactId>
-	  <version>3.4.6</version>
-	</dependency>
-	    <!-- https://mvnrepository.com/artifact/org.mybatis/mybatis-spring -->
-	<dependency>
-	  <groupId>org.mybatis</groupId>
-	  <artifactId>mybatis-spring</artifactId>
-	  <version>1.3.2</version>
-	</dependency>
-	<dependency>
-	  <groupId>org.bgee.log4jdbc-log4j2</groupId>
-	  <artifactId>log4jdbc-log4j2-jdbc4</artifactId>
-	  <version>1.16</version>
-	</dependency>
+	    <dependency>
+		  <groupId>com.zaxxer</groupId>
+		  <artifactId>HikariCP</artifactId>
+		  <version>2.7.8</version>
+		</dependency>
+		    <!-- https://mvnrepository.com/artifact/org.mybatis/mybatis -->
+		<dependency>
+		  <groupId>org.mybatis</groupId>
+		  <artifactId>mybatis</artifactId>
+		  <version>3.4.6</version>
+		</dependency>
+		    <!-- https://mvnrepository.com/artifact/org.mybatis/mybatis-spring -->
+		<dependency>
+		  <groupId>org.mybatis</groupId>
+		  <artifactId>mybatis-spring</artifactId>
+		  <version>1.3.2</version>
+		</dependency>
+		<dependency>
+		  <groupId>org.bgee.log4jdbc-log4j2</groupId>
+		  <artifactId>log4jdbc-log4j2-jdbc4</artifactId>
+		  <version>1.16</version>
+		</dependency>
 	<!-- mybatis이용을 위해 -->
 	
-	<dependency>
-	  <groupId>org.projectlombok</groupId>
-	  <artifactId>lombok</artifactId>
-	  <version>1.18.0</version>
-	  <scope>provided</scope>
-	</dependency>
+	<!-- 롬복 -->
+		<dependency>
+		  <groupId>org.projectlombok</groupId>
+		  <artifactId>lombok</artifactId>
+		  <version>1.18.0</version>
+		  <scope>provided</scope>
+		</dependency>
+	<!-- 롬복 -->
            
 	</dependencies>
     <build>

@@ -11,7 +11,7 @@ public interface BoardAttachMapper {
 	public List<BoardAttachVO> findByNum(Long num);//특정 게시물의 번호로 첨부파일을 찾는 작업 
 
 	public void deleteAll(Long num);
-
-	public List<BoardAttachVO> getOldFiles();
+	
+	public List<BoardAttachVO> getYesterdayFiles();
 
 }
