@@ -275,7 +275,7 @@
 		margin-left:1% ; 
 		margin-right:1%;
 		margin-top:1%;
-		height: 200px; 
+		height: 500px; 
 	}
 
 	.contentInformation {
