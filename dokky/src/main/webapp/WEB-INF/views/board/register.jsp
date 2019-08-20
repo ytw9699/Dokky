@@ -88,7 +88,26 @@
 	height: 30px;
 	margin-bottom: 10px;
 }
-
+.photo{
+	float: left;
+}
+.file{
+	float: left;
+}
+.submit{ 
+	float: right;
+}
+.bottomMenuWrap{
+	border-color: #e6e6e6;
+	border-style: solid;
+	width: 70%; 
+	height: 50px;
+	margin-bottom: 10px; 
+}
+.bottomMenu{
+	list-style: none;
+}
+  
 
 
 </style>
@@ -113,9 +132,6 @@
 	      <div class="panel-heading"></div>
 	      <!-- /.panel-heading -->
 	      <div class="panel-body">
-	        <div class="uploadDiv">
-	            <input type="file" name='uploadFile' multiple>
-	        </div>
 	        <div class='uploadResult'> 
 	          <ul>
 	          </ul>
@@ -148,10 +164,23 @@
 			          <div class="">
 			            <input id="title" class="" placeholder="제목을 입력해 주세요" name='title' oninput="checkLength(this,30);"/> 
 			          </div>
-			
-			          <div class="">  
-			      		    <textarea class="" name="content" id="ir1" rows="20" cols="100" ></textarea>
+			          <div class="">      
+			      		    <textarea class="" placeholder="내용을 입력해 주세요" name="content" rows="20" cols="100" ></textarea>
 			          </div>
+			          <div class="bottomMenuWrap">  
+				          <ul class="bottomMenu">
+					          <li title="사진" class="photo">
+					          	  <input type="file" name='uploadPhoto' multiple>
+					          </li>
+					          <li title="파일" class="file">
+						          <input type="file" name='uploadFile' multiple>
+						      </li> 
+					          <li title="완료" class="submit"> 
+					          	완료
+					          </li>
+				          </ul>
+			          </div>
+			          
 			          <input type='hidden' name='nickName' value='<sec:authentication property="principal.member.nickName"/>' /> 
 			          <input type='hidden' name='userId' value='<sec:authentication property="principal.username"/>' /> 
 					  <input type="hidden" name="${_csrf.parameterName}" value="${_csrf.token}"/>
@@ -199,7 +228,7 @@ $(document).ready(function(e){
 	 $("#selectId option[value='${category}']").attr('selected','selected');
 	
 	/* 스마트 에디터 */
-	var oEditors = [];
+	/* var oEditors = [];
 	
 	nhn.husky.EZCreator.createInIFrame({  
 	 oAppRef: oEditors, // 전역변수 명과 동일해야 함
@@ -211,7 +240,7 @@ $(document).ready(function(e){
          bUseVerticalResizer : true,// 입력창 크기 조절바 사용 여부 (true:사용/ false:사용하지 않음)
          bUseModeChanger : true // 모드 탭(Editor | HTML | TEXT) 사용 여부 (true:사용/ false:사용하지 않음)
        }
-	});
+	}); */
 	/* 스마트 에디터 */
   
   var formObj = $("form[role='form']");
@@ -235,7 +264,7 @@ $(document).ready(function(e){
 			   return false;
 		}
 	    
-	    oEditors.getById["ir1"].exec("UPDATE_CONTENTS_FIELD", []);// 스마트 에디터 - textarea에 값 옮겨주기
+	    //oEditors.getById["ir1"].exec("UPDATE_CONTENTS_FIELD", []);// 스마트 에디터 - textarea에 값 옮겨주기
 	    
 	    var str = "";
 	    
