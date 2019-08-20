@@ -107,11 +107,14 @@
 	height: 30px;
 	margin-bottom: 10px; 
 }
-#content{
+#divContent{
 	width: 80%; 
 	height: 400px;
 	margin-bottom: 10px; 
 }
+/* #areaContent{ 
+	display: none;
+} */
 .getKind{
 	font-size: 30px;  
 }
@@ -167,9 +170,12 @@
 			  <input id="title" class="form-control" placeholder="제목을 입력해 주세요" name='title' oninput="checkLength(this,30);" value='<c:out value="${board.title }"/>'>
 			</div>
 			<div class="form-group">
-			  <textarea id="content" class="form-control" rows="3" name='content' oninput="checkLength(this,3500);"><c:out value="${board.content}"/></textarea>
+			  <textarea id="areaContent" name='content'></textarea>
+			  <div id="divContent" contenteditable="true" class="form-control" rows="3" oninput="checkLength(this,3500);">  
+			  	${board.content}
+			  </div>  
 			</div>
-			 
+			
 		   <input type="hidden" name="${_csrf.parameterName}" value="${_csrf.token}"/> 
 			
 		   <input type='hidden' name='userId' value='<c:out value="${board.userId }"/>'>  
@@ -216,6 +222,77 @@ function checkLength(obj, maxlength) {
 		obj.focus();  
 	}
 	
+$("#tests").on("onchange", function(e){        
+	alert(1);  
+ });
+ 
+ var beforeImgs= new Array(); 
+ var afterImgs= new Array();  
+ var deleteImgs;
+ 
+$("#divContent").on("keydown", function(e){      
+		 if(e.keyCode === 8){ 
+			
+			e.stopPropagation();
+
+			console.log("backspace");
+			
+			var sel = window.getSelection();
+			console.log(sel);
+
+			var range = sel.getRangeAt(0).cloneRange(); 
+			console.log(range); 
+           range.collapse(true);
+
+           range.setStart($(this).get(0), 0);
+           var removeTarget = range.cloneContents().lastChild;
+			if(removeTarget.tagName === 'IMG')
+			{
+				console.log(removeTarget); 
+				 if(confirm("이미지를 삭제하시겠습니까?")){//실제삭제는 아니고 화면상에서만 없애주자
+				 }else{
+					 e.preventDefault();
+			    } 
+			} 
+		 }
+	});
+	//$('#areaContent').html(e.type);   
+	        /* if(e.keyCode === 8){ 
+	        	beforeImgs= new Array();
+	        	var imgTags = $('#divContent img');
+	        	//console.log(imgTags);  
+	        	
+	        	for(var i = 0; i < imgTags.length; i++) {//imgTag의 객체가 몇개인지 체크
+	                 var obj = imgTags[i]; 
+	                 //console.log(obj);   
+	                 //console.log(obj.dataset.uuid); 
+	                 beforeImgs[i] = obj.dataset.uuid;
+	        	} 
+	        	
+	        	for(var i = 0; i < beforeImgs.length; i++) {//imgTag의 객체가 몇개인지 체크
+	                console.log(beforeImgs[i]); 
+	       		} */
+	        	
+	        /* 	 console.log($(e.target ~ img));   
+	        console.log($(this ~ 'img'));    
+	        
+	        console.log(e.target );  
+	        console.log(e.target.getElementsByTagName('img')[1]);     
+	        //$('#this_one img')[0];
+	        return false; */
+	   /*  }  */ 
+ //});
+
+/* $(document).keydown(function(e){ 
+   if(e.target.nodeName == "DIV"){       
+        if(e.keyCode === 8){   
+        	alert(e.keyCode); 
+        return false;
+        } 
+    } 
+}); */
+
+
 $(document).ready(function() {
 
 	  var formObj = $("form");
@@ -223,7 +300,22 @@ $(document).ready(function() {
 	  $("button[type='submit']").on("click", function(e){
 	    
     	 e.preventDefault(); 
-        
+    	 
+    	var imgTags = $('#divContent img'); 
+    	
+ 		for(var i = 0; i < imgTags.length; i++) {//imgTag의 객체가 몇개인지 체크
+             var obj = imgTags[i]; 
+             afterImgs[i] = obj.dataset.uuid;
+     	} 
+ 		
+    	 for(var i = 0; i < afterImgs.length; i++) {//imgTag의 객체가 몇개인지 체크
+             console.log(afterImgs[i]);     
+    	}
+    	 
+    	/* var contentVal = $("#divContent").html();
+    	
+    	$("#areaContent").html(contentVal);
+    	
          var str = "";
         
 	        $(".uploadResult ul li").each(function(i, obj){
@@ -239,7 +331,8 @@ $(document).ready(function() {
 		     });
 	        
          formObj.append(str).submit();
-	  });
+    	 */
+	  }); 
 });
 
 $(document).ready(function() {
@@ -352,9 +445,12 @@ $(document).ready(function() {
 	    }
 	    
 	    var uploadUL = $(".uploadResult ul");
+	    var divContent = $("#divContent");
 	    
 	    var str ="";
-	    
+	    var contentVal ="";
+	  		contentVal = divContent.html();
+	  		
 	    $(uploadResultArr).each(function(i, obj){
 			
 			if(obj.image){
@@ -368,6 +464,8 @@ $(document).ready(function() {
 				str += "<img src='/dokky/display?fileName="+fileCallPath+"'>";
 				str += "</div>";
 				str +"</li>";
+				contentVal += "<img src='/dokky/display?fileName="+fileCallPath+"' data-uuid='"+obj.uuid+"'>";
+				
 			}else{
 				var fileCallPath =  encodeURIComponent( obj.uploadPath+"/"+ obj.uuid +"_"+obj.fileName);			      
 			    //var fileLink = fileCallPath.replace(new RegExp(/\\/g),"/");
@@ -379,14 +477,14 @@ $(document).ready(function() {
 				str += "class='btn btn-warning btn-circle'><i class='fa fa-times'></i></button><br>";
 				str += "<img src='/dokky/resources/img/attach.png'></a>";
 				str += "</div>";
-				str +"</li>";
-			}
+				str +"</li>"; 
+			} 
 	
 	    });
 	    
 	    uploadUL.append(str);
+	    divContent.html(contentVal);    
   }
-  
 });
 
 </script>
