@@ -68,9 +68,13 @@
       display:inline;
     }  
     
-    .uploadResult {
+    .uploadResult { 
 	  width:100%;
-	  background-color: gray;
+	  /* background-color: gray; */ 
+	  border-color: #e6e6e6;
+	  border-style: solid;
+	  position:absolute;
+	  bottom:0px;
 	}
 	.uploadResult ul{
 	  display:flex;
@@ -208,7 +212,7 @@
 	    display: none;
 	    border-style: solid;
 	    border-width: 1px;
-	    border-color: #e6e6e6;
+	    border-color: #e6e6e6;  
 	    width: 6%; 
 	    height: 55px;  
 	    background-color: #323639;
@@ -275,7 +279,8 @@
 		margin-left:1% ; 
 		margin-right:1%;
 		margin-top:1%;
-		height: 500px; 
+		height: 500px;
+		position:relative; 
 	}
 
 	.contentInformation {
@@ -286,7 +291,7 @@
 	    width: 61%;
 	    margin-left: 37%;
 	    margin-right: 1%;
-	    margin-top: 6%;
+	    margin-top: 18%;
 	    height: 50px;
 	}
 	#replyCntVal{
@@ -328,6 +333,17 @@
 		margin-left:1%; 
 		margin-top:1%; 
 		margin-bottom:10%;  
+	}
+	.fileUploadResult{
+	    display: inline-block;   
+	    border-style: solid;
+	    border-color: #e6e6e6;
+	    margin-left:1%;   
+		margin-right:1%; 
+		margin-top:-7%; 
+		margin-bottom:1%; 
+		float: right; 
+		font-size: 13px;   
 	}
 	
 	
@@ -394,16 +410,16 @@
    		<div>
    		 	<c:out value="${board.title}"/>
    		</div>
+   		<div class='fileUploadResult'> 
+          <ul>
+          </ul>
+        </div>
     </div> 
           
     <div class="content">
     	<div>
       		${board.content }
       	</div>
-   		<div class='uploadResult'> 
-          <ul>
-          </ul>
-        </div>
       	<div class="contentInformation">
       		<span>
 	          <label>좋아요</label> <span id="likeCount"><c:out value="${board.likeCnt }"/></span>
@@ -448,6 +464,10 @@
 	        		<button id="list_button">목록보기 </button> 
 	        </span>
         </div> 
+        <div class='uploadResult'> 
+          <ul>
+          </ul>  
+        </div>
     </div>
     <div id="replyCntVal">
     	<!-- 댓글수 -->
@@ -1506,36 +1526,38 @@ function checkLength(obj, maxlength) {
 	   	        
 	    	       //console.log(arr);
 	    	       
-	    	       var str = "";
+	    	       var imageStr = "";
+	    	       var fileStr = "";
 	    	       
 	    	       $(arr).each(function(i, attach){
+
+						if(attach.fileType){ //이미지라면
+				    	           var fileCallPath =  encodeURIComponent( attach.uploadPath+ "/s_"+attach.uuid +"_"+attach.fileName);
+				    	           
+				    	           imageStr += "<li data-path='"+attach.uploadPath+"' data-uuid='"+attach.uuid+"' data-filename='"+attach.fileName+"' data-type='"+attach.fileType+"' ><div>";
+				    	           imageStr += "<img src='/dokky/display?fileName="+fileCallPath+"'>";
+				    	           imageStr += "</div>";
+				    	           imageStr +"</li>";
+		    	         }else{
+		    	        	   fileStr += "<li data-path='"+attach.uploadPath+"' data-uuid='"+attach.uuid+"' data-filename='"+attach.fileName+"' data-type='"+attach.fileType+"' >";
+		    	        	   fileStr += attach.fileName;      
+			    	           /* fileStr += "<img src='/dokky/resources/img/attach.png'>"; */     
+			    	           fileStr +"</li>";
+		    	         }
+						
+					});
 	    	       
-	    	         if(attach.fileType){ //이미지라면
-		    	           var fileCallPath =  encodeURIComponent( attach.uploadPath+ "/s_"+attach.uuid +"_"+attach.fileName);
-		    	           
-		    	           str += "<li data-path='"+attach.uploadPath+"' data-uuid='"+attach.uuid+"' data-filename='"+attach.fileName+"' data-type='"+attach.fileType+"' ><div>";
-		    	           str += "<img src='/dokky/display?fileName="+fileCallPath+"'>";
-		    	           str += "</div>";
-		    	           str +"</li>";
-	    	         }else{
-		    	           str += "<li data-path='"+attach.uploadPath+"' data-uuid='"+attach.uuid+"' data-filename='"+attach.fileName+"' data-type='"+attach.fileType+"' ><div>";
-		    	           str += "<span> "+ attach.fileName+"</span><br/>";
-		    	           str += "<img src='/dokky/resources/img/attach.png'></a>";
-		    	           str += "</div>"; 
-		    	           str +"</li>";
-	    	         }
-	    	       });
-	    	       
-	    	       $(".uploadResult ul").html(str); 
-	    	       
-	    	     });//end getjson
+					   $(".uploadResult ul").html(imageStr); 
+		    	       $(".fileUploadResult ul").html(fileStr); 
+		    	       
+    	     });//end getjson
    	    
-   	  })();//end function
+   	  })();//end function 
 	    	  
-   	  $(".uploadResult").on("click","li", function(e){
+   	  $(".fileUploadResult").on("click","li", function(e){
    	      
     	    //console.log("view image");
-    	    
+    	     
     	    var liObj = $(this);
     	    
     	    var path = encodeURIComponent(liObj.data("path")+"/" + liObj.data("uuid")+"_" + liObj.data("filename"));
