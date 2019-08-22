@@ -15,6 +15,9 @@
 
 <title>Dokky 새 글쓰기</title>
 <style>
+	body{
+			background-color: #323639; 
+		}
 @media screen and (max-width:500px){ 
 		.registerWrapper { 
 				    width: 80%;  
@@ -58,65 +61,101 @@
 			}
         }
         
-.uploadResult { 
-	width: 100%;
-	background-color: gray;
-}
-
-.uploadResult ul {
-	display: flex;
-	flex-flow: row;
-	justify-content: center;
-	align-items: center;
-}
-
-.uploadResult ul li {
-	list-style: none;
-	padding: 10px;
-}
-
-.uploadResult ul li img {
-	width: 100px;
-}
-#title{
-	width: 70%; 
-	height: 30px;
-	margin-bottom: 10px; 
-}
-#selectId{
-	width: 70%;  
-	height: 30px;
-	margin-bottom: 10px;
-}
-.photo{
-	float: left;
-}
-.file{
-	float: left;
-}
-.submit{ 
-	float: right;
-}
-.bottomMenuWrap{
-	border-color: #e6e6e6;
-	border-style: solid;
-	width: 70%; 
-	height: 50px;
-	margin-bottom: 10px; 
-}
-.bottomMenu{
-	list-style: none;
-}
-  
-
-
-</style>
-</head>
-<style> 
-	body{
-		background-color: #323639; 
+    .fileUploadResult { 
+		width: 100%;
+		background-color: gray;
+		display: none;
+	}   
+	.photoUploadResult { 
+		width: 100%;
+		background-color: gray;
+		display: none;
+	}
+	
+	.photoUploadResult ul {
+		display: flex;
+		flex-flow: row;
+		justify-content: center;
+		align-items: center;
+	}
+	.fileUploadResult ul {
+		display: flex;
+		flex-flow: row;
+		justify-content: center;
+		align-items: center;
+	}
+	
+	.photoUploadResult ul li {
+		list-style: none;
+		padding: 10px;
+	}
+	.fileUploadResult ul li {
+		list-style: none;
+		padding: 10px;
+	}
+	
+	.photoUploadResult ul li img {
+		width: 100px;
+	}
+	.fileUploadResult ul li img {
+		width: 100px;
+	}
+	#title{
+		width: 70%; 
+		height: 30px;
+		margin-bottom: 10px; 
+	}
+	#selectId{
+		width: 70%;  
+		height: 30px;
+		margin-bottom: 10px;
+	}
+	.photo{
+		float: left;
+	}
+	#inputPhoto{
+		display: none;
+	}
+	.file{
+		float: left;
+	}
+	#inputFile{
+		display: none;  
+	}
+	.submit{ 
+		float: right;
+	}
+	.bottomMenuWrap{
+		border-color: #e6e6e6;
+		border-style: solid;
+		width: 70%; 
+		height: 50px;
+		margin-bottom: 10px; 
+	}
+	.bottomMenu{
+		list-style: none;
+		/* border-color: #e6e6e6; 
+		border-style: solid; */
+		width: 90%;     
+		height: 40px; 
+	}
+	.inputButton{
+		border-color: #e6e6e6; 
+		border-style: solid;  
+	}
+	 #areaContent{ 
+		display: none;
+	} 
+     #divContent{
+		width: 80%; 
+		height: 400px;
+		margin-bottom: 10px; 
+		background-color: white; 
+		color: black;
 	}
 </style>
+</head>
+	
 <body>
 <div class="registerWrapper">
 
@@ -131,12 +170,8 @@
 	    <div class="panel panel-default">
 	      <div class="panel-heading"></div>
 	      <!-- /.panel-heading -->
-	      <div class="panel-body">
-	        <div class='uploadResult'> 
-	          <ul>
-	          </ul>
-	        </div>
-	      </div>
+	      <!-- <div class="panel-body">
+	      </div> -->
 	      <!--  end panel-body -->
 	    </div>
 	    <!--  end panel-body -->
@@ -145,7 +180,7 @@
 	</div>
 	<!-- /.row -->
 
-
+ <input type="file" id="" name='11' multiple>
 	<div class="row">
 	  <div class="col-lg-12">
 	    <div class="panel panel-default">
@@ -164,19 +199,30 @@
 			          <div class="">
 			            <input id="title" class="" placeholder="제목을 입력해 주세요" name='title' oninput="checkLength(this,30);"/> 
 			          </div>
-			          <div class="">      
-			      		    <textarea class="" placeholder="내용을 입력해 주세요" name="content" rows="20" cols="100" ></textarea>
-			          </div>
+			           <textarea id="areaContent" name='content'></textarea>
+					  <div id="divContent" placeholder="내용을 입력해 주세요" contenteditable="true" class="form-control" rows="3" oninput="checkLength(this,3500);">
+							 
+					  </div>  
+			          <div class='photoUploadResult'> 
+				          <ul>
+				          </ul>
+				      </div>
+				      <div class='fileUploadResult'> 
+				          <ul>
+				          </ul>
+				      </div>
 			          <div class="bottomMenuWrap">  
 				          <ul class="bottomMenu">
-					          <li title="사진" class="photo">
-					          	  <input type="file" name='uploadPhoto' multiple>
+					          <li title="사진" class="photo"> 
+					          	  <label for="inputPhoto" class="inputButton" >사진</label>  
+					          	  <input type="file" id="inputPhoto" name='uploadPhoto' multiple> 
 					          </li>
-					          <li title="파일" class="file">
-						          <input type="file" name='uploadFile' multiple>
+					          <li title="파일" class="file">  
+					         	  <label for="inputFile" class="inputButton" >파일</label>    
+						          <input type="file" id="inputFile" name='uploadFile' multiple>
 						      </li> 
 					          <li title="완료" class="submit"> 
-					          	완료
+					          	<button type="submit" class="btn btn-default">등록</button> 
 					          </li>
 				          </ul>
 			          </div>
@@ -184,8 +230,7 @@
 			          <input type='hidden' name='nickName' value='<sec:authentication property="principal.member.nickName"/>' /> 
 			          <input type='hidden' name='userId' value='<sec:authentication property="principal.username"/>' /> 
 					  <input type="hidden" name="${_csrf.parameterName}" value="${_csrf.token}"/>
-					  
-			    	  <button type="submit" class="btn btn-default">등록</button> 
+			    	  
 		        </form>
 	      </div>
 	    </div>
@@ -266,22 +311,26 @@ $(document).ready(function(e){
 	    
 	    //oEditors.getById["ir1"].exec("UPDATE_CONTENTS_FIELD", []);// 스마트 에디터 - textarea에 값 옮겨주기
 	    
+	    var contentVal = $("#divContent").html();
+    	
+    	$("#areaContent").html(contentVal);
+    	
 	    var str = "";
-	    
-	    $(".uploadResult ul li").each(function(i, obj){
-	      
-		      var jobj = $(obj);
-		      
-		      console.dir(jobj);
-		      console.log("-------------------------");
-		      console.log(jobj.data("filename"));
-		      
-		      
-		      str += "<input type='hidden' name='attachList["+i+"].fileName' value='"+jobj.data("filename")+"'>";
-		      str += "<input type='hidden' name='attachList["+i+"].uuid' value='"+jobj.data("uuid")+"'>";
-		      str += "<input type='hidden' name='attachList["+i+"].uploadPath' value='"+jobj.data("path")+"'>";
-		      str += "<input type='hidden' name='attachList["+i+"].fileType' value='"+ jobj.data("type")+"'>";
-	    });
+	    var photoLi = $(".photoUploadResult ul li");
+	    var fileLi = $(".fileUploadResult ul li");
+	    var UploadLis = $.merge(photoLi, fileLi);   
+	     
+	    UploadLis.each(function(i, arr){ 
+	    		 var jobj = $(arr); 
+			     /*  console.dir(jobj);
+			      console.log("-------------------------"); 
+			      console.log(jobj.data("filename")); */
+			      str += "<input type='hidden' name='attachList["+i+"].fileName' value='"+jobj.data("filename")+"'>";
+			      str += "<input type='hidden' name='attachList["+i+"].uuid' value='"+jobj.data("uuid")+"'>";
+			      str += "<input type='hidden' name='attachList["+i+"].uploadPath' value='"+jobj.data("path")+"'>";
+			      str += "<input type='hidden' name='attachList["+i+"].fileType' value='"+ jobj.data("type")+"'>";
+			      
+		    });
 	    
 	    //console.log(str);
 	    
@@ -292,68 +341,101 @@ $(document).ready(function(e){
   var regex = new RegExp("(.*?)\.(exe|sh|zip|alz)$");
   var maxSize = 5242880; //5MB
   
-  function checkExtension(fileName, fileSize){
+  function checkFile(fileName, fileSize){
     
 	    if(fileSize >= maxSize){
-	      alert("파일 사이즈는 5MB를 초과할 수 없습니다.");
+	      alert("파일 사이즈가 5MB를 초과하였습니다.");
 	      return false;
 	    }
 	    
 	    if(regex.test(fileName)){
-	      alert("해당 종류의 파일은 업로드할 수 없습니다.");
+	      alert("해당 확장자 파일은 업로드할 수 없습니다.");
 	      return false;
 	    }
 	    return true;
   }
   
+  function checkImage(fileName, fileSize) {
+		var maxSize = 5242880; //5MB
+		var type = fileName.substring(fileName.lastIndexOf('.')+1, fileName.length);
+		
+		if (fileSize >= maxSize) {
+			alert("파일 사이즈가 5MB를 초과하였습니다.");
+			return false;
+		}
+		if(type.toUpperCase() == 'JPG' || type.toUpperCase() == 'GIF' || type.toUpperCase() == 'PNG' || type.toUpperCase() == 'BMP'){
+			return true; 
+		}else{
+			alert("해당 확장자 파일은 업로드할 수 없습니다.");
+			return false;
+		}
+		return true;
+	}
+  
   var csrfHeaderName ="${_csrf.headerName}"; 
   var csrfTokenValue="${_csrf.token}";
   
-  $("input[type='file']").change(function(e){
-
-	    var formData = new FormData();
-	    
-	    var inputFile = $("input[name='uploadFile']");
-	    
-	    var files = inputFile[0].files;
-	    
-	    //console.log(files); 
-	    
-	    for(var i = 0; i < files.length; i++){
-	    	
-		      if(!checkExtension(files[i].name, files[i].size) ){
+  $("input[type='file']").change(function(e){//업로드하기 
+	  var formData = new FormData();
+	  
+	  var inputName = $(this).attr("name");
+	  
+	  if(inputName === "uploadPhoto"){//사진업로드라면
+		  
+		  var inputFile = $("input[name='uploadPhoto']");
+		  
+		  var files = inputFile[0].files;
+		  
+		  for(var i = 0; i < files.length; i++){
+		      if(!checkImage(files[i].name, files[i].size) ){
 		        return false;
 		      }
-		      
-	      formData.append("uploadFile", files[i]);
-	      
-	    }
-		    $.ajax({
-			      url: '/dokky/uploadAjaxAction',
-			      processData: false, 
-			      contentType: false,
-			      beforeSend: function(xhr) {
-			          xhr.setRequestHeader(csrfHeaderName, csrfTokenValue);
-			      },
-			      data: formData,
-			      type: 'POST',
-			      dataType:'json',
-		          success: function(result){
-			          //console.log(result); 
-					  showUploadResult(result); //업로드 결과 처리 함수 
-			      }
-		    });//$.ajax
+	      	  formData.append("uploadFile", files[i]);
+	      }
+	   		  formData.append("uploadKind", "photo");
+	   		  
+	   		
+	  }else if(inputName === "uploadFile"){//파일업로드라면
+		  
+		  var inputFile = $("input[name='uploadFile']");
+		  
+		  var files = inputFile[0].files;
+		  
+		  for(var i = 0; i < files.length; i++){
+		      if(!checkFile(files[i].name, files[i].size) ){
+		        return false;
+		      }
+	     	  formData.append("uploadFile", files[i]);
+	      }
+	     	  formData.append("uploadKind", "file");
+	  }
+	  
+	  $.ajax({
+	      url: '/dokky/uploadFile',
+	      type: 'POST',
+	      processData: false, 
+	      contentType: false,
+	      beforeSend: function(xhr) {
+	          xhr.setRequestHeader(csrfHeaderName, csrfTokenValue);
+	      },
+	      data: formData,
+	      dataType:'json',
+          success: function(result){ 
+			  	   showUploadResult(result,inputName); //업로드 결과 처리 함수 
+	      }
+      });
   });  
   
-  function showUploadResult(uploadResultArr){
-	    
+  function showUploadResult(uploadResultArr,inputName){
 	    if(!uploadResultArr || uploadResultArr.length == 0){ 
 	    	return; 
 	    }
 	    
-	    var uploadUL = $(".uploadResult ul");
-	    
 	    var str ="";
+	    var divContent = $("#divContent");
+	    
+	    var contentVal ="";
+	  		contentVal = divContent.html();
 	    
 	    $(uploadResultArr).each(function(i, obj){
 			if(obj.image){//이미지라면
@@ -365,8 +447,11 @@ $(document).ready(function(e){
 				str += "<button type='button' data-file=\'"+fileCallPath+"\' "
 				str += "data-type='image' class='btn btn-warning btn-circle'><i class='fa fa-times'></i></button><br>";
 				str += "<img src='/dokky/display?fileName="+fileCallPath+"'>";
-				str += "</div>";
-				str +"</li>";
+				str += "</div>";  
+				str +"</li>"; 
+				contentVal += "<img src='/dokky/display?fileName="+fileCallPath+"' data-uuid='"+obj.uuid+"'>";
+				divContent.html(contentVal);//본문 삽입
+				
 			}else{//일반파일이라면
 				var fileCallPath =  encodeURIComponent( obj.uploadPath+"/"+ obj.uuid +"_"+obj.fileName);			      
 			    //var fileLink = fileCallPath.replace(new RegExp(/\\/g),"/");
@@ -381,17 +466,36 @@ $(document).ready(function(e){
 				str +"</li>";
 			}
 	    });
-	    	uploadUL.append(str);
+	    
+	    if(inputName === "uploadPhoto" ){
+	    	var uploadUL = $(".photoUploadResult ul");
+		    $(".photoUploadResult").css("display","block");//업로드결과 div보이기
+		    uploadUL.append(str);
+		    
+	    }else if(inputName === "uploadFile" ){
+	    	var uploadUL = $(".fileUploadResult ul"); 
+		    $(".fileUploadResult").css("display","block");
+		    uploadUL.append(str);
+	    }
   }
 
-  $(".uploadResult").on("click", "button", function(e){//업로드 삭제
+  $(".photoUploadResult").on("click", "button", function(e){//업로드 삭제
 	    
-	    //console.log("delete file"); 
-	      	
 	    var targetFile = $(this).data("file");
 	    var type = $(this).data("type");
-	    
+	    var uuid = $(this).data("uuid");
 	    var targetLi = $(this).closest("li");
+	    
+		var imgTags = $('#divContent img'); 
+    	
+ 		for(var i = 0; i < imgTags.length; i++) {//imgTag의 객체가 몇개인지 체크
+             var obj = imgTags[i]; 
+	 		if( uuid = obj.dataset.uuid){
+	 			imgTags[i] == null; 
+	 		}
+	 		 
+     	} 
+ 		console.log(imgTags);
 	    
 	    $.ajax({
 		      url: '/dokky/deleteFile',
@@ -406,6 +510,9 @@ $(document).ready(function(e){
 		      },
 	          success: function(result){
 		           targetLi.remove();
+		           if($(".photoUploadResult ul li").length == 0 ){
+		        	    $(".photoUploadResult").css("display","none");//업로드결과 li가 0개라면 div숨기기
+		           }
 		         }
 	    }); //$.ajax
    });
