@@ -349,7 +349,7 @@
 			 if(fileName == ""){    
 				 alert("이미지를 선택해주세요");
 				 return; 
-			 }else if(!checkFile(fileName,fileSize)){ 
+			 }else if(!checkImage(fileName,fileSize)){ 
 				 return; 
 			 }else{
 				 profileForm.submit(); 	    
@@ -370,7 +370,7 @@
 			}
 		}
 		
-		function checkFile(fileName, fileSize) {
+		function checkImage(fileName, fileSize) {
 			var maxSize = 5242880; //5MB
 			var type = fileName.substring(fileName.lastIndexOf('.')+1, fileName.length);
 			
@@ -392,7 +392,7 @@
 			var fileSize = this.files[0].size; 
 			var fileName= this.value;
 				
-			if(checkFile(fileName, fileSize)){
+			if(checkImage(fileName, fileSize)){
 				readURL(this);
 			}
 		}); 
