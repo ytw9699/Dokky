@@ -185,14 +185,14 @@ public class UploadController {
 	@PreAuthorize("isAuthenticated()")
 	@PostMapping("/deleteFile")
 	@ResponseBody
-	public ResponseEntity<String> deleteFile(String fileName, String type) {
+	public ResponseEntity<String> deleteFile(String fileCallPath, String type) {
 
-		log.info("deleteFile: " + fileName);
+		log.info("deleteFile: " + fileCallPath);  
 
 		File file;
 
 		try {
-			file = new File("c:\\upload\\" + URLDecoder.decode(fileName, "UTF-8"));
+			file = new File("c:\\upload\\" + URLDecoder.decode(fileCallPath, "UTF-8"));
 
 			file.delete();//일반파일 or 썸네일파일 지우는것
 

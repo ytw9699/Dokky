@@ -422,6 +422,7 @@ $(document).ready(function(e){
 	      data: formData,
 	      dataType:'json',
           success: function(result){ 
+        	  
 			  	   showUploadResult(result,inputName); //업로드 결과 처리 함수 
 	      }
       });
@@ -445,7 +446,7 @@ $(document).ready(function(e){
 				str +=" data-uuid='"+obj.uuid+"' data-filename='"+obj.fileName+"' data-type='"+obj.image+"'"
 				str +" ><div>";
 				str += "<span> "+ obj.fileName+"</span>";
-				str += "<button type='button' data-file=\'"+fileCallPath+"\' "
+				str += "<button type='button' data-filecallpath=\'"+fileCallPath+"\' "
 				str += "data-type='image' class='btn btn-warning btn-circle'><i class='fa fa-times'></i></button><br>";
 				str += "<img src='/dokky/display?fileName="+fileCallPath+"'>";
 				str += "</div>";  
@@ -460,11 +461,11 @@ $(document).ready(function(e){
 				str += "<li "
 				str += "data-path='"+obj.uploadPath+"' data-uuid='"+obj.uuid+"' data-filename='"+obj.fileName+"' data-type='"+obj.image+"' ><div>";
 				str += "<span> "+ obj.fileName+"</span>";
-				str += "<button type='button' data-file=\'"+fileCallPath+"\' data-type='file' " 
+				str += "<button type='button' data-filecallpath=\'"+fileCallPath+"\' data-type='file' " 
 				str += "class='btn btn-warning btn-circle'><i class='fa fa-times'></i></button><br>";
-				str += "<img src='/dokky/resources/img/attach.png'></a>";
+				str += "<img src='/dokky/resources/img/attach.png'></a>"; 
 				str += "</div>";
-				str +"</li>";
+				str +"</li>"; 
 			}
 	    });
 	    
@@ -479,15 +480,16 @@ $(document).ready(function(e){
 		    uploadUL.append(str);
 	    }
   }
-
-  $(".photoUploadResult").on("click", "button", function(e){//업로드 삭제
-	    
-	    var targetFile = $(this).data("file");
+  
+  $(".photoUploadResult, .fileUploadResult").on("click", "button", function(e){//업로드 삭제    
+	    alert(1); 
+	    var fileCallPath = $(this).data("filecallpath");
 	    var type = $(this).data("type");
 	    var uuid = $(this).data("uuid");
+	    
 	    var targetLi = $(this).closest("li");
 	    
-		var imgTags = $('#divContent img'); 
+		/* var imgTags = $('#divContent img'); 
     	
  		for(var i = 0; i < imgTags.length; i++) {//imgTag의 객체가 몇개인지 체크
              var obj = imgTags[i]; 
@@ -495,15 +497,15 @@ $(document).ready(function(e){
 	 			imgTags[i] == null; 
 	 		}
 	 		 
-     	} 
- 		console.log(imgTags);
-	    
+     	}  */ 
+ 		console.log(fileCallPath); 
+	     
 	    $.ajax({
 		      url: '/dokky/deleteFile',
 		      type: 'POST',
 		      dataType:'text',
 		      data: {	
-		    	  		fileName: targetFile,
+		    	  			fileCallPath: fileCallPath,
 		    	  		    type: type
 		    	  	},
 		      beforeSend: function(xhr) {
