@@ -179,8 +179,7 @@
 	  <!-- end panel -->
 	</div>
 	<!-- /.row -->
-
- <input type="file" id="" name='11' multiple>
+ 
 	<div class="row">
 	  <div class="col-lg-12">
 	    <div class="panel panel-default">
@@ -200,7 +199,7 @@
 			            <input id="title" class="" placeholder="제목을 입력해 주세요" name='title' oninput="checkLength(this,30);"/> 
 			          </div>
 			           <textarea id="areaContent" name='content'></textarea>
-					  <div id="divContent" placeholder="내용을 입력해 주세요" contenteditable="true" class="form-control" rows="3" oninput="checkLength(this,3500);">
+					  <div id="divContent" placeholder="내용을 입력해 주세요" contenteditable="true" class="form-control" rows="3">
 							 
 					  </div>  
 			          <div class='photoUploadResult'> 
@@ -376,6 +375,7 @@ $(document).ready(function(e){
   var csrfTokenValue="${_csrf.token}";
   
   $("input[type='file']").change(function(e){//업로드하기 
+	  
 	  var formData = new FormData();
 	  
 	  var inputName = $(this).attr("name");
@@ -388,13 +388,12 @@ $(document).ready(function(e){
 		  
 		  for(var i = 0; i < files.length; i++){
 		      if(!checkImage(files[i].name, files[i].size) ){
-		        return false;
+		        return false; 
 		      }
 	      	  formData.append("uploadFile", files[i]);
 	      }
 	   		  formData.append("uploadKind", "photo");
 	   		  
-	   		
 	  }else if(inputName === "uploadFile"){//파일업로드라면
 		  
 		  var inputFile = $("input[name='uploadFile']");
@@ -408,7 +407,9 @@ $(document).ready(function(e){
 	     	  formData.append("uploadFile", files[i]);
 	      }
 	     	  formData.append("uploadKind", "file");
-	  }
+	     	  
+	  }  
+	  		  inputFile.val("");//사진,파일 input value 값 비워주기 
 	  
 	  $.ajax({
 	      url: '/dokky/uploadFile',
