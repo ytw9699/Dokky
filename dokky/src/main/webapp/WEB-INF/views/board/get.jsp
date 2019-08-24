@@ -281,6 +281,7 @@
 		margin-top:1%;
 		height: 500px;
 		position:relative; 
+		overflow-y: auto; 
 	}
 
 	.contentInformation {
@@ -345,7 +346,10 @@
 		float: right; 
 		font-size: 13px;   
 	}
-	
+	.content img{
+		max-width: 200px;
+		height: auto;
+	}
 	
 </style>
 </head>
@@ -418,7 +422,7 @@
           
     <div class="content">
     	<div>
-      		${board.content }
+      		${board.content } 
       	</div>
       	<div class="contentInformation">
       		<span>

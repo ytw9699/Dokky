@@ -79,15 +79,19 @@
 		align-items: center;
 	}
 	.fileUploadResult ul {
-		display: flex;
-		flex-flow: row;
+		/* display: flex;
+		flex-flow: row; 
 		justify-content: center;
-		align-items: center;
+		align-items: center; */ 
 	}
 	
 	.photoUploadResult ul li {
 		list-style: none;
 		padding: 10px;
+	}
+	.photoUploadResult ul li img{
+	    width: 100px;
+		height: 100px; 
 	}
 	.fileUploadResult ul li {
 		list-style: none;
@@ -152,7 +156,13 @@
 		margin-bottom: 10px; 
 		background-color: white; 
 		color: black;
+		overflow-y: auto;
 	}
+	#divContent img{
+		max-width: 200px;
+		height: auto;
+	} 
+	
 </style>
 </head>
 	
@@ -207,6 +217,7 @@
 				          </ul>
 				      </div>
 				      <div class='fileUploadResult'> 
+				      	첨부파일
 				          <ul>
 				          </ul>
 				      </div>
@@ -497,6 +508,7 @@ $(document).ready(function(e){
 				str += "<img src='/dokky/display?fileName="+fileCallPath+"'>";
 				str += "</div>";  
 				str +"</li>"; 
+				fileCallPath =  encodeURIComponent( obj.uploadPath+"/"+ obj.uuid +"_"+obj.fileName); 
 				contentVal += "<img src='/dokky/display?fileName="+fileCallPath+"' data-uuid='"+obj.uuid+"'>";
 				divContent.html(contentVal);//본문 삽입
 				
@@ -506,10 +518,9 @@ $(document).ready(function(e){
 			      
 				str += "<li " 
 				str += "data-path='"+obj.uploadPath+"' data-uuid='"+obj.uuid+"' data-filename='"+obj.fileName+"' data-type='"+obj.image+"' ><div>";
-				str += "<span> "+ obj.fileName+"</span>";
+				str += obj.fileName; 
 				str += "<button type='button' data-uuid='"+obj.uuid+"' data-filecallpath=\'"+fileCallPath+"\' data-type='file' " 
-				str += "class='btn btn-warning btn-circle'><i class='fa fa-times'></i></button><br>"; 
-				str += "<img src='/dokky/resources/img/attach.png'></a>"; 
+				str += "class='btn btn-warning btn-circle'><i class='fa fa-times'></i></button>"; 
 				str += "</div>";
 				str +"</li>"; 
 			}
