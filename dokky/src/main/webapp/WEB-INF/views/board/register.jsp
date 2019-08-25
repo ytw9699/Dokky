@@ -1,5 +1,4 @@
-<%@ page language="java" contentType="text/html; charset=UTF-8"
-    pageEncoding="UTF-8"%>
+<%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c"%>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/fmt" prefix="fmt"%>
 <%@ taglib uri="http://www.springframework.org/security/tags" prefix="sec" %>
@@ -9,17 +8,17 @@
 <html>
 <head>
 <meta charset="UTF-8">
-<!-- <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script> -->
 <script src="//code.jquery.com/jquery-1.11.3.min.js"></script>
-<script type="text/javascript" src="/dokky/resources/SmartEditor/js/HuskyEZCreator.js" charset="utf-8" ></script>
-
-<title>Dokky 새 글쓰기</title>
+<!-- <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script> -->
+<!-- <script type="text/javascript" src="/dokky/resources/SmartEditor/js/HuskyEZCreator.js" charset="utf-8" ></script> -->
+<title>Dokky - 새 글쓰기</title>
 <style>
-	body{
+		body{
 			background-color: #323639; 
 		}
-@media screen and (max-width:500px){ 
-		.registerWrapper { 
+	
+		@media screen and (max-width:500px){ 
+				.registerWrapper { 
 				    width: 80%;  
 				    display: inline-block;
 				    margin-left: 15%;
@@ -29,7 +28,7 @@
 					border-style: solid;
 					background-color: #323639; 
 					color: #e6e6e6;
-					display: inline-block;
+					display: inline-block; 
 				}     
         }
         @media screen and (min-width: 501px) and (max-width:1500px){
@@ -52,7 +51,7 @@
 			    display: inline-block;
 			    margin-left: 29%;
 			    margin-top: 1%;
-			    min-height: 500px; 
+			    min-height: 500px;  
 			    border-color: #e6e6e6;
 				border-style: solid;
 				background-color: #323639; 
@@ -61,14 +60,56 @@
 			}
         }
         
+    .formWrapper{ 
+		width: 95%; 
+		margin: 0 auto;  
+		border-color: #e6e6e6; 
+		border-width: 1px; 
+		border-style: solid;
+	}
+      .row{
+		width: 99%; 
+		margin: 0 auto;
+		border-width: 1px;    
+		border-color: #e6e6e6; 
+		border-style: solid; 
+	}
+	#title{
+		width: 100%;
+		height: 30px; 
+		margin-bottom: 10px; 
+	}
+	#selectId{
+		width: 100%;  
+		height: 30px;
+		margin-bottom: 10px;
+	}
+	 #areaContent{ 
+		display: none;
+	} 
+     #divContent{ 
+		height: 400px;  
+		margin-bottom: 10px; 
+		background-color: white; 
+		border-width: 1px; 
+		color: black;
+		overflow-y: auto;/* 사이드바 */ 
+	}
+	#divContent img{
+		max-width: 400px;
+		height: auto;
+	} 
+	
     .fileUploadResult { 
 		width: 100%;
 		background-color: gray;
+		border-width: 1px; 
 		display: none;
 	}   
 	.photoUploadResult { 
 		width: 100%;
 		background-color: gray;
+		border-width: 1px; 
 		display: none;
 	}
 	
@@ -104,15 +145,21 @@
 	.fileUploadResult ul li img {
 		width: 100px;
 	}
-	#title{
-		width: 70%; 
-		height: 30px;
+	
+	.bottomMenuWrap{
+		border-color: #e6e6e6;
+		border-width: 1px; 
+		border-style: solid;
+		width: 100%; 
+		height: 50px;
 		margin-bottom: 10px; 
 	}
-	#selectId{
-		width: 70%;  
-		height: 30px;
-		margin-bottom: 10px;
+	.bottomMenu{
+		list-style: none;
+		/* border-color: #e6e6e6; 
+		border-style: solid; */
+		width: 90%;     
+		height: 40px; 
 	}
 	.photo{
 		float: left;
@@ -129,39 +176,11 @@
 	.submit{ 
 		float: right;
 	}
-	.bottomMenuWrap{
-		border-color: #e6e6e6;
-		border-style: solid;
-		width: 70%; 
-		height: 50px;
-		margin-bottom: 10px; 
-	}
-	.bottomMenu{
-		list-style: none;
-		/* border-color: #e6e6e6; 
-		border-style: solid; */
-		width: 90%;     
-		height: 40px; 
-	}
 	.inputButton{
-		border-color: #e6e6e6; 
+		border-color: #e6e6e6;  
+		border-width: 1px; 
 		border-style: solid;  
 	}
-	 #areaContent{ 
-		display: none;
-	} 
-     #divContent{
-		width: 80%; 
-		height: 400px;
-		margin-bottom: 10px; 
-		background-color: white; 
-		color: black;
-		overflow-y: auto;
-	}
-	#divContent img{
-		max-width: 200px;
-		height: auto;
-	} 
 	
 </style>
 </head>
@@ -169,83 +188,66 @@
 <body>
 <div class="registerWrapper">
 
-	<div class="row">
-	  <div class="col-lg-12">
-	    <h1 class="page-header">새 글쓰기</h1>  
-	  </div>
-	</div>
-	
-	<div class="row">
-	  <div class="col-lg-12">
-	    <div class="panel panel-default">
-	      <div class="panel-heading"></div>
-	      <!-- /.panel-heading -->
-	      <!-- <div class="panel-body">
-	      </div> -->
-	      <!--  end panel-body -->
-	    </div>
-	    <!--  end panel-body -->
-	  </div>
-	  <!-- end panel -->
-	</div>
-	<!-- /.row -->
- 
-	<div class="row">
-	  <div class="col-lg-12">
-	    <div class="panel panel-default">
-	      <div class="panel-body">
-		        <form role="form" action="/dokky/board/register" method="post">  
-				      <div>
-						<select id="selectId" name="category" class="">
-							   <option value=0>게시판을 선택해 주세요.</option>
-		                       <option value=1>공지사항</option>
-		                       <option value=2>자유게시판</option>
-		                       <option value=3>묻고답하기</option> 
-		                       <option value=4>칼럼/Tech</option>
-		                       <option value=5>정기모임/스터디</option>
-					     </select>
-					 </div>
-			          <div class="">
-			            <input id="title" class="" placeholder="제목을 입력해 주세요" name='title' oninput="checkLength(this,30);"/> 
-			          </div>
-			           <textarea id="areaContent" name='content'></textarea>
-					  <div id="divContent" placeholder="내용을 입력해 주세요" contenteditable="true" class="form-control" rows="3">
-							 
-					  </div>  
-			          <div class='photoUploadResult'> 
-				          <ul>
-				          </ul>
-				      </div>
-				      <div class='fileUploadResult'> 
-				      	첨부파일
-				          <ul>
-				          </ul>
-				      </div>
-			          <div class="bottomMenuWrap">  
-				          <ul class="bottomMenu">
-					          <li title="사진" class="photo"> 
-					          	  <label for="inputPhoto" class="inputButton" >사진</label>  
-					          	  <input type="file" id="inputPhoto" name='uploadPhoto' multiple> 
-					          </li>
-					          <li title="파일" class="file">  
-					         	  <label for="inputFile" class="inputButton" >파일</label>    
-						          <input type="file" id="inputFile" name='uploadFile' multiple>
-						      </li> 
-					          <li title="완료" class="submit"> 
-					          	<button type="submit" class="btn btn-default">등록</button> 
-					          </li>
-				          </ul>
-			          </div>
-			          
-			          <input type='hidden' name='nickName' value='<sec:authentication property="principal.member.nickName"/>' /> 
-			          <input type='hidden' name='userId' value='<sec:authentication property="principal.username"/>' /> 
-					  <input type="hidden" name="${_csrf.parameterName}" value="${_csrf.token}"/>
-			    	  
-		        </form>
-	      </div>
-	    </div>
-  </div>
-</div>
+          <div class="formWrapper">
+	           <div class="row">
+			     <h1>새 글쓰기</h1>   
+			   </div> 
+			  
+	          <form role="form" action="/dokky/board/register" method="post">
+			      <div class="row">
+					<select id="selectId" name="category" class="">
+						   <option value=0>게시판을 선택해 주세요.</option>
+	                       <option value=1>공지사항</option>
+	                       <option value=2>자유게시판</option>
+	                       <option value=3>묻고답하기</option> 
+	                       <option value=4>칼럼/Tech</option>
+	                       <option value=5>정기모임/스터디</option>
+				     </select>
+				  </div>
+				 
+		          <div class="row">
+		            <input id="title" class="" placeholder="제목을 입력해 주세요" name='title' oninput="checkLength(this,30);"/> 
+		          </div>
+		          
+		          <div class="">
+		          	<textarea id="areaContent" name='content'></textarea>
+		          </div>
+		           
+				  <div class="row" id="divContent" placeholder="내용을 입력해 주세요" contenteditable="true" rows="3">
+				  </div>
+				  
+		          <div class='photoUploadResult'> 
+			          <ul>
+			          </ul>
+			      </div>
+			      
+			      <div class='fileUploadResult'> 
+			      	첨부파일
+			          <ul>
+			          </ul>
+			      </div>
+			      
+		          <div class="bottomMenuWrap">  
+			          <ul class="bottomMenu">
+				          <li title="사진" class="photo"> 
+				          	  <label for="inputPhoto" class="inputButton" >사진</label>  
+				          	  <input type="file" id="inputPhoto" name='uploadPhoto' multiple> 
+				          </li>
+				          <li title="파일" class="file">  
+				         	  <label for="inputFile" class="inputButton" >파일</label>    
+					          <input type="file" id="inputFile" name='uploadFile' multiple>
+					      </li> 
+				          <li title="완료" class="submit"> 
+				          	<button type="submit" class="btn btn-default">등록</button> 
+				          </li>
+			          </ul>
+		          </div>
+		          
+		          <input type='hidden' name='nickName' value='<sec:authentication property="principal.member.nickName"/>' /> 
+		          <input type='hidden' name='userId' value='<sec:authentication property="principal.username"/>' /> 
+				  <input type="hidden" name="${_csrf.parameterName}" value="${_csrf.token}"/>
+	        </form>
+       </div>
 </div>
 
 <script> 
