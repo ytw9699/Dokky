@@ -11,183 +11,11 @@
 <script src="//code.jquery.com/jquery-1.11.3.min.js"></script>
 <!-- <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script> -->
 <!-- <script type="text/javascript" src="/dokky/resources/SmartEditor/js/HuskyEZCreator.js" charset="utf-8" ></script> -->
-<title>Dokky - 새 글쓰기</title>
-<style>
-		body{
-			background-color: #323639; 
-		}
-	
-		@media screen and (max-width:500px){ 
-				.registerWrapper { 
-				    width: 80%;  
-				    display: inline-block;
-				    margin-left: 15%;
-				    margin-top: 1%;
-				    min-height: 500px; 
-				    border-color: #e6e6e6;
-					border-style: solid;
-					background-color: #323639; 
-					color: #e6e6e6;
-					display: inline-block; 
-				}     
-        }
-        @media screen and (min-width: 501px) and (max-width:1500px){
-	        .registerWrapper {
-				    width: 80%; 
-				    display: inline-block;
-				    margin-left: 15%;
-				    margin-top: 1%;
-				    min-height: 500px; 
-				    border-color: #e6e6e6;
-					border-style: solid;
-					background-color: #323639; 
-					color: #e6e6e6;
-					display: inline-block;
-				}
-        }
-        @media screen and (min-width: 1501px){    
-          .registerWrapper { 
-			    width: 51%; 
-			    display: inline-block;
-			    margin-left: 29%;
-			    margin-top: 1%;
-			    min-height: 500px;  
-			    border-color: #e6e6e6;
-				border-style: solid;
-				background-color: #323639; 
-				color: #e6e6e6;
-				display: inline-block;
-			}
-        }
-        
-    .formWrapper{ 
-		width: 95%; 
-		margin: 0 auto;  
-		border-color: #e6e6e6; 
-		border-width: 1px; 
-		border-style: solid;
-	}
-      .row{
-		width: 99%; 
-		margin: 0 auto;
-		border-width: 1px;    
-		border-color: #e6e6e6; 
-		border-style: solid; 
-	}
-	#title{
-		width: 100%;
-		height: 30px; 
-		margin-bottom: 10px; 
-	}
-	#selectId{
-		width: 100%;  
-		height: 30px;
-		margin-bottom: 10px;
-	}
-	 #areaContent{ 
-		display: none;
-	} 
-     #divContent{ 
-		height: 400px;  
-		margin-bottom: 10px; 
-		background-color: white; 
-		border-width: 1px; 
-		color: black;
-		overflow-y: auto;/* 사이드바 */ 
-	}
-	#divContent img{
-		max-width: 400px;
-		height: auto;
-	} 
-	
-    .fileUploadResult { 
-		width: 100%;
-		background-color: gray;
-		border-width: 1px; 
-		display: none;
-	}   
-	.photoUploadResult { 
-		width: 100%;
-		background-color: gray;
-		border-width: 1px; 
-		display: none;
-	}
-	
-	.photoUploadResult ul {
-		display: flex;
-		flex-flow: row;
-		justify-content: center;
-		align-items: center;
-	}
-	.fileUploadResult ul {
-		/* display: flex;
-		flex-flow: row; 
-		justify-content: center;
-		align-items: center; */ 
-	}
-	
-	.photoUploadResult ul li {
-		list-style: none;
-		padding: 10px;
-	}
-	.photoUploadResult ul li img{
-	    width: 100px;
-		height: 100px; 
-	}
-	.fileUploadResult ul li {
-		list-style: none;
-		padding: 10px;
-	}
-	
-	.photoUploadResult ul li img {
-		width: 100px;
-	}
-	.fileUploadResult ul li img {
-		width: 100px;
-	}
-	
-	.bottomMenuWrap{
-		border-color: #e6e6e6;
-		border-width: 1px; 
-		border-style: solid;
-		width: 100%; 
-		height: 50px;
-		margin-bottom: 10px; 
-	}
-	.bottomMenu{
-		list-style: none;
-		/* border-color: #e6e6e6; 
-		border-style: solid; */
-		width: 90%;     
-		height: 40px; 
-	}
-	.photo{
-		float: left;
-	}
-	#inputPhoto{
-		display: none;
-	}
-	.file{
-		float: left;
-	}
-	#inputFile{
-		display: none;  
-	}
-	.submit{ 
-		float: right;
-	}
-	.inputButton{
-		border-color: #e6e6e6;  
-		border-width: 1px; 
-		border-style: solid;  
-	}
-	
-</style>
+<title>Dokky - 새 글쓰기</title>  
+<link href="/dokky/resources/css/register.css" rel="stylesheet" type="text/css">
 </head>
-	
-<body>
+<body> 
 <div class="registerWrapper">
-
           <div class="formWrapper">
 	           <div class="row">
 			     <h1>새 글쓰기</h1>   
@@ -206,15 +34,14 @@
 				  </div>
 				 
 		          <div class="row">
-		            <input id="title" class="" placeholder="제목을 입력해 주세요" name='title' oninput="checkLength(this,30);"/> 
+		            <input id="title" class="" placeholder="제목을 입력해 주세요." name='title' oninput="checkLength(this,30);"/> 
 		          </div>
 		          
 		          <div class="">
 		          	<textarea id="areaContent" name='content'></textarea>
 		          </div>
-		           
-				  <div class="row" id="divContent" placeholder="내용을 입력해 주세요" contenteditable="true" rows="3">
-				  </div>
+		              
+				  <div class="row" id="divContent" contenteditable="true" placeholder="내용을 입력해 주세요." oninput="checkLength(this,1300);"></div>    
 				  
 		          <div class='photoUploadResult'> 
 			          <ul>
@@ -251,243 +78,102 @@
 </div>
 
 <script> 
-
-function checkLength(obj, maxlength) {  
-	
-	var str = obj.value; // 이벤트가 일어난 컨트롤의 value 값    
-	var str_length = str.length; // 전체길이       // 변수초기화     
-	var max_length = maxlength; // 제한할 글자수 크기     
-	var i = 0; // for문에 사용     
-	var ko_byte = 0; // 한글일경우는 2 그밗에는 1을 더함     
-	var li_len = 0; // substring하기 위해서 사용     
-	var one_char = ""; // 한글자씩 검사한다     
-	var reStr = ""; // 글자수를 초과하면 제한할수 글자전까지만 보여준다.  
-	
-	for (i = 0; i < str_length; i++) {         // 한글자추출         
-		one_char = str.charAt(i);            
-		ko_byte++;        
-	}     
-	
-	if (ko_byte <= max_length) {// 전체 크기가 max_length를 넘지않으면                
-		li_len = i + 1;         
-	}  
-	
-	if (ko_byte > max_length) {// 전체길이를 초과하면          
-			alert(max_length + " 글자 이상 입력할 수 없습니다.");         
-			reStr = str.substr(0, max_length);         
-			obj.value = reStr;      
-			}     
-		obj.focus();  
-	}
-
-
-$("#divContent").on("keydown", function(e){      
-	 if(e.keyCode === 8){ 
 		
-		e.stopPropagation();
-
-		//console.log("backspace"); 
+	$(document).ready(function(e){
+		 $("#selectId option[value='${category}']").attr('selected','selected');
 		
-		var sel = window.getSelection();
-		//console.log(sel);
+		/* 스마트 에디터 */
+		/* var oEditors = [];
+		
+		nhn.husky.EZCreator.createInIFrame({  
+		 oAppRef: oEditors, // 전역변수 명과 동일해야 함
+		 elPlaceHolder: "ir1",// 에디터가 그려질 textarea ID 값과 동일 해야 함
+		 sSkinURI: "/dokky/resources/SmartEditor/SmartEditor2Skin.html",
+		 fCreator: "createSEditor2", // SE2BasicCreator.js 메소드명이니 변경 금지
+		 htParams : {
+	        bUseToolbar : true,        // 툴바 사용 여부 (true:사용/ false:사용하지 않음)
+	        bUseVerticalResizer : true,// 입력창 크기 조절바 사용 여부 (true:사용/ false:사용하지 않음)
+	        bUseModeChanger : true // 모드 탭(Editor | HTML | TEXT) 사용 여부 (true:사용/ false:사용하지 않음)
+	      }
+		}); */
+		/* 스마트 에디터 */ 
+	});
 
-		var range = sel.getRangeAt(0).cloneRange(); 
-		//console.log(range); 
-      range.collapse(true);
+	function checkLength(obj, maxlength) {  
 
-      range.setStart($(this).get(0), 0);
-      var removeTarget = range.cloneContents().lastChild;
-		if(removeTarget.tagName === 'IMG')
-		{
-			  
-			 if(confirm("이미지를 삭제하시겠습니까?")){
-				 
-				 var removeid = removeTarget.getAttribute('data-uuid');
-				 var removeLi = $("#"+removeid);
-				  
-				 removeLi.remove();
-				 
-				 if($(".photoUploadResult ul li").length == 0 ){ //업로드결과 li가 0개라면 div숨기기
-		        	    $(".photoUploadResult").css("display","none");
-		           }
-			 
-			 }else{
-				 e.preventDefault();
-		    } 
-		} 
-	 }
-});
-
-$(document).ready(function(e){
-	
-	 $("#selectId option[value='${category}']").attr('selected','selected');
-	
-	/* 스마트 에디터 */
-	/* var oEditors = [];
-	
-	nhn.husky.EZCreator.createInIFrame({  
-	 oAppRef: oEditors, // 전역변수 명과 동일해야 함
-	 elPlaceHolder: "ir1",// 에디터가 그려질 textarea ID 값과 동일 해야 함
-	 sSkinURI: "/dokky/resources/SmartEditor/SmartEditor2Skin.html",
-	 fCreator: "createSEditor2", // SE2BasicCreator.js 메소드명이니 변경 금지
-	 htParams : {
-         bUseToolbar : true,        // 툴바 사용 여부 (true:사용/ false:사용하지 않음)
-         bUseVerticalResizer : true,// 입력창 크기 조절바 사용 여부 (true:사용/ false:사용하지 않음)
-         bUseModeChanger : true // 모드 탭(Editor | HTML | TEXT) 사용 여부 (true:사용/ false:사용하지 않음)
-       }
-	}); */
-	/* 스마트 에디터 */
-  
-  var formObj = $("form[role='form']");
-  
-  $("button[type='submit']").on("click", function(e){//글쓰기 등록
-    
-	    e.preventDefault();
-	
-	    var selectedValue = $("#selectId option:selected").val();
-	    
-		var contentVal = $("#divContent").html();
-    	
-    	$("#areaContent").html(contentVal);
-	    
-	    if(selectedValue == 0){
-	    	alert("게시판을 선택 해주세요."); 
-	    	return false;
-	    }
-	    
-	    var title = $("#title").val();
-			 title = $.trim(title);//공백제거
+			if(obj.tagName === "INPUT"){ 
+				var str = obj.value; 
+			}else if(obj.tagName === "DIV"){
+				var str = obj.innerHTML; 
+			}
+			// 이벤트가 일어난 컨트롤의 value 값    
+			var str_length = str.length; // 전체길이       // 변수초기화     
+			var max_length = maxlength; // 제한할 글자수 크기     
+			var i = 0; // for문에 사용     
+			var ko_byte = 0; // 한글일경우는, 2그밗에는 1을 더함     
+			var li_len = 0; // substring하기 위해서 사용     
+			var one_char = ""; // 한글자씩 검사한다     
+			var reStr = ""; // 글자수를 초과하면 제한할수 글자전까지만 보여준다.  
 			
-		if(title == ""){ 
-			alert("제목을 입력하세요."); 
-			   return false;
-		}
-			 
-		var content = $("#areaContent").val();
-		content = $.trim(content);
-		
-		if(content == ""){ 
-			alert("내용을 입력하세요."); 
-			   return false;
-		}
-	    
-	    //oEditors.getById["ir1"].exec("UPDATE_CONTENTS_FIELD", []);// 스마트 에디터 - textarea에 값 옮겨주기
-	    
-	    var str = "";
-	    var photoLi = $(".photoUploadResult ul li");
-	    var fileLi = $(".fileUploadResult ul li");
-	    var UploadLis = $.merge(photoLi, fileLi);   
-	     
-	    UploadLis.each(function(i, arr){ 
-	    		 var jobj = $(arr); 
-			     /*  console.dir(jobj);
-			      console.log("-------------------------"); 
-			      console.log(jobj.data("filename")); */
-			      str += "<input type='hidden' name='attachList["+i+"].fileName' value='"+jobj.data("filename")+"'>";
-			      str += "<input type='hidden' name='attachList["+i+"].uuid' value='"+jobj.data("uuid")+"'>";
-			      str += "<input type='hidden' name='attachList["+i+"].uploadPath' value='"+jobj.data("path")+"'>";
-			      str += "<input type='hidden' name='attachList["+i+"].fileType' value='"+ jobj.data("type")+"'>";
-			      
-		    });
-	    
-	    //console.log(str);
-	    
-	    formObj.append(str).submit();
-	    
-  });
-  
-  var regex = new RegExp("(.*?)\.(exe|sh|zip|alz)$");
-  var maxSize = 5242880; //5MB
-  
-  function checkFile(fileName, fileSize){
-    
-	    if(fileSize >= maxSize){
-	      alert("파일 사이즈가 5MB를 초과하였습니다.");
-	      return false;
-	    }
-	    
-	    if(regex.test(fileName)){
-	      alert("해당 확장자 파일은 업로드할 수 없습니다.");
-	      return false;
-	    }
-	    return true;
-  }
-  
-  function checkImage(fileName, fileSize) {
-		var maxSize = 5242880; //5MB
-		var type = fileName.substring(fileName.lastIndexOf('.')+1, fileName.length);
-		
-		if (fileSize >= maxSize) {
-			alert("파일 사이즈가 5MB를 초과하였습니다.");
-			return false;
-		}
-		if(type.toUpperCase() == 'JPG' || type.toUpperCase() == 'GIF' || type.toUpperCase() == 'PNG' || type.toUpperCase() == 'BMP'){
-			return true; 
-		}else{
-			alert("해당 확장자 파일은 업로드할 수 없습니다.");
-			return false;
-		}
-		return true;
+			for (i = 0; i < str_length; i++) { // 한글자추출         
+				one_char = str.charAt(i);            
+				ko_byte++;        
+			}     
+			
+			if (ko_byte <= max_length) {// 전체 크기가 max_length를 넘지않으면                
+				li_len = i + 1;         
+			}  
+			
+			if (ko_byte > max_length) {// 전체길이를 초과하면          
+					alert(max_length + " 글자 이상 입력할 수 없습니다.");         
+					reStr = str.substr(0, max_length);         
+					obj.value = reStr;      
+			}     
+			
+			obj.focus();  
 	}
-  
-  var csrfHeaderName ="${_csrf.headerName}"; 
-  var csrfTokenValue="${_csrf.token}";
-  
-  $("input[type='file']").change(function(e){//업로드하기 
+	
+	//////////////////////////////////////////////////////////////////////////////
+	
+	  var regex = new RegExp("(.*?)\.(exe|sh|zip|alz)$");
+	  var maxSize = 5242880; //5MB
 	  
-	  var formData = new FormData();
+	  function checkFile(fileName, fileSize){
+	    
+		    if(fileSize >= maxSize){
+		      alert("파일 사이즈가 5MB를 초과하였습니다.");
+		      return false;
+		    }
+		    
+		    if(regex.test(fileName)){
+		      alert("해당 확장자 파일은 업로드할 수 없습니다.");
+		      return false;
+		    }
+		    return true;
+	  }
+	
+	//////////////////////////////////////////////////////////////////////////////
+
+	  function checkImage(fileName, fileSize) {
+			var maxSize = 5242880; //5MB
+			var type = fileName.substring(fileName.lastIndexOf('.')+1, fileName.length);
+			
+			if (fileSize >= maxSize) {
+				alert("파일 사이즈가 5MB를 초과하였습니다.");
+				return false; 
+			}
+			if(type.toUpperCase() == 'JPG' || type.toUpperCase() == 'GIF' || type.toUpperCase() == 'PNG' || type.toUpperCase() == 'BMP'){
+				return true; 
+			}else{
+				alert("해당 확장자 파일은 업로드할 수 없습니다.");
+				return false;
+			}
+			return true;
+		}
+	
+	//////////////////////////////////////////////////////////////////////////////
 	  
-	  var inputName = $(this).attr("name");
-	  
-	  if(inputName === "uploadPhoto"){//사진업로드라면
-		  
-		  var inputFile = $("input[name='uploadPhoto']");
-		  
-		  var files = inputFile[0].files;
-		  
-		  for(var i = 0; i < files.length; i++){
-		      if(!checkImage(files[i].name, files[i].size) ){
-		        return false; 
-		      }
-	      	  formData.append("uploadFile", files[i]);
-	      }
-	   		  formData.append("uploadKind", "photo");
-	   		  
-	  }else if(inputName === "uploadFile"){//파일업로드라면
-		  
-		  var inputFile = $("input[name='uploadFile']");
-		  
-		  var files = inputFile[0].files;
-		  
-		  for(var i = 0; i < files.length; i++){
-		      if(!checkFile(files[i].name, files[i].size) ){
-		        return false;
-		      }
-	     	  formData.append("uploadFile", files[i]);
-	      }
-	     	  formData.append("uploadKind", "file");
-	     	  
-	  }  
-	  		  inputFile.val("");//사진,파일 input value 값 비워주기 
-	  
-	  $.ajax({
-	      url: '/dokky/uploadFile',
-	      type: 'POST',
-	      processData: false, 
-	      contentType: false,
-	      beforeSend: function(xhr) {
-	          xhr.setRequestHeader(csrfHeaderName, csrfTokenValue);
-	      },
-	      data: formData,
-	      dataType:'json',
-          success: function(result){ 
-        	  
-			  	   showUploadResult(result,inputName); //업로드 결과 처리 함수 
-	      }
-      });
-  });  
-  
-  function showUploadResult(uploadResultArr,inputName){
+	function showUploadResult(uploadResultArr,inputName){
 	    if(!uploadResultArr || uploadResultArr.length == 0){ 
 	    	return; 
 	    }
@@ -505,7 +191,7 @@ $(document).ready(function(e){
 				str +=" data-uuid='"+obj.uuid+"' data-filename='"+obj.fileName+"' data-type='"+obj.image+"'"
 				str +" ><div>";
 				str += "<span> "+ obj.fileName+"</span>";
-				str += "<button type='button' data-uuie='"+obj.uuid+"' data-filecallpath=\'"+fileCallPath+"\' "
+				str += "<button type='button' data-uuid='"+obj.uuid+"' data-filecallpath=\'"+fileCallPath+"\' "
 				str += "data-type='image' class='btn btn-warning btn-circle'><i class='fa fa-times'></i></button><br>";
 				str += "<img src='/dokky/display?fileName="+fileCallPath+"'>";
 				str += "</div>";  
@@ -538,13 +224,119 @@ $(document).ready(function(e){
 		    $(".fileUploadResult").css("display","block");
 		    uploadUL.append(str);
 	    }
-  }
-  
-  $(".photoUploadResult, .fileUploadResult").on("click", "button", function(e){//업로드 삭제    
+	}
+	
+	//////////////////////////////////////////////////////////////////////////////
+
+	var csrfHeaderName ="${_csrf.headerName}"; 
+	var csrfTokenValue="${_csrf.token}";
+	  
+	  $("input[type='file']").change(function(e){//업로드하기 
+		  
+		  var formData = new FormData();
+		  
+		  var inputName = $(this).attr("name");
+		  
+		  if(inputName === "uploadPhoto"){//사진업로드라면
+			  
+			  var inputFile = $("input[name='uploadPhoto']");
+			  
+			  var files = inputFile[0].files;
+			  
+			  for(var i = 0; i < files.length; i++){
+			      if(!checkImage(files[i].name, files[i].size) ){
+			    	 
+			    	inputFile.val("");//사진,파일 input value 값 비워주기
+			    	
+			        return false; 
+			      }
+		      	  formData.append("uploadFile", files[i]);
+		      }
+		   		  formData.append("uploadKind", "photo");
+		   		  
+		  }else if(inputName === "uploadFile"){//파일업로드라면
+			  
+			  var inputFile = $("input[name='uploadFile']");
+			  
+			  var files = inputFile[0].files;
+			  
+			  for(var i = 0; i < files.length; i++){
+			      if(!checkFile(files[i].name, files[i].size) ){
+			    	 
+			    	inputFile.val(""); 
+			    	  
+			        return false;
+			      }
+		     	  formData.append("uploadFile", files[i]);
+		      }
+		     	  formData.append("uploadKind", "file");
+		     	  
+		  }  
+		  		  inputFile.val("");  
+		  
+		  $.ajax({
+		      url: '/dokky/uploadFile',
+		      type: 'POST',
+		      processData: false, 
+		      contentType: false,
+		      beforeSend: function(xhr) {
+		          xhr.setRequestHeader(csrfHeaderName, csrfTokenValue);
+		      },
+		      data: formData,
+		      dataType:'json',
+	          success: function(result){ 
+	        	  
+				  	   showUploadResult(result,inputName); //업로드 결과 처리 함수 
+		      }
+	      });
+	  });  
+	  
+	//////////////////////////////////////////////////////////////////////////////
+
+	$("#divContent").on("keydown", function(e){ //본문 이미지 제거     
+		
+			if(e.keyCode === 8){ 
+				
+				e.stopPropagation();
+		
+				//console.log("backspace"); 
+				
+				var sel = window.getSelection();
+				//console.log(sel);
+		
+				var range = sel.getRangeAt(0).cloneRange(); 
+				//console.log(range); 
+		      	range.collapse(true);
+		
+		     	range.setStart($(this).get(0), 0);
+		       
+		     	var removeTarget = range.cloneContents().lastChild;
+				
+		     	if(removeTarget.tagName === 'IMG'){
+					if(confirm("이미지를 삭제하시겠습니까?")){
+						 
+						 var removeid = removeTarget.getAttribute('data-uuid');
+						 var removeLi = $("#"+removeid);
+						  
+						 removeLi.remove();
+						 
+						 if($(".photoUploadResult ul li").length == 0 ){ //업로드결과 li가 0개라면
+		        	    	$(".photoUploadResult").css("display","none");//div숨기기
+				         }
+					}else{
+						 e.preventDefault();
+				    } 
+				} 
+		    }
+    });
+
+	//////////////////////////////////////////////////////////////////////////////
+	
+	$(".photoUploadResult, .fileUploadResult").on("click", "button", function(e){//업로드 삭제    
 	  
 	    var fileCallPath = $(this).data("filecallpath");
 	    var type = $(this).data("type");
-	    var uuie = $(this).data("uuie");
+	    var uuid = $(this).data("uuid");
 	    var targetLi = $(this).closest("li");
 	    var imgTags = $('#divContent img');
 	    
@@ -573,7 +365,7 @@ $(document).ready(function(e){
 			        	   for(var i = 0; i < imgTags.length; i++) {
 				                var obj = imgTags[i];
 									                     
-					  	 		if( uuie == obj.dataset.uuid){  
+					  	 		if( uuid == obj.dataset.uuid){  
 					  	 			imgTags[i].remove();  //본문 이미지도 삭제해주기
 					  	 		}
 				       		}
@@ -586,8 +378,66 @@ $(document).ready(function(e){
 		         } 
 	    }); //$.ajax
    });
-  
-});
+
+	//////////////////////////////////////////////////////////////////////////////
+	  
+	$("button[type='submit']").on("click", function(e){//글쓰기 등록
+    
+		    e.preventDefault();
+		
+		    var selectedValue = $("#selectId option:selected").val();
+		    
+			var contentVal = $("#divContent").html();
+	    	
+	    	$("#areaContent").html(contentVal);
+		    
+		    if(selectedValue == 0){
+		    	alert("게시판을 선택 해주세요."); 
+		    	return false;
+		    }
+		    
+		    var title = $("#title").val();
+				 title = $.trim(title);//공백제거
+				
+			if(title == ""){ 
+				alert("제목을 입력하세요."); 
+				   return false;
+			}
+				 
+			var content = $("#areaContent").val();
+			content = $.trim(content);
+			
+			if(content == ""){ 
+				alert("내용을 입력하세요."); 
+				   return false;
+			}
+		    
+		    //oEditors.getById["ir1"].exec("UPDATE_CONTENTS_FIELD", []);// 스마트 에디터 - textarea에 값 옮겨주기
+		    
+		    var str = "";
+		    var photoLi = $(".photoUploadResult ul li");
+		    var fileLi = $(".fileUploadResult ul li");
+		    var UploadLis = $.merge(photoLi, fileLi);   
+		     
+		    UploadLis.each(function(i, arr){ 
+		    		 var jobj = $(arr); 
+				     /*  console.dir(jobj);
+				      console.log("-------------------------"); 
+				      console.log(jobj.data("filename")); */
+				      str += "<input type='hidden' name='attachList["+i+"].fileName' value='"+jobj.data("filename")+"'>";
+				      str += "<input type='hidden' name='attachList["+i+"].uuid' value='"+jobj.data("uuid")+"'>";
+				      str += "<input type='hidden' name='attachList["+i+"].uploadPath' value='"+jobj.data("path")+"'>";
+				      str += "<input type='hidden' name='attachList["+i+"].fileType' value='"+ jobj.data("type")+"'>";
+				      
+			    });
+		     
+		    //console.log(str);
+		    
+		    var formObj = $("form[role='form']"); 
+		    
+		    formObj.append(str).submit();
+    });
+	
 </script>
 </body>
 </html>
