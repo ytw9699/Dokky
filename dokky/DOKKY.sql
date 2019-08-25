@@ -5,7 +5,7 @@
 		  TITLE varchar2(200) not null,
 		  NICKNAME varchar2(50) not null,
 		  userId varchar2(50) not null,
-		  CONTENT varchar2(4000) not null,
+		  CONTENT varchar2(6000) not null,
 		  BLIND varchar2(10) default '미적용',
 		  STATUS varchar2(10) default '정상',
 		  REGDATE date default sysdate, 
