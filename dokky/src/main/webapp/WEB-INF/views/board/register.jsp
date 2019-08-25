@@ -15,6 +15,12 @@
 <link href="/dokky/resources/css/register.css" rel="stylesheet" type="text/css">
 </head>
 <body> 
+
+<div class='bigPictureWrapper'>
+  <div class='bigPicture'>
+  </div>
+</div>
+
 <div class="registerWrapper">
           <div class="formWrapper">
 	           <div class="row">
@@ -173,7 +179,7 @@
 	
 	//////////////////////////////////////////////////////////////////////////////
 	  
-	function showUploadResult(uploadResultArr,inputName){
+	function showUploadResult(uploadResultArr, inputName){
 	    if(!uploadResultArr || uploadResultArr.length == 0){ 
 	    	return; 
 	    }
@@ -184,18 +190,16 @@
 	    var contentVal ="";
 	  		contentVal = divContent.html();
 	    
-	    $(uploadResultArr).each(function(i, obj){
+	    $(uploadResultArr).each(function(i, obj){ 
 			if(obj.image){//이미지라면
 				var fileCallPath =  encodeURIComponent( obj.uploadPath+ "/s_"+obj.uuid +"_"+obj.fileName);
 				str += "<li id='"+obj.uuid+"' data-path='"+obj.uploadPath+"'";
 				str +=" data-uuid='"+obj.uuid+"' data-filename='"+obj.fileName+"' data-type='"+obj.image+"'"
-				str +" ><div>";
-				str += "<span> "+ obj.fileName+"</span>";
+				str +" >";                
+				str += "<br><img src='/dokky/display?fileName="+fileCallPath+"' data-type='"+obj.image+"' data-path='"+obj.uploadPath+"' data-uuid='"+obj.uuid+"' data-filename='"+obj.fileName+"'>";
 				str += "<button type='button' data-uuid='"+obj.uuid+"' data-filecallpath=\'"+fileCallPath+"\' "
-				str += "data-type='image' class='btn btn-warning btn-circle'><i class='fa fa-times'></i></button><br>";
-				str += "<img src='/dokky/display?fileName="+fileCallPath+"'>";
-				str += "</div>";  
-				str +"</li>"; 
+				str += "data-type='image' class='btn btn-warning btn-circle'><span class='css-cancel'></span></button>"; 
+				str +"</li>";   
 				fileCallPath =  encodeURIComponent( obj.uploadPath+"/"+ obj.uuid +"_"+obj.fileName); 
 				contentVal += "<img src='/dokky/display?fileName="+fileCallPath+"' data-uuid='"+obj.uuid+"'>";
 				divContent.html(contentVal);//본문 삽입
@@ -203,14 +207,12 @@
 			}else{//일반파일이라면
 				var fileCallPath =  encodeURIComponent( obj.uploadPath+"/"+ obj.uuid +"_"+obj.fileName);			      
 			    //var fileLink = fileCallPath.replace(new RegExp(/\\/g),"/");
-			      
 				str += "<li " 
-				str += "data-path='"+obj.uploadPath+"' data-uuid='"+obj.uuid+"' data-filename='"+obj.fileName+"' data-type='"+obj.image+"' ><div>";
-				str += obj.fileName; 
+				str += "data-path='"+obj.uploadPath+"' data-uuid='"+obj.uuid+"' data-filename='"+obj.fileName+"' data-type='"+obj.image+"' >";
+				str += obj.fileName;  
 				str += "<button type='button' data-uuid='"+obj.uuid+"' data-filecallpath=\'"+fileCallPath+"\' data-type='file' " 
-				str += "class='btn btn-warning btn-circle'><i class='fa fa-times'></i></button>"; 
-				str += "</div>";
-				str +"</li>"; 
+				str += "class='btn btn-warning btn-circle'><span class='css-cancel'></span></button>";  
+				str +"</li>";   
 			}
 	    });
 	    
@@ -285,7 +287,6 @@
 		      data: formData,
 		      dataType:'json',
 	          success: function(result){ 
-	        	  
 				  	   showUploadResult(result,inputName); //업로드 결과 처리 함수 
 		      }
 	      });
@@ -379,8 +380,33 @@
 	    }); //$.ajax
    });
 
+	////////////////////////////////////////////////////////////////////////////// 
+		
+	  function showImage(fileCallPath){//원본 이미지 파일 보기
+    	    
+    	    $(".bigPictureWrapper").css("display","flex").show();
+    	    
+    	    $(".bigPicture").html("<img src='/dokky/display?fileName="+fileCallPath+"' >");
+      }
+	
+	  $(".photoUploadResult").on("click","img", function(e){
+   	      
+    	    var liObj = $(this);    
+    	    
+    	    var path = encodeURIComponent(liObj.data("path")+"/" + liObj.data("uuid")+"_" + liObj.data("filename"));
+    	    
+    	    if(liObj.data("type")){      
+    	      showImage(path);//원본 이미지 파일 보기
+    	    } 
+   	  });
+
+   	  $(".bigPictureWrapper").on("click", function(e){//원본 이미지 파일 숨기기 
+   		  
+   			$('.bigPictureWrapper').hide();
+   	  });
+   	  
 	//////////////////////////////////////////////////////////////////////////////
-	  
+
 	$("button[type='submit']").on("click", function(e){//글쓰기 등록
     
 		    e.preventDefault();

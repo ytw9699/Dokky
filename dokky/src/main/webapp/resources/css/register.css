@@ -125,6 +125,7 @@
 		.photoUploadResult ul li img{
 		    width: 100px;
 			height: 100px; 
+			border: 2px solid #03c75a;
 		}
 		.fileUploadResult ul li {
 			list-style: none;
@@ -136,6 +137,35 @@
 		}
 		.fileUploadResult ul li img {
 			width: 100px;
+		}
+		
+		.bigPictureWrapper {
+		  /* border-color: #e6e6e6;
+		  border-style: solid; */
+		  position: absolute;
+		  display: none;
+		  justify-content: center;
+		  align-items: center;
+		  top:0%;
+		  width:100%; 
+		  height:1500px;  
+		  z-index: 100;
+		  /* background-color: gray;
+		  background:rgba(255,255,255,0.5); */
+		}
+		.bigPicture { 
+			/* width: 90%;     
+			border-color: #e6e6e6;
+		    border-style: solid; */     
+		    position: fixed;
+		    display: flex;
+		    justify-content: center;
+		    align-items: baseline; 
+		    margin-top: -15%;
+		}
+		.bigPicture img {
+	  		max-width: 650px;    
+			height: auto;
 		}
 		
 		.bottomMenuWrap{
@@ -172,4 +202,51 @@
 			border-color: #e6e6e6;  
 			border-width: 1px;  
 			border-style: solid;  
+		}
+		.btn-circle {
+		    width: 20px;
+		    height: 20px;
+		    padding: 2px 0;
+		    border-radius: 15px;
+		    text-align: center;
+		    font-size: 12px;
+		    line-height: 1.428571429;
+		}
+		.btn {
+		    display: inline-block;
+		    margin-bottom: 0;
+		    font-weight: 400;
+		    white-space: nowrap;
+		    vertical-align: middle;
+		    touch-action: manipulation;
+		    cursor: pointer;
+		    user-select: none;
+		    background-image: none; 
+		    border: 1px solid transparent;
+		}
+		.btn-warning {
+		    color: #fff;  
+		    background-color: #03c75a; 
+		    border-color: #03c75a;  
+		}
+		.css-cancel {
+		    display: inline-block;
+		    position: relative;
+		    margin: 0 8px 0 7px;
+		    padding: 0;
+		    width: 2px;
+		    height: 15px;
+		    background: white;
+		    transform: rotate(45deg);
+		}
+		.css-cancel:before { 
+		    display: block;
+		    content: "";
+		    position: absolute;
+		    top: 50%;
+		    left: -6px;
+		    width: 15px;
+		    height: 2px;
+		    margin-top: -2px;
+		    background: white;
 		}

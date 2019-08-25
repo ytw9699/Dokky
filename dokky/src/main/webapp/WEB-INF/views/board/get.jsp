@@ -68,13 +68,13 @@
       display:inline;
     }  
     
-    .uploadResult { 
-	  width:100%;
-	  /* background-color: gray; */ 
-	  border-color: #e6e6e6;
-	  border-style: solid;
-	  position:absolute;
-	  bottom:0px;
+    .uploadResult {  
+	    width: 100%;
+	    background-color: gray;
+	    border-color: #e6e6e6;
+	    border-style: solid;
+	    /* position: absolute; */
+	    bottom: 0px;
 	}
 	.uploadResult ul{
 	  display:flex;
@@ -94,26 +94,32 @@
 	  color:white;
 	}
 	.bigPictureWrapper {
+	  /* border-color: #e6e6e6;
+	  border-style: solid; */
 	  position: absolute;
 	  display: none;
 	  justify-content: center;
 	  align-items: center;
 	  top:0%;
 	  width:100%;
-	  height:100%;
-	  background-color: gray; 
+	  height:1500px;  
 	  z-index: 100;
-	  background:rgba(255,255,255,0.5);
+	  /* background-color: gray;
+	  background:rgba(255,255,255,0.5); */
 	}
-	.bigPicture {
-	  position: relative;
-	  display:flex;
-	  justify-content: center;
-	  align-items: center;
+	.bigPicture { 
+		/* width: 90%;     
+		border-color: #e6e6e6;
+	    border-style: solid; */    
+	    position: fixed;
+	    display: flex;
+	    justify-content: center;
+	    align-items: baseline;
+	    margin-top: -15%;
 	}
-	
 	.bigPicture img {
-	  width:600px;
+  		max-width: 650px;   
+		height: auto;
 	}
 	
 	#donateBackGround{
@@ -285,15 +291,15 @@
 	}
 
 	.contentInformation {
-		/* align-content: right; */ 
 	    border-style: solid;
 	    border-width: 1px;
 	    border-color: #e6e6e6;
-	    width: 61%;
+	    width: 59%;
 	    margin-left: 37%;
-	    margin-right: 1%;
-	    margin-top: 18%;
+	    /* margin-right: 1%; */
+	    margin-top: 1%;
 	    height: 50px;
+	    margin-bottom: 1%;
 	}
 	#replyCntVal{
 		border-style: solid;
@@ -424,55 +430,55 @@
     	<div>
       		${board.content } 
       	</div>
-      	<div class="contentInformation">
-      		<span>
-	          <label>좋아요</label> <span id="likeCount"><c:out value="${board.likeCnt }"/></span>
-	            <sec:authorize access="isAuthenticated()">
-			        <c:if test="${userInfo.username != board.userId}">
-			       		<button id="like" data-user_id="${board.userId }">좋아요</button>  
-			        </c:if>
-		        </sec:authorize>
-	        </span> 
-	        <span>
-		        <label>싫어요</label> <span id="dislikeCount"><c:out value="${board.dislikeCnt }"/></span>
-	         	<sec:authorize access="isAuthenticated()">
-			        <c:if test="${userInfo.username != board.userId}">
-			       	  <button id="dislike" data-user_id="${board.userId }">싫어요</button> 
-			        </c:if>
-		        </sec:authorize>
-	         </span> 
-	        <span>
-	        	<label>기부금</label> <span id="boardMoney"><c:out value="${board.money }"/></span>
-	          	<sec:authorize access="isAuthenticated()">
-			        <c:if test="${userInfo.username != board.userId}">
-			       	  <button id="donateMoney" data-user_id="${board.userId }">기부</button> 
-			        </c:if>
-		        </sec:authorize>
-	        </span>
-	        <span>
-	        	<sec:authentication property="principal" var="userInfo"/>
-	        
-		        	<sec:authorize access="isAuthenticated()">
-				        <c:if test="${userInfo.username eq board.userId}">
-				       		 <button id="modify_button">수정 </button> 
-							 <button id="remove_button">삭제 </button>
-				        </c:if>
-				        
-				        <button id="scrap" data-num="${board.num }">스크랩 </button>
-				        
-				        <c:if test="${userInfo.username != board.userId}">
-				       		 <button id="report">신고 </button> 
-				        </c:if>
-		        	</sec:authorize>
-	        	
-	        		<button id="list_button">목록보기 </button> 
-	        </span>
-        </div> 
-        <div class='uploadResult'> 
-          <ul>
-          </ul>  
-        </div>
     </div>
+    <div class="contentInformation">
+   		<span>
+          <label>좋아요</label> <span id="likeCount"><c:out value="${board.likeCnt }"/></span>
+            <sec:authorize access="isAuthenticated()">
+		        <c:if test="${userInfo.username != board.userId}">
+		       		<button id="like" data-user_id="${board.userId }">좋아요</button>  
+		        </c:if>
+	        </sec:authorize>
+        </span> 
+        <span>
+	        <label>싫어요</label> <span id="dislikeCount"><c:out value="${board.dislikeCnt }"/></span>
+         	<sec:authorize access="isAuthenticated()">
+		        <c:if test="${userInfo.username != board.userId}">
+		       	  <button id="dislike" data-user_id="${board.userId }">싫어요</button> 
+		        </c:if>
+	        </sec:authorize>
+         </span> 
+        <span>
+        	<label>기부금</label> <span id="boardMoney"><c:out value="${board.money }"/></span>
+          	<sec:authorize access="isAuthenticated()">
+		        <c:if test="${userInfo.username != board.userId}">
+		       	  <button id="donateMoney" data-user_id="${board.userId }">기부</button> 
+		        </c:if>
+	        </sec:authorize>
+        </span>
+        <span>
+        	<sec:authentication property="principal" var="userInfo"/>
+        
+	        	<sec:authorize access="isAuthenticated()">
+			        <c:if test="${userInfo.username eq board.userId}">
+			       		 <button id="modify_button">수정 </button> 
+						 <button id="remove_button">삭제 </button>
+			        </c:if>
+			        
+			        <button id="scrap" data-num="${board.num }">스크랩 </button>
+			        
+			        <c:if test="${userInfo.username != board.userId}">
+			       		 <button id="report">신고 </button> 
+			        </c:if>
+	        	</sec:authorize>
+        	
+        		<button id="list_button">목록보기 </button> 
+       	</span> 
+    </div> 
+    <div class='uploadResult'> 
+      <ul>
+      </ul>  
+    </div>  
     <div id="replyCntVal">
     	<!-- 댓글수 -->
     </div> 
@@ -1522,43 +1528,44 @@ function checkLength(obj, maxlength) {
 	    
    $(document).ready(function(){//첨부파일 즉시 함수
     	  
-   	  (function(){//즉시실행함수
+  	 (function(){//즉시실행함수
    	  
-	   	    var num = '<c:out value="${board.num}"/>';
-	   	   
-	   	    $.getJSON("/dokky/board/getAttachList", {num: num}, function(arr){
-	   	        
-	    	       //console.log(arr);
-	    	       
-	    	       var imageStr = "";
-	    	       var fileStr = "";
-	    	       
-	    	       $(arr).each(function(i, attach){
+   	    var num = '<c:out value="${board.num}"/>';
+   	   
+   	    $.getJSON("/dokky/board/getAttachList", {num: num}, function(arr){
+   	        
+    	       //console.log(arr);
+    	       
+    	       var imageStr = "";
+    	       var fileStr = "";
+    	       
+    	       $(arr).each(function(i, attach){
 
-						if(attach.fileType){ //이미지라면
-				    	           var fileCallPath =  encodeURIComponent( attach.uploadPath+ "/s_"+attach.uuid +"_"+attach.fileName);
-				    	           
-				    	           imageStr += "<li data-path='"+attach.uploadPath+"' data-uuid='"+attach.uuid+"' data-filename='"+attach.fileName+"' data-type='"+attach.fileType+"' ><div>";
-				    	           imageStr += "<img src='/dokky/display?fileName="+fileCallPath+"'>";
-				    	           imageStr += "</div>";
-				    	           imageStr +"</li>";
-		    	         }else{
-		    	        	   fileStr += "<li data-path='"+attach.uploadPath+"' data-uuid='"+attach.uuid+"' data-filename='"+attach.fileName+"' data-type='"+attach.fileType+"' >";
-		    	        	   fileStr += attach.fileName;      
-			    	           /* fileStr += "<img src='/dokky/resources/img/attach.png'>"; */     
-			    	           fileStr +"</li>";
-		    	         }
-						
-					});
+					if(attach.fileType){ //이미지라면
+	    	           var fileCallPath =  encodeURIComponent( attach.uploadPath+ "/s_"+attach.uuid +"_"+attach.fileName);
+		    	           
+	    	           imageStr += "<li data-path='"+attach.uploadPath+"' data-uuid='"+attach.uuid+"' data-filename='"+attach.fileName+"' data-type='"+attach.fileType+"' ><div>";
+	    	           imageStr += "<img src='/dokky/display?fileName="+fileCallPath+"'>";
+	    	           imageStr += "</div>";
+	    	           imageStr +"</li>";
+	    	         }else{
+    	        	   fileStr += "<li data-path='"+attach.uploadPath+"' data-uuid='"+attach.uuid+"' data-filename='"+attach.fileName+"' data-type='"+attach.fileType+"' >";
+    	        	   fileStr += attach.fileName;      
+	    	           /* fileStr += "<img src='/dokky/resources/img/attach.png'>"; */     
+	    	           fileStr +"</li>";
+	    	         }
+				});
+    	       
+				   $(".uploadResult ul").html(imageStr); 
+	    	       $(".fileUploadResult ul").html(fileStr); 
 	    	       
-					   $(".uploadResult ul").html(imageStr); 
-		    	       $(".fileUploadResult ul").html(fileStr); 
-		    	       
-    	     });//end getjson
+   	     });//end getjson
    	    
-   	  })();//end function 
+   	 })();//end function 
+   	 
+   }); 
 	    	  
-   	  $(".fileUploadResult").on("click","li", function(e){
+   	  $(".fileUploadResult, .uploadResult").on("click","li", function(e){
    	      
     	    //console.log("view image");
     	     
@@ -1566,8 +1573,8 @@ function checkLength(obj, maxlength) {
     	    
     	    var path = encodeURIComponent(liObj.data("path")+"/" + liObj.data("uuid")+"_" + liObj.data("filename"));
     	    
-    	    if(liObj.data("type")){
-    	      showImage(path.replace(new RegExp(/\\/g),"/"));
+    	    if(liObj.data("type")){ 
+    	    	showImage(path);  
     	    }else {
     	    	  /* replyService.download(path, function(data) {
     	    		  alert(data); 
@@ -1582,18 +1589,14 @@ function checkLength(obj, maxlength) {
     	    
     	    $(".bigPictureWrapper").css("display","flex").show();
     	    
-    	    $(".bigPicture")
-    	    .html("<img src='/dokky/display?fileName="+fileCallPath+"' >")
-    	    .animate({width:'100%', height: '100%'}, 1000);
-    	  }
+    	    $(".bigPicture").html("<img src='/dokky/display?fileName="+fileCallPath+"' >");
+      } 
 
-    	  $(".bigPictureWrapper").on("click", function(e){
-    	    $(".bigPicture").animate({width:'0%', height: '0%'}, 1000);
-    	    setTimeout(function(){
-    	      $('.bigPictureWrapper').hide();
-    	    }, 1000);
-    	  });
-     });
+   	  $(".bigPictureWrapper").on("click", function(e){
+   		  
+   			$('.bigPictureWrapper').hide();
+    	  });  
+   	   
 	      
 		$(".replyList").on("click",'.userMenu', function(event){//해당 댓글 메뉴바 보이기 이벤트
 			
