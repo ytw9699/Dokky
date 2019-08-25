@@ -245,6 +245,13 @@
 			  
 			  var files = inputFile[0].files;
 			  
+			  var uploadPhotoLi = $(".photoUploadResult ul li");
+			  
+		  	  if(uploadPhotoLi.length + files.length > 6){
+		  		  alert("사진은 6장을 초과할 수 없습니다.")
+		  	      return false;       
+		  	  }    
+			   
 			  for(var i = 0; i < files.length; i++){
 			      if(!checkImage(files[i].name, files[i].size) ){
 			    	 
@@ -261,6 +268,13 @@
 			  var inputFile = $("input[name='uploadFile']");
 			  
 			  var files = inputFile[0].files;
+			  
+			  var uploadFileLi = $(".fileUploadResult ul li");
+			  	
+			  if(uploadFileLi.length + files.length > 3){  
+		  		  alert("첨부파일은 3개를 초과할 수 없습니다.")
+		  	      return false;  
+		  	  }
 			  
 			  for(var i = 0; i < files.length; i++){
 			      if(!checkFile(files[i].name, files[i].size) ){

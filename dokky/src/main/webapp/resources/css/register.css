@@ -107,7 +107,7 @@
 		
 		.photoUploadResult ul {
 			display: flex;
-			flex-flow: row;
+			flex-flow: wrap;
 			justify-content: center;
 			align-items: center;
 		}
@@ -118,7 +118,7 @@
 			align-items: center; */ 
 		}
 		
-		.photoUploadResult ul li {
+		.photoUploadResult ul li { 
 			list-style: none;
 			padding: 10px;
 		}
