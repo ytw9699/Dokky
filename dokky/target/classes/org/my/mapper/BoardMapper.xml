@@ -260,8 +260,9 @@
 	</update>
 	
 	<update id="update">
-		update DK_BOARD
+		update DK_BOARD 
 			set title= #{title},
+			category= #{category},
 			content=#{content},
 			updateDate = sysdate
 		where num = #{num}
