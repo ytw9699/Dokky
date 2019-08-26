@@ -201,8 +201,9 @@
 				str += "data-type='image' class='btn btn-warning btn-circle'><span class='css-cancel'></span></button>"; 
 				str +"</li>";   
 				fileCallPath =  encodeURIComponent( obj.uploadPath+"/"+ obj.uuid +"_"+obj.fileName); 
-				contentVal += "<img src='/dokky/display?fileName="+fileCallPath+"' data-uuid='"+obj.uuid+"'>";
-				divContent.html(contentVal);//본문 삽입
+				contentVal += "<img src='/dokky/display?fileName="+fileCallPath+"' data-uuid='"+obj.uuid+"' data-filecallpath='"+fileCallPath+"'>";
+				divContent.html(contentVal);//본문 삽입  
+				
 				
 			}else{//일반파일이라면
 				var fileCallPath =  encodeURIComponent( obj.uploadPath+"/"+ obj.uuid +"_"+obj.fileName);			      
@@ -403,7 +404,7 @@
     	    $(".bigPicture").html("<img src='/dokky/display?fileName="+fileCallPath+"' >");
       }
 	
-	  $(".photoUploadResult").on("click","img", function(e){
+	  $(".photoUploadResult").on("click","img", function(e){//아래 포토리스트에서 사진을 클릭한다면
    	      
     	    var liObj = $(this);    
     	    
@@ -413,7 +414,16 @@
     	      showImage(path);//원본 이미지 파일 보기
     	    } 
    	  });
-
+	  
+	  $("#divContent").on("click","img", function(e){//본문에서 사진을 클릭한다면
+	  	
+		  var imgObj = $(this);
+	  
+		  var path = imgObj.data("filecallpath");
+		  
+		  showImage(path);  
+	  });
+	  
    	  $(".bigPictureWrapper").on("click", function(e){//원본 이미지 파일 숨기기 
    		  
    			$('.bigPictureWrapper').hide();
