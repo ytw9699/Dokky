@@ -57,31 +57,6 @@
       display:inline;
     }  
     
-    .uploadResult {  
-	    width: 100%;
-	    background-color: gray;
-	    border-color: #e6e6e6;
-	    border-style: solid;
-	    /* position: absolute; */
-	    bottom: 0px;
-	}
-	.uploadResult ul{
-	  display:flex;
-	  flex-flow: row;
-	  justify-content: center;
-	}
-	.uploadResult ul li {
-	  list-style: none;
-	  padding: 10px;
-	  align-content: center;
-	  text-align: center;
-	}
-	.uploadResult ul li img{
-	  width: 100px;
-	}
-	.uploadResult ul li span {
-	  color:white;
-	}
 	.bigPictureWrapper {
 	  /* border-color: #e6e6e6;
 	  border-style: solid; */
@@ -242,7 +217,7 @@
 		height: 30px; 
 		font-size: 20px; 
 	} 
-	.title{
+	.titleWrapper{
 		border-style: solid;
 		border-width: 1px;
 		border-color: #e6e6e6;
@@ -254,7 +229,18 @@
 		font-size: 30px; 
 	} 
 	#titleNum{
-		font-size: 11px;   
+		width: 50%;
+		border-style: solid;
+		border-width: 1px;
+		border-color: #e6e6e6;
+		font-size: 12px;     
+	}
+	#title{ 
+		width: 50%;
+		border-style: solid;
+		border-width: 1px;
+		border-color: #e6e6e6;
+		font-size: 27px;      
 	}
 	.nickName{
 		border-style: solid;
@@ -331,15 +317,24 @@
 		margin-bottom:10%;  
 	}
 	.fileUploadResult{
-	    display: inline-block;   
+	    display: inline-block;
 	    border-style: solid;
 	    border-color: #e6e6e6;
-	    margin-left:1%;   
-		margin-right:1%; 
-		margin-top:-7%; 
-		margin-bottom:1%; 
-		float: right; 
-		font-size: 13px;   
+	    margin-left: 1%;
+	    margin-right: 1%;
+	    margin-top: -5.6%;
+	    margin-bottom: 1%;
+	    float: right;
+	    font-size: 13px;
+	    width: 30%;
+	    height: 54px;
+	}
+	.fileUploadResult ul {
+	    border-style: solid;
+	    border-color: #e6e6e6;
+	    width: 84%;
+	    height: 50px; 
+	    margin-top: -1%;
 	}
 	.content img{
 		max-width: 200px;

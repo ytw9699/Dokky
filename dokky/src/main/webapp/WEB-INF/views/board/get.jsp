@@ -20,23 +20,23 @@
 
 <div class="getWrapper"> 
 	<div class="getKind">
-			 <c:choose>
-			       <c:when test="${board.category == 1 }">
-			          		 공지사항 
-			       </c:when>
-			       <c:when test="${board.category == 2 }">
-			       			  자유게시판
-			       </c:when>
-			        <c:when test="${board.category == 3 }">
-			     		 	  묻고답하기
-			       </c:when>
-			        <c:when test="${board.category == 4 }">
-			   		   	  	  칼럼/Tech
-			       </c:when>
-			       <c:when test="${board.category == 5 }">
-			   		   		  정기모임/스터디 
-			       </c:when>
-	       </c:choose> 
+		 <c:choose>
+		       <c:when test="${board.category == 1 }">
+		          		  공지사항 
+		       </c:when>
+		       <c:when test="${board.category == 2 }">
+		       			  자유게시판
+		       </c:when>
+		        <c:when test="${board.category == 3 }">
+		     		 	  묻고답하기
+		       </c:when>
+		        <c:when test="${board.category == 4 }">
+		   		   	  	  칼럼/Tech
+		       </c:when>
+		       <c:when test="${board.category == 5 }">
+		   		   		  정기모임/스터디 
+		       </c:when>
+          </c:choose> 
     </div>
      
     <div class="nickName">
@@ -49,7 +49,7 @@
 						<fmt:formatDate value="${board.regDate}" pattern="yyyy년 MM월 dd일 HH:mm" /><label> 작성</label>
 					<c:if test="${board.regDate != board.updateDate}">
 					    , <fmt:formatDate value="${board.updateDate}" pattern="yyyy년 MM월 dd일 HH:mm" /><label> 수정됨</label> 
-					</c:if>
+					</c:if> 
 				</span>
 				<span>
 					<img width="20px" src="/dokky/resources/img/read.png"/>
@@ -65,11 +65,11 @@
 		    </div> 
     </div>
         
-   	<div class="title">
+   	<div class="titleWrapper">
    		<div id="titleNum">
    			#<c:out value="${board.num }"/>
    		</div>
-   		<div>
+   		<div id="title">
    		 	<c:out value="${board.title}"/>
    		</div>
    		<div class='fileUploadResult'> 
@@ -81,6 +81,7 @@
     <div class="content"> 
       		${board.content } 
     </div>
+    
     <div class="contentInformation">
    		<span>
           <label>좋아요</label> <span id="likeCount"><c:out value="${board.likeCnt }"/></span>
@@ -125,14 +126,8 @@
         		<button id="list_button">목록보기 </button> 
        	</span> 
     </div> 
-    <div class='uploadResult'> 
-      <ul>
-      </ul>  
-    </div>  
-    <div id="replyCntVal">
-    	<!-- 댓글수 -->
-    </div> 
-	<div> 
+    
+    <div> 
 		<form id='operForm' action="/dokky/board/modify" method="get">
 			  <input type="hidden" id='csrf' name="${_csrf.parameterName}" value="${_csrf.token}"/>
 			  <input type='hidden' id='userId' name='userId' value='<c:out value="${board.userId}"/>'>    
@@ -143,24 +138,30 @@
 			  <input type='hidden' name='keyword' value='<c:out value="${cri.keyword}"/>'>
   			  <input type='hidden' name='type' value='<c:out value="${cri.type}"/>'>  
 		</form>
-	</div> 
+	</div>
+    
+    <div id="replyCntVal">
+    	<!-- 댓글수 -->
+    </div> 
+	 
 	<div>
         <ul class="replyList">
         <!-- 댓글 목록 -->
         </ul>
     </div>  
+    
     <div class="replyPage">
     	<!-- 댓글페이지 -->
     </div>
     
-      <div id="replyModForm" ><!-- 댓글 수정 폼+값 불러오기 --> 
-              <input name='reply_content' value='' oninput="checkLength(this,900);"> 
-              <button id='replyModFormModBtn' type="button" >수정</button> 
-   			  <button id='replyModFormCloseBtn' type="button" >취소</button>
-   			  
-   			  <input type='hidden' name='nickName' value=''>
-              <input type='hidden' name='reply_num' value=''>
-      </div>
+     <div id="replyModForm" ><!-- 댓글 수정 폼+값 불러오기 --> 
+             <input name='reply_content' value='' oninput="checkLength(this,900);"> 
+             <button id='replyModFormModBtn' type="button" >수정</button> 
+  			  <button id='replyModFormCloseBtn' type="button" >취소</button>
+  			  
+  			  <input type='hidden' name='nickName' value=''>
+             <input type='hidden' name='reply_num' value=''>
+     </div>
       
 	<sec:authorize access="isAuthenticated()">
 		<div class="replyWriteForm"><!--  댓글쓰기 폼 -->
@@ -1184,21 +1185,11 @@ function checkLength(obj, maxlength) {
    	   
    	    $.getJSON("/dokky/board/getAttachList", {num: num}, function(arr){
    	        
-    	       //console.log(arr);
-    	       
-    	       var imageStr = "";
     	       var fileStr = "";
     	       
     	       $(arr).each(function(i, attach){
 
-					if(attach.fileType){ //이미지라면
-	    	           var fileCallPath =  encodeURIComponent( attach.uploadPath+ "/s_"+attach.uuid +"_"+attach.fileName);
-		    	           
-	    	           imageStr += "<li data-path='"+attach.uploadPath+"' data-uuid='"+attach.uuid+"' data-filename='"+attach.fileName+"' data-type='"+attach.fileType+"' ><div>";
-	    	           imageStr += "<img src='/dokky/display?fileName="+fileCallPath+"'>";
-	    	           imageStr += "</div>";
-	    	           imageStr +"</li>";
-	    	         }else{
+					if(!attach.fileType){ //파일이라면
     	        	   fileStr += "<li data-path='"+attach.uploadPath+"' data-uuid='"+attach.uuid+"' data-filename='"+attach.fileName+"' data-type='"+attach.fileType+"' >";
     	        	   fileStr += attach.fileName;      
 	    	           /* fileStr += "<img src='/dokky/resources/img/attach.png'>"; */     
@@ -1206,7 +1197,6 @@ function checkLength(obj, maxlength) {
 	    	         }
 				});
     	       
-				   $(".uploadResult ul").html(imageStr); 
 	    	       $(".fileUploadResult ul").html(fileStr); 
 	    	       
    	     });//end getjson
@@ -1215,24 +1205,15 @@ function checkLength(obj, maxlength) {
    	 
    }); 
 	    	  
-   	  $(".fileUploadResult, .uploadResult").on("click","li", function(e){
+   	  $(".fileUploadResult").on("click","li", function(e){
    	      
-    	    //console.log("view image");  
-    	     
     	    var liObj = $(this);
     	    
     	    var path = encodeURIComponent(liObj.data("path")+"/" + liObj.data("uuid")+"_" + liObj.data("filename"));
     	    
-    	    if(liObj.data("type")){  
-    	    	showImage(path);  
-    	    }else {
-    	    	  /* replyService.download(path, function(data) {
-    	    		  alert(data); 
-    		  		  alert("다운완료");
-    			    }); */
+    	    if(!liObj.data("type")){//파일이라면  
     	    	self.location ="/dokky/download?fileName="+path 
     	    }
-   	    
    	  });
    	  
    	$(".content").on("click","img", function(e){//본문에서 사진을 클릭한다면
