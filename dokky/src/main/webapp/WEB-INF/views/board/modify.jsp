@@ -23,19 +23,19 @@
 		<div class="row">
 			 <c:choose>
 			       <c:when test="${board.category == 1 }">
-			          		 <h1>공지사항</h1>
+			          		<h1>공지사항</h1>
 			       </c:when>
 			       <c:when test="${board.category == 2 }">
 			       			<h1>자유게시판</h1>
 			       </c:when>
 			        <c:when test="${board.category == 3 }">
-			     		 	  <h1>묻고답하기</h1>
+			     		 	<h1>묻고답하기</h1>
 			       </c:when>
 			        <c:when test="${board.category == 4 }">
-			   		   	  	  <h1>칼럼/Tech</h1>
+			   		   	  	<h1>칼럼/Tech</h1>
 			       </c:when>
 			       <c:when test="${board.category == 5 }">
-			   		   		 <h1>정기모임/스터디 </h1> 
+			   		   		<h1>정기모임/스터디 </h1> 
 			       </c:when>
 	           </c:choose> 
       	 </div> 
