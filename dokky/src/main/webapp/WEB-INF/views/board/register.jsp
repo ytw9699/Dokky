@@ -141,11 +141,10 @@
 	
 	//////////////////////////////////////////////////////////////////////////////
 	
-	  var regex = new RegExp("(.*?)\.(exe|sh|zip|alz)$");
-	  var maxSize = 5242880; //5MB
-	  
 	  function checkFile(fileName, fileSize){
-	    
+		    var regex = new RegExp("(.*?)\.(exe|sh|zip|alz)$");
+		    var maxSize = 5242880; //5MB
+		  
 		    if(fileSize >= maxSize){
 		      alert("파일 사이즈가 5MB를 초과하였습니다.");
 		      return false;
