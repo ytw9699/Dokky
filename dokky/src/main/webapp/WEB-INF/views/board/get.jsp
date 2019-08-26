@@ -425,11 +425,9 @@
           </ul>
         </div>
     </div> 
-          
-    <div class="content">
-    	<div>
+            
+    <div class="content"> 
       		${board.content } 
-      	</div>
     </div>
     <div class="contentInformation">
    		<span>
@@ -1567,13 +1565,13 @@ function checkLength(obj, maxlength) {
 	    	  
    	  $(".fileUploadResult, .uploadResult").on("click","li", function(e){
    	      
-    	    //console.log("view image");
+    	    //console.log("view image");  
     	     
     	    var liObj = $(this);
     	    
     	    var path = encodeURIComponent(liObj.data("path")+"/" + liObj.data("uuid")+"_" + liObj.data("filename"));
     	    
-    	    if(liObj.data("type")){ 
+    	    if(liObj.data("type")){  
     	    	showImage(path);  
     	    }else {
     	    	  /* replyService.download(path, function(data) {
@@ -1584,6 +1582,15 @@ function checkLength(obj, maxlength) {
     	    }
    	    
    	  });
+   	  
+   	$(".content").on("click","img", function(e){//본문에서 사진을 클릭한다면
+	  	
+		  var imgObj = $(this);
+	  
+		  var path = imgObj.data("filecallpath");
+		  
+		  showImage(path);  
+	  });
 	    	  
    	  function showImage(fileCallPath){
     	    
