@@ -7,12 +7,12 @@
 <!DOCTYPE html>
 <html>
 <head>
-<meta charset="UTF-8">
-<script src="//code.jquery.com/jquery-1.11.3.min.js"></script>
-<!-- <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script> -->
-<!-- <script type="text/javascript" src="/dokky/resources/SmartEditor/js/HuskyEZCreator.js" charset="utf-8" ></script> -->
-<title>Dokky - 새 글쓰기</title>  
-<link href="/dokky/resources/css/register.css" rel="stylesheet" type="text/css">
+	<meta charset="UTF-8">
+	<script src="//code.jquery.com/jquery-1.11.3.min.js"></script>
+	<!-- <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script> -->
+	<!-- <script type="text/javascript" src="/dokky/resources/SmartEditor/js/HuskyEZCreator.js" charset="utf-8" ></script> -->
+	<title>Dokky - 새 글쓰기</title>  
+	<link href="/dokky/resources/css/register.css" rel="stylesheet" type="text/css">
 </head>
 <body> 
 
@@ -62,18 +62,18 @@
 			      
 		          <div class="bottomMenuWrap">  
 			          <ul class="bottomMenu">
-				          <li title="사진" class="photo"> 
-				          	  <label for="inputPhoto" class="inputButton" >사진</label>  
+				          <li class="photo"> 
+				          	  <label for="inputPhoto" class="inputButton">사진</label>  
 				          	  <input type="file" id="inputPhoto" name='uploadPhoto' multiple> 
 				          </li>
-				          <li title="파일" class="file">  
-				         	  <label for="inputFile" class="inputButton" >파일</label>    
+				          <li class="file">  
+				         	  <label for="inputFile" class="inputButton">파일</label>    
 					          <input type="file" id="inputFile" name='uploadFile' multiple>
 					      </li> 
-				          <li title="완료" class="submit"> 
+				          <li class="submit"> 
 				          	<button type="submit" class="btn btn-default">등록</button> 
 				          </li>
-			          </ul>
+			          </ul> 
 		          </div>
 		          
 		          <input type='hidden' name='nickName' value='<sec:authentication property="principal.member.nickName"/>' /> 
