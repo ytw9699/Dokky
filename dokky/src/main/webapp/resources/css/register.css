@@ -163,8 +163,8 @@
 		    align-items: baseline; 
 		    margin-top: -15%;
 		}
-		.bigPicture img {
-	  		max-width: 650px;    
+		.bigPicture img { 
+	  		max-width: 700px;   
 			height: auto;
 		}
 		
