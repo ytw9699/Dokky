@@ -77,12 +77,12 @@
 	    border-style: solid; */    
 	    position: fixed;
 	    display: flex;
-	    justify-content: center;
+	    justify-content: center; 
 	    align-items: baseline;
 	    margin-top: -15%;
 	}
 	.bigPicture img {
-  		max-width: 650px;   
+  		max-width: 650px;    
 		height: auto;
 	}
 	
@@ -156,15 +156,16 @@
 	}
 	
 	.reply{
-		border-style: solid;
+		/* border-style: solid;
 		border-width: 1px;
-		border-color: #e6e6e6;
-		width: 90%;
+		border-color: #e6e6e6; */  
+		width: 100%; 
 		margin-left:0% ; 
 		margin-right:1%; 
 		margin-top:1%;
 		margin-bottom:1%;
-		height: 55px;  
+		/* height: 55px;  
+		word-break:break-all;  */
 	}
 	.first {
  		  margin-left: 2%;
@@ -252,30 +253,41 @@
 		margin-top:1%;
 		height: 60px; 
 	}
-	.content{
-		border-style: solid;
-		border-width: 1px;
-		border-color: #e6e6e6;
-		width: 97%;
-		margin-left:1% ; 
-		margin-right:1%;
-		margin-top:1%;
-		height: 500px;
-		position:relative; 
-		overflow-y: auto; 
-	}
 
 	.contentInformation {
 	    border-style: solid;
 	    border-width: 1px;
 	    border-color: #e6e6e6;
 	    width: 59%;
-	    margin-left: 37%;
+	    margin-left: 39%;
 	    /* margin-right: 1%; */
 	    margin-top: 1%;
 	    height: 50px;
 	    margin-bottom: 1%;
 	}
+	.replyListWrapper{
+		width: 100%;
+		/* border-style: solid;
+	    border-width: 1px;
+	    border-color: #e6e6e6; */
+	}
+	.replyList{ 
+	    width: 97%; 
+	    /* border-style: solid;
+	    border-width: 1px;
+	    border-color: #e6e6e6; */
+	    /* float: left; */
+	    /* margin-inline-start: 4%; */
+	    margin-left: -3.5%;
+	}
+	.replyLi{
+		list-style: none; 
+		width: 100%;
+		border-style: solid;
+	    border-width: 1px;
+	    border-color: #e6e6e6;   
+	}
+	
 	#replyCntVal{
 		border-style: solid;
 		border-width: 1px;
@@ -298,23 +310,29 @@
 		height: 45px;  
 	}
 	
-	.replyInformation{
-		border-style: solid;
-		border-width: 1px;
-		border-color: #e6e6e6;
-		width: 97%;
-		margin-left:44%;  
-		margin-right:1%; 
-		margin-top:1%;
-		margin-bottom:1%; 
+	.replyInformation {
+	    border-style: solid;
+	    border-width: 1px;
+	    border-color: #e6e6e6;
+	    width: 50%;
+	    /* margin-left: 40%; */
+	    /* margin-right: 1%; */
+	    margin-top: 1%;
+	    margin-bottom: 1%;
+	    display: block;
+	    /* float: right; */
 	}
 	#reply_contents{
-		width: 80%; 
+		    width: 93%; 
+		    margin-left: 0%;
+		    margin-right: 1%;
+		    margin-top: 1%;
+		    margin-bottom: 1%;
 	}
 	.replyWriteForm{  
 		margin-left:1%; 
 		margin-top:1%; 
-		margin-bottom:10%;  
+		margin-bottom:5%;  
 	}
 	.fileUploadResult{
 	    display: inline-block;
@@ -337,6 +355,27 @@
 	    margin-top: -1%;
 	}
 	.content img{
-		max-width: 200px;
+		max-width: 400px;
 		height: auto;
 	}
+	
+	.content{
+		border-style: solid;
+		border-width: 1px;
+		border-color: #e6e6e6;
+		/* background-color: white; 
+		color: black; */  
+		width: 97%;
+		margin-left:1% ; 
+		margin-right:1%;
+		margin-top:1%;   
+		position:relative; 
+		word-break:break-all; 
+		min-height: 300px;
+		
+	}
+	.reply_content{ 
+		 word-break:break-all; 
+	}
+	
+	

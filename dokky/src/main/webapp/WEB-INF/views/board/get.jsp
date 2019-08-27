@@ -144,7 +144,7 @@
     	<!-- 댓글수 -->
     </div> 
 	 
-	<div>
+	<div class="replyListWrapper">
         <ul class="replyList">
         <!-- 댓글 목록 -->
         </ul>
@@ -295,12 +295,12 @@ function checkLength(obj, maxlength) {
 	       userId = data.list[i].userId;  
 	       reply_nums = data.list[i].reply_num;   
 	       reply_level = data.list[i].reply_level;
-	       toNickName=data.list[i].toNickName;  
+	       toNickName=data.list[i].toNickName;    
 		   toUserId=data.list[i].toUserId;   
 	       
-	       str +="<div style='display:none' id=replace"+reply_nums+"></div>";
+	       str +="<li class='replyLi'><div style='display:none' id=replace"+reply_nums+"></div>";
 	       
-	       if(reply_level == 0 ){ 
+	       if(reply_level == 0 ){   
 	    	  str +=" " + "<div class='reply' data-reply_num='"+reply_nums+"'>";  
 	    	  str +=" " +"<a href='#' class='userMenu' data-reply_num='"+reply_nums+"' data-menu_kind='from'>"  
 			  str += "<img src='/dokky/resources/img/profile_img/"+userId+".png' class='memberImage hideUsermenu' onerror='this.src=\"/dokky/resources/img/basicProfile.png\"' />"
@@ -313,8 +313,8 @@ function checkLength(obj, maxlength) {
 			
 			  str += replyService.displayTime(data.list[i].replyDate) 
 	    	  +" <button data-oper='reReplyForm' type='button' data-user_id='"+userId+"' data-nick_name='"+nickName+"' data-parent_num='"+ data.list[i].parent_num+"' data-order_step='"+data.list[i].order_step+"' data-reply_level='"+data.list[i].reply_level+"'>답글</button>"		  
-	    	  +"<div>";
-	       }else if(reply_level == 1){   
+	    	  str +="<div class='reply_content'><span class='reply_content'>"; 
+	       }else if(reply_level == 1){    
 	    	  str +=" " + "<div class='reply first' data-reply_num='"+reply_nums+"'>└ ";  
 	    	  str +=" " + "From" 
 	    	  str +=" " +"<a href='#' class='userMenu' data-reply_num='"+reply_nums+"' data-menu_kind='from'>"  
@@ -338,7 +338,7 @@ function checkLength(obj, maxlength) {
 			  
 			  str += replyService.displayTime(data.list[i].replyDate);
 	    	  str +=" <button data-oper='reReplyForm' type='button' data-user_id='"+userId+"' data-nick_name='"+nickName+"' data-parent_num='"+ data.list[i].parent_num+"' data-order_step='"+data.list[i].order_step+"' data-reply_level='"+data.list[i].reply_level+"'>답글</button>"  
-	    	  str +="<div>"; 
+	    	  str +="<div class='reply_content'><span class='reply_content'>"; 
 	       }else if(reply_level == 2){
 	    	  str +=" " + "<div class='reply second' data-reply_num='"+reply_nums+"'>└ ";
 	    	  str +=" " + "From" 
@@ -364,7 +364,7 @@ function checkLength(obj, maxlength) {
 			  
 	    	  str += replyService.displayTime(data.list[i].replyDate);
 	    	  str +=" <button data-oper='reReplyForm' type='button' data-user_id='"+userId+"' data-nick_name='"+nickName+"' data-parent_num='"+ data.list[i].parent_num+"' data-order_step='"+data.list[i].order_step+"' data-reply_level='"+data.list[i].reply_level+"'>답글</button>"  
-	    	  str +="<div>";
+	    	  str +="<div class='reply_content'><span class='reply_content'>"; 
 	       }else if(reply_level == 3){
 	    	      str +=" " + "<div class='reply third' data-reply_num='"+reply_nums+"'>└ ";
 		    	  str +=" " + "From" 
@@ -390,7 +390,7 @@ function checkLength(obj, maxlength) {
 				  
 		    	  str += replyService.displayTime(data.list[i].replyDate);
 		    	  str +=" <button data-oper='reReplyForm' type='button' data-user_id='"+userId+"' data-nick_name='"+nickName+"' data-parent_num='"+ data.list[i].parent_num+"' data-order_step='"+data.list[i].order_step+"' data-reply_level='"+data.list[i].reply_level+"'>답글</button>"  
-		    	  str +="<div>";
+		    	  str +="<div class='reply_content'><span class='reply_content'>"; 
 	       }else{  
 	    	   str +=" " + "<div class='reply other' data-reply_num='"+reply_nums+"'>└ ";
 		    	  str +=" " + "From"  
@@ -412,15 +412,14 @@ function checkLength(obj, maxlength) {
 				  str += "<ul class='hideUsermenu'>"
 				  str += "<li class='hideUsermenu'><a href='/dokky/userBoardList?userId="+toUserId+" class='hideUsermenu'><span class='hideUsermenu'>게시글보기</span></a></li>"
 				  str += "<li class='hideUsermenu'><a href='#' class='hideUsermenu'><span class='hideUsermenu'>쪽지보내기</span></a></li>"
-				  str += "</ul></div>"
+				  str += "</ul></div>" 
 				  
 		    	  str += replyService.displayTime(data.list[i].replyDate);
 		    	  str +=" <button data-oper='reReplyForm' type='button' data-user_id='"+userId+"' data-nick_name='"+nickName+"' data-parent_num='"+ data.list[i].parent_num+"' data-order_step='"+data.list[i].order_step+"' data-reply_level='"+data.list[i].reply_level+"'>답글</button>"  
-		    	  str +="<div><span>";
-	       } 
+		    	  str +="<div class='reply_content'><span class='reply_content'>";  
+	       }  
 	         
-	       str +=" " + data.list[i].reply_content
-	       +" </span>" 
+	       str +=" " + data.list[i].reply_content +"</span>"   
 	       str += "  <span class='replyInformation'>좋아요 <span id='replyLikeCount"+reply_nums+"'>"+data.list[i].likeCnt+"</span> "
 	       str += "  싫어요 <span id='replyDisLikeCount"+reply_nums+"'>"+data.list[i].dislikeCnt+"</span> "
 	       str += "  기부금 <span id='replyMoney"+reply_nums+"'>"+data.list[i].money+"</span> "
@@ -438,7 +437,7 @@ function checkLength(obj, maxlength) {
 		       +"<button data-oper='report' type='button' data-user_id='"+userId+"' data-nick_name='"+nickName+"'>신고</button>"
 	       } 
 				
-	       str += "</span></div></div>";       
+	       str += "</span></div></div></li>";       
 			    /*  str += "<sec:authorize access='isAuthenticated()'>" */
 		       	/*   +"</sec:authorize>"  인증된사람만 보여주기*/
 	     }
