@@ -152,9 +152,11 @@
 	display: none;
 	}
 	.reReplyWriteForm{
-	display: none;
+		display: none;
 	}
+	.replyWriteForm{
 	
+	}
 	.reply{
 		/* border-style: solid;
 		border-width: 1px;
@@ -260,9 +262,10 @@
 	    border-color: #e6e6e6;
 	    width: 59%;
 	    margin-left: 39%;
-	    /* margin-right: 1%; */
+	    /* margin-right: 1%; 
+	    height: 50px; 
+	    */
 	    margin-top: 1%;
-	    height: 50px;
 	    margin-bottom: 1%;
 	}
 	.replyListWrapper{
@@ -310,20 +313,21 @@
 		height: 45px;  
 	}
 	
-	.replyInformation {
+	.replyInformation { 
 	    border-style: solid;
 	    border-width: 1px;
 	    border-color: #e6e6e6;
-	    width: 50%;
-	    /* margin-left: 40%; */
-	    /* margin-right: 1%; */
+	    /* width: 44%; */
+	    margin-left: 6%;
+	    /* margin-right: 4%; */
 	    margin-top: 1%;
-	    margin-bottom: 1%;
-	    display: block;
+	    /* margin-bottom: 1%; */
 	    /* float: right; */
+	    /* display: block; */
 	}
+	
 	#reply_contents{
-		    width: 93%; 
+		    width: 99%; 
 		    margin-left: 0%;
 		    margin-right: 1%;
 		    margin-top: 1%;
@@ -377,5 +381,53 @@
 	.reply_content{ 
 		 word-break:break-all; 
 	}
+	#reReply_contents{ 
+		width: 99%;
+	}
+	.reReplyBtn{ 
+	    width: 47%;
+	    height: 53px;
+	}
+	.reReplyBtnWrapper{ 
+		border-style: solid;
+		border-width: 1px;
+		border-color: #e6e6e6;
+	    width: 10%;
+	    display: inline-block;
+	    position: absolute;
+	}
+	.textareaWrapper{
+		border-style: solid;
+		border-width: 1px;
+		border-color: #e6e6e6;
+		width: 80%; 
+		display: inline-block; 
+	}
+	.replytextareaWrapper{
+		border-style: solid;
+		border-width: 1px;
+		border-color: #e6e6e6;
+		width: 90%; 
+		display: inline-block; 
+	}
+	 
+	.replyBtnWrapper {
+	     border-style: solid;
+	    border-width: 1px;
+	    border-color: #e6e6e6;
+	    width: 5%;
+	    display: inline-block;
+	    position: absolute;
+	    height: 72px;
+	}
+	#replyRegisterBtn{
+		width: 90%;
+	    height: 53px;
+	    margin-top: 8%; 
+	}
+	
+	
+	
+	
 	
 	

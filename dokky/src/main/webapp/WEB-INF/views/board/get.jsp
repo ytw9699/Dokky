@@ -165,15 +165,23 @@
       
 	<sec:authorize access="isAuthenticated()">
 		<div class="replyWriteForm"><!--  댓글쓰기 폼 -->
-                <textarea id="reply_contents" rows="3" placeholder="댓글을 입력하세요" name='reply_content' oninput="checkLength(this,900);"></textarea> 
-            	 <button id='replyRegisterBtn' type="button">등록</button> 
+			     <div class="replytextareaWrapper"> 
+              		<textarea id="reply_contents" rows="3" placeholder="댓글을 입력하세요" name='reply_content' oninput="checkLength(this,900);"></textarea>
+                 </div>
+                  <div class="replyBtnWrapper">  
+            	 	<button id='replyRegisterBtn' type="button">등록</button>
+            	  </div> 
 		</div>   
 		<div class="reReplyWriteForm"><!--  대댓글쓰기 폼 -->
 		   <div> 
-                <textarea id="reReply_contents" rows="3" name='reReply_content' oninput="checkLength(this,900);"></textarea>
+		   		<div class="textareaWrapper"> 
+                	<textarea id="reReply_contents" rows="3" name='reReply_content' oninput="checkLength(this,900);"></textarea>
+                </div> 
+                <div class="reReplyBtnWrapper">  	 
+	                <button id='reReplyRegisterBtn' class="reReplyBtn" type="button">등록</button>
+	   		   		<button id='reReplyCancelBtn' class="reReplyBtn" type="button">취소</button>
+   		   		</div> 
            </div>  
-   		   <button id='reReplyRegisterBtn' type="button">등록</button>
-   		   <button id='reReplyCancelBtn' type="button">취소</button>
 		</div> 
 	</sec:authorize>
 		
@@ -297,8 +305,8 @@ function checkLength(obj, maxlength) {
 	       reply_level = data.list[i].reply_level;
 	       toNickName=data.list[i].toNickName;    
 		   toUserId=data.list[i].toUserId;   
-	       
-	       str +="<li class='replyLi'><div style='display:none' id=replace"+reply_nums+"></div>";
+		   
+	       str +="<li id='"+reply_nums+"' class='replyLi'><div style='display:none' id=replace"+reply_nums+"></div>";
 	       
 	       if(reply_level == 0 ){   
 	    	  str +=" " + "<div class='reply' data-reply_num='"+reply_nums+"'>";  
@@ -312,7 +320,25 @@ function checkLength(obj, maxlength) {
 			  str += "</ul></div>" 
 			
 			  str += replyService.displayTime(data.list[i].replyDate) 
-	    	  +" <button data-oper='reReplyForm' type='button' data-user_id='"+userId+"' data-nick_name='"+nickName+"' data-parent_num='"+ data.list[i].parent_num+"' data-order_step='"+data.list[i].order_step+"' data-reply_level='"+data.list[i].reply_level+"'>답글</button>"		  
+	    	  +" <button data-oper='reReplyForm' type='button' data-reply_num='"+reply_nums+"' data-user_id='"+userId+"' data-nick_name='"+nickName+"' data-parent_num='"+ data.list[i].parent_num+"' data-order_step='"+data.list[i].order_step+"' data-reply_level='"+data.list[i].reply_level+"'>답글</button>"
+	    	  
+	    	  str += "  <span class='replyInformation'>좋아요 <span id='replyLikeCount"+reply_nums+"'>"+data.list[i].likeCnt+"</span> "
+		      str += "  싫어요 <span id='replyDisLikeCount"+reply_nums+"'>"+data.list[i].dislikeCnt+"</span> "
+		      str += "  기부금 <span id='replyMoney"+reply_nums+"'>"+data.list[i].money+"</span> "
+		         
+		    		    
+	         if(username == userId){
+				 str += "<button data-oper='modify' type='button' data-user_id='"+userId+"' data-reply_num='"+reply_nums+"'>수정</button>"
+			       +"<button data-oper='delete' type='button' data-user_id='"+userId+"' data-reply_num='"+reply_nums+"'>삭제</button></span>"
+	         } 
+	        
+	         if(username != userId){
+		    	   str += " <button data-oper='like' type='button' data-user_id='"+userId+"' data-reply_num='"+reply_nums+"'>좋아요</button>" 
+			       +"<button data-oper='dislike' type='button' data-user_id='"+userId+"' data-reply_num='"+reply_nums+"'>싫어요</button>"
+			       +"<button data-oper='donateMoney' type='button' data-user_id='"+userId+"' data-reply_num='"+reply_nums+"'>기부</button>"
+			       +"<button data-oper='report' type='button' data-user_id='"+userId+"' data-nick_name='"+nickName+"'>신고</button></span>"
+	         } 
+	    	   
 	    	  str +="<div class='reply_content'><span class='reply_content'>"; 
 	       }else if(reply_level == 1){    
 	    	  str +=" " + "<div class='reply first' data-reply_num='"+reply_nums+"'>└ ";  
@@ -337,7 +363,25 @@ function checkLength(obj, maxlength) {
 			  str += "</ul></div>"
 			  
 			  str += replyService.displayTime(data.list[i].replyDate);
-	    	  str +=" <button data-oper='reReplyForm' type='button' data-user_id='"+userId+"' data-nick_name='"+nickName+"' data-parent_num='"+ data.list[i].parent_num+"' data-order_step='"+data.list[i].order_step+"' data-reply_level='"+data.list[i].reply_level+"'>답글</button>"  
+	    	  str +=" <button data-oper='reReplyForm' data-reply_num='"+reply_nums+"' type='button' data-user_id='"+userId+"' data-nick_name='"+nickName+"' data-parent_num='"+ data.list[i].parent_num+"' data-order_step='"+data.list[i].order_step+"' data-reply_level='"+data.list[i].reply_level+"'>답글</button>"
+	    	  
+	    	  str += "  <span class='replyInformation'>좋아요 <span id='replyLikeCount"+reply_nums+"'>"+data.list[i].likeCnt+"</span> "
+		      str += "  싫어요 <span id='replyDisLikeCount"+reply_nums+"'>"+data.list[i].dislikeCnt+"</span> "
+		      str += "  기부금 <span id='replyMoney"+reply_nums+"'>"+data.list[i].money+"</span> "
+		         
+		    		    
+	         if(username == userId){
+				 str += "<button data-oper='modify' type='button' data-user_id='"+userId+"' data-reply_num='"+reply_nums+"'>수정</button>"
+			       +"<button data-oper='delete' type='button' data-user_id='"+userId+"' data-reply_num='"+reply_nums+"'>삭제</button></span>"
+	         } 
+	        
+	         if(username != userId){
+		    	   str += " <button data-oper='like' type='button' data-user_id='"+userId+"' data-reply_num='"+reply_nums+"'>좋아요</button>" 
+			       +"<button data-oper='dislike' type='button' data-user_id='"+userId+"' data-reply_num='"+reply_nums+"'>싫어요</button>"
+			       +"<button data-oper='donateMoney' type='button' data-user_id='"+userId+"' data-reply_num='"+reply_nums+"'>기부</button>"
+			       +"<button data-oper='report' type='button' data-user_id='"+userId+"' data-nick_name='"+nickName+"'>신고</button></span>"
+	         } 
+	    	  
 	    	  str +="<div class='reply_content'><span class='reply_content'>"; 
 	       }else if(reply_level == 2){
 	    	  str +=" " + "<div class='reply second' data-reply_num='"+reply_nums+"'>└ ";
@@ -363,7 +407,25 @@ function checkLength(obj, maxlength) {
 			  str += "</ul></div>"
 			  
 	    	  str += replyService.displayTime(data.list[i].replyDate);
-	    	  str +=" <button data-oper='reReplyForm' type='button' data-user_id='"+userId+"' data-nick_name='"+nickName+"' data-parent_num='"+ data.list[i].parent_num+"' data-order_step='"+data.list[i].order_step+"' data-reply_level='"+data.list[i].reply_level+"'>답글</button>"  
+	    	  str +=" <button data-oper='reReplyForm' data-reply_num='"+reply_nums+"' type='button' data-user_id='"+userId+"' data-nick_name='"+nickName+"' data-parent_num='"+ data.list[i].parent_num+"' data-order_step='"+data.list[i].order_step+"' data-reply_level='"+data.list[i].reply_level+"'>답글</button>"
+	    	  
+	    	  str += "  <span class='replyInformation'>좋아요 <span id='replyLikeCount"+reply_nums+"'>"+data.list[i].likeCnt+"</span> "
+		      str += "  싫어요 <span id='replyDisLikeCount"+reply_nums+"'>"+data.list[i].dislikeCnt+"</span> "
+		      str += "  기부금 <span id='replyMoney"+reply_nums+"'>"+data.list[i].money+"</span> "
+		         
+		    		    
+	         if(username == userId){
+				 str += "<button data-oper='modify' type='button' data-user_id='"+userId+"' data-reply_num='"+reply_nums+"'>수정</button>"
+			       +"<button data-oper='delete' type='button' data-user_id='"+userId+"' data-reply_num='"+reply_nums+"'>삭제</button></span>"
+	         } 
+	        
+	         if(username != userId){
+		    	   str += " <button data-oper='like' type='button' data-user_id='"+userId+"' data-reply_num='"+reply_nums+"'>좋아요</button>" 
+			       +"<button data-oper='dislike' type='button' data-user_id='"+userId+"' data-reply_num='"+reply_nums+"'>싫어요</button>"
+			       +"<button data-oper='donateMoney' type='button' data-user_id='"+userId+"' data-reply_num='"+reply_nums+"'>기부</button>"
+			       +"<button data-oper='report' type='button' data-user_id='"+userId+"' data-nick_name='"+nickName+"'>신고</button></span>"
+	         } 
+	    	  
 	    	  str +="<div class='reply_content'><span class='reply_content'>"; 
 	       }else if(reply_level == 3){
 	    	      str +=" " + "<div class='reply third' data-reply_num='"+reply_nums+"'>└ ";
@@ -389,7 +451,25 @@ function checkLength(obj, maxlength) {
 				  str += "</ul></div>"
 				  
 		    	  str += replyService.displayTime(data.list[i].replyDate);
-		    	  str +=" <button data-oper='reReplyForm' type='button' data-user_id='"+userId+"' data-nick_name='"+nickName+"' data-parent_num='"+ data.list[i].parent_num+"' data-order_step='"+data.list[i].order_step+"' data-reply_level='"+data.list[i].reply_level+"'>답글</button>"  
+		    	  str +=" <button data-oper='reReplyForm' data-reply_num='"+reply_nums+"' type='button' data-user_id='"+userId+"' data-nick_name='"+nickName+"' data-parent_num='"+ data.list[i].parent_num+"' data-order_step='"+data.list[i].order_step+"' data-reply_level='"+data.list[i].reply_level+"'>답글</button>"
+		    	  
+		    	  str += "  <span class='replyInformation'>좋아요 <span id='replyLikeCount"+reply_nums+"'>"+data.list[i].likeCnt+"</span> "
+			      str += "  싫어요 <span id='replyDisLikeCount"+reply_nums+"'>"+data.list[i].dislikeCnt+"</span> "
+			      str += "  기부금 <span id='replyMoney"+reply_nums+"'>"+data.list[i].money+"</span> "
+			         
+			    		    
+		         if(username == userId){
+					 str += "<button data-oper='modify' type='button' data-user_id='"+userId+"' data-reply_num='"+reply_nums+"'>수정</button>"
+				       +"<button data-oper='delete' type='button' data-user_id='"+userId+"' data-reply_num='"+reply_nums+"'>삭제</button></span>"
+		         } 
+		        
+		         if(username != userId){
+			    	   str += " <button data-oper='like' type='button' data-user_id='"+userId+"' data-reply_num='"+reply_nums+"'>좋아요</button>" 
+				       +"<button data-oper='dislike' type='button' data-user_id='"+userId+"' data-reply_num='"+reply_nums+"'>싫어요</button>"
+				       +"<button data-oper='donateMoney' type='button' data-user_id='"+userId+"' data-reply_num='"+reply_nums+"'>기부</button>"
+				       +"<button data-oper='report' type='button' data-user_id='"+userId+"' data-nick_name='"+nickName+"'>신고</button></span>"
+		         } 
+		    	  
 		    	  str +="<div class='reply_content'><span class='reply_content'>"; 
 	       }else{  
 	    	   str +=" " + "<div class='reply other' data-reply_num='"+reply_nums+"'>└ ";
@@ -415,29 +495,30 @@ function checkLength(obj, maxlength) {
 				  str += "</ul></div>" 
 				  
 		    	  str += replyService.displayTime(data.list[i].replyDate);
-		    	  str +=" <button data-oper='reReplyForm' type='button' data-user_id='"+userId+"' data-nick_name='"+nickName+"' data-parent_num='"+ data.list[i].parent_num+"' data-order_step='"+data.list[i].order_step+"' data-reply_level='"+data.list[i].reply_level+"'>답글</button>"  
+		    	  str +=" <button data-oper='reReplyForm' data-reply_num='"+reply_nums+"' type='button' data-user_id='"+userId+"' data-nick_name='"+nickName+"' data-parent_num='"+ data.list[i].parent_num+"' data-order_step='"+data.list[i].order_step+"' data-reply_level='"+data.list[i].reply_level+"'>답글</button>"
+		    	  
+		    	  str += "  <span class='replyInformation'>좋아요 <span id='replyLikeCount"+reply_nums+"'>"+data.list[i].likeCnt+"</span> "
+			      str += "  싫어요 <span id='replyDisLikeCount"+reply_nums+"'>"+data.list[i].dislikeCnt+"</span> "
+			      str += "  기부금 <span id='replyMoney"+reply_nums+"'>"+data.list[i].money+"</span> "
+			         
+			    		    
+		         if(username == userId){
+					 str += "<button data-oper='modify' type='button' data-user_id='"+userId+"' data-reply_num='"+reply_nums+"'>수정</button>"
+				       +"<button data-oper='delete' type='button' data-user_id='"+userId+"' data-reply_num='"+reply_nums+"'>삭제</button></span>"
+		         } 
+		        
+		         if(username != userId){
+			    	   str += " <button data-oper='like' type='button' data-user_id='"+userId+"' data-reply_num='"+reply_nums+"'>좋아요</button>" 
+				       +"<button data-oper='dislike' type='button' data-user_id='"+userId+"' data-reply_num='"+reply_nums+"'>싫어요</button>"
+				       +"<button data-oper='donateMoney' type='button' data-user_id='"+userId+"' data-reply_num='"+reply_nums+"'>기부</button>"
+				       +"<button data-oper='report' type='button' data-user_id='"+userId+"' data-nick_name='"+nickName+"'>신고</button></span>"
+		         } 
+		    	    
 		    	  str +="<div class='reply_content'><span class='reply_content'>";  
 	       }  
 	         
 	       str +=" " + data.list[i].reply_content +"</span>"   
-	       str += "  <span class='replyInformation'>좋아요 <span id='replyLikeCount"+reply_nums+"'>"+data.list[i].likeCnt+"</span> "
-	       str += "  싫어요 <span id='replyDisLikeCount"+reply_nums+"'>"+data.list[i].dislikeCnt+"</span> "
-	       str += "  기부금 <span id='replyMoney"+reply_nums+"'>"+data.list[i].money+"</span> "
-	         
-	    		    
-	       if(username == userId){
-			 str += "<button data-oper='modify' type='button' data-user_id='"+userId+"' data-reply_num='"+reply_nums+"'>수정</button>"
-		       +"<button data-oper='delete' type='button' data-user_id='"+userId+"' data-reply_num='"+reply_nums+"'>삭제</button>"
-	       } 
-	        
-	       if(username != userId){
-	    	   str += " <button data-oper='like' type='button' data-user_id='"+userId+"' data-reply_num='"+reply_nums+"'>좋아요</button>" 
-		       +"<button data-oper='dislike' type='button' data-user_id='"+userId+"' data-reply_num='"+reply_nums+"'>싫어요</button>"
-		       +"<button data-oper='donateMoney' type='button' data-user_id='"+userId+"' data-reply_num='"+reply_nums+"'>기부</button>"
-		       +"<button data-oper='report' type='button' data-user_id='"+userId+"' data-nick_name='"+nickName+"'>신고</button>"
-	       } 
-				
-	       str += "</span></div></div></li>";       
+	       str += "</div></div></li>";        
 			    /*  str += "<sec:authorize access='isAuthenticated()'>" */
 		       	/*   +"</sec:authorize>"  인증된사람만 보여주기*/
 	     }
@@ -517,21 +598,25 @@ function checkLength(obj, maxlength) {
 	
 	$(".replyList").on("click",'button[data-oper="reReplyForm"]', function(event){//0. 대댓글 폼 버튼
 		
-		reReplyWriteForm.css("display","block"); 
-	
-		parent_num = $(this).data("parent_num");  
-		order_step = $(this).data("order_step");  
-		reply_level = $(this).data("reply_level");  
-		toUserId = $(this).data("user_id");  
-		toNickName = $(this).data("nick_name");  
-		
-	   });
+			var reply_num = $(this).data("reply_num");
+			
+			$("#"+reply_num).after($(".reReplyWriteForm"));     
+		  
+			reReplyWriteForm.css("display","block"); 
+		 
+			parent_num = $(this).data("parent_num");  
+			order_step = $(this).data("order_step");  
+			reply_level = $(this).data("reply_level");  
+			toUserId = $(this).data("user_id");  
+			toNickName = $(this).data("nick_name");  
+			
+    });
 	
 	reReplyRegisterBtn.on("click",function(e){// 0. 대댓글 등록 버튼
 		
-		var reReply_contents = $("#reReply_contents");//댓글 내용
+		      var reReply_contents = $("#reReply_contents");//댓글 내용
 		
-	      		var reply = {
+	          var reply = {
 		    		reply_content:reReply_contents.val(), //댓글 내용
 		    		userId:reply_id,//댓글 작성자 아이디
 		    		nickName:reply_nickName, //작성자 닉네임
@@ -541,9 +626,9 @@ function checkLength(obj, maxlength) {
 		            parent_num:parent_num,
 		            order_step:order_step,
 		            reply_level:reply_level
-	       	   };
+	       	  };
 		  
-			 var alarmData = {
+			  var alarmData = {
 						target:toUserId,
 						commonVar1:board_title,
 						commonVar2:board_num,
@@ -552,12 +637,12 @@ function checkLength(obj, maxlength) {
 						writerId:reply_id
 			  };
 		 
-			var commonData ={ 
-					replyVO:reply,
+			  var commonData ={ 
+					replyVO:reply, 
 					alarmVO:alarmData
-		 	}
+		 	  }
 	      	
-	     	 replyService.add(commonData, function(result){//대댓글 등록
+	     	  replyService.add(commonData, function(result){//대댓글 등록
 	        	
 	     			reReplyWriteForm.css("display","none"); 
 	     	 
@@ -565,16 +650,16 @@ function checkLength(obj, maxlength) {
 			        
 			        showReplyList(-1);//댓글 목록 마지막 페이지 보여주기
 		     }); 
-	   });
+   });
 	
-		reReplyCancelBtn.on("click",function(e){ 
-			
-			var reReply_contents = $("#reReply_contents");
-			
-				reReplyWriteForm.css("display","none"); 
-		    	 
-					reReply_contents.val("");
-			});
+   reReplyCancelBtn.on("click",function(e){ 
+		
+		var reReply_contents = $("#reReply_contents");
+		
+			reReplyWriteForm.css("display","none"); 
+	    	 
+			reReply_contents.val("");
+   });
 	
 	/////////////////////////////////////////////////////////이하는 댓글 수정,삭제,수정후 취소
 	
