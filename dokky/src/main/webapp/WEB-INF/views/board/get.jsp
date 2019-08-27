@@ -150,7 +150,7 @@
         </ul>
     </div>  
     
-    <div class="replyPage">
+    <div class="replyPage"> 
     	<!-- 댓글페이지 -->
     </div>
     
@@ -296,6 +296,9 @@ function checkLength(obj, maxlength) {
 	     if(data.list == null || len == 0){//댓글 리스트
 	    	 replyList.html(str);//댓글삭제후 댓글이 하나도 없다면 목록안에 공백 채워주기
 	    	 showReplyPage(0);//댓글이 없어서 페이지 번호 없애주기
+	    	 var replyCntVal = $("#replyCntVal");
+	    	 replyCntVal.html("");//댓글수도 없애기 
+	 	     replyCntVal.css("display","none"); 
 	    	 return;  
 	     }
 	     for (var i = 0; i < len || 0; i++) {
@@ -526,10 +529,11 @@ function checkLength(obj, maxlength) {
 	     
 	     showReplyPage(data.replyCnt);//댓글페이지 보여주기
 	     
-	     console.log("showReplyList끝");
+	     //console.log("showReplyList끝");
 	     
-	     var replyCntVal = $("#replyCntVal");
-	      
+	     var replyCntVal = $("#replyCntVal"); 
+	     
+	     replyCntVal.css("display","block"); 
 	     replyCntVal.html("댓글-"+replyCnt);   
 	     
 	   });//end function
@@ -1206,7 +1210,8 @@ function checkLength(obj, maxlength) {
 	    
     function showReplyPage(replyCnt){//댓글 페이지 함수
     	if(replyCnt == 0){//댓글삭제후 댓글이 하나도없다면
-    		replyPage.html("");
+    		replyPage.html(""); 
+    		replyPage.css("display","none");
     		return;
     	}
     
@@ -1247,6 +1252,7 @@ function checkLength(obj, maxlength) {
       //console.log(str);
       
       replyPage.html(str);
+      replyPage.css("display","block");
     }
 	     
 	    replyPage.on("click","li a", function(e){//4. 페이지 링크 클릭시 이벤트
