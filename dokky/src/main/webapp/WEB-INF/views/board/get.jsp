@@ -555,7 +555,7 @@ function checkLength(obj, maxlength) {
 		 var reReplyCancelBtn = $("#reReplyCancelBtn");//대댓글 등록 취소 버튼
 		 var reply_contents = $("#reply_contents");//댓글 내용
 		 var reReplyWriteForm = $(".reReplyWriteForm");
-		 var parent_num;  
+		 var parent_num;    
 		 var order_step;  
 	     var reply_level; 
 	     var toUserId;
@@ -601,13 +601,13 @@ function checkLength(obj, maxlength) {
 	/////////////////////////////////////////////////////////댓글에 댓글
 	
 	$(".replyList").on("click",'button[data-oper="reReplyForm"]', function(event){//0. 대댓글 폼 버튼
-		
+			   
 			var reply_num = $(this).data("reply_num");
+			 
+			reReplyWriteForm.css("display","block");  
 			
-			$("#"+reply_num).after($(".reReplyWriteForm"));     
+			$("#"+reply_num).after(reReplyWriteForm);       
 		  
-			reReplyWriteForm.css("display","block"); 
-		 
 			parent_num = $(this).data("parent_num");  
 			order_step = $(this).data("order_step");  
 			reply_level = $(this).data("reply_level");  
@@ -645,13 +645,14 @@ function checkLength(obj, maxlength) {
 					replyVO:reply, 
 					alarmVO:alarmData
 		 	  }
-	      	
 	     	  replyService.add(commonData, function(result){//대댓글 등록
-	        	
+	        	    
 	     			reReplyWriteForm.css("display","none"); 
 	     	 
-	     			reReply_contents.val("");//대댓글등록후 폼 비우기
-			        
+	     			reReply_contents.val("");//대댓글등록후 폼 비우기 
+	     			
+	     			$(".replyWriteForm").after(reReplyWriteForm);//폼이 삭제되버리기전에 다시 붙여두기 
+			         
 			        showReplyList(-1);//댓글 목록 마지막 페이지 보여주기
 		     }); 
    });
