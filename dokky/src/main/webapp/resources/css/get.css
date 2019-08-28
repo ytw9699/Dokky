@@ -380,8 +380,13 @@
 		min-height: 300px;
 		
 	}
+	.reply_contentWrapper{
+		word-break:break-all; 
+	}
+	
 	.reply_content{ 
 		 word-break:break-all; 
+		 margin-left:1% ;  
 	}
 	#reReply_contents{ 
 		width: 99%;

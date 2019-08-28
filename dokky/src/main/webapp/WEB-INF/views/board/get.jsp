@@ -304,7 +304,7 @@ function checkLength(obj, maxlength) {
 	     for (var i = 0; i < len || 0; i++) {
 	       nickName = data.list[i].nickName; 
 	       userId = data.list[i].userId;  
-	       reply_nums = data.list[i].reply_num;   
+	       reply_nums = data.list[i].reply_num;    
 	       reply_level = data.list[i].reply_level;
 	       toNickName=data.list[i].toNickName;    
 		   toUserId=data.list[i].toUserId;   
@@ -314,8 +314,8 @@ function checkLength(obj, maxlength) {
 	       if(reply_level == 0 ){   
 	    	  str +=" " + "<div class='reply' data-reply_num='"+reply_nums+"'>";  
 	    	  str +=" " +"<a href='#' class='userMenu' data-reply_num='"+reply_nums+"' data-menu_kind='from'>"  
-			  str += "<img src='/dokky/resources/img/profile_img/"+userId+".png' class='memberImage hideUsermenu' onerror='this.src=\"/dokky/resources/img/basicProfile.png\"' />"
-		      str += nickName+"</a>" 
+			  str += " <img src='/dokky/resources/img/profile_img/"+userId+".png' class='memberImage hideUsermenu' onerror='this.src=\"/dokky/resources/img/basicProfile.png\"' /> "
+		      str += nickName+" </a> "   
 			  str += "<div id='userMenubar_reply_from_"+reply_nums+"' class='userMenubar'>" 
 			  str += "<ul class='hideUsermenu'>"
 			  str += "<li class='hideUsermenu'><a href='/dokky/userBoardList?userId="+userId+" class='hideUsermenu'><span class='hideUsermenu'>게시글보기</span></a></li>"
@@ -342,12 +342,11 @@ function checkLength(obj, maxlength) {
 			       +"<button data-oper='report' type='button' data-user_id='"+userId+"' data-nick_name='"+nickName+"'>신고</button></span>"
 	         } 
 	    	   
-	    	  str +="<div class='reply_content'><span class='reply_content'>"; 
+	    	  str +="<div class='reply_contentWrapper'><span class='reply_content'>"; 
 	       }else if(reply_level == 1){    
 	    	  str +=" " + "<div class='reply first' data-reply_num='"+reply_nums+"'>└ ";  
-	    	  str +=" " + "From" 
 	    	  str +=" " +"<a href='#' class='userMenu' data-reply_num='"+reply_nums+"' data-menu_kind='from'>"  
-			  str += "<img src='/dokky/resources/img/profile_img/"+userId+".png' class='memberImage hideUsermenu' onerror='this.src=\"/dokky/resources/img/basicProfile.png\"' />"
+			  str += "<img src='/dokky/resources/img/profile_img/"+userId+".png' class='memberImage hideUsermenu' onerror='this.src=\"/dokky/resources/img/basicProfile.png\"' /> "
 		      str += nickName+"</a>" 
 			  str += "<div id='userMenubar_reply_from_"+reply_nums+"' class='userMenubar'>" 
 			  str += "<ul class='hideUsermenu'>"
@@ -355,15 +354,15 @@ function checkLength(obj, maxlength) {
 			  str += "<li class='hideUsermenu'><a href='#' class='hideUsermenu'><span class='hideUsermenu'>쪽지보내기</span></a></li>"
 			  str += "</ul></div>"
 			  
-			  str += "To-"
+			  str += " ➜ "     
 			  str +=" " +"<a href='#' class='userMenu' data-reply_num='"+reply_nums+"' data-menu_kind='to'>"  
-			  str += "<img src='/dokky/resources/img/profile_img/"+toUserId+".png' class='memberImage hideUsermenu' onerror='this.src=\"/dokky/resources/img/basicProfile.png\"' />"
+			  str += "<img src='/dokky/resources/img/profile_img/"+toUserId+".png' class='memberImage hideUsermenu' onerror='this.src=\"/dokky/resources/img/basicProfile.png\"' /> "
 		      str += toNickName+"</a>" 
 			  str += "<div id='userMenubar_reply_to_"+reply_nums+"' class='userMenubar to'>"  
-			  str += "<ul class='hideUsermenu'>"
+			  str += "<ul class='hideUsermenu'>" 
 			  str += "<li class='hideUsermenu'><a href='/dokky/userBoardList?userId="+toUserId+" class='hideUsermenu'><span class='hideUsermenu'>게시글보기</span></a></li>"
 			  str += "<li class='hideUsermenu'><a href='#' class='hideUsermenu'><span class='hideUsermenu'>쪽지보내기</span></a></li>"
-			  str += "</ul></div>"
+			  str += "</ul></div> " 
 			  
 			  str += replyService.displayTime(data.list[i].replyDate);
 	    	  str +=" <button data-oper='reReplyForm' data-reply_num='"+reply_nums+"' type='button' data-user_id='"+userId+"' data-nick_name='"+nickName+"' data-parent_num='"+ data.list[i].parent_num+"' data-order_step='"+data.list[i].order_step+"' data-reply_level='"+data.list[i].reply_level+"'>답글</button>"
@@ -385,13 +384,11 @@ function checkLength(obj, maxlength) {
 			       +"<button data-oper='report' type='button' data-user_id='"+userId+"' data-nick_name='"+nickName+"'>신고</button></span>"
 	         } 
 	    	  
-	    	  str +="<div class='reply_content'><span class='reply_content'>"; 
+	    	  str +="<div class='reply_contentWrapper'><span class='reply_content'>"; 
 	       }else if(reply_level == 2){
 	    	  str +=" " + "<div class='reply second' data-reply_num='"+reply_nums+"'>└ ";
-	    	  str +=" " + "From" 
-	    	  
 	    	  str +=" " +"<a href='#' class='userMenu' data-reply_num='"+reply_nums+"' data-menu_kind='from'>"  
-			  str += "<img src='/dokky/resources/img/profile_img/"+userId+".png' class='memberImage hideUsermenu' onerror='this.src=\"/dokky/resources/img/basicProfile.png\"' />"
+			  str += "<img src='/dokky/resources/img/profile_img/"+userId+".png' class='memberImage hideUsermenu' onerror='this.src=\"/dokky/resources/img/basicProfile.png\"' /> "
 		      str += nickName+"</a>" 
 			  str += "<div id='userMenubar_reply_from_"+reply_nums+"' class='userMenubar'>" 
 			  str += "<ul class='hideUsermenu'>"
@@ -399,7 +396,7 @@ function checkLength(obj, maxlength) {
 			  str += "<li class='hideUsermenu'><a href='#' class='hideUsermenu'><span class='hideUsermenu'>쪽지보내기</span></a></li>"
 			  str += "</ul></div>"
 			  
-			  str += "To-"
+			  str += " ➜ "
 			  str +=" " +"<a href='#' class='userMenu' data-reply_num='"+reply_nums+"' data-menu_kind='to'>"  
 			  str += "<img src='/dokky/resources/img/profile_img/"+toUserId+".png' class='memberImage hideUsermenu' onerror='this.src=\"/dokky/resources/img/basicProfile.png\"' />"
 		      str += toNickName+"</a>" 
@@ -407,7 +404,7 @@ function checkLength(obj, maxlength) {
 			  str += "<ul class='hideUsermenu'>"
 			  str += "<li class='hideUsermenu'><a href='/dokky/userBoardList?userId="+toUserId+" class='hideUsermenu'><span class='hideUsermenu'>게시글보기</span></a></li>"
 			  str += "<li class='hideUsermenu'><a href='#' class='hideUsermenu'><span class='hideUsermenu'>쪽지보내기</span></a></li>"
-			  str += "</ul></div>"
+			  str += "</ul></div> "
 			  
 	    	  str += replyService.displayTime(data.list[i].replyDate);
 	    	  str +=" <button data-oper='reReplyForm' data-reply_num='"+reply_nums+"' type='button' data-user_id='"+userId+"' data-nick_name='"+nickName+"' data-parent_num='"+ data.list[i].parent_num+"' data-order_step='"+data.list[i].order_step+"' data-reply_level='"+data.list[i].reply_level+"'>답글</button>"
@@ -429,13 +426,11 @@ function checkLength(obj, maxlength) {
 			       +"<button data-oper='report' type='button' data-user_id='"+userId+"' data-nick_name='"+nickName+"'>신고</button></span>"
 	         } 
 	    	  
-	    	  str +="<div class='reply_content'><span class='reply_content'>"; 
+	    	  str +="<div class='reply_contentWrapper'><span class='reply_content'>"; 
 	       }else if(reply_level == 3){
 	    	      str +=" " + "<div class='reply third' data-reply_num='"+reply_nums+"'>└ ";
-		    	  str +=" " + "From" 
-		    	  
 		    	  str +=" " +"<a href='#' class='userMenu' data-reply_num='"+reply_nums+"' data-menu_kind='from'>"  
-				  str += "<img src='/dokky/resources/img/profile_img/"+userId+".png' class='memberImage hideUsermenu' onerror='this.src=\"/dokky/resources/img/basicProfile.png\"' />"
+				  str += "<img src='/dokky/resources/img/profile_img/"+userId+".png' class='memberImage hideUsermenu' onerror='this.src=\"/dokky/resources/img/basicProfile.png\"' /> "
 			      str += nickName+"</a>" 
 				  str += "<div id='userMenubar_reply_from_"+reply_nums+"' class='userMenubar'>" 
 				  str += "<ul class='hideUsermenu'>"
@@ -443,15 +438,15 @@ function checkLength(obj, maxlength) {
 				  str += "<li class='hideUsermenu'><a href='#' class='hideUsermenu'><span class='hideUsermenu'>쪽지보내기</span></a></li>"
 				  str += "</ul></div>"
 				  
-				  str += "To-" 
+				  str += " ➜ " 
 				  str +=" " +"<a href='#' class='userMenu' data-reply_num='"+reply_nums+"' data-menu_kind='to'>"  
-				  str += "<img src='/dokky/resources/img/profile_img/"+toUserId+".png' class='memberImage hideUsermenu' onerror='this.src=\"/dokky/resources/img/basicProfile.png\"' />"
+				  str += "<img src='/dokky/resources/img/profile_img/"+toUserId+".png' class='memberImage hideUsermenu' onerror='this.src=\"/dokky/resources/img/basicProfile.png\"' /> "
 			      str += toNickName+"</a>" 
 				  str += "<div id='userMenubar_reply_to_"+reply_nums+"' class='userMenubar to'>"  
 				  str += "<ul class='hideUsermenu'>"
 				  str += "<li class='hideUsermenu'><a href='/dokky/userBoardList?userId="+toUserId+" class='hideUsermenu'><span class='hideUsermenu'>게시글보기</span></a></li>"
 				  str += "<li class='hideUsermenu'><a href='#' class='hideUsermenu'><span class='hideUsermenu'>쪽지보내기</span></a></li>"
-				  str += "</ul></div>"
+				  str += "</ul></div> "
 				  
 		    	  str += replyService.displayTime(data.list[i].replyDate);
 		    	  str +=" <button data-oper='reReplyForm' data-reply_num='"+reply_nums+"' type='button' data-user_id='"+userId+"' data-nick_name='"+nickName+"' data-parent_num='"+ data.list[i].parent_num+"' data-order_step='"+data.list[i].order_step+"' data-reply_level='"+data.list[i].reply_level+"'>답글</button>"
@@ -473,29 +468,27 @@ function checkLength(obj, maxlength) {
 				       +"<button data-oper='report' type='button' data-user_id='"+userId+"' data-nick_name='"+nickName+"'>신고</button></span>"
 		         } 
 		    	  
-		    	  str +="<div class='reply_content'><span class='reply_content'>"; 
+		    	  str +="<div class='reply_contentWrapper'><span class='reply_content'>"; 
 	       }else{  
 	    	   str +=" " + "<div class='reply other' data-reply_num='"+reply_nums+"'>└ ";
-		    	  str +=" " + "From"  
-		    	  
 		    	  str +=" " +"<a href='#' class='userMenu' data-reply_num='"+reply_nums+"' data-menu_kind='from'>"  
-				  str += "<img src='/dokky/resources/img/profile_img/"+userId+".png' class='memberImage hideUsermenu' onerror='this.src=\"/dokky/resources/img/basicProfile.png\"' />"
+				  str += "<img src='/dokky/resources/img/profile_img/"+userId+".png' class='memberImage hideUsermenu' onerror='this.src=\"/dokky/resources/img/basicProfile.png\"' /> "
 			      str += nickName+"</a>" 
 				  str += "<div id='userMenubar_reply_from_"+reply_nums+"' class='userMenubar'>" 
 				  str += "<ul class='hideUsermenu'>"
 				  str += "<li class='hideUsermenu'><a href='/dokky/userBoardList?userId="+userId+" class='hideUsermenu'><span class='hideUsermenu'>게시글보기</span></a></li>"
 				  str += "<li class='hideUsermenu'><a href='#' class='hideUsermenu'><span class='hideUsermenu'>쪽지보내기</span></a></li>"
-				  str += "</ul></div>"
+				  str += "</ul></div>" 
 				  
-				  str += "To-"
+				  str += " ➜ "
 				  str +=" " +"<a href='#' class='userMenu' data-reply_num='"+reply_nums+"' data-menu_kind='to'>"  
-				  str += "<img src='/dokky/resources/img/profile_img/"+toUserId+".png' class='memberImage hideUsermenu' onerror='this.src=\"/dokky/resources/img/basicProfile.png\"' />"
+				  str += "<img src='/dokky/resources/img/profile_img/"+toUserId+".png' class='memberImage hideUsermenu' onerror='this.src=\"/dokky/resources/img/basicProfile.png\"' /> "
 			      str += toNickName+"</a>" 
 				  str += "<div id='userMenubar_reply_to_"+reply_nums+"' class='userMenubar to'>"  
 				  str += "<ul class='hideUsermenu'>"
 				  str += "<li class='hideUsermenu'><a href='/dokky/userBoardList?userId="+toUserId+" class='hideUsermenu'><span class='hideUsermenu'>게시글보기</span></a></li>"
 				  str += "<li class='hideUsermenu'><a href='#' class='hideUsermenu'><span class='hideUsermenu'>쪽지보내기</span></a></li>"
-				  str += "</ul></div>" 
+				  str += "</ul></div> " 
 				  
 		    	  str += replyService.displayTime(data.list[i].replyDate);
 		    	  str +=" <button data-oper='reReplyForm' data-reply_num='"+reply_nums+"' type='button' data-user_id='"+userId+"' data-nick_name='"+nickName+"' data-parent_num='"+ data.list[i].parent_num+"' data-order_step='"+data.list[i].order_step+"' data-reply_level='"+data.list[i].reply_level+"'>답글</button>"
@@ -517,13 +510,13 @@ function checkLength(obj, maxlength) {
 				       +"<button data-oper='report' type='button' data-user_id='"+userId+"' data-nick_name='"+nickName+"'>신고</button></span>"
 		         } 
 		    	    
-		    	  str +="<div class='reply_content'><span class='reply_content'>";  
+		    	  str +="<div class='reply_contentWrapper'><span class='reply_content'>";    
 	       }  
 	         
-	       str +=" " + data.list[i].reply_content +"</span>"   
+	       str +="" + data.list[i].reply_content +"</span>"   
 	       str += "</div></div></li>";        
 			    /*  str += "<sec:authorize access='isAuthenticated()'>" */
-		       	/*   +"</sec:authorize>"  인증된사람만 보여주기*/
+		       	/*   +"</sec:authorize>"  인증된사람만 보여주기*/ 
 	     }
 	     replyList.html(str);//댓글목록안에 채워주기
 	     
