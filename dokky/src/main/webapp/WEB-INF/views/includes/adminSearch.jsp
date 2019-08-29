@@ -16,7 +16,7 @@
 </head>
 	<body>
 		<div class="searchWrapper"> 
-			<form id='searchForm' action="/dokky/admin/memberList" method='get'>
+			<form id='searchForm' action="/dokky/admin/userList" method='get'>
 				<select name='type'>
 					<option value="I"
 						<c:out value="${pageMaker.cri.type eq 'I'?'selected':''}"/>>아이디</option>

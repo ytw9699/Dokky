@@ -150,7 +150,7 @@
 				<a href="/dokky/memberForm">회원가입</a>
 			</sec:authorize>	
 		</div>
-		<div class="mypage"><a href="/dokky/admin/memberList">관리자</a></div>
+		<div class="mypage"><a href="/dokky/admin/userList">관리자</a></div>
 	</div>
 	<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
 	<script>

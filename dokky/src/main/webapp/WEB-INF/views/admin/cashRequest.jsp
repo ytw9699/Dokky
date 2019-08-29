@@ -8,7 +8,7 @@
 <html>
 <head>
 <meta charset="UTF-8">
-	<title>메인</title>
+	<title>결제관리</title>
 	
 <style>
 	@media screen and (max-width:500px){ 
@@ -119,7 +119,7 @@
   <div class="ContentWrap">  
 	 <div id="menuWrap"> 
 		<div class="tab">   
-	        <button onclick="location.href='memberList'">계정관리</button> 
+	        <button onclick="location.href='userList'">계정관리</button> 
 	        <button onclick="location.href='cashRequest'">결제관리</button> 
 	        <button onclick="location.href='userReportList'">신고관리</button> 
 	    </div> 

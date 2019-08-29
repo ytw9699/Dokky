@@ -33,19 +33,19 @@ public class AdminController {
 	@Setter(onMethod_ = @Autowired)
 	private MypageService MypageService;
 	
-	@GetMapping("memberList")//계정관리 회원리스트 가져오기
+	@GetMapping("userList")//계정관리 회원리스트 가져오기
 	public String admin(Criteria cri, Model model) {
 		
-		log.info("/admin/memberList");
+		log.info("/admin/userList");
 		log.info("cri"+cri);
 		
-		model.addAttribute("memberList", service.getMemberList(cri));
+		model.addAttribute("userList", service.getMemberList(cri));
 		
 		int total = service.getMemberTotalCount(cri);
 		
 		model.addAttribute("pageMaker", new PageDTO(cri, total));
 		
-		return "admin/memberList"; 
+		return "admin/userList"; 
 	}
 	
 	@GetMapping("cashRequest")//결제관리 충전,환전 요청내역 리스트가져오기
@@ -128,13 +128,13 @@ public class AdminController {
 		log.info("admin/userReportList");
 		log.info(cri);
 		
-		model.addAttribute("reportList", service.getUserReportList(cri));
+		model.addAttribute("userReportList", service.getUserReportList(cri));
 		
 		int total = service.getUserReportCount(cri);
 		
 		model.addAttribute("pageMaker", new PageDTO(cri, total));
 		
-		return "admin/reportList"; 
+		return "admin/userReportList"; 
 	}
 	
 	@RequestMapping(method = { RequestMethod.PUT,RequestMethod.PATCH },

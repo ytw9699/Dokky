@@ -8,7 +8,7 @@
 <html>
 <head>
 <meta charset="UTF-8">
-	<title>메인</title>
+	<title>계정관리</title>
 	
 <style>
 		@media screen and (max-width:500px){ 
@@ -174,14 +174,14 @@
 	<%@include file="../includes/adminSearch.jsp"%> 
 		 
 	<div class="infoWrap"> 
-		<c:forEach items="${memberList}" var="member">
-			<div class="memberInfoWrap" onclick="location.href='userForm?userId=<c:out value="${member.userId}" />'" >
+		<c:forEach items="${userList}" var="user">
+			<div class="memberInfoWrap" onclick="location.href='userForm?userId=<c:out value="${user.userId}" />'" >
 				<div class="memberProfile">
-					<img src="/dokky/resources/img/profile_img/<c:out value="${member.userId}"/>.png" id="memberProfile" onerror="this.src='/dokky/resources/img/basicProfile.png'" />
+					<img src="/dokky/resources/img/profile_img/<c:out value="${user.userId}"/>.png" id="memberProfile" onerror="this.src='/dokky/resources/img/basicProfile.png'" />
 				</div>		 		 												 									
 				<div class="memberInfo">
-					<span class="nickName"><c:out value="${member.nickName}" /></span><br/>
-					<span class="userId"><c:out value="${member.userId}" /></span>
+					<span class="nickName"><c:out value="${user.nickName}" /></span><br/>
+					<span class="userId"><c:out value="${user.userId}" /></span>
 				</div>
 			</div>
 		</c:forEach>

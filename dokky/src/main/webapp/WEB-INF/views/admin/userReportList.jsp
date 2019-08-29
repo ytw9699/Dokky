@@ -8,7 +8,7 @@
 <html>
 <head>
 <meta charset="UTF-8">
-	<title>신고리스트</title>
+	<title>신고관리</title>
 	
 <style>
 @media screen and (max-width:500px){ 
@@ -122,7 +122,7 @@
 	 
 		 <div id="menuWrap"> 
 			<div class="tab">   
-		        <button onclick="location.href='memberList'">계정관리</button> 
+		        <button onclick="location.href='userList'">계정관리</button> 
 		        <button onclick="location.href='cashRequest'">결제관리</button> 
 		        <button onclick="location.href='userReportList'">신고관리</button> 
 		    </div> 
@@ -134,7 +134,7 @@
 					<tr>
 						<td>종류</td><td>신고 한 회원</td><td>신고받은 회원</td><td>사유</td><td>신고날짜</td>
 					</tr>
-						<c:forEach items="${reportList}" var="report">
+						<c:forEach items="${userReportList}" var="report">
 					<tr>  
 						<td><c:out value="${report.reportKind}" /></td>   
 						<td>
