@@ -74,9 +74,9 @@ public class CommonController {
 
 		log.info("/adminError");
 		
-		model.addAttribute("msg", "Access Denied 관리자 권한이 없습니다.");
+		model.addAttribute("msg", "관리자만 접근 가능합니다.");
 		
-		return "error/adminError";
+		return "error/accessError";  
 	}
 
 	@GetMapping("/accessError")
@@ -84,11 +84,11 @@ public class CommonController {
 		
 		log.info("/accessError");
 		
-		log.info("access Denied : " + auth);
-
-		model.addAttribute("msg", "Access Denied 로그인 권한이 없습니다.");
+		log.info("access Denied : " + auth); 
+ 
+		model.addAttribute("msg", "접근 권한이 없습니다.관리자에게 문의해주세요.");
 		
-		return "common/accessError";
+		return "error/accessError";
 	}   
 
 	@GetMapping("/customLogin")
