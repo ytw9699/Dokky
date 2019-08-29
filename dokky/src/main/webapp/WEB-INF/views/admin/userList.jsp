@@ -164,8 +164,8 @@
 	 <div class="ContentWrap">  
 	 
 		 <div id="menuWrap"> 
-			<div class="tab">   
-		        <button onclick="location.href='memberList'">계정관리</button> 
+			<div class="tab">     
+		        <button onclick="location.href='userList'">계정관리</button> 
 		        <button onclick="location.href='cashRequest'">결제관리</button> 
 		        <button onclick="location.href='userReportList'">신고관리</button>
 		    </div> 
