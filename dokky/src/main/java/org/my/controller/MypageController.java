@@ -103,7 +103,7 @@ public class MypageController {
 		
 		log.info("/mypage/rePasswordForm");
 		
-		return "mypage/rePasswordForm";
+		return "mypage/myRepasswordForm";
 	}
 	
 	@PreAuthorize("isAuthenticated()") 
@@ -120,7 +120,7 @@ public class MypageController {
 		}else {
 			model.addAttribute("update", "notComplete");
 		}
-			return "mypage/rePasswordForm";
+			return "mypage/myRepasswordForm";
 	}
 	
 	@PreAuthorize("isAuthenticated()")
