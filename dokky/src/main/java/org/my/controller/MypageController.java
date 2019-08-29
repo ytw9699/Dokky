@@ -38,7 +38,7 @@ import lombok.AllArgsConstructor;
 @Log4j
 @RequestMapping("/mypage/*")
 @AllArgsConstructor
-public class mypageController {
+public class MypageController {
 	
 	@Setter(onMethod_ = @Autowired)
 	private MypageService service;
