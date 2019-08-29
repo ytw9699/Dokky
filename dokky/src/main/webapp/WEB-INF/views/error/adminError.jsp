@@ -7,10 +7,10 @@
 <html>
 <head>
 <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
-<title>Insert title here</title>
+<title>관리자 접근 제한 페이지</title>
 </head>
 <body>
-<h1>Access Denied Page</h1> 
+<h1>관리자만 접근 할 수 있습니다.</h1> 
 
 	<h2><c:out value="${SPRING_SECURITY_403_EXCEPTION.getMessage()}"/></h2>
 	<!-- SPRING_SECURITY_403_EXCEPTION’이라는 이름으로 Access DeniedException 객체가 전달 -->
