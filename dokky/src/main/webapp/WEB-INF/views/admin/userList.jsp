@@ -152,6 +152,13 @@
 	    font-size: 15px;
 	    /* font-weight: 600; */
 	}
+	
+	.searchWrapper {
+		width: 12%;
+	    margin-top: 20px;
+	    margin-left: 1%;
+	    display: inline-block;
+	}
 
 </style>
 </head> 
@@ -169,9 +176,26 @@
 		        <button onclick="location.href='cashRequest'">결제관리</button> 
 		        <button onclick="location.href='userReportList'">신고관리</button>
 		    </div> 
-		 </div> 
+		 </div>    
 		  
-	<%@include file="../includes/adminSearch.jsp"%> 
+	<div class="searchWrapper">  
+		<form id='searchForm' action="/dokky/admin/userList" method='get'>
+			<select name='type'>
+				<option value="I"
+					<c:out value="${pageMaker.cri.type eq 'I'?'selected':''}"/>>아이디</option>
+				<option value="N"
+					<c:out value="${pageMaker.cri.type eq 'N'?'selected':''}"/>>닉네임</option>
+				<option value="IN"
+					<c:out value="${pageMaker.cri.type eq 'IN'?'selected':''}"/>>아이디+닉네임</option>
+			</select> 
+						
+			<input type='text'   name='keyword' value='<c:out value="${pageMaker.cri.keyword}"/>' /> 
+			<input type='hidden' name='pageNum' value='<c:out value="${pageMaker.cri.pageNum}"/>' /> 
+			<input type='hidden' name='amount'  value='<c:out value="${pageMaker.cri.amount}"/>' />
+					
+			<button class='btn btn-default'>검색</button>
+		</form>
+	</div>
 		 
 	<div class="infoWrap"> 
 		<c:forEach items="${userList}" var="user">
