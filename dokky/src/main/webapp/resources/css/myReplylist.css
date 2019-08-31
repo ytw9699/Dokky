@@ -1,8 +1,7 @@
 @charset "utf-8";
 /* CSS Document */
-
-	@media screen and (max-width:500px){ 
-    	.myboardWrap {
+@media screen and (max-width:500px){ 
+    	.myreplyWrap {
 				    width: 80%;  
 				    display: inline-block;
 				    margin-left: 15%;
@@ -16,7 +15,7 @@
 				}     
         }
         @media screen and (min-width: 501px) and (max-width:1500px){
-	        .myboardWrap {
+	        .myreplyWrap {
 				    width: 80%; 
 				    display: inline-block;
 				    margin-left: 15%;
@@ -30,7 +29,7 @@
 				}
         }
         @media screen and (min-width: 1501px){    
-          .myboardWrap {
+          .myreplyWrap { 
 			    width: 51%; 
 			    display: inline-block;
 			    margin-left: 29%;
@@ -54,8 +53,13 @@
 		margin-left: 1%;
 		margin-top: 1%; 
 	}
-	.boardTitle a {  
-    	color: white;
+	.replyTitle{
+		width: 68%; 
+		border-color: #e6e6e6;/* 흰색 */
+		border-style: solid;    
+	}
+	.replyTitle a { 
+	    color: white;
 	    text-decoration: none; 
 	}
 	.pagination { 
@@ -75,7 +79,7 @@
 		border-color: #e6e6e6;/* 흰색 */
 		border-style: solid;
 	}
-		 
+		
 	.ContentWrap{box-sizing: border-box;
 	    padding-top: 48px;
 	    padding-left: 20px;
@@ -96,7 +100,4 @@
 	}
 	#menuWrap .tab button:hover {
 	background-color: #7b7676;
-	}
-	.replyCnt{  
-	  color: #ff2f3b;  
 	}
