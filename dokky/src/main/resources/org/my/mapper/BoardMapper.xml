@@ -75,6 +75,7 @@
 			    	, nickName
 			    	, regdate
 			    	, hitCnt
+			    	, MONEY
 			    	, userId
 			    from 
 			      ( select /*+INDEX_DESC(DK_BOARD PK_DK_BOARD) */ rownum rn
@@ -87,6 +88,7 @@
 														    	, nickName
 														    	, regdate
 														    	, hitCnt
+														    	, MONEY
 														    	, userId 
 					from DK_BOARD 
 					  where category = #{category} and
@@ -161,6 +163,7 @@
 		    	, regdate
 		    	, hitCnt
 		    	, userId
+		    	, MONEY
 		    from 
 		         ( select /*+INDEX_DESC(DK_BOARD PK_DK_BOARD) */ rownum rn
 							     								, category
@@ -172,7 +175,8 @@
 														    	, nickName
 														    	, regdate
 														    	, hitCnt
-														    	, userId 
+														    	, userId
+														    	, MONEY 
 				   from DK_BOARD where
 		  	]]>
 				<include refid ="criteria"></include>  
