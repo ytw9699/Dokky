@@ -36,13 +36,17 @@
 		   replyCnt,
 		   hitCnt,
 		   category,
+		   likeCnt,
+		   money,
 		   regdate from 
 			 ( select /*+INDEX_DESC(DK_BOARD PK_DK_BOARD) */ rownum rn,
 			 														num,
 			 														title,
-			 														replyCnt,
+			 														replyCnt, 
 			 														hitCnt,
 			 														category,
+			 														likeCnt,
+		 															money,
 			 														regdate
 			from DK_BOARD where userId = #{userId} and <![CDATA[ rownum <= #{pageNum} * #{amount} )
 				  where rn > (#{pageNum} -1) * #{amount}  
