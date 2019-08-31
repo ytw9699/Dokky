@@ -1,11 +1,13 @@
 	1.-----------------------------------------------------
 	create table DK_BOARD (--게시판 테이블
+	
+	ALTER TABLE dk_board MODIFY(USER_AGE NUMBER(3));
 		  CATEGORY number(10,0) not null,-- 1~5번 게시판
 		  NUM number(10,0),--PK
 		  TITLE varchar2(200) not null,
 		  NICKNAME varchar2(50) not null,
 		  userId varchar2(50) not null,
-		  CONTENT varchar2(6000) not null,
+		  CONTENT varchar2(4000) not null,
 		  BLIND varchar2(10) default '미적용',
 		  STATUS varchar2(10) default '정상',
 		  REGDATE date default sysdate, 
@@ -280,6 +282,8 @@ drop table dk_alarm purge
 	
 	
 14.기타 -----------------------------------------------------
+	컬럼수정
+	alter table dk_board modify(content varchar2(4000) not null)
 	컬럼추가
 	ALTER TABLE DK_BOARD ADD userId VARCHAR2(50) NOT NULL;
 	ALTER TABLE DK_member ADD cash number(10,0) default 0;
