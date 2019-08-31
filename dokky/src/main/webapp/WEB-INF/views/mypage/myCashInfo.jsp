@@ -6,210 +6,32 @@
 <!DOCTYPE html>
 <html>
 <head>
-<meta charset="UTF-8">
-	<title>나의 캐시</title>
-<style>
-	@media screen and (max-width:500px){ 
-		.mycashInfoWrap { 
-				    width: 80%;  
-				    display: inline-block;
-				    margin-left: 15%;
-				    margin-top: 1%;
-				    min-height: 500px; 
-				    border-color: #e6e6e6;
-					border-style: solid;
-					background-color: #323639; 
-					color: #e6e6e6;
-					display: inline-block;
-				}     
-        }
-        @media screen and (min-width: 501px) and (max-width:1500px){
-	        .mycashInfoWrap {
-				    width: 80%; 
-				    display: inline-block;
-				    margin-left: 15%;
-				    margin-top: 1%;
-				    min-height: 500px; 
-				    border-color: #e6e6e6;
-					border-style: solid;
-					background-color: #323639; 
-					color: #e6e6e6;
-					display: inline-block;
-				}
-        }
-        @media screen and (min-width: 1501px){    
-          .mycashInfoWrap { 
-			    width: 51%; 
-			    display: inline-block;
-			    margin-left: 29%;
-			    margin-top: 1%;
-			    min-height: 500px; 
-			    border-color: #e6e6e6;
-				border-style: solid;
-				background-color: #323639; 
-				color: #e6e6e6;
-				display: inline-block;
-			}
-        }
-	body{
-		background-color: #323639;  
-		}
-	 
-	.ContentWrap{box-sizing: border-box;
-	    padding-top: 48px;
-	    padding-left: 20px;
-	    padding-right: 20px;
-	    width: 95%;
-		min-height: 750px;
-	    margin: 0 auto; 
- 	}
-	#menuWrap .tab button {
-		background-color: inherit;
-		border: none;
-		outline:none;
-		cursor: pointer;
-		padding: 14px 16px;
-		transition: 0.3s;
-		font-size: 20px;  
-		color: #e6e6e6;
-	}
-	#menuWrap .tab button:hover {
-	background-color: #7b7676;
-	}
-	/* #menuWrap .tabcontent {  
-		display: none; 
-		padding: 6px 12px;
-		border: 1px;
-	}  */
-	.tableText{
-		width: 10%;
-		font-size: 20px;  
-		color: #e6e6e6;
-    }
-	.tableValue{    
-		height: 50px;
-	    /* font-size: 18px;
-	    color: #555; */
-	 }
-	 .inputInfo{
-	 	margin-top: 3px;
-	    font-size: 20px;
-	    color: #555;
-	    padding: 8px;
-	    width: 30%;
-	    border-radius: 8px;
-	    border: 1px solid #b5b5b5;
-	    height: 30px;
-	 }
-	 .submitInfo{  
-	 	font-size: 20px;
-	    background-color: #555;
-	    border: 1px solid #555;
-	    color: #e6e6e6;
-	    padding: 8px;
-	    border-radius: 8px;
-	    width: 7%;
-    }
-    #profileGray{position: fixed; width: 100%; height: 100%; top: 0; left: 0; background-color: #000; opacity: 0.6; display: none;}
-	
-	#chargeCash{display: none;   width: 250px;
-    border-radius: 8px;
-    position: fixed;
-    top: 25%;
-    left: 35%;
-    padding: 50px;
-    background-color: white;}
-    
-    #reChargeCash{display: none;   width: 250px;
-    border-radius: 8px;
-    position: fixed;
-    top: 25%;
-    left: 35%;
-    padding: 50px;
-    background-color: white;}
-    
-    .chargeWon{
-	    font-size: 40px;
-	     color: #ff7e00;
-	     width: 53%; 
-     }
-    
-    .Submit{  font-size: 20px;
-	    border: none;
-	    padding: 8px;
-	    width: 80%;
-	    margin: 0 auto;
-	    margin-top: 10px;
-	    display: block;
-	    border-radius: 8px;
-	    color: white;
-	    background-color: #12b9ff;
-	 }
-    
-    .Cancel{    font-size: 20px;
-    border: none;
-    padding: 8px;
-    width: 80%;
-    margin: 0 auto;
-    margin-top: 10px;
-    display: block;
-    border-radius: 8px;
-    color: white;
-    background-color: #bd081c;}
-     
-    .chargeText{font-size: 20px;
-    color: #555;
-    font-weight: 600;}
-    
-    .dotButtonWrap{width: 27%;} 
-    
-    .dotButtons{font-size: 20px;
-    display: block;
-    padding: 8px;
-    border-radius: 8px;
-    border: none;
-    margin-top: 18px;
-    background-color: #555;
-    color: white;
-    width: 200px;}
-    
-    .dotText{ font-size: 30px;
-    font-weight: 600;}
-    
-    .dotValue{color: #ff7e00;
-    font-size: 26px;}
-    
-    .dotContentWrap{ width: 80%;
-    }
-     
-    .tabcontent {padding: 6px 12px; border: 1px solid #e6e6e6; width: 70%;}
-	
-</style>  
+<meta charset="UTF-8"> 
+	<title>Dokky - 캐시</title>
+	<link href="/dokky/resources/css/myCashInfo.css" rel="stylesheet" type="text/css"/> 
 </head>
 <body>
 	<sec:authentication property="principal" var="userInfo"/>
 	
-	<div id="profileGray"></div>
+	<div id="profileGray"></div> 
 	<div id="chargeCash">
-		 <form action="/dokky/mypage/myCashInfo" id="operForm" method='post'>	
-	     	
 			<span class="chargeText">충전금액</span>
-			<input type="text" id="chargeWon" class="chargeWon" value="" /> <span class="chargeText">원</span>
-			
+			<input type="text" id="chargeWon" class="chargeWon" placeholder="0" value="" onkeyup="numberWithComma(this)">
+			<span class="chargeText">원</span> 
+			 
 			<input type="button" id="chargeSubmit" class="Submit" value="확인" /> 
 			<input type="button" id="chargeCancel" class="Cancel" value="취소" />
-		</form>
 	</div>
 	
+	<input type="text" id="realCommonWon"> 
+	
 	<div id="reChargeCash">
-		 <form action="/dokky/mypage/myCashInfo" id="operForm" method='post'>	
-	     	
 			<span class="chargeText">환전금액</span>
-			<input type="text" id="reChargeWon" class="chargeWon" value="" /> <span class="chargeText">원</span>
+			<input type="text" id="reChargeWon" class="chargeWon" placeholder="0" value="" onkeyup="numberWithComma(this)">
+			<span class="chargeText">원</span>
 			
 			<input type="button" id="reChargeSubmit" class="Submit" value="확인" /> 
 			<input type="button" id="reChargeCancel" class="Cancel" value="취소" />
-		</form>
 	</div>
 	
 <div class="mycashInfoWrap">	
@@ -226,8 +48,8 @@
 		</div>
 		
 		<div class="tabcontent">
-    		<div class="dotContentWrap">  
-	     		<span class="dotText">Cash</span> <span class="dotValue">${userCash}원</span> 
+    		<div class="dotContentWrap">   
+	     		<span class="dotText">Cash</span> <span class="dotValue"><fmt:formatNumber type="number" maxFractionDigits="3" value="${userCash}"/>원</span> 
 	     	</div>
 	     	<div class="dotContentWrap">  
 	     		<span class="dotText">입금 가상계좌</span> <span class="dotValue">신한 110-237-583410</span>  
@@ -243,7 +65,14 @@
 
 <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
 <script>
-
+		
+   	    function numberWithComma(This) {       
+   	    	 
+   	    	  This.value = This.value.replace(/[^0-9]/g,'');//입력값에 숫자가 아닌곳은 모두 공백처리 
+			  $("#realCommonWon").val(This.value);//실제 넘겨줄 값  
+			  This.value = (This.value.replace(/\B(?=(\d{3})+(?!\d))/g, ","));//정규식을 이용해서 3자리 마다 ,추가 */  
+		}
+		 
 		var csrfHeaderName ="${_csrf.headerName}"; 
 		var csrfTokenValue="${_csrf.token}";
 	
@@ -293,6 +122,7 @@
 		var chargeDiv = $("#chargeCash");
 		var rechargeDiv = $("#reChargeCash");
 		var chargeInput = $("#chargeWon");
+		var realCommonWon = $("#realCommonWon");
 		var rechargeInput = $("#reChargeWon");
 		
 		function openCharge(){
@@ -305,6 +135,7 @@
 			profileBack.css("display","none");
 			chargeDiv.css("display","none");
 			chargeInput.val("");
+			realCommonWon.val(""); 
 		}
 		
 		function openRecharge(){
@@ -332,9 +163,15 @@
    		});//2.충전 폼 취소 이벤트
    		
 		$("#chargeSubmit").on("click",function(event){//3.충전 확인버튼 이벤트
+			var cash = $("#realCommonWon").val();
+			
+			if(cash === 0 || cash === ""){   
+				alert("금액을 1원이상 입력해주세요"); 
+				return;
+			}
 			
 			var chargeData = {
-					cashAmount:chargeInput.val(),
+					cashAmount:cash,  
 					cashKind: '충전',
 					userId:'${userInfo.username}',
 					specification:'승인중'
@@ -348,6 +185,7 @@
 			        	alert("잠시후 재시도 해주세요");
 			        }
 		     }); 
+			
 			closeCharge();
 				
    		});//3.충전 확인버튼 이벤트
@@ -367,8 +205,15 @@
    		
 		$("#reChargeSubmit").on("click",function(event){//6.충전 확인버튼 이벤트
 			
+			var cash = $("#realCommonWon").val();
+						
+			if(cash === 0 || cash === ""){   
+				alert("금액을 1원이상 입력해주세요"); 
+				return;
+			}
+			
 			var reChargeData = {
-					cashAmount:rechargeInput.val(),
+					cashAmount:cash,
 					cashKind: '환전',
 					userId:'${userInfo.username}',
 					specification:'승인중'
