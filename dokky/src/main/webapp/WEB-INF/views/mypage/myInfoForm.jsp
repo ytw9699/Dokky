@@ -7,7 +7,7 @@
 <html>
 <head>
 <meta charset="UTF-8">
-	<title>개인정보 변경</title>   
+	<title>Dokky - 개인정보 변경</title>   
 	<link href="/dokky/resources/css/myInfoForm.css" rel="stylesheet" type="text/css">
 </head>
 <body>
@@ -69,7 +69,7 @@
 	     				닉네임
 	     			</td>
 	     			<td class="tableValue">
-	     				<input type="text" name="nickName" value="${myInfo.nickName}" class="inputInfo">
+	     				<input type="text" name="nickName" value="${myInfo.nickName}" class="inputInfo" oninput="checkLength(this,20);"/> 
 	     			</td>
 	     		</tr>
 	     		<tr>
@@ -77,7 +77,7 @@
 	     			비밀번호
 	     			</td>
 	     			<td class="tableValue">
-	     				<input type="password" name="userPw" value="" class="inputInfo">
+	     				<input type="password" name="userPw" value="" class="inputInfo" oninput="checkLength(this,20);"/> 
 	     			</td>
 	     		</tr>
 	     		<tr> 
@@ -85,7 +85,7 @@
 	     				이메일 
 	     			</td>
 	     			<td class="tableValue">
-	     				<input type="text" name="email" value="${myInfo.email}" class="inputInfo" >
+	     				<input type="text" name="email" value="${myInfo.email}" class="inputInfo" oninput="checkLength(this,20);"/> 
 	     			</td>
 	     		</tr>
 	     		<tr>
@@ -93,7 +93,7 @@
 	     				연락처
 	     			</td>
 	     			<td class="tableValue">
-	     				<input type="text" name="phoneNum"  value="${myInfo.phoneNum}" class="inputInfo" >	
+	     				<input type="text" name="phoneNum"  value="${myInfo.phoneNum}" class="inputInfo" oninput="checkLength(this,20);"/> 
 	     			</td>
 	     		</tr>
 	     		<tr>
@@ -101,7 +101,7 @@
 	     				은행명
 	     			</td>
 	     			<td class="tableValue">
-	     				<input type="text" name="bankName"  value="${myInfo.bankName}" class="inputInfo" >	
+	     				<input type="text" name="bankName"  value="${myInfo.bankName}" class="inputInfo" oninput="checkLength(this,20);"/>
 	     			</td>
 	     		</tr>
 	     		<tr>
@@ -109,20 +109,20 @@
 	     				계좌번호
 	     			</td>
 	     			<td class="tableValue">
-	     				<input type="text" name="account"  value="${myInfo.account}" class="inputInfo" >	
+	     				<input type="text" name="account"  value="${myInfo.account}" class="inputInfo" oninput="checkLength(this,20);"/>
 	     			</td>
 	     		</tr>
 	     		<tr>
 	     			<td class="tableText">
 	     				가입일
-	     			</td>
+	     			</td> 
 	     			<td class="tableValue"> 
 	     				<fmt:formatDate value="${myInfo.regDate}" pattern="yyyy년 MM월 dd일 hh:mm" />
 	     			</td>
 	     		</tr>
 	     		<tr>
 	     			<td class="tableText">
-	     				최근 로그인
+	     				최근 로그인  
 	     			</td>
 	     			<td class="tableValue"> 
 	     				<fmt:formatDate value="${myInfo.loginDate}" pattern="yyyy년 MM월 dd일 HH:mm" />
@@ -136,6 +136,40 @@
 </div> 
 <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
 <script>
+	function checkLength(obj, maxlength) {  
+	
+		if(obj.tagName === "INPUT"){ 
+			var str = obj.value; 
+		}else if(obj.tagName === "DIV"){
+			var str = obj.innerHTML; 
+		}
+		// 이벤트가 일어난 컨트롤의 value 값    
+		var str_length = str.length; // 전체길이       // 변수초기화     
+		var max_length = maxlength; // 제한할 글자수 크기     
+		var i = 0; // for문에 사용     
+		var ko_byte = 0; // 한글일경우는, 2그밗에는 1을 더함     
+		var li_len = 0; // substring하기 위해서 사용     
+		var one_char = ""; // 한글자씩 검사한다     
+		var reStr = ""; // 글자수를 초과하면 제한할수 글자전까지만 보여준다.  
+		
+		for (i = 0; i < str_length; i++) { // 한글자추출         
+			one_char = str.charAt(i);            
+			ko_byte++;        
+		}     
+		
+		if (ko_byte <= max_length) {// 전체 크기가 max_length를 넘지않으면                
+			li_len = i + 1;         
+		}  
+		
+		if (ko_byte > max_length) {// 전체길이를 초과하면          
+				alert(max_length + "자 이상 입력할 수 없습니다.");              
+				reStr = str.substr(0, max_length);         
+				obj.value = reStr;      
+		}     
+		
+		obj.focus();  
+	}
+	
 	var csrfHeaderName ="${_csrf.headerName}"; 
 	var csrfTokenValue="${_csrf.token}";
 
