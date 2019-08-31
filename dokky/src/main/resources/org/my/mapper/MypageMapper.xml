@@ -124,24 +124,29 @@
 	 			  num,
 		   		  userId,
 		   		  nickName,
-		   		  regdate,
-		   		  scrap_num,
 		   		  title,
 		   		  replyCnt,
 		   		  hitCnt,
-		   		  category
+		   		  category ,
+		   		  likeCnt,
+				  money,  
+		   		  regdate,
+		   		  scrap_num
+		   		  
 			 from 
 			   ( SELECT
 			   	  ROW_NUMBER() OVER(ORDER BY scrap.scrap_num desc) AS rn,
 				  BOARD.num,
 				  BOARD.userId,
-				  BOARD.nickName,
-				  scrap.regdate,
-				  scrap.scrap_num,
+				  nickName, 
 				  title,
 				  replyCnt,
 				  hitCnt,
-				  category
+				  likeCnt,
+				  money,
+				  category,
+				  scrap.regdate,
+				  scrap.scrap_num
 			FROM 
 				  DK_BOARD BOARD inner JOIN dk_scrap scrap on BOARD.num = scrap.num 
 				  

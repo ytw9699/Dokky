@@ -12,5 +12,7 @@ public class scrapVO {
 	  private Date regDate;
 	  private int replyCnt;
 	  private Long hitCnt;
+	  private int likeCnt;  
+	  private int money;
 	  private Long scrap_num;
 }
