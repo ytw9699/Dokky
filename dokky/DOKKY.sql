@@ -1,7 +1,5 @@
 	1.-----------------------------------------------------
 	create table DK_BOARD (--게시판 테이블
-	
-	ALTER TABLE dk_board MODIFY(USER_AGE NUMBER(3));
 		  CATEGORY number(10,0) not null,-- 1~5번 게시판
 		  NUM number(10,0),--PK
 		  TITLE varchar2(200) not null,
