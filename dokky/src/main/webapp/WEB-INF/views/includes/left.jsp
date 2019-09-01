@@ -1,114 +1,12 @@
-<%@ page language="java" contentType="text/html; charset=UTF-8"
-    pageEncoding="UTF-8"%>
+<%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
 <%@ taglib uri="http://www.springframework.org/security/tags" prefix="sec" %> 
 
 <!DOCTYPE html>
 <html>
 <head>
 <meta charset="UTF-8"> 
-<style>
-
-      @media screen and (max-width:500px){ 
-	              .leftWrap {
-		   				width: 10%;
-					    margin-top: 1%;
-					    margin-left: 0%;
-					    display: inline-block;
-					    float: left;
-					    border-color: #e6e6e6;
-					    border-style: solid;
-					    border-width: 1px;
-					    background-color: #323639;
-					    position: fixed;
-					}
-           }
-      @media screen and (min-width: 501px) and (max-width:1500px){
-	           .leftWrap {
-	   				width: 14%;
-				    margin-top: 1%;
-				    margin-left: 0%;
-				    display: inline-block;
-				    float: left;
-				    border-color: #e6e6e6;
-				    border-style: solid;
-				    border-width: 1px;
-				    background-color: #323639;
-				    position: fixed;
-				}
-      }
-      @media screen and (min-width: 1501px){    
-         	 .leftWrap {
-	   				width: 10%;
-				    margin-top: 1%;
-				    margin-left: 18%;
-				    display: inline-block;
-				    float: left;
-				    border-color: #e6e6e6;
-				    border-style: solid;
-				    border-width: 1px; 
-				    background-color: #323639;
-				    position: fixed;
-				}
-      }
-
-	.mypage {
-	    padding: 10px;
-	    box-sizing: border-box;
-	   	width: 100%;
-	    color: #e6e6e6;
-	    border-color: #e6e6e6;
-	    border-style: solid; 
-	    border-width: 1px;
-	    
-	}
-	.mypage:hover > a, .mypage:hover {
-	    color: #7151fc;
-	}
-	.mypage a { 
-	    color: white;
-	    text-decoration:none;
-	}
-	
-	.perid-layer{
-	    display: none;
-	    border-style: solid;
-	    border-width: 1px;
-	    border-color: #e6e6e6;
-	    width: 6%;
-	    height: 55px;
-	    position: fixed;
-	    background-color: #323639;
-	    margin-left: 1.3%;  
-		/* position : absolute; */ 
-		/* style="display: block; position: absolute; width: 109px; z-index: 1000; top: 332px; left: 535px;" */
-	}
-	.perid-layer li {
-	    list-style: none;
-	    border-style: solid;
-	    border-width: 1px;
-	    border-color: #e6e6e6;
-	    width: 155%;  
-	    margin-left: -60%;
-	} 
-	.perid-layer ul {
-	    border-style : solid;
-	    border-width: 1px;
-	    border-color: #e6e6e6;
-	    margin: auto;
-	   /*  width: 95%;
-	    margin-left: 18%; */
-	} 
-	#leftProfile{
-		border-radius: 50px;
-		width: 30px
-	}
-	.memberImage{ 
-			border-radius: 50px;
-			width: 25px; 
-			height: 30px;
-		}
-</style>
-</head>
+<link href="/dokky/resources/css/left.css" rel="stylesheet" type="text/css"/>
+</head>  
 <body>
 		<sec:authentication property="principal" var="userInfo"/>
 		
