@@ -1,127 +1,14 @@
-<%@ page language="java" contentType="text/html; charset=UTF-8"
-    pageEncoding="UTF-8"%>
-    
+<%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c"%>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/fmt" prefix="fmt"%>
 <%@ taglib uri="http://www.springframework.org/security/tags" prefix="sec" %> 
 
 <!DOCTYPE html>
 <html>
-<head>
+<head> 
 <meta charset="UTF-8">
-<title>Dokky</title>
-<style>
-@media screen and (max-width:500px){ 
-	     .userReplyWrap {
-			    width: 80%; 
-			    display: inline-block;
-			    margin-left: 15%;
-			    margin-top: 1%;
-			    min-height: 500px; 
-			    border-color: #e6e6e6;
-				border-style: solid;
-				background-color: #323639; 
-				color: #e6e6e6;
-				display: inline-block;
-			}
-        }
-        @media screen and (min-width: 501px) and (max-width:1500px){
-          .userReplyWrap {
-			    width: 80%; 
-			    display: inline-block;
-			    margin-left: 15%;
-			    margin-top: 1%;
-			    min-height: 500px; 
-			    border-color: #e6e6e6;
-				border-style: solid;
-				background-color: #323639; 
-				color: #e6e6e6;
-				display: inline-block;
-			}
-        }
-        @media screen and (min-width: 1501px){    
-          .userReplyWrap {
-			    width: 51%; 
-			    display: inline-block;
-			    margin-left: 29%;
-			    margin-top: 1%;
-			    min-height: 500px; 
-			    border-color: #e6e6e6;
-				border-style: solid;
-				background-color: #323639; 
-				color: #e6e6e6;
-				display: inline-block;
-			}
-        }
-        
-	body{
-		background-color: #323639; 
-	}
-	.listWrapper { 
-	    border-color: #e6e6e6;/* 흰색 */
-		border-style: solid;   
-		background-color: #323639; 
-		color: #e6e6e6;
-		margin-left: 1%;
-		margin-top: 1%; 
-	}
-	.replyTitle a { 
-	    color: white;
-	    text-decoration:none;
-	}
-	.replyTitle a:hover {   
-   		 color: #7151fc;
-	}
-	.pagination { 
-	    display: inline-block;
-	    padding-left: 0;
-	    margin: 20px 0;
-	    border-radius: 4px;
-	}  
-	.pagination li {
-   		display: inline;
-	}
-	.pagination li a{
-   		color: #e6e6e6;  
-	}
-	.pull-right{
-		width: 80%;
-		border-color: #e6e6e6;/* 흰색 */
-		border-style: solid;
-	}
-		.bodyWrap {
-	    width: 80%; 
-	    display: inline-block;
-	    margin-left: 2%;
-	    margin-top: 1%;
-	    min-height: 500px; 
-	    border-color: #e6e6e6;
-		border-style: solid;
-		background-color: #323639; 
-		color: #e6e6e6;
-	}
-	.ContentWrap{box-sizing: border-box;
-	    padding-top: 48px;
-	    padding-left: 20px;
-	    padding-right: 20px;
-	    width: 95%;
-		min-height: 750px;
-	    margin: 0 auto; 
- 	} 
-	#menuWrap .tab button {
-		background-color: inherit;
-		border: none;
-		outline:none;
-		cursor: pointer;
-		padding: 14px 16px;
-		transition: 0.3s;
-		font-size: 20px;  
-		color: #e6e6e6;
-	}
-	#menuWrap .tab button:hover {
-		background-color: #7b7676;
-	}
-</style> 
+<title>Dokky - 유저 등록 댓글</title>   
+<link href="/dokky/resources/css/userReplylist.css" rel="stylesheet" type="text/css"/>
 </head>
 <%@include file="../includes/left.jsp"%>
 <body>
@@ -129,20 +16,14 @@
 <div class="userReplyWrap">	
 	<div class="ContentWrap">
 		<div id="menuWrap">
-			<div class="tab"> 
-		       ${pageMaker.cri.userId} 유저
+			<div class="tab">  
+			   <h1>${pageMaker.cri.userId} 유저 </h1>   
 		    </div>
-		    <span class="tab"> 
-		   		    총 게시글  ${boardTotal}개,
-		    </span> 
-		    <span class="tab"> 
-		      	  총 댓글 ${replyTotal}개 
-		    </span>  
 		</div>
 		<div id="menuWrap">
 			<div class="tab"> 
-		        <button onclick="location.href='userBoardList?userId=${pageMaker.cri.userId}'">등록한 게시글</button> 
-		        <button onclick="location.href='userReplylist?userId=${pageMaker.cri.userId}'">등록한 댓글</button> 
+		        <button onclick="location.href='userBoardList?userId=${pageMaker.cri.userId}'">등록 게시글 ${boardTotal}개</button> 
+		        <button onclick="location.href='userReplylist?userId=${pageMaker.cri.userId}'">등록 댓글  ${replyTotal}개 </button> 
 		    </div> 
 		</div>
 	<div class="listWrapper">
