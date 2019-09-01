@@ -174,7 +174,7 @@
 					cashAmount:cash,  
 					cashKind: '충전',
 					userId:'${userInfo.username}',
-					specification:'승인중'
+					specification:'미승인'
 		          };
 		
 			chargeCash(chargeData, function(result){
@@ -216,7 +216,7 @@
 					cashAmount:cash,
 					cashKind: '환전',
 					userId:'${userInfo.username}',
-					specification:'승인중'
+					specification:'미승인'
 		          };
 			if(reChargeData.cashAmount > parseInt('${userCash}') ){
 				alert("보유 캐시가 부족합니다.");

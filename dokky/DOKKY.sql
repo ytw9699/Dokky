@@ -191,7 +191,7 @@
 		 cashAmount number(10,0) not null,
 		 regDate date default sysdate, 
 		 userId varchar2(50) not null,
-		 specification varchar2(50),--승인중/승인완료
+		 specification varchar2(50),--미승인/승인완료
 		 board_num number(10,0) default 0,--무결성제약조건에 걸리지않기 위해 디폴트값 입력바람
 		 reply_num number(10,0) default 0,--무결성제약조건에 걸리지않기 위해 디폴트값 입력바람
 		 constraint fk_cash_board_num foreign key(board_num) references dk_board(NUM),
@@ -294,6 +294,9 @@ drop table dk_alarm purge
 	데이터 배로 증가
 	insert into tbl_board(bno, title, content, writer)
 	(select seq_board.nextval, title, content, writer from tbl_board);
+	
+	컬럼 값 변경
+	update dk_cash set specification = '미승인' where specification = '승인중'
 	
 	시퀀스 삭제
 	drop sequence seq_dk_reply ;

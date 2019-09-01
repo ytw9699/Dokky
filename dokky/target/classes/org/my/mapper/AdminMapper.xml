@@ -20,7 +20,7 @@
 				 									   , userId
 				 									   , cashKind
 				 from dk_cash 
-				  where (specification = '승인중' or specification = '승인완료') and <![CDATA[ rownum <= #{pageNum} * #{amount} 
+				  where (specification = '미승인' or specification = '승인완료') and <![CDATA[ rownum <= #{pageNum} * #{amount} 
 			  )
 		   where rn > (#{pageNum} -1) * #{amount}  
 		   ]]>
@@ -31,7 +31,7 @@
 	</update>
 	
 	<select id="getTotalCount" resultType="int">
-		select count(*) from dk_cash where specification = '승인중' or specification = '승인완료'
+		select count(*) from dk_cash where specification = '미승인' or specification = '승인완료'
 	</select>
 	
 	<update id="updatePluscash">
