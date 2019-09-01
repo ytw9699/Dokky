@@ -1,0 +1,105 @@
+@charset "utf-8";
+/* CSS Document */
+
+@media screen and (max-width:500px){ 
+			     .userCashWrap {
+					    width: 80%; 
+					    display: inline-block;
+					    margin-left: 15%;
+					    margin-top: 1%;
+					    min-height: 500px; 
+					    border-color: #e6e6e6;
+						border-style: solid;
+						background-color: #323639; 
+						color: #e6e6e6;
+						display: inline-block;
+					}
+		        }
+		        @media screen and (min-width: 501px) and (max-width:1500px){
+		          .userCashWrap {
+					    width: 80%; 
+					    display: inline-block;
+					    margin-left: 15%;
+					    margin-top: 1%;
+					    min-height: 500px; 
+					    border-color: #e6e6e6;
+						border-style: solid;
+						background-color: #323639; 
+						color: #e6e6e6;
+						display: inline-block;
+					}
+		        }
+		        @media screen and (min-width: 1501px){    
+		          .userCashWrap {
+					    width: 51%; 
+					    display: inline-block;
+					    margin-left: 29%;
+					    margin-top: 1%;
+					    min-height: 500px; 
+					    border-color: #e6e6e6;
+						border-style: solid;
+						background-color: #323639; 
+						color: #e6e6e6;
+						display: inline-block;
+					}
+		        }
+	body{
+		background-color: #323639; 
+	}
+	.listWrapper { 
+	    border-color: #e6e6e6;/* 흰색 */
+		border-style: solid;   
+		background-color: #323639; 
+		color: #e6e6e6;
+		margin-left: 1%;
+		margin-top: 1%; 
+	}
+	.mypage a { 
+    color: white;
+	}
+	.pagination { 
+	    display: inline-block;
+	    padding-left: 0;
+	    margin: 20px 0;
+	    border-radius: 4px;
+	}  
+	.pagination li {
+   		display: inline;
+	}
+	.pagination li a{
+   		color: #e6e6e6;  
+	}
+	.pull-right{
+		width: 80%;
+		border-color: #e6e6e6;/* 흰색 */
+		border-style: solid;
+	}
+	
+	.ContentWrap{box-sizing: border-box;
+	    padding-top: 48px;
+	    padding-left: 20px;
+	    padding-right: 20px;
+	    width: 95%;
+		min-height: 750px;
+	    margin: 0 auto; 
+ 	} 
+	#menuWrap .tab button {
+		background-color: inherit;
+		border: none;
+		outline:none;
+		cursor: pointer;
+		padding: 14px 16px;
+		transition: 0.3s;
+		font-size: 20px;  
+		color: #e6e6e6;
+	}
+	#menuWrap .tab button:hover {
+	background-color: #7b7676;
+	}
+	.content{
+		 color: white;
+    	 text-decoration:none;
+	}
+	.content:hover {  
+   	 color: #7151fc;
+	}
