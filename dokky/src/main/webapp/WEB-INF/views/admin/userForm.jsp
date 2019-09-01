@@ -112,9 +112,9 @@
 	     			</td>
 	     			<td class="tableValue">
 		     			<div class="changeButton">     
-						        <button id="stop" data-user_id="${user.userId}">모든 글쓰기 제한</button> 
-						        <button id="limit" data-user_id="${user.userId}">접속 제한</button> 
-						        <button id="recovery" data-user_id="${user.userId}">계정 복구</button> 
+					        <button id="stop" data-user_id="${user.userId}">모든 글쓰기 제한</button> 
+					        <button id="limit" data-user_id="${user.userId}">접속 제한</button> 
+					        <button id="recovery" data-user_id="${user.userId}">계정 복구</button> 
 			   			 </div>  
 	     			</td> 
 	     		</tr>
