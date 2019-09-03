@@ -5,103 +5,10 @@
  
 <!DOCTYPE html>
 <html>
-	<head>
-	<meta charset="utf-8">
-<style>
-		@media screen and (max-width:500px){ 
-			 .loginWrap {
-			    width: 80%; 
-			    display: inline-block;
-			    margin-left: 15%;
-			    margin-top: 1%;
-			    min-height: 500px;  
-			    border-color: #e6e6e6;
-				border-style: solid;
-				background-color: #323639; 
-				color: #e6e6e6;
-				display: inline-block;
-			}          
-		        }
-        @media screen and (min-width: 501px) and (max-width:1500px){
-           .loginWrap {
-			    width: 80%; 
-			    display: inline-block;
-			    margin-left: 15%;
-			    margin-top: 1%; 
-			    min-height: 500px; 
-			    border-color: #e6e6e6;
-				border-style: solid;
-				background-color: #323639; 
-				color: #e6e6e6;
-				display: inline-block;
-			}
-        }
-        @media screen and (min-width: 1501px){    
-		       .loginWrap {
-			    width: 51%; 
-			    display: inline-block;
-			    margin-left: 29%;
-			    margin-top: 1%;
-			    min-height: 500px; 
-			    border-color: #e6e6e6;
-				border-style: solid;
-				background-color: #323639; 
-				color: #e6e6e6;
-				display: inline-block;
-			}
-        }
-        
-	body{
-		background-color: #323639;  
-		}
-
-	.container {
-	    width: 50%;
-	    display: inline-block;
-	    margin-left: 10%;
-	    margin-top: 6%;
-	    min-height: 278px;
-	    border-color: #e6e6e6;
-	    border-style: solid;
-	    background-color: #323639;
-	    color: #e6e6e6; 
-	}
-	.form-group {
-		/* display: inline-block; */  
-	    margin-top: 3%;
-	    margin-left:  30%;
-	    width: 45%;
-	    height: 50px;
-	    font-size: 20px;
-	   /*  border-color: #e6e6e6;
-	    border-style: solid; */ 
-    }
-    
-	  .form-control {
-	    width: 100%;
-	    /* margin: 6px; */
-	    /* margin-left: -28px; */
-	    border-radius: 9px;
-	    font-size: 15px;
-	    height: 49px;
-	    border: 0.5px solid gray;
-	    box-sizing: border-box;
-	    padding-left: 38px; 
-	}
-	.next {
-	    width: 12%;
-	    margin: 0 auto;
-	    margin-left: 6px;
-	    border: none;
-	    color: white;
-	   /*  background-color: #7151fc; */
-	    padding: 15px;
-	    font-size: 15px;
-	    border-radius: 9px;
-	}
-	
-</style> 
-	</head>
+<head>
+	<meta charset="utf-8"> 
+	<link href="/dokky/resources/css/customLogin.css" rel="stylesheet" type="text/css"/>
+</head>
 <body> 
 <div class="loginWrap">
  <div class="container"> 
