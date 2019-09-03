@@ -203,10 +203,12 @@ public class CommonController {
 		model.addAttribute("boardTotal",total);  
 		model.addAttribute("replyTotal", mypageService.getMyReplyCount(cri));
 		
-		if(pageLocation.equals("admin")) {
-			return "admin/userBoardList";
-		}
+		if(pageLocation == null) {
 			return "common/userBoardList"; 
+		}else if(pageLocation.equals("admin")) {
+			return "admin/userBoardList";
+		}  
+			return "common/userBoardList";    
 	} 
 	
 	@PreAuthorize("isAuthenticated()")
@@ -222,12 +224,15 @@ public class CommonController {
 		model.addAttribute("boardTotal",mypageService.getMyBoardCount(cri));  
 		model.addAttribute("replyTotal", total);
 		model.addAttribute("pageMaker", new PageDTO(cri, total));
-		
-		if(pageLocation.equals("admin")) {
+	 
+		if(pageLocation == null) { 
+			return "common/userReplylist"; 
+		}else if(pageLocation.equals("admin")) {
 			return "admin/userReplylist";
-		}
-		return "common/userReplylist";
+		}  
+			return "common/userReplylist";    
 	} 
+
 	
 	@GetMapping(value = "/alarmRealCount/{userId}", produces = "text/plain; charset=UTF-8")
 	@ResponseBody
