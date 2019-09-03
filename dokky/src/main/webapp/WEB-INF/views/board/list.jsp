@@ -6,7 +6,7 @@
 <html>
 <head>
 <meta charset="UTF-8">
-<title>Dokky-리스트</title>
+<title>Dokky - 리스트</title>
 <link href="/dokky/resources/css/list.css" rel="stylesheet" type="text/css">
 </head>
 <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
@@ -41,7 +41,7 @@
 		      <span class="regBtn"> 
 		      	<button id='regBtn' type="button" class="">새 글쓰기</button>
 		      </span>
-	     </div>
+	     </div> 
 	     
 		<div class="orderMethodWrap">
 			<ul class="orderMethodUL">
@@ -66,9 +66,35 @@
 				&type=${pageMaker.cri.type}&keyword=${pageMaker.cri.keyword}&pageNum=${pageMaker.cri.pageNum}&amount=${pageMaker.cri.amount}">기부순</a>
 				</li>
 			</ul>
-			<%@include file="../includes/search.jsp"%>
-		</div>
-		 
+			
+			<div class="searchWrapper">
+				<form id='searchForm' action="/dokky/board/list" method='get'>
+					<select name='type'>
+						<option value="TC"
+							<c:out value="${pageMaker.cri.type == null || pageMaker.cri.type eq 'TC'?'selected':''}"/>>제목+내용</option>
+						<%-- <option value="TC"
+							<c:out value="${pageMaker.cri.type eq 'TC'?'selected':''}"/>>제목+내용</option> --%>
+						<option value="T"
+							<c:out value="${pageMaker.cri.type eq 'T'?'selected':''}"/>>제목</option>
+						<option value="C"
+							<c:out value="${pageMaker.cri.type eq 'C'?'selected':''}"/>>내용</option>
+						<option value="N"
+							<c:out value="${pageMaker.cri.type eq 'N'?'selected':''}"/>>닉네임</option>
+						<option value="TN"
+							<c:out value="${pageMaker.cri.type eq 'TN'?'selected':''}"/>>제목+닉네임</option>
+						<option value="TNC"
+							<c:out value="${pageMaker.cri.type eq 'TNC'?'selected':''}"/>>제목+내용+닉네임</option>
+					</select> 
+								
+					<input type='text' name='keyword' value='<c:out value="${pageMaker.cri.keyword}"/>' /> 
+					<input type='hidden' name='pageNum' value='<c:out value="${pageMaker.cri.pageNum}"/>' /> 
+					<input type='hidden' name='amount' value='<c:out value="${pageMaker.cri.amount}"/>' />
+					<input type='hidden' name='category' value='${pageMaker.cri.category}'>
+							
+					<button class=''>검색</button> 
+				</form>
+			</div> 
+	  </div>
 		<div class="">
 			<table class=""> 
 				<c:forEach items="${list}" var="board">

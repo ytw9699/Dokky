@@ -40,7 +40,18 @@
 			    display: inline-block; 
 			}
         }
-        
+    .searchWrapper {
+	    width: 12%; 
+	    margin-top: 20px;
+	    margin-left: 1%;
+	    display: inline-block;
+	    width: 24%;
+	    margin-top: -51px;
+	    margin-left: 74%;
+	    border-style: solid;
+	    border-color: #e6e6e6; 
+	}
+	
 	a  {   
 		color:#e6e6e6;
 		 text-decoration: none;
