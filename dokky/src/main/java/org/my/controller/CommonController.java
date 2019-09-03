@@ -191,7 +191,7 @@ public class CommonController {
 	
 	@PreAuthorize("isAuthenticated()")
  	@GetMapping("/userBoardList") 
-	public String userBoardList(Criteria cri, Model model) { //유저 게시글 가져오기
+	public String userBoardList(Criteria cri, Model model, String pageLocation) { //유저 게시글 가져오기
 		
 		log.info("/userBoardList"); 
 		
@@ -203,12 +203,15 @@ public class CommonController {
 		model.addAttribute("boardTotal",total);  
 		model.addAttribute("replyTotal", mypageService.getMyReplyCount(cri));
 		
-		return "common/userBoardList"; 
+		if(pageLocation.equals("admin")) {
+			return "admin/userBoardList";
+		}
+			return "common/userBoardList"; 
 	} 
 	
 	@PreAuthorize("isAuthenticated()")
  	@GetMapping("/userReplylist")  
-	public String userReplylist(Criteria cri, Model model) {
+	public String userReplylist(Criteria cri, Model model, String pageLocation) { 
 		
 		log.info("userReplylist cri"+cri);
 		
@@ -220,6 +223,9 @@ public class CommonController {
 		model.addAttribute("replyTotal", total);
 		model.addAttribute("pageMaker", new PageDTO(cri, total));
 		
+		if(pageLocation.equals("admin")) {
+			return "admin/userReplylist";
+		}
 		return "common/userReplylist";
 	} 
 	

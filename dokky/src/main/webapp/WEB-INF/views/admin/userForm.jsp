@@ -15,10 +15,10 @@
 <div class="userFormWrap">	
 	<div class="ContentWrap">
 		<div id="menuWrap"> 
-			<div class="tab">    
-		        <button onclick="location.href='userForm?userId=${user.userId}'">유저 개인정보</button> 
-		        <button onclick="location.href='userCashHistory?userId=${user.userId}'">유저 캐시내역</button>
-		        <button onclick="location.href='/dokky/userBoardList?userId=${user.userId}'">유저 활동</button>  
+			<div class="tab">  
+				<button onclick="location.href='/dokky/admin/userForm?userId=${user.userId}'">유저 개인정보</button> 
+		        <button onclick="location.href='/dokky/admin/userCashHistory?userId=${user.userId}'">유저 캐시내역</button>
+		        <button onclick="location.href='/dokky/userBoardList?userId=${user.userId}&pageLocation=admin'">유저 활동</button>
 		    </div>   	 
 		 </div> 
 		 
