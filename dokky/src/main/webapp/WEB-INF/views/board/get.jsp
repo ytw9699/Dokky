@@ -1091,7 +1091,11 @@ function checkLength(obj, maxlength) {
 	 		 
 	 		var reason;   
 	 			reason = prompt('신고 사유를 입력해주세요');
-	 			reason = $.trim(reason);//공백제거 
+	 			
+ 	 			if(reason === null) 
+		 			return;
+		 			
+	 			reason = $.trim(reason);//공백제거
  	 			 
 	 		if(reason.length == 0){ 
 				alert("신고 사유 입력후 신고해주세요."); 	   			
@@ -1144,8 +1148,12 @@ function checkLength(obj, maxlength) {
 			}
 			 
 	 		var reason;   
- 			reason = prompt('신고 사유를 입력해주세요');
- 			reason = $.trim(reason);//공백제거 
+ 				reason = prompt('신고 사유를 입력해주세요');
+ 			
+	 			if(reason === null) 
+		 			return; 
+ 			
+ 			reason = $.trim(reason);//공백제거  
 	 			 
 	 		if(reason.length == 0){ 
 				alert("신고 사유 입력후 신고해주세요."); 	   			
