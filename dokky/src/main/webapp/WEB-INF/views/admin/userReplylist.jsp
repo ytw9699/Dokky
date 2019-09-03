@@ -7,8 +7,8 @@
 <html>
 <head> 
 <meta charset="UTF-8">
-<title>Dokky - 유저 등록 댓글</title>   
-<link href="/dokky/resources/css/userReplylist.css" rel="stylesheet" type="text/css"/>
+	<title>Dokky - 유저 등록 댓글</title>   
+	<link href="/dokky/resources/css/userReplylist.css" rel="stylesheet" type="text/css"/>
 </head>
 <%@include file="../includes/left.jsp"%> 
 <body>
