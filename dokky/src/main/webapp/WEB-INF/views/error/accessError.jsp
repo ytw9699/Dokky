@@ -7,7 +7,7 @@
 <html>
 <head>
 <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
-<title>에러 페이지</title>
+<title>Dokky - 에러 페이지</title>
 <style>
 	 @media screen and (max-width:500px){ 
 	           .accessWrap {
