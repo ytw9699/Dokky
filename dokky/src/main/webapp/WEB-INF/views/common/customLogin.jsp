@@ -7,6 +7,7 @@
 <html>
 <head>
 	<meta charset="utf-8"> 
+	<title>Dokky - 로그인</title>
 	<link href="/dokky/resources/css/customLogin.css" rel="stylesheet" type="text/css"/>
 </head>
 <body> 
