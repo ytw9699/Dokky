@@ -1091,10 +1091,16 @@ function checkLength(obj, maxlength) {
 	 		 
 	 		var reason;   
 	 			reason = prompt('신고 사유를 입력해주세요');
+	 			reason = $.trim(reason);//공백제거 
+ 	 			 
+	 		if(reason.length == 0){ 
+				alert("신고 사유 입력후 신고해주세요."); 	   			
+	 			return;
+	 		}else if(reason.length > 30){
+	 			alert("30자 이상을 초과할 수 없습니다."); 	  			
+	 			return;
+	 		}
 	 			
-	 		if(reason == null)
-	 				return;
-	 		 
 	 		<sec:authorize access="isAuthenticated()">   
 		  		  var reportKind = '게시글';
 		  		  var reportingId = '${userInfo.username}';
@@ -1136,12 +1142,18 @@ function checkLength(obj, maxlength) {
 			if(checkUser(reportedId, loginCheck, null, reportCheck)){
 				return;
 			}
-			
-			var reason;   
+			 
+	 		var reason;   
  			reason = prompt('신고 사유를 입력해주세요');
- 			
-	 		if(reason == null)
-	 				return;
+ 			reason = $.trim(reason);//공백제거 
+	 			 
+	 		if(reason.length == 0){ 
+				alert("신고 사유 입력후 신고해주세요."); 	   			
+	 			return;
+	 		}else if(reason.length > 30){
+	 			alert("30자 이상을 초과할 수 없습니다."); 	  			
+	 			return;
+	 		}
 	 		 
 	 		<sec:authorize access="isAuthenticated()">   
 		  		  var reportKind = '댓글';
