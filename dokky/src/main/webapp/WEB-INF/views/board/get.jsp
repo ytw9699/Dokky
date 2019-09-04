@@ -5,17 +5,20 @@
 
 <!DOCTYPE html>
 <html>
-<head>
-	<meta charset="UTF-8">
-	<title>Dokky-상세페이지</title> 
-	<link href="/dokky/resources/css/get.css" rel="stylesheet" type="text/css">
-	<%@include file="../includes/left.jsp"%> 
-</head>
+	<head>
+		<meta charset="UTF-8">
+		<title>Dokky-상세페이지</title> 
+		<link href="/dokky/resources/css/get.css" rel="stylesheet" type="text/css">
+		<%@include file="../includes/left.jsp"%> 
+	</head>
 <body> 
 
+<sec:authentication property="principal" var="userInfo"/>
+<!-- 다시보기 : 위 코드 없어도 userInfo가 동작하는데? -->
+
 <div class='bigPictureWrapper'>
-  <div class='bigPicture'>
-  </div>
+	 <div class='bigPicture'>
+	 </div>
 </div>
 
 <div class="getWrapper"> 
@@ -37,25 +40,27 @@
 		   		   		  정기모임/스터디 
 		       </c:when>
           </c:choose> 
-    </div>
+	</div>
      
-    <div class="nickName">
+	<div class="nickName">
+			
 			<a href="#" class="userMenu">
 				<img src="/dokky/resources/img/profile_img/<c:out value="${board.userId}" />.png"  class="memberImage hideUsermenu" onerror="this.src='/dokky/resources/img/basicProfile.png'" />
 				<c:out value="${board.nickName}" /> 
 			</a>
+			
 			<div>
 				<span>
-						<fmt:formatDate value="${board.regDate}" pattern="yyyy년 MM월 dd일 HH:mm" /><label> 작성</label>
+						  <fmt:formatDate value="${board.regDate}" pattern="yyyy년 MM월 dd일 HH:mm" /><label> 작성</label>
 					<c:if test="${board.regDate != board.updateDate}">
-					    , <fmt:formatDate value="${board.updateDate}" pattern="yyyy년 MM월 dd일 HH:mm" /><label> 수정됨</label> 
-					</c:if> 
+					    , <fmt:formatDate value="${board.updateDate}" pattern="yyyy년 MM월 dd일 HH:mm" /><label> 수정됨</label>
+					</c:if>  
 				</span>
 				<span>
 					<img width="20px" src="/dokky/resources/img/read.png"/>
 					<c:out value="${board.hitCnt }"/>
 				</span>
-			</div>  
+		    </div>  
 			
 			<div id="UserMenubar_board" class="userMenubar">
 				<ul class="hideUsermenu">  
@@ -63,53 +68,56 @@
 					<li class="hideUsermenu"><a href="#" class="hideUsermenu"><span class="hideUsermenu">쪽지보내기</span></a></li>
 				</ul>    
 		    </div> 
-    </div>
+	</div>
         
-   	<div class="titleWrapper">
+	<div class="titleWrapper">
    		<div id="titleNum">
-   			#<c:out value="${board.num }"/>
+   			#<c:out value="${board.num}"/>
    		</div>
+   		
    		<div id="title">
    		 	<c:out value="${board.title}"/>
    		</div>
+   		
    		<div class='fileUploadResult'> 
-          <ul>
-          </ul>
+            <ul>
+            </ul>
         </div>
-    </div> 
+	</div> 
             
     <div class="content"> 
       		${board.content } 
     </div>
     
     <div class="contentInformation">
-   		<span>
-          <label>좋아요</label> <span id="likeCount"><c:out value="${board.likeCnt }"/></span>
-            <sec:authorize access="isAuthenticated()">
-		        <c:if test="${userInfo.username != board.userId}">
-		       		<button id="like" data-user_id="${board.userId }">좋아요</button>  
-		        </c:if>
-	        </sec:authorize>
-        </span> 
+		<span>
+			<label>좋아요</label> <span id="likeCount"><c:out value="${board.likeCnt }"/></span>
+	            <sec:authorize access="isAuthenticated()">
+			        <c:if test="${userInfo.username != board.userId}">
+			       		<button id="like" data-user_id="${board.userId}">좋아요</button>  
+			        </c:if>
+		        </sec:authorize>
+		</span> 
+		
         <span>
-	        <label>싫어요</label> <span id="dislikeCount"><c:out value="${board.dislikeCnt }"/></span>
-         	<sec:authorize access="isAuthenticated()">
-		        <c:if test="${userInfo.username != board.userId}">
-		       	  <button id="dislike" data-user_id="${board.userId }">싫어요</button> 
-		        </c:if>
-	        </sec:authorize>
-         </span> 
-        <span>
-        	<label>기부금</label> <span id="boardMoney"><c:out value="${board.money }"/></span>
-          	<sec:authorize access="isAuthenticated()">
-		        <c:if test="${userInfo.username != board.userId}">
-		       	  <button id="donateMoney" data-user_id="${board.userId }">기부</button> 
-		        </c:if>
-	        </sec:authorize>
-        </span>
-        <span>
-        	<sec:authentication property="principal" var="userInfo"/>
-        
+			<label>싫어요</label> <span id="dislikeCount"><c:out value="${board.dislikeCnt }"/></span>
+	         	<sec:authorize access="isAuthenticated()">
+			        <c:if test="${userInfo.username != board.userId}">
+			       	  <button id="dislike" data-user_id="${board.userId}">싫어요</button> 
+			        </c:if>
+		        </sec:authorize>
+		</span> 
+		
+		<span>
+        	<label>기부금</label> <span id="boardMoney"><c:out value="${board.money}"/></span>
+	          	<sec:authorize access="isAuthenticated()">
+			        <c:if test="${userInfo.username != board.userId}">
+			       	  <button id="donateMoney" data-user_id="${board.userId }">기부</button> 
+			        </c:if>
+		        </sec:authorize>
+		</span>
+		
+		<span>
 	        	<sec:authorize access="isAuthenticated()">
 			        <c:if test="${userInfo.username eq board.userId}">
 			       		 <button id="modify_button">수정 </button> 
@@ -117,14 +125,14 @@
 			        </c:if>
 			        
 			        <button id="scrap" data-num="${board.num }">스크랩 </button>
-			        
+			         
 			        <c:if test="${userInfo.username != board.userId}">
 			       		 <button id="report">신고 </button> 
 			        </c:if>
 	        	</sec:authorize>
         	
         		<button id="list_button">목록보기 </button> 
-       	</span> 
+		</span> 
     </div> 
     
     <div> 
@@ -136,7 +144,7 @@
 			  <input type='hidden' name='pageNum' value='<c:out value="${cri.pageNum}"/>'>
 			  <input type='hidden' name='amount' value='<c:out value="${cri.amount}"/>'>
 			  <input type='hidden' name='keyword' value='<c:out value="${cri.keyword}"/>'>
-  			  <input type='hidden' name='type' value='<c:out value="${cri.type}"/>'>  
+			  <input type='hidden' name='type' value='<c:out value="${cri.type}"/>'>  
 		</form>
 	</div>
     
@@ -148,63 +156,83 @@
         <ul class="replyList">
         <!-- 댓글 목록 -->
         </ul>
-    </div>  
+	</div>  
     
-    <div class="replyPage"> 
+    <div class="replyPage">
     	<!-- 댓글페이지 -->
     </div>
     
-     <div id="replyModForm" ><!-- 댓글 수정 폼+값 불러오기 --> 
-             <input name='reply_content' value='' oninput="checkLength(this,900);"> 
-             <button id='replyModFormModBtn' type="button" >수정</button> 
-  			  <button id='replyModFormCloseBtn' type="button" >취소</button>
-  			  
-  			  <input type='hidden' name='nickName' value=''>
-             <input type='hidden' name='reply_num' value=''>
-     </div>
+	<div id="replyModForm" ><!-- 댓글의 수정 폼+값 불러오기 --> 
+		<input name='reply_content' value='' oninput="checkLength(this,900);">
+		<input type='hidden' name='nickName' value=''> <!-- 다시보기 -->
+		<input type='hidden' name='reply_num' value=''> <!-- 다시보기 --> 
+		 
+		<button id='replyModFormModBtn' type="button" >수정</button> 
+		<button id='replyModFormCloseBtn' type="button" >취소</button>
+	</div>
       
 	<sec:authorize access="isAuthenticated()">
-		<div class="replyWriteForm"><!--  댓글쓰기 폼 -->
-			     <div class="replytextareaWrapper"> 
-              		<textarea id="reply_contents" rows="3" placeholder="댓글을 입력하세요" name='reply_content' oninput="checkLength(this,900);"></textarea>
-                 </div>
-                  <div class="replyBtnWrapper">  
-            	 	<button id='replyRegisterBtn' type="button">등록</button>
-            	  </div> 
-		</div>   
-		<div class="reReplyWriteForm"><!--  대댓글쓰기 폼 -->
-		   <div> 
-		   		<div class="textareaWrapper"> 
-                	<textarea id="reReply_contents" rows="3" name='reReply_content' oninput="checkLength(this,900);"></textarea>
-                </div> 
-                <div class="reReplyBtnWrapper">  	 
-	                <button id='reReplyRegisterBtn' class="reReplyBtn" type="button">등록</button>
-	   		   		<button id='reReplyCancelBtn' class="reReplyBtn" type="button">취소</button>
-   		   		</div> 
-           </div>  
+		<div class="replyWriteForm"><!--  추가 댓글쓰기 폼 -->
+			<div class="replytextareaWrapper"> 
+				<textarea id="reply_contents" rows="3" placeholder="댓글을 입력하세요" name='reply_content' oninput="checkLength(this,900);"></textarea>
+			</div>
+			
+			<div class="replyBtnWrapper">  
+				<button id='replyRegisterBtn' type="button">등록</button>
+			</div> 
+		</div>  
+		 
+		<div class="reReplyWriteForm"><!--  대댓글 쓰기 폼 -->
+			<div class="textareaWrapper"> 
+				<textarea id="reReply_contents" rows="3" name='reReply_content' oninput="checkLength(this,900);"></textarea>
+			</div> 
+			       
+			<div class="reReplyBtnWrapper">  	 
+				<button id='reReplyRegisterBtn' class="reReplyBtn" type="button">등록</button>
+				<button id='reReplyCancelBtn' class="reReplyBtn" type="button">취소</button>
+			</div>    
 		</div> 
 	</sec:authorize>
-		
-</div> 
+	
+</div><!--  end getWrapper -->
 
-<div id="donateBackGround"></div>
-<div id="donateModal">
-         <span class="donaSubject">기부하기</span>
-         <span class="donaText">* 기부이후 환불은 불가능합니다</span>
-         
-         <div class="selectWrap">
-         	 <span class="mydonaText">남은금액</span>
-         	 <input class="donaSelect" name='myCash' value='' readonly="readonly">
-	         <span class="mydonaText">기부금액</span>
-	         	<input type="text" name='giveCash' value="" class="donaSelect"/>
-         </div>
-         <button id='modalSubmitBtn' type="button" class="donateSubmit">기부</button>
-		 <button id='modalCloseBtn' type="button" class="donateSubmit">취소</button>
+<div id="donateBackGround">
 </div>
+
+<div id="donateModal"> 
+         <div class="">
+			<span class="mydonaText">남은금액</span>
+				<input type="text" class="donaSelect" name='myCash' value='' readonly="readonly">
+			<span class="mydonaText">원</span>
+		 </div>
+		 
+		 <div class="">
+			<span class="mydonaText">기부금액</span> 
+				<input type="text" class="donaSelect" name='giveCash' value="" placeholder="0" value="" onkeyup="numberWithComma(this)">
+				<input type="text" class="donaSelect" id="realGiveCash" name='realGiveCash' value="" placeholder="0" value="" onkeyup="numberWithComma(this)">
+			<span class="mydonaText">원</span>
+         </div>
+            
+         <div class="">
+	         <span> 
+	         	 <button id='modalSubmitBtn' type="button" class="donateSubmit">기부</button>
+	         </span>
+	         <span>  
+	         	 <button id='modalCloseBtn' type="button" class="donateSubmit">취소</button>
+	         </span>
+         </div>
+</div>
+
 <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
 <script type="text/javascript" src="/dokky/resources/js/reply.js"></script> <!--댓글 AJAX통신 -->
 <script>
 		
+function numberWithComma(This) {          
+ 	  This.value = This.value.replace(/[^0-9]/g,'');//입력값에 숫자가 아닌곳은 모두 공백처리 
+	  $("#realGiveCash").val(This.value);//실제 넘겨줄 값  
+	  This.value = (This.value.replace(/\B(?=(\d{3})+(?!\d))/g, ","));//정규식을 이용해서 3자리 마다 ,추가 */  
+}
+
 function checkLength(obj, maxlength) {    
 	var str = obj.value; // 이벤트가 일어난 컨트롤의 value 값    
 	var str_length = str.length; // 전체길이       // 변수초기화     
@@ -1006,11 +1034,16 @@ function checkLength(obj, maxlength) {
    		 
    		$("#modalSubmitBtn").on("click",function(event){//5.게시글 or 댓글 기부 하기 등록 버튼 이벤트
    			
-   			inputMoney = donateModal.find("input[name='giveCash']").val();
-   		
+   			inputMoney = donateModal.find("input[name='realGiveCash']").val();
+   			 
    			if(myCash < inputMoney){
 				alert("보유 캐시가 부족합니다.");
 				donateModalClose();
+				return; 
+			} 
+   			 
+   			if(inputMoney === 0 || inputMoney === ""){   
+				alert("금액을 1원이상 입력해주세요."); 
 				return;
 			}
    			
@@ -1081,7 +1114,7 @@ function checkLength(obj, maxlength) {
 					donateModalClose();
 					donateModal.find("input").val("");
 					
-					alert("기부 되었습니다.");  
+					alert("기부 하였습니다.");  
 		   	    });
    			}
    		});//6.이벤트 끝
@@ -1207,7 +1240,7 @@ function checkLength(obj, maxlength) {
 			 	 
 			replyService.ScrapBoard(scrapData, function(result){//스크랩
 					 if(result == 'success'){
-						 alert("스크랩 하였습니다.");
+						 alert("스크랩 하였습니다."); 
 					}
 					 else if(result == 'cancel'){
 						 alert("스크랩을 취소하였습니다.");
