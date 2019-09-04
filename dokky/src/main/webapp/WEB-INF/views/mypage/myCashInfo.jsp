@@ -67,7 +67,6 @@
 <script>
 		
    	    function numberWithComma(This) {       
-   	    	 
    	    	  This.value = This.value.replace(/[^0-9]/g,'');//입력값에 숫자가 아닌곳은 모두 공백처리 
 			  $("#realCommonWon").val(This.value);//실제 넘겨줄 값  
 			  This.value = (This.value.replace(/\B(?=(\d{3})+(?!\d))/g, ","));//정규식을 이용해서 3자리 마다 ,추가 */  
@@ -166,7 +165,7 @@
 			var cash = $("#realCommonWon").val();
 			
 			if(cash === 0 || cash === ""){   
-				alert("금액을 1원이상 입력해주세요"); 
+				alert("금액을 1원이상 입력해주세요."); 
 				return;
 			}
 			

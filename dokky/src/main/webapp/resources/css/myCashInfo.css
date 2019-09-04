@@ -121,7 +121,7 @@
     
     .chargeWon{
 	    font-size: 40px;
-	     color: #ff7e00;
+	     color: #7151fc; 
 	     width: 53%; 
      }
     
@@ -134,19 +134,21 @@
 	    display: block;
 	    border-radius: 8px;
 	    color: white;
-	    background-color: #12b9ff;
+	    background-color: #7151fc;
 	 }
     
-    .Cancel{    font-size: 20px;
-    border: none;
-    padding: 8px;
-    width: 80%;
-    margin: 0 auto;
-    margin-top: 10px;
-    display: block;
-    border-radius: 8px;
-    color: white;
-    background-color: #bd081c;}
+    .Cancel{    
+  			font-size: 20px;
+		    border: none;
+		    padding: 8px;
+		    width: 80%;
+		    margin: 0 auto; 
+		    margin-top: 10px;
+		    display: block;
+		    border-radius: 8px;
+		    color: white;
+		    background-color: #7151fc;
+    }
      
     .chargeText{font-size: 20px;
     color: #555;
