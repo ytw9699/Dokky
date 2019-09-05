@@ -236,7 +236,7 @@
 	 
          <div class="">
 	         <span>  
-	         	 <button id='submitReport' type="button" class="reportBtn" data-report_kind="">확인</button>
+	         	 <button id='submitReport' type="button" class="reportBtn">확인</button>
 	         </span>
 	         <span>  
 	         	 <button id='cancelReport' type="button" class="reportBtn">취소</button>
@@ -1145,8 +1145,8 @@ function numberWithComma(This) {
    		});//6.이벤트 끝
 ///////////////////////////////////////////////////////기부 관련 끝
 	 	 
-///////////////////////////////////////////////////////신고 관련 공통 함수들 
-
+///////////////////////////////////////////////////////신고 관련 시작,  
+//신고 공통 함수 및 변수들 시작
    		function cancelReport(){//신고폼 닫기 함수
    			$("#reportBackGround").css("display","none"); 
    		   
@@ -1155,25 +1155,60 @@ function numberWithComma(This) {
     		$("#reportInput").val(""); 
    		} 
    		
-   		function reportBtn(kind){//신고폼 열기 함수
+   		function reportBtn(){//신고폼 열기 함수
 	   		 var reportBackGround = $("#reportBackGround");
 	    	 	 reportBackGround.css("display","block");			
 		  
 	    	 var reportForm = $("#reportForm"); 
 	    		 reportForm.css("display","block");	
-	    		  
-	    		 $("#submitReport").data('report_kind', kind); //값 저장 
    		} 
    		
-///////////////////////////////////////////////////////게시글 신고 관련 시작
+		var reportKind;  //신고 종류
+		var reportingId; //신고자 아이디
+		var reportingNick; //신고자 닉네임
+		var reportedId; //신고당한자 아이디
+		var reportedNick; //신고당한자 닉네임
+		var board_num; //게시글 번호
+//신고 공통 함수 및 변수들 끝
 
 	 	$("#cancelReport").on("click",function(event){//신고폼 닫기,취소
 	 		cancelReport();
 	 	});
 	 	
-	 	$("#reportBtn").on("click",function(event){//신고폼 열기 버튼
-	 		reportBtn("게시글");
+	 	$("#reportBtn").on("click",function(event){//게시글 신고폼 열기 버튼
+	 		
+	 		reportBtn();
+	 	
+	 		<sec:authorize access="isAuthenticated()">   
+		  		   reportKind =  "게시글";  
+		  		   reportingId = '${userInfo.username}';//신고하는자
+		  		   reportingNick = '${userInfo.member.nickName}';
+		  		   reportedId = '${board.userId }';//신고당한자
+		  		   reportedNick = '${board.nickName }';
+		  		   board_num = '${board.num}';
+		 	</sec:authorize>
 	 	});	 
+			 	
+		$(".replyList").on("click",'button[data-oper="report"]', function(event){//댓글 신고폼 열기 버튼
+					
+					var loginCheck = "로그인후 신고 해주세요.";
+					var reportCheck = "자신의 댓글에는 신고 할 수 없습니다.";
+						reportedId = $(this).data("user_id");
+						reportedNick = $(this).data("nick_name");
+					
+					<sec:authorize access="isAuthenticated()">   
+						   reportKind = '댓글';
+						   reportingId = '${userInfo.username}';
+						   reportingNick = '${userInfo.member.nickName}';
+						   board_num = '${board.num}';
+					</sec:authorize>
+					
+					if(checkUser(reportedId, loginCheck, null, reportCheck)){
+						return;
+					} 
+					
+					reportBtn();
+		});
 	 	 
 	    $("#submitReport").on("click",function(event){//신고 확인 버튼 
 	    	 
@@ -1189,14 +1224,6 @@ function numberWithComma(This) {
 		 			return;
 	    	 } 
 	    	 
-	    	 <sec:authorize access="isAuthenticated()">   
-		  		  var reportKind =  $('#submitReport').data('report_kind'));  
-		  		  var reportingId = '${userInfo.username}';//신고하는자
-		  		  var reportingNick = '${userInfo.member.nickName}';
-		  		  var reportedId = '${board.userId }';//신고당한자
-		  		  var reportedNick = '${board.nickName }';
-		  		  var board_num = '${board.num}';
-			 </sec:authorize>
 	    
 			 var reportData = {  
 								reportKind  : reportKind,
@@ -1219,41 +1246,8 @@ function numberWithComma(This) {
 				 cancelReport();  
 			 });
 	    });
-///////////////////////////////////////////////////////게시글 신고 관련 끝 
 	 	
-///////////////////////////////////////////////////////댓글 신고 관련 시작 
-	$(".replyList").on("click",'button[data-oper="report"]', function(event){
-			
-			var loginCheck = "로그인후 신고 해주세요.";
-			var reportCheck = "자신의 댓글에는 신고 할 수 없습니다.";
-			var	reportedId = $(this).data("user_id");
-			var	reportedNick = $(this).data("nick_name");
-			
-			if(checkUser(reportedId, loginCheck, null, reportCheck)){
-				return;
-			}
-			
-			reportBtn("댓글");
-	});
-	 	 
-   		
-	<sec:authorize access="isAuthenticated()">   
-		  var reportKind = '댓글';
-		  var reportingId = '${userInfo.username}';
-		  var reportingNick = '${userInfo.member.nickName}';
-		  var board_num = '${board.num}';
-	</sec:authorize>
-
-	var reportData = {  reportKind  : reportKind,
-	 				reportingId : reportingId, 
-	 				reportingNick : reportingNick, 
-	 				reportedId : reportedId, 
-	 				reportedNick : reportedNick, 
-	 				board_num : board_num, 
-	 				reason : reason
- };
-
-///////////////////////////////////////////////////////댓글 신고 관련 끝
+///////////////////////////////////////////////////////신고 관련 끝
 	 	 
 		$("#scrap").on("click",function(event){//4. 스크랩 이벤트
 			
