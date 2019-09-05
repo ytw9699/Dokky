@@ -1,9 +1,7 @@
-console.log("Reply Module.....22");
- 
 var replyService = (function() {
 
 	function add(commonData, callback, error) {//reply를 객체,
-		console.log("add reply..............."); 
+		//console.log("add reply..............."); 
 		$.ajax({
 			type : 'post',
 			url : '/dokky/replies/new',
@@ -322,7 +320,7 @@ var replyService = (function() {
 	}
 	
 	function report(reportData, callback, error) {
-		console.log("report........."); 
+		//console.log("report........."); 
 		$.ajax({
 			type : 'post',
 			url : '/dokky/board/report',
@@ -342,7 +340,7 @@ var replyService = (function() {
 	}
 	
 	function postAlarm(alarmData, callback, error) {
-		console.log("postAlarm...............");  
+		//console.log("postAlarm...............");  
 		
 		$.ajax({
 			type : 'post',
