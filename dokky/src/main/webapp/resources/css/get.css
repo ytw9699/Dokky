@@ -1,5 +1,5 @@
 @charset "utf-8";
-/* CSS Document */
+/* CSS Document */ 
 
 		@media screen and (max-width:500px){ 
 			     .getWrapper {
@@ -51,28 +51,9 @@
 		background-color: #323639; 
 	}
     #replyModForm{ 
-	    display:none;
+      display:none;
     }  
-    .modifyTextareaWrapper{ 
-	    border-style: solid;
-	    border-width: 1px;
-	    border-color: #e6e6e6;
-	    width: 80%;
-	    display: inline-block;  
-    }
-    .replyModFormBtnWrapper{ 
-    	border-style: solid;
-		border-width: 1px;
-		border-color: #e6e6e6;
-	    width: 10%;
-	    display: inline-block;
-	    position: absolute;
-    }
-    .replyModFormBtn{
-    	width: 47%;
-	    height: 53px;
-	}
-    .page-item{ 
+    .page-item{
       display:inline;
     }  
     
@@ -106,67 +87,100 @@
 	}
 	
 	#donateBackGround{
-	 	width: 100%;
+ 	    position: fixed;
+	    width: 100%; 
 	    height: 100%;
-	    position: fixed;
-	    background: #383838;
 	    top: 0;
 	    left: 0;
+	    background-color: #000;
 	    opacity: 0.6;
 	    display: none;
 	}
 
-	#donateModal{
-	    width: 30%;
+	#donateModal{ 
+	    display: none;
+	    width: 270px;
+	    border-radius: 8px;
 	    position: fixed;
-	    top: 25%;
-	    left: 33%;
-	    background-color: #fff;
-	    border: 7px solid #5a5e7f;
-	    box-sizing: border-box;
+	    top: 30%;
+	    left: 40%;
+	    padding: 50px;
+	    background-color: white;
+	}
+	 
+	 .mydonaText {
+	        font-size: 20px;
+		    color: #555;
+		    font-weight: 600;
+		}
+		
+	.donaSelect{ 
+	       font-size: 35px;
+		    color: #7151fc;
+		    width: 53%;
+	}  
+	
+	.donateSubmit{ 
+		font-size: 20px;
+	    border: none;
+	    padding: 8px;
+	    width: 80%;
+	    margin: 0 auto;
+	    margin-top: 10px;
+	    display: block;
+	    border-radius: 8px;
+	    color: white;
+	    background-color: #7151fc;
+	}
+	
+	#realGiveCash{
+		display: none;
+	} 
+	
+	#reportBackGround{
+ 	    position: fixed;
+	    width: 100%; 
+	    height: 100%;
+	    top: 0;
+	    left: 0;
+	    background-color: #000;
+	    opacity: 0.6;
 	    display: none;
 	}
-	span.donaSubject {
-	    color: #2a0055;
-	    display: block;
-	    background-color: #f2f2f4;
-	    padding: 10px;
-	    font-size: 15px;
+	
+	#reportForm{ 
+	    display: none;
+	    width: 270px;
+	    border-radius: 8px;
+	    position: fixed;
+	    top: 30%;
+	    left: 40%;
+	    padding: 50px;
+	    background-color: white;
+	}
+	.reportText{ 
+	    font-size: 20px;
+	    color: #555;
 	    font-weight: 600;
 	}
-	span.donaText {
-	    display: block;
-	    color: #888;
-	    font-size: 13px;
-	    margin-top: 20px;
-	    margin-bottom: 20px;
-	    margin-left: 16px;
+	#reportInput{
+		 font-size: 15px;
+	     width: 100%;
+	     color: #555;
 	}
-	.donateSubmit{
-		border: none;
-	    background-color: #ff7e00;
-	    color: white;
-	    padding: 10px;
-	    font-size: 15px;
-	    margin: 25px auto;
-	    width: 100px;
-	    display: block;
-	}
-	span.mydonaText {
-	    font-size: 15px;
-	}
-	
-	.selectWrap {
-	    width: 50%;
+	.reportBtn{ 
+		font-size: 20px;
+	    border: none;
+	    padding: 8px;
+	    width: 80%;
 	    margin: 0 auto;
+	    margin-top: 10px;
+	    display: block;
+	    border-radius: 8px;
+	    color: white;
+	    background-color: #7151fc;
 	}
-	
-	.donaSelect{
-	    font-size: 15px;
-	    font-weight: 600;
-	    box-sizing: border-box;
-	    padding: 10px;
-	}
+	   
 	.modal{
 	display: none;
 	}
@@ -255,7 +269,7 @@
 		border-style: solid;
 		border-width: 1px;
 		border-color: #e6e6e6;
-		font-size: 12px;     
+		font-size: 13px;     
 	}
 	#title{ 
 		width: 50%;
@@ -279,8 +293,8 @@
 	    border-style: solid;
 	    border-width: 1px;
 	    border-color: #e6e6e6;
-	    width: 59%;
-	    margin-left: 39%;
+        width: 63%; 
+    	margin-left: 35%;
 	    /* margin-right: 1%; 
 	    height: 50px; 
 	    */
@@ -354,10 +368,6 @@
 		    margin-top: 1%;
 		    margin-bottom: 1%;
 	}
-	.reply_contents{
-		    width: 99%;   
-	}
-	
 	.replyWriteForm{  
 		margin-left:1%; 
 		margin-top:1%; 
@@ -455,12 +465,29 @@
 	    height: 53px;
 	    margin-top: 8%; 
 	}
-	#reportForm{   
-		display:none;
+	
+	 .modifyTextareaWrapper{ 
+	    border-style: solid;
+	    border-width: 1px;
+	    border-color: #e6e6e6;
+	    width: 80%;
+	    display: inline-block;  
+    }
+    
+    .reply_contents{
+		    width: 99%;   
 	}
 	
-	
-	
-	
-	
+	.replyModFormBtnWrapper{ 
+    	border-style: solid;
+		border-width: 1px;
+		border-color: #e6e6e6;
+	    width: 10%;
+	    display: inline-block;
+	    position: absolute;
+    }
+     .replyModFormBtn{
+    	width: 47%;
+	    height: 53px;
+	}
 	
