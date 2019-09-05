@@ -1275,15 +1275,13 @@ function func_confirm(content){//단순 확인 여부 함수
 		$("#scrap").on("click",function(event){//4. 스크랩 이벤트
 			
 				var num = $(this).data("num");
-				alert(num);  
 			<sec:authorize access="isAuthenticated()">   
 			    var myId = '${userInfo.username}';//나의 아이디
 			</sec:authorize>
-			alert(myId);    
 			    
 			var scrapData = {num  : num, //글번호
 							userId : myId //내 아이디
-					 };
+					 }; 
 			 	 
 			replyService.ScrapBoard(scrapData, function(result){//스크랩
 					 if(result == 'success'){
