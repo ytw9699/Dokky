@@ -455,6 +455,9 @@
 	    height: 53px;
 	    margin-top: 8%; 
 	}
+	#reportForm{   
+		display:none;
+	}
 	
 	
 	

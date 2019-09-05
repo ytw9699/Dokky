@@ -1171,7 +1171,8 @@ function func_confirm(content){//단순 확인 여부 함수
 	    	 	 reportBackGround.css("display","block");			
 		  
 	    	 var reportForm = $("#reportForm"); 
-	    		 reportForm.css("display","block");	
+	    		 reportForm.css("display","block");
+	    		 alert(2);
    		} 
    		
 		var reportKind;  //신고 종류
@@ -1187,8 +1188,9 @@ function func_confirm(content){//단순 확인 여부 함수
 	 	});
 	 	
 	 	$("#reportBtn").on("click",function(event){//게시글 신고폼 열기 버튼
-	 		
+	 		alert(11);
 	 		reportBtn();
+	 		alert(3);   
 	 	
 	 		<sec:authorize access="isAuthenticated()">   
 		  		   reportKind =  "게시글";  
