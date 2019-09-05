@@ -393,22 +393,23 @@ function func_confirm(content){//단순 확인 여부 함수
 			  }
 	    	  
 	    	  str += "  <span class='replyInformation'>좋아요 <span id='replyLikeCount"+reply_nums+"'>"+data.list[i].likeCnt+"</span> "
-		      str += "  싫어요 <span id='replyDisLikeCount"+reply_nums+"'>"+data.list[i].dislikeCnt+"</span> "
-		      str += "  기부금 <span id='replyMoney"+reply_nums+"'>"+data.list[i].money+"</span> "
+		      str += "  싫어요 <span id='replyDisLikeCount"+reply_nums+"'>"+data.list[i].dislikeCnt+"</span> "  
+		      str += "  기부금 <span id='replyMoney"+reply_nums+"'>"+data.list[i].money+"\\</span> "  
+		      
 		    		    
 	         if(username == userId){
 				 str += "<button data-oper='modify' type='button' data-user_id='"+userId+"' data-reply_num='"+reply_nums+"'>수정</button>"
-			       +"<button data-oper='delete' type='button' data-user_id='"+userId+"' data-reply_num='"+reply_nums+"'>삭제</button></span>"
+			       +"<button data-oper='delete' type='button' data-user_id='"+userId+"' data-reply_num='"+reply_nums+"'>삭제</button>"
 	         } 
 	        
-	         if(username != userId){
+	         if(username && username != userId){ 
 		    	   str += " <button data-oper='like' type='button' data-user_id='"+userId+"' data-reply_num='"+reply_nums+"'>좋아요</button>" 
 			       +"<button data-oper='dislike' type='button' data-user_id='"+userId+"' data-reply_num='"+reply_nums+"'>싫어요</button>"
 			       +"<button data-oper='donateMoney' type='button' data-user_id='"+userId+"' data-reply_num='"+reply_nums+"'>기부</button>"
-			       +"<button data-oper='report' type='button' data-user_id='"+userId+"' data-nick_name='"+nickName+"'>신고</button></span>"
+			       +"<button data-oper='report' type='button' data-user_id='"+userId+"' data-nick_name='"+nickName+"'>신고</button>"
 	         } 
-	    	   
-	    	  str +="<div class='reply_contentWrapper'><span class='reply_content'>"; 
+	    	     
+	    	  str +="</span><div class='reply_contentWrapper'><span class='reply_content'>"; 
 	       }else if(reply_level == 1){    
 	    	  str +=" " + "<div class='reply first' data-reply_num='"+reply_nums+"'>└ ";  
 	    	  str +=" " +"<a href='#' class='userMenu' data-reply_num='"+reply_nums+"' data-menu_kind='from'>"  
@@ -437,22 +438,22 @@ function func_confirm(content){//단순 확인 여부 함수
 			  }
 	    	  str += "  <span class='replyInformation'>좋아요 <span id='replyLikeCount"+reply_nums+"'>"+data.list[i].likeCnt+"</span> "
 		      str += "  싫어요 <span id='replyDisLikeCount"+reply_nums+"'>"+data.list[i].dislikeCnt+"</span> "
-		      str += "  기부금 <span id='replyMoney"+reply_nums+"'>"+data.list[i].money+"</span> "
+		      str += "  기부금 <span id='replyMoney"+reply_nums+"'>"+data.list[i].money+"\\</span> "
 		         
 		    		    
 	         if(username == userId){
 				 str += "<button data-oper='modify' type='button' data-user_id='"+userId+"' data-reply_num='"+reply_nums+"'>수정</button>"
-			       +"<button data-oper='delete' type='button' data-user_id='"+userId+"' data-reply_num='"+reply_nums+"'>삭제</button></span>"
+			       +"<button data-oper='delete' type='button' data-user_id='"+userId+"' data-reply_num='"+reply_nums+"'>삭제</button>"
 	         } 
 	        
-	         if(username != userId){
+		     if(username && username != userId){ 
 		    	   str += " <button data-oper='like' type='button' data-user_id='"+userId+"' data-reply_num='"+reply_nums+"'>좋아요</button>" 
 			       +"<button data-oper='dislike' type='button' data-user_id='"+userId+"' data-reply_num='"+reply_nums+"'>싫어요</button>"
 			       +"<button data-oper='donateMoney' type='button' data-user_id='"+userId+"' data-reply_num='"+reply_nums+"'>기부</button>"
-			       +"<button data-oper='report' type='button' data-user_id='"+userId+"' data-nick_name='"+nickName+"'>신고</button></span>"
+			       +"<button data-oper='report' type='button' data-user_id='"+userId+"' data-nick_name='"+nickName+"'>신고</button>"
 	         } 
 	    	  
-	    	  str +="<div class='reply_contentWrapper'><span class='reply_content'>"; 
+	    	  str +="</span><div class='reply_contentWrapper'><span class='reply_content'>"; 
 	       }else if(reply_level == 2){
 	    	  str +=" " + "<div class='reply second' data-reply_num='"+reply_nums+"'>└ ";
 	    	  str +=" " +"<a href='#' class='userMenu' data-reply_num='"+reply_nums+"' data-menu_kind='from'>"  
@@ -482,22 +483,22 @@ function func_confirm(content){//단순 확인 여부 함수
 	    	  
 	    	  str += "  <span class='replyInformation'>좋아요 <span id='replyLikeCount"+reply_nums+"'>"+data.list[i].likeCnt+"</span> "
 		      str += "  싫어요 <span id='replyDisLikeCount"+reply_nums+"'>"+data.list[i].dislikeCnt+"</span> "
-		      str += "  기부금 <span id='replyMoney"+reply_nums+"'>"+data.list[i].money+"</span> "
+		      str += "  기부금 <span id='replyMoney"+reply_nums+"'>"+data.list[i].money+"\\</span> "
 		         
 		    		    
 	         if(username == userId){
 				 str += "<button data-oper='modify' type='button' data-user_id='"+userId+"' data-reply_num='"+reply_nums+"'>수정</button>"
-			       +"<button data-oper='delete' type='button' data-user_id='"+userId+"' data-reply_num='"+reply_nums+"'>삭제</button></span>"
+			       +"<button data-oper='delete' type='button' data-user_id='"+userId+"' data-reply_num='"+reply_nums+"'>삭제</button>"
 	         } 
 	        
-	         if(username != userId){
+		     if(username && username != userId){ 
 		    	   str += " <button data-oper='like' type='button' data-user_id='"+userId+"' data-reply_num='"+reply_nums+"'>좋아요</button>" 
 			       +"<button data-oper='dislike' type='button' data-user_id='"+userId+"' data-reply_num='"+reply_nums+"'>싫어요</button>"
 			       +"<button data-oper='donateMoney' type='button' data-user_id='"+userId+"' data-reply_num='"+reply_nums+"'>기부</button>"
-			       +"<button data-oper='report' type='button' data-user_id='"+userId+"' data-nick_name='"+nickName+"'>신고</button></span>"
+			       +"<button data-oper='report' type='button' data-user_id='"+userId+"' data-nick_name='"+nickName+"'>신고</button>"
 	         } 
 	    	  
-	    	  str +="<div class='reply_contentWrapper'><span class='reply_content'>"; 
+	    	  str +="</span><div class='reply_contentWrapper'><span class='reply_content'>"; 
 	       }else if(reply_level == 3){
 	    	      str +=" " + "<div class='reply third' data-reply_num='"+reply_nums+"'>└ ";
 		    	  str +=" " +"<a href='#' class='userMenu' data-reply_num='"+reply_nums+"' data-menu_kind='from'>"  
@@ -527,22 +528,22 @@ function func_confirm(content){//단순 확인 여부 함수
 		    	  
 		    	  str += "  <span class='replyInformation'>좋아요 <span id='replyLikeCount"+reply_nums+"'>"+data.list[i].likeCnt+"</span> "
 			      str += "  싫어요 <span id='replyDisLikeCount"+reply_nums+"'>"+data.list[i].dislikeCnt+"</span> "
-			      str += "  기부금 <span id='replyMoney"+reply_nums+"'>"+data.list[i].money+"</span> "
+			      str += "  기부금 <span id='replyMoney"+reply_nums+"'>"+data.list[i].money+"\\</span> "
 			         
 			    		    
 		         if(username == userId){
 					 str += "<button data-oper='modify' type='button' data-user_id='"+userId+"' data-reply_num='"+reply_nums+"'>수정</button>"
-				       +"<button data-oper='delete' type='button' data-user_id='"+userId+"' data-reply_num='"+reply_nums+"'>삭제</button></span>"
+				       +"<button data-oper='delete' type='button' data-user_id='"+userId+"' data-reply_num='"+reply_nums+"'>삭제</button>"
 		         } 
 		        
-		         if(username != userId){
+			     if(username && username != userId){ 
 			    	   str += " <button data-oper='like' type='button' data-user_id='"+userId+"' data-reply_num='"+reply_nums+"'>좋아요</button>" 
 				       +"<button data-oper='dislike' type='button' data-user_id='"+userId+"' data-reply_num='"+reply_nums+"'>싫어요</button>"
 				       +"<button data-oper='donateMoney' type='button' data-user_id='"+userId+"' data-reply_num='"+reply_nums+"'>기부</button>"
-				       +"<button data-oper='report' type='button' data-user_id='"+userId+"' data-nick_name='"+nickName+"'>신고</button></span>"
+				       +"<button data-oper='report' type='button' data-user_id='"+userId+"' data-nick_name='"+nickName+"'>신고</button>"
 		         } 
 		    	  
-		    	  str +="<div class='reply_contentWrapper'><span class='reply_content'>"; 
+		    	  str +="</span><div class='reply_contentWrapper'><span class='reply_content'>"; 
 	       }else{  
 	    	   str +=" " + "<div class='reply other' data-reply_num='"+reply_nums+"'>└ ";
 		    	  str +=" " +"<a href='#' class='userMenu' data-reply_num='"+reply_nums+"' data-menu_kind='from'>"  
@@ -572,22 +573,21 @@ function func_confirm(content){//단순 확인 여부 함수
 		    	  
 		    	  str += "  <span class='replyInformation'>좋아요 <span id='replyLikeCount"+reply_nums+"'>"+data.list[i].likeCnt+"</span> " 
 			      str += "  싫어요 <span id='replyDisLikeCount"+reply_nums+"'>"+data.list[i].dislikeCnt+"</span> "
-			      str += "  기부금 <span id='replyMoney"+reply_nums+"'>"+data.list[i].money+"</span> "
-			         
+			      str += "  기부금 <span id='replyMoney"+reply_nums+"'>"+data.list[i].money+"\\</span> "
 			    		    
 		         if(username == userId){
 					 str += "<button data-oper='modify' type='button' data-user_id='"+userId+"' data-reply_num='"+reply_nums+"'>수정</button>"
-				       +"<button data-oper='delete' type='button' data-user_id='"+userId+"' data-reply_num='"+reply_nums+"'>삭제</button></span>"
+				       +"<button data-oper='delete' type='button' data-user_id='"+userId+"' data-reply_num='"+reply_nums+"'>삭제</button>"
 		         } 
 		        
-		         if(username != userId){
+			      if(username && username != userId){ 
 			    	   str += " <button data-oper='like' type='button' data-user_id='"+userId+"' data-reply_num='"+reply_nums+"'>좋아요</button>" 
 				       +"<button data-oper='dislike' type='button' data-user_id='"+userId+"' data-reply_num='"+reply_nums+"'>싫어요</button>"
 				       +"<button data-oper='donateMoney' type='button' data-user_id='"+userId+"' data-reply_num='"+reply_nums+"'>기부</button>"
-				       +"<button data-oper='report' type='button' data-user_id='"+userId+"' data-nick_name='"+nickName+"'>신고</button></span>"
+				       +"<button data-oper='report' type='button' data-user_id='"+userId+"' data-nick_name='"+nickName+"'>신고</button>"
 		         } 
 		    	    
-		    	  str +="<div class='reply_contentWrapper'><span class='reply_content'>";    
+		    	  str +="</span><div class='reply_contentWrapper'><span class='reply_content'>";    
 	       }  
 	         
 	       str +="" + data.list[i].reply_content +"</span>"   
@@ -598,7 +598,7 @@ function func_confirm(content){//단순 확인 여부 함수
 	     replyList.html(str);//댓글목록안에 채워주기
 	     
 	     showReplyPage(data.replyCnt);//댓글페이지 보여주기
-	     
+	      
 	     //console.log("showReplyList끝");
 	     
 	     var replyCntVal = $("#replyCntVal"); 
