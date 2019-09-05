@@ -67,7 +67,7 @@
         
 	<div class="titleWrapper">
    		<div id="titleNum">
-   			#<c:out value="${board.num}"/>
+   			#<c:out value="${board.num}"/> 
    		</div>
    		
    		<div id="title">
@@ -379,20 +379,22 @@ function func_confirm(content){//단순 확인 여부 함수
 	    	  str +=" " + "<div class='reply' data-reply_num='"+reply_nums+"'>";  
 	    	  str +=" " +"<a href='#' class='userMenu' data-reply_num='"+reply_nums+"' data-menu_kind='from'>"  
 			  str += " <img src='/dokky/resources/img/profile_img/"+userId+".png' class='memberImage hideUsermenu' onerror='this.src=\"/dokky/resources/img/basicProfile.png\"' /> "
-		      str += nickName+" </a> "   
+		      str += nickName+" </a> "     
 			  str += "<div id='userMenubar_reply_from_"+reply_nums+"' class='userMenubar'>" 
-			  str += "<ul class='hideUsermenu'>"
-			  str += "<li class='hideUsermenu'><a href='/dokky/userBoardList?userId="+userId+" class='hideUsermenu'><span class='hideUsermenu'>게시글보기</span></a></li>"
+			  str += "<ul class='hideUsermenu'>" 
+			  str += "<li class='hideUsermenu'><a href='/dokky/userBoardList?userId="+userId+"' class='hideUsermenu'><span class='hideUsermenu'>게시글보기</span></a></li>"
 			  str += "<li class='hideUsermenu'><a href='#' class='hideUsermenu'><span class='hideUsermenu'>쪽지보내기</span></a></li>"
 			  str += "</ul></div>" 
 			
 			  str += replyService.displayTime(data.list[i].replyDate) 
-	    	  +" <button data-oper='reReplyForm' type='button' data-reply_num='"+reply_nums+"' data-user_id='"+userId+"' data-nick_name='"+nickName+"' data-parent_num='"+ data.list[i].parent_num+"' data-order_step='"+data.list[i].order_step+"' data-reply_level='"+data.list[i].reply_level+"'>답글</button>"
+			  
+			  if(username){ 
+				  str +=" <button data-oper='reReplyForm' type='button' data-reply_num='"+reply_nums+"' data-user_id='"+userId+"' data-nick_name='"+nickName+"' data-parent_num='"+ data.list[i].parent_num+"' data-order_step='"+data.list[i].order_step+"' data-reply_level='"+data.list[i].reply_level+"'>답글</button>"   
+			  }
 	    	  
 	    	  str += "  <span class='replyInformation'>좋아요 <span id='replyLikeCount"+reply_nums+"'>"+data.list[i].likeCnt+"</span> "
 		      str += "  싫어요 <span id='replyDisLikeCount"+reply_nums+"'>"+data.list[i].dislikeCnt+"</span> "
 		      str += "  기부금 <span id='replyMoney"+reply_nums+"'>"+data.list[i].money+"</span> "
-		         
 		    		    
 	         if(username == userId){
 				 str += "<button data-oper='modify' type='button' data-user_id='"+userId+"' data-reply_num='"+reply_nums+"'>수정</button>"
@@ -414,7 +416,7 @@ function func_confirm(content){//단순 확인 여부 함수
 		      str += nickName+"</a>" 
 			  str += "<div id='userMenubar_reply_from_"+reply_nums+"' class='userMenubar'>" 
 			  str += "<ul class='hideUsermenu'>"
-			  str += "<li class='hideUsermenu'><a href='/dokky/userBoardList?userId="+userId+" class='hideUsermenu'><span class='hideUsermenu'>게시글보기</span></a></li>"
+			  str += "<li class='hideUsermenu'><a href='/dokky/userBoardList?userId="+userId+"' class='hideUsermenu'><span class='hideUsermenu'>게시글보기</span></a></li>"
 			  str += "<li class='hideUsermenu'><a href='#' class='hideUsermenu'><span class='hideUsermenu'>쪽지보내기</span></a></li>"
 			  str += "</ul></div>"
 			  
@@ -424,13 +426,15 @@ function func_confirm(content){//단순 확인 여부 함수
 		      str += toNickName+"</a>" 
 			  str += "<div id='userMenubar_reply_to_"+reply_nums+"' class='userMenubar to'>"  
 			  str += "<ul class='hideUsermenu'>" 
-			  str += "<li class='hideUsermenu'><a href='/dokky/userBoardList?userId="+toUserId+" class='hideUsermenu'><span class='hideUsermenu'>게시글보기</span></a></li>"
+			  str += "<li class='hideUsermenu'><a href='/dokky/userBoardList?userId="+toUserId+"' class='hideUsermenu'><span class='hideUsermenu'>게시글보기</span></a></li>"
 			  str += "<li class='hideUsermenu'><a href='#' class='hideUsermenu'><span class='hideUsermenu'>쪽지보내기</span></a></li>"
 			  str += "</ul></div> " 
 			  
 			  str += replyService.displayTime(data.list[i].replyDate);
-	    	  str +=" <button data-oper='reReplyForm' data-reply_num='"+reply_nums+"' type='button' data-user_id='"+userId+"' data-nick_name='"+nickName+"' data-parent_num='"+ data.list[i].parent_num+"' data-order_step='"+data.list[i].order_step+"' data-reply_level='"+data.list[i].reply_level+"'>답글</button>"
-	    	  
+			  
+	    	  if(username){  
+	    		  str +=" <button data-oper='reReplyForm' data-reply_num='"+reply_nums+"' type='button' data-user_id='"+userId+"' data-nick_name='"+nickName+"' data-parent_num='"+ data.list[i].parent_num+"' data-order_step='"+data.list[i].order_step+"' data-reply_level='"+data.list[i].reply_level+"'>답글</button>"   
+			  }
 	    	  str += "  <span class='replyInformation'>좋아요 <span id='replyLikeCount"+reply_nums+"'>"+data.list[i].likeCnt+"</span> "
 		      str += "  싫어요 <span id='replyDisLikeCount"+reply_nums+"'>"+data.list[i].dislikeCnt+"</span> "
 		      str += "  기부금 <span id='replyMoney"+reply_nums+"'>"+data.list[i].money+"</span> "
@@ -456,7 +460,7 @@ function func_confirm(content){//단순 확인 여부 함수
 		      str += nickName+"</a>" 
 			  str += "<div id='userMenubar_reply_from_"+reply_nums+"' class='userMenubar'>" 
 			  str += "<ul class='hideUsermenu'>"
-			  str += "<li class='hideUsermenu'><a href='/dokky/userBoardList?userId="+userId+" class='hideUsermenu'><span class='hideUsermenu'>게시글보기</span></a></li>"
+			  str += "<li class='hideUsermenu'><a href='/dokky/userBoardList?userId="+userId+"' class='hideUsermenu'><span class='hideUsermenu'>게시글보기</span></a></li>"
 			  str += "<li class='hideUsermenu'><a href='#' class='hideUsermenu'><span class='hideUsermenu'>쪽지보내기</span></a></li>"
 			  str += "</ul></div>"
 			  
@@ -466,12 +470,15 @@ function func_confirm(content){//단순 확인 여부 함수
 		      str += toNickName+"</a>" 
 			  str += "<div id='userMenubar_reply_to_"+reply_nums+"' class='userMenubar to'>"  
 			  str += "<ul class='hideUsermenu'>"
-			  str += "<li class='hideUsermenu'><a href='/dokky/userBoardList?userId="+toUserId+" class='hideUsermenu'><span class='hideUsermenu'>게시글보기</span></a></li>"
+			  str += "<li class='hideUsermenu'><a href='/dokky/userBoardList?userId="+toUserId+"' class='hideUsermenu'><span class='hideUsermenu'>게시글보기</span></a></li>"
 			  str += "<li class='hideUsermenu'><a href='#' class='hideUsermenu'><span class='hideUsermenu'>쪽지보내기</span></a></li>"
 			  str += "</ul></div> "
 			  
 	    	  str += replyService.displayTime(data.list[i].replyDate);
-	    	  str +=" <button data-oper='reReplyForm' data-reply_num='"+reply_nums+"' type='button' data-user_id='"+userId+"' data-nick_name='"+nickName+"' data-parent_num='"+ data.list[i].parent_num+"' data-order_step='"+data.list[i].order_step+"' data-reply_level='"+data.list[i].reply_level+"'>답글</button>"
+			  
+	    	  if(username){  
+	    		  str +=" <button data-oper='reReplyForm' data-reply_num='"+reply_nums+"' type='button' data-user_id='"+userId+"' data-nick_name='"+nickName+"' data-parent_num='"+ data.list[i].parent_num+"' data-order_step='"+data.list[i].order_step+"' data-reply_level='"+data.list[i].reply_level+"'>답글</button>"   
+			  }
 	    	  
 	    	  str += "  <span class='replyInformation'>좋아요 <span id='replyLikeCount"+reply_nums+"'>"+data.list[i].likeCnt+"</span> "
 		      str += "  싫어요 <span id='replyDisLikeCount"+reply_nums+"'>"+data.list[i].dislikeCnt+"</span> "
@@ -498,7 +505,7 @@ function func_confirm(content){//단순 확인 여부 함수
 			      str += nickName+"</a>" 
 				  str += "<div id='userMenubar_reply_from_"+reply_nums+"' class='userMenubar'>" 
 				  str += "<ul class='hideUsermenu'>"
-				  str += "<li class='hideUsermenu'><a href='/dokky/userBoardList?userId="+userId+" class='hideUsermenu'><span class='hideUsermenu'>게시글보기</span></a></li>"
+				  str += "<li class='hideUsermenu'><a href='/dokky/userBoardList?userId="+userId+"' class='hideUsermenu'><span class='hideUsermenu'>게시글보기</span></a></li>"
 				  str += "<li class='hideUsermenu'><a href='#' class='hideUsermenu'><span class='hideUsermenu'>쪽지보내기</span></a></li>"
 				  str += "</ul></div>"
 				  
@@ -508,12 +515,15 @@ function func_confirm(content){//단순 확인 여부 함수
 			      str += toNickName+"</a>" 
 				  str += "<div id='userMenubar_reply_to_"+reply_nums+"' class='userMenubar to'>"  
 				  str += "<ul class='hideUsermenu'>"
-				  str += "<li class='hideUsermenu'><a href='/dokky/userBoardList?userId="+toUserId+" class='hideUsermenu'><span class='hideUsermenu'>게시글보기</span></a></li>"
+				  str += "<li class='hideUsermenu'><a href='/dokky/userBoardList?userId="+toUserId+"' class='hideUsermenu'><span class='hideUsermenu'>게시글보기</span></a></li>"
 				  str += "<li class='hideUsermenu'><a href='#' class='hideUsermenu'><span class='hideUsermenu'>쪽지보내기</span></a></li>"
 				  str += "</ul></div> "
 				  
 		    	  str += replyService.displayTime(data.list[i].replyDate);
-		    	  str +=" <button data-oper='reReplyForm' data-reply_num='"+reply_nums+"' type='button' data-user_id='"+userId+"' data-nick_name='"+nickName+"' data-parent_num='"+ data.list[i].parent_num+"' data-order_step='"+data.list[i].order_step+"' data-reply_level='"+data.list[i].reply_level+"'>답글</button>"
+		    	 
+		    	  if(username){  
+		    		  str +=" <button data-oper='reReplyForm' data-reply_num='"+reply_nums+"' type='button' data-user_id='"+userId+"' data-nick_name='"+nickName+"' data-parent_num='"+ data.list[i].parent_num+"' data-order_step='"+data.list[i].order_step+"' data-reply_level='"+data.list[i].reply_level+"'>답글</button>"   
+				  }
 		    	  
 		    	  str += "  <span class='replyInformation'>좋아요 <span id='replyLikeCount"+reply_nums+"'>"+data.list[i].likeCnt+"</span> "
 			      str += "  싫어요 <span id='replyDisLikeCount"+reply_nums+"'>"+data.list[i].dislikeCnt+"</span> "
@@ -540,7 +550,7 @@ function func_confirm(content){//단순 확인 여부 함수
 			      str += nickName+"</a>" 
 				  str += "<div id='userMenubar_reply_from_"+reply_nums+"' class='userMenubar'>" 
 				  str += "<ul class='hideUsermenu'>"
-				  str += "<li class='hideUsermenu'><a href='/dokky/userBoardList?userId="+userId+" class='hideUsermenu'><span class='hideUsermenu'>게시글보기</span></a></li>"
+				  str += "<li class='hideUsermenu'><a href='/dokky/userBoardList?userId="+userId+"' class='hideUsermenu'><span class='hideUsermenu'>게시글보기</span></a></li>"
 				  str += "<li class='hideUsermenu'><a href='#' class='hideUsermenu'><span class='hideUsermenu'>쪽지보내기</span></a></li>"
 				  str += "</ul></div>" 
 				  
@@ -550,14 +560,17 @@ function func_confirm(content){//단순 확인 여부 함수
 			      str += toNickName+"</a>" 
 				  str += "<div id='userMenubar_reply_to_"+reply_nums+"' class='userMenubar to'>"  
 				  str += "<ul class='hideUsermenu'>"
-				  str += "<li class='hideUsermenu'><a href='/dokky/userBoardList?userId="+toUserId+" class='hideUsermenu'><span class='hideUsermenu'>게시글보기</span></a></li>"
+				  str += "<li class='hideUsermenu'><a href='/dokky/userBoardList?userId="+toUserId+"' class='hideUsermenu'><span class='hideUsermenu'>게시글보기</span></a></li>"
 				  str += "<li class='hideUsermenu'><a href='#' class='hideUsermenu'><span class='hideUsermenu'>쪽지보내기</span></a></li>"
 				  str += "</ul></div> " 
 				  
 		    	  str += replyService.displayTime(data.list[i].replyDate);
-		    	  str +=" <button data-oper='reReplyForm' data-reply_num='"+reply_nums+"' type='button' data-user_id='"+userId+"' data-nick_name='"+nickName+"' data-parent_num='"+ data.list[i].parent_num+"' data-order_step='"+data.list[i].order_step+"' data-reply_level='"+data.list[i].reply_level+"'>답글</button>"
 		    	  
-		    	  str += "  <span class='replyInformation'>좋아요 <span id='replyLikeCount"+reply_nums+"'>"+data.list[i].likeCnt+"</span> "
+				  if(username){  
+					  str +=" <button data-oper='reReplyForm' data-reply_num='"+reply_nums+"' type='button' data-user_id='"+userId+"' data-nick_name='"+nickName+"' data-parent_num='"+ data.list[i].parent_num+"' data-order_step='"+data.list[i].order_step+"' data-reply_level='"+data.list[i].reply_level+"'>답글</button>"   
+				  }
+		    	  
+		    	  str += "  <span class='replyInformation'>좋아요 <span id='replyLikeCount"+reply_nums+"'>"+data.list[i].likeCnt+"</span> " 
 			      str += "  싫어요 <span id='replyDisLikeCount"+reply_nums+"'>"+data.list[i].dislikeCnt+"</span> "
 			      str += "  기부금 <span id='replyMoney"+reply_nums+"'>"+data.list[i].money+"</span> "
 			         
