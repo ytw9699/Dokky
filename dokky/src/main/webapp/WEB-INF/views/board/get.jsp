@@ -109,7 +109,7 @@
 		</span> 
 		
 		<span>
-        	<label>기부금</label> <span id="boardMoney"><c:out value="${board.money}"/></span>
+        	<label>기부금</label> <span id="boardMoney"><c:out value="${board.money}"/>\</span> 
 	          	<sec:authorize access="isAuthenticated()">
 			        <c:if test="${userInfo.username != board.userId}">
 			       	  <button id="donateMoney" data-user_id="${board.userId }">기부</button> 
@@ -127,7 +127,7 @@
 			        <button id="scrap" data-num="${board.num }">스크랩 </button>
 			         
 			        <c:if test="${userInfo.username != board.userId}">
-			       		 <button id="report">신고 </button> 
+			       		 <button id="reportBtn">신고</button> 
 			        </c:if>
 	        	</sec:authorize>
         	
@@ -163,7 +163,7 @@
     </div>
     
 	<div id="replyModForm" ><!-- 댓글의 수정 폼+값 불러오기 --> 
-		<input name='reply_content' value='' oninput="checkLength(this,900);">
+		<input name='reply_content' value='' oninput="checkLength(this,700);">
 		<input type='hidden' name='nickName' value=''> <!-- 다시보기 -->
 		<input type='hidden' name='reply_num' value=''> <!-- 다시보기 --> 
 		 
@@ -173,8 +173,8 @@
       
 	<sec:authorize access="isAuthenticated()">
 		<div class="replyWriteForm"><!--  추가 댓글쓰기 폼 -->
-			<div class="replytextareaWrapper"> 
-				<textarea id="reply_contents" rows="3" placeholder="댓글을 입력하세요" name='reply_content' oninput="checkLength(this,900);"></textarea>
+			<div class="replytextareaWrapper">  
+				<textarea id="reply_contents" rows="3" placeholder="댓글을 입력하세요" name='reply_content' oninput="checkLength(this,700);"></textarea>
 			</div>
 			
 			<div class="replyBtnWrapper">  
@@ -183,8 +183,8 @@
 		</div>  
 		 
 		<div class="reReplyWriteForm"><!--  대댓글 쓰기 폼 -->
-			<div class="textareaWrapper"> 
-				<textarea id="reReply_contents" rows="3" name='reReply_content' oninput="checkLength(this,900);"></textarea>
+			<div class="textareaWrapper">  
+				<textarea id="reReply_contents" rows="3" name='reReply_content' oninput="checkLength(this,700);"></textarea>
 			</div> 
 			       
 			<div class="reReplyBtnWrapper">  	 
@@ -199,7 +199,7 @@
 <div id="donateBackGround">
 </div>
 
-<div id="donateModal"> 
+<div id="donateModal"> <!-- 기부폼 -->
          <div class="">
 			<span class="mydonaText">남은금액</span>
 				<input type="text" class="donaSelect" name='myCash' value='' readonly="readonly">
@@ -223,40 +223,65 @@
          </div>
 </div>
 
+<div id="reportBackGround">
+</div>
+
+<div id="reportForm"> <!-- 기부폼 -->
+         <div class="reportText">
+			신고사유를 입력해주세요.
+		 </div>
+		 <div class="reportText">	 
+		 	<textarea id="reportInput" rows="3" oninput="checkLength(this,40);"></textarea>
+		 </div>  
+	 
+         <div class="">
+	         <span>  
+	         	 <button id='submitReport' type="button" class="reportBtn" data-report_kind="">확인</button>
+	         </span>
+	         <span>  
+	         	 <button id='cancelReport' type="button" class="reportBtn">취소</button>
+	         </span>
+         </div>
+</div>
+
 <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
 <script type="text/javascript" src="/dokky/resources/js/reply.js"></script> <!--댓글 AJAX통신 -->
 <script>
 		
+function checkLength(obj, maxlength) {   
+	var str = obj.value; 
+	var str_length = str.length; // 전체길이       // 변수초기화     
+	var max_length = maxlength; // 제한할 글자수 크기     
+	var i = 0; // for문에 사용     
+	var ko_byte = 0; // 한글일경우는, 2그밗에는 1을 더함     
+	var li_len = 0; // substring하기 위해서 사용     
+	var one_char = ""; // 한글자씩 검사한다     
+	var reStr = ""; // 글자수를 초과하면 제한할수 글자전까지만 보여준다.  
+	
+	for (i = 0; i < str_length; i++) { // 한글자추출         
+		one_char = str.charAt(i);            
+		ko_byte++;        
+	}     
+	
+	if (ko_byte <= max_length) {// 전체 크기가 max_length를 넘지않으면                
+		li_len = i + 1;         
+	}  
+	
+	if (ko_byte > max_length) {// 전체길이를 초과하면          
+			alert(max_length + " 글자 이상 입력할 수 없습니다.");         
+			reStr = str.substr(0, max_length);         
+			obj.value = reStr;      
+	}     
+	
+	obj.focus();  
+}
+
 function numberWithComma(This) {          
  	  This.value = This.value.replace(/[^0-9]/g,'');//입력값에 숫자가 아닌곳은 모두 공백처리 
 	  $("#realGiveCash").val(This.value);//실제 넘겨줄 값  
 	  This.value = (This.value.replace(/\B(?=(\d{3})+(?!\d))/g, ","));//정규식을 이용해서 3자리 마다 ,추가 */  
 }
 
-function checkLength(obj, maxlength) {    
-	var str = obj.value; // 이벤트가 일어난 컨트롤의 value 값    
-	var str_length = str.length; // 전체길이       // 변수초기화     
-	var max_length = maxlength; // 제한할 글자수 크기     
-	var i = 0; // for문에 사용     
-	var ko_byte = 0; // 한글일경우는 2 그밗에는 1을 더함     
-	var li_len = 0; // substring하기 위해서 사용     
-	var one_char = ""; // 한글자씩 검사한다     
-	var reStr = ""; // 글자수를 초과하면 제한할수 글자전까지만 보여준다.       
-	for (i = 0; i < str_length; i++) {         // 한글자추출         
-		one_char = str.charAt(i);            
-		ko_byte++;        
-	}              
-	if (ko_byte <= max_length) {// 전체 크기가 max_length를 넘지않으면                
-		li_len = i + 1;         
-	}       
-	if (ko_byte > max_length) {// 전체길이를 초과하면          
-			alert(max_length + " 글자 이상 입력할 수 없습니다.");         
-			reStr = str.substr(0, max_length);         
-			obj.value = reStr;      
-			}     
-		obj.focus();  
-	}
-	
 	//공통 변수 모음
 	var board_num = '${board.num}';
 
@@ -1120,56 +1145,84 @@ function checkLength(obj, maxlength) {
    		});//6.이벤트 끝
 ///////////////////////////////////////////////////////기부 관련 끝
 	 	 
-	 	 $("#report").on("click",function(event){//4. 신고 이벤트
-	 		 
-	 		var reason;   
-	 			reason = prompt('신고 사유를 입력해주세요');
-	 			
- 	 			if(reason === null) 
+///////////////////////////////////////////////////////신고 관련 공통 함수들 
+
+   		function cancelReport(){//신고폼 닫기 함수
+   			$("#reportBackGround").css("display","none"); 
+   		   
+    	 	$("#reportForm").css("display","none");
+    			
+    		$("#reportInput").val(""); 
+   		} 
+   		
+   		function reportBtn(kind){//신고폼 열기 함수
+	   		 var reportBackGround = $("#reportBackGround");
+	    	 	 reportBackGround.css("display","block");			
+		  
+	    	 var reportForm = $("#reportForm"); 
+	    		 reportForm.css("display","block");	
+	    		  
+	    		 $("#submitReport").data('report_kind', kind); //값 저장 
+   		} 
+   		
+///////////////////////////////////////////////////////게시글 신고 관련 시작
+
+	 	$("#cancelReport").on("click",function(event){//신고폼 닫기,취소
+	 		cancelReport();
+	 	});
+	 	
+	 	$("#reportBtn").on("click",function(event){//신고폼 열기 버튼
+	 		reportBtn("게시글");
+	 	});	 
+	 	 
+	    $("#submitReport").on("click",function(event){//신고 확인 버튼 
+	    	 
+	    	 var reportInput = $("#reportInput");
+	    	 
+	    	 var reason = reportInput.val();
+	    	 
+	    	 reason = $.trim(reason);
+	    	 
+	    	 if(reason  === "") {
+	    			alert("신고 사유 입력후 신고해주세요.");
+	    			reportInput.focus();
 		 			return;
-		 			
-	 			reason = $.trim(reason);//공백제거
- 	 			 
-	 		if(reason.length == 0){ 
-				alert("신고 사유 입력후 신고해주세요."); 	   			
-	 			return;
-	 		}else if(reason.length > 30){
-	 			alert("30자 이상을 초과할 수 없습니다."); 	  			
-	 			return;
-	 		}
-	 			
-	 		<sec:authorize access="isAuthenticated()">   
-		  		  var reportKind = '게시글';
-		  		  var reportingId = '${userInfo.username}';
+	    	 } 
+	    	 
+	    	 <sec:authorize access="isAuthenticated()">   
+		  		  var reportKind =  $('#submitReport').data('report_kind'));  
+		  		  var reportingId = '${userInfo.username}';//신고하는자
 		  		  var reportingNick = '${userInfo.member.nickName}';
-		  		  var reportedId = '${board.userId }';
+		  		  var reportedId = '${board.userId }';//신고당한자
 		  		  var reportedNick = '${board.nickName }';
 		  		  var board_num = '${board.num}';
-			</sec:authorize>
-		    
-	 		var reportData = {  reportKind  : reportKind,
-				 				reportingId : reportingId, 
+			 </sec:authorize>
+	    
+			 var reportData = {  
+								reportKind  : reportKind,
+				 			    reportingId : reportingId, 
 				 				reportingNick : reportingNick, 
 				 				reportedId : reportedId, 
 				 				reportedNick : reportedNick, 
 				 				board_num : board_num, 
 				 				reason : reason
 			 };
-	 		//console.log(reportData);
-	 		
-	 		replyService.report(reportData, function(result){
+		
+			 replyService.report(reportData, function(result){
 				 if(result == 'success'){
-					 alert("신고완료되었습니다.");
-				}
+					 alert("신고완료 되었습니다.");
+				 }
 				 else if(result == 'fail'){
-					 alert("잠시후 재시도해주세요");
-					 }
-				});
-	 		
-	 	});//4.이벤트 끝 
-	 	 
+					 alert("신고되지 않았습니다 관리자에게 문의주세요.");
+				 } 
+				 
+				 cancelReport();  
+			 });
+	    });
+///////////////////////////////////////////////////////게시글 신고 관련 끝 
 	 	
-	$(".replyList").on("click",'button[data-oper="report"]', function(event){//3. 댓글 신고 버튼 이벤트
+///////////////////////////////////////////////////////댓글 신고 관련 시작 
+	$(".replyList").on("click",'button[data-oper="report"]', function(event){
 			
 			var loginCheck = "로그인후 신고 해주세요.";
 			var reportCheck = "자신의 댓글에는 신고 할 수 없습니다.";
@@ -1179,52 +1232,28 @@ function checkLength(obj, maxlength) {
 			if(checkUser(reportedId, loginCheck, null, reportCheck)){
 				return;
 			}
-			 
-	 		var reason;   
- 				reason = prompt('신고 사유를 입력해주세요');
- 			
-	 			if(reason === null) 
-		 			return; 
- 			
- 			reason = $.trim(reason);//공백제거  
-	 			 
-	 		if(reason.length == 0){ 
-				alert("신고 사유 입력후 신고해주세요."); 	   			
-	 			return;
-	 		}else if(reason.length > 30){
-	 			alert("30자 이상을 초과할 수 없습니다."); 	  			
-	 			return;
-	 		}
-	 		 
-	 		<sec:authorize access="isAuthenticated()">   
-		  		  var reportKind = '댓글';
-		  		  var reportingId = '${userInfo.username}';
-		  		  var reportingNick = '${userInfo.member.nickName}';
-		  		  var board_num = '${board.num}';
-			</sec:authorize>
-		    
-	 		var reportData = {  reportKind  : reportKind,
-				 				reportingId : reportingId, 
-				 				reportingNick : reportingNick, 
-				 				reportedId : reportedId, 
-				 				reportedNick : reportedNick, 
-				 				board_num : board_num, 
-				 				reason : reason
-			 };
-	 		//console.log(reportData);
-	 		
-	 		replyService.report(reportData, function(result){
-				 if(result == 'success'){
-					 alert("신고완료되었습니다.");
-				}
-				 else if(result == 'fail'){
-					 alert("잠시후 재시도해주세요");
-					 }
-				});
-	   	
-   		});//3.이벤트 끝
+			
+			reportBtn("댓글");
+	});
 	 	 
-///////////////////////////////////////////////////////신고 끝
+   		
+	<sec:authorize access="isAuthenticated()">   
+		  var reportKind = '댓글';
+		  var reportingId = '${userInfo.username}';
+		  var reportingNick = '${userInfo.member.nickName}';
+		  var board_num = '${board.num}';
+	</sec:authorize>
+
+	var reportData = {  reportKind  : reportKind,
+	 				reportingId : reportingId, 
+	 				reportingNick : reportingNick, 
+	 				reportedId : reportedId, 
+	 				reportedNick : reportedNick, 
+	 				board_num : board_num, 
+	 				reason : reason
+ };
+
+///////////////////////////////////////////////////////댓글 신고 관련 끝
 	 	 
 		$("#scrap").on("click",function(event){//4. 스크랩 이벤트
 			

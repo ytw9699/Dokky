@@ -137,6 +137,50 @@
 		display: none;
 	} 
 	
+	#reportBackGround{
+ 	    position: fixed;
+	    width: 100%; 
+	    height: 100%;
+	    top: 0;
+	    left: 0;
+	    background-color: #000;
+	    opacity: 0.6;
+	    display: none;
+	}
+	
+	#reportForm{ 
+	    display: none;
+	    width: 270px;
+	    border-radius: 8px;
+	    position: fixed;
+	    top: 30%;
+	    left: 40%;
+	    padding: 50px;
+	    background-color: white;
+	}
+	.reportText{ 
+	    font-size: 20px;
+	    color: #555;
+	    font-weight: 600;
+	}
+	#reportInput{
+		 font-size: 15px;
+	     width: 100%;
+	     color: #555;
+	}
+	.reportBtn{ 
+		font-size: 20px;
+	    border: none;
+	    padding: 8px;
+	    width: 80%;
+	    margin: 0 auto;
+	    margin-top: 10px;
+	    display: block;
+	    border-radius: 8px;
+	    color: white;
+	    background-color: #7151fc;
+	}
+	   
 	.modal{
 	display: none;
 	}
@@ -249,8 +293,8 @@
 	    border-style: solid;
 	    border-width: 1px;
 	    border-color: #e6e6e6;
-	    width: 59%;
-	    margin-left: 39%;
+        width: 63%; 
+    	margin-left: 35%;
 	    /* margin-right: 1%; 
 	    height: 50px; 
 	    */
