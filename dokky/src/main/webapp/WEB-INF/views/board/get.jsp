@@ -173,18 +173,23 @@
 		<div class="reReplyBtnWrapper">  	 
 			<button id='reReplyRegisterBtn' class="reReplyBtn" type="button">등록</button>
 			<button id='reReplyCancelBtn' class="reReplyBtn" type="button">취소</button>
-		</div>    
+		</div>    	
 </div> 
 
 <div id="replyModForm" ><!-- 댓글의 수정 폼+값 불러오기 --> 
-		<input name='reply_content' value='' oninput="checkLength(this,700);">
-		<input type='hidden' name='nickName' value=''> <!-- 다시보기 -->
-		<input type='hidden' name='reply_num' value=''> <!-- 다시보기 --> 
-		 
-		<button id='replyModFormModBtn' type="button" >수정</button> 
-		<button id='replyModFormCloseBtn' type="button" >취소</button>
-</div> 
-	
+		<input type='hidden' name='nickName' value=''>
+		<input type='hidden' name='reply_num' value=''>
+		
+	  	<div class="modifyTextareaWrapper">  
+			<textarea name='reply_content' rows="3" class="reply_contents" value='' oninput="checkLength(this,700);"></textarea>
+		</div>
+		
+		<div class="replyModFormBtnWrapper"> 
+			<button id='replyModFormModBtn' class="replyModFormBtn" type="button" >수정</button> 
+			<button id='replyModFormCloseBtn' class="replyModFormBtn" type="button" >취소</button>
+		</div> 
+</div>  
+
 <div> 
 	<form id='operForm' action="/dokky/board/modify" method="get">
 		  <input type="hidden" id='csrf' name="${_csrf.parameterName}" value="${_csrf.token}"/>
@@ -760,9 +765,9 @@ function func_confirm(content){//단순 확인 여부 함수
 			 RecentReplaceTag.replaceAll("#"+replyModFormId);//댓글 수정폼을  더미 <div>로 교체
 			$(".selected").css("display", "list-item");//none해둔 수정 댓글은 다시 보이게하기 
 		}  
-		
-		$(this.parentNode).addClass('selected').css("display","none");//수정할려는 댓글 한줄 안보이게
-		
+ 		 
+		$(this.parentNode.parentNode).addClass('selected').css("display","none");//수정할려는 댓글 내용 한줄 안보이게
+		  
 		  var reply_num = $(this).data("reply_num");//수정 할려는 댓글의 번호 가져오기
 		  var currentReplyModForm = $('#replyModForm').clone();//모형 댓글 수정폼 복제해오기
 		  
@@ -777,8 +782,8 @@ function func_confirm(content){//단순 확인 여부 함수
 		 currentReplyModForm.replaceAll("#replace"+reply_num);//더미 div를 댓글 수정폼 으로 교체    
 		 
 		 isReplaceTag = true;//교체 되어졌음을 확인 
-		
-		    var InputReply_content = currentReplyModForm.find("input[name='reply_content']");
+		  
+		    var InputReply_content = currentReplyModForm.find("textarea[name='reply_content']");
 		    var InputNickName = currentReplyModForm.find("input[name='nickName']");
 		    var InputReply_num = currentReplyModForm.find("input[name='reply_num']");
 		    
