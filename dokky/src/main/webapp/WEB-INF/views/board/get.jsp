@@ -67,7 +67,7 @@
         
 	<div class="titleWrapper">
    		<div id="titleNum">
-   			#<c:out value="${board.num}"/> 
+   			#<c:out value="${board.num}"/>
    		</div>
    		
    		<div id="title">
@@ -420,7 +420,7 @@ function func_confirm(content){//단순 확인 여부 함수
 			  str += "<li class='hideUsermenu'><a href='#' class='hideUsermenu'><span class='hideUsermenu'>쪽지보내기</span></a></li>"
 			  str += "</ul></div>"
 			  
-			  str += " ➜ "     
+			  str += " ➜ "    
 			  str +=" " +"<a href='#' class='userMenu' data-reply_num='"+reply_nums+"' data-menu_kind='to'>"  
 			  str += "<img src='/dokky/resources/img/profile_img/"+toUserId+".png' class='memberImage hideUsermenu' onerror='this.src=\"/dokky/resources/img/basicProfile.png\"' /> "
 		      str += toNickName+"</a>" 
@@ -509,7 +509,7 @@ function func_confirm(content){//단순 확인 여부 함수
 				  str += "<li class='hideUsermenu'><a href='#' class='hideUsermenu'><span class='hideUsermenu'>쪽지보내기</span></a></li>"
 				  str += "</ul></div>"
 				  
-				  str += " ➜ " 
+				  str += " ➜ "
 				  str +=" " +"<a href='#' class='userMenu' data-reply_num='"+reply_nums+"' data-menu_kind='to'>"  
 				  str += "<img src='/dokky/resources/img/profile_img/"+toUserId+".png' class='memberImage hideUsermenu' onerror='this.src=\"/dokky/resources/img/basicProfile.png\"' /> "
 			      str += toNickName+"</a>" 
@@ -1275,10 +1275,11 @@ function func_confirm(content){//단순 확인 여부 함수
 		$("#scrap").on("click",function(event){//4. 스크랩 이벤트
 			
 				var num = $(this).data("num");
-				
+				alert(num);  
 			<sec:authorize access="isAuthenticated()">   
 			    var myId = '${userInfo.username}';//나의 아이디
 			</sec:authorize>
+			alert(myId);    
 			    
 			var scrapData = {num  : num, //글번호
 							userId : myId //내 아이디
