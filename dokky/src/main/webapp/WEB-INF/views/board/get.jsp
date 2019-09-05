@@ -7,7 +7,7 @@
 <html>
 	<head>
 		<meta charset="UTF-8">
-		<title>Dokky-상세페이지</title> 
+		<title>Dokky - 상세페이지</title> 
 		<link href="/dokky/resources/css/get.css" rel="stylesheet" type="text/css">
 		<%@include file="../includes/left.jsp"%> 
 	</head>
@@ -15,11 +15,6 @@
 
 <sec:authentication property="principal" var="userInfo"/>
 <!-- 다시보기 : 위 코드 없어도 userInfo가 동작하는데? -->
-
-<div class='bigPictureWrapper'>
-	 <div class='bigPicture'>
-	 </div>
-</div>
 
 <div class="getWrapper"> 
 	<div class="getKind">
@@ -118,35 +113,22 @@
 		</span>
 		
 		<span>
-	        	<sec:authorize access="isAuthenticated()">
-			        <c:if test="${userInfo.username eq board.userId}">
-			       		 <button id="modify_button">수정 </button> 
-						 <button id="remove_button">삭제 </button>
-			        </c:if>
-			        
-			        <button id="scrap" data-num="${board.num }">스크랩 </button>
-			         
-			        <c:if test="${userInfo.username != board.userId}">
-			       		 <button id="reportBtn">신고</button> 
-			        </c:if>
-	        	</sec:authorize>
-        	
-        		<button id="list_button">목록보기 </button> 
+        	<sec:authorize access="isAuthenticated()">
+		        <c:if test="${userInfo.username eq board.userId}">
+		       		 <button id="modify_button">수정 </button> 
+					 <button id="remove_button">삭제 </button>
+		        </c:if>
+		        
+		        <button id="scrap" data-num="${board.num }">스크랩 </button>
+		         
+		        <c:if test="${userInfo.username != board.userId}">
+		       		 <button id="reportBtn">신고</button> 
+		        </c:if>
+        	</sec:authorize>
+       	
+       		<button id="list_button">목록보기 </button> 
 		</span> 
     </div> 
-    
-    <div> 
-		<form id='operForm' action="/dokky/board/modify" method="get">
-			  <input type="hidden" id='csrf' name="${_csrf.parameterName}" value="${_csrf.token}"/>
-			  <input type='hidden' id='userId' name='userId' value='<c:out value="${board.userId}"/>'>    
-			  <input type='hidden' id='num' name='num' value='<c:out value="${board.num}"/>'>
-			  <input type='hidden' name='category' value='<c:out value="${board.category}"/>'>
-			  <input type='hidden' name='pageNum' value='<c:out value="${cri.pageNum}"/>'>
-			  <input type='hidden' name='amount' value='<c:out value="${cri.amount}"/>'>
-			  <input type='hidden' name='keyword' value='<c:out value="${cri.keyword}"/>'>
-			  <input type='hidden' name='type' value='<c:out value="${cri.type}"/>'>  
-		</form>
-	</div>
     
     <div id="replyCntVal">
     	<!-- 댓글수 -->
@@ -162,15 +144,6 @@
     	<!-- 댓글페이지 -->
     </div>
     
-	<div id="replyModForm" ><!-- 댓글의 수정 폼+값 불러오기 --> 
-		<input name='reply_content' value='' oninput="checkLength(this,700);">
-		<input type='hidden' name='nickName' value=''> <!-- 다시보기 -->
-		<input type='hidden' name='reply_num' value=''> <!-- 다시보기 --> 
-		 
-		<button id='replyModFormModBtn' type="button" >수정</button> 
-		<button id='replyModFormCloseBtn' type="button" >취소</button>
-	</div>
-      
 	<sec:authorize access="isAuthenticated()">
 		<div class="replyWriteForm"><!--  추가 댓글쓰기 폼 -->
 			<div class="replytextareaWrapper">  
@@ -181,21 +154,50 @@
 				<button id='replyRegisterBtn' type="button">등록</button>
 			</div> 
 		</div>  
-		 
-		<div class="reReplyWriteForm"><!--  대댓글 쓰기 폼 -->
-			<div class="textareaWrapper">  
-				<textarea id="reReply_contents" rows="3" name='reReply_content' oninput="checkLength(this,700);"></textarea>
-			</div> 
-			       
-			<div class="reReplyBtnWrapper">  	 
-				<button id='reReplyRegisterBtn' class="reReplyBtn" type="button">등록</button>
-				<button id='reReplyCancelBtn' class="reReplyBtn" type="button">취소</button>
-			</div>    
-		</div> 
 	</sec:authorize>
 	
 </div><!--  end getWrapper -->
 
+<!-- START 숨겨진 DIV들 -->
+
+<div class='bigPictureWrapper'><!-- 사진클릭시 -->
+	 <div class='bigPicture'>
+	 </div>
+</div>
+
+<div class="reReplyWriteForm"><!--  대댓글 쓰기 폼 -->
+		<div class="textareaWrapper">  
+			<textarea id="reReply_contents" rows="3" name='reReply_content' oninput="checkLength(this,700);"></textarea>
+		</div> 
+		       
+		<div class="reReplyBtnWrapper">  	 
+			<button id='reReplyRegisterBtn' class="reReplyBtn" type="button">등록</button>
+			<button id='reReplyCancelBtn' class="reReplyBtn" type="button">취소</button>
+		</div>    
+</div> 
+
+<div id="replyModForm" ><!-- 댓글의 수정 폼+값 불러오기 --> 
+		<input name='reply_content' value='' oninput="checkLength(this,700);">
+		<input type='hidden' name='nickName' value=''> <!-- 다시보기 -->
+		<input type='hidden' name='reply_num' value=''> <!-- 다시보기 --> 
+		 
+		<button id='replyModFormModBtn' type="button" >수정</button> 
+		<button id='replyModFormCloseBtn' type="button" >취소</button>
+</div> 
+	
+<div> 
+	<form id='operForm' action="/dokky/board/modify" method="get">
+		  <input type="hidden" id='csrf' name="${_csrf.parameterName}" value="${_csrf.token}"/>
+		  <input type='hidden' id='userId' name='userId' value='<c:out value="${board.userId}"/>'>    
+		  <input type='hidden' id='num' name='num' value='<c:out value="${board.num}"/>'>
+		  <input type='hidden' name='category' value='<c:out value="${board.category}"/>'>
+		  <input type='hidden' name='pageNum' value='<c:out value="${cri.pageNum}"/>'>
+		  <input type='hidden' name='amount' value='<c:out value="${cri.amount}"/>'>
+		  <input type='hidden' name='keyword' value='<c:out value="${cri.keyword}"/>'>
+		  <input type='hidden' name='type' value='<c:out value="${cri.type}"/>'>  
+	</form>
+</div>
+	
 <div id="donateBackGround">
 </div>
 
@@ -226,7 +228,7 @@
 <div id="reportBackGround">
 </div>
 
-<div id="reportForm"> <!-- 기부폼 -->
+<div id="reportForm"> <!-- 신고폼 -->
          <div class="reportText">
 			신고사유를 입력해주세요.
 		 </div>
@@ -243,12 +245,17 @@
 	         </span>
          </div>
 </div>
+<!-- END 숨겨진 DIV들  -->
 
 <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
 <script type="text/javascript" src="/dokky/resources/js/reply.js"></script> <!--댓글 AJAX통신 -->
 <script>
 		
-function checkLength(obj, maxlength) {   
+//공통 변수 모음
+var board_num = '${board.num}';
+
+//공통 함수 모음
+function checkLength(obj, maxlength) {//글자수 체크 함수   
 	var str = obj.value; 
 	var str_length = str.length; // 전체길이       // 변수초기화     
 	var max_length = maxlength; // 제한할 글자수 크기     
@@ -276,23 +283,22 @@ function checkLength(obj, maxlength) {
 	obj.focus();  
 }
 
-function numberWithComma(This) {          
+function numberWithComma(This) {//기부금 숫자입력시 콤마처리함수          
  	  This.value = This.value.replace(/[^0-9]/g,'');//입력값에 숫자가 아닌곳은 모두 공백처리 
 	  $("#realGiveCash").val(This.value);//실제 넘겨줄 값  
 	  This.value = (This.value.replace(/\B(?=(\d{3})+(?!\d))/g, ","));//정규식을 이용해서 3자리 마다 ,추가 */  
 }
+	
+function func_confirm(content){//단순 확인 여부 함수
+    if(confirm(content)){//true
+    	return true;
+    } else {//false
+    	return false;
+    }
+}
 
-	//공통 변수 모음
-	var board_num = '${board.num}';
 
-     function func_confirm(content){//단순 확인여부 함수
-         if(confirm(content)){//true
-         	return true;
-         } else {//false
-         	return false;
-         }
-     }
-	/////////////////////////////////////////////////////////
+/////////////////////////////////////////////////////////
 	
 	var operForm = $("#operForm"); 
 	
