@@ -157,24 +157,25 @@ public class MypageController {
 		return "mypage/myReplylist";
 	} 
 	
-	@PostMapping(value = "/scrapData/{num}/{userId}", produces = "text/plain; charset=UTF-8")
+	@PostMapping(value = "/scrapData/{board_num}/{userId}", produces = "text/plain; charset=UTF-8")
 	@ResponseBody
-	public ResponseEntity<String> insertScrapData(@PathVariable("num") int num, @PathVariable("userId") String userId ) {
+	public ResponseEntity<String> insertScrapData(@PathVariable("board_num") int board_num, @PathVariable("userId") String userId ) {
 		
 		log.info("/mypage/scrapData");
-		log.info("getScrapCnt...num="+num+", userId="+userId);
+		log.info("board_num="+board_num+", userId="+userId);
 		
-		if(service.getScrapCnt(num,userId) == 1 && service.deleteScrap(num,userId) == 1) {//스크랩을 이미 했다면, 스크랩 삭제
+		if(service.getScrapCnt(board_num, userId) == 1 && service.deleteScrap(board_num, userId) == 1) {//스크랩 카운트가 1이라면 스크랩한거고,스크랩 삭제
 		
 			return new ResponseEntity<>("cancel",HttpStatus.OK);
 		}
 		
-		log.info("insertScrapData...num="+num+", userId="+userId);
+		log.info("insertScrapData...board_num="+board_num+", userId="+userId);
 		
-		if(service.insertScrapData(num,userId)) {
+		if(service.insertScrapData(board_num, userId)) {
 			
 			return new ResponseEntity<>("success",HttpStatus.OK);
 		}
+		
 		return new ResponseEntity<>("fail",HttpStatus.OK);
 	}
 	

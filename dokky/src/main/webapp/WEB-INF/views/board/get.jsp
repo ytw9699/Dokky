@@ -119,7 +119,7 @@
 					 <button id="remove_button">삭제 </button>
 		        </c:if>
 		        
-		        <button id="scrap" data-num="${board.num }">스크랩 </button>
+		        <button id="scrap">스크랩 </button>
 		         
 		        <c:if test="${userInfo.username != board.userId}">
 		       		 <button id="reportBtn">신고</button> 
@@ -256,81 +256,113 @@
 <script type="text/javascript" src="/dokky/resources/js/reply.js"></script> <!--댓글 AJAX통신 -->
 <script>
 		
-//공통 변수 모음
-var board_num = '${board.num}';
+	//공통 변수 모음
+	var board_num = '${board.num}';
+	
+	<sec:authorize access="isAuthenticated()">   
+   	 	var myId = '${userInfo.username}';//나의 아이디
+	</sec:authorize>
+	
+	var csrfHeaderName ="${_csrf.headerName}"; 
+	var csrfTokenValue="${_csrf.token}";
+	   
+	$(document).ajaxSend(function(e, xhr, options) {  //모든 AJAX전송시 CSRF토큰을 같이 전송하도록 셋팅
+	     xhr.setRequestHeader(csrfHeaderName, csrfTokenValue);
+    });
+	 
+	//공통 함수 모음
+	function checkLength(obj, maxlength) {//글자수 체크 함수   
+		var str = obj.value; 
+		var str_length = str.length; // 전체길이       // 변수초기화     
+		var max_length = maxlength; // 제한할 글자수 크기     
+		var i = 0; // for문에 사용     
+		var ko_byte = 0; // 한글일경우는, 2그밗에는 1을 더함     
+		var li_len = 0; // substring하기 위해서 사용     
+		var one_char = ""; // 한글자씩 검사한다     
+		var reStr = ""; // 글자수를 초과하면 제한할수 글자전까지만 보여준다.  
+		
+		for (i = 0; i < str_length; i++) { // 한글자추출         
+			one_char = str.charAt(i);            
+			ko_byte++;        
+		}     
+		
+		if (ko_byte <= max_length) {// 전체 크기가 max_length를 넘지않으면                
+			li_len = i + 1;         
+		}  
+		
+		if (ko_byte > max_length) {// 전체길이를 초과하면          
+				alert(max_length + " 글자 이상 입력할 수 없습니다.");         
+				reStr = str.substr(0, max_length);         
+				obj.value = reStr;      
+		}     
+		
+		obj.focus();  
+	}
+	
+	function numberWithComma(This) {//기부금 숫자입력시 콤마처리함수          
+	 	  This.value = This.value.replace(/[^0-9]/g,'');//입력값에 숫자가 아닌곳은 모두 공백처리 
+		  $("#realGiveCash").val(This.value);//실제 넘겨줄 값  
+		  This.value = (This.value.replace(/\B(?=(\d{3})+(?!\d))/g, ","));//정규식을 이용해서 3자리 마다 ,추가 */  
+	}
+		
+	function func_confirm(content){//단순 확인 여부 함수
+	    if(confirm(content)){//true
+	    	return true;
+	    } else {//false
+	    	return false;
+	    }
+	}
 
-//공통 함수 모음
-function checkLength(obj, maxlength) {//글자수 체크 함수   
-	var str = obj.value; 
-	var str_length = str.length; // 전체길이       // 변수초기화     
-	var max_length = maxlength; // 제한할 글자수 크기     
-	var i = 0; // for문에 사용     
-	var ko_byte = 0; // 한글일경우는, 2그밗에는 1을 더함     
-	var li_len = 0; // substring하기 위해서 사용     
-	var one_char = ""; // 한글자씩 검사한다     
-	var reStr = ""; // 글자수를 초과하면 제한할수 글자전까지만 보여준다.  
-	
-	for (i = 0; i < str_length; i++) { // 한글자추출         
-		one_char = str.charAt(i);            
-		ko_byte++;        
-	}     
-	
-	if (ko_byte <= max_length) {// 전체 크기가 max_length를 넘지않으면                
-		li_len = i + 1;         
-	}  
-	
-	if (ko_byte > max_length) {// 전체길이를 초과하면          
-			alert(max_length + " 글자 이상 입력할 수 없습니다.");         
-			reStr = str.substr(0, max_length);         
-			obj.value = reStr;      
-	}     
-	
-	obj.focus();  
-}
-
-function numberWithComma(This) {//기부금 숫자입력시 콤마처리함수          
- 	  This.value = This.value.replace(/[^0-9]/g,'');//입력값에 숫자가 아닌곳은 모두 공백처리 
-	  $("#realGiveCash").val(This.value);//실제 넘겨줄 값  
-	  This.value = (This.value.replace(/\B(?=(\d{3})+(?!\d))/g, ","));//정규식을 이용해서 3자리 마다 ,추가 */  
-}
-	
-function func_confirm(content){//단순 확인 여부 함수
-    if(confirm(content)){//true
-    	return true;
-    } else {//false
-    	return false;
-    }
-}
-
-
-/////////////////////////////////////////////////////////
+	/////////////////////////////////////////////////////////
 	
 	var operForm = $("#operForm"); 
 	
-	$("#list_button").on("click", function(e){//글 목록
+	$("#list_button").on("click", function(e){//목록보기
 	    operForm.find("#num").remove();
 	    operForm.find("#userId").remove();
 	    operForm.find("#csrf").remove();
 	    operForm.attr("action","/dokky/board/list")
 	    operForm.submit();
- 	 }); 
+	}); 
 	
-	$("#modify_button").on("click", function(e){//글 수정
-	    operForm.submit();   
- 	 }); 
+	$("#modify_button").on("click", function(e){//게시글 수정
+	    operForm.submit();//다시보기 post아닌데 csrf보냄   
+	}); 
 	   
-	$("#remove_button").on("click", function(e){//글 삭제
+	$("#remove_button").on("click", function(e){//게시글 삭제
 		if(func_confirm('정말 삭제 하시겠습니까?')){
 			operForm.attr("action","/dokky/board/remove").attr("method","post");
 		    operForm.submit();
 		}
- 	 }); 
+	}); 
+	
+	$("#scrap").on("click",function(event){//게시글 스크랩
+		
+			var scrapData = { 
+								board_num : board_num,
+								userId    : myId
+					 		}; 
+			 	 
+			replyService.ScrapBoard(scrapData, function(result){
+				
+					 if(result == 'success'){
+						 alert("스크랩 하였습니다."); 
+			 	 
+					 }else if(result == 'cancel'){
+						 alert("스크랩을 취소하였습니다.");
+						 
+					 }else if(result == 'fail'){
+						 alert("스크랩에 실패하였습니다. 관리자에게 문의주세요.");
+					 }
+			});
+	});  
 	
 	/////////////////////////////////////////////////////////
- 	 var numValue = '<c:out value="${board.num}"/>';// 글번호
- 	 var replyList = $(".replyList");//댓글목록
-	 var replyCnt ;
-	 var username = null;
+	
+	var numValue = '<c:out value="${board.num}"/>';// 글번호
+	var replyList = $(".replyList");//댓글목록
+	var replyCnt ;
+	var username = null;
 	 
 	function showReplyList(page){ //댓글 목록 가져오기
 	    replyService.getList({num:numValue, page: page || 1 }, function(data) {
@@ -612,13 +644,6 @@ function func_confirm(content){//단순 확인 여부 함수
 	 
 	 showReplyList(1);//댓글리스트 보여주기
 		 
-	/////////////////////////////////////////////////////////
-	 var csrfHeaderName ="${_csrf.headerName}"; 
-	 var csrfTokenValue="${_csrf.token}";
-	    
-	 $(document).ajaxSend(function(e, xhr, options) { 
-        xhr.setRequestHeader(csrfHeaderName, csrfTokenValue); //모든 AJAX전송시 CSRF토큰을 같이 전송하도록 셋팅
-      });
 	/////////////////////////////////////////////////////////
 		 var replyRegisterBtn = $("#replyRegisterBtn");//댓글 등록 버튼
 		 var reReplyRegisterBtn = $("#reReplyRegisterBtn");//대댓글 등록 버튼
@@ -1272,30 +1297,6 @@ function func_confirm(content){//단순 확인 여부 함수
 	 	
 ///////////////////////////////////////////////////////신고 관련 끝
 	 	 
-		$("#scrap").on("click",function(event){//4. 스크랩 이벤트
-			
-				var num = $(this).data("num");
-			<sec:authorize access="isAuthenticated()">   
-			    var myId = '${userInfo.username}';//나의 아이디
-			</sec:authorize>
-			    
-			var scrapData = {num  : num, //글번호
-							userId : myId //내 아이디
-					 }; 
-			 	 
-			replyService.ScrapBoard(scrapData, function(result){//스크랩
-					 if(result == 'success'){
-						 alert("스크랩 하였습니다."); 
-					}
-					 else if(result == 'cancel'){
-						 alert("스크랩을 취소하였습니다.");
-						 }
-					 else if(result == 'fail'){
-						 alert("잠시후 재시도해주세요");
-						 }
-				});
-		});//4.이벤트 끝 
-
 		
 	 	var pageNum = 1;
 	    var replyPage = $(".replyPage");
@@ -1464,6 +1465,4 @@ function func_confirm(content){//단순 확인 여부 함수
 </script>
 </body>
 </html>
-
-
  

@@ -303,19 +303,20 @@ var replyService = (function() {
 		}
 	
 	function ScrapBoard(scrapData, callback, error) {
+		
 		$.ajax({
-			type : 'post',
-			url : '/dokky/mypage/scrapData/' + scrapData.num + '/' + scrapData.userId,
-			success : function(result, status, xhr) {
-				if (callback) {
-					callback(result,xhr);
+				type : 'post',
+				url : '/dokky/mypage/scrapData/' + scrapData.board_num + '/' + scrapData.userId,
+				success : function(result, status, xhr) {
+					if (callback) {
+						callback(result,xhr);
+					}
+				},
+				error : function(xhr, status, er) {
+					if (error) {
+						error(xhr,er);
+					}
 				}
-			},
-			error : function(xhr, status, er) {
-				if (error) {
-					error(xhr,er);
-				}
-			}
 		});
 	}
 	

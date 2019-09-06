@@ -25,11 +25,11 @@ public interface MypageService {
 
 	public int getMyReplyCount(Criteria cri);
 
-	public boolean insertScrapData(int num, String userId);
+	public boolean insertScrapData(int board_num, String userId);
 
-	public int getScrapCnt(int num, String userId);
+	public int getScrapCnt(int board_num, String userId);
 
-	public int deleteScrap(int num, String userId);
+	public int deleteScrap(int board_num, String userId);
 
 	public List<scrapVO> getMyScraplist(Criteria cri);
 

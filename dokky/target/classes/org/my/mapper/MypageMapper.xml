@@ -86,23 +86,24 @@
 		]]>
 	</select>
 	
+	<!-- 하위 스크랩 관련 -->
 	<select id="getScrapCnt" resultType="int">
 		<![CDATA[
-		select count(*) from dk_scrap where userId = #{userId} and num = #{num}
+			select count(*) from dk_scrap where userId = #{userId} and num = #{board_num}
 		]]>
 	</select>
 	
 	<insert id="insertScrapData">
-		insert into dk_scrap (scrap_num,userId, num) values (seq_dk_scrap.nextval, #{userId}, #{num})
+		insert into dk_scrap (scrap_num, userId, num) values (seq_dk_scrap.nextval, #{userId}, #{board_num})
 	</insert>
 	
 	<delete id="deleteScrap">
-		delete dk_scrap where userId = #{userId} and num = #{num}
+		delete dk_scrap where userId = #{userId} and num = #{board_num}
 	</delete>
 	
 	<select id="getMyScrapCount" resultType="int">
 		<![CDATA[
-		select count(*) from dk_scrap where userId = #{userId}
+			select count(*) from dk_scrap where userId = #{userId}
 		]]>
 	</select>
 	
@@ -155,6 +156,8 @@
 			where rn > (#{pageNum} -1) * #{amount} and rn <= #{pageNum} * #{amount}
 		]]>
 	</select>   
+	
+	<!-- 상위 스크랩 관련 -->
 		   
 	<insert id="insertChargeData">
 		insert into dk_cash (
