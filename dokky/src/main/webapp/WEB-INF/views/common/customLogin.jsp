@@ -12,59 +12,69 @@
 </head>
 <body> 
 <div class="loginWrap">
- <div class="container"> 
-	<form role="form" method='post' action="/dokky/login">
-			<div class="form-group">
-				<input id="userId" class="form-control" placeholder="아이디를 입력하세요" name="username" type="text" autofocus> 
-			</div>
-			<div class="form-group">
-				<input id="password" class="form-control" placeholder="비밀번호를 입력하세요" name="password" type="password" value="">
-			</div>
-			<div class="form-group"> 
-				<label><input name="remember-me" type="checkbox">Remember Me</label>
-			</div> 
-			<div class="form-group">
-				<a href="" id="login" class="next">로그인</a>
-				<a href="/dokky/memberForm" class="next">회원가입</a>
-			</div>
-		<input type="hidden" name="${_csrf.parameterName}" value="${_csrf.token}" />
-	</form> 
- </div>
+	<div class="title">
+			Dokky    
+	</div>
+	
+	<div class="container"> 
+		<form role="form" method='post' action="/dokky/login">
+				<div class="form-group">
+					<input id="userId" class="form-control" placeholder="아이디를 입력하세요." name="username" type="text" autofocus> 
+				</div>
+				
+				<div class="form-group">
+					<input id="password" class="form-control" placeholder="비밀번호를 입력하세요." name="password" type="password" value="">
+				</div>
+				
+				<div class="form-group"> 
+					<label><input name="remember-me" type="checkbox">로그인 상태 유지</label>
+				</div> 
+				
+				<div class="form-group">
+					<a href="" id="login" class="next">로그인</a>
+					<a href="/dokky/memberForm" class="next">회원가입</a>
+				</div>
+			<input type="hidden" name="${_csrf.parameterName}" value="${_csrf.token}" />
+		</form> 
+	</div>
+	
 </div>
 <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
-  <script>
+<script>
   
-  function memberCheck(){
-	  
-     var userId = $('#userId').val();
-     userId = $.trim(userId);//공백제거
-     
-		if(userId == ""){ 
-			alert("아이디를 입력하세요."); 
-			   return true;
-		}
-     
-	var password = $('#password').val();
-	password = $.trim(password);//공백제거
-     
-		if(password == ""){ 
-			alert("비밀번호를 입력하세요."); 
-			  return true;
-		}
-	return false;
-  }
+	  function memberCheck(){
+		  
+	     var userId = $('#userId').val();
+	     userId = $.trim(userId);//공백제거
 	     
+			if(userId == ""){ 
+				alert("아이디를 입력하세요."); 
+				   return true;
+			}
+	     
+		var password = $('#password').val();
+		password = $.trim(password);//공백제거
+	     
+			if(password == ""){ 
+				alert("비밀번호를 입력하세요."); 
+				  return true;
+			}
+		
+		return false;
+	  }
+	  
+		     
 	  $("#login").on("click", function(e){
 		    e.preventDefault();
 		    
 		    if(memberCheck()){
-		    return; 
+		    	return; 
 		    }
 		    
 		    $("form").submit();
 	  });
 	  
-  </script>
+</script>
   <!-- customLogout’에서 POST 방식으로 로그아웃을 하게 되면  내부적으로
 		는 자동으로 로그인 페이지를 호출
 		로그인 페이지는 스프링 시큐리티의 기본 설정 
@@ -76,7 +86,8 @@
 		      	alert("관리자에게 문의해주세요");
 		      });
 	      </script>
-	</c:if>   
+	</c:if>  
+	 
 	<c:if test="${check != null}"> 
 	      <script>
 		      $(document).ready(function(){

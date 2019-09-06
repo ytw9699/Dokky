@@ -47,11 +47,21 @@
 		background-color: #323639;  
 		}
 
+	.title{
+		width: 50%;
+		border-color: #e6e6e6;
+	    border-style: solid;
+	    font-size: 40px; 
+	    margin-left: 10%; 
+	    margin-top: 2%;
+	    text-align: center;
+	}
+	
 	.container {
 	    width: 50%;
 	    display: inline-block;
 	    margin-left: 10%;
-	    margin-top: 6%;
+	    margin-top: 1%;
 	    min-height: 278px;
 	    border-color: #e6e6e6;
 	    border-style: solid;
