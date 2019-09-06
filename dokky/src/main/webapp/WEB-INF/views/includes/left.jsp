@@ -12,19 +12,7 @@
 		
 	<div class="leftWrap">
 		<div class="mypage"><a href="/dokky/main">Dokky</a></div> 
-		<div class="mypage"><a href="/dokky/board/allList?category=0">전체글보기</a></div>
-		<div class="mypage"><a href="/dokky/board/list?category=1">공지사항</a></div>
-		<div class="mypage"><a href="/dokky/board/list?category=2">자유게시판</a></div>
-		<div class="mypage"><a href="/dokky/board/list?category=3">묻고답하기</a></div>
-		<div class="mypage"><a href="/dokky/board/list?category=4">칼럼/Tech</a></div>
-		<div class="mypage"><a href="/dokky/board/list?category=5">정기모임/스터디</a></div>
-		<sec:authorize access="isAuthenticated()">
-			<div class="mypage"><a href="/dokky/mypage/myInfoForm?userId=${userInfo.username}">내 정보</a></div>
-			<div class="mypage"><a href="/dokky/alarmList?userId=${userInfo.username}">알림</a>-
-				<a class="alarmCount" href="/dokky/alarmList?userId=${userInfo.username}"></a>
-			</div> 
-		</sec:authorize>
-		<div class="mypage">Today : ${sessionScope.todayCount} / Total : ${sessionScope.totalCount}</div>
+		
 		<div class="mypage">  
 			<sec:authorize access="isAuthenticated()">
 					<form id="logoutForm" method='post' action="/dokky/customLogout">
@@ -48,7 +36,34 @@
 				<a href="/dokky/memberForm">회원가입</a>
 			</sec:authorize>	
 		</div>
-		<div class="mypage"><a href="/dokky/admin/userList">관리자</a></div>
+		
+		<div class="mypage"><a href="/dokky/board/allList?category=0">전체글보기</a></div>
+		<div class="mypage"><a href="/dokky/board/list?category=1">공지사항</a></div>
+		<div class="mypage"><a href="/dokky/board/list?category=2">자유게시판</a></div>
+		<div class="mypage"><a href="/dokky/board/list?category=3">묻고답하기</a></div>
+		<div class="mypage"><a href="/dokky/board/list?category=4">칼럼/Tech</a></div>
+		<div class="mypage"><a href="/dokky/board/list?category=5">정기모임/스터디</a></div>
+		
+		<sec:authorize access="isAuthenticated()">
+			<div class="mypage"><a href="/dokky/mypage/myInfoForm?userId=${userInfo.username}">내 정보</a></div>
+			<div class="mypage"><a href="/dokky/alarmList?userId=${userInfo.username}">알림</a>-
+				<a class="alarmCount" href="/dokky/alarmList?userId=${userInfo.username}"></a>
+			</div> 
+		</sec:authorize> 
+		
+		<div class="mypage">
+			<a href="/dokky/admin/userList">관리자</a>
+		</div>
+		
+		<div class="counts">
+			<div class="countVal">
+				Today : ${sessionScope.todayCount} 
+			</div> 
+			<div class="countVal">  
+				Total : ${sessionScope.totalCount}  
+			</div> 
+		</div>
+		
 	</div>
 	<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
 	<script>

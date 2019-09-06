@@ -51,7 +51,18 @@
 	    border-color: #e6e6e6;
 	    border-style: solid; 
 	    border-width: 1px;
-	    
+	}
+	.counts{ 
+		padding: 10px;
+	    box-sizing: border-box;
+	   	width: 100%;
+	    color: #e6e6e6;
+	    border-color: #e6e6e6;
+	    border-style: solid; 
+	    border-width: 1px;
+	}
+	.countVal{ 
+		 margin-top: 2%;
 	}
 	.mypage:hover > a, .mypage:hover {
 	    color: #7151fc;
