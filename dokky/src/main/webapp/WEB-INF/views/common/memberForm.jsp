@@ -13,39 +13,103 @@
 </head>
 <body>
 	<div class="memberFormWrap">	
-		 <form id="" method='post' action="/dokky/members">	
-		  	<input type="hidden" name="${_csrf.parameterName}" value="${_csrf.token}" />
-		  	
-			<div class="bigbig">
-				<div class="information">아이디</div>
-					<input type="text" name="userId" id="userId"  class="inputclass"/>
-					
-			    <div class="information">비밀번호</div>
-			   		 <input type="password" name="userPw" id="userpw" class="inputclass"/>
-			   		 
-			    <div class="information">비밀번호 재입력</div>
-			   		 <input type="password" name="userpwCheck" id="userpwCheck" class="inputclass"/>
-			   		 
-				<div class="information">닉네임</div>
-					<input type="text" name="nickName" id="nickName" class="inputclass" />
-					
-				<div class="information">이메일</div>
-					<input type="email" name="email" id="email" class="inputclass"/>
-					
-				<div class="information">연락처(선택)</div>
-					<input type="text" name="phoneNum" class="inputclass"/> 
-					
-				<div class="information">은행명(선택)</div>
-					<input type="text" name="bankName" class="inputclass"/> 
-					
-				<div class="information">계좌번호(선택)</div>
-					<input type="text" name="account" class="inputclass"/>
-			</div>
-			
-			<div class="nextWrap">
-				<input type="button" class="pre" id="join"  value="가입"/>
-			</div>
-		 </form>
+	  <div class="title">
+		회원가입
+	  </div>	 
+	  <div class="ContentWrap">
+		  <div class="tabcontent">
+			 <form method='post' action="/dokky/members">	
+			  	<input type="hidden" name="${_csrf.parameterName}" value="${_csrf.token}" />
+			  	
+			  	<table>
+					<tr>
+						<td class="tableText">
+							아이디  
+						</td>
+						<td class="tableValue">
+							<div class="memberProfile">
+								<input type="text" name="userId" id="userId"  class="inputInfo"/>
+							</div> 
+						</td> 	
+					</tr>
+					<tr>
+						<td class="tableText">
+							비밀번호 
+						</td>
+						<td class="tableValue">
+							<div class="memberProfile">
+								<input type="password" name="userPw" id="userpw" class="inputInfo"/>
+							</div> 
+						</td> 	
+					</tr>
+					<tr>
+						<td class="tableText">
+							비밀번호 재입력 
+						</td>
+						<td class="tableValue">
+							<div class="memberProfile">
+								<input type="password" name="userpwCheck" id="userpwCheck" class="inputInfo"/>
+							</div> 
+						</td> 	
+					</tr>
+					<tr>
+						<td class="tableText">
+							닉네임 
+						</td>
+						<td class="tableValue">
+							<div class="memberProfile">
+								<input type="text" name="nickName" id="nickName" class="inputInfo" />
+							</div> 
+						</td> 	
+					</tr>
+					<tr>
+						<td class="tableText">
+							이메일 
+						</td>
+						<td class="tableValue">
+							<div class="memberProfile">
+								<input type="email" name="email" id="email" class="inputInfo"/>
+							</div> 
+						</td> 	
+					</tr>
+					<tr>
+						<td class="tableText">
+							연락처(선택) 
+						</td>
+						<td class="tableValue">
+							<div class="memberProfile">
+								<input type="text" name="phoneNum" class="inputInfo"/>
+							</div> 
+						</td> 	
+					</tr>
+					<tr>
+						<td class="tableText">
+							은행명(선택) 
+						</td>
+						<td class="tableValue">
+							<div class="memberProfile">
+								<input type="text" name="bankName" class="inputInfo"/> 
+							</div> 
+						</td> 	
+					</tr>
+					<tr>
+						<td class="tableText">
+							계좌번호(선택)
+						</td>
+						<td class="tableValue">
+							<div class="memberProfile">
+								<input type="text" name="account" class="inputInfo"/>
+							</div> 
+						</td> 	
+					</tr>
+			  	</table> 
+				
+				<div class="nextWrap">
+					<input type="button" class="submitInfo" id="join" value="가입완료"/>
+				</div>
+			 </form> 
+		  </div>
+	  </div>
 	</div>
 	
 <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>

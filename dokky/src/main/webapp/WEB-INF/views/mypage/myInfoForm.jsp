@@ -3,6 +3,7 @@
 <%@ taglib uri="http://java.sun.com/jsp/jstl/fmt" prefix="fmt"%>
 <%@ taglib uri="http://www.springframework.org/security/tags" prefix="sec" %> 
 <%@include file="../includes/left.jsp"%>
+
 <!DOCTYPE html>
 <html>
 <head>
@@ -45,7 +46,7 @@
 		<div id="infomation" class="tabcontent">
 	       <form method='post' action="/dokky/mypage/myInfo" id="operForm">	
 	     	  <input type="hidden" name="${_csrf.parameterName}" value="${_csrf.token}" />
-	     	<table width="100%" style="margin-bottom: 30px;">
+	     	<table>   
 	     		<tr>
 	     			<td class="tableText">
 	     				프로필 
