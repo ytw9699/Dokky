@@ -42,6 +42,7 @@
   	
   	 <!-- 회원가입 -->
 	 <insert id="registerMembers">
+	 
 		 insert into dk_member(
 		 					   member_num,
 		 					   userid,
@@ -62,6 +63,7 @@
  					   				    #{account}
 					   				   )
 	 </insert>
+	 
 	 <insert id="registerMember_auth">
 		 insert into dk_member_auth(userid) values(#{userId})
 	 </insert>

@@ -134,8 +134,8 @@ public class CommonController {
 		return "common/memberForm";
 	}
 	
-	@PostMapping("/members")
-	public String postMembers(MemberVO vo,Model model) {//회원가입
+	@PostMapping("/members") 
+	public String postMembers(MemberVO vo, Model model) {//회원가입
 		
 		log.info("/members: vo" + vo); 
 		
