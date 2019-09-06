@@ -67,14 +67,18 @@
  	}
  	
 	.tableText{
-		width: 20%; 
+		width: 8%; 
 		font-size: 20px;  
 		color: #e6e6e6;
+		/* border-color: #e6e6e6;
+		border-style: solid; */
     }
     
-	 
 	.tableValue{    
-		height: 50px;
+		height: 50px; 
+		width: 24%; 
+		/* border-color: #e6e6e6;
+		border-style: solid; */
 	    /* font-size: 18px;
 	    color: #555; */
 	 }
@@ -83,7 +87,7 @@
 	    font-size: 20px;
 	    color: #555; 
 	    padding: 8px;
-	    width: 30%;
+	    width: 40%;
 	    border-radius: 8px;
 	    border: 1px solid #b5b5b5;
 	    height: 30px;
@@ -91,9 +95,11 @@
 	 .submitInfo{  
 	 	font-size: 20px;
 	    background-color: #555;
-	    border: 1px solid #555;
+	    border: 1px solid #555; 
 	    color: #e6e6e6;
 	    padding: 8px;
 	    border-radius: 8px;
-	    width: 12%;
+	    width: 25%;
+	    margin-top: 20px;
+    	margin-bottom: 20px;
     }
