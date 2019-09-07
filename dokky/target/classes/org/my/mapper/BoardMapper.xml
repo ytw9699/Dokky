@@ -291,52 +291,52 @@
   	
 	<!-- 좋아요 누르기 -->
 	<update id="pushLike">
-		update DK_BOARD set likeCnt = likeCnt + 1 where num = #{num}
+		update DK_BOARD set likeCnt = likeCnt + 1 where num = #{board_num}
 	</update>
 	
 	<!-- 싫어요 누르기  -->
 	<update id="pushDisLike">
-		update DK_BOARD set dislikeCnt = dislikeCnt - 1 where num = #{num}
+		update DK_BOARD set dislikeCnt = dislikeCnt - 1 where num = #{board_num}
 	</update>
 	
 	<!-- 싫어요 취소  -->
 	<update id="pullDisLike">
-		update DK_BOARD set dislikeCnt = dislikeCnt + 1 where num = #{num}
+		update DK_BOARD set dislikeCnt = dislikeCnt + 1 where num = #{board_num}
 	</update>
 	
 	<!-- 좋아요 취소  -->
 	<update id="pullLike">
-		update DK_BOARD set likeCnt = likeCnt - 1 where num = #{num}
+		update DK_BOARD set likeCnt = likeCnt - 1 where num = #{board_num}
 	</update>
 	
 	<!-- 좋아요 체크값을 pull로 변경 -->
 	<update id="pullLikeValue">
-		update dk_board_like set likeValue = 'pull' where userId = #{userId} and num = #{num}
+		update dk_board_like set likeValue = 'pull' where userId = #{userId} and num = #{board_num}
 	</update>
 	
 	<!-- 싫어요 체크값을 pull로 변경 -->
 	<update id="pulldislikeCheck">
-		update dk_board_dislike set dislikeValue = 'pull' where userId = #{userId} and num = #{num}
+		update dk_board_dislike set dislikeValue = 'pull' where userId = #{userId} and num = #{board_num}
 	</update>
 	
 	<!-- 좋아요 체크값을 push로 변경 -->
 	<update id="pushLikeValue">
-		update dk_board_like set likeValue = 'push' where userId = #{userId} and num = #{num}
+		update dk_board_like set likeValue = 'push' where userId = #{userId} and num = #{board_num}
 	</update>
 	
 	<!-- 싫어요 체크값을 push로 변경 -->
 	<update id="pushDislikeValue">
-		update dk_board_dislike set dislikeValue = 'push' where userId = #{userId} and num = #{num}
+		update dk_board_dislike set dislikeValue = 'push' where userId = #{userId} and num = #{board_num}
 	</update>
 	
 	<!-- 좋아요 값 체크 -->	
 	<select id="checkLikeValue" resultType="String">
-		select likeValue from dk_board_like where userId = #{userId} and num = #{num}
+		select likeValue from dk_board_like where userId = #{userId} and num = #{board_num}
 	</select>
 	
 	<!-- 싫어요 값 체크 -->	 
 	<select id="checkDisLikeValue" resultType="String">
-		select dislikeValue from dk_board_dislike where userId = #{userId} and num = #{num}
+		select dislikeValue from dk_board_dislike where userId = #{userId} and num = #{board_num}
 	</select>
 	
 	<!-- 좋아요 컬럼 등록 -->
@@ -346,24 +346,31 @@
 									, likeValue
 								  )
 							values (  #{userId}
-									, #{num}
-									, 'push')
+									, #{board_num}
+									, 'push'
+								   )
 	</insert>
 	
 	<!-- 싫어요 컬럼 등록 -->
 	<insert id="registerDisLike">
-		insert into dk_board_dislike(  userId, num, dislikeValue)
-							 values (#{userId},#{num},'push')
+		insert into dk_board_dislike(     userId
+										, num
+										, dislikeValue
+									)
+							 values (	   #{userId}
+										 , #{board_num}
+										 , 'push'
+										 )
 	</insert>
 	
 	<!-- 좋아요 카운트 가져오기 -->
 	<select id="getLikeCount" resultType="String">
-		select likeCnt from DK_BOARD where num = #{num}
+		select likeCnt from DK_BOARD where num = #{board_num}
 	</select>
 	 
 	<!-- 싫어요 카운트 가져오기 -->
 	<select id="getDisLikeCount" resultType="String">
-		select dislikeCnt from DK_BOARD where num = #{num}
+		select dislikeCnt from DK_BOARD where num = #{board_num}
 	</select>
 	
 	<!-- 나의 캐시 가져오기 -->

@@ -170,40 +170,40 @@ var replyService = (function() {
 	function updateLike(commonData, callback, error) {//좋아요 업데이트
 
 		$.ajax({
-			type : 'put', 
-			url : '/dokky/board/likeCount', 
-			data : JSON.stringify(commonData), 
-			contentType : "application/json; charset=utf-8",
-			success : function(result, status, xhr) {
-				if (callback) {
-					callback(result);
+				type : 'put', 
+				url : '/dokky/board/likeCount', 
+				data : JSON.stringify(commonData), 
+				contentType : "application/json; charset=utf-8",
+				success : function(result, status, xhr) {
+					if (callback) {
+						callback(result);
+					}
+				},
+				error : function(xhr, status, er) {
+					if (error) {
+						error(er);
+					}
 				}
-			},
-			error : function(xhr, status, er) {
-				if (error) {
-					error(er);
-				}
-			}
 		});
 	}
 	
 	function updateDisLike(commonData, callback, error) {//싫어요 업데이트
 
 		$.ajax({
-			type : 'put', 
-			url : '/dokky/board/dislikeCount',  
-			data : JSON.stringify(commonData), 
-			contentType : "application/json; charset=utf-8",
-			success : function(result, status, xhr) {
-				if (callback) {
-					callback(result);
+				type : 'put', 
+				url : '/dokky/board/dislikeCount',  
+				data : JSON.stringify(commonData), 
+				contentType : "application/json; charset=utf-8",
+				success : function(result, status, xhr) {
+					if (callback) {
+						callback(result);
+					}
+				},
+				error : function(xhr, status, er) {
+					if (error) {
+						error(er);
+					}
 				}
-			},
-			error : function(xhr, status, er) {
-				if (error) {
-					error(er);
-				}
-			}
 		});
 	}
 	

@@ -177,10 +177,10 @@ public class BoardController {
 			return "redirect:/mypage/myBoardList?userId="+userId+"&pageNum="+cri.getPageNum()+"&amount="+cri.getAmount();
 		}
 	
-	@RequestMapping(method = { RequestMethod.PUT,RequestMethod.PATCH },
+	@RequestMapping(method = { RequestMethod.PUT, RequestMethod.PATCH },
 		value = "/likeCount", consumes = "application/json", produces = "text/plain; charset=UTF-8")
 	@ResponseBody
-	public ResponseEntity<String> updateLike(@RequestBody commonVO vo) {//좋아요 누르기 및 취소
+	public ResponseEntity<String> updateLike(@RequestBody commonVO vo) {//게시글 좋아요 누르기 및 취소
 		
 		log.info("/likeCount");
 		log.info("commonVO: " + vo);
@@ -189,12 +189,12 @@ public class BoardController {
 		
 		String CheckResult = service.checkLikeValue(boardLikeVO);
 		
-		log.info("CheckResult: " + CheckResult);//좋아요가 눌러져있는지 아닌지 체
+		log.info("CheckResult: " + CheckResult);//좋아요가 눌러져 있는지 아닌지 체크
 		
 		int returnVal = 0;
 		
 		if(CheckResult == null){ 
-			returnVal = service.registerLike(vo);
+			returnVal = service.registerLike(vo);//좋아요 첫 셋팅
 			log.info("registerLike..." );
 			
 		}else if(CheckResult.equals("pull")){
@@ -208,14 +208,14 @@ public class BoardController {
 		
 		log.info("returnVal: " + returnVal);
 		
-		return returnVal == 1 ? new ResponseEntity<>(service.getLikeCount(boardLikeVO.getNum()), HttpStatus.OK)
+		return returnVal == 1 ? new ResponseEntity<>(service.getLikeCount(boardLikeVO.getBoard_num()), HttpStatus.OK)
 				: new ResponseEntity<>(HttpStatus.INTERNAL_SERVER_ERROR);
 	}
 	
 	@RequestMapping(method = { RequestMethod.PUT,RequestMethod.PATCH },
 			value = "/dislikeCount", consumes = "application/json", produces ="text/plain; charset=UTF-8")
 		@ResponseBody
-		public ResponseEntity<String> updateDisLike(@RequestBody commonVO vo) {//싫어요 누르기 및 취소
+		public ResponseEntity<String> updateDisLike(@RequestBody commonVO vo) {//게시글 싫어요 누르기 및 취소
 		
 			log.info("/dislikeCount");
 			log.info("vo: " +vo);
@@ -244,7 +244,7 @@ public class BoardController {
 			
 			log.info("returnVal: " + returnVal);
 			
-			return returnVal == 1 ? new ResponseEntity<>(service.getDisLikeCount(boardDisLikeVO.getNum()), HttpStatus.OK)
+			return returnVal == 1 ? new ResponseEntity<>(service.getDisLikeCount(boardDisLikeVO.getBoard_num()), HttpStatus.OK)
 					: new ResponseEntity<>(HttpStatus.INTERNAL_SERVER_ERROR);
 		}
 	

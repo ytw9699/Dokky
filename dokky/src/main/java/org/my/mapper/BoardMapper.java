@@ -28,13 +28,13 @@ public interface BoardMapper {
 
 	public int updateHitCnt(Long num);//조회수 증가
 
-	public int pushLike(Long num);
+	public int pushLike(Long board_num);
 	
-	public int pullDisLike(Long num);
+	public int pullDisLike(Long board_num);
 	
-	public int pullLike(Long num);
+	public int pullLike(Long board_num);
 	
-	public int pushDisLike(Long num);
+	public int pushDisLike(Long board_num);
 
 	public String checkLikeValue(BoardLikeVO vo);
 	
@@ -52,9 +52,9 @@ public interface BoardMapper {
 
 	public void pushDislikeValue(BoardDisLikeVO vo);
 	
-	public String getLikeCount(Long num);
+	public String getLikeCount(Long board_num);
 
-	public String getDisLikeCount(Long num);
+	public String getDisLikeCount(Long board_num);
 
 	public String getuserCash(String username); 
 

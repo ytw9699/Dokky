@@ -164,9 +164,23 @@ public class BoardServiceImpl implements BoardService {
 		attachMapper.deleteAll(num);
 	}*/
 	
+	@Override
+	public String checkLikeValue(BoardLikeVO vo) {
+		
+		log.info("checkLikeValue");
+		return mapper.checkLikeValue(vo); 
+	}
+	
+	@Override
+	public String checkDisLikeValue(BoardDisLikeVO vo) {
+		
+		log.info("checkDisLikeValue"); 
+		return mapper.checkDisLikeValue(vo); 
+	}
+	
 	@Transactional
 	@Override
-	public int registerLike(commonVO vo) {//좋아요 컬럼 등록 및 좋아요 push
+	public int registerLike(commonVO vo) {//좋아요 컬럼 첫 등록 및 좋아요 push
 		
 		BoardLikeVO boardLikeVO = vo.getBoardLikeVO();
 		
@@ -179,12 +193,12 @@ public class BoardServiceImpl implements BoardService {
 		
 		log.info("pushLike....");
 		
-		return mapper.pushLike(boardLikeVO.getNum()); 
+		return mapper.pushLike(boardLikeVO.getBoard_num()); 
 	}
 	
 	@Transactional
 	@Override 
-	public int registerDisLike(commonVO vo) {//싫어요 컬럼 등록 및 싫어요 push
+	public int registerDisLike(commonVO vo) {//싫어요 컬럼 첫 등록 및 싫어요 push
 
 		BoardDisLikeVO boardDisLikeVO = vo.getBoardDisLikeVO();
 		
@@ -195,7 +209,7 @@ public class BoardServiceImpl implements BoardService {
 		commonMapper.insertAlarm(vo.getAlarmVO());
 		
 		log.info("pushDisLike....");
-		return mapper.pushDisLike(boardDisLikeVO.getNum()); 
+		return mapper.pushDisLike(boardDisLikeVO.getBoard_num()); 
 	}
 	
 	@Transactional
@@ -213,25 +227,7 @@ public class BoardServiceImpl implements BoardService {
 		
 		log.info("pushLike....");
 		
-		return mapper.pushLike(boardLikeVO.getNum()); 
-	}
-	
-	@Transactional
-	@Override
-	public int pullDisLike(commonVO vo) {//싫어요 취소 pull
-		
-		BoardDisLikeVO boardDisLikeVO = vo.getBoardDisLikeVO();
-		
-		log.info("pulldislikeCheck...."+vo);
-		
-		mapper.pulldislikeCheck(boardDisLikeVO); 
-		
-		log.info("insertAlarm: ");
-		commonMapper.deleteAlarm(vo.getAlarmVO());
-		
-		log.info("pullDisLike....");
-		
-		return mapper.pullDisLike(boardDisLikeVO.getNum()); 
+		return mapper.pushLike(boardLikeVO.getBoard_num()); 
 	}
 	
 	@Transactional
@@ -249,7 +245,25 @@ public class BoardServiceImpl implements BoardService {
 		
 		log.info("pullLike....");
 		
-		return mapper.pullLike(boardLikeVO.getNum());
+		return mapper.pullLike(boardLikeVO.getBoard_num());
+	}
+	
+	@Transactional
+	@Override
+	public int pullDisLike(commonVO vo) {//싫어요 취소 pull
+		
+		BoardDisLikeVO boardDisLikeVO = vo.getBoardDisLikeVO();
+		
+		log.info("pulldislikeCheck...."+vo);
+		
+		mapper.pulldislikeCheck(boardDisLikeVO); 
+		
+		log.info("insertAlarm: ");
+		commonMapper.deleteAlarm(vo.getAlarmVO());
+		
+		log.info("pullDisLike....");
+		
+		return mapper.pullDisLike(boardDisLikeVO.getBoard_num()); 
 	}
 	
 	@Transactional
@@ -265,34 +279,20 @@ public class BoardServiceImpl implements BoardService {
 		commonMapper.insertAlarm(vo.getAlarmVO());
 		
 		log.info("pushDisLike....");
-		return mapper.pushDisLike(boardDisLikeVO.getNum());
+		return mapper.pushDisLike(boardDisLikeVO.getBoard_num());
 	}
 	
 	@Override
-	public String checkLikeValue(BoardLikeVO vo) {
-		
-		log.info("checkLikeValue");
-		return mapper.checkLikeValue(vo); 
-	}
-	
-	@Override
-	public String checkDisLikeValue(BoardDisLikeVO vo) {
-		
-		log.info("checkDisLikeValue"); 
-		return mapper.checkDisLikeValue(vo); 
-	}
-	
-	@Override
-	public String getLikeCount(Long num) {
+	public String getLikeCount(Long board_num) {
   
 		log.info("getLikeCount");
-		return mapper.getLikeCount(num);
+		return mapper.getLikeCount(board_num);
 	}
 	@Override
-	public String getDisLikeCount(Long num) {
+	public String getDisLikeCount(Long board_num) {
  
 		log.info("getDisLikeCount");
-		return mapper.getDisLikeCount(num);
+		return mapper.getDisLikeCount(board_num);
 	}
 	
 	@Override

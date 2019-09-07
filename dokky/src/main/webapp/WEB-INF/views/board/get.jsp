@@ -258,20 +258,25 @@
 		
 	//공통 변수 모음
 	var board_num = '${board.num}';
+	var board_id = '${board.userId}';
+	var board_title = '${board.title}';
 	
 	<sec:authorize access="isAuthenticated()">   
-   	 	var myId = '${userInfo.username}';//나의 아이디
+		var myId = '${userInfo.username}';
+		var myNickName = '${userInfo.member.nickName}';
 	</sec:authorize>
 	
 	var csrfHeaderName ="${_csrf.headerName}"; 
 	var csrfTokenValue="${_csrf.token}";
 	   
 	$(document).ajaxSend(function(e, xhr, options) {  //모든 AJAX전송시 CSRF토큰을 같이 전송하도록 셋팅
+		
 	     xhr.setRequestHeader(csrfHeaderName, csrfTokenValue);
     });
 	 
 	//공통 함수 모음
 	function checkLength(obj, maxlength) {//글자수 체크 함수   
+		
 		var str = obj.value; 
 		var str_length = str.length; // 전체길이       // 변수초기화     
 		var max_length = maxlength; // 제한할 글자수 크기     
@@ -300,12 +305,14 @@
 	}
 	
 	function numberWithComma(This) {//기부금 숫자입력시 콤마처리함수          
+		
 	 	  This.value = This.value.replace(/[^0-9]/g,'');//입력값에 숫자가 아닌곳은 모두 공백처리 
 		  $("#realGiveCash").val(This.value);//실제 넘겨줄 값  
 		  This.value = (This.value.replace(/\B(?=(\d{3})+(?!\d))/g, ","));//정규식을 이용해서 3자리 마다 ,추가 */  
 	}
 		
 	function func_confirm(content){//단순 확인 여부 함수
+		
 	    if(confirm(content)){//true
 	    	return true;
 	    } else {//false
@@ -318,6 +325,7 @@
 	var operForm = $("#operForm"); 
 	
 	$("#list_button").on("click", function(e){//목록보기
+		
 	    operForm.find("#num").remove();
 	    operForm.find("#userId").remove();
 	    operForm.find("#csrf").remove();
@@ -326,16 +334,20 @@
 	}); 
 	
 	$("#modify_button").on("click", function(e){//게시글 수정
+		
 	    operForm.submit();//다시보기 post아닌데 csrf보냄   
 	}); 
 	   
 	$("#remove_button").on("click", function(e){//게시글 삭제
+		
 		if(func_confirm('정말 삭제 하시겠습니까?')){
 			operForm.attr("action","/dokky/board/remove").attr("method","post");
 		    operForm.submit();
 		}
 	}); 
 	
+	/////////////////////////////////////////////////////////
+
 	$("#scrap").on("click",function(event){//게시글 스크랩
 		
 			var scrapData = { 
@@ -357,6 +369,83 @@
 			});
 	});  
 	
+	/////////////////////////////////////////////////////////
+
+	$("#like").on("click",function(event){//게시글 좋아요
+		
+		/* var loginCheck = "로그인후 좋아요를 눌러주세요.";
+		var likeCheck = "자신의 글에는 좋아요를 할 수 없습니다.";
+		
+		if(checkUser(board_id,loginCheck,null,likeCheck)){
+			return;  
+		} */ 
+		
+		var likeData = {
+							board_num:board_num,
+							userId:myId
+					   };
+		
+		var alarmData = {
+							target:board_id,
+							commonVar1:board_title,
+							commonVar2:board_num,
+							kind:1,
+							writerNick:myNickName,
+							writerId:myId
+			            };
+		  
+	    var commonData = {
+						 	boardLikeVO : likeData,
+						 	alarmVO     : alarmData
+	 					 };
+		 
+	   	replyService.updateLike(commonData, function(result){
+	   	
+			   	var likeCount = $("#likeCount");
+			  	likeCount.html(result);
+        }); 
+	   	//다시보기 추후 좋아요를 눌르면 이미지변경까지, 취소하면 이미지변경 추가해보자
+   	}); 
+   	
+	/////////////////////////////////////////////////////////
+
+	$("#dislike").on("click",function(event){//게시글 싫어요
+		 
+		/* var loginCheck = "로그인후 싫어요를 눌러주세요.";
+		var likeCheck = "자신의 글에는 싫어요를 할 수 없습니다.";
+		var user_id = $(this).data("user_id");
+		
+		if(checkUser(user_id,loginCheck,null,likeCheck)){
+			return; 
+		} */
+		
+		var dislikeData = {   
+							 board_num:board_num,
+							    userId:myId
+						  };
+		
+		var alarmData = { 
+							target:board_id,
+							commonVar1:board_title,
+							commonVar2:board_num,
+							kind:2,
+							writerNick:myNickName,
+							writerId:myId
+	          			};
+		
+		var commonData ={ 
+						    boardDisLikeVO : dislikeData,
+						 	alarmVO        : alarmData
+			 			}
+		
+		replyService.updateDisLike(commonData, function(result){
+		   	 
+			   	var dislikeCount = $("#dislikeCount");
+			   	dislikeCount.html(result);
+		   	
+   	    });
+	});
+	 
 	/////////////////////////////////////////////////////////
 	
 	var numValue = '<c:out value="${board.num}"/>';// 글번호
@@ -655,12 +744,12 @@
 	     var reply_level; 
 	     var toUserId;
 	     var toNickName;
-	 <sec:authorize access="isAuthenticated()">   
+	/*  <sec:authorize access="isAuthenticated()">   
 	     var reply_id = '${userInfo.username}';//댓글 작성자 아이디
 	 	 var reply_nickName = '${userInfo.member.nickName}';//댓글 작성자 닉네임
 	 	 var board_id = '${board.userId}';
 	 	 var board_title = '${board.title}';
-   	</sec:authorize>
+   	</sec:authorize> */
 
 		 replyRegisterBtn.on("click",function(e){// 0. 댓글 등록 이벤트 설치
 				
@@ -960,80 +1049,6 @@
 	//추후 좋아요를 눌르면 이미지변경까지 취소하면 이미지변경 추가해보자
 	});//4. 댓글 싫어요 버튼 이벤트 설치
 	
-		$("#like").on("click",function(event){//3. 좋아요 버튼 이벤트 설치
-			var loginCheck = "로그인후 좋아요를 눌러주세요.";
-			var likeCheck = "자신의 글에는 좋아요를 할 수 없습니다.";
-			var user_id = $(this).data("user_id");
-			
-			if(checkUser(user_id,loginCheck,null,likeCheck)){
-				return;  
-			}
-			
-			var likeData = {num:numValue,//글번호
-							userId:username//접속 아이디
-							};
-			
-			 var alarmData = { 
-						target:board_id,
-						commonVar1:board_title,
-						commonVar2:board_num,
-						kind:1,
-						writerNick:reply_nickName,
-						writerId:reply_id
-			          };
-			  
-			 var commonData ={
-					 	boardLikeVO : likeData,
-					 	alarmVO     : alarmData
-			 	}
-			 
-		   	replyService.updateLike(commonData, function(result){
-		   	
-		   	 
-				   	var likeCount = $("#likeCount");
-				  	likeCount.html(result);
-		   				//console.log(result); 
-				     }); 
-		   	//추후 좋아요를 눌르면 이미지변경까지 취소하면 이미지변경 추가해보자
-		   	});
-	   	
-	   	$("#dislike").on("click",function(event){//3. 싫어요 버튼 이벤트 설치
-			
-			var loginCheck = "로그인후 싫어요를 눌러주세요.";
-			var likeCheck = "자신의 글에는 싫어요를 할 수 없습니다.";
-			var user_id = $(this).data("user_id");
-			
-			var alarmData = { 
-					target:board_id,
-					commonVar1:board_title,
-					commonVar2:board_num,
-					kind:2,
-					writerNick:reply_nickName,
-					writerId:reply_id
-		          };
-			  
-			if(checkUser(user_id,loginCheck,null,likeCheck)){
-				return; 
-			}
-			
-			var dislikeData = {   
-							 	   num:numValue,//글번호
-								userId:username//접속 아이디
-					};
-			
-			var commonData ={ 
-					    boardDisLikeVO : dislikeData,
-					 	alarmVO     : alarmData
-			 	}
-			
-			replyService.updateDisLike(commonData, function(result){
-			   	 
-			   	var dislikeCount = $("#dislikeCount");
-			   	
-			   	dislikeCount.html(result);
-			   		//console.log(result);
-	   	    });
-	   	});
 	   	
 ///////////////////////////////////////////////////////이하 게시판,댓글 기부 관련	
 	   	var donateBackGround = $("#donateBackGround");

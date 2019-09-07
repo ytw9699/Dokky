@@ -46,9 +46,9 @@ public interface BoardService {
 	
 	public int registerDisLike(commonVO vo);
 
-	public String getLikeCount(Long num);
+	public String getLikeCount(Long board_num);
 
-	public String getDisLikeCount(Long num);
+	public String getDisLikeCount(Long board_num);
 
 	public String getuserCash(String username);
 

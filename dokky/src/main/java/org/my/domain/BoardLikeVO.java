@@ -3,7 +3,7 @@ package org.my.domain;
 	
 @Data
 public class BoardLikeVO {
-	  private Long num;
+	  private Long board_num;
 	  private String userId;
 	  private String likeValue;
 }
