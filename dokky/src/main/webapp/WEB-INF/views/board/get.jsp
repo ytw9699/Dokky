@@ -445,6 +445,86 @@
 		   	
    	    });
 	});
+	
+	///////////////////////////////////////////////////////
+	
+	$(".replyList").on("click",'button[data-oper="like"]', function(event){//댓글 좋아요
+		
+			/* var loginCheck = "로그인후 좋아요를 눌러주세요.";
+			var likeCheck = "자신의 댓글에는 좋아요를 할 수 없습니다.";
+			
+			if(checkUser(user_id,loginCheck,null,likeCheck)){ 
+				return;
+			} */
+			
+			var reply_id = $(this).data("user_id");
+			var reply_num = $(this).data("reply_num");
+			var reply_content = $(this).data("reply_content");
+			
+			var likeData = {
+							 reply_num:reply_num,
+							    userId:myId 
+						   };
+	
+			var alarmData = { 
+								target:reply_id,  
+								commonVar1:reply_content,
+								commonVar2:board_num,
+								kind:5, 
+								writerNick:myNickName,
+								writerId:myId
+				          	};
+			
+			var commonData ={
+					replyLikeVO : likeData,
+				 	alarmVO     : alarmData
+		 	}
+	
+			replyService.updateReplyLike(commonData, function(result){
+			 
+			var replyLikeCount = $("#replyLikeCount"+reply_num);
+				replyLikeCount.html(result);
+			  });
+	});
+	
+///////////////////////////////////////////////////////
+	$(".replyList").on("click",'button[data-oper="dislike"]', function(event){//4. 댓글 싫어요 버튼 이벤트 설치
+		
+		var loginCheck = "로그인후 싫어요를 눌러주세요.";
+		var likeCheck = "자신의 댓글에는 싫어요를 할 수 없습니다.";
+		var user_id = $(this).data("user_id");
+		var reply_num = $(this).data("reply_num");
+		
+		if(checkUser(user_id,loginCheck,null,likeCheck)){
+			return;
+		}
+		
+		var dislikeData = {reply_num:reply_num,//댓글번호
+						      userId:username//접속 아이디
+			};
+	
+		var alarmData = { 
+				target:board_id,
+				commonVar1:board_title,
+				commonVar2:board_num,
+				kind:6,
+				writerNick:reply_nickName,
+				writerId:reply_id
+	          };
+		
+		var commonData ={ 
+				replyDisLikeVO : dislikeData,
+			 	alarmVO     : alarmData
+	 	}
+		
+		replyService.updateReplyDisLike(commonData, function(result){
+		 
+		var replyDisLikeCount = $("#replyDisLikeCount"+reply_num);
+			replyDisLikeCount.html(result);
+			//console.log(result); 
+ 	 });
+	//추후 좋아요를 눌르면 이미지변경까지 취소하면 이미지변경 추가해보자
+	});//4. 댓글 싫어요 버튼 이벤트 설치
 	 
 	/////////////////////////////////////////////////////////
 	
@@ -523,8 +603,8 @@
 			       +"<button data-oper='delete' type='button' data-user_id='"+userId+"' data-reply_num='"+reply_nums+"'>삭제</button>"
 	         } 
 	        
-	         if(username && username != userId){ 
-		    	   str += " <button data-oper='like' type='button' data-user_id='"+userId+"' data-reply_num='"+reply_nums+"'>좋아요</button>" 
+	         if(username && username != userId){  
+		    	   str += " <button data-oper='like' type='button' data-reply_content='"+data.list[i].reply_content+"' data-user_id='"+userId+"' data-reply_num='"+reply_nums+"'>좋아요</button>" 
 			       +"<button data-oper='dislike' type='button' data-user_id='"+userId+"' data-reply_num='"+reply_nums+"'>싫어요</button>"
 			       +"<button data-oper='donateMoney' type='button' data-user_id='"+userId+"' data-reply_num='"+reply_nums+"'>기부</button>"
 			       +"<button data-oper='report' type='button' data-user_id='"+userId+"' data-nick_name='"+nickName+"'>신고</button>"
@@ -744,12 +824,12 @@
 	     var reply_level; 
 	     var toUserId;
 	     var toNickName;
-	/*  <sec:authorize access="isAuthenticated()">   
+	<sec:authorize access="isAuthenticated()">   
 	     var reply_id = '${userInfo.username}';//댓글 작성자 아이디
 	 	 var reply_nickName = '${userInfo.member.nickName}';//댓글 작성자 닉네임
 	 	 var board_id = '${board.userId}';
 	 	 var board_title = '${board.title}';
-   	</sec:authorize> */
+   	</sec:authorize>
 
 		 replyRegisterBtn.on("click",function(e){// 0. 댓글 등록 이벤트 설치
 				
@@ -971,83 +1051,7 @@
 		}
 	});//2. 이벤트 함수 끝 
 	
-///////////////////////////////////////////////////////
-	$(".replyList").on("click",'button[data-oper="like"]', function(event){//3. 댓글 좋아요 버튼 이벤트 설치
-		
-		var loginCheck = "로그인후 좋아요를 눌러주세요.";
-		var likeCheck = "자신의 댓글에는 좋아요를 할 수 없습니다.";
-		var user_id = $(this).data("user_id");
-		var reply_num = $(this).data("reply_num");
-		
-		if(checkUser(user_id,loginCheck,null,likeCheck)){ 
-			return;
-		}
-		
-		var likeData = {reply_num:reply_num,//댓글번호
-						userId:username//접속 아이디
-				};
 
-		var alarmData = { 
-					target:board_id,
-					commonVar1:board_title,
-					commonVar2:board_num,
-					kind:5,
-					writerNick:reply_nickName,
-					writerId:reply_id
-		          };
-		
-		var commonData ={
-				replyLikeVO : likeData,
-			 	alarmVO     : alarmData
-	 	}
-
-		replyService.updateReplyLike(commonData, function(result){
-		 
-		var replyLikeCount = $("#replyLikeCount"+reply_num);
-			replyLikeCount.html(result);
-			//console.log(result); 
-		  });
-		//추후 좋아요를 눌르면 이미지변경까지 취소하면 이미지변경 추가해보자
-	});//3. 댓글 좋아요 버튼 이벤트 설치
-	
-///////////////////////////////////////////////////////
-	$(".replyList").on("click",'button[data-oper="dislike"]', function(event){//4. 댓글 싫어요 버튼 이벤트 설치
-		
-		var loginCheck = "로그인후 싫어요를 눌러주세요.";
-		var likeCheck = "자신의 댓글에는 싫어요를 할 수 없습니다.";
-		var user_id = $(this).data("user_id");
-		var reply_num = $(this).data("reply_num");
-		
-		if(checkUser(user_id,loginCheck,null,likeCheck)){
-			return;
-		}
-		
-		var dislikeData = {reply_num:reply_num,//댓글번호
-						      userId:username//접속 아이디
-			};
-	
-		var alarmData = { 
-				target:board_id,
-				commonVar1:board_title,
-				commonVar2:board_num,
-				kind:6,
-				writerNick:reply_nickName,
-				writerId:reply_id
-	          };
-		
-		var commonData ={ 
-				replyDisLikeVO : dislikeData,
-			 	alarmVO     : alarmData
-	 	}
-		
-		replyService.updateReplyDisLike(commonData, function(result){
-		 
-		var replyDisLikeCount = $("#replyDisLikeCount"+reply_num);
-			replyDisLikeCount.html(result);
-			//console.log(result); 
- 	 });
-	//추후 좋아요를 눌르면 이미지변경까지 취소하면 이미지변경 추가해보자
-	});//4. 댓글 싫어요 버튼 이벤트 설치
 	
 	   	
 ///////////////////////////////////////////////////////이하 게시판,댓글 기부 관련	
