@@ -227,29 +227,29 @@ var replyService = (function() {
 		});
 	}
 	
-	function updateReplyDisLike(commonData, callback, error) {//싫어요 업데이트
+	function updateReplyDisLike(commonData, callback, error) {//댓글 싫어요 업데이트
 
 		$.ajax({
-			type : 'put', 
-			url : '/dokky/replies/dislikeCount',  
-			data : JSON.stringify(commonData), 
-			contentType : "application/json; charset=utf-8",
-			success : function(result, status, xhr) {
-				if (callback) {
-					callback(result);
+				type : 'put', 
+				url : '/dokky/replies/dislikeCount',  
+				data : JSON.stringify(commonData), 
+				contentType : "application/json; charset=utf-8",
+				success : function(result, status, xhr) {
+					if (callback) {
+						callback(result);
+					}
+				},
+				error : function(xhr, status, er) {
+					if (error) {
+						error(er);
+					}
 				}
-			},
-			error : function(xhr, status, er) {
-				if (error) {
-					error(er);
-				}
-			}
 		});
 	}
 	
-	function getUserCash(username, callback, error) {
+	function getUserCash(userId, callback, error) {
 
-		$.get("/dokky/board/usercash/" + username, function(result) {
+		$.get("/dokky/board/usercash/" + userId, function(result) {
 
 			if (callback) {
 				callback(result);

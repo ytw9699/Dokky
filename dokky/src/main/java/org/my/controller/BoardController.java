@@ -248,14 +248,14 @@ public class BoardController {
 					: new ResponseEntity<>(HttpStatus.INTERNAL_SERVER_ERROR);
 		}
 	
-	@GetMapping(value = "/usercash/{username}", produces = "text/plain; charset=UTF-8")
+	@GetMapping(value = "/usercash/{userId}", produces = "text/plain; charset=UTF-8")
 	@ResponseBody
-	public ResponseEntity<String> usermoney(@PathVariable("username") String username) {
+	public ResponseEntity<String> userCash(@PathVariable("userId") String userId) {
 		 
 		log.info("/usercash");
-		log.info("username...="+username);
+		log.info("userId...="+userId);
 		
-		String userCash = service.getuserCash(username);
+		String userCash = service.getuserCash(userId);
 				
 		log.info("userCash...="+userCash); 
 		

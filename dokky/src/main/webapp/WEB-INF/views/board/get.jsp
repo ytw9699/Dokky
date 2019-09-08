@@ -107,7 +107,7 @@
         	<label>기부금</label> <span id="boardMoney"><c:out value="${board.money}"/>\</span> 
 	          	<sec:authorize access="isAuthenticated()">
 			        <c:if test="${userInfo.username != board.userId}">
-			       	  <button id="donateMoney" data-user_id="${board.userId }">기부</button> 
+			       	  <button id="donateMoney">기부</button> 
 			        </c:if>
 		        </sec:authorize>
 		</span>
@@ -214,9 +214,9 @@
 		 </div>
 		 
 		 <div class="">
-			<span class="mydonaText">기부금액</span> 
-				<input type="text" class="donaSelect" name='giveCash' value="" placeholder="0" value="" onkeyup="numberWithComma(this)">
-				<input type="text" class="donaSelect" id="realGiveCash" name='realGiveCash' value="" placeholder="0" value="" onkeyup="numberWithComma(this)">
+			<span class="mydonaText">기부금액</span>  
+				<input type="text" class="donaSelect" name='giveCash' placeholder="0" onkeyup="numberWithComma(this)">
+				<input type="text" class="donaSelect" id="realGiveCash" value="0" name='realGiveCash'>
 			<span class="mydonaText">원</span>
          </div>
             
@@ -386,12 +386,12 @@
 					   };
 		
 		var alarmData = {
-							target:board_id,
+								target:board_id,
 							commonVar1:board_title,
 							commonVar2:board_num,
-							kind:1,
+								  kind:1,
 							writerNick:myNickName,
-							writerId:myId
+							  writerId:myId
 			            };
 		  
 	    var commonData = {
@@ -425,12 +425,12 @@
 						  };
 		
 		var alarmData = { 
-							target:board_id,
+								target:board_id,
 							commonVar1:board_title,
 							commonVar2:board_num,
-							kind:2,
+								  kind:2,
 							writerNick:myNickName,
-							writerId:myId
+							  writerId:myId
 	          			};
 		
 		var commonData ={ 
@@ -467,12 +467,12 @@
 						   };
 	
 			var alarmData = { 
-								target:reply_id,  
+									target:reply_id,  
 								commonVar1:reply_content,
 								commonVar2:board_num,
-								kind:5, 
+									  kind:5, 
 								writerNick:myNickName,
-								writerId:myId
+								  writerId:myId
 				          	};
 			
 			var commonData = {
@@ -484,49 +484,224 @@
 			 
 				var replyLikeCount = $("#replyLikeCount"+reply_num);
 					replyLikeCount.html(result);
-				  });
+		    });
 	});
 	
-///////////////////////////////////////////////////////
-	$(".replyList").on("click",'button[data-oper="dislike"]', function(event){//4. 댓글 싫어요 버튼 이벤트 설치
+	///////////////////////////////////////////////////////
+	
+	$(".replyList").on("click",'button[data-oper="dislike"]', function(event){//댓글 싫어요
 		
-		var loginCheck = "로그인후 싫어요를 눌러주세요.";
-		var likeCheck = "자신의 댓글에는 싫어요를 할 수 없습니다.";
-		var user_id = $(this).data("user_id");
-		var reply_num = $(this).data("reply_num");
+			/* var loginCheck = "로그인후 싫어요를 눌러주세요.";
+			var likeCheck = "자신의 댓글에는 싫어요를 할 수 없습니다."; 
+			
+			if(checkUser(user_id,loginCheck,null,likeCheck)){
+				return;
+			}*/
+			
+			var reply_id = $(this).data("reply_id");
+			var reply_num = $(this).data("reply_num");
+			var reply_content = $(this).data("reply_content");
+			
+			var dislikeData = {
+								 reply_num:reply_num,
+								    userId:myId 
+							  };
 		
-		if(checkUser(user_id,loginCheck,null,likeCheck)){
+			var alarmData = { 
+									target:reply_id,  
+								commonVar1:reply_content,
+								commonVar2:board_num,
+									  kind:6, 
+								writerNick:myNickName,
+								  writerId:myId
+				          	};
+
+			
+			var commonData = { 
+								replyDisLikeVO : dislikeData,
+							 	   alarmVO     : alarmData
+		 					 };
+			
+			replyService.updateReplyDisLike(commonData, function(result){
+			 
+				var replyDisLikeCount = $("#replyDisLikeCount"+reply_num);
+					replyDisLikeCount.html(result);
+					
+	 	 	});
+	});
+	
+///////////////////////////////////////////////////////이하 게시판,댓글 - 기부 관련
+ 
+   	var donateBackGround = $("#donateBackGround");
+	var donateModal = $("#donateModal");//기부 모달창
+	var option;//게시글 기부 or 댓글 기부 선택 
+	var inputMoney = 0;//기부 할 금액
+	var myCash;//내 캐시
+	var donate_reply_id;//해당 댓글의 아이디
+	var donate_reply_num;//해당 댓글 번호
+	var donate_reply_content;//해당 댓글 내용
+	 	
+	function closeDonateModal(){//모달창 닫기 함수  
+			
+			inputMoney = 0;
+			donateModal.find("input[name='realGiveCash']").val(0); 
+			donateModal.find("input[name='giveCash']").val(""); 
+			donateBackGround.css("display","none");
+			donateModal.css("display","none"); 
+	}
+	
+	function openDonateModal(){//모달창 열기 함수 
+		
+			donateBackGround.css("display","block");
+			donateModal.css("display","block");
+	}
+	
+    	
+	$("#modalCloseBtn, #donateBackGround").on("click",function(event){//모달창 닫기
+		closeDonateModal();
+	});
+	
+	$("#donateMoney").on("click",function(event){//게시글 기부 모달폼 열기
+		
+		/* var loginCheck = "로그인후 기부를 해주세요.";
+		var giveCheck = "자신에게는 기부를 할 수 없습니다.";
+			donatedId = $(this).data("user_id");
+	
+		if(checkUser(donatedId, loginCheck, null, giveCheck)){ 
+			return;
+		} */
+		
+		replyService.getUserCash(myId, function(result){//나의 잔여 캐시 가져오기
+				
+				option = 'board';
+				myCash = parseInt(result);
+				 
+				result = result.replace(/[^0-9]/g,''); 
+				result = (result.replace(/\B(?=(\d{3})+(?!\d))/g, ","));  
+			  
+				donateModal.find("input[name='myCash']").val(result);
+				
+				openDonateModal();
+   	    });
+   	
+	});
+	
+	$(".replyList").on("click",'button[data-oper="donateMoney"]', function(event){//댓글 기부 모달폼 열기
+		
+		/* var loginCheck = "로그인후 기부를 해주세요.";
+		var giveCheck = "자신의 댓글에는 기부를 할 수 없습니다.";
+		
+		
+		if(checkUser(donatedId, loginCheck, null, giveCheck)){
+			return;
+		} */ 
+		
+		donate_reply_id = $(this).data("reply_id");
+		donate_reply_num = $(this).data("reply_num");
+		donate_reply_content = $(this).data("reply_content");
+		
+		replyService.getUserCash(myId, function(result){
+				
+				option = 'reply';
+				myCash = parseInt(result); 
+				
+				result = result.replace(/[^0-9]/g,''); 
+				result = (result.replace(/\B(?=(\d{3})+(?!\d))/g, ","));  
+			
+				donateModal.find("input[name='myCash']").val(result);
+				
+				openDonateModal();
+   	    });
+   	
+	});
+
+	$("#modalSubmitBtn").on("click",function(event){//게시글 or 댓글 기부 하기 완료 버튼    
+		
+		inputMoney = parseInt(donateModal.find("input[name='realGiveCash']").val());  
+	
+		if(myCash < inputMoney){
+			alert("보유 캐시가 부족합니다.");
+			closeDonateModal();
+			return; 
+		} 
+		 
+		if(inputMoney === 0 || inputMoney === ""){   
+			alert("금액을 1원이상 입력해주세요."); 
 			return;
 		}
 		
-		var dislikeData = {reply_num:reply_num,//댓글번호
-						      userId:username//접속 아이디
-			};
+		if(option === 'board'){//게시글 기부시
+			
+			var donateData = {	 num 	    : board_num, //글번호
+							 	 userId     : myId, //기부하는 아이디
+							  	 donatedId  : board_id, //기부받는 아이디
+							  	 money      : inputMoney, //기부금액
+							  	 cash 	    : myCash //기부자의 잔여 캐시
+							 };
+		
+			var alarmData = { 
+								target:board_id,
+								commonVar1:board_title,
+								commonVar2:board_num,
+								kind:3,
+								writerNick:myNickName,
+								writerId:myId
+				            };
+			
+			var commonData ={ 
+							  donateVO    : donateData,
+						 	  alarmVO     : alarmData
+						 	}
 	
-		var alarmData = { 
-				target:board_id,
-				commonVar1:board_title,
-				commonVar2:board_num,
-				kind:6,
-				writerNick:reply_nickName,
-				writerId:reply_id
-	          };
-		
-		var commonData ={ 
-				replyDisLikeVO : dislikeData,
-			 	alarmVO     : alarmData
-	 	}
-		
-		replyService.updateReplyDisLike(commonData, function(result){
-		 
-		var replyDisLikeCount = $("#replyDisLikeCount"+reply_num);
-			replyDisLikeCount.html(result);
-			//console.log(result); 
- 	 });
-	//추후 좋아요를 눌르면 이미지변경까지 취소하면 이미지변경 추가해보자
-	});//4. 댓글 싫어요 버튼 이벤트 설치
-	 
-	/////////////////////////////////////////////////////////
+			replyService.updateDonation(commonData, function(result){
+			
+				var boardMoney = $("#boardMoney"); 
+			   	boardMoney.html(result+"\\");  
+			   	
+				closeDonateModal(); 
+				
+				alert("기부 하였습니다."); 
+				
+	   	    });
+			
+		}else if(option === 'reply'){//댓글 기부시
+				
+				var replyDonateData = {
+					   					   num 	     : board_num, //글번호
+						   				   reply_num : donate_reply_num, //댓글번호
+										   userId  	 : myId, //기부하는 아이디
+										   donatedId : donate_reply_id, //기부받는 아이디
+										   money     : inputMoney, //기부금액
+										   cash 	 : myCash //기부자의 잔여 캐시
+									  };
+				
+				var alarmData = { 
+									target:donate_reply_id,
+									commonVar1:donate_reply_content,
+									commonVar2:board_num,
+									kind:4,
+									writerNick:myNickName,
+									writerId:myId
+					            };
+							
+				var commonData ={ 
+									replyDonateVO    : replyDonateData,
+								 	alarmVO          : alarmData
+		 						}	
+			
+				replyService.updateReplyDonation(commonData, function(result){
+				
+					var replyMoney= $("#replyMoney"+donate_reply_num);
+					replyMoney.html(result+"\\"); 
+				   	
+					closeDonateModal();
+					
+					alert("기부 하였습니다.");  
+		   	    });
+		}
+	});
+	
+//////////////////////////////////////////////////////////////기부 관련 끝
 	
 	var numValue = '<c:out value="${board.num}"/>';// 글번호
 	var replyList = $(".replyList");//댓글목록
@@ -553,6 +728,7 @@
 	     var toUserId=""; 
 	     var reply_nums=""; 
 	     var reply_level; 
+	     var reply_content;
 	     
 		     <sec:authorize access="isAuthenticated()">
 		    	 username = '${userInfo.username}';
@@ -573,6 +749,7 @@
 	       reply_level = data.list[i].reply_level;
 	       toNickName=data.list[i].toNickName;    
 		   toUserId=data.list[i].toUserId;   
+		   reply_content = data.list[i].reply_content;
 		   
 	       str +="<li id='"+reply_nums+"' class='replyLi'><div style='display:none' id=replace"+reply_nums+"></div>";
 	       
@@ -601,12 +778,12 @@
 	         if(username == userId){
 				 str += "<button data-oper='modify' type='button' data-user_id='"+userId+"' data-reply_num='"+reply_nums+"'>수정</button>"
 			       +"<button data-oper='delete' type='button' data-user_id='"+userId+"' data-reply_num='"+reply_nums+"'>삭제</button>"
-	         } 
+	         }  
 	        
 	         if(username && username != userId){  
-		    	   str += " <button data-oper='like' type='button' data-reply_content='"+data.list[i].reply_content+"' data-reply_id='"+userId+"' data-reply_num='"+reply_nums+"'>좋아요</button>" 
-			       +"<button data-oper='dislike' type='button' data-user_id='"+userId+"' data-reply_num='"+reply_nums+"'>싫어요</button>"
-			       +"<button data-oper='donateMoney' type='button' data-user_id='"+userId+"' data-reply_num='"+reply_nums+"'>기부</button>"
+		    	   str += " <button data-oper='like' type='button' data-reply_content='"+reply_content+"' data-reply_id='"+userId+"' data-reply_num='"+reply_nums+"'>좋아요</button>" 
+			       +"<button data-oper='dislike' type='button' data-reply_content='"+reply_content+"' data-reply_id='"+userId+"' data-reply_num='"+reply_nums+"'>싫어요</button>"
+			       +"<button data-oper='donateMoney' type='button' data-reply_content='"+reply_content+"' data-reply_id='"+userId+"' data-reply_num='"+reply_nums+"'>기부</button>"
 			       +"<button data-oper='report' type='button' data-user_id='"+userId+"' data-nick_name='"+nickName+"'>신고</button>"
 	         } 
 	    	     
@@ -648,9 +825,9 @@
 	         } 
 	        
 		     if(username && username != userId){ 
-		    	   str += " <button data-oper='like' type='button' data-reply_id='"+userId+"' data-reply_num='"+reply_nums+"'>좋아요</button>" 
-			       +"<button data-oper='dislike' type='button' data-user_id='"+userId+"' data-reply_num='"+reply_nums+"'>싫어요</button>"
-			       +"<button data-oper='donateMoney' type='button' data-user_id='"+userId+"' data-reply_num='"+reply_nums+"'>기부</button>"
+		    	 str += " <button data-oper='like' type='button' data-reply_content='"+reply_content+"' data-reply_id='"+userId+"' data-reply_num='"+reply_nums+"'>좋아요</button>" 
+			       +"<button data-oper='dislike' type='button' data-reply_content='"+reply_content+"' data-reply_id='"+userId+"' data-reply_num='"+reply_nums+"'>싫어요</button>"
+			       +"<button data-oper='donateMoney' type='button' data-reply_content='"+reply_content+"' data-reply_id='"+userId+"' data-reply_num='"+reply_nums+"'>기부</button>"
 			       +"<button data-oper='report' type='button' data-user_id='"+userId+"' data-nick_name='"+nickName+"'>신고</button>"
 	         } 
 	    	  
@@ -693,9 +870,9 @@
 	         } 
 	        
 		     if(username && username != userId){ 
-		    	   str += " <button data-oper='like' type='button' data-reply_id='"+userId+"' data-reply_num='"+reply_nums+"'>좋아요</button>" 
-			       +"<button data-oper='dislike' type='button' data-user_id='"+userId+"' data-reply_num='"+reply_nums+"'>싫어요</button>"
-			       +"<button data-oper='donateMoney' type='button' data-user_id='"+userId+"' data-reply_num='"+reply_nums+"'>기부</button>"
+		    	 str += " <button data-oper='like' type='button' data-reply_content='"+reply_content+"' data-reply_id='"+userId+"' data-reply_num='"+reply_nums+"'>좋아요</button>" 
+			       +"<button data-oper='dislike' type='button' data-reply_content='"+reply_content+"' data-reply_id='"+userId+"' data-reply_num='"+reply_nums+"'>싫어요</button>"
+			       +"<button data-oper='donateMoney' type='button' data-reply_content='"+reply_content+"' data-reply_id='"+userId+"' data-reply_num='"+reply_nums+"'>기부</button>"
 			       +"<button data-oper='report' type='button' data-user_id='"+userId+"' data-nick_name='"+nickName+"'>신고</button>"
 	         } 
 	    	  
@@ -738,9 +915,9 @@
 		         } 
 		        
 			     if(username && username != userId){ 
-			    	   str += " <button data-oper='like' type='button' data-reply_id='"+userId+"' data-reply_num='"+reply_nums+"'>좋아요</button>" 
-				       +"<button data-oper='dislike' type='button' data-user_id='"+userId+"' data-reply_num='"+reply_nums+"'>싫어요</button>"
-				       +"<button data-oper='donateMoney' type='button' data-user_id='"+userId+"' data-reply_num='"+reply_nums+"'>기부</button>"
+			    	 str += " <button data-oper='like' type='button' data-reply_content='"+reply_content+"' data-reply_id='"+userId+"' data-reply_num='"+reply_nums+"'>좋아요</button>" 
+				       +"<button data-oper='dislike' type='button' data-reply_content='"+reply_content+"' data-reply_id='"+userId+"' data-reply_num='"+reply_nums+"'>싫어요</button>"
+				       +"<button data-oper='donateMoney' type='button' data-reply_content='"+reply_content+"' data-reply_id='"+userId+"' data-reply_num='"+reply_nums+"'>기부</button>"
 				       +"<button data-oper='report' type='button' data-user_id='"+userId+"' data-nick_name='"+nickName+"'>신고</button>"
 		         } 
 		    	  
@@ -781,13 +958,13 @@
 				       +"<button data-oper='delete' type='button' data-user_id='"+userId+"' data-reply_num='"+reply_nums+"'>삭제</button>"
 		         } 
 		        
-			      if(username && username != userId){ 
-			    	   str += " <button data-oper='like' type='button' data-reply_id='"+userId+"' data-reply_num='"+reply_nums+"'>좋아요</button>" 
-				       +"<button data-oper='dislike' type='button' data-user_id='"+userId+"' data-reply_num='"+reply_nums+"'>싫어요</button>"
-				       +"<button data-oper='donateMoney' type='button' data-user_id='"+userId+"' data-reply_num='"+reply_nums+"'>기부</button>"
+			      if(username && username != userId){  
+			    	  str += " <button data-oper='like' type='button' data-reply_content='"+reply_content+"' data-reply_id='"+userId+"' data-reply_num='"+reply_nums+"'>좋아요</button>" 
+				       +"<button data-oper='dislike' type='button' data-reply_content='"+reply_content+"' data-reply_id='"+userId+"' data-reply_num='"+reply_nums+"'>싫어요</button>"
+				       +"<button data-oper='donateMoney' type='button' data-reply_content='"+reply_content+"' data-reply_id='"+userId+"' data-reply_num='"+reply_nums+"'>기부</button>"
 				       +"<button data-oper='report' type='button' data-user_id='"+userId+"' data-nick_name='"+nickName+"'>신고</button>"
 		         } 
-		    	    
+		    	     
 		    	  str +="</span><div class='reply_contentWrapper'><span class='reply_content'>";    
 	       }  
 	         
@@ -1051,167 +1228,7 @@
 		}
 	});//2. 이벤트 함수 끝 
 	
-
-	
 	   	
-///////////////////////////////////////////////////////이하 게시판,댓글 기부 관련	
-	   	var donateBackGround = $("#donateBackGround");
-		var donateModal = $("#donateModal");
-		var donatedId;
-		var inputMoney;//기부금액
-		var myCash;//내 캐시
-		var option;//게시글 기부 or 댓글 기부 선택
-		var reply_num;//댓글 번호
-	
-		
-		function donateModalClose(){//모달창 가리기 함수
-   			donateBackGround.css("display","none");
-   			donateModal.css("display","none"); 
-   		}
-		
-		donateBackGround.on("click",function(){//1. 모달창 취소 이벤트1
-			donateModalClose();
-		});
-		
-		$("#modalCloseBtn").on("click",function(event){//2. 모달창 취소 이벤트2
-   			donateModalClose();
-   		});
-		
-		
-		$(".replyList").on("click",'button[data-oper="donateMoney"]', function(event){//3. 댓글 기부 모달폼 버튼 이벤트
-			
-			var loginCheck = "로그인후 기부를 해주세요.";
-			var giveCheck = "자신의 댓글에는 기부를 할 수 없습니다.";
-				donatedId = $(this).data("user_id");
-				reply_num = $(this).data("reply_num");
-				inputMoney = 0;
-			
-			if(checkUser(donatedId, loginCheck, null, giveCheck)){
-				return;
-			}
-			
-			replyService.getUserCash(username, function(result){//나의 잔여 캐시 가져오기
-				
-				donateModal.find("input[name='myCash']").val(parseInt(result));
-				myCash = parseInt(result);
-				donateBackGround.css("display","block");
-				donateModal.css("display","block");
-				option = 'reply';
-			
-	   	    });
-	   	
-   		});//3.이벤트 끝
-			
-	
-   		$("#donateMoney").on("click",function(event){//4. 게시글 기부 모달폼 열기 버튼 이벤트
-		
-			var loginCheck = "로그인후 기부를 해주세요.";
-			var giveCheck = "자신에게는 기부를 할 수 없습니다.";
-				donatedId = $(this).data("user_id");
-				inputMoney = 0;
-		
-			if(checkUser(donatedId, loginCheck, null, giveCheck)){
-				return;
-			}
-			
-			replyService.getUserCash(username, function(result){//나의 잔여 캐시 가져오기
-				
-				donateModal.find("input[name='myCash']").val(parseInt(result));
-				myCash = parseInt(result);
-				donateBackGround.css("display","block");
-				donateModal.css("display","block");
-				option = 'board';
-	   	    });
-	   	
-   		});//4.이벤트 끝
-   		 
-   		$("#modalSubmitBtn").on("click",function(event){//5.게시글 or 댓글 기부 하기 등록 버튼 이벤트
-   			
-   			inputMoney = donateModal.find("input[name='realGiveCash']").val();
-   			 
-   			if(myCash < inputMoney){
-				alert("보유 캐시가 부족합니다.");
-				donateModalClose();
-				return; 
-			} 
-   			 
-   			if(inputMoney === 0 || inputMoney === ""){   
-				alert("금액을 1원이상 입력해주세요."); 
-				return;
-			}
-   			
-   			if(option === 'board'){//게시글 기부시
-   				var donateData = {num 	    : numValue, //글번호
-								  userId    : username, //기부하는 아이디
-								  donatedId : donatedId, //기부받는 아이디
-								  money     : inputMoney, //기부금액
-								  cash 	    : myCash //내 캐시
-								 };
-   			
-   				var alarmData = { 
-   						target:board_id,
-   						commonVar1:board_title,
-   						commonVar2:board_num,
-   						kind:3,
-   						writerNick:reply_nickName,
-   						writerId:reply_id
-   			          };
-   				
-   				var commonData ={ 
-   						donateVO    : donateData,
-					 	alarmVO     : alarmData
-			 	}
-		
-				replyService.updateDonation(commonData, function(result){
-				
-					var boardMoney = $("#boardMoney");
-				   	boardMoney.html(parseInt(result));
-				   	
-					donateModalClose();
-					donateModal.find("input").val("");
-					
-					alert("기부 하였습니다."); 
-					
-		   	    });
-   			}else if(option === 'reply'){//댓글 기부시
-   				
-   				
-   				var replyDonateData = {
-				   					   num 	     : numValue, //글번호
-					   				   reply_num : reply_num, //댓글번호
-									   userId  	 : username, //기부하는 아이디
-									   donatedId : donatedId, //기부받는 아이디
-									   money     : inputMoney, //기부금액
-									   cash 	 : myCash //내 캐시
-								 };
-   			
-   				var alarmData = { 
-   						target:board_id,
-   						commonVar1:board_title,
-   						commonVar2:board_num,
-   						kind:4,
-   						writerNick:reply_nickName,
-   						writerId:reply_id
-   			          };
-   				
-   				var commonData ={ 
-   						replyDonateVO    : replyDonateData,
-					 	alarmVO          : alarmData
-			 	}
-				
-				replyService.updateReplyDonation(commonData, function(result){
-				
-					var replyMoney= $("#replyMoney"+reply_num);
-					replyMoney.html(parseInt(result));
-				   	
-					donateModalClose();
-					donateModal.find("input").val("");
-					
-					alert("기부 하였습니다.");  
-		   	    });
-   			}
-   		});//6.이벤트 끝
-///////////////////////////////////////////////////////기부 관련 끝
 	 	 
 ///////////////////////////////////////////////////////신고 관련 시작,  
 //신고 공통 함수 및 변수들 시작

@@ -56,7 +56,7 @@ public interface BoardMapper {
 
 	public String getDisLikeCount(Long board_num);
 
-	public String getuserCash(String username); 
+	public String getuserCash(String userId); 
 
 	public String donateMoney(donateVO vo);
 	

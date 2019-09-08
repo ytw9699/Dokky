@@ -176,12 +176,12 @@
 		select likeCnt from DK_REPLY where reply_num = #{reply_num}
 	</select>
 	
-	<!-- 댓글 싫어요 누르기  -->
+	<!-- 댓글 싫어요 카운트 누르기  -->
 	<update id="pushDisLike">
 		update DK_REPLY set dislikeCnt = dislikeCnt - 1 where reply_num = #{reply_num}
 	</update>
 	
-	<!-- 댓글 싫어요 취소  -->
+	<!-- 댓글 싫어요 카운트 취소  -->
 	<update id="pullDisLike">
 		update DK_REPLY set dislikeCnt = dislikeCnt + 1 where reply_num = #{reply_num}
 	</update>
@@ -196,15 +196,21 @@
 		update dk_reply_dislike set dislikeValue = 'push' where userId = #{userId} and reply_num = #{reply_num}
 	</update>
 	
-	<!-- 싫어요 값 체크 -->	 
+	<!-- 댓글 싫어요 값 체크 -->	 
 	<select id="checkDisLikeValue" resultType="String">
 		select dislikeValue from dk_reply_dislike where userId = #{userId} and reply_num = #{reply_num}
 	</select>
 	
 	<!-- 댓글 싫어요 컬럼 등록 -->
 	<insert id="registerDisLike">
-		insert into dk_reply_dislike (userId, reply_num, dislikeValue)
-		values (#{userId},#{reply_num},'push')
+		insert into dk_reply_dislike (	    userId
+										  , reply_num
+										  , dislikeValue
+									  )
+								values (   #{userId}
+										  ,#{reply_num}
+										  ,'push'
+										)
 	</insert>
 	
 	<!-- 댓글 싫어요 카운트 가져오기 -->

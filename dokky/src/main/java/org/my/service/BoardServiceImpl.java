@@ -296,11 +296,11 @@ public class BoardServiceImpl implements BoardService {
 	}
 	
 	@Override
-	public String getuserCash(String username) { 
+	public String getuserCash(String userId) { 
  
 		log.info("getuserCash");
 		
-		return mapper.getuserCash(username);
+		return mapper.getuserCash(userId);
 	}
 	
 	@Transactional
