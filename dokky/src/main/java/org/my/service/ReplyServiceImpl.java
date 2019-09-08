@@ -122,7 +122,7 @@ public class ReplyServiceImpl implements ReplyService {
 		
 		@Transactional
 		@Override
-		public int registerLike(commonVO vo) {//댓글 좋아요 컬럼 등록 및 좋아요 push
+		public int registerLike(commonVO vo) {//댓글 좋아요 첫 컬럼 등록 및 좋아요 push
 
 			ReplyLikeVO replyLikeVO = vo.getReplyLikeVO();
 			

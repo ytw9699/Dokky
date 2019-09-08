@@ -457,7 +457,7 @@
 				return;
 			} */
 			
-			var reply_id = $(this).data("user_id");
+			var reply_id = $(this).data("reply_id");
 			var reply_num = $(this).data("reply_num");
 			var reply_content = $(this).data("reply_content");
 			
@@ -475,16 +475,16 @@
 								writerId:myId
 				          	};
 			
-			var commonData ={
-					replyLikeVO : likeData,
-				 	alarmVO     : alarmData
-		 	}
+			var commonData = {
+								replyLikeVO : likeData,
+							 	alarmVO     : alarmData
+		 					 };
 	
 			replyService.updateReplyLike(commonData, function(result){
 			 
-			var replyLikeCount = $("#replyLikeCount"+reply_num);
-				replyLikeCount.html(result);
-			  });
+				var replyLikeCount = $("#replyLikeCount"+reply_num);
+					replyLikeCount.html(result);
+				  });
 	});
 	
 ///////////////////////////////////////////////////////
@@ -604,7 +604,7 @@
 	         } 
 	        
 	         if(username && username != userId){  
-		    	   str += " <button data-oper='like' type='button' data-reply_content='"+data.list[i].reply_content+"' data-user_id='"+userId+"' data-reply_num='"+reply_nums+"'>좋아요</button>" 
+		    	   str += " <button data-oper='like' type='button' data-reply_content='"+data.list[i].reply_content+"' data-reply_id='"+userId+"' data-reply_num='"+reply_nums+"'>좋아요</button>" 
 			       +"<button data-oper='dislike' type='button' data-user_id='"+userId+"' data-reply_num='"+reply_nums+"'>싫어요</button>"
 			       +"<button data-oper='donateMoney' type='button' data-user_id='"+userId+"' data-reply_num='"+reply_nums+"'>기부</button>"
 			       +"<button data-oper='report' type='button' data-user_id='"+userId+"' data-nick_name='"+nickName+"'>신고</button>"
@@ -648,7 +648,7 @@
 	         } 
 	        
 		     if(username && username != userId){ 
-		    	   str += " <button data-oper='like' type='button' data-user_id='"+userId+"' data-reply_num='"+reply_nums+"'>좋아요</button>" 
+		    	   str += " <button data-oper='like' type='button' data-reply_id='"+userId+"' data-reply_num='"+reply_nums+"'>좋아요</button>" 
 			       +"<button data-oper='dislike' type='button' data-user_id='"+userId+"' data-reply_num='"+reply_nums+"'>싫어요</button>"
 			       +"<button data-oper='donateMoney' type='button' data-user_id='"+userId+"' data-reply_num='"+reply_nums+"'>기부</button>"
 			       +"<button data-oper='report' type='button' data-user_id='"+userId+"' data-nick_name='"+nickName+"'>신고</button>"
@@ -693,7 +693,7 @@
 	         } 
 	        
 		     if(username && username != userId){ 
-		    	   str += " <button data-oper='like' type='button' data-user_id='"+userId+"' data-reply_num='"+reply_nums+"'>좋아요</button>" 
+		    	   str += " <button data-oper='like' type='button' data-reply_id='"+userId+"' data-reply_num='"+reply_nums+"'>좋아요</button>" 
 			       +"<button data-oper='dislike' type='button' data-user_id='"+userId+"' data-reply_num='"+reply_nums+"'>싫어요</button>"
 			       +"<button data-oper='donateMoney' type='button' data-user_id='"+userId+"' data-reply_num='"+reply_nums+"'>기부</button>"
 			       +"<button data-oper='report' type='button' data-user_id='"+userId+"' data-nick_name='"+nickName+"'>신고</button>"
@@ -738,7 +738,7 @@
 		         } 
 		        
 			     if(username && username != userId){ 
-			    	   str += " <button data-oper='like' type='button' data-user_id='"+userId+"' data-reply_num='"+reply_nums+"'>좋아요</button>" 
+			    	   str += " <button data-oper='like' type='button' data-reply_id='"+userId+"' data-reply_num='"+reply_nums+"'>좋아요</button>" 
 				       +"<button data-oper='dislike' type='button' data-user_id='"+userId+"' data-reply_num='"+reply_nums+"'>싫어요</button>"
 				       +"<button data-oper='donateMoney' type='button' data-user_id='"+userId+"' data-reply_num='"+reply_nums+"'>기부</button>"
 				       +"<button data-oper='report' type='button' data-user_id='"+userId+"' data-nick_name='"+nickName+"'>신고</button>"
@@ -782,7 +782,7 @@
 		         } 
 		        
 			      if(username && username != userId){ 
-			    	   str += " <button data-oper='like' type='button' data-user_id='"+userId+"' data-reply_num='"+reply_nums+"'>좋아요</button>" 
+			    	   str += " <button data-oper='like' type='button' data-reply_id='"+userId+"' data-reply_num='"+reply_nums+"'>좋아요</button>" 
 				       +"<button data-oper='dislike' type='button' data-user_id='"+userId+"' data-reply_num='"+reply_nums+"'>싫어요</button>"
 				       +"<button data-oper='donateMoney' type='button' data-user_id='"+userId+"' data-reply_num='"+reply_nums+"'>기부</button>"
 				       +"<button data-oper='report' type='button' data-user_id='"+userId+"' data-nick_name='"+nickName+"'>신고</button>"

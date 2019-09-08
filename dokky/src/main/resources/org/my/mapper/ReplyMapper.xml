@@ -139,15 +139,21 @@
 		select likeValue from dk_reply_like where userId = #{userId} and reply_num = #{reply_num}
 	</select>
 	
-	<!-- 댓글 좋아요 누르기 -->
+	<!-- 댓글 좋아요 카운트 누르기 -->
 	<update id="pushLike">
 		update DK_REPLY set likeCnt = likeCnt + 1 where reply_num = #{reply_num}
 	</update>
 	
 	<!-- 댓글 좋아요 컬럼 등록 -->
 	<insert id="registerLike">
-		insert into dk_reply_like (userId, reply_num, likeValue)
-		values (#{userId},#{reply_num},'push')
+		insert into dk_reply_like (	    userId
+									  , reply_num
+									  , likeValue
+								  )
+							values (   #{userId}
+									  ,#{reply_num}
+									  ,'push'
+									)
 	</insert>
 	
 	<!-- 댓글 좋아요 체크값을 push로 변경 -->
