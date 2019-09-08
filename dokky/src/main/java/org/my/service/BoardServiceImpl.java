@@ -306,7 +306,7 @@ public class BoardServiceImpl implements BoardService {
 	@Transactional
 	@Override 
 	public String donateMoney(commonVO vo) {
-		
+		  
 		donateVO donateVO = vo.getDonateVO();
 		
 		log.info("updateMycash");
@@ -330,13 +330,17 @@ public class BoardServiceImpl implements BoardService {
 		log.info("getBoardMoney");
 		return mapper.getBoardMoney(donateVO);
 	}
-	
+	    
+	@Transactional
 	@Override
-	public boolean insertReportdata(reportVO vo) {
+	public boolean insertReportdata(commonVO vo) {//신고
 
 		log.info("insertReportdata");
 		
-		return mapper.insertReportdata(vo) == 1;
+		log.info("insertAlarm: ");
+		commonMapper.insertAlarm(vo.getAlarmVO());
+		
+		return mapper.insertReportdata(vo.getReportVO()) == 1;
 	}
 	
 	

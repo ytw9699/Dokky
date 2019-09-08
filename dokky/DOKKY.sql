@@ -264,7 +264,7 @@
 	 target VARCHAR2(50) NOT NULL,
 	 writerNick VARCHAR2(50) NOT NULL,
 	 writerId VARCHAR2(50) NOT NULL,
-	 kind VARCHAR2(10) NOT NULL,
+	 kind VARCHAR2(10) NOT NULL,--1~9
 	 commonVar1 VARCHAR2(200),
 	 commonVar2 VARCHAR2(200),
 	 regdate date default sysdate,

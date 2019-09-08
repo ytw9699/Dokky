@@ -54,7 +54,7 @@ public interface BoardService {
 
 	public String donateMoney(commonVO vo);
 
-	public boolean insertReportdata(reportVO vo);
+	public boolean insertReportdata(commonVO vo);
 
 	public List<BoardVO> getAllList(Criteria cri);
 

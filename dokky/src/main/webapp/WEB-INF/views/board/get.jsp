@@ -122,9 +122,9 @@
 		        <button id="scrap">스크랩 </button>
 		         
 		        <c:if test="${userInfo.username != board.userId}">
-		       		 <button id="reportBtn">신고</button> 
+		       		 <button id="openReport">신고</button> 
 		        </c:if>
-        	</sec:authorize>
+        	</sec:authorize> 
        	
        		<button id="list_button">목록보기 </button> 
 		</span> 
@@ -246,7 +246,7 @@
 	         	 <button id='submitReport' type="button" class="reportBtn">확인</button>
 	         </span>
 	         <span>  
-	         	 <button id='cancelReport' type="button" class="reportBtn">취소</button>
+	         	 <button id='closeReport' type="button" class="reportBtn">취소</button>
 	         </span>
          </div>
 </div>
@@ -259,6 +259,7 @@
 	//공통 변수 모음
 	var board_num = '${board.num}';
 	var board_id = '${board.userId}';
+	var board_nickName = '${board.nickName}';
 	var board_title = '${board.title}';
 	
 	<sec:authorize access="isAuthenticated()">   
@@ -702,6 +703,102 @@
 	});
 	
 //////////////////////////////////////////////////////////////기부 관련 끝
+
+///////////////////////////////////////////////////////신고 관련 시작,
+
+		var reportKind;  //신고 종류
+		var reportingId; //신고자 아이디
+		var reportingNick; //신고자 닉네임
+		var reportedId; //신고당한자 아이디
+		var reportedNick; //신고당한자 닉네임
+		var reportForm = $("#reportForm"); //신고폼
+		var reportBackGround = $("#reportBackGround");
+		var reportInput = $("#reportInput"); //신고사유Input
+		
+		function openReportForm(){//신고폼 열기 함수
+	   		
+	   	 	 reportBackGround.css("display","block");			
+	   		 reportForm.css("display","block");
+		} 
+	
+   		function closeReportForm(){//신고폼 닫기 함수
+			
+   			reportBackGround.css("display","none");
+   			reportForm.css("display","none");
+   			reportInput.val(""); 
+   		}  
+   		
+   		$("#closeReport").on("click",function(event){//신고폼 닫기 공통
+   			
+	 			closeReportForm(); 
+	 	});
+   		
+		$("#openReport").on("click",function(event){//게시글 신고폼 열기 버튼
+		   			
+				openReportForm();
+		 		reportKind =  "게시글"; 
+		 		reportedId = board_id;
+		  		reportedNick = board_nickName;
+		});	 
+			 	
+		$(".replyList").on("click",'button[data-oper="report"]', function(event){//댓글 신고폼 열기 버튼
+					
+				openReportForm();
+				reportKind = '댓글';
+				reportedId = $(this).data("reply_id");
+				reportedNick = $(this).data("reply_nickname");
+		});
+		
+	    $("#submitReport").on("click",function(event){//신고 확인 버튼 
+	    	  
+	    	 var reason = reportInput.val();
+	    	 
+	    	 reason = $.trim(reason);
+	    	 
+	    	 if(reason === "") {
+	    			alert("신고 사유 입력후 신고해주세요.");
+	    			reportInput.focus();
+		 			return;
+	    	 } 
+	    
+			 var reportData = {  
+								reportKind    : reportKind,
+				 			    reportingId   : myId, 
+				 				reportingNick : myNickName, 
+				 				reportedId    : reportedId, 
+				 				reportedNick  : reportedNick, 
+				 				board_num     : board_num, 
+				 				reason        : reason
+			 				  };
+			 
+			 var alarmData = { 
+								target		: 'admin',  
+								kind		: 9,
+								commonVar1:reason, 
+								writerNick	: myNickName,
+								writerId	: myId
+		            		 };
+				
+			 var commonData ={ 
+				 				reportVO  : reportData,
+				 				alarmVO   : alarmData
+							 };	
+	
+			 replyService.report(commonData, function(result){
+				 
+					 if(result == 'success'){
+						 alert("신고완료 되었습니다.");
+						 
+					 }else if(result == 'fail'){
+						 alert("신고되지 않았습니다. 관리자에게 문의주세요.");
+					 } 
+					 
+					 closeReportForm();  
+			 });
+	    });
+	 	
+///////////////////////////////////////////////////////신고 관련 끝
+
 	
 	var numValue = '<c:out value="${board.num}"/>';// 글번호
 	var replyList = $(".replyList");//댓글목록
@@ -784,7 +881,7 @@
 		    	   str += " <button data-oper='like' type='button' data-reply_content='"+reply_content+"' data-reply_id='"+userId+"' data-reply_num='"+reply_nums+"'>좋아요</button>" 
 			       +"<button data-oper='dislike' type='button' data-reply_content='"+reply_content+"' data-reply_id='"+userId+"' data-reply_num='"+reply_nums+"'>싫어요</button>"
 			       +"<button data-oper='donateMoney' type='button' data-reply_content='"+reply_content+"' data-reply_id='"+userId+"' data-reply_num='"+reply_nums+"'>기부</button>"
-			       +"<button data-oper='report' type='button' data-user_id='"+userId+"' data-nick_name='"+nickName+"'>신고</button>"
+			       +"<button data-oper='report' type='button' data-reply_id='"+userId+"' data-reply_nickname='"+nickName+"'>신고</button>"
 	         } 
 	    	     
 	    	  str +="</span><div class='reply_contentWrapper'><span class='reply_content'>"; 
@@ -828,7 +925,7 @@
 		    	 str += " <button data-oper='like' type='button' data-reply_content='"+reply_content+"' data-reply_id='"+userId+"' data-reply_num='"+reply_nums+"'>좋아요</button>" 
 			       +"<button data-oper='dislike' type='button' data-reply_content='"+reply_content+"' data-reply_id='"+userId+"' data-reply_num='"+reply_nums+"'>싫어요</button>"
 			       +"<button data-oper='donateMoney' type='button' data-reply_content='"+reply_content+"' data-reply_id='"+userId+"' data-reply_num='"+reply_nums+"'>기부</button>"
-			       +"<button data-oper='report' type='button' data-user_id='"+userId+"' data-nick_name='"+nickName+"'>신고</button>"
+			       +"<button data-oper='report' type='button' data-reply_id='"+userId+"' data-reply_nickname='"+nickName+"'>신고</button>"
 	         } 
 	    	  
 	    	  str +="</span><div class='reply_contentWrapper'><span class='reply_content'>"; 
@@ -873,7 +970,7 @@
 		    	 str += " <button data-oper='like' type='button' data-reply_content='"+reply_content+"' data-reply_id='"+userId+"' data-reply_num='"+reply_nums+"'>좋아요</button>" 
 			       +"<button data-oper='dislike' type='button' data-reply_content='"+reply_content+"' data-reply_id='"+userId+"' data-reply_num='"+reply_nums+"'>싫어요</button>"
 			       +"<button data-oper='donateMoney' type='button' data-reply_content='"+reply_content+"' data-reply_id='"+userId+"' data-reply_num='"+reply_nums+"'>기부</button>"
-			       +"<button data-oper='report' type='button' data-user_id='"+userId+"' data-nick_name='"+nickName+"'>신고</button>"
+			       +"<button data-oper='report' type='button' data-reply_id='"+userId+"' data-reply_nickname='"+nickName+"'>신고</button>"
 	         } 
 	    	  
 	    	  str +="</span><div class='reply_contentWrapper'><span class='reply_content'>"; 
@@ -918,7 +1015,7 @@
 			    	 str += " <button data-oper='like' type='button' data-reply_content='"+reply_content+"' data-reply_id='"+userId+"' data-reply_num='"+reply_nums+"'>좋아요</button>" 
 				       +"<button data-oper='dislike' type='button' data-reply_content='"+reply_content+"' data-reply_id='"+userId+"' data-reply_num='"+reply_nums+"'>싫어요</button>"
 				       +"<button data-oper='donateMoney' type='button' data-reply_content='"+reply_content+"' data-reply_id='"+userId+"' data-reply_num='"+reply_nums+"'>기부</button>"
-				       +"<button data-oper='report' type='button' data-user_id='"+userId+"' data-nick_name='"+nickName+"'>신고</button>"
+				       +"<button data-oper='report' type='button' data-reply_id='"+userId+"' data-reply_nickname='"+nickName+"'>신고</button>"
 		         } 
 		    	  
 		    	  str +="</span><div class='reply_contentWrapper'><span class='reply_content'>"; 
@@ -962,7 +1059,7 @@
 			    	  str += " <button data-oper='like' type='button' data-reply_content='"+reply_content+"' data-reply_id='"+userId+"' data-reply_num='"+reply_nums+"'>좋아요</button>" 
 				       +"<button data-oper='dislike' type='button' data-reply_content='"+reply_content+"' data-reply_id='"+userId+"' data-reply_num='"+reply_nums+"'>싫어요</button>"
 				       +"<button data-oper='donateMoney' type='button' data-reply_content='"+reply_content+"' data-reply_id='"+userId+"' data-reply_num='"+reply_nums+"'>기부</button>"
-				       +"<button data-oper='report' type='button' data-user_id='"+userId+"' data-nick_name='"+nickName+"'>신고</button>"
+				       +"<button data-oper='report' type='button' data-reply_id='"+userId+"' data-reply_nickname='"+nickName+"'>신고</button>"
 		         } 
 		    	     
 		    	  str +="</span><div class='reply_contentWrapper'><span class='reply_content'>";    
@@ -1228,111 +1325,8 @@
 		}
 	});//2. 이벤트 함수 끝 
 	
-	   	
-	 	 
-///////////////////////////////////////////////////////신고 관련 시작,  
-//신고 공통 함수 및 변수들 시작
-   		function cancelReport(){//신고폼 닫기 함수
-   			$("#reportBackGround").css("display","none"); 
-   		   
-    	 	$("#reportForm").css("display","none");
-    			
-    		$("#reportInput").val(""); 
-   		} 
-   		
-   		function reportBtn(){//신고폼 열기 함수
-	   		 var reportBackGround = $("#reportBackGround");
-	    	 	 reportBackGround.css("display","block");			
-		  
-	    	 var reportForm = $("#reportForm");  
-	    		 reportForm.css("display","block");
-   		} 
-   		
-		var reportKind;  //신고 종류
-		var reportingId; //신고자 아이디
-		var reportingNick; //신고자 닉네임
-		var reportedId; //신고당한자 아이디
-		var reportedNick; //신고당한자 닉네임
-		var board_num; //게시글 번호
-//신고 공통 함수 및 변수들 끝
-
-	 	$("#cancelReport").on("click",function(event){//신고폼 닫기,취소
-	 		cancelReport();
-	 	});
-	 	
-	 	$("#reportBtn").on("click",function(event){//게시글 신고폼 열기 버튼
-	 		reportBtn();
-	 	
-	 		<sec:authorize access="isAuthenticated()">   
-		  		   reportKind =  "게시글";  
-		  		   reportingId = '${userInfo.username}';//신고하는자
-		  		   reportingNick = '${userInfo.member.nickName}';
-		  		   reportedId = '${board.userId }';//신고당한자
-		  		   reportedNick = '${board.nickName }';
-		  		   board_num = '${board.num}';
-		 	</sec:authorize>
-	 	});	 
-			 	
-		$(".replyList").on("click",'button[data-oper="report"]', function(event){//댓글 신고폼 열기 버튼
-					
-					var loginCheck = "로그인후 신고 해주세요.";
-					var reportCheck = "자신의 댓글에는 신고 할 수 없습니다.";
-						reportedId = $(this).data("user_id");
-						reportedNick = $(this).data("nick_name");
-					
-					<sec:authorize access="isAuthenticated()">   
-						   reportKind = '댓글';
-						   reportingId = '${userInfo.username}';
-						   reportingNick = '${userInfo.member.nickName}';
-						   board_num = '${board.num}';
-					</sec:authorize>
-					
-					if(checkUser(reportedId, loginCheck, null, reportCheck)){
-						return;
-					} 
-					
-					reportBtn();
-		});
-	 	 
-	    $("#submitReport").on("click",function(event){//신고 확인 버튼 
-	    	 
-	    	 var reportInput = $("#reportInput");
-	    	 
-	    	 var reason = reportInput.val();
-	    	 
-	    	 reason = $.trim(reason);
-	    	 
-	    	 if(reason  === "") {
-	    			alert("신고 사유 입력후 신고해주세요.");
-	    			reportInput.focus();
-		 			return;
-	    	 } 
-	    	 
-	    
-			 var reportData = {  
-								reportKind  : reportKind,
-				 			    reportingId : reportingId, 
-				 				reportingNick : reportingNick, 
-				 				reportedId : reportedId, 
-				 				reportedNick : reportedNick, 
-				 				board_num : board_num, 
-				 				reason : reason
-			 };
-		
-			 replyService.report(reportData, function(result){
-				 if(result == 'success'){
-					 alert("신고완료 되었습니다.");
-				 }
-				 else if(result == 'fail'){
-					 alert("신고되지 않았습니다 관리자에게 문의주세요.");
-				 } 
-				 
-				 cancelReport();  
-			 });
-	    });
-	 	
-///////////////////////////////////////////////////////신고 관련 끝
-	 	 
+	
+	
 		
 	 	var pageNum = 1;
 	    var replyPage = $(".replyPage");

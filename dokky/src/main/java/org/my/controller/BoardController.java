@@ -277,7 +277,7 @@ public class BoardController {
 	
 	@PostMapping(value = "/report", consumes = "application/json", produces = "text/plain; charset=UTF-8")
 	@ResponseBody
-	public ResponseEntity<String> report(@RequestBody reportVO vo) {
+	public ResponseEntity<String> report(@RequestBody commonVO vo) {//신고
 		
 		log.info("/report");
 		

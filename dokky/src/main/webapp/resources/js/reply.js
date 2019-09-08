@@ -320,24 +320,24 @@ var replyService = (function() {
 		});
 	}
 	
-	function report(reportData, callback, error) {
-		//console.log("report........."); 
-		$.ajax({
-			type : 'post',
-			url : '/dokky/board/report',
-			data : JSON.stringify(reportData),
-			contentType : "application/json; charset=utf-8",
-			success : function(result, status, xhr) {
-				if (callback) { 
-					callback(result);
+	function report(commonData, callback, error) {
+		
+			$.ajax({
+				type : 'post',
+				url : '/dokky/board/report',
+				data : JSON.stringify(commonData),
+				contentType : "application/json; charset=utf-8",
+				success : function(result, status, xhr) {
+					if (callback) { 
+						callback(result);
+					}
+				},
+				error : function(xhr, status, er) {
+					if (error) {
+						error(er);
+					}
 				}
-			},
-			error : function(xhr, status, er) {
-				if (error) {
-					error(er);
-				}
-			}
-		})
+			})
 	}
 	
 	function postAlarm(alarmData, callback, error) {

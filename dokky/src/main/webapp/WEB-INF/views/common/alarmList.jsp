@@ -239,6 +239,30 @@
 					          		 </c:if>  
 			          		    </td>
 					       </c:when> 
+					       
+					          <c:when test="${alarm.kind == 9 }">
+				   				<td> 
+									<a href="#" class="userMenu" data-alarm_num="${alarm.alarmNum}">
+										<img src="/dokky/resources/img/profile_img/<c:out value="${alarm.writerId}" />.png"  class="memberImage hideUsermenu" onerror="this.src='/dokky/resources/img/basicProfile.png'" />
+										<c:out value="${alarm.writerNick}" /> 
+									</a>   
+									 <div id="userMenubar_${alarm.alarmNum}" class="userMenubar">
+										<ul class="hideUsermenu"> 
+											<li class="hideUsermenu"><a href="/dokky/userBoardList?userId=${alarm.writerId}" class="hideUsermenu"><span class="hideUsermenu">게시글보기</span></a></li>
+											<li class="hideUsermenu"><a href="#" class="hideUsermenu"><span class="hideUsermenu">쪽지보내기</span></a></li>
+										</ul>      
+								     </div> 
+								</td> 
+				          		<td> 
+				          			<a href="#" class="getUserReportList" data-alarm_num="${alarm.alarmNum}">다음 사유로 신고가 접수되었습니다. "${alarm.commonVar1}"</a>  
+					          	</td> 
+				          		 <td class="checkAlarm${alarm.alarmNum}"> 
+					          		 <c:if test="${alarm.checking == 'NO'}">
+											<span class="readCheck">1</span> 				          		 	
+					          		 </c:if> 
+				          		 </td>
+					       </c:when>
+					       
 			       </c:choose> 
 						<td> 
 							<fmt:formatDate value="${alarm.regdate}" pattern="yyyy년 MM월 dd일 HH:mm" />
@@ -377,7 +401,7 @@
 				});
 		
 		$(".getMyCashHistory").on("click",function(e) {//알람 읽기 체크+캐시 히스토리 가져오기
-			var alarmNum = $(this).data("alarm_num");  
+			var alarmNum = $(this).data("alarm_num");   
 			
 			updateAlarmCheck(alarmNum, function(result){//알람 읽기 체크
 				var checkAlarm = $("#checkAlarm+"+alarmNum);
@@ -388,6 +412,20 @@
 						commonForm.attr("action", "/dokky/mypage/myCashHistory");
 						commonForm.append("<input type='hidden' name='userId' value='"+userId+"'/>");
 						commonForm.submit();//글 상세보기 
+						}
+		   	  });
+		});
+		
+		$(".getUserReportList").on("click",function(e) {//알람 읽기 체크+신고리스트 가져오기
+			var alarmNum = $(this).data("alarm_num");  
+			
+			updateAlarmCheck(alarmNum, function(result){//알람 읽기 체크
+				var checkAlarm = $(".checkAlarm"+alarmNum);
+				
+					if(result == "success"){
+						checkAlarm.html(""); 
+						commonForm.attr("action", "/dokky/admin/userReportList");
+						commonForm.submit(); 
 						}
 		   	  });
 		});
