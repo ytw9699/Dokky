@@ -1,26 +1,23 @@
 var replyService = (function() {
 
-	function add(commonData, callback, error) {//reply를 객체,
-		//console.log("add reply..............."); 
-		$.ajax({
-			type : 'post',
-			url : '/dokky/replies/new',
-			data : JSON.stringify(commonData),//{"reply":"1","replyer":"1","num":"41"}
-			contentType : "application/json; charset=utf-8",
-			success : function(result, status, xhr) {
-				if (callback) { 
-					/*console.log(222);  
-					console.log(callback); 
-					console.log(111);*/
-					callback(result);
-				}
-			},
-			error : function(xhr, status, er) {
-				if (error) {
-					error(er);
-				}
-			}
-		})
+	function add(commonData, callback, error) {
+		
+			$.ajax({
+				type : 'post',
+				url : '/dokky/replies/new',
+				data : JSON.stringify(commonData),
+				contentType : "application/json; charset=utf-8",
+				success : function(result, status, xhr) {
+								if (callback) { 
+									callback(result);
+								}
+						  },
+				error : function(xhr, status, er) {
+							if (error) {
+								error(er);
+							}
+						}
+			})
 	}
 
 	function getList(param, callback, error) { 

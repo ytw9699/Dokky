@@ -43,8 +43,8 @@
 								     </div> 
 								</td> 
 					
-				          		<td>
-				          			<a href="#" class="getBoard" data-alarm_num="${alarm.alarmNum}" data-board_num="${alarm.commonVar2}">${alarm.commonVar1} 글에 댓글을 다셨습니다.</a>
+				          		<td> 
+				          			<a href="#" class="getBoard" data-alarm_num="${alarm.alarmNum}" data-board_num="${alarm.commonVar2}">다음 글에 댓글이 달렸습니다. "${alarm.commonVar1}"</a>
 					          	</td>
 					          	
 				          		 <td class="checkAlarm${alarm.alarmNum}"> 

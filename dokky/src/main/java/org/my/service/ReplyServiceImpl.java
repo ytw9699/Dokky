@@ -40,7 +40,7 @@ public class ReplyServiceImpl implements ReplyService {
 		ReplyVO replyVO = vo.getReplyVO();
 
 		log.info("updateReplyCnt......" + vo);
-		boardMapper.updateReplyCnt(replyVO.getNum(),1);
+		boardMapper.updateReplyCnt(replyVO.getBoard_num(), 1);
 		
 		log.info("insertAlarm: ");
 		commonMapper.insertAlarm(vo.getAlarmVO());
@@ -99,7 +99,7 @@ public class ReplyServiceImpl implements ReplyService {
 
 		ReplyVO vo = mapper.read(reply_num); 
 
-		boardMapper.updateReplyCnt(vo.getNum(), -1);
+		boardMapper.updateReplyCnt(vo.getBoard_num(), -1);
 		
 		return mapper.delete(reply_num);
 		

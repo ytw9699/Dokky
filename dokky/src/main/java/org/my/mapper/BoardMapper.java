@@ -24,7 +24,7 @@ public interface BoardMapper {
 
 	public int getTotalCount(Criteria cri);
 	
-	public void updateReplyCnt(@Param("num") Long num, @Param("amount") int amount);
+	public void updateReplyCnt(@Param("board_num") Long board_num, @Param("amount") int amount);
 
 	public int updateHitCnt(Long num);//조회수 증가
 

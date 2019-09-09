@@ -5,7 +5,7 @@ package org.my.domain;
 @Data
 public class ReplyVO {
 	  private Long reply_num;
-	  private Long num;
+	  private Long board_num;
 	  private String reply_content;
 	  private String nickName;
 	  private String userId;

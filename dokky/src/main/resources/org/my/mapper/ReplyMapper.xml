@@ -13,16 +13,16 @@
 								, parent_num
 								, order_step
 								, reply_level
-							)
-								values ( seq_dk_reply.nextval
-										, #{num}
-										, #{reply_content}
-										, #{nickName}
-										, #{userId}
-										, seq_dk_reply.currval
-										, 0
-										, 0
-									)
+							 )
+						values (  seq_dk_reply.nextval
+								, #{board_num}
+								, #{reply_content}
+								, #{nickName}
+								, #{userId}
+								, seq_dk_reply.currval
+								, 0
+								, 0
+								)
 	</insert>
 	
 	<insert id="reInsert">
