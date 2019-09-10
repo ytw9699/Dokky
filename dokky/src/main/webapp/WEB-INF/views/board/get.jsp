@@ -493,9 +493,9 @@
 	   					      + "</span>"
 	   					   
 	   					      + "<span>"
-	   							    +"<button data-oper='delete' type='button' data-user_id='"+userId+"' data-reply_num='"+reply_nums+"'>삭제</button>"
+	   							    +"<button data-oper='delete' type='button' data-reply_id='"+userId+"' data-reply_num='"+reply_nums+"'>삭제</button>"
 	  	   				      + "</span>"
-		             }  
+		             }    
 		        
 		          	 if(myId != userId){  
 		          		 
@@ -612,7 +612,7 @@
 						      	    + "</span>"
 							   
 						     	    + "<span>"
-								   		+ "<button data-oper='delete' type='button' data-user_id='"+userId+"' data-reply_num='"+reply_nums+"'>삭제</button>"
+								   		+ "<button data-oper='delete' type='button' data-reply_id='"+userId+"' data-reply_num='"+reply_nums+"'>삭제</button>"
 							        + "</span>"
 					  }  
 					    
@@ -1365,28 +1365,20 @@
 				}); 
 		  });
 	});// 1.이벤트 함수 끝
-///////////////////////////////////////////////////////
-	$(".replyList").on("click",'button[data-oper="delete"]', function(event){//2. 댓글 삭제 이벤트 설치
-		
-		var loginCheck = "로그인후 삭제가 가능합니다.";
-		var idCheck = "자신이 작성한 댓글만 삭제가 가능합니다.";
-		var user_id = $(this).data("user_id"); 
-		
-		if(checkUser(user_id,loginCheck,idCheck,null)){
-			return;
-		}
-		
-		if(func_confirm('정말 삭제 하시겠습니까?')){ 
-			var reply_num = $(this).data("reply_num");
-			//replyService.remove(reply_num,orginal_nickname, function(result){
-			replyService.remove(reply_num,user_id, function(result){
-		   	      //alert(result);
-		   	      showReplyList(pageNum);//삭제후 댓글 페이지 유지하면서 리스트 다시불름 
-	   	  }); 
-		}
-	});//2. 이벤트 함수 끝 
 	
-	    
+	///////////////////////////////////////////////////////
+	
+	$(".replyList").on("click",'button[data-oper="delete"]', function(event){//댓글 삭제
+		
+		if(func_confirm('정말 삭제 하시겠습니까?')){
+			
+				replyService.remove( $(this).data("reply_num"), $(this).data("reply_id"), board_num, function(result){
+					
+				  	      showReplyList(pageNum);//삭제후 댓글 페이지 유지하면서 리스트 다시 호출 
+				}); 
+		}
+	}); 
+				
    $(document).ready(function(){//첨부파일 즉시 함수
     	  
   	 (function(){//즉시실행함수

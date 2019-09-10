@@ -67,9 +67,9 @@ public class ReplyController {
 	public ResponseEntity<String> remove(@RequestBody ReplyVO vo, @PathVariable("reply_num") Long reply_num) {
 		
 		log.info("/replies/remove");
-		log.info("remove: " + reply_num); 
+		log.info("remove: " + reply_num);
 		
-		return service.remove(reply_num) == 1 
+		return service.remove(reply_num, vo.getBoard_num()) == 1 
 				? new ResponseEntity<>("success", HttpStatus.OK)
 				: new ResponseEntity<>(HttpStatus.INTERNAL_SERVER_ERROR);
 	}
@@ -85,7 +85,7 @@ public class ReplyController {
 	}*/
 	
 	
-	 @PreAuthorize("principal.username == #userId")  
+	/* @PreAuthorize("principal.username == #userId")  
 	 @PostMapping("/removeAll")//댓글 다중삭제
 		public String removeAll(@RequestParam("checkRow") String checkRow , @RequestParam("userId")String userId, Criteria cri) {
 
@@ -103,7 +103,7 @@ public class ReplyController {
 	 		service.remove(reply_num);
 	 	}
 	 return "redirect:/mypage/myReplylist?userId="+userId+"&pageNum="+cri.getPageNum()+"&amount="+cri.getAmount();
-	}
+	}*/
 	
 	@PreAuthorize("principal.username == #vo.userId")
 	@RequestMapping(method = { RequestMethod.PUT,RequestMethod.PATCH }, 

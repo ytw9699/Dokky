@@ -99,13 +99,11 @@ public class ReplyServiceImpl implements ReplyService {
 
     @Transactional
 	@Override 
-	public int remove(Long reply_num) {
+	public int remove(Long reply_num, Long board_num) {
 
 		log.info("remove...." + reply_num);
 
-		ReplyVO vo = mapper.read(reply_num); 
-
-		boardMapper.updateReplyCnt(vo.getBoard_num(), -1);
+		boardMapper.updateReplyCnt(board_num, -1);
 		
 		return mapper.delete(reply_num);
 		
