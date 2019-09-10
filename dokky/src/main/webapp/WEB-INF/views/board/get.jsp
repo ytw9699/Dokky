@@ -86,48 +86,51 @@
     
     <div class="contentInformation">
 		<span>
-			<label>좋아요</label> <span id="likeCount"><c:out value="${board.likeCnt }"/></span>
-	            <sec:authorize access="isAuthenticated()">
-			        <c:if test="${userInfo.username != board.userId}">
-			       		<button id="like" data-user_id="${board.userId}">좋아요</button>  
-			        </c:if>
-		        </sec:authorize>
-		</span> 
+			<button id="like">좋아요</button>
+		</span>
+		<span id="likeCount"> 
+			<c:out value="${board.likeCnt}"/>
+		</span>  
 		
-        <span>
-			<label>싫어요</label> <span id="dislikeCount"><c:out value="${board.dislikeCnt }"/></span>
-	         	<sec:authorize access="isAuthenticated()">
-			        <c:if test="${userInfo.username != board.userId}">
-			       	  <button id="dislike" data-user_id="${board.userId}">싫어요</button> 
-			        </c:if>
-		        </sec:authorize>
+		<span>
+			<button id="dislike">싫어요</button>
+		</span>
+		<span id="dislikeCount"> 
+			<c:out value="${board.dislikeCnt}"/>
 		</span> 
 		
 		<span>
-        	<label>기부금</label> <span id="boardMoney"><c:out value="${board.money}"/>\</span> 
-	          	<sec:authorize access="isAuthenticated()">
-			        <c:if test="${userInfo.username != board.userId}">
-			       	  <button id="donateMoney">기부</button> 
-			        </c:if>
-		        </sec:authorize>
+			 <button id="donateMoney">기부</button> 
+		</span>
+		<span id="boardMoney">
+			<c:out value="${board.money}"/>\
 		</span>
 		
-		<span>
-        	<sec:authorize access="isAuthenticated()">
-		        <c:if test="${userInfo.username eq board.userId}">
-		       		 <button id="modify_button">수정 </button> 
-					 <button id="remove_button">삭제 </button>
-		        </c:if>
-		        
-		        <button id="scrap">스크랩 </button>
-		         
-		        <c:if test="${userInfo.username != board.userId}">
-		       		 <button id="openReport">신고</button> 
-		        </c:if>
-        	</sec:authorize> 
+       	<sec:authorize access="isAuthenticated()">
+	        <c:if test="${userInfo.username eq board.userId}">
+	          <span>
+	       		 <button id="modify_button">수정 </button>
+	       	  </span>
+	       	  <span> 
+				 <button id="remove_button">삭제 </button>
+			  </span>
+	        </c:if>
+	        
+	          <span> 
+				 <button id="scrap">스크랩 </button>
+			  </span>
+	         
+	        <c:if test="${userInfo.username != board.userId}">
+	          <span>
+	       		 <button id="openReport">신고</button> 
+	       	  </span>
+	        </c:if>
+       	</sec:authorize> 
        	
-       		<button id="list_button">목록보기 </button> 
-		</span> 
+       	<span>
+     		 <button id="list_button">목록보기 </button>  
+   	    </span>
+       	
     </div> 
     
     <div id="replyCntVal">
@@ -261,10 +264,13 @@
 	var board_id = '${board.userId}';
 	var board_nickName = '${board.nickName}';
 	var board_title = '${board.title}';
+	var myId;
+	var myNickName;
+	var pageNum = 1;//댓글의 페이지 번호
 	
 	<sec:authorize access="isAuthenticated()">   
-		var myId = '${userInfo.username}';
-		var myNickName = '${userInfo.member.nickName}';
+				  myId = '${userInfo.username}';  
+		    myNickName = '${userInfo.member.nickName}';
 	</sec:authorize>
 	
 	var csrfHeaderName ="${_csrf.headerName}"; 
@@ -306,6 +312,32 @@
 			obj.focus();  
 	}
 	
+	function checkUser(input_id, loginCheck, idCheck, commonCheck){
+ 		
+ 		if(!myId){//로그인 여부 확인
+ 			 
+	  		  alert(loginCheck);
+	  		  return true; 
+	  	 } 
+		
+		/* if(idCheck){
+			
+			if(input_id  != myId){
+		 		  alert(idCheck);
+		 		  return true; 
+		 	 }
+		} */
+		
+		if(commonCheck){//좋아요,싫어요,기부금 체크
+			
+			if(input_id == myId){
+				
+		 		  alert(commonCheck);
+		 		  return true; 
+		 	 }
+		}
+ 	}
+	
 	function numberWithComma(This) {//기부금 숫자입력시 콤마처리함수          
 		
 	 	    This.value = This.value.replace(/[^0-9]/g,'');//입력값에 숫자가 아닌곳은 모두 공백처리 
@@ -324,8 +356,8 @@
 	
 	/////////////////////////////////////////////////////// 댓글 리스트 관련 시작
 
-	function showReplyList(page){//댓글 리스트 가져오기 
-		 
+	function showReplyList(page){//댓글 리스트 가져오기
+		
 	    replyService.getList({num:board_num, page: page || 1 }, function(data) {
 	    	
 	    	var replyList = $(".replyList");//댓글리스트 ul  
@@ -368,7 +400,7 @@
 		    	 	 return;  
 		    	 	 
 			}else{//댓글이 있다면
-				
+					console.log(replyCnt);
 					 showReplyPage(replyCnt);//댓글 페이지 번호 보여주기 
 			     
 			         replyCntVal.css("display","block"); 
@@ -612,6 +644,72 @@
 
 	/////////////////////////////////////////////////////////
 	
+	var replyPage = $(".replyPage");
+	    
+    function showReplyPage(replyCnt){//댓글 페이지 함수
+    	
+    	  if(replyCnt == 0){//댓글삭제후 댓글이 하나도없다면
+    		  
+	    		replyPage.html(""); 
+	    		replyPage.css("display","none");
+	    		return;
+    	  }
+    		  
+	      var endNum = Math.ceil(pageNum / 10.0) * 10; 
+	      var startNum = endNum - 9;
+	      var prev = startNum != 1; 
+	      var next = false; 
+      
+	      if(endNum * 10 >= replyCnt){
+	    	  
+	        	endNum = Math.ceil(replyCnt/10.0);
+	       					 /* 10.0은 보여줄 댓글의 갯수 */
+	      }
+	      
+	      if(endNum * 10 < replyCnt){
+	    	  
+	        	next = true;
+	      }
+	      
+	  	  var str = "<ul>";  
+	      	
+	      if(prev){ 
+	    	  
+	        	str+= "<li class='page-item'><a class='page-link' href='"+(startNum -1)+"'>Previous</a></li>";
+	      }
+	      
+	      for(var i = startNum ; i <= endNum; i++){
+	        
+		        var active = pageNum == i? "active":"";
+		          
+		        str+= "<li class='page-item "+active+" '><a class='page-link' href='"+i+"'> " +i+ " </a></li>"; 
+	      }
+	      
+	      if(next){
+	        str+= "<li class='page-item'><a class='page-link' href='"+(endNum + 1)+"'>Next</a></li>";
+	      }
+	      
+      	  str += "</ul>";    
+	      
+	      replyPage.html(str);
+	      replyPage.css("display","block");
+    }
+    
+	/////////////////////////////////////////////////////////
+	     
+    replyPage.on("click","li a", function(e){//댓글의 페이지 번호 클릭시
+    	
+	       e.preventDefault();
+	       
+	       var targetPageNum = $(this).attr("href");
+	       
+	       pageNum = targetPageNum;
+	        
+	       showReplyList(pageNum);
+    });   
+	    
+	/////////////////////////////////////////////////////////
+	
 	var operForm = $("#operForm"); 
 	
 	$("#list_button").on("click", function(e){//목록보기
@@ -663,12 +761,12 @@
 
 	$("#like").on("click",function(event){//게시글 좋아요
 		
-		/* var loginCheck = "로그인후 좋아요를 눌러주세요.";
+		var loginCheck = "로그인후 좋아요를 눌러주세요.";
 		var likeCheck = "자신의 글에는 좋아요를 할 수 없습니다.";
-		
-		if(checkUser(board_id,loginCheck,null,likeCheck)){
-			return;  
-		} */ 
+		 
+		if(checkUser(board_id, loginCheck, null, likeCheck)){ 
+			return;
+		} 
 		
 		var likeData = {
 							board_num:board_num,
@@ -700,14 +798,13 @@
 	/////////////////////////////////////////////////////////
 
 	$("#dislike").on("click",function(event){//게시글 싫어요
+		  
+		var loginCheck = "로그인후 싫어요를 눌러주세요.";
+		var dislikeCheck = "자신의 글에는 싫어요를 할 수 없습니다.";
 		 
-		/* var loginCheck = "로그인후 싫어요를 눌러주세요.";
-		var likeCheck = "자신의 글에는 싫어요를 할 수 없습니다.";
-		var user_id = $(this).data("user_id");
-		
-		if(checkUser(user_id,loginCheck,null,likeCheck)){
-			return; 
-		} */
+		if(checkUser(board_id, loginCheck, null, dislikeCheck)){ 
+			return;
+		} 
 		
 		var dislikeData = {   
 							 board_num:board_num,
@@ -723,10 +820,10 @@
 							  writerId:myId
 	          			};
 		
-		var commonData ={ 
+		var commonData = { 
 						    boardDisLikeVO : dislikeData,
 						 	alarmVO        : alarmData
-			 			}
+			 			 }
 		
 		replyService.updateDisLike(commonData, function(result){
 		   	 
@@ -739,17 +836,16 @@
 	///////////////////////////////////////////////////////
 	
 	$(".replyList").on("click",'button[data-oper="like"]', function(event){//댓글 좋아요
-		
-			/* var loginCheck = "로그인후 좋아요를 눌러주세요.";
-			var likeCheck = "자신의 댓글에는 좋아요를 할 수 없습니다.";
-			
-			if(checkUser(user_id,loginCheck,null,likeCheck)){ 
-				return;
-			} */
 			
 			var reply_id = $(this).data("reply_id");
 			var reply_num = $(this).data("reply_num");
 			var reply_content = $(this).data("reply_content");
+			var loginCheck = "로그인후 좋아요를 눌러주세요.";
+			var likeCheck = "자신의 댓글에는 좋아요를 할 수 없습니다.";
+			 
+			if(checkUser(reply_id, loginCheck, null, likeCheck)){ 
+				return;
+			}
 			
 			var likeData = {
 							 reply_num:reply_num,
@@ -781,16 +877,15 @@
 	
 	$(".replyList").on("click",'button[data-oper="dislike"]', function(event){//댓글 싫어요
 		
-			/* var loginCheck = "로그인후 싫어요를 눌러주세요.";
-			var likeCheck = "자신의 댓글에는 싫어요를 할 수 없습니다."; 
-			
-			if(checkUser(user_id,loginCheck,null,likeCheck)){
-				return;
-			}*/
-			
 			var reply_id = $(this).data("reply_id");
 			var reply_num = $(this).data("reply_num");
 			var reply_content = $(this).data("reply_content");
+			var loginCheck = "로그인후 싫어요를 눌러주세요.";
+			var dislikeCheck = "자신의 댓글에는 싫어요를 할 수 없습니다.";
+			 
+			if(checkUser(reply_id, loginCheck, null, dislikeCheck)){ 
+				return;
+			} 
 			
 			var dislikeData = {
 								 reply_num:reply_num,
@@ -853,13 +948,12 @@
 	
 	$("#donateMoney").on("click",function(event){//게시글 기부 모달폼 열기
 		
-		/* var loginCheck = "로그인후 기부를 해주세요.";
-		var giveCheck = "자신에게는 기부를 할 수 없습니다.";
-			donatedId = $(this).data("user_id");
+		var loginCheck = "로그인후 기부를 해주세요.";
+		var giveCheck = "자신의 글에는 기부를 할 수 없습니다.";
 	
-		if(checkUser(donatedId, loginCheck, null, giveCheck)){ 
-			return;
-		} */
+		if(checkUser(board_id, loginCheck, null, giveCheck)){ 
+			return;  
+		}
 		
 		replyService.getUserCash(myId, function(result){//나의 잔여 캐시 가져오기
 				
@@ -878,21 +972,19 @@
 	
 	$(".replyList").on("click",'button[data-oper="donateMoney"]', function(event){//댓글 기부 모달폼 열기
 		
-		/* var loginCheck = "로그인후 기부를 해주세요.";
-		var giveCheck = "자신의 댓글에는 기부를 할 수 없습니다.";
-		
-		
-		if(checkUser(donatedId, loginCheck, null, giveCheck)){
+		donate_reply_id 	  =  $(this).data("reply_id"); 
+		donate_reply_num 	  =  $(this).data("reply_num");
+		donate_reply_content  =  $(this).data("reply_content");
+		var loginCheck 		  =  "로그인후 기부를 해주세요.";
+		var giveCheck 		  =  "자신의 댓글에는 기부를 할 수 없습니다.";
+		 
+		if(checkUser(donate_reply_id, loginCheck, null, giveCheck)){ 
 			return;
-		} */ 
-		
-		donate_reply_id = $(this).data("reply_id");
-		donate_reply_num = $(this).data("reply_num");
-		donate_reply_content = $(this).data("reply_content");
+		} 
 		
 		replyService.getUserCash(myId, function(result){
 				
-				option = 'reply';
+				option = 'reply'; 
 				myCash = parseInt(result); 
 				
 				result = result.replace(/[^0-9]/g,''); 
@@ -1202,27 +1294,6 @@
 	 	var isReplaceTag = false;//더미 <div>가 댓글 수정폼으로 교체되었는지 체크여부
 	 	var replyModFormId ;//현재 댓글 수정폼의 아이디
 	     
-	 	function checkUser(user_id,loginCheck,idCheck,likeCheck){
-	 		
-	 		if(!username){//로그인 체크
-		  		  alert(loginCheck);
-		  		  return true; 
-		  	 } 
-			
-			if(idCheck){
-				if(user_id  != username){
-			 		  alert(idCheck);
-			 		  return true; 
-			 	 }
-			}
-			//alert(username); 
-			if(likeCheck){//좋아요,싫어요,기부금 체크
-				if(user_id  == username){
-			 		  alert(likeCheck);
-			 		  return true; 
-			 	 }
-			}
-	 	}
 	 	
 	$(".replyList").on("click",'button[data-oper="modify"]', function(event){//1. 댓글목록의 수정버튼 이벤트,댓글 데이터 한줄 가져오기
 		var loginCheck = "로그인후 수정이 가능합니다.";
@@ -1317,70 +1388,6 @@
 		}
 	});//2. 이벤트 함수 끝 
 	
-	
-	
-		
-	 	var pageNum = 1;
-	    var replyPage = $(".replyPage");
-	    
-    function showReplyPage(replyCnt){//댓글 페이지 함수
-    	if(replyCnt == 0){//댓글삭제후 댓글이 하나도없다면
-    		replyPage.html(""); 
-    		replyPage.css("display","none");
-    		return;
-    	}
-    
-      var endNum = Math.ceil(pageNum / 10.0) * 10; 
-      /* Math.ceil() : 소수점 이하를 올림한다. */ 
-      var startNum = endNum - 9;
-      var prev = startNum != 1; 
-      var next = false; 
-      
-	      if(endNum * 10 >= replyCnt){
-	        endNum = Math.ceil(replyCnt/10.0);
-	       					 /* 10.0은 보여줄 댓글의 갯수 */
-	      }
-	      if(endNum * 10 < replyCnt){
-	        next = true;
-	      }
-	      
-	  var str = "<ul>";  
-	      	
-	      if(prev){ 
-	    	  
-	        	str+= "<li class='page-item'><a class='page-link' href='"+(startNum -1)+"'>Previous</a></li>";
-	      }
-	      
-	      for(var i = startNum ; i <= endNum; i++){
-	        
-		        var active = pageNum == i? "active":"";
-		          
-		        str+= "<li class='page-item "+active+" '><a class='page-link' href='"+i+"'> " +i+ " </a></li>"; 
-	      }
-	      
-	      if(next){
-	        str+= "<li class='page-item'><a class='page-link' href='"+(endNum + 1)+"'>Next</a></li>";
-	      }
-	      
-      str += "</ul></div>";
-      
-      //console.log(str);
-      
-      replyPage.html(str);
-      replyPage.css("display","block");
-    }
-	     
-	    replyPage.on("click","li a", function(e){//4. 페이지 링크 클릭시 이벤트
-		       e.preventDefault();
-		       
-		       var targetPageNum = $(this).attr("href");
-		       
-		       //console.log("targetPageNum: " + targetPageNum);
-		       
-		        pageNum = targetPageNum;
-		        
-		       showReplyList(pageNum);
-	     });    
 	    
    $(document).ready(function(){//첨부파일 즉시 함수
     	  
