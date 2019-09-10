@@ -44,7 +44,7 @@
 								</td> 
 					
 				          		<td> 
-				          			<a href="#" class="getBoard" data-alarm_num="${alarm.alarmNum}" data-board_num="${alarm.commonVar2}">다음 글에 댓글이 달렸습니다. "${alarm.commonVar1}"</a>
+				          			<a href="#" class="getBoard" data-alarm_num="${alarm.alarmNum}" data-board_num="${alarm.commonVar2}">댓글이 달렸습니다. "${alarm.commonVar1}"</a>
 					          	</td>
 					          	
 				          		 <td class="checkAlarm${alarm.alarmNum}"> 

@@ -163,14 +163,9 @@
 
 <!-- START 숨겨진 DIV들 -->
 
-<div class='bigPictureWrapper'><!-- 사진클릭시 -->
-	 <div class='bigPicture'>
-	 </div>
-</div>
-
-<div class="reReplyWriteForm"><!--  대댓글 쓰기 폼 -->
+<div class="reReplyWriteForm"><!--  대댓글 쓰기 폼 --> 
 		<div class="textareaWrapper">  
-			<textarea id="reReply_contents" rows="3" name='reReply_content' oninput="checkLength(this,700);"></textarea>
+			<textarea id="reReply_contents" rows="3" placeholder="답글을 입력하세요." name='reReply_content' oninput="checkLength(this,700);"></textarea>
 		</div> 
 		       
 		<div class="reReplyBtnWrapper">  	 
@@ -192,6 +187,11 @@
 			<button id='replyModFormCloseBtn' class="replyModFormBtn" type="button" >취소</button>
 		</div> 
 </div>  
+
+<div class='bigPictureWrapper'><!-- 사진클릭시 -->
+	 <div class='bigPicture'>
+	 </div>
+</div>
 
 <div> 
 	<form id='operForm' action="/dokky/board/modify" method="get">
@@ -460,7 +460,7 @@
 				  
 					  if(myId){ 
 						  str += "<span>" 
-							   		+ "<button data-oper='reReplyForm' type='button' data-reply_num='"+reply_nums+"' data-user_id='"+userId+"' data-nick_name='"+nickName+"' data-parent_num='"+ parent_num+"' data-order_step='"+order_step+"' data-reply_level='"+reply_level+"'>답글</button>" 
+							   		+ "<button data-oper='reReplyForm' type='button' data-reply_num='"+reply_nums+"' data-reply_id='"+userId+"' data-nick_name='"+nickName+"' data-parent_num='"+ parent_num+"' data-order_step='"+order_step+"' data-reply_level='"+reply_level+"'>답글</button>" 
 						       + "</span>"; 
 					  }
 		    	  
@@ -579,7 +579,7 @@
 				
 				  	  if(myId){ 
 						  str += "<span>" 
-							   		+ "<button data-oper='reReplyForm' type='button' data-reply_num='"+reply_nums+"' data-user_id='"+userId+"' data-nick_name='"+nickName+"' data-parent_num='"+ parent_num+"' data-order_step='"+order_step+"' data-reply_level='"+reply_level+"'>답글</button>" 
+							   		+ "<button data-oper='reReplyForm' type='button' data-reply_num='"+reply_nums+"' data-reply_id='"+userId+"' data-nick_name='"+nickName+"' data-parent_num='"+ parent_num+"' data-order_step='"+order_step+"' data-reply_level='"+reply_level+"'>답글</button>" 
 						       + "</span>"; 
 				  	  }
 					      
@@ -997,7 +997,7 @@
    	
 	});
 
-	$("#modalSubmitBtn").on("click",function(event){//게시글 or 댓글 기부 하기 완료 버튼    
+	$("#modalSubmitBtn").on("click",function(event){ //게시글 or 댓글 기부 하기 완료 버튼    
 		
 		inputMoney = parseInt(donateModal.find("input[name='realGiveCash']").val());  
 	
@@ -1085,208 +1085,206 @@
 	
 	///////////////////////////////////////////////////////신고 관련 시작,
 
-		var reportKind;  //신고 종류
-		var reportingId; //신고자 아이디
-		var reportingNick; //신고자 닉네임
-		var reportedId; //신고당한자 아이디 
-		var reportedNick; //신고당한자 닉네임
-		var reportForm = $("#reportForm"); //신고폼
-		var reportBackGround = $("#reportBackGround");
-		var reportInput = $("#reportInput"); //신고사유Input
+	var reportKind;  //신고 종류
+	var reportingId; //신고자 아이디
+	var reportingNick; //신고자 닉네임
+	var reportedId; //신고당한자 아이디 
+	var reportedNick; //신고당한자 닉네임
+	var reportForm = $("#reportForm"); //신고폼
+	var reportBackGround = $("#reportBackGround");
+	var reportInput = $("#reportInput"); //신고사유Input
 		
-		function openReportForm(){//신고폼 열기 함수
-	   		
-	   	 	 reportBackGround.css("display","block");			
-	   		 reportForm.css("display","block");
-		} 
-	
-   		function closeReportForm(){//신고폼 닫기 함수
-			
-   			reportBackGround.css("display","none");
-   			reportForm.css("display","none");
-   			reportInput.val(""); 
-   		}  
+	function openReportForm(){//신고폼 열기 함수
    		
-   		$("#closeReport").on("click",function(event){//신고폼 닫기 공통
-   			
-	 			closeReportForm(); 
-	 	});
-   		
-		$("#openReport").on("click",function(event){//게시글 신고폼 열기 버튼
-		   			
-				openReportForm();
-		 		reportKind =  "게시글"; 
-		 		reportedId = board_id;
-		  		reportedNick = board_nickName;
-		});	 
-			 	
-		$(".replyList").on("click",'button[data-oper="report"]', function(event){//댓글 신고폼 열기 버튼
-					
-				openReportForm();
-				reportKind = '댓글';
-				reportedId = $(this).data("reply_id");
-				reportedNick = $(this).data("reply_nickname");
-		});
-		
-	    $("#submitReport").on("click",function(event){//신고 확인 버튼 
-	    	  
-	    	 var reason = reportInput.val();
-	    	 
-	    	 reason = $.trim(reason);
-	    	 
-	    	 if(reason === "") {
-	    			alert("신고 사유 입력후 신고해주세요.");
-	    			reportInput.focus();
-		 			return;
-	    	 } 
-	    
-			 var reportData = {  
-								reportKind    : reportKind,
-				 			    reportingId   : myId, 
-				 				reportingNick : myNickName, 
-				 				reportedId    : reportedId, 
-				 				reportedNick  : reportedNick, 
-				 				board_num     : board_num, 
-				 				reason        : reason
-			 				  };
-			 
-			 var alarmData = { 
-								target		: 'admin',  
-								kind		: 9,
-								commonVar1:reason, 
-								writerNick	: myNickName,
-								writerId	: myId
-		            		 };
-				
-			 var commonData ={ 
-				 				reportVO  : reportData,
-				 				alarmVO   : alarmData
-							 };	
-	
-			 replyService.report(commonData, function(result){
-				 
-					 if(result == 'success'){
-						 alert("신고완료 되었습니다.");
-						 
-					 }else if(result == 'fail'){
-						 alert("신고되지 않았습니다. 관리자에게 문의주세요.");
-					 } 
-					 
-					 closeReportForm();  
-			 });
-	    });
-	 	
-	/////////////////////////////////////////////////////////
-		 var replyRegisterBtn = $("#replyRegisterBtn");//댓글 등록 버튼
-		 var reply_contents = $("#reply_contents");//기본 댓글 textarea
-		 
-		 var reReplyRegisterBtn = $("#reReplyRegisterBtn");//대댓글 등록 버튼
-		 var reReplyCancelBtn = $("#reReplyCancelBtn");//대댓글 등록 취소 버튼
-		 var reReplyWriteForm = $(".reReplyWriteForm");
-		 var parent_num;    
-		 var order_step;  
-	     var reply_level; 
-	     var toUserId;
-	     var toNickName;
+   	 	 reportBackGround.css("display","block");			
+   		 reportForm.css("display","block");
+	} 
 
-		 replyRegisterBtn.on("click",function(e){//댓글 등록 
+  		function closeReportForm(){//신고폼 닫기 함수
+		
+  			reportBackGround.css("display","none");
+  			reportForm.css("display","none");
+  			reportInput.val(""); 
+  		}  
+  		
+  		$("#closeReport").on("click",function(event){//신고폼 닫기 공통
+  			
+ 			closeReportForm(); 
+ 	});
+  		
+	$("#openReport").on("click",function(event){//게시글 신고폼 열기 버튼
+	   			
+			openReportForm();
+	 		reportKind =  "게시글"; 
+	 		reportedId = board_id;
+	  		reportedNick = board_nickName;
+	});	 
+		 	
+	$(".replyList").on("click",'button[data-oper="report"]', function(event){//댓글 신고폼 열기 버튼
 				
-				var reply = {
-					    		reply_content : reply_contents.val(), //댓글 내용
-					    			   userId : myId,				  //댓글 작성자 아이디
-					    			 nickName : myNickName, 	      //댓글 작성자 닉네임
-					    			 board_num : board_num 			  //글번호 
-				            };
-				  
-				var alarmData = {
-										target  :  board_id,
-									commonVar1  :  board_title,
-									commonVar2  :  board_num,
-										  kind  :  0,
-									writerNick  :  myNickName,
-									writerId    :  myId
-					             };
-				 
-				var commonData = { 
-									replyVO:reply,
-									alarmVO:alarmData
-							 	 };
-							      
-				replyService.add(commonData, function(result){
-		        
-				        reply_contents.val("");
-				        
-				        showReplyList(-1);//댓글 목록 마지막 페이지 보여주기
-				}); 
-	     });
-		 
-	/////////////////////////////////////////////////////////댓글에 댓글
+			openReportForm();
+			reportKind = '댓글';
+			reportedId = $(this).data("reply_id");
+			reportedNick = $(this).data("reply_nickname");
+	});
 	
-	$(".replyList").on("click",'button[data-oper="reReplyForm"]', function(event){//0. 대댓글 폼 버튼
+    $("#submitReport").on("click",function(event){//신고 확인 버튼 
+    	  
+    	 var reason = reportInput.val();
+    	 
+    	 reason = $.trim(reason);
+    	 
+    	 if(reason === "") {
+    			alert("신고 사유 입력후 신고해주세요.");
+    			reportInput.focus();
+	 			return;
+    	 } 
+    
+		 var reportData = {  
+							reportKind    : reportKind,
+			 			    reportingId   : myId, 
+			 				reportingNick : myNickName, 
+			 				reportedId    : reportedId, 
+			 				reportedNick  : reportedNick, 
+			 				board_num     : board_num, 
+			 				reason        : reason
+		 				  };
+		 
+		 var alarmData = { 
+							target		: 'admin',  
+							kind		: 9,
+							commonVar1:reason, 
+							writerNick	: myNickName,
+							writerId	: myId
+	            		 };
+			
+		 var commonData ={ 
+			 				reportVO  : reportData,
+			 				alarmVO   : alarmData
+						 };	
+
+		 replyService.report(commonData, function(result){
+			 
+				 if(result == 'success'){
+					 alert("신고완료 되었습니다.");
+					 
+				 }else if(result == 'fail'){
+					 alert("신고되지 않았습니다. 관리자에게 문의주세요.");
+				 } 
+				 
+				 closeReportForm();  
+		 });
+    });
+	 	
+	///////////////////////////////////////////////////////// 
+	$("#replyRegisterBtn").on("click",function(e){//댓글 등록 버튼 
+			
+		 	var reply_contents = $("#reply_contents");//기본 댓글 textarea
+		 
+			var reply = {
+				    		reply_content : reply_contents.val(), //댓글 내용
+				    			   userId : myId,				  //댓글 작성자 아이디
+				    			 nickName : myNickName, 	      //댓글 작성자 닉네임
+				    			 board_num : board_num 			  //글번호 
+			            };
+			  
+			var alarmData = {
+									target  :  board_id,
+								commonVar1  :  reply_contents.val(),
+								commonVar2  :  board_num,
+									  kind  :  0,
+								writerNick  :  myNickName,
+								writerId    :  myId
+				             };
+			 
+			var commonData = { 
+								replyVO:reply,
+								alarmVO:alarmData
+						 	 };
+						      
+			replyService.add(commonData, function(result){
+	        
+			        reply_contents.val("");
+			        
+			        showReplyList(-1);//다시 댓글 목록 마지막 페이지 보여주기
+			}); 
+    });
+		 
+	/////////////////////////////////////////////////////////대댓글
+	
+	var reReplyWriteForm = $(".reReplyWriteForm");
+	
+	var parent_num;//댓글 묶음 번호  
+	var order_step;//댓글 출력순서
+    var reply_level;//댓글 깊이= 루트글인지,답변글인지,답변에 답변글인지
+    var toUserId;//대댓글 알림 보낼 사람의 아이디
+    var toNickName;//대댓글 알림 보낼 사람의 닉네임
+    
+	
+	$(".replyList").on("click",'button[data-oper="reReplyForm"]', function(event){//대댓글 폼 열기
 			   
 			var reply_num = $(this).data("reply_num");
 			 
 			reReplyWriteForm.css("display","block");  
 			
-			$("#"+reply_num).after(reReplyWriteForm);       
+			$("#"+reply_num).after(reReplyWriteForm);//해당 댓글 li의 뒤에다가 대댓글폼 버튼 붙이기       
 		  
 			parent_num = $(this).data("parent_num");  
 			order_step = $(this).data("order_step");  
 			reply_level = $(this).data("reply_level");  
-			toUserId = $(this).data("user_id");  
+			toUserId = $(this).data("reply_id");  
 			toNickName = $(this).data("nick_name");  
-			
     });
 	
-	reReplyRegisterBtn.on("click",function(e){// 0. 대댓글 등록 버튼
+	$("#reReplyRegisterBtn").on("click",function(e){//대댓글 등록 버튼
 		
-		      var reReply_contents = $("#reReply_contents");//댓글 내용
+		      var reReply_contents = $("#reReply_contents");
 		
-	          var reply = {
-		    		reply_content:reReply_contents.val(), //댓글 내용
-		    		userId:reply_id,//댓글 작성자 아이디
-		    		nickName:reply_nickName, //작성자 닉네임
-		            toUserId:toUserId,//to 아이디
-		            toNickName:toNickName, //to 닉네임
-		            num:board_num, //글번호 
-		            parent_num:parent_num,
-		            order_step:order_step,
-		            reply_level:reply_level
-	       	  };
-		  
+	          var reply = { 
+				    		reply_content  :	reReply_contents.val(), //대댓글 내용
+				    		userId		   :	myId,//댓글 작성자 아이디
+				    		nickName	   :	myNickName, //댓글 작성자 닉네임
+				            toUserId	   :	toUserId,
+				            toNickName	   :	toNickName,
+				            board_num	   :	board_num,
+				            parent_num	   :	parent_num,
+				            order_step	   :	order_step,
+				            reply_level	   :	reply_level
+			       	     };
+				  
 			  var alarmData = {
-						target:toUserId,
-						commonVar1:board_title,
-						commonVar2:board_num,
-						kind:0,	
-						writerNick:reply_nickName,
-						writerId:reply_id
-			  };
+								 target		: toUserId,
+								 commonVar1 : reReply_contents.val(),
+								 commonVar2 : board_num,
+								 kind		: 0,	
+								 writerNick : myNickName,
+								 writerId	: myId
+							  };
 		 
-			  var commonData ={ 
-					replyVO:reply, 
-					alarmVO:alarmData
-		 	  }
-	     	  replyService.add(commonData, function(result){//대댓글 등록
+			  var commonData =	{ 
+									replyVO : reply, 
+									alarmVO : alarmData
+					 	  		}
+			  
+	     	  replyService.add(commonData, function(result){
 	        	    
 	     			reReplyWriteForm.css("display","none"); 
 	     	 
-	     			reReply_contents.val("");//대댓글등록후 폼 비우기 
+	     			reReply_contents.val("");//대댓글 내용  비우기 
 	     			
-	     			$(".replyWriteForm").after(reReplyWriteForm);//폼이 삭제되버리기전에 다시 붙여두기 
+	     			$(".replyWriteForm").after(reReplyWriteForm);//댓글 리스트가 리셋되면 폼이 사라지니까 다시 붙여두기 
 			         
 			        showReplyList(-1);//댓글 목록 마지막 페이지 보여주기
 		     }); 
-   });
+    });
 	
-   reReplyCancelBtn.on("click",function(e){ 
+	
+	$("#reReplyCancelBtn").on("click",function(e){ //대댓글 등록 취소 버튼
 		
-		var reReply_contents = $("#reReply_contents");
-		
-			reReplyWriteForm.css("display","none"); 
-	    	 
-			reReply_contents.val("");
-   });
+		reReplyWriteForm.css("display","none");
+	
+		$("#reReply_contents").val(""); 
+    });
 	
 	/////////////////////////////////////////////////////////이하는 댓글 수정,삭제,수정후 취소
 	

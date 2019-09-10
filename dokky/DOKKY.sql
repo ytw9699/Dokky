@@ -45,11 +45,12 @@
 		likeCnt number(10,0) default 0,
 		dislikeCnt number(10,0) default 0,
 		money number(10,0) default 0,
-		parent_num number(10,0) not null,--댓글 묶음 번호
-		order_step number(10,0) not null,--댓글 출력순서
-		reply_level number(10,0) not null,--댓글 깊이= 루트글인지,답변글인지,답변에 답변글인지
+		parent_num number(10,0) not null,--댓글 묶음 번호 , 그룹을 이루는 번호
+		order_step number(10,0) not null,--댓글 출력 순서
+		reply_level number(10,0) not null,--댓글 깊이 depth = 루트글인지,답변글인지,답변에 답변글인지..답변에 답변에 답변인지 쭉~
 		delete_check varchar2(10) default 'possible'
 	);
+	
 	alter table DK_REPLY add constraint pk_reply primary key (reply_num);
 	
 	alter table DK_REPLY add constraint fk_reply_board foreign key (num) references DK_BOARD (num) on delete cascade;--on delete cascade는 자식테이블을 같이 삭제시켜줌
