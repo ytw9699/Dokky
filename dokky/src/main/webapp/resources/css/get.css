@@ -452,7 +452,7 @@
 	}
 	 
 	.replyBtnWrapper {
-	     border-style: solid;
+	    border-style: solid;
 	    border-width: 1px;
 	    border-color: #e6e6e6;
 	    width: 5%;
@@ -489,5 +489,8 @@
      .replyModFormBtn{
     	width: 47%;
 	    height: 53px;
+	}
+	.replyModForm{
+		display: none; 
 	}
 	

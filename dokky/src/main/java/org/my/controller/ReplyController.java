@@ -74,18 +74,7 @@ public class ReplyController {
 				: new ResponseEntity<>(HttpStatus.INTERNAL_SERVER_ERROR);
 	}
 	
-	/*@DeleteMapping(value = "/{reply_num}", produces = { MediaType.TEXT_PLAIN_VALUE })
-	public ResponseEntity<String> remove(@PathVariable("reply_num") Long reply_num) {
-
-		log.info("remove: " + reply_num);
-
-		return service.remove(reply_num) == 1 
-				? new ResponseEntity<>("success", HttpStatus.OK)
-				: new ResponseEntity<>(HttpStatus.INTERNAL_SERVER_ERROR);
-	}*/
-	
-	
-	/* @PreAuthorize("principal.username == #userId")  
+	/*@PreAuthorize("principal.username == #userId")  
 	 @PostMapping("/removeAll")//댓글 다중삭제
 		public String removeAll(@RequestParam("checkRow") String checkRow , @RequestParam("userId")String userId, Criteria cri) {
 
@@ -104,18 +93,15 @@ public class ReplyController {
 	 	}
 	 return "redirect:/mypage/myReplylist?userId="+userId+"&pageNum="+cri.getPageNum()+"&amount="+cri.getAmount();
 	}*/
-	
+
 	@PreAuthorize("principal.username == #vo.userId")
 	@RequestMapping(method = { RequestMethod.PUT,RequestMethod.PATCH }, 
-					value = "/{reply_num}", consumes = "application/json", produces = { MediaType.TEXT_PLAIN_VALUE })
+					value = "/reply", consumes = "application/json", produces = { MediaType.TEXT_PLAIN_VALUE }) 
 	@ResponseBody
-	public ResponseEntity<String> modify(@RequestBody ReplyVO vo, @PathVariable("reply_num") Long reply_num) {
+	public ResponseEntity<String> modify(@RequestBody ReplyVO vo) {
 
-		log.info("/replies/modify");
-		vo.setReply_num(reply_num);
-
-		log.info("reply_num: " + reply_num);
-		log.info("modify: " + vo);
+		log.info("/replies/reply/modify");
+		log.info("ReplyVO: " + vo);
 
 		return service.modify(vo) == 1 
 				? new ResponseEntity<>("success", HttpStatus.OK)

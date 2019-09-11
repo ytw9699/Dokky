@@ -175,12 +175,9 @@
 </div> 
 
 <div id="replyModForm" ><!-- 댓글의 수정 폼+값 불러오기 --> 
-		<input type='hidden' name='nickName' value=''>
-		<input type='hidden' name='reply_num' value=''>
-		
 	  	<div class="modifyTextareaWrapper">  
 			<textarea name='reply_content' rows="3" class="reply_contents" value='' oninput="checkLength(this,700);"></textarea>
-		</div>
+		</div> 
 		
 		<div class="replyModFormBtnWrapper"> 
 			<button id='replyModFormModBtn' class="replyModFormBtn" type="button" >수정</button> 
@@ -423,11 +420,19 @@
 			   parent_num    = data.list[i].parent_num;
 			   order_step    = data.list[i].order_step;
 			   money         = data.list[i].money;
-			    
-		       str += "<li id='"+reply_nums+"' class='replyLi'>"
-		       		   + "<div style='display:none' id=replace"+reply_nums+">"
-		       		   + "</div>";
-	       
+			   
+		   	   str +=  "<div id='replyModForm"+reply_nums+"' class='replyModForm'>"
+			       		   + "<div class='modifyTextareaWrapper'>"  
+				    	   +	"<textarea name='reply_content' rows='3' class='reply_contents' value='' oninput='checkLength(this,700);'></textarea>"
+				    	   + "</div>"
+				    	   + "<div class='replyModFormBtnWrapper'>" 
+					    	   + "<button id='replyModFormModBtn"+reply_nums+"' class='replyModFormBtn' type='button' >수정</button>" 
+					    	   + "<button id='replyModFormCloseBtn"+reply_nums+"' class='replyModFormBtn' type='button' >취소</button>"	 
+				    	   + "</div>" 	
+		    	     + "</div>";  
+    	       
+		       str += "<li id='replyLi"+reply_nums+"' class='replyLi'>"
+		    
 		       if(reply_level == 0){    
 			    	    
 		    	  str += "<div class='reply' data-reply_num='"+reply_nums+"'>" 
@@ -489,7 +494,7 @@
 	          	     if(myId == userId){   
 		        	  
 		        	     str += "<span>"
-			        	  		    + "<button data-oper='modify' type='button' data-user_id='"+userId+"' data-reply_num='"+reply_nums+"'>수정</button>"
+			        	  		    + "<button data-oper='modify' type='button' data-reply_id='"+userId+"' data-reply_num='"+reply_nums+"'>수정</button>"
 	   					      + "</span>"
 	   					   
 	   					      + "<span>"
@@ -608,7 +613,7 @@
 					  if(myId == userId){   
 					        	  
 					   	       str += "<span>"
-				    	  		    	+ "<button data-oper='modify' type='button' data-user_id='"+userId+"' data-reply_num='"+reply_nums+"'>수정</button>"
+				    	  		    	+ "<button data-oper='modify' type='button' data-reply_id='"+userId+"' data-reply_num='"+reply_nums+"'>수정</button>"
 						      	    + "</span>"
 							   
 						     	    + "<span>"
@@ -1178,6 +1183,8 @@
 	 	
 	///////////////////////////////////////////////////////// 
 	$("#replyRegisterBtn").on("click",function(e){//댓글 등록 버튼 
+			var alarmData;
+			var commonData;
 			
 		 	var reply_contents = $("#reply_contents");//기본 댓글 textarea
 		 
@@ -1187,8 +1194,10 @@
 				    			 nickName : myNickName, 	      //댓글 작성자 닉네임
 				    			 board_num : board_num 			  //글번호 
 			            };
-			  
-			var alarmData = {
+		 	
+		 	if(board_id !== myId){
+		 		
+		 		 alarmData = {
 									target  :  board_id,
 								commonVar1  :  reply_contents.val(),
 								commonVar2  :  board_num,
@@ -1196,11 +1205,16 @@
 								writerNick  :  myNickName,
 								writerId    :  myId
 				             };
-			 
-			var commonData = { 
-								replyVO:reply,
-								alarmVO:alarmData
-						 	 };
+ 
+				 commonData = { 
+									replyVO:reply,
+									alarmVO:alarmData
+							  };
+		 	}else{//나의 글에 댓글을 달시에 알람을 보내지 말자
+		 		 commonData = { 
+									replyVO:reply
+							  };
+		 	}
 						      
 			replyService.add(commonData, function(result){
 	        
@@ -1227,7 +1241,7 @@
 			 
 			reReplyWriteForm.css("display","block");  
 			
-			$("#"+reply_num).after(reReplyWriteForm);//해당 댓글 li의 뒤에다가 대댓글폼 버튼 붙이기       
+			$("#replyLi"+reply_num).after(reReplyWriteForm);//해당 댓글 li의 뒤에다가 대댓글폼 버튼 붙이기       
 		  
 			parent_num = $(this).data("parent_num");  
 			order_step = $(this).data("order_step");  
@@ -1239,7 +1253,9 @@
 	$("#reReplyRegisterBtn").on("click",function(e){//대댓글 등록 버튼
 		
 		      var reReply_contents = $("#reReply_contents");
-		
+		      var alarmData ;
+		      var commonData;
+		      
 	          var reply = { 
 				    		reply_content  :	reReply_contents.val(), //대댓글 내용
 				    		userId		   :	myId,//댓글 작성자 아이디
@@ -1252,19 +1268,27 @@
 				            reply_level	   :	reply_level
 			       	     };
 				  
-			  var alarmData = {
-								 target		: toUserId,
-								 commonVar1 : reReply_contents.val(),
-								 commonVar2 : board_num,
-								 kind		: 0,	
-								 writerNick : myNickName,
-								 writerId	: myId
-							  };
-		 
-			  var commonData =	{ 
-									replyVO : reply, 
-									alarmVO : alarmData
-					 	  		}
+	          if(board_id !== myId){ 
+	        	  
+				   alarmData = {
+									 target		: toUserId,
+									 commonVar1 : reReply_contents.val(),
+									 commonVar2 : board_num,
+									 kind		: 0,	
+									 writerNick : myNickName,
+									 writerId	: myId
+								  };
+			 
+				   commonData =	{ 
+										replyVO : reply, 
+										alarmVO : alarmData
+						 	  		}
+	          }else{
+	        	  
+	        	   commonData =	{ 
+									replyVO : reply 
+					 	  		} 
+	          }
 			  
 	     	  replyService.add(commonData, function(result){
 	        	    
@@ -1286,85 +1310,56 @@
 		$("#reReply_contents").val(""); 
     });
 	
-	/////////////////////////////////////////////////////////이하는 댓글 수정,삭제,수정후 취소
-	
-	 	var RecentReplaceTag; //더미 <div>가 댓글 수정폼으로 교체되어지기전 백업해둔 현재 <div>태그
-	 	var isReplaceTag = false;//더미 <div>가 댓글 수정폼으로 교체되었는지 체크여부
-	 	var replyModFormId ;//현재 댓글 수정폼의 아이디
-	     
-	 	
-	$(".replyList").on("click",'button[data-oper="modify"]', function(event){//1. 댓글목록의 수정버튼 이벤트,댓글 데이터 한줄 가져오기
-		var loginCheck = "로그인후 수정이 가능합니다.";
-		var idCheck = "자신이 작성한 댓글만 수정이 가능합니다.";
-		var user_id = $(this).data("user_id");  
-		//var orginal_nickname = $(this).data("orginal_nickname"); 
+	var checkModify = false;
+	var originReplyForm;//수정할려는 원래의 댓글폼
+	var replyModForm ;//현재 수정폼 
+	 
+	$(".replyList").on("click",'button[data-oper="modify"]', function(event){//댓글 수정 폼 열기
 		 
-		if(checkUser(user_id,loginCheck,idCheck)){
-		return; 
-		}
+		var reply_id = $(this).data("reply_id");   
+		var reply_num = $(this).data("reply_num"); 
 		
-		if(isReplaceTag){//댓글 수정폼이 열려 있다면
-			 RecentReplaceTag.replaceAll("#"+replyModFormId);//댓글 수정폼을  더미 <div>로 교체
-			$(".selected").css("display", "list-item");//none해둔 수정 댓글은 다시 보이게하기 
-		}  
- 		 
-		$(this.parentNode.parentNode).addClass('selected').css("display","none");//수정할려는 댓글 내용 한줄 안보이게
-		  
-		  var reply_num = $(this).data("reply_num");//수정 할려는 댓글의 번호 가져오기
-		  var currentReplyModForm = $('#replyModForm').clone();//모형 댓글 수정폼 복제해오기
-		  
-		  currentReplyModForm.attr('id', "replyModForm"+reply_num);//글번호 넣어서 아이디  바꿔주기
-		  replyModFormId = currentReplyModForm.attr('id');//현재 댓글 수정폼의 아이디 저장 
-		  
-		  currentReplyModForm.find('#replyModFormCloseBtn').attr('id', "replyModFormCloseBtn"+reply_num); //댓글 수정폼 취소버튼 id 글번호 넣어서 바꿔주기
-		  currentReplyModForm.find('#replyModFormModBtn').attr('id', "replyModFormModBtn"+reply_num); //댓글 수정폼 수정버튼 id 글번호 넣어서 바꿔주기
-		  
-		 RecentReplaceTag = $("#replace"+reply_num).clone();//더미 div를 복제해서 잠시 빼둠-추후 댓글 수정폼을 다시 되돌리기 위해
-		    
-		 currentReplyModForm.replaceAll("#replace"+reply_num);//더미 div를 댓글 수정폼 으로 교체    
+		if(checkModify){//댓글 수정중이었다면   
+			originReplyForm.css("display","block");
+			replyModForm.css("display","none"); 
+		}   
 		 
-		 isReplaceTag = true;//교체 되어졌음을 확인 
-		  
-		    var InputReply_content = currentReplyModForm.find("textarea[name='reply_content']");
-		    var InputNickName = currentReplyModForm.find("input[name='nickName']");
-		    var InputReply_num = currentReplyModForm.find("input[name='reply_num']");
-		    
-		  replyService.get(reply_num, function(Result){//1. 댓글 데이터 한줄 가져오기
-			  InputReply_content.val(Result.reply_content);//ReplyVO의 reply_content
-			  InputNickName.val(Result.nickName);//ReplyVO의 nickName
-			  InputReply_num.val(reply_num);
+		originReplyForm = $("#replyLi"+reply_num);
+		originReplyForm.css("display","none");
+		
+	    replyService.get(reply_num, function(Result){//댓글 데이터 한줄 가져오기 
 			  
-			  currentReplyModForm.css("display","block");//최종 댓글 수정 입력폼 사용자에게 보여주기   
+	    	  replyModForm = $("#replyModForm"+reply_num);
+	    
+	    	  var InputReply_content = replyModForm.find("textarea[name='reply_content']");
+	    	
+			  InputReply_content.val(Result.reply_content);
 			  
-	/////////////////////////////////////////////////////// 
-
-			  var replyModFormCloseBtn = $("#replyModFormCloseBtn"+reply_num); //댓글 수정폼 취소버튼 가져오기 
-			  var replyModFormModBtn = $("#replyModFormModBtn"+reply_num);//댓글 수정폼 수정버튼 가져오기
+			  replyModForm.css("display","block");
 			  
-			  replyModFormModBtn.on("click", function(e){// 1-1. 댓글 수정 등록 
-				   	 var reply = {
-					  reply_num:InputReply_num.val(),
-					  reply_content: InputReply_content.val(),
-					  userId: user_id //시큐리티를 위해 넘겨줌
-					   
-					  };//수정폼의 값을 넘긴다
+			  checkModify = true;
+			  
+			  $("#replyModFormModBtn"+reply_num).on("click", function(e){//댓글 수정 등록 완료 
+				   
+				   	 var reply = {  
+									  reply_num		: reply_num,
+									  reply_content	: InputReply_content.val(),
+									  userId		: reply_id //접속자와 댓글작성자의 확인을 위해
+							     };
 				   	  
-				   	  replyService.update(reply, function(result){
+			   	     replyService.updateReply(reply, function(result){
 				   	        
-				   	    //alert(result); 
-				   	      
-				   	    showReplyList(pageNum);//수정후 댓글 페이지 유지하면서 리스트 다시불름
-				   	 
-				   	  });
-				   	});
+				   	    	showReplyList(pageNum);//수정후 댓글 페이지 유지하면서 리스트 다시불름
+			   	     });
+		   	  });   
 			    
-			  replyModFormCloseBtn.on("click", function(e){//1-2. 댓글 수정 취소 
-				  RecentReplaceTag.replaceAll("#replyModForm"+reply_num); //수정 취소시 댓글 수정폼을 다시  더미 <div>로 교체  
-				 	    
-				 	   $(".selected").css("display", "list-item");//숨겨둔 댓글 한줄 다시 보이게
-				}); 
-		  });
-	});// 1.이벤트 함수 끝
+			  $("#replyModFormCloseBtn"+reply_num).on("click", function(e){//댓글 수정 취소 
+				  	
+				  	replyModForm.css("display","none"); 
+				  	originReplyForm.css("display","block");
+			  }); 
+	    });
+	});
 	
 	///////////////////////////////////////////////////////
 	

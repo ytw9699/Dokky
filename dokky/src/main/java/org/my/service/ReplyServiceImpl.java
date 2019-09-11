@@ -42,8 +42,10 @@ public class ReplyServiceImpl implements ReplyService {
 		log.info("updateReplyCnt......" + vo);
 		boardMapper.updateReplyCnt(replyVO.getBoard_num(), 1);
 		
-		log.info("insertAlarm: ");
-		commonMapper.insertAlarm(vo.getAlarmVO());
+		if(vo.getAlarmVO() != null) {
+			log.info("insertAlarm: "); 
+			commonMapper.insertAlarm(vo.getAlarmVO());
+		}
 		
 		if(replyVO.getParent_num() == 0 ) {//시퀀스값은 디폴트 1부터 시작하니까 0으로 기준을 잡자
 			

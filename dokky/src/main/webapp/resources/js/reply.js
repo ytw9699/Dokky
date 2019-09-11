@@ -78,25 +78,23 @@ var replyService = (function() {
 		});
 	}
 
-	function update(reply, callback, error) {
-
-		console.log("reply_num: " + reply.reply_num);
+	function updateReply(reply, callback, error) {
 
 		$.ajax({
-			type : 'put',
-			url : '/dokky/replies/' + reply.reply_num,
-			data : JSON.stringify(reply),
-			contentType : "application/json; charset=utf-8",
-			success : function(result, status, xhr) {
-				if (callback) {
-					callback(result);
+				type : 'put',
+				url : '/dokky/replies/reply',
+				data : JSON.stringify(reply),
+				contentType : "application/json; charset=utf-8",
+				success : function(result, status, xhr) {
+					if (callback) {
+						callback(result);
+					}
+				},
+				error : function(xhr, status, er) {
+					if (error) {
+						error(er);
+					}
 				}
-			},
-			error : function(xhr, status, er) {
-				if (error) {
-					error(er);
-				}
-			}
 		});
 	}
 
@@ -360,8 +358,8 @@ var replyService = (function() {
 		add : add,
 		get : get,
 		getList : getList,
-		remove : remove,
-		update : update,
+		remove : remove, 
+		updateReply : updateReply,
 		displayTime : displayTime,
 		updateLike : updateLike,
 		updateDisLike : updateDisLike,
