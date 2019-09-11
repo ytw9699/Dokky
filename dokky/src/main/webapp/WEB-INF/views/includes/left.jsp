@@ -67,15 +67,17 @@
 	</div>
 	<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
 	<script>
+	
 	function getUsermenu() { //메뉴바 보이기 이벤트 
-		var userMenu = $(".perid-layer"); 
-		userMenu.css("display","block"); 
+		
+		$(".perid-layer").css("display","block"); 
 	}
 	   
 	$('html').click(function(e) { //html안 Usermenu, leftHideusermenu클래스를 가지고있는 곳 제외하고 클릭하면 숨김 이벤트발생
-		if( !$(e.target).is('.leftUsermenu, .leftHideusermenu') ) {  
-			var userMenu = $(".perid-layer");  	
-				userMenu.css("display","none");  
+		
+			if( !$(e.target).is('.leftUsermenu, .leftHideusermenu') ) {  
+				
+				$(".perid-layer").css("display","none");  	
 			} 
 	});   
 

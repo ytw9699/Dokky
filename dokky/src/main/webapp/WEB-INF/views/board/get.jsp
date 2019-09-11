@@ -39,7 +39,7 @@
      
 	<div class="nickName">
 			
-			<a href="#" class="userMenu">
+			<a href="#" id="board_userMenu" class="userMenu">
 				<img src="/dokky/resources/img/profile_img/<c:out value="${board.userId}" />.png"  class="memberImage hideUsermenu" onerror="this.src='/dokky/resources/img/basicProfile.png'" />
 				<c:out value="${board.nickName}" /> 
 			</a>
@@ -59,8 +59,17 @@
 			
 			<div id="UserMenubar_board" class="userMenubar">
 				<ul class="hideUsermenu">  
-					<li class="hideUsermenu"><a href="/dokky/userBoardList?userId=${board.userId}" class="hideUsermenu"><span class="hideUsermenu">게시글보기</span></a></li>
-					<li class="hideUsermenu"><a href="#" class="hideUsermenu"><span class="hideUsermenu">쪽지보내기</span></a></li>
+					<li class="hideUsermenu">
+						<a href="/dokky/userBoardList?userId=${board.userId}" class="hideUsermenu">
+							<span class="hideUsermenu">게시글보기</span>
+						</a>
+					</li>
+					
+					<li class="hideUsermenu">
+						<a href="#" class="hideUsermenu">
+							<span class="hideUsermenu">쪽지보내기</span>
+						</a>
+					</li>
 				</ul>    
 		    </div> 
 	</div>
@@ -1183,9 +1192,9 @@
 	 	
 	///////////////////////////////////////////////////////// 
 	$("#replyRegisterBtn").on("click",function(e){//댓글 등록 버튼 
+		
 			var alarmData;
 			var commonData;
-			
 		 	var reply_contents = $("#reply_contents");//기본 댓글 textarea
 		 
 			var reply = {
@@ -1268,7 +1277,7 @@
 				            reply_level	   :	reply_level
 			       	     };
 				  
-	          if(board_id !== myId){ 
+	          if(toUserId !== myId){
 	        	  
 				   alarmData = {
 									 target		: toUserId,
@@ -1283,7 +1292,7 @@
 										replyVO : reply, 
 										alarmVO : alarmData
 						 	  		}
-	          }else{
+	          }else{ 
 	        	  
 	        	   commonData =	{ 
 									replyVO : reply 
@@ -1373,108 +1382,123 @@
 				}); 
 		}
 	}); 
-				
+			
+	///////////////////////////////////////////////////////
+
    $(document).ready(function(){//첨부파일 즉시 함수
     	  
-  	 (function(){//즉시실행함수
-   	  
-   	    var num = '<c:out value="${board.num}"/>';
-   	   
-   	    $.getJSON("/dokky/board/getAttachList", {num: num}, function(arr){
-   	        
-    	       var fileStr = "";
-    	       
-    	       $(arr).each(function(i, attach){
-
-					if(!attach.fileType){ //파일이라면
-    	        	   fileStr += "<li data-path='"+attach.uploadPath+"' data-uuid='"+attach.uuid+"' data-filename='"+attach.fileName+"' data-type='"+attach.fileType+"' >";
-    	        	   fileStr += attach.fileName;      
-	    	           /* fileStr += "<img src='/dokky/resources/img/attach.png'>"; */     
-	    	           fileStr +"</li>";
-	    	         }
-				});
-    	       
-	    	       $(".fileUploadResult ul").html(fileStr); 
-	    	       
-   	     });//end getjson
-   	    
-   	 })();//end function 
-   	 
+	  	 (function(){//즉시실행함수 
+	   	  
+		   	    $.getJSON("/dokky/board/getAttachList", {num: board_num}, function(arr){
+		   	        
+		    	       var fileStr = "";
+		    	       
+		    	       $(arr).each(function(i, attach){
+		
+							if(!attach.fileType){ //파일이라면
+		    	        	   fileStr += "<li data-path='"+attach.uploadPath+"' data-uuid='"+attach.uuid+"' data-filename='"+attach.fileName+"' data-type='"+attach.fileType+"' >"
+		    	        	    				+ attach.fileName        
+			    	            		 +"</li>";
+		    	            }
+					   });
+		    	       
+		    	       $(".fileUploadResult ul").html(fileStr); 
+		   	     });
+	   	 })(); 
    }); 
-	    	  
-   	  $(".fileUploadResult").on("click","li", function(e){
+    	  
+   ///////////////////////////////////////////////////////
+
+   $(".fileUploadResult").on("click","li", function(e){
    	      
-    	    var liObj = $(this);
+    	    var liObj = $(this); 
     	    
     	    var path = encodeURIComponent(liObj.data("path")+"/" + liObj.data("uuid")+"_" + liObj.data("filename"));
     	    
     	    if(!liObj.data("type")){//파일이라면  
     	    	self.location ="/dokky/download?fileName="+path 
     	    }
-   	  });
+   });
+   
+   ///////////////////////////////////////////////////////
    	  
-   	$(".content").on("click","img", function(e){//본문에서 사진을 클릭한다면
-	  	
-		  var imgObj = $(this);
-	  
-		  var path = imgObj.data("filecallpath");
-		  
-		  showImage(path);  
-	  });
-	    	  
-   	  function showImage(fileCallPath){
-    	    
-    	    $(".bigPictureWrapper").css("display","flex").show();
-    	    
-    	    $(".bigPicture").html("<img src='/dokky/display?fileName="+fileCallPath+"' >");
-      } 
+   function showImage(fileCallPath){
+  	    
+	  	    $(".bigPictureWrapper").css("display","flex").show();
+	  	    
+	  	    $(".bigPicture").html("<img src='/dokky/display?fileName="+fileCallPath+"' >");
+   } 
+   
+   ///////////////////////////////////////////////////////
 
-   	  $(".bigPictureWrapper").on("click", function(e){
+   $(".content").on("click","img", function(e){//본문에서 사진을 클릭한다면
+	  	
+			var imgObj = $(this);
+		  
+			var path = imgObj.data("filecallpath");
+			  
+			showImage(path);  
+   });
+	
+   ///////////////////////////////////////////////////////
+	    	  
+   $(".bigPictureWrapper").on("click", function(e){
    		  
    			$('.bigPictureWrapper').hide();
-    	  });  
-   	   
+   });  
 	      
-		$(".replyList").on("click",'.userMenu', function(event){//해당 댓글 메뉴바 보이기 이벤트
+	///////////////////////////////////////////////////////
+   
+   $(".replyList").on("click",'.userMenu', function(event){//해당 댓글 메뉴바 보이기 이벤트
 			
 			event.preventDefault();
 		
-			if($(".addBlockClass").length > 0){
-				$(".addBlockClass").css("display","none"); 
-				$(".addBlockClass").removeClass('addBlockClass'); 
+			if($(".addBlockClass").length > 0){//상세페이지 전체에서 찾음
+				
+				  $(".addBlockClass").css("display","none"); 
+				  $(".addBlockClass").removeClass('addBlockClass'); 
 			} 
 		
 			var	menu_kind = $(this).data("menu_kind"); 
 			var	reply_num = $(this).data("reply_num");
 			 
 			if(menu_kind == 'from'){
+			
 					var userMenubar = $("#userMenubar_reply_from_"+reply_num);
+					
 			}else if(menu_kind == 'to'){
+				
 					var userMenubar = $("#userMenubar_reply_to_"+reply_num);
 			}
-					userMenubar.css("display","block"); 
-					userMenubar.addClass('addBlockClass'); 
-	 	}); 
+			
+			userMenubar.css("display","block").addClass('addBlockClass'); 
+   }); 
+	 
+   ///////////////////////////////////////////////////////
 		 
-		$(".userMenu").on("click",function(event){//해당 게시판 메뉴바 보이기 이벤트
-
+   $("#board_userMenu").on("click",function(event){//해당 게시판 메뉴바 보이기 이벤트
+	
 			event.preventDefault();
-		
-			if($(".addBlockClass").length > 0){
-				$(".addBlockClass").css("display","none"); 
-				$(".addBlockClass").removeClass('addBlockClass'); 
+   
+			if($(".addBlockClass").length > 0){//상세페이지 전체에서 찾음
+				
+				  $(".addBlockClass").css("display","none");  
+				  $(".addBlockClass").removeClass('addBlockClass'); 
 			}  
-				var UserMenubar_board = $("#UserMenubar_board");
-				UserMenubar_board.css("display","block"); 
-				UserMenubar_board.addClass('addBlockClass');
-	 	}); 
+			 
+			$("#UserMenubar_board").css("display","block").addClass('addBlockClass');
+   }); 
 	  
-		$('html').click(function(e) { //html안 Usermenu, hideUsermenu클래스를 가지고있는 곳 제외하고 클릭하면 숨김 이벤트발생
-			if( !$(e.target).is('.userMenu, .hideUsermenu') ) {  //("Usermenu") || $(e.target).hasClass("perid-layer")) {
-			    var userMenu = $(".userMenubar");
-				userMenu.css("display","none"); 
+   ///////////////////////////////////////////////////////
+   
+   $('html').click(function(e) { //html안 Usermenu, hideUsermenu클래스를 가지고있는 곳 제외하고 클릭하면 숨김 이벤트발생
+	   
+	   		if( !$(e.target).is('.userMenu, .hideUsermenu') ) {  //("Usermenu") || $(e.target).hasClass("perid-layer")) {
+			  
+	   			var userMenu = $(".userMenubar");
+					userMenu.css("display","none"); 
 			} 
-		}); 
+   });  
 	    
 </script>
 </body>
