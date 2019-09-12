@@ -16,7 +16,7 @@ public interface ReplyService {
 
 	public int remove(Long reply_num, Long board_num);
 	
-	public ReplyPageDTO getListPage(Criteria cri, Long num);
+	public ReplyPageDTO getListPage(Criteria cri, Long board_num);
 	
 	public String checkLikeValue(ReplyLikeVO vo);
 

@@ -22,10 +22,10 @@ var replyService = (function() {
 
 	function getList(param, callback, error) { 
 
-		var num = param.num;
+		var board_num = param.board_num;
 		var page = param.page || 1;
 
-		  $.getJSON("/dokky/replies/pages/" + num + "/" + page + ".json",
+		  $.getJSON("/dokky/replies/pages/" + board_num + "/" + page + ".json",
 				function(data) {
 					if (callback) {
 						callback(data);

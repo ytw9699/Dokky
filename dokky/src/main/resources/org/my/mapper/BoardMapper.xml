@@ -413,7 +413,7 @@
 										, #{money}
 										, #{userId}
 										, '게시판'
-										, #{num}
+										, #{board_num}
 									)
 	</insert>
 	

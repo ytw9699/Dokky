@@ -34,17 +34,17 @@
 	
 	create table DK_REPLY (--댓글 테이블
 		reply_num number(10,0),--pk
-		num number(10,0) not null, --게시글 번호
-		reply_content varchar2(1000) not null,
-		nickName varchar2(50) not null,
-		userId varchar2(50) not null,
-		toUserId varchar2(50),
-		toNickName varchar2(50),
-		replyDate date default sysdate,
-		updateDate date default sysdate,
-		likeCnt number(10,0) default 0,
-		dislikeCnt number(10,0) default 0,
-		money number(10,0) default 0,
+		board_num number(10,0) not null, --게시글 번호
+		reply_content varchar2(1000) not null,--댓글 내용
+		nickName varchar2(50) not null,  --댓글 작성자 닉네임
+		userId varchar2(50) not null, --댓글 작성자 아이디
+		toUserId varchar2(50), --댓글의 답글 보낼 아이디
+		toNickName varchar2(50),--댓글의 답글 보낼 닉네임
+		replyDate date default sysdate,--작성날짜
+		updateDate date default sysdate, --수정날짜
+		likeCnt number(10,0) default 0, --좋아요 수
+		dislikeCnt number(10,0) default 0, --싫어요 수
+		money number(10,0) default 0, --기부금
 		parent_num number(10,0) not null,--댓글 묶음 번호 , 그룹을 이루는 번호
 		order_step number(10,0) not null,--댓글 출력 순서
 		reply_level number(10,0) not null,--댓글 깊이 depth = 루트글인지,답변글인지,답변에 답변글인지..답변에 답변에 답변인지 쭉~
@@ -53,11 +53,11 @@
 	
 	alter table DK_REPLY add constraint pk_reply primary key (reply_num);
 	
-	alter table DK_REPLY add constraint fk_reply_board foreign key (num) references DK_BOARD (num) on delete cascade;--on delete cascade는 자식테이블을 같이 삭제시켜줌
+	alter table DK_REPLY add constraint fk_reply_board foreign key (board_num) references DK_BOARD (num) on delete cascade;--on delete cascade는 자식테이블을 같이 삭제시켜줌
 	
 	create sequence seq_dk_reply
 	
-	create index idx_reply on DK_REPLY(num desc, reply_num asc);
+	create index idx_reply on DK_REPLY(board_num desc, reply_num asc);
 	
 	--디폴트값입력해줘야 캐시충전됨
 	insert into dk_reply(reply_num,num,reply_content,nickName,userId,parent_num,order_step,reply_level)

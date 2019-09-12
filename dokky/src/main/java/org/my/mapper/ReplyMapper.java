@@ -21,7 +21,7 @@ public interface ReplyMapper {
 
 	public List<ReplyVO> getListWithPaging(
 			@Param("cri") Criteria cri,
-			@Param("num") Long num );
+			@Param("board_num") Long board_num );
 
 	public int getCountBynum(Long num);
 	

@@ -364,7 +364,7 @@
 
 	function showReplyList(page){//댓글 리스트 가져오기
 		
-	    replyService.getList({num:board_num, page: page || 1 }, function(data) {
+	    replyService.getList({board_num:board_num, page: page || 1 }, function(data) {
 	    	
 	    	var replyList = $(".replyList");//댓글리스트 ul  
 	    	var replyCntVal = $("#replyCntVal");//댓글 갯수 div
@@ -1028,7 +1028,7 @@
 		
 		if(option === 'board'){//게시글 기부시
 			
-			var donateData = {	 num 	    : board_num, //글번호
+			var donateData = {	 board_num 	: board_num, //글번호
 							 	 userId     : myId, //기부하는 아이디
 							  	 donatedId  : board_id, //기부받는 아이디
 							  	 money      : inputMoney, //기부금액
@@ -1063,7 +1063,7 @@
 		}else if(option === 'reply'){//댓글 기부시
 				
 				var replyDonateData = {
-					   					   num 	     : board_num, //글번호
+										   board_num : board_num, //글번호
 						   				   reply_num : donate_reply_num, //댓글번호
 										   userId  	 : myId, //기부하는 아이디
 										   donatedId : donate_reply_id, //기부받는 아이디

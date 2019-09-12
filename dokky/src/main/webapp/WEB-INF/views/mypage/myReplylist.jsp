@@ -16,7 +16,7 @@
 <div class="myreplyWrap">	
 	<div class="ContentWrap"> 
 		<div id="menuWrap">
-			<div class="tab"> 5
+			<div class="tab"> 5 
 				<button onclick="location.href='myInfoForm?userId=${userInfo.username}'">개인정보 변경</button>
 		        <button onclick="location.href='rePasswordForm?userId=${userInfo.username}'">비밀번호 변경</button> 
 		        <button onclick="location.href='myBoardList?userId=${userInfo.username}'">나의 게시글</button> 
@@ -35,7 +35,7 @@
 					<td>
 						<input type="checkbox" name="checkRow" value="${Reply.reply_num}" />
                     </td>
-						<td class="replyTitle"><a class='move' href='<c:out value="${Reply.num}"/>'> 
+						<td class="replyTitle"><a class='move' href='<c:out value="${Reply.board_num}"/>'> 
 							<c:out value="${Reply.reply_content}" /></a></td> 
 					   <td> 
 							<fmt:formatDate value="${Reply.replyDate}" pattern="yyyy년 MM월 dd일 HH:mm" />

@@ -7,7 +7,7 @@
 	<insert id="insert">
 		insert into DK_REPLY (   
 									  reply_num
-									, num
+									, board_num
 									, reply_content
 									, nickName
 									, userId
@@ -30,7 +30,7 @@
 	<insert id="reInsert">
 		insert into DK_REPLY (    
 								  reply_num
-								, num
+								, board_num
 								, reply_content
 								, nickName
 								, userId
@@ -83,7 +83,7 @@
 	<select id="getListWithPaging" resultType="org.my.domain.ReplyVO">
 	  <![CDATA[
 	    select reply_num
-		     , num
+		     , board_num
 		     , reply_content
 		     , nickName
 		     , userId
@@ -101,7 +101,7 @@
 	   (
 	    select ROW_NUMBER() OVER(ORDER BY parent_num ASC, order_step ASC) AS rn
 																	      , reply_num
-																	      , num
+																	      , board_num
 																	      , reply_content
 																	      , nickName
 																	      , userId
@@ -117,7 +117,7 @@
 																	      , toUserId
 		    from
 		    	DK_REPLY  
-		     where num = #{num} 
+		     where board_num = #{board_num} 
 		 ) where rn <= #{cri.pageNum} * #{cri.amount} and rn > (#{cri.pageNum} -1) * #{cri.amount}
 		]]>
 	</select>
@@ -134,7 +134,7 @@
 
 	<select id="getCountBynum" resultType="int">
 		<![CDATA[
-		select count(reply_num) from DK_REPLY where num = #{num}
+		select count(reply_num) from DK_REPLY where board_num = #{board_num}
 		]]>
 	</select>
 	
@@ -254,7 +254,7 @@
 											#{money},
 											#{userId},
 											'댓글' ,
-											#{num},
+											#{board_num},
 											#{reply_num}
 										)
 	</insert>
@@ -276,7 +276,7 @@
 												#{money},
 												#{donatedId},
 												'댓글' ,
-												#{num},
+												#{board_num},
 												#{reply_num}
 											)
 	</insert>

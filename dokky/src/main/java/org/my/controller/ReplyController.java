@@ -46,19 +46,19 @@ public class ReplyController {
 				: new ResponseEntity<>(HttpStatus.INTERNAL_SERVER_ERROR);
 	}
 	
-	@GetMapping(value = "/pages/{num}/{page}", produces = { MediaType.APPLICATION_XML_VALUE, MediaType.APPLICATION_JSON_UTF8_VALUE })
+	@GetMapping(value = "/pages/{board_num}/{page}", produces = { MediaType.APPLICATION_XML_VALUE, MediaType.APPLICATION_JSON_UTF8_VALUE })
 	@ResponseBody
-	public ResponseEntity<ReplyPageDTO> getList(@PathVariable("page") int page, @PathVariable("num") Long num) {//댓글 리스트
+	public ResponseEntity<ReplyPageDTO> getList(@PathVariable("page") int page, @PathVariable("board_num") Long board_num) {//댓글 리스트
 		
 		log.info("/replies/pages");
 		
 		Criteria cri = new Criteria(page, 10);//댓글을 10개씩 보여줌 
 		
-		log.info("get Reply List num: " + num);
+		log.info("get Reply List board_num: " + board_num);
   
 		log.info("cri:" + cri);
 
-		return new ResponseEntity<>(service.getListPage(cri, num), HttpStatus.OK);
+		return new ResponseEntity<>(service.getListPage(cri, board_num), HttpStatus.OK);
 	}
 	
 	@PreAuthorize("principal.username == #vo.userId")
