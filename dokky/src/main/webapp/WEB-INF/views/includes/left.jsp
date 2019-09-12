@@ -16,16 +16,16 @@
 		<div class="mypage">  
 			<sec:authorize access="isAuthenticated()">
 					<form id="logoutForm" method='post' action="/dokky/customLogout">
-					  	  <a href="#" onClick="getUsermenu()" class="leftUsermenu">
+					  	  <a href="#" class="leftUsermenu">
 						  	  <img id="leftProfile" src="/dokky/resources/img/profile_img/<c:out value="${userInfo.username}"/>.png" class="memberImage leftHideusermenu" onerror="this.src='/dokky/resources/img/basicProfile.png'" />
 						  	  <c:out value="${userInfo.member.nickName}"/>     
 					  	  </a> 
 					  	  
-					  	  <div id="" class="perid-layer">
+					  	  <div id="leftUsermenuBar">
 								<ul class="leftHideusermenu"> 
 									<li class="leftHideusermenu"><a href="/dokky/userBoardList?userId=${userInfo.username}" class="leftHideusermenu"><span class="leftHideusermenu">게시글보기</span></a></li>
 									<li class="leftHideusermenu"><a href="#" class="leftHideusermenu"><span class="leftHideusermenu">쪽지보내기</span></a></li>
-								</ul>  
+								</ul>   
 						  </div> 
 
 					    <input id="logoutBtn" type="submit" value="Logout">  
@@ -68,16 +68,18 @@
 	<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
 	<script>
 	
-	function getUsermenu() { //메뉴바 보이기 이벤트 
-		
-		$(".perid-layer").css("display","block"); 
-	}
-	   
+	$(".leftUsermenu").on("click",function(event){//메뉴바 보이기 이벤트 
+			 
+			event.preventDefault();
+
+			$("#leftUsermenuBar").css("display","block"); 
+	});
+	 
 	$('html').click(function(e) { //html안 Usermenu, leftHideusermenu클래스를 가지고있는 곳 제외하고 클릭하면 숨김 이벤트발생
 		
 			if( !$(e.target).is('.leftUsermenu, .leftHideusermenu') ) {  
 				
-				$(".perid-layer").css("display","none");  	
+				$("#leftUsermenuBar").css("display","none");  	
 			} 
 	});   
 
