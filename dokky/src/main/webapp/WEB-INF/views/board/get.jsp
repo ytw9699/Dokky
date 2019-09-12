@@ -1480,7 +1480,7 @@
 	
 			event.preventDefault();
    
-			if($(".addBlockClass").length > 0){//상세페이지 전체에서 찾음
+			if($(".addBlockClass").length > 0){
 				
 				  $(".addBlockClass").css("display","none");  
 				  $(".addBlockClass").removeClass('addBlockClass'); 
@@ -1491,9 +1491,9 @@
 	  
    ///////////////////////////////////////////////////////
    
-   $('html').click(function(e) { //html안 Usermenu, hideUsermenu클래스를 가지고있는 곳 제외하고 클릭하면 숨김 이벤트발생
+   $('html').click(function(e) { //html안 Usermenu, hideUsermenu클래스를 가지고있는 곳 제외하고 클릭하면 userMenubar숨김 이벤트발생
 	   
-	   		if( !$(e.target).is('.userMenu, .hideUsermenu') ) {  //("Usermenu") || $(e.target).hasClass("perid-layer")) {
+	   		if( !$(e.target).is('.userMenu, .hideUsermenu') ) {
 			  
 	   			var userMenu = $(".userMenubar");
 					userMenu.css("display","none"); 
