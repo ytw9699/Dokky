@@ -18,7 +18,7 @@ public interface BoardService {
 	
 	public void register(BoardVO board);
 
-	public BoardVO get(Long num);
+	public BoardVO get(Long board_num);
 
 	public boolean modify(BoardVO board);
 
@@ -34,9 +34,9 @@ public interface BoardService {
 	
 	public int pushDisLike(commonVO vo);
 
-	public BoardVO getModifyForm(Long num);
+	public BoardVO getModifyForm(Long board_num);
 
-	public List<BoardAttachVO> getAttachList(Long num);
+	public List<BoardAttachVO> getAttachList(Long board_num);
 
 	public String checkLikeValue(BoardLikeVO vo);
 	

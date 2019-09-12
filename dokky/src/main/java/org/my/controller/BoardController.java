@@ -96,24 +96,38 @@ public class BoardController {
 		service.register(board);
 
 	   //rttr.addFlashAttribute("result", board.getNum());
-		 rttr.addAttribute("num", board.getNum());
+		 rttr.addAttribute("board_num", board.getBoard_num());
 		 rttr.addAttribute("category", board.getCategory());
 
 		return "redirect:/board/get";
 	}
 	
 	@GetMapping("/get")
-	public void get(@RequestParam("num") Long num, @ModelAttribute("cri") Criteria cri, Model model) {
+	public String get(@RequestParam("board_num") Long board_num, @ModelAttribute("cri") Criteria cri, Model model) {
 
 		log.info("/get");
-		model.addAttribute("board", service.get(num)); //조회수증가 + 한줄 글 상세 데이터 가져오기
+		
+		BoardVO board = service.get(board_num);
+		
+		if(board == null) {
+			
+			log.info("/getBoardError");
+			
+			model.addAttribute("msg", "글이 삭제되었습니다.");
+			
+			return "error/accessError";
+		}   
+		
+		model.addAttribute("board", board); //조회수증가 + 한줄 글 상세 데이터 가져오기
+		
+		return "board/get";
 	}
 	
 	@GetMapping("/modify")
-	public void getModifyForm(@RequestParam("num") Long num, @ModelAttribute("cri") Criteria cri, Model model) {
+	public void getModifyForm(@RequestParam("board_num") Long board_num, @ModelAttribute("cri") Criteria cri, Model model) {
 
 		log.info("/modify");
-		model.addAttribute("board", service.getModifyForm(num));//수정폼+데이터 가져오기
+		model.addAttribute("board", service.getModifyForm(board_num));//수정폼+데이터 가져오기
 	}
 	
 	 @PreAuthorize("principal.username == #board.userId")
@@ -130,19 +144,19 @@ public class BoardController {
 		 rttr.addAttribute("type", cri.getType());
 		 rttr.addAttribute("keyword", cri.getKeyword());
 		 rttr.addAttribute("category", cri.getCategory());
-		 rttr.addAttribute("num", board.getNum());
+		 rttr.addAttribute("board_num", board.getBoard_num());
 		 
 	 return "redirect:/board/get";
 	 }
 
 	 @PreAuthorize("principal.username == #userId")   
 	 @PostMapping("/remove")//삭제시 글+댓글+첨부파일 모두 삭제
-		public String remove(@RequestParam("num") Long num, @RequestParam("userId")String userId, Criteria cri, RedirectAttributes rttr) {
+		public String remove(@RequestParam("board_num") Long board_num, @RequestParam("userId")String userId, Criteria cri, RedirectAttributes rttr) {
 
-		 	log.info("/remove..." + num);
+		 	log.info("/remove..." + board_num);
 
-			if (service.remove(num)) { //첨부파일 디비 삭제 + 글삭제
-				List<BoardAttachVO> attachList = service.getAttachList(num);
+			if (service.remove(board_num)) { //첨부파일 디비 삭제 + 글삭제
+				List<BoardAttachVO> attachList = service.getAttachList(board_num);
 				deleteFiles(attachList); //실제 첨부파일 모두 삭제
 				rttr.addFlashAttribute("result", "success");
 			}
@@ -161,13 +175,13 @@ public class BoardController {
 		 	
 		 	for (int i=0; i<arrIdx.length; i++) {
 		 		
-		 		Long num = Long.parseLong(arrIdx[i]); 
+		 		Long board_num = Long.parseLong(arrIdx[i]); 
 		 		
-		 		if (service.remove(num)) {
+		 		if (service.remove(board_num)) {
 		 			
-		 			log.info("remove...num=" + num);
+		 			log.info("remove...board_num=" + board_num);
 					
-		 			List<BoardAttachVO> attachList = service.getAttachList(num);
+		 			List<BoardAttachVO> attachList = service.getAttachList(board_num);
 		 			
 		 			log.info("deleteFiles...attachList");
 		 			
@@ -294,11 +308,11 @@ public class BoardController {
 	
 	@GetMapping(value = "/getAttachList", produces = MediaType.APPLICATION_JSON_UTF8_VALUE)
 	@ResponseBody
-	public ResponseEntity<List<BoardAttachVO>> getAttachList(Long num) {
+	public ResponseEntity<List<BoardAttachVO>> getAttachList(Long board_num) {
 	
-		log.info("/getAttachList " + num);
+		log.info("/getAttachList " + board_num);
 
-		return new ResponseEntity<>(service.getAttachList(num), HttpStatus.OK);
+		return new ResponseEntity<>(service.getAttachList(board_num), HttpStatus.OK);
 	}
 	
 	private void deleteFiles(List<BoardAttachVO> attachList) {

@@ -101,7 +101,7 @@
 		$(".move").on("click",function(e) {
 			 
 			e.preventDefault(); 
-			actionForm.append("<input type='hidden' name='num' value='"+ $(this).attr("href")+ "'>");
+			actionForm.append("<input type='hidden' name='board_num' value='"+ $(this).attr("href")+ "'>");
 			actionForm.find("input[name='pageNum']").remove();
 			actionForm.find("input[name='amount']").remove();
 			actionForm.find("input[name='userId']").remove(); 

@@ -16,7 +16,7 @@ public interface BoardMapper {
 
 	public Integer insertSelectKey(BoardVO board);
 
-	public BoardVO read(Long num);
+	public BoardVO read(Long board_num);
 
 	public int delete(Long bno);
 
@@ -26,7 +26,7 @@ public interface BoardMapper {
 	
 	public void updateReplyCnt(@Param("board_num") Long board_num, @Param("amount") int amount);
 
-	public int updateHitCnt(Long num);//조회수 증가
+	public int updateHitCnt(Long board_num);//조회수 증가
 
 	public int pushLike(Long board_num);
 	

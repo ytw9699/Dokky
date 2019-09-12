@@ -54,11 +54,11 @@
 					       <c:when test="${History.cashKind == '기부하기' || History.cashKind == '기부받기'}">
 				       			  <c:if test="${History.specification == '게시판'}">
 				       			  		<td><c:out value="${History.specification}" /></td>
-				       			  		<td><a href="/dokky/board/get?num=${History.board_num}"><c:out value="${History.title}" /></a></td>
+				       			  		<td><a href="/dokky/board/get?board_num=${History.board_num}"><c:out value="${History.title}" /></a></td>
 				       			  </c:if>
 				       			  <c:if test="${History.specification == '댓글'}">
 				       			  		<td><c:out value="${History.specification}" /></td>
-				       					<td><a href="/dokky/board/get?num=${History.board_num}"><c:out value="${History.reply_content}" /></a></td>
+				       					<td><a href="/dokky/board/get?board_num=${History.board_num}"><c:out value="${History.reply_content}" /></a></td>
 				       			  </c:if>
 					       </c:when>
 			       </c:choose>
@@ -117,7 +117,7 @@
 		$(".move").on("click",function(e) {
 			
 			e.preventDefault(); 
-			actionForm.append("<input type='hidden' name='num' value='"+ $(this).attr("href")+ "'>");
+			actionForm.append("<input type='hidden' name='board_num' value='"+ $(this).attr("href")+ "'>");
 			actionForm.attr("action","/dokky/board/get");
 			actionForm.submit();   
 		});

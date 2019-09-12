@@ -31,10 +31,10 @@
 				<c:forEach items="${MyBoard}" var="board">
 					<tr>
 					<td>
-						<input type="checkbox" name="checkRow" value="${board.num}" />
+						<input type="checkbox" name="checkRow" value="${board.board_num}" />
                     </td>
 						<td class="boardTitle">
-							<a class='move' href='<c:out value="${board.num}"/>'> 
+							<a class='move' href='<c:out value="${board.board_num}"/>'> 
 								<c:out value="${board.title}" />
 								<span class="replyCnt">[<c:out value="${board.replyCnt}" />]</span>
 							</a>
@@ -121,7 +121,7 @@
 		$(".move").on("click",function(e) {
 			
 			e.preventDefault(); 
-			actionForm.append("<input type='hidden' name='num' value='"+ $(this).attr("href")+ "'>");
+			actionForm.append("<input type='hidden' name='board_num' value='"+ $(this).attr("href")+ "'>");
 			actionForm.attr("action","/dokky/board/get");
 			
 			actionForm.submit();   
@@ -142,8 +142,10 @@
 		  var checkRow = "";
 		  
 		  $( "input[name='checkRow']:checked" ).each (function (){
+			  	alert($(this).val());
 		    	checkRow = checkRow + $(this).val()+"," ;
 		  });
+		  return false;
 		  
 		  checkRow = checkRow.substring(0,checkRow.lastIndexOf( ","));
 		 

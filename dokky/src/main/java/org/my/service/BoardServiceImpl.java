@@ -78,29 +78,29 @@ public class BoardServiceImpl implements BoardService {
 		log.info("register......getAttachList");
 
 		board.getAttachList().forEach(attach -> {// attach는 BoardAttachVO
-			attach.setNum(board.getNum());
+			attach.setBoard_num(board.getBoard_num());
 			attachMapper.insert(attach);
 		});
 	}
-	
+	 
 	@Transactional
 	@Override
-	public BoardVO get(Long num) {
+	public BoardVO get(Long board_num) {
 
-		log.info("get..." + num);
+		log.info("get..." + board_num);
 		
-		log.info("updateHitCnt..." + num);
+		log.info("updateHitCnt..." + board_num);
 		
-		mapper.updateHitCnt(num);//조회수 증가
+		mapper.updateHitCnt(board_num);//조회수 증가
 		
-		return mapper.read(num);
+		return mapper.read(board_num);
 	}
 	@Override
-	public BoardVO getModifyForm(Long num) {
+	public BoardVO getModifyForm(Long board_num) {
 
-		log.info("getModifyForm" + num);
+		log.info("getModifyForm" + board_num);
 		
-		return mapper.read(num);
+		return mapper.read(board_num);
 	}
 
 	@Transactional
@@ -109,7 +109,7 @@ public class BoardServiceImpl implements BoardService {
 
 		log.info("modify......" + board); 
 
-		attachMapper.deleteAll(board.getNum());//일단 디비에서 첨부파일 정보 모두다 삭제,실제파일은 삭제안됨
+		attachMapper.deleteAll(board.getBoard_num());//일단 디비에서 첨부파일 정보 모두다 삭제,실제파일은 삭제안됨
 
 		boolean modifyResult = mapper.update(board) == 1; 
 		
@@ -117,7 +117,7 @@ public class BoardServiceImpl implements BoardService {
 
 			board.getAttachList().forEach(attach -> {
 
-				attach.setNum(board.getNum());
+				attach.setBoard_num(board.getBoard_num());
 				attachMapper.insert(attach);//다시 모든파일 정보를 다 디비에 넣어준다
 			});
 		}
@@ -149,11 +149,11 @@ public class BoardServiceImpl implements BoardService {
 	}
 	
 	@Override
-	public List<BoardAttachVO> getAttachList(Long num) {
+	public List<BoardAttachVO> getAttachList(Long board_num) {
 
-		log.info("get Attach list by num" + num);
+		log.info("get Attach list by board_num" + board_num);
 
-		return attachMapper.findByNum(num);
+		return attachMapper.findByNum(board_num);
 	}
 	
 	/*@Override
@@ -310,7 +310,7 @@ public class BoardServiceImpl implements BoardService {
 		donateVO donateVO = vo.getDonateVO();
 		
 		log.info("updateMycash");
-		mapper.updateMycash(donateVO.getMoney(),donateVO.getUserId());
+		mapper.updateMycash(donateVO.getMoney(), donateVO.getUserId());
 		
 		log.info("insertMyCashHistory");
 		mapper.insertMyCashHistory(donateVO);

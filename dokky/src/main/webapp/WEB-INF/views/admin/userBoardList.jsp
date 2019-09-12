@@ -35,7 +35,7 @@
 				<c:forEach items="${userBoard}" var="board">
 					<tr>
 						<td class="boardTitle">  
-							<a class='move' href='<c:out value="${board.num}"/>'> 
+							<a class='move' href='<c:out value="${board.board_num}"/>'> 
 								<c:out value="${board.title}" /> 
 								<span class="replyCnt">[<c:out value="${board.replyCnt}" />]</span>
 							</a>
@@ -106,7 +106,7 @@
 		$(".move").on("click",function(e) {
 			
 			e.preventDefault(); 
-			actionForm.append("<input type='hidden' name='num' value='"+ $(this).attr("href")+ "'>");
+			actionForm.append("<input type='hidden' name='board_num' value='"+ $(this).attr("href")+ "'>");
 			actionForm.attr("action","/dokky/board/get");
 			
 			actionForm.submit();   

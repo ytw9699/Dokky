@@ -1,23 +1,25 @@
 	1.-----------------------------------------------------
 	create table DK_BOARD (--게시판 테이블
-		  CATEGORY number(10,0) not null,-- 1~5번 게시판
-		  NUM number(10,0),--PK
-		  TITLE varchar2(200) not null,
-		  NICKNAME varchar2(50) not null,
-		  userId varchar2(50) not null,
-		  CONTENT varchar2(4000) not null,
-		  BLIND varchar2(10) default '미적용',
-		  STATUS varchar2(10) default '정상',
-		  REGDATE date default sysdate, 
-		  UPDATEDATE date default sysdate,
-		  likeCnt number(10,0) default 0,
-		  dislikeCnt number(10,0) default 0,
-		  MONEY number(10,0) default 0,
-		  HITCNT number(10,0) default 0,
-		  REPLYCNT number(10,0) default 0,
-		  delete_check varchar2(10) default 'possible',
-		  constraint PK_DK_BOARD primary key(NUM)
+	
+		  CATEGORY number(10,0) not null,-- 0~5번 게시판
+		  BOARD_NUM number(10,0),--PK --글번호
+		  TITLE varchar2(200) not null, --제목
+		  NICKNAME varchar2(50) not null, --작성자 닉네임
+ 		  userId varchar2(50) not null, -- 작성자 아이디
+		  CONTENT varchar2(4000) not null, --글 내용
+		  REGDATE date default sysdate, --글 작성날짜
+		  UPDATEDATE date default sysdate, -- 글 수정 날짜
+		  likeCnt number(10,0) default 0, -- 좋아요 수
+		  dislikeCnt number(10,0) default 0, --싫어요 수
+		  MONEY number(10,0) default 0, -- 기부금액
+		  HITCNT number(10,0) default 0, -- 조회수
+		  REPLYCNT number(10,0) default 0, -- 댓글수
+		  constraint PK_DK_BOARD primary key(BOARD_NUM)
 	);
+	
+	--delete_check number(10,0) default 0,	
+	--BLIND varchar2(10) default '미적용',
+	--STATUS varchar2(10) default '정상', 
 	
 	create sequence seq_dk_board;
 	
@@ -33,6 +35,7 @@
 	2.---------------------------------------------------------------------------------------
 	
 	create table DK_REPLY (--댓글 테이블
+	
 		reply_num number(10,0),--pk
 		board_num number(10,0) not null, --게시글 번호
 		reply_content varchar2(1000) not null,--댓글 내용
@@ -45,30 +48,31 @@
 		likeCnt number(10,0) default 0, --좋아요 수
 		dislikeCnt number(10,0) default 0, --싫어요 수
 		money number(10,0) default 0, --기부금
-		parent_num number(10,0) not null,--댓글 묶음 번호 , 그룹을 이루는 번호
+		group_num number(10,0) not null,--댓글 묶음 번호 , 그룹을 이루는 번호
 		order_step number(10,0) not null,--댓글 출력 순서
-		reply_level number(10,0) not null,--댓글 깊이 depth = 루트글인지,답변글인지,답변에 답변글인지..답변에 답변에 답변인지 쭉~
-		delete_check varchar2(10) default 'possible'
+		depth number(10,0) not null,--댓글 깊이 depth = 루트글인지,답변글인지,답변에 답변글인지..답변에 답변에 답변인지 쭉~
 	);
+
+	--delete_check varchar2(10) default 'possible'
 	
 	alter table DK_REPLY add constraint pk_reply primary key (reply_num);
 	
-	alter table DK_REPLY add constraint fk_reply_board foreign key (board_num) references DK_BOARD (num) on delete cascade;--on delete cascade는 자식테이블을 같이 삭제시켜줌
+	alter table DK_REPLY add constraint fk_reply_board foreign key (board_num) references DK_BOARD (board_num) on delete cascade;--on delete cascade는 자식테이블을 같이 삭제시켜줌
 	
 	create sequence seq_dk_reply
 	
 	create index idx_reply on DK_REPLY(board_num desc, reply_num asc);
 	
 	--디폴트값입력해줘야 캐시충전됨
-	insert into dk_reply(reply_num,num,reply_content,nickName,userId,parent_num,order_step,reply_level)
+	insert into dk_reply(reply_num, board_num, reply_content, nickName, userId, group_num, order_step, depth)
 	 values (0,0, '디폴트', '디폴트','admin',0,0,0)
 	 
 	DROP TABLE DK_REPLY PURGE;
 	
-	insert into dk_reply(reply_num,num,reply_content,nickName) values (seq_dk_reply.nextval,221, 'test', 'test')
+	insert into dk_reply(reply_num, board_num, reply_content, nickName) values (seq_dk_reply.nextval,221, 'test', 'test')
 	
-	insert into DK_REPLY(reply_num, num, reply_content, nickName,userId)
-	(select seq_dk_reply.nextval, num, reply_content, nickName from DK_REPLY);
+	insert into DK_REPLY(reply_num, board_num, reply_content, nickName,userId)
+	(select seq_dk_reply.nextval, board_num, reply_content, nickName from DK_REPLY);
 	
 	3.------------------------------------------------------------------------------------------
 	create table dk_member(--회원 테이블
@@ -96,17 +100,16 @@
 		uploadPath varchar2(200) not null,-- 실제 파일이 업로드된 경로
 		fileName varchar2(100) not null, --파일 이름을 의미
 		fileType char(1) default 'I', --이미지 파일 여부를판단
-		NUM number(10,0) -- 해당 게시물 번호를 저장
+		board_num number(10,0) -- 해당 게시물 번호를 저장
 	);
 	
 	alter table dk_attach add constraint pk_attach primary key (uuid);
-	alter table dk_attach add constraint fk_board_attach foreign key (NUM) references DK_BOARD(NUM);
+	alter table dk_attach add constraint fk_board_attach foreign key (board_num) references DK_BOARD(board_num);
 	
-	insert into dk_attach(uuid, uploadPath, fileName, NUM)
+	insert into dk_attach(uuid, uploadPath, fileName, board_num)
 	values ('11', '테스트 제목','테스트 내용',3);
 	
 	DROP TABLE dk_attach PURGE;
-	
 	
 	5.------------------------------------------------------------------------------------------
 	create table dk_member_auth (--권한 테이블
@@ -132,9 +135,9 @@
 	7.게시글 좋아요 테이블
 	create table dk_board_like (
 		 userId varchar2(50) not null,
-	     num number(10,0) not null,
+	     board_num number(10,0) not null,
 	     likeValue varchar2(50) not null,--좋아요 눌르면 push,다시 눌르면 pull
-	     constraint fk_board_like foreign key(num) references DK_BOARD(num) on delete cascade
+	     constraint fk_board_like foreign key(board_num) references DK_BOARD(board_num) on delete cascade
 	);
 	
 	drop table dk_board_like purge
@@ -142,9 +145,9 @@
 	8.게시글 싫어요 테이블
 	create table dk_board_dislike (
 		 userId varchar2(50) not null,
-	     num number(10,0) not null,
+	     board_num number(10,0) not null,
 	     dislikeValue varchar2(50) not null,--싫어요 눌르면 push,다시 눌르면 pull
-	     constraint fk_board_dislike foreign key(num) references DK_BOARD(num) on delete cascade
+	     constraint fk_board_dislike foreign key(board_num) references DK_BOARD(board_num) on delete cascade
 	);
 	
 	drop table dk_board_dislike purge
@@ -175,9 +178,9 @@
 	create table dk_scrap (
 		 scrap_num number(10,0),
 	     userId varchar2(50) not null,
-	     NUM number(10,0) not null,
+	     board_num number(10,0) not null,
 	     regDate date default sysdate,
-	     constraint fk_scrap foreign key(NUM) references dk_board(NUM) on delete cascade,
+	     constraint fk_scrap foreign key(board_num) references dk_board(board_num) on delete cascade,
     	 constraint pk_scrap PRIMARY KEY (scrap_num)
     	 --constraint pk_scrap PRIMARY KEY (userId, NUM)
 );
@@ -193,12 +196,14 @@
 		 regDate date default sysdate, 
 		 userId varchar2(50) not null,
 		 specification varchar2(50),--미승인/승인완료
-		 board_num number(10,0) default 0,--무결성제약조건에 걸리지않기 위해 디폴트값 입력바람
-		 reply_num number(10,0) default 0,--무결성제약조건에 걸리지않기 위해 디폴트값 입력바람
-		 constraint fk_cash_board_num foreign key(board_num) references dk_board(NUM),
-		 constraint fk_cash_reply_num foreign key(reply_num) references dk_reply(reply_num),
+		 board_num number(10,0),
+		 reply_num number(10,0),
 		 constraint pk_cash PRIMARY KEY (cash_num)
 	);
+	
+	 --reply_num number(10,0) default 0,--무결성제약조건에 걸리지않기 위해 디폴트값 입력바람
+	 --constraint fk_cash_board_num foreign key(board_num) references dk_board(NUM),
+	 --constraint fk_cash_reply_num foreign key(reply_num) references dk_reply(reply_num),
 	
 	create sequence seq_dk_cash
 	
@@ -233,10 +238,10 @@
 		 board_num number(10,0) default 0,--글번호  
 		 reason varchar2(200) not null,--사유
 		 regDate date default sysdate, 
-		 constraint fk_report_board_num foreign key(board_num) references dk_board(NUM),
-		 --constraint fk_report_reply_num foreign key(reply_num) references dk_reply(reply_num),
 		 constraint pk_report PRIMARY KEY (report_num)
 	);
+
+	--constraint fk_report_board_num foreign key(board_num) references dk_board(NUM),
 	
 	create sequence seq_dk_report
 	
@@ -260,16 +265,17 @@
 14.알림 테이블 -----------------------------------------------------
 
  CREATE TABLE dk_alarm(
-	 alarmNum number(10,0), --기본키
-	 checking VARCHAR2(10) DEFAULT 'NO',
-	 target VARCHAR2(50) NOT NULL,
-	 writerNick VARCHAR2(50) NOT NULL,
-	 writerId VARCHAR2(50) NOT NULL,
-	 kind VARCHAR2(10) NOT NULL,--1~9
-	 commonVar1 VARCHAR2(200),
-	 commonVar2 VARCHAR2(200),
-	 regdate date default sysdate,
-	 constraint pk_alarm PRIMARY KEY (alarmNum)
+ 
+		 alarmNum number(10,0), --기본키
+		 checking VARCHAR2(10) DEFAULT 'NO',
+		 target VARCHAR2(50) NOT NULL,
+		 writerNick VARCHAR2(50) NOT NULL,
+		 writerId VARCHAR2(50) NOT NULL,
+		 kind VARCHAR2(10) NOT NULL,--1~9
+		 commonVar1 VARCHAR2(200),
+		 commonVar2 VARCHAR2(200),
+		 regdate date default sysdate,
+		 constraint pk_alarm PRIMARY KEY (alarmNum)
 )
 
 insert into dk_alarm( alarmNum, target, writerNick, writerId, kind, commonVar1, commonVar2, 
@@ -279,7 +285,7 @@ create sequence seq_dk_alarm
 
 drop table dk_alarm purge
 	
-	
+
 14.기타 -----------------------------------------------------
 	컬럼수정
 	alter table dk_board modify(content varchar2(4000) not null)

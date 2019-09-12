@@ -11,9 +11,9 @@
 									, reply_content
 									, nickName
 									, userId
-									, parent_num
+									, group_num
 									, order_step
-									, reply_level
+									, depth
 							 )
 						values (  
 									  seq_dk_reply.nextval
@@ -34,9 +34,9 @@
 								, reply_content
 								, nickName
 								, userId
-								, parent_num
+								, group_num
 								, order_step
-								, reply_level
+								, depth
 								, toUserId
 								, toNickName
 							 )
@@ -46,25 +46,25 @@
 							 , #{reply_content}
 							 , #{nickName}
 							 , #{userId}
-							 , #{parent_num}
+							 , #{group_num}
 							 , #{order_step}
-							 , #{reply_level}+1
+							 , #{depth}+1
 							 , #{toUserId}
 							 , #{toNickName} 
 						   )
 	</insert>
 	 
 	<select id="selectNextReply" resultType="org.my.domain.ReplyVO">
-		  <![CDATA[ select * from dk_reply where parent_num = #{parent_num} and order_step > #{order_step} and reply_level <= #{reply_level} order by order_step asc   ]]>
+		  <![CDATA[ select * from dk_reply where group_num = #{group_num} and order_step > #{order_step} and depth <= #{depth} order by order_step asc   ]]>
 	</select> 
 	
 	<!-- 그룹번호에 해당하는 가장 마지막줄의 step_order를 가져오는것 -->
 	<select id="lastReplyStep" resultType="int">
-		SELECT order_step FROM (SELECT order_step FROM dk_reply where parent_num = #{parent_num} order by order_step desc) WHERE ROWNUM = 1
+		SELECT order_step FROM (SELECT order_step FROM dk_reply where group_num = #{group_num} order by order_step desc) WHERE ROWNUM = 1
 	</select>
 	
 	<update id="updateOrder_step">
-	 	<![CDATA[update dk_reply set order_step = order_step+1 where parent_num = #{parent_num} and order_step >= #{order_step} ]]>
+	 	<![CDATA[update dk_reply set order_step = order_step+1 where group_num = #{group_num} and order_step >= #{order_step} ]]>
 	</update>
 		
 	<select id="read" resultType="org.my.domain.ReplyVO">
@@ -92,14 +92,14 @@
 		     , likeCnt 
 		     , dislikeCnt
 		     , money
-		     , parent_num
+		     , group_num
 		     , order_step
-		     , reply_level
+		     , depth
 		     , toNickName
 		     , toUserId
 	 	from 
 	   (
-	    select ROW_NUMBER() OVER(ORDER BY parent_num ASC, order_step ASC) AS rn
+	    select ROW_NUMBER() OVER(ORDER BY group_num ASC, order_step ASC) AS rn
 																	      , reply_num
 																	      , board_num
 																	      , reply_content
@@ -110,9 +110,9 @@
 																	      , likeCnt 
 																	      , dislikeCnt
 																	      , money
-																	      , parent_num
+																	      , group_num
 																	      , order_step
-																	      , reply_level
+																	      , depth
 																	      , toNickName
 																	      , toUserId
 		    from

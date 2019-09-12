@@ -100,7 +100,7 @@
 				<c:forEach items="${list}" var="board">
 					<tr>
 						<td>   
-							<a class='move' href='<c:out value="${board.num}"/>'> 
+							<a class='move' href='<c:out value="${board.board_num}"/>'> 
 								<c:out value="${board.title}" />
 								<span class="replyCnt">[<c:out value="${board.replyCnt}" />]</span>
 							</a> 
@@ -117,11 +117,11 @@
 							\<fmt:formatNumber type="number" maxFractionDigits="3" value="${board.money}"/>
 						</td>
 						<td> 
-							<a href="#" class="userMenu" data-board_num="${board.num}">
+							<a href="#" class="userMenu" data-board_num="${board.board_num}">
 								<img src="/dokky/resources/img/profile_img/<c:out value="${board.userId}"  />.png"  class="memberImage hideUsermenu" onerror="this.src='/dokky/resources/img/basicProfile.png'" />
 								<c:out value="${board.nickName}" /> 
 							</a> 
-							 <div id="userMenubar_${board.num}" class="userMenubar">
+							 <div id="userMenubar_${board.board_num}" class="userMenubar">
 								<ul class="hideUsermenu"> 
 									<li class="hideUsermenu"><a href="/dokky/userBoardList?userId=${board.userId}" class="hideUsermenu"><span class="hideUsermenu">게시글보기</span></a></li>
 									<li class="hideUsermenu"><a href="#" class="hideUsermenu"><span class="hideUsermenu">쪽지보내기</span></a></li>

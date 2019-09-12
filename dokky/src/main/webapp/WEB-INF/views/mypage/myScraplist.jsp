@@ -34,7 +34,7 @@
 						<input type="checkbox" name="checkRow" value="${scrap.scrap_num}" />
                     </td>
 						<td class="boardTitle">
-							<a class='move' href='<c:out value="${scrap.num}"/>'>  
+							<a class='move' href='<c:out value="${scrap.board_num}"/>'>  
 								<c:out value="${scrap.title}" />
 								<span class="replyCnt">[<c:out value="${scrap.replyCnt}" />]</span>
 							</a>
@@ -147,7 +147,7 @@
 			
 			e.preventDefault(); 
 		
-			actionForm.append("<input type='hidden' name='num' value='"+ $(this).attr("href")+ "'>");
+			actionForm.append("<input type='hidden' name='board_num' value='"+ $(this).attr("href")+ "'>");
 			actionForm.attr("action","/dokky/board/get");
 			actionForm.submit();   
 		});

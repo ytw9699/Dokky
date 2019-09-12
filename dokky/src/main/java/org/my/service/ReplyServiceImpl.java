@@ -47,7 +47,7 @@ public class ReplyServiceImpl implements ReplyService {
 			commonMapper.insertAlarm(vo.getAlarmVO());
 		}
 		
-		if(replyVO.getParent_num() == 0 ) {//시퀀스값은 디폴트 1부터 시작하니까 0으로 기준을 잡자
+		if(replyVO.getGroup_num() == 0 ) {//시퀀스값은 디폴트 1부터 시작하니까 0으로 기준을 잡자
 			
 			log.info("insert......" + replyVO); 
 			return mapper.insert(replyVO);//일반 루트 부모 댓글 입력
@@ -58,9 +58,9 @@ public class ReplyServiceImpl implements ReplyService {
 			/*한개의 (부모)그룹번호 기준으로 생각할때 대댓글의 출력 순서는 대댓글을 달고자 하는 대상인 부모댓글(루트가 아닌 경우도 포함)의
 			출력 순서 보다 크면서(밑에 있으면서), 부모댓글의 (레벨)깊이보다 작거나 같은 최초의 댓글의 그룹순서가 된다*/
 			
-			if(list.isEmpty()){//그런데 최초의 댓글이 없다면
+			if(list.isEmpty()){//그런데 최초의 댓글이 없다면 
 				//댓글의 순서를 결정하는 1번째 핵심
-				int lastReplyStep = mapper.lastReplyStep(replyVO.getParent_num());//그룹내에 맨 마지막 댓글의 순서번호를가져오고
+				int lastReplyStep = mapper.lastReplyStep(replyVO.getGroup_num());//그룹내에 맨 마지막 댓글의 순서번호를가져오고
 				
 				replyVO.setOrder_step(lastReplyStep+1);//순서번호에 +1을 해준다 
 				
@@ -237,10 +237,10 @@ public class ReplyServiceImpl implements ReplyService {
 		}
 		
 		@Override
-		public String getDisLikeCount(Long num) {
+		public String getDisLikeCount(Long reply_num) {
 	 
 			log.info("getDisLikeCount");
-			return mapper.getDisLikeCount(num);
+			return mapper.getDisLikeCount(reply_num);
 		}
 		
 		@Transactional

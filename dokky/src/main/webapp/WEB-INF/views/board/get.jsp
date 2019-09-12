@@ -76,7 +76,7 @@
         
 	<div class="titleWrapper">
    		<div id="titleNum">
-   			#<c:out value="${board.num}"/>
+   			#<c:out value="${board.board_num}"/>
    		</div>
    		
    		<div id="title">
@@ -203,7 +203,7 @@
 	<form id='operForm' action="/dokky/board/modify" method="get">
 		  <input type="hidden" id='csrf' name="${_csrf.parameterName}" value="${_csrf.token}"/>
 		  <input type='hidden' id='userId' name='userId' value='<c:out value="${board.userId}"/>'>    
-		  <input type='hidden' id='num' name='num' value='<c:out value="${board.num}"/>'>
+		  <input type='hidden' id='board_num' name='board_num' value='<c:out value="${board.num}"/>'>
 		  <input type='hidden' name='category' value='<c:out value="${board.category}"/>'>
 		  <input type='hidden' name='pageNum' value='<c:out value="${cri.pageNum}"/>'>
 		  <input type='hidden' name='amount' value='<c:out value="${cri.amount}"/>'>
@@ -266,7 +266,7 @@
 <script>
 		
 	//공통 변수 모음
-	var board_num = '${board.num}';
+	var board_num = '${board.reply_num}';
 	var board_id = '${board.userId}';
 	var board_nickName = '${board.nickName}';
 	var board_title = '${board.title}';
@@ -381,8 +381,8 @@
 			var likeCnt; //댓글 좋아요 카운트
 			var dislikeCnt; //댓글 싫어요 카운트
 			var money; //댓글 기부금
-			var reply_level; 
-			var parent_num; 
+			var depth; 
+			var group_num; 
 			var order_step; 
 			
 			
@@ -425,8 +425,8 @@
 			   replyDate 	 = data.list[i].replyDate;
 			   likeCnt 	     = data.list[i].likeCnt;
 			   dislikeCnt 	 = data.list[i].dislikeCnt;
-			   reply_level   = data.list[i].reply_level;
-			   parent_num    = data.list[i].parent_num;
+			   depth   		 = data.list[i].depth;
+			   group_num     = data.list[i].group_num;
 			   order_step    = data.list[i].order_step;
 			   money         = data.list[i].money;
 			   
@@ -442,7 +442,7 @@
     	       
 		       str += "<li id='replyLi"+reply_nums+"' class='replyLi'>"
 		    
-		       if(reply_level == 0){    
+		       if(depth == 0){    
 			    	    
 		    	  str += "<div class='reply' data-reply_num='"+reply_nums+"'>" 
 			    	  		   + "<span>"
@@ -474,7 +474,7 @@
 				  
 					  if(myId){ 
 						  str += "<span>" 
-							   		+ "<button data-oper='reReplyForm' type='button' data-reply_num='"+reply_nums+"' data-reply_id='"+userId+"' data-nick_name='"+nickName+"' data-parent_num='"+ parent_num+"' data-order_step='"+order_step+"' data-reply_level='"+reply_level+"'>답글</button>" 
+							   		+ "<button data-oper='reReplyForm' type='button' data-reply_num='"+reply_nums+"' data-reply_id='"+userId+"' data-nick_name='"+nickName+"' data-group_num='"+ group_num+"' data-order_step='"+order_step+"' data-depth='"+depth+"'>답글</button>" 
 						       + "</span>"; 
 					  }
 		    	  
@@ -518,15 +518,15 @@
 				  	          + "</span>"
 		          	 } 
 		    	  
-		       }else if(reply_level == 1){    
+		       }else if(depth == 1){    
 		    	   
 		    	   str += "<div class='reply first' data-reply_num='"+reply_nums+"'>└ "  
 		    	  
-		       }else if(reply_level == 2){
+		       }else if(depth == 2){
 		    	   
 		    	   str += "<div class='reply second' data-reply_num='"+reply_nums+"'>└ "  
 		    	  
-		       }else if(reply_level == 3){ 
+		       }else if(depth == 3){ 
 		    	   
 	    	       str += "<div class='reply third' data-reply_num='"+reply_nums+"'>└ "  
 	    	      
@@ -537,7 +537,7 @@
 			   }//end if   
 			   
 			   
-		       if(reply_level != 0){   
+		       if(depth != 0){   
 		    	   
 	    	   			  str += "<span>"
 							       + "<a href='#' class='userMenu' data-reply_num='"+reply_nums+"' data-menu_kind='from'>"   
@@ -593,7 +593,7 @@
 				
 				  	  if(myId){ 
 						  str += "<span>" 
-							   		+ "<button data-oper='reReplyForm' type='button' data-reply_num='"+reply_nums+"' data-reply_id='"+userId+"' data-nick_name='"+nickName+"' data-parent_num='"+ parent_num+"' data-order_step='"+order_step+"' data-reply_level='"+reply_level+"'>답글</button>" 
+							   		+ "<button data-oper='reReplyForm' type='button' data-reply_num='"+reply_nums+"' data-reply_id='"+userId+"' data-nick_name='"+nickName+"' data-group_num='"+ group_num+"' data-order_step='"+order_step+"' data-depth='"+depth+"'>답글</button>" 
 						       + "</span>"; 
 				  	  }
 					      
@@ -728,7 +728,7 @@
 	
 	$("#list_button").on("click", function(e){//목록보기
 		
-	    operForm.find("#num").remove();
+	    operForm.find("#board_num").remove();
 	    operForm.find("#userId").remove();
 	    operForm.find("#csrf").remove();
 	    operForm.attr("action","/dokky/board/list")
@@ -1035,6 +1035,7 @@
 							  	 cash 	    : myCash //기부자의 잔여 캐시
 							 };
 		
+		
 			var alarmData = { 
 								target:board_id,
 								commonVar1:board_title,
@@ -1237,9 +1238,9 @@
 	
 	var reReplyWriteForm = $(".reReplyWriteForm");
 	
-	var parent_num;//댓글 묶음 번호  
+	var group_num;//댓글 묶음 번호  
 	var order_step;//댓글 출력순서
-    var reply_level;//댓글 깊이= 루트글인지,답변글인지,답변에 답변글인지
+    var depth;//댓글 깊이= 루트글인지,답변글인지,답변에 답변글인지
     var toUserId;//대댓글 알림 보낼 사람의 아이디
     var toNickName;//대댓글 알림 보낼 사람의 닉네임
     
@@ -1252,9 +1253,9 @@
 			
 			$("#replyLi"+reply_num).after(reReplyWriteForm);//해당 댓글 li의 뒤에다가 대댓글폼 버튼 붙이기       
 		  
-			parent_num = $(this).data("parent_num");  
+			group_num = $(this).data("group_num");  
 			order_step = $(this).data("order_step");  
-			reply_level = $(this).data("reply_level");  
+			depth = $(this).data("depth");  
 			toUserId = $(this).data("reply_id");  
 			toNickName = $(this).data("nick_name");  
     });
@@ -1272,9 +1273,9 @@
 				            toUserId	   :	toUserId,
 				            toNickName	   :	toNickName,
 				            board_num	   :	board_num,
-				            parent_num	   :	parent_num,
+				            group_num	   :	group_num,
 				            order_step	   :	order_step,
-				            reply_level	   :	reply_level
+				            depth	   	   :	depth
 			       	     };
 				  
 	          if(toUserId !== myId){
@@ -1389,7 +1390,7 @@
     	  
 	  	 (function(){//즉시실행함수 
 	   	  
-		   	    $.getJSON("/dokky/board/getAttachList", {num: board_num}, function(arr){
+		   	    $.getJSON("/dokky/board/getAttachList", {board_num: board_num}, function(arr){
 		   	        
 		    	       var fileStr = "";
 		    	       

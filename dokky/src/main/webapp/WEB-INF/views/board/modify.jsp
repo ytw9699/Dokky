@@ -100,7 +100,7 @@
           
 		   <input type="hidden" name="${_csrf.parameterName}" value="${_csrf.token}"/> 
 		   <input type='hidden' name='userId' value='<c:out value="${board.userId }"/>'>  
-		   <input type='hidden' name='num' value='<c:out value="${board.num }"/>'>
+		   <input type='hidden' name='board_num' value='<c:out value="${board.board_num }"/>'>
 		   <input type='hidden' name='pageNum' value='<c:out value="${cri.pageNum}"/>'>
 		   <input type='hidden' name='amount' value='<c:out value="${cri.amount}"/>'>
 		   <input type='hidden' name='type' value='<c:out value="${cri.type }"/>'>
@@ -119,9 +119,9 @@
 	$(document).ready(function() {
 		  (function(){
 		    
-		    var num = '<c:out value="${board.num}"/>';
+		    var board_num = '<c:out value="${board.board_num}"/>';
 		    
-		    $.getJSON("/dokky/board/getAttachList", {num: num}, function(arr){
+		    $.getJSON("/dokky/board/getAttachList", {board_num: board_num}, function(arr){
 		    
 			      var fileStr ="";
 			      var photoStr ="";

@@ -9,13 +9,13 @@
 								, uploadpath
 								, filename
 								, filetype
-								, num
+								, board_num
 							  )
 		values (   #{uuid}
 				 , #{uploadPath}
 				 , #{fileName}
 				 , #{fileType}
-				 , #{num} 
+				 , #{board_num} 
 			   )
 	</insert>
 
@@ -24,12 +24,12 @@
 	</delete>
 
 	<select id="findByNum" resultType="org.my.domain.BoardAttachVO">
-			select * from dk_attach where num = #{num}
+			select * from dk_attach where board_num = #{board_num}
 			<!-- 특정 게시물의 번호로 첨부파일을 찾는 작업  -->
 	</select>
 
 	<delete id="deleteAll">
-			delete dk_attach where num = #{num}
+			delete dk_attach where board_num = #{board_num}
 	</delete>
 
 	<select id="getYesterdayFiles" resultType="org.my.domain.BoardAttachVO">

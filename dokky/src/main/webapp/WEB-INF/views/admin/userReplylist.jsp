@@ -34,7 +34,7 @@
 			<table class=""> 
 				<c:forEach items="${userReply}" var="Reply">
 					<tr>
-						<td class="replyTitle"><a class='move' href='<c:out value="${Reply.num}"/>'> 
+						<td class="replyTitle"><a class='move' href='<c:out value="${Reply.board_num}"/>'> 
 							<c:out value="${Reply.reply_content}" /></a></td> 
 					   <td> 
 							<fmt:formatDate value="${Reply.replyDate}" pattern="yyyy년 MM월 dd일 HH:mm" />
@@ -91,7 +91,7 @@
 		$(".move").on("click",function(e) {
 			
 			e.preventDefault(); 
-			actionForm.append("<input type='hidden' name='num' value='"+ $(this).attr("href")+ "'>");
+			actionForm.append("<input type='hidden' name='board_num' value='"+ $(this).attr("href")+ "'>");
 			actionForm.attr("action","/dokky/board/get");
 			
 			actionForm.submit();   

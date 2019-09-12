@@ -36,7 +36,7 @@ public interface ReplyService {
 	
 	public int registerDisLike(commonVO vo);
 	
-	public String getDisLikeCount(Long num);
+	public String getDisLikeCount(Long reply_num);
 
 	public String replyDonateMoney(commonVO vo);
 

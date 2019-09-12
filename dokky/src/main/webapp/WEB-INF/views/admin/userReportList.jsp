@@ -47,7 +47,7 @@
 							</a> 
 						</td> 
 						<td>
-							<a href='/dokky/board/get?num=<c:out value="${report.board_num}"/>'> 
+							<a href='/dokky/board/get?board_num=<c:out value="${report.board_num}"/>'> 
 							  <c:out value="${report.reason}" />
 							</a> 
 						</td>  

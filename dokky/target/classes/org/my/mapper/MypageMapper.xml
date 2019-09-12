@@ -89,16 +89,16 @@
 	<!-- 하위 스크랩 관련 -->
 	<select id="getScrapCnt" resultType="int">
 		<![CDATA[
-			select count(*) from dk_scrap where userId = #{userId} and num = #{board_num}
+			select count(*) from dk_scrap where userId = #{userId} and board_num = #{board_num}
 		]]>
 	</select>
 	
 	<insert id="insertScrapData">
-		insert into dk_scrap (scrap_num, userId, num) values (seq_dk_scrap.nextval, #{userId}, #{board_num})
+		insert into dk_scrap (scrap_num, userId, board_num) values (seq_dk_scrap.nextval, #{userId}, #{board_num})
 	</insert>
 	
 	<delete id="deleteScrap">
-		delete dk_scrap where userId = #{userId} and num = #{board_num}
+		delete dk_scrap where userId = #{userId} and board_num = #{board_num}
 	</delete>
 	
 	<select id="getMyScrapCount" resultType="int">
@@ -122,7 +122,7 @@
 		<select id="getMyScraplist" resultType="org.my.domain.scrapVO"> 
 		<![CDATA[
 		   select 	 
-	 			  num,
+	 			  board_num,
 		   		  userId,
 		   		  nickName,
 		   		  title,
