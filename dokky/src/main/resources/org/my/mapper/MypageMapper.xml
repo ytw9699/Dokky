@@ -31,7 +31,7 @@
 	</update>
 	
 	<select id="getMyBoardList" resultType="org.my.domain.BoardVO"> 
-	select num,
+	select board_num,
 		   title,
 		   replyCnt,
 		   hitCnt,
@@ -40,7 +40,7 @@
 		   money,
 		   regdate from 
 			 ( select /*+INDEX_DESC(DK_BOARD PK_DK_BOARD) */ rownum rn,
-			 														num,
+			 														board_num,
 			 														title,
 			 														replyCnt, 
 			 														hitCnt,
@@ -54,7 +54,7 @@
 	</select>
 	
 	<select id="getMyBoardCount" resultType="int">
-		select count(*) from DK_BOARD where userId = #{userId} and num > 0
+		select count(*) from DK_BOARD where userId = #{userId} and board_num > 0
 	</select>
 	
 	<select id="getMyReplylist" resultType="org.my.domain.ReplyVO">
@@ -122,7 +122,7 @@
 		<select id="getMyScraplist" resultType="org.my.domain.scrapVO"> 
 		<![CDATA[
 		   select 	 
-	 			  board_num,
+		   		  board_num, 
 		   		  userId,
 		   		  nickName,
 		   		  title,
@@ -137,7 +137,7 @@
 			 from 
 			   ( SELECT
 			   	  ROW_NUMBER() OVER(ORDER BY scrap.scrap_num desc) AS rn,
-				  BOARD.num,
+				  BOARD.board_num,
 				  BOARD.userId,
 				  nickName, 
 				  title,
@@ -149,7 +149,7 @@
 				  scrap.regdate,
 				  scrap.scrap_num
 			FROM 
-				  DK_BOARD BOARD inner JOIN dk_scrap scrap on BOARD.num = scrap.num 
+				  DK_BOARD BOARD inner JOIN dk_scrap scrap on BOARD.board_num = scrap.scrap_num 
 				  
 			WHERE scrap.userid = #{userId})
 			
@@ -255,7 +255,7 @@
 				  board.title,
 				  cash.cash_num
 			FROM 
-				  dk_cash cash inner JOIN dk_board board on board.num = cash.board_num 
+				  dk_cash cash inner JOIN dk_board board on board.board_num = cash.board_num 
 				  
 				  inner JOIN dk_reply reply on reply.reply_num = cash.reply_num 
 				  
