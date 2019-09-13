@@ -3,7 +3,7 @@
 	
 		  CATEGORY number(10,0) not null,-- 0~5번 게시판
 		  BOARD_NUM number(10,0),--PK --글번호
-		  TITLE varchar2(200) not null, --제목
+		  TITLE varchar2(200) not null, --글제목
 		  NICKNAME varchar2(50) not null, --작성자 닉네임
  		  userId varchar2(50) not null, -- 작성자 아이디
 		  CONTENT varchar2(4000) not null, --글 내용
@@ -14,7 +14,7 @@
 		  MONEY number(10,0) default 0, -- 기부금액
 		  HITCNT number(10,0) default 0, -- 조회수
 		  REPLYCNT number(10,0) default 0, -- 댓글수
-		  constraint PK_DK_BOARD primary key(BOARD_NUM)
+		  constraint PK_DK_BOARD primary key(BOARD_NUM) --PK
 	);
 	
 	--delete_check number(10,0) default 0,	
@@ -36,9 +36,9 @@
 	
 	create table DK_REPLY (--댓글 테이블
 	
-		reply_num number(10,0),--pk
+		reply_num number(10,0), --pk
 		board_num number(10,0) not null, --게시글 번호
-		reply_content varchar2(1000) not null,--댓글 내용
+		reply_content varchar2(4000) not null,--댓글 내용
 		nickName varchar2(50) not null,  --댓글 작성자 닉네임
 		userId varchar2(50) not null, --댓글 작성자 아이디
 		toUserId varchar2(50), --댓글의 답글 보낼 아이디
@@ -50,7 +50,7 @@
 		money number(10,0) default 0, --기부금
 		group_num number(10,0) not null,--댓글 묶음 번호 , 그룹을 이루는 번호
 		order_step number(10,0) not null,--댓글 출력 순서
-		depth number(10,0) not null,--댓글 깊이 depth = 루트글인지,답변글인지,답변에 답변글인지..답변에 답변에 답변인지 쭉~
+		reply_depth number(10,0) not null--댓글 깊이 depth = 루트글인지,답변글인지,답변에 답변글인지..답변에 답변에 답변인지 쭉~
 	);
 
 	--delete_check varchar2(10) default 'possible'
@@ -76,8 +76,9 @@
 	
 	3.------------------------------------------------------------------------------------------
 	create table dk_member(--회원 테이블
+	
 		  member_num number(10,0) unique,
-	      userId varchar2(50) not null primary key,
+	      userId varchar2(50) primary key,
 	      userPw varchar2(100) not null,
 	      nickName varchar2(100) not null unique,
 	      email varchar2(100) not null unique,
@@ -96,6 +97,7 @@
 	
 	4.---------------------------------------------------------------------------------------
 	create table dk_attach(--업로드 테이블
+	
 		uuid varchar2(100) not null,
 		uploadPath varchar2(200) not null,-- 실제 파일이 업로드된 경로
 		fileName varchar2(100) not null, --파일 이름을 의미
@@ -113,6 +115,7 @@
 	
 	5.------------------------------------------------------------------------------------------
 	create table dk_member_auth (--권한 테이블
+	
 	     userId varchar2(50) not null,
 	     auth varchar2(50) default 'ROLE_USER',
 	     constraint fk_member_auth foreign key(userId) references dk_member(userId)
@@ -122,6 +125,7 @@
 	
 	6.------------------------------------------------------------------------------------------
 	create table persistent_logins ( --인증 테이블
+	
 		username varchar(64) not null,--username은 userid임
 		series varchar(64) primary key,
 		token varchar(64) not null,
@@ -134,6 +138,7 @@
 	-----------------------------------------------------
 	7.게시글 좋아요 테이블
 	create table dk_board_like (
+	
 		 userId varchar2(50) not null,
 	     board_num number(10,0) not null,
 	     likeValue varchar2(50) not null,--좋아요 눌르면 push,다시 눌르면 pull
@@ -144,6 +149,7 @@
 	-----------------------------------------------------
 	8.게시글 싫어요 테이블
 	create table dk_board_dislike (
+	
 		 userId varchar2(50) not null,
 	     board_num number(10,0) not null,
 	     dislikeValue varchar2(50) not null,--싫어요 눌르면 push,다시 눌르면 pull
@@ -154,6 +160,7 @@
 	-----------------------------------------------------
 	9.댓글 좋아요 테이블
 	create table dk_reply_like (
+	
 		 userId varchar2(50) not null,
 	     reply_num number(10,0) not null,
 	     likeValue varchar2(50) not null,--좋아요 눌르면 push,다시 눌르면 pull
@@ -165,6 +172,7 @@
 	-----------------------------------------------------
 	10.댓글 싫어요 테이블
 	create table dk_reply_dislike (
+	
 		 userId varchar2(50) not null,
 	     reply_num number(10,0) not null,
 	     dislikeValue varchar2(50) not null,--싫어요 눌르면 push,다시 눌르면 pull
@@ -176,14 +184,16 @@
 	-----------------------------------------------------
 	11. 스크랩 테이블
 	create table dk_scrap (
+	
 		 scrap_num number(10,0),
 	     userId varchar2(50) not null,
 	     board_num number(10,0) not null,
 	     regDate date default sysdate,
-	     constraint fk_scrap foreign key(board_num) references dk_board(board_num) on delete cascade,
-    	 constraint pk_scrap PRIMARY KEY (scrap_num)
+	     constraint pk_scrap PRIMARY KEY (scrap_num),
+	     constraint fk_scrap foreign key(board_num) references dk_board(board_num) on delete cascade
     	 --constraint pk_scrap PRIMARY KEY (userId, NUM)
-);
+	);
+	
 	create sequence seq_dk_scrap
 	--create index idx_scrap on dk_scrap(scrap_num desc);
 	drop table dk_scrap purge
@@ -191,11 +201,11 @@
 	12.캐시내역 테이블
 	create table dk_cash (
 		 cash_num number(10,0),--pk
-		 cashKind varchar2(50) not null,--충전,환전,기부하기,기부받기
+		 cashKind varchar2(50) not null, --충전,환전,기부하기,기부받기
 		 cashAmount number(10,0) not null,
 		 regDate date default sysdate, 
 		 userId varchar2(50) not null,
-		 specification varchar2(50),--미승인/승인완료
+		 specification varchar2(50), --미승인/승인완료
 		 board_num number(10,0),
 		 reply_num number(10,0),
 		 constraint pk_cash PRIMARY KEY (cash_num)
@@ -229,15 +239,16 @@
 										12.캐시내역 테이블
 14.신고테이블 -----------------------------------------------------
 	create table dk_report (
-		 report_num number(10,0),--pk
-		 reportKind varchar2(50) not null,--게시글,댓글
-		 reportingId varchar2(50) not null,--신고 하는자 아이디
-		 reportingNick varchar2(50) not null,--신고 하는자 아이디
-		 reportedId varchar2(50) not null,--신고 받는자 아이디
-		 reportedNick varchar2(50) not null,--신고 받는자 아이디
-		 board_num number(10,0) default 0,--글번호  
-		 reason varchar2(200) not null,--사유
-		 regDate date default sysdate, 
+	
+		 report_num number(10,0), --pk
+		 reportKind varchar2(50) not null, --게시글,댓글
+		 reportingId varchar2(50) not null, --신고 하는자 아이디
+		 reportingNick varchar2(50) not null, --신고 하는자 닉네임
+		 reportedId varchar2(50) not null, --신고 받는자 아이디
+		 reportedNick varchar2(50) not null, --신고 받는자 닉네임
+		 board_num number(10,0) default 0, --글번호  
+		 reason varchar2(200) not null, --사유
+		 regDate date default sysdate, --신고날짜
 		 constraint pk_report PRIMARY KEY (report_num)
 	);
 
@@ -250,11 +261,12 @@
 14.방문자 테이블 -----------------------------------------------------
 
 	 CREATE TABLE dk_visitor(
+	 
 		 visitor_num number(10,0), --기본키
 		 ip varchar(100) not null, --접속자 아이피
 		 visit_time date default sysdate,  --접속자 접속시간
-		 refer varchar(300),--접속자가 어느사이트를 타고 들어왔는지
-		 agent varchar(400) not null,--접속자 브라우저 정보
+		 refer varchar(300), --접속자가 어느사이트를 타고 들어왔는지
+		 agent varchar(400) not null, --접속자 브라우저 정보
 		 constraint pk_visitor PRIMARY KEY (visitor_num)
     )
     
