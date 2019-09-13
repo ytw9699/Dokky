@@ -264,9 +264,8 @@
 <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
 <script type="text/javascript" src="/dokky/resources/js/reply.js"></script> <!--댓글 AJAX통신 -->
 <script>
-		
-	//공통 변수 모음
-	var board_num = '${board.reply_num}';
+	//공통 변수 모음 
+	var board_num = '${board.board_num}'; 
 	var board_id = '${board.userId}';
 	var board_nickName = '${board.nickName}';
 	var board_title = '${board.title}';
@@ -361,7 +360,7 @@
 	}
 	
 	/////////////////////////////////////////////////////// 댓글 리스트 관련 시작
-
+	
 	function showReplyList(page){//댓글 리스트 가져오기
 		
 	    replyService.getList({board_num:board_num, page: page || 1 }, function(data) {
