@@ -203,7 +203,7 @@
 	<form id='operForm' action="/dokky/board/modify" method="get">
 		  <input type="hidden" id='csrf' name="${_csrf.parameterName}" value="${_csrf.token}"/>
 		  <input type='hidden' id='userId' name='userId' value='<c:out value="${board.userId}"/>'>    
-		  <input type='hidden' id='board_num' name='board_num' value='<c:out value="${board.num}"/>'>
+		  <input type='hidden' id='board_num' name='board_num' value='<c:out value="${board.board_num}"/>'>
 		  <input type='hidden' name='category' value='<c:out value="${board.category}"/>'>
 		  <input type='hidden' name='pageNum' value='<c:out value="${cri.pageNum}"/>'>
 		  <input type='hidden' name='amount' value='<c:out value="${cri.amount}"/>'>
