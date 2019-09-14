@@ -28,7 +28,7 @@
 					<td>
 						<input type="checkbox" name="checkRow" value="${alarm.alarmNum}" />
                     </td>
-                    <c:choose>
+                    <c:choose> 
 					       <c:when test="${alarm.kind == 0 }"> 
 				          		<td> 
 									<a href="#" class="userMenu" data-alarm_num="${alarm.alarmNum}">
@@ -370,7 +370,7 @@
 		$(".move").on("click",function(e) {
 			
 			e.preventDefault(); 
-			actionForm.append("<input type='hidden' name='num' value='"+ $(this).attr("href")+ "'>");
+			actionForm.append("<input type='hidden' name='board_num' value='"+ $(this).attr("href")+ "'>");
 			actionForm.attr("action","/dokky/board/get");
 			
 			actionForm.submit();   
@@ -385,7 +385,7 @@
 		
 		$(".getBoard").on("click",function(e) {//글 상세보기+알람 읽기 체크
 					e.preventDefault();
-					var num = $(this).data("board_num");  
+					var board_num = $(this).data("board_num");  
 					var alarmNum = $(this).data("alarm_num");  
 					
 					updateAlarmCheck(alarmNum, function(result){//알람 읽기 체크
@@ -394,7 +394,7 @@
 								
 								checkAlarm.html("");//알림 숫자 1 없애주기
 								
-								commonForm.append("<input type='hidden' name='num' value='"+num+"'/>");
+								commonForm.append("<input type='hidden' name='board_num' value='"+board_num+"'/>");
 								commonForm.submit();//글 상세보기 
 								}
 				   	  });

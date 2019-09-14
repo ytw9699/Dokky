@@ -50,7 +50,7 @@
 		money number(10,0) default 0, --기부금
 		group_num number(10,0) not null,--댓글 묶음 번호 , 그룹을 이루는 번호
 		order_step number(10,0) not null,--댓글 출력 순서
-		reply_depth number(10,0) not null--댓글 깊이 depth = 루트글인지,답변글인지,답변에 답변글인지..답변에 답변에 답변인지 쭉~
+		depth number(10,0) not null--댓글 깊이 depth = 루트글인지,답변글인지,답변에 답변글인지..답변에 답변에 답변인지 쭉~
 	);
 
 	--delete_check varchar2(10) default 'possible'

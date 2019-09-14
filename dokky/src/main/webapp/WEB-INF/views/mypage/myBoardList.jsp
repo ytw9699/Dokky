@@ -140,16 +140,15 @@
 	function deleteAction(){
 		
 		  var checkRow = "";
+		  console.log(checkRow);
 		  
-		  $( "input[name='checkRow']:checked" ).each (function (){
-			  	alert($(this).val());
+		  $( "input[name='checkRow']:checked" ).each (function (){ 
 		    	checkRow = checkRow + $(this).val()+"," ;
 		  });
-		  return false;
 		  
 		  checkRow = checkRow.substring(0,checkRow.lastIndexOf( ","));
 		 
-		  if(checkRow == ''){
+		  if(checkRow == ""){
 		   	 alert("삭제할 글을 선택하세요.");
 		    return false;
 		  }
