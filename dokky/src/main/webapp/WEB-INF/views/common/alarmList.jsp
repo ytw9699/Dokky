@@ -68,7 +68,7 @@
 								</td>
 								
 								<td>
-				          			<a href="#" class="getBoard" data-alarm_num="${alarm.alarmNum}" data-board_num="${alarm.commonVar2}">${alarm.commonVar1} 글에 좋아요 표시를 했습니다.</a>
+				          			<a href="#" class="getBoard" data-alarm_num="${alarm.alarmNum}" data-board_num="${alarm.commonVar2}">다음 글에 좋아요 하셨습니다. "${alarm.commonVar1}"</a>
 					          	</td>
 				          		
 				          		 <td class="checkAlarm${alarm.alarmNum}"> 
@@ -92,7 +92,7 @@
 								</td>
 								
 								<td>
-				          			<a href="#" class="getBoard" data-alarm_num="${alarm.alarmNum}" data-board_num="${alarm.commonVar2}">${alarm.commonVar1} 글에 싫어요 표시를 했습니다.</a>
+				          			<a href="#" class="getBoard" data-alarm_num="${alarm.alarmNum}" data-board_num="${alarm.commonVar2}">다음 글에 싫어요 하셨습니다. "${alarm.commonVar1}"</a>
 					          	</td>
 					          	
 				          		  <td class="checkAlarm${alarm.alarmNum}"> 
@@ -116,7 +116,7 @@
 								</td>
 								
 								<td>
-				          			<a href="#" class="getBoard" data-alarm_num="${alarm.alarmNum}" data-board_num="${alarm.commonVar2}">${alarm.commonVar1} 글에 기부하셨습니다.</a>
+				          			<a href="#" class="getBoard" data-alarm_num="${alarm.alarmNum}" data-board_num="${alarm.commonVar2}">다음 글에 기부하셨습니다. "${alarm.commonVar1}"</a>
 					          	</td>
 					          	
 				          		  <td class="checkAlarm${alarm.alarmNum}"> 
@@ -140,7 +140,7 @@
 								</td>
 								
 								<td>
-				          			<a href="#" class="getBoard" data-alarm_num="${alarm.alarmNum}" data-board_num="${alarm.commonVar2}">${alarm.commonVar1} 댓글에 기부하셨습니다.</a>
+				          			<a href="#" class="getBoard" data-alarm_num="${alarm.alarmNum}" data-board_num="${alarm.commonVar2}">다음 댓글에 기부하셨습니다. "${alarm.commonVar1}"</a>
 					          	</td>
 					          	
 				          		 <td class="checkAlarm${alarm.alarmNum}"> 
@@ -164,7 +164,7 @@
 								</td>
 								
 								<td>
-				          			<a href="#" class="getBoard" data-alarm_num="${alarm.alarmNum}" data-board_num="${alarm.commonVar2}">다음 댓글에 좋아요 하셨습니다. "${alarm.commonVar1}" </a>
+				          			<a href="#" class="getBoard" data-alarm_num="${alarm.alarmNum}" data-board_num="${alarm.commonVar2}">다음 댓글에 좋아요 하셨습니다. "${alarm.commonVar1}"</a>
 					          	</td>
 					          	
 				          		 <td class="checkAlarm${alarm.alarmNum}"> 
@@ -187,7 +187,7 @@
 								     </div> 
 								</td>
 				          		<td>
-				          			<a href="#" class="getBoard" data-alarm_num="${alarm.alarmNum}" data-board_num="${alarm.commonVar2}">${alarm.commonVar1} 댓글에 싫어요 표시를 했습니다.</a>
+				          			<a href="#" class="getBoard" data-alarm_num="${alarm.alarmNum}" data-board_num="${alarm.commonVar2}">다음 댓글에 싫어요 하셨습니다. "${alarm.commonVar1}"</a>
 					          	</td>
 				          		 <td class="checkAlarm${alarm.alarmNum}"> 
 					          		 <c:if test="${alarm.checking == 'NO'}">
