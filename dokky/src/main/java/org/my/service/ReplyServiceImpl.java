@@ -101,15 +101,17 @@ public class ReplyServiceImpl implements ReplyService {
 
     @Transactional
 	@Override 
-	public int remove(Long reply_num, Long board_num) {
+	public int remove(Long reply_num) {
 
-		log.info("remove...." + reply_num);
+    	log.info("remove...." + reply_num);
+
+		Long board_num = mapper.getBoardNum(reply_num); 
 
 		boardMapper.updateReplyCnt(board_num, -1);
 		
 		return mapper.delete(reply_num);
 		
-		}
+	}
 	  
 	  @Override
 	  public ReplyPageDTO getListPage(Criteria cri, Long board_num) {

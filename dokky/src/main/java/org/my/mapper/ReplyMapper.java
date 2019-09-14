@@ -69,4 +69,6 @@ public interface ReplyMapper {
 
 	public int updateOrder_step(ReplyVO replyVO);
 
+	public Long getBoardNum(Long reply_num);
+
 }

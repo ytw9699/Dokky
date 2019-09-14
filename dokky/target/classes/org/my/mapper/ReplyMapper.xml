@@ -70,6 +70,10 @@
 	<select id="read" resultType="org.my.domain.ReplyVO">
 		select * from DK_REPLY where reply_num = #{reply_num}
 	</select>
+	
+	<select id="getBoardNum" resultType="long">
+		select board_num from DK_REPLY where reply_num = #{reply_num}
+	</select>
 
 	<delete id="delete">
 		delete from DK_REPLY where reply_num = #{reply_num}
