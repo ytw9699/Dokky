@@ -378,13 +378,28 @@
 		margin-top:1%; 
 		margin-bottom:5%;  
 	}
-	.fileUploadResult{
-	    display: inline-block;
+	
+	.fileUploadWrap{
+		display: inline-block;
 	    border-style: solid;
 	    border-color: #e6e6e6;
 	    margin-left: 1%;
 	    margin-right: 1%;
 	    margin-top: -5.6%;
+	    margin-bottom: 1%;
+	    float: right;
+	    font-size: 13px;
+	    width: 30%;
+	    height: 54px;
+	}
+	 
+	.fileUploadResult{ 
+	    display: none;
+	    border-style: solid;
+	    border-color: #e6e6e6;
+	    margin-left: 0%;
+	    margin-right: -32%;
+	    margin-top: -3.6%;
 	    margin-bottom: 1%;
 	    float: right;
 	    font-size: 13px;
@@ -416,7 +431,6 @@
 		position:relative; 
 		word-break:break-all; 
 		min-height: 300px;
-		
 	}
 	.reply_contentWrapper{
 		word-break:break-all; 

@@ -83,10 +83,16 @@
    		 	<c:out value="${board.title}"/>
    		</div>
    		
-   		<div class='fileUploadResult'> 
-            <ul>
-            </ul>
-        </div>
+   		<div class="fileUploadWrap userMenu"> 
+	   		<a href="#" id="fileUploadLink" class="userMenu"> 
+				첨부파일
+			</a> 
+		</div>
+		
+		<div class='fileUploadResult userMenu'>
+           <ul class="userMenu">
+           </ul>  
+	    </div>
 	</div> 
             
     <div class="content"> 
@@ -405,7 +411,6 @@
 		    	 	 return;  
 		    	 	 
 			}else{//댓글이 있다면
-					console.log(replyCnt);
 					 showReplyPage(replyCnt);//댓글 페이지 번호 보여주기 
 			     
 			         replyCntVal.css("display","block"); 
@@ -1396,7 +1401,7 @@
 		    	       $(arr).each(function(i, attach){
 		
 							if(!attach.fileType){ //파일이라면
-		    	        	   fileStr += "<li data-path='"+attach.uploadPath+"' data-uuid='"+attach.uuid+"' data-filename='"+attach.fileName+"' data-type='"+attach.fileType+"' >"
+		    	        	   fileStr += "<li class='hideUsermenu' data-path='"+attach.uploadPath+"' data-uuid='"+attach.uuid+"' data-filename='"+attach.fileName+"' data-type='"+attach.fileType+"' >"
 		    	        	    				+ attach.fileName        
 			    	            		 +"</li>";
 		    	            }
@@ -1491,12 +1496,27 @@
 	  
    ///////////////////////////////////////////////////////
    
+   $("#fileUploadLink").on("click",function(event){//첨부파일 리스트 보기
+	
+			event.preventDefault();
+   
+			if($(".addBlockClass").length > 0){
+				
+				  $(".addBlockClass").css("display","none");  
+				  $(".addBlockClass").removeClass('addBlockClass'); 
+			}  
+			 
+			$(".fileUploadResult").css("display","inline-block").addClass('addBlockClass'); 
+   });
+   
+   
    $('html').click(function(e) { //html안 Usermenu, hideUsermenu클래스를 가지고있는 곳 제외하고 클릭하면 userMenubar숨김 이벤트발생
-	   
+	    console.log(e.target);
+	   	//alert(!$(e.target).is('.userMenu, .hideUsermenu'));
 	   		if( !$(e.target).is('.userMenu, .hideUsermenu') ) {
 			  
-	   			var userMenu = $(".userMenubar");
-					userMenu.css("display","none"); 
+	   			$(".userMenubar").css("display","none");
+	   			$(".fileUploadResult").css("display","none"); 
 			} 
    });  
 	    
