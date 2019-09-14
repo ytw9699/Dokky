@@ -1395,19 +1395,23 @@
 	  	 (function(){//즉시실행함수 
 	   	  
 		   	    $.getJSON("/dokky/board/getAttachList", {board_num: board_num}, function(arr){
-		   	        
+		   	        	
 		    	       var fileStr = "";
+		    	       var hasFile = false;
 		    	       
 		    	       $(arr).each(function(i, attach){
-		
 							if(!attach.fileType){ //파일이라면
-		    	        	   fileStr += "<li class='hideUsermenu' data-path='"+attach.uploadPath+"' data-uuid='"+attach.uuid+"' data-filename='"+attach.fileName+"' data-type='"+attach.fileType+"' >"
-		    	        	    				+ attach.fileName        
-			    	            		 +"</li>";
+			    	        	   fileStr += "<li class='hideUsermenu' data-path='"+attach.uploadPath+"' data-uuid='"+attach.uuid+"' data-filename='"+attach.fileName+"' data-type='"+attach.fileType+"' >"
+			    	        	    				+ attach.fileName        
+				    	            		 +"</li>";
+			    	        	   hasFile = true;
 		    	            }
 					   });
 		    	       
-		    	       $(".fileUploadResult ul").html(fileStr); 
+		    	       if(hasFile){
+		    	    	   $(".fileUploadWrap").css("display","inline-block");
+			    	       $(".fileUploadResult ul").html(fileStr);
+		    	       }
 		   	     });
 	   	 })(); 
    }); 

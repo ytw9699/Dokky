@@ -380,7 +380,7 @@
 	}
 	
 	.fileUploadWrap{
-		display: inline-block;
+		display: none;
 	    border-style: solid;
 	    border-color: #e6e6e6;
 	    margin-left: 1%;
