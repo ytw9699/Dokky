@@ -149,7 +149,7 @@
 				  scrap.regdate,
 				  scrap.scrap_num
 			FROM 
-				  DK_BOARD BOARD inner JOIN dk_scrap scrap on BOARD.board_num = scrap.scrap_num 
+				  DK_BOARD BOARD inner JOIN dk_scrap scrap on BOARD.board_num = scrap.board_num 
 				  
 			WHERE scrap.userid = #{userId})
 			
