@@ -29,7 +29,7 @@
 	values (1, seq_dk_board.nextval, '제목1','닉네임1','콘텐트1');
 	
 	--디폴트값 입력 필요 캐시 충전
-	insert into DK_BOARD(CATEGORY, NUM, TITLE, NICKNAME, CONTENT,userId)
+	insert into DK_BOARD(CATEGORY, board_NUM, TITLE, NICKNAME, CONTENT,userId)
 	values (0, 0, '디폴트','디폴트','디폴트','admin');
 	
 	2.---------------------------------------------------------------------------------------
@@ -206,8 +206,8 @@
 		 regDate date default sysdate, 
 		 userId varchar2(50) not null,
 		 specification varchar2(50), --미승인/승인완료
-		 board_num number(10,0),
-		 reply_num number(10,0),
+		 board_num number(10,0) default 0,
+		 reply_num number(10,0) default 0,
 		 constraint pk_cash PRIMARY KEY (cash_num)
 	);
 	

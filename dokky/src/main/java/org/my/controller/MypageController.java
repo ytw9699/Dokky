@@ -270,7 +270,7 @@ public class MypageController {
 		
 		log.info("/mypage/myCashHistory");
 		
-		int total = service.getMyCashHistoryCount(cri.getUserId());//total은 내 스크랩 총 게시물수
+		int total = service.getMyCashHistoryCount(cri.getUserId());
 		
 		model.addAttribute("myCashHistory", service.getMyCashHistory(cri));
 		

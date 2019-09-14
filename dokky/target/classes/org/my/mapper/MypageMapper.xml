@@ -235,8 +235,8 @@
 	<select id="getMyCashHistory" resultType="org.my.domain.cashVO"> 
 		<![CDATA[
 		   select 
-                cashKind,
-		   		  cashAmount,
+				  cashKind,
+				  cashAmount,
 		   		  specification,
 		   		  regDate,
 		   		  board_num,
@@ -259,7 +259,7 @@
 				  
 				  inner JOIN dk_reply reply on reply.reply_num = cash.reply_num 
 				  
-			WHERE cash.userid = #{userId} order by cash.cash_num desc)
+			WHERE cash.userid = #{userId})
 			
 			where rn > (#{pageNum} -1) * #{amount} and rn <= #{pageNum} * #{amount} 
 		]]>
