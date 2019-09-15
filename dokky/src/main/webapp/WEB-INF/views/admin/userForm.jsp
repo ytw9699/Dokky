@@ -77,7 +77,7 @@
 	     				가입일
 	     			</td>
 	     			<td class="tableValue"> 
-	     				<fmt:formatDate value="${user.regDate}" pattern="yyyy년 MM월 dd일 hh:mm" />
+	     				<fmt:formatDate value="${user.regDate}" pattern="yyyy-MM-dd HH:mm" />
 	     			</td>
 	     		</tr>
 	     		<tr>
@@ -85,7 +85,7 @@
 	     				최근 로그인
 	     			</td>
 	     			<td class="tableValue"> 
-	     				<fmt:formatDate value="${user.loginDate}" pattern="yyyy년 MM월 dd일 hh:mm" />
+	     				<fmt:formatDate value="${user.loginDate}" pattern="yyyy-MM-dd HH:mm" />
 	     			</td>
 	     		</tr>
 	     		<tr>

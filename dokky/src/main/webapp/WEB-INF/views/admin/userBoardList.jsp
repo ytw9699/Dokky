@@ -52,7 +52,7 @@
 							\<fmt:formatNumber type="number" maxFractionDigits="3" value="${board.money}"/>
 						</td>
 						<td>
-							<fmt:formatDate value="${board.regDate}" pattern="yyyy년 MM월 dd일 HH:mm" />
+							<fmt:formatDate value="${board.regDate}" pattern="yyyy-MM-dd HH:mm" />
 						</td>
 					</tr>
 				</c:forEach>

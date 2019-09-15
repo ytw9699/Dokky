@@ -63,7 +63,7 @@
 					       </c:when>
 			       </c:choose>
 			     		 <td> 
-							<fmt:formatDate value="${History.regDate}" pattern="yyyy년 MM월 dd일 HH:mm" />
+							<fmt:formatDate value="${History.regDate}" pattern="yyyy-MM-dd HH:mm" />
 						</td>
 					</tr> 
 				</c:forEach>

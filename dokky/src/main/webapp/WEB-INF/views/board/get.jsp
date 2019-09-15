@@ -45,10 +45,10 @@
 			</a>
 			
 			<div>
-				<span>
-						  <fmt:formatDate value="${board.regDate}" pattern="yyyy년 MM월 dd일 HH:mm" /><label> 작성</label>
+				<span> 
+						  <fmt:formatDate value="${board.regDate}" pattern="yyyy-MM-dd HH:mm" /><label> 작성</label>
 					<c:if test="${board.regDate != board.updateDate}">
-					    , <fmt:formatDate value="${board.updateDate}" pattern="yyyy년 MM월 dd일 HH:mm" /><label> 수정됨</label>
+					    , <fmt:formatDate value="${board.updateDate}" pattern="yyyy-MM-dd HH:mm" /><label> 수정됨</label>
 					</c:if>  
 				</span>
 				<span>
@@ -474,7 +474,7 @@
 							   
 							   + "<span>" 
 							   		+ replyService.displayTime(replyDate) 
-							   + "</span>"; 
+							   + "</span>";
 				  
 					  if(myId){ 
 						  str += "<span>" 
@@ -1515,7 +1515,7 @@
    
    
    $('html').click(function(e) { //html안 Usermenu, hideUsermenu클래스를 가지고있는 곳 제외하고 클릭하면 userMenubar숨김 이벤트발생
-	    console.log(e.target);
+	    //console.log(e.target);
 	   	//alert(!$(e.target).is('.userMenu, .hideUsermenu'));
 	   		if( !$(e.target).is('.userMenu, .hideUsermenu') ) {
 			  

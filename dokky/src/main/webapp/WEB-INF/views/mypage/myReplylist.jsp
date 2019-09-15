@@ -38,7 +38,7 @@
 						<td class="replyTitle"><a class='move' href='<c:out value="${Reply.board_num}"/>'> 
 							<c:out value="${Reply.reply_content}" /></a></td> 
 					   <td> 
-							<fmt:formatDate value="${Reply.replyDate}" pattern="yyyy년 MM월 dd일 HH:mm" />
+							<fmt:formatDate value="${Reply.replyDate}" pattern="yyyy-MM-dd HH:mm" />
 						</td>
  					</tr>
 				</c:forEach>

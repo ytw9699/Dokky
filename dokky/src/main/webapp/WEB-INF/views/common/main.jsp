@@ -13,7 +13,6 @@
 
 <%@include file="../includes/left.jsp"%>
 <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
-
 <body>
 	<div class="bodyWrap">	 
 		<div class="mainLists"> 
@@ -50,9 +49,16 @@
 								</ul>  
 						     </div>
 						</td>
-						<td>
-							<fmt:formatDate value="${board.regDate}" pattern="yyyy년 MM월 dd일 HH:mm" />
-						</td>  
+						<td class="regdate${board.board_num}" data-regdate_val='<fmt:formatDate value="${board.regDate}" pattern="yyyy/MM/dd/HH:mm:ss" />'>
+								<script>
+									$(document).ready(function(){
+										var	board_num = '${board.board_num}'; 
+										var	regdateTd = $(".regdate"+board_num);
+										var regdate_val = regdateTd.data("regdate_val");
+										regdateTd.html(timeBefore(regdate_val));
+			            			});
+			    				</script> 
+						</td>
 					</tr>
 				</c:forEach>
 			</table>
@@ -92,9 +98,16 @@
 								</ul>  
 						     </div>
 						</td>
-						<td>
-							<fmt:formatDate value="${board.regDate}" pattern="yyyy년 MM월 dd일 HH:mm" />
-						</td> 
+						<td class="regdate${board.board_num}" data-regdate_val='<fmt:formatDate value="${board.regDate}" pattern="yyyy/MM/dd/HH:mm:ss" />'>
+								<script>
+									$(document).ready(function(){
+										var	board_num = '${board.board_num}'; 
+										var	regdateTd = $(".regdate"+board_num);
+										var regdate_val = regdateTd.data("regdate_val");
+										regdateTd.html(timeBefore(regdate_val));
+			            			});
+			    				</script> 
+						</td>
 					</tr>
 				</c:forEach>
 			</table>
@@ -134,9 +147,16 @@
 								</ul>  
 						     </div>
 						</td>
-						<td> 
-							<fmt:formatDate value="${board.regDate}" pattern="yyyy년 MM월 dd일 HH:mm" />
-						</td> 
+						<td class="regdate${board.board_num}" data-regdate_val='<fmt:formatDate value="${board.regDate}" pattern="yyyy/MM/dd/HH:mm:ss" />'>
+								<script>
+									$(document).ready(function(){
+										var	board_num = '${board.board_num}';  
+										var	regdateTd = $(".regdate"+board_num);
+										var regdate_val = regdateTd.data("regdate_val");
+										regdateTd.html(timeBefore(regdate_val));
+			            			});
+			    				</script>
+						</td>
 					</tr>
 				</c:forEach>
 			</table>
@@ -145,6 +165,53 @@
 		
 	</div>
 	<script>
+	 
+	function timeBefore(time){  
+	        
+	        var now = new Date();//현재시간
+	        var writeDay = new Date(time);//글쓴 시간 
+	     	var minus;//현재 년도랑 글쓴시간의 년도 비교 
+	        
+	        if(now.getFullYear() > writeDay.getFullYear()){
+	        	
+	            minus= now.getFullYear()-writeDay.getFullYear();//두개의 차이를 구해서 표시
+	            return minus+"년 전";
+	        }else if(now.getMonth() > writeDay.getMonth()){//년도가 같을 경우 달을 비교해서 출력
+	        	
+	            minus= now.getMonth()-writeDay.getMonth();
+	            return minus+"달 전";
+	        }else if(now.getDate() > writeDay.getDate()){//같은 달일 경우 일을 계산
+	        	
+	            minus= now.getDate()-writeDay.getDate();	
+	            return minus+"일 전";
+	        }else if(now.getDate() == writeDay.getDate()){//당일인 경우에는 
+	        	
+	            var nowTime = now.getTime();
+	            var writeTime = writeDay.getTime();
+	            
+	            if(nowTime > writeTime){//시간을 비교
+	                sec =parseInt(nowTime - writeTime) / 1000;
+	                day  = parseInt(sec/60/60/24);
+	                sec = (sec - (day * 60 * 60 * 24));
+	                hour = parseInt(sec/60/60);
+	                sec = (sec - (hour*60*60));
+	                min = parseInt(sec/60);
+	                sec = parseInt(sec-(min*60));
+	                
+	                if(hour > 0){
+	                
+	                    return hour+"시간 전";
+	                }else if(min > 0){
+	                	
+	                    return min+"분 전";
+	                }else if(sec > 0){
+	                	
+	                    return sec+"초 전";
+	                }
+	            }
+	        }
+    }
+	 
 	$(".userMenu").on("click",function(event){//해당 메뉴바 보이기 이벤트
 		
 		var	board_num = $(this).data("board_num");

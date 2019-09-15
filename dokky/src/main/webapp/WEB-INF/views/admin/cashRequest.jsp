@@ -41,7 +41,7 @@
 			<td><c:out value="${cash.cashKind}" /></td> 
 			<td><fmt:formatNumber type="number" maxFractionDigits="3" value="${cash.cashAmount}"/>원</td>
 			<td>  
-				<fmt:formatDate value="${cash.regDate}" pattern="yyyy년 MM월 dd일 HH:mm" />
+				<fmt:formatDate value="${cash.regDate}" pattern="yyyy-MM-dd HH:mm" />
 			</td>
 			<td id="specification${cash.cash_num}"><c:out value="${cash.specification}" /></td>   
 			<td>
