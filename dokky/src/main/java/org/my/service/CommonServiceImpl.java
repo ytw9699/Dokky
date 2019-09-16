@@ -3,6 +3,7 @@ package org.my.service;
 	import org.my.domain.Criteria;
 	import org.my.domain.VisitCountVO;
 	import org.my.domain.alarmVO;
+	import org.my.domain.noteVO;
 	import org.my.mapper.CommonMapper;
 	import org.springframework.beans.factory.annotation.Autowired;
 	import org.springframework.stereotype.Service;
@@ -83,5 +84,44 @@ public class CommonServiceImpl implements CommonService {
 		return mapper.updateAlarmCheck(alarmNum);
 	}
 	
+	@Override
+	public List<noteVO> getFromNoteList(Criteria cri){
+		log.info("getFromNoteList");
+		
+		return mapper.getFromNoteList(cri);
+	}
+	
+	@Override 
+	public int getFromNoteCount(Criteria cri) {
+		log.info("getFromNoteCount");
+		
+		return mapper.getFromNoteCount(cri);
+	}
+	
+	@Override 
+	public int getToNoteCount(Criteria cri) {
+		log.info("getToNoteCount");
+		
+		return mapper.getToNoteCount(cri);
+	}
+	
+	@Override 
+	public int getMyNoteCount(Criteria cri) {
+		log.info("getMyNoteCount");
+		
+		return mapper.getMyNoteCount(cri);
+	}
+	
+	@Override 
+	public int insertNote(noteVO vo) {  
+
+		String to_nickname = mapper.getNickname(vo.getTo_id());
+		
+		vo.setTo_nickname(to_nickname);
+		
+		log.info("insertNote..." + vo); 
+		
+		return mapper.insertNote(vo) ;
+	}
 	
 }

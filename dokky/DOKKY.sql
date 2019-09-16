@@ -96,6 +96,25 @@
 	drop table dk_member purge 
 	
 	4.---------------------------------------------------------------------------------------
+	create table DK_NOTE (--쪽지 테이블
+		  NOTE_NUM number(10,0),--PK --쪽지 번호
+		  CONTENT varchar2(4000) not null, --쪽지 내용
+		  FROM_NICKNAME varchar2(50) not null, --보낸 닉네임
+ 		  FROM_ID varchar2(50) not null, --보낸 아이디
+ 		  TO_NICKNAME varchar2(50) not null, --받는 닉네임
+ 		  TO_ID varchar2(50) not null, --받는 아이디
+		  REGDATE date default sysdate, --쪽지 작성날짜
+		  checking VARCHAR2(10) DEFAULT 'NO',
+		  constraint PK_DK_NOTE primary key(NOTE_NUM) --PK
+	);
+	
+	create sequence seq_dk_note;
+	
+	DROP TABLE DK_NOTE PURGE;
+	
+	insert into DK_NOTE(NOTE_NUM, CONTENT, FROM_NICKNAME, FROM_ID, TO_NICKNAME, TO_ID) values (seq_dk_note.nextval,'테스트','관리자','admin','관리자','admin')
+	
+	4.---------------------------------------------------------------------------------------
 	create table dk_attach(--업로드 테이블
 	
 		uuid varchar2(100) not null,

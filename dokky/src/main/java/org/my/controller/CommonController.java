@@ -5,6 +5,7 @@ package org.my.controller;
 	import org.my.domain.MemberVO;
 	import org.my.domain.PageDTO;
 	import org.my.domain.cashVO;
+	import org.my.domain.noteVO;
 	import org.my.service.CommonService;
 	import org.my.service.MemberService;
 	import org.my.service.MypageService;
@@ -293,7 +294,6 @@ public class CommonController {
 		//log.info("alarm INSERT COUNT: " + insertCount);
 
 		return new ResponseEntity<>("알림이 입력되었습니다.", HttpStatus.OK) ;
-				
 	}
 	
 	@PreAuthorize("isAuthenticated()")  
@@ -308,4 +308,61 @@ public class CommonController {
 		} 
 			return new ResponseEntity<>("fail", HttpStatus.OK) ;
 	}
+	
+	@PreAuthorize("hasAnyRole('ROLE_ADMIN','ROLE_USER')")
+	@GetMapping("/registerNote")
+	public String registerNote() {//쪽지 폼 열기
+		
+		return "common/registerNote";
+	}
+	
+	/*@PreAuthorize("hasAnyRole('ROLE_ADMIN','ROLE_USER')")
+	@GetMapping("/registerNote")
+	public String registerNote(@RequestParam("userId")String userId, Model model) {//쪽지 폼 열기
+			
+		model.addAttribute("to_id", userId);
+		
+		return "common/registerNote";
+	}
+	*/
+	
+	@PreAuthorize("principal.username == #vo.from_id")
+	@ResponseBody
+	@PostMapping(value = "/Note", consumes = "application/json", produces = "text/plain; charset=UTF-8")
+	public ResponseEntity<String> insertNote(@RequestBody noteVO vo) {
+
+		log.info("/Note...noteVO: " + vo);
+
+		if(commonService.insertNote(vo) == 1) {
+			log.info("/Note...not11111: ");
+			return new ResponseEntity<>("쪽지를 보냈습니다.", HttpStatus.OK) ;
+			
+		}else {
+			log.info("/Note...not1122221: "); 
+			return new ResponseEntity<>("쪽지보내기에 실패했습니다 관리자에게 문의주세요.", HttpStatus.OK) ;
+		}
+	}
+	
+	@PreAuthorize("isAuthenticated()")
+	@GetMapping("/fromNoteList")  
+	 public String getFromNoteList(Criteria cri, Model model) {//받은쪽지함
+		
+		log.info("/fromNoteList");
+		
+		int fromNotetotal = commonService.getFromNoteCount(cri);
+		int toNotetotal   = commonService.getToNoteCount(cri);
+		int myNotetotal   = commonService.getMyNoteCount(cri);
+		
+		model.addAttribute("fromNotetotal", fromNotetotal);
+		model.addAttribute("toNotetotal"  , toNotetotal);
+		model.addAttribute("myNotetotal"  , myNotetotal);
+		
+		model.addAttribute("fromNoteList", commonService.getFromNoteList(cri));
+		
+		model.addAttribute("pageMaker", new PageDTO(cri, fromNotetotal));
+
+		return "common/fromNoteList";
+	}
+	
+	
 }

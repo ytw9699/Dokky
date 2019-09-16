@@ -46,9 +46,15 @@
 		
 		<sec:authorize access="isAuthenticated()">
 			<div class="mypage"><a href="/dokky/mypage/myInfoForm?userId=${userInfo.username}">내 정보</a></div>
-			<div class="mypage"><a href="/dokky/alarmList?userId=${userInfo.username}">알림</a>-
-				<a class="alarmCount" href="/dokky/alarmList?userId=${userInfo.username}"></a>
-			</div> 
+			<div class="mypage">
+				<a href="/dokky/alarmList?userId=${userInfo.username}">
+					알림-<span class="alarmCount"></span>
+				</a>
+				/
+				<a href="/dokky/fromNoteList?userId=${userInfo.username}"> 
+					쪽지-<span class="noteCount"></span>
+				</a>
+			</div>
 		</sec:authorize> 
 		
 		<div class="mypage">

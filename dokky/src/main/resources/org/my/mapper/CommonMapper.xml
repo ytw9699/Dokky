@@ -113,5 +113,63 @@
        <update id="updateAlarmCheck"> 
        		update dk_alarm set checking = 'YES' where alarmNum = #{alarmNum}
        </update>
-  
+       
+       <insert id="insertNote">
+	 			insert into dk_note(	  NOTE_NUM
+					 			, CONTENT
+					 			, FROM_NICKNAME
+					 			, FROM_ID
+					 			, TO_NICKNAME
+					 			, TO_ID 
+					 			, checking
+					 			) 
+				 		values(
+				 				seq_dk_note.nextval
+				 				,#{content}
+								,#{from_nickname}
+								,#{from_id}
+								,#{to_nickname}				 		
+						 		,#{to_id}
+						 		,#{checking}
+				 		) 
+       </insert>
+		  
+       <select id="getFromNoteCount" resultType="int">
+			select count(*) from dk_note where TO_ID = #{userId} and FROM_ID != #{userId}
+       </select>
+       
+       <select id="getToNoteCount" resultType="int">
+			select count(*) from dk_note where FROM_ID = #{userId} and TO_ID != #{userId}
+       </select>
+       
+       <select id="getMyNoteCount" resultType="int">
+			select count(*) from dk_note where TO_ID = #{userId} and FROM_ID = #{userId}
+       </select>
+       
+       <select id="getFromNoteList" resultType="org.my.domain.noteVO"> 
+			select NOTE_NUM,
+				   CONTENT,
+				   FROM_NICKNAME,
+				   FROM_ID,
+				   TO_NICKNAME,
+				   TO_ID,
+				   checking,
+				   regdate from 
+					 ( select /*+INDEX_DESC(DK_NOTE PK_DK_NOTE) */ rownum rn,
+		 														   NOTE_NUM,
+															   	   CONTENT,
+																   FROM_NICKNAME,
+																   FROM_ID,
+																   TO_NICKNAME,
+																   TO_ID,
+																   checking,
+																   regdate
+					from DK_NOTE where TO_ID = #{userId} and FROM_ID != #{userId} <![CDATA[ and rownum <= #{pageNum} * #{amount} )
+						  where rn > (#{pageNum} -1) * #{amount}  
+						  ]]>
+	   </select>
+	   
+	   <select id="getNickname" resultType="String">
+	   		select NICKNAME from dk_member WHERE userid = #{to_id}
+	   </select>	   
 </mapper>

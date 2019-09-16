@@ -366,15 +366,15 @@
 					
 					actionForm.submit();
 				});
-	
-		$(".move").on("click",function(e) {
+		
+		/* $(".move").on("click",function(e) {
 			
 			e.preventDefault(); 
 			actionForm.append("<input type='hidden' name='board_num' value='"+ $(this).attr("href")+ "'>");
 			actionForm.attr("action","/dokky/board/get");
 			
 			actionForm.submit();   
-		});
+		}); */
 		
 		
 		$("#deleteBtn").on("click", function() { 
