@@ -14,7 +14,7 @@
 <body> 
 
 <sec:authentication property="principal" var="userInfo"/>
-<!-- 다시보기 : 위 코드 없어도 userInfo가 동작하는데? -->
+<!-- 다시보기 : 위 코드 없어도 left.jsp에있기 때문에 userInfo가 동작함 -->
 
 <div class="getWrapper"> 
 	<div class="getKind">
@@ -66,7 +66,7 @@
 					</li>
 					
 					<li class="hideUsermenu">
-						<a href="#" class="hideUsermenu">
+						<a href="#" class="hideUsermenu" onclick="noteOpen('${board.userId}','${board.nickName}')">
 							<span class="hideUsermenu">쪽지보내기</span>
 						</a>
 					</li>
@@ -293,6 +293,11 @@
     });
 	 
 	///////////////////////////////////////////////////////함수모음
+	
+	function noteOpen(userId,nickname){
+        window.open('/dokky/minRegNote?userId='+userId+'&nickname='+nickname, 'ot', 'width=500px, height=500px'); 
+    } 
+	
 	
 	function checkLength(obj, maxlength) {//글자수 체크 함수   
 		

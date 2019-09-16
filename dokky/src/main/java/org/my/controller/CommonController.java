@@ -316,15 +316,15 @@ public class CommonController {
 		return "common/registerNote";
 	}
 	
-	/*@PreAuthorize("hasAnyRole('ROLE_ADMIN','ROLE_USER')")
-	@GetMapping("/registerNote")
-	public String registerNote(@RequestParam("userId")String userId, Model model) {//쪽지 폼 열기
+	@PreAuthorize("hasAnyRole('ROLE_ADMIN','ROLE_USER')")
+	@GetMapping("/minRegNote")
+	public String minRegNote(@RequestParam("userId")String userId, @RequestParam("nickname")String nickname, Model model) {
 			
 		model.addAttribute("to_id", userId);
+		model.addAttribute("to_nickname", nickname);
 		
-		return "common/registerNote";
+		return "common/minRegNote";
 	}
-	*/
 	
 	@PreAuthorize("principal.username == #vo.from_id")
 	@ResponseBody
@@ -334,11 +334,9 @@ public class CommonController {
 		log.info("/Note...noteVO: " + vo);
 
 		if(commonService.insertNote(vo) == 1) {
-			log.info("/Note...not11111: ");
 			return new ResponseEntity<>("쪽지를 보냈습니다.", HttpStatus.OK) ;
 			
 		}else {
-			log.info("/Note...not1122221: "); 
 			return new ResponseEntity<>("쪽지보내기에 실패했습니다 관리자에게 문의주세요.", HttpStatus.OK) ;
 		}
 	}

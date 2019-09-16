@@ -1,0 +1,55 @@
+@charset "utf-8";
+/* CSS Document */
+
+	body{
+			background-color: #323639; 
+		}
+ 	
+	    .formWrapper{ 
+			width: 95%; 
+			margin: 0 auto;  
+			border-color: #e6e6e6; 
+			border-width: 1px; 
+			border-style: solid;
+		}
+        .row{
+			width: 100%;
+			margin: 0 auto;
+			border-width: 1px;    
+			border-color: #e6e6e6; 
+			border-style: solid; 
+		}
+		.memberImage{
+			border-radius: 50px;
+			width: 25px; 
+			height: 25px;  
+		}
+		#to_id{
+		    width: 20%;
+		    height: 25px;
+		    margin-bottom: 5px;
+		    font-size: 12px;
+		}
+		
+	    #content{ 
+	    	width: 98%;  
+			height: 400px;  
+			margin-bottom: 10px; 
+			background-color: white; 
+			border-width: 1px; 
+			color: black;
+			overflow-y: auto;/* 사이드바 */ 
+		}
+		
+		.submitBtnWrap{
+			border-color: #e6e6e6;
+			border-width: 1px; 
+			border-style: solid;
+			width: 100%; 
+			height: 50px;
+		}
+		
+		#submitBtn{  
+			float: left;
+		}
+		
