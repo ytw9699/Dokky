@@ -69,6 +69,14 @@ public class CommonServiceImpl implements CommonService {
 		return mapper.deleteAllAlarm(alarmNum) == 1;
 	}
 	
+	@Override
+	public boolean deleteMyNote(Long note_num) {
+
+		log.info("deleteMyNote...." + note_num);
+
+		return mapper.deleteMyNote(note_num) == 1;
+	}
+	
 	@Override 
 	public int insertAlarm(alarmVO vo) {  
 
@@ -85,10 +93,39 @@ public class CommonServiceImpl implements CommonService {
 	}
 	
 	@Override
+	public int updateFromNote(Long note_num){
+		log.info("updateFromNote");
+		
+		return mapper.updateFromNote(note_num);
+	}
+	
+	@Override
+	public int updateToNote(Long note_num){
+		log.info("updateToNote");
+		
+		return mapper.updateToNote(note_num);
+	}
+	
+	@Override
+	public int updateNoteCheck(String note_num){
+		log.info("updateNoteCheck");
+		
+		return mapper.updateNoteCheck(note_num);
+	}
+	
+	@Override
 	public List<noteVO> getFromNoteList(Criteria cri){
 		log.info("getFromNoteList");
 		
 		return mapper.getFromNoteList(cri);
+	}
+	
+	@Override 
+	public noteVO getDetailNotepage(Long note_num) {
+		
+		log.info("getDetailNotepage");
+		
+		return mapper.getDetailNotepage(note_num);
 	}
 	
 	@Override 

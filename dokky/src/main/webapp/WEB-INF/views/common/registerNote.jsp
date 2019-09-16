@@ -146,7 +146,7 @@
 		    					from_nickname   : myNickName, //쪽지 보내는 닉네임
 		    					from_id      	: myId, 	  //쪽지 보내는 아이디
 		    					to_id 	    	: to_id,	  //쪽지 받는 아이디
-		    					checking 	    : 'NO' 		  //쪽지 읽음 체크
+		    					read_check 	    : 'NO' 		  //쪽지 읽음 체크
 				 		  };
 		    
 		    insertNote(noteData, function(result){

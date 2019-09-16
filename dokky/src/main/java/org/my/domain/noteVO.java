@@ -10,6 +10,8 @@ public class noteVO {
 	  private String from_id;
 	  private String to_nickname;
 	  private String to_id;
-	  private String checking;
+	  private String read_check;
+	  private String from_check;
+	  private String to_check;
 	  private Date regdate;
 }

@@ -2,44 +2,64 @@
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c"%>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/fmt" prefix="fmt"%>
 <%@ taglib uri="http://www.springframework.org/security/tags" prefix="sec" %>
+<%@ include file="../includes/left.jsp"%>
 
 <!DOCTYPE html>
 <html>
 <head>
 	<meta charset="UTF-8">
 	<script src="//code.jquery.com/jquery-1.11.3.min.js"></script>
-	<title>Dokky - 쪽지쓰기</title>  
-	<link href="/dokky/resources/css/minRegNote.css" rel="stylesheet" type="text/css">
-	<sec:authentication property="principal" var="userInfo"/>
+	<title>Dokky - 쪽지 상세페이지</title>  
+	<link href="/dokky/resources/css/registerNote.css" rel="stylesheet" type="text/css">
 </head>
 <body> 
-        <div class="formWrapper">
-	          <div class="row">
-	          	<span>
-	          		받는사람 -
-	          	</span>
-	          	<span>
-	          		<img src="/dokky/resources/img/profile_img/<c:out value="${to_id}" />.png" class="memberImage" onerror="this.src='/dokky/resources/img/basicProfile.png'" />
-	          		${to_nickname} 
-	          	</span>
-	          	(<span id="to_id">
-	          		 ${to_id}
-	          	</span>)
-	          </div>
-	          
-	          <div class="row">
-	          	<textarea id="content" placeholder="내용을 입력해 주세요." oninput="checkLength(this,1300);"></textarea>
-	          </div>
-	         
-	          <div class="submitBtnWrap">  
-		          	<button type="submit" id="submitBtn">보내기</button>    
-		          	<button type="button" id="cancel" onclick="window.close()">취소</button>
-	          </div>
-	    </div> 
+
+<div class="noteWrap">	
+	<div class="ContentWrap">
+		  <div id="menuWrap">
+				<div class="tab"> 
+					<button onclick="location.href='registerNote'">쪽지쓰기</button>
+					<button onclick="location.href='fromNoteList?userId=${userInfo.username}'">받은쪽지함 - ${fromNotetotal}</button>
+					<button onclick="location.href='alarmList?userId=${userInfo.username}'">보낸쪽지함  - ${toNotetotal}</button>
+					<button onclick="location.href='alarmList?userId=${userInfo.username}'">내게쓴쪽지함  - ${myNotetotal}</button>
+		    	</div>  
+		  </div> 
+		  
+          <div class="formWrapper">
+		          <div class="row">
+		          	<div>
+		          		<span><button onclick="location.href='registerNote'">삭제</button></span>
+		          		<span><button onclick="noteOpen('${note.from_id}','${note.from_nickname}')">답장</button></span>
+		          	</div>
+		          	<div>보낸사람 -
+          				<a href="#" class="userMenu" data-note_num="${note.note_num}">
+							<img src="/dokky/resources/img/profile_img/<c:out value="${note.from_id}"/>.png"  class="memberImage hideUsermenu" onerror="this.src='/dokky/resources/img/basicProfile.png'" />
+							<c:out value="${note.from_nickname}" /> 
+						</a>   
+						<div id="userMenubar_${note.note_num}" class="userMenubar">
+							<ul class="hideUsermenu">
+								<li class="hideUsermenu"><a href="/dokky/userBoardList?userId=${note.from_id}" class="hideUsermenu"><span class="hideUsermenu">게시글보기</span></a></li>
+								<li class="hideUsermenu"><a href="#" class="hideUsermenu"><span class="hideUsermenu">쪽지보내기</span></a></li>
+							</ul>      
+					    </div> 
+		          	</div>
+		          	<div>
+		          		받은시각 <fmt:formatDate value="${note.regdate}" pattern="yyyy-MM-dd HH:mm" />
+		          	</div>
+		          </div>
+		          
+		          <div id="content" class="row">
+		          	${note.content}
+		          </div>
+		          
+		  </div>
+	</div>
+</div>
+
 <script> 
 
 	var csrfHeaderName ="${_csrf.headerName}"; 
-	var csrfTokenValue="${_csrf.token}"; 
+	var csrfTokenValue="${_csrf.token}";
 	   
 	$(document).ajaxSend(function(e, xhr, options) {
 		
@@ -48,6 +68,10 @@
 	
 	var myId = '${userInfo.username}';  
 	var myNickName = '${userInfo.member.nickName}';
+	
+	function noteOpen(userId,nickname){
+        window.open('/dokky/minRegNote?userId='+userId+'&nickname='+nickname, 'ot', 'width=500px, height=500px'); 
+    } 
 
 	function checkLength(obj, maxlength) {   
 			var str = obj.value; // 이벤트가 일어난 컨트롤의 value 값    
@@ -97,11 +121,22 @@
 			})
 	}
 	
+	$("#checkbox").on("change", function(e){
+			
+			if($("#checkbox").is(":checked")){
+				
+				$("#to_id").val(myId);
+	        }else{
+	        	
+	        	$("#to_id").val("");
+	        }
+	});
+	  
 	$("#submitBtn").on("click", function(e){//쪽지 보내기 버튼
     
 		    e.preventDefault();
 				
-			var to_id = $("#to_id").html();
+			var to_id = $("#to_id").val();
 	   			to_id = $.trim(to_id);
 			
 			if(to_id == ""){ 
@@ -129,8 +164,12 @@
 				 		  };
 		    
 		    insertNote(noteData, function(result){
+				
+			    	$("#content").val("");
+			    	$("#to_id").val(""); 
+					$("#checkbox").prop("checked", false);
+					
 					alert(result); 
-					window.close();
 	   	    });
     });
 	

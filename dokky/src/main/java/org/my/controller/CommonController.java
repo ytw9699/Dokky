@@ -1,7 +1,11 @@
 package org.my.controller;
 	import java.io.UnsupportedEncodingException;
-	import java.util.Locale;
-	import org.my.domain.Criteria;
+import java.util.List;
+import java.util.Locale;
+
+import org.my.domain.BoardAttachVO;
+import org.my.domain.BoardVO;
+import org.my.domain.Criteria;
 	import org.my.domain.MemberVO;
 	import org.my.domain.PageDTO;
 	import org.my.domain.cashVO;
@@ -18,7 +22,8 @@ package org.my.controller;
 	import org.springframework.stereotype.Controller;
 	import org.springframework.ui.Model;
 	import org.springframework.web.bind.annotation.GetMapping;
-	import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.ModelAttribute;
+import org.springframework.web.bind.annotation.PathVariable;
 	import org.springframework.web.bind.annotation.PostMapping;
 	import org.springframework.web.bind.annotation.PutMapping;
 	import org.springframework.web.bind.annotation.RequestBody;
@@ -26,7 +31,9 @@ package org.my.controller;
 	import org.springframework.web.bind.annotation.RequestMethod;
 	import org.springframework.web.bind.annotation.RequestParam;
 	import org.springframework.web.bind.annotation.ResponseBody;
-	import lombok.Setter;
+import org.springframework.web.servlet.mvc.support.RedirectAttributes;
+
+import lombok.Setter;
 	import lombok.extern.log4j.Log4j;
 
 @Controller
@@ -279,8 +286,7 @@ public class CommonController {
 				}
 		 	}
 			return "redirect:/alarmList?userId="+userId+"&pageNum="+cri.getPageNum()+"&amount="+cri.getAmount();
-		}
-	
+	}
 	
 	@PreAuthorize("isAuthenticated()")
 	@ResponseBody
@@ -362,5 +368,108 @@ public class CommonController {
 		return "common/fromNoteList";
 	}
 	
+	@PreAuthorize("isAuthenticated()")
+	@ResponseBody
+	@PutMapping(value = "/noteCheck/{note_num}",produces = "text/plain; charset=UTF-8")
+	public ResponseEntity<String> updateNoteCheck(@PathVariable("note_num") String note_num) {
+		
+		log.info("/updateNoteCheck:... " + note_num);
+		
+		if(commonService.updateNoteCheck(note_num) == 1) {//쪽지의 체크값을 바꿨다면
+			return new ResponseEntity<>("success", HttpStatus.OK) ;
+		} 
+			return new ResponseEntity<>("fail", HttpStatus.OK) ;
+	}
 	
+	@PreAuthorize("principal.username == #cri.userId")
+	@GetMapping("/detailNotepage")
+	public String get(@RequestParam("note_num") Long note_num, Model model, Criteria cri) {
+
+		log.info("/detailNotepage");
+		
+		noteVO note = commonService.getDetailNotepage(note_num);
+		
+		int fromNotetotal = commonService.getFromNoteCount(cri);
+		int toNotetotal   = commonService.getToNoteCount(cri);
+		int myNotetotal   = commonService.getMyNoteCount(cri);
+		
+		model.addAttribute("note", note);
+		model.addAttribute("fromNotetotal", fromNotetotal);
+		model.addAttribute("toNotetotal"  , toNotetotal);
+		model.addAttribute("myNotetotal"  , myNotetotal);
+		
+		return "common/detailNotepage";
+	}
+	
+	@PreAuthorize("principal.username == #cri.userId")   
+	 @PostMapping("/deleteNote")//쪽지 삭제
+		public String deleteNote(@RequestParam("note_num") Long note_num, @RequestParam("note_kind") String note_kind, Criteria cri) {
+
+		 	log.info("/deleteNote..." + note_num);
+		 	
+		 	if (note_kind.equals("fromNote")) {
+		 		
+		 		commonService.updateFromNote(note_num);
+		 		
+		 		return "redirect:/fromNoteList?userId="+cri.getUserId()+"&pageNum="+cri.getPageNum()+"&amount="+cri.getAmount();
+	 			
+			}else if(note_kind.equals("toNote")) {
+			 		
+		 		commonService.updateToNote(note_num);
+			
+		 		return "redirect:/toNoteList?userId="+cri.getUserId()+"&pageNum="+cri.getPageNum()+"&amount="+cri.getAmount();
+		 		
+			}else{//if(note_kind.equals("myNote")) 
+				
+		 		commonService.deleteMyNote(note_num);
+		 		
+		 		return "redirect:/myNoteList?userId="+cri.getUserId()+"&pageNum="+cri.getPageNum()+"&amount="+cri.getAmount();
+			}
+	}
+	
+	@PreAuthorize("principal.username == #userId")   
+	@PostMapping("/deleteAllNote")//다중 쪽지 삭제
+		public String deleteAllNote(@RequestParam("checkRow") String checkRow , @RequestParam("note_kind") String note_kind,
+				@RequestParam("userId")String userId, Criteria cri) {
+		 
+			log.info("/deleteAllNote");
+		 	log.info("checkRow..." + checkRow);
+		 	
+		 	String[] arrIdx = checkRow.split(",");
+		 	
+		 	
+		 	if (note_kind.equals("fromNote")) {
+		 		
+		 		for (int i=0; i<arrIdx.length; i++) {
+			 		
+			 		Long note_num = Long.parseLong(arrIdx[i]); 
+			 		
+			 		commonService.updateFromNote(note_num);
+			 	}
+		 		
+		 		return "redirect:/fromNoteList?userId="+userId+"&pageNum="+cri.getPageNum()+"&amount="+cri.getAmount();
+	 			
+			}else if(note_kind.equals("toNote")) {
+				
+				for (int i=0; i<arrIdx.length; i++) {
+			 		
+			 		Long note_num = Long.parseLong(arrIdx[i]); 
+			 		
+			 		commonService.updateToNote(note_num);
+			 	}
+				
+				return "redirect:/toNoteList?userId="+userId+"&pageNum="+cri.getPageNum()+"&amount="+cri.getAmount();
+				
+			}else {//if(note_kind.equals("myNote"))
+				
+				for (int i=0; i<arrIdx.length; i++) {
+			 		
+			 		Long note_num = Long.parseLong(arrIdx[i]); 
+			 		
+			 		commonService.deleteMyNote(note_num);
+			 	}
+				
+				return "redirect:/myNoteList?userId="+userId+"&pageNum="+cri.getPageNum()+"&amount="+cri.getAmount();
+			}
+	}
 }

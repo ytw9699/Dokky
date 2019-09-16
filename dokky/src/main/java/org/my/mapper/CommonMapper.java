@@ -26,6 +26,8 @@ public interface CommonMapper {
 	public int updateAlarmCheck(String alarmNum);
 
 	public int deleteAllAlarm(Long alarmNum);
+	
+	public int deleteMyNote(Long note_num);
 
 	public List<noteVO> getFromNoteList(Criteria cri);
 
@@ -38,5 +40,13 @@ public interface CommonMapper {
 	public int insertNote(noteVO vo);
 
 	public String getNickname(String to_id);
+
+	public int updateNoteCheck(String note_num);
+
+	public noteVO getDetailNotepage(Long note_num);
+
+	public int updateFromNote(Long note_num);
+
+	public int updateToNote(Long note_num);
 
 }

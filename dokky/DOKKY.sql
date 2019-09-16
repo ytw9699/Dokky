@@ -104,7 +104,9 @@
  		  TO_NICKNAME varchar2(50) not null, --받는 닉네임
  		  TO_ID varchar2(50) not null, --받는 아이디
 		  REGDATE date default sysdate, --쪽지 작성날짜
-		  checking VARCHAR2(10) DEFAULT 'NO',
+		  read_check VARCHAR2(10) DEFAULT 'NO',--쪽지 읽음 체크
+		  from_check VARCHAR2(10) DEFAULT 'NO',--보낸쪽지함 삭제 체크
+		  to_check VARCHAR2(10) DEFAULT 'NO',--받은쪽지함 삭제 체크
 		  constraint PK_DK_NOTE primary key(NOTE_NUM) --PK
 	);
 	

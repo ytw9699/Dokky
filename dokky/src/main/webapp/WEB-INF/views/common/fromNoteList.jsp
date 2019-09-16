@@ -7,7 +7,7 @@
 <html>
 <head>
 <meta charset="UTF-8"> 
-<title>Dokky - 쪽지</title>
+<title>Dokky - 받은쪽지함</title>
 <link href="/dokky/resources/css/fromNoteList.css" rel="stylesheet" type="text/css"/>
 </head>
 <%@include file="../includes/left.jsp"%>
@@ -18,10 +18,10 @@
 	<div class="ContentWrap">
 		<div id="menuWrap">
 			<div class="tab"> 
-				<button onclick="location.href='registerNote'">쪽지쓰기</button> 
-				<button onclick="location.href='fromNoteList?userId=${userInfo.username}'">받은쪽지함</button>
-				<button onclick="location.href='alarmList?userId=${userInfo.username}'">보낸쪽지함</button>
-				<button onclick="location.href='alarmList?userId=${userInfo.username}'">내게쓴쪽지함</button>
+				<button onclick="location.href='registerNote'">쪽지쓰기</button>
+				<button onclick="location.href='fromNoteList?userId=${userInfo.username}'">받은쪽지함 - ${fromNotetotal}</button>
+				<button onclick="location.href='alarmList?userId=${userInfo.username}'">보낸쪽지함  - ${toNotetotal}</button>
+				<button onclick="location.href='alarmList?userId=${userInfo.username}'">내게쓴쪽지함  - ${myNotetotal}</button>
 		    </div> 
 		</div>
 		
@@ -52,7 +52,7 @@
 				          	</td>
 			          		
 			          		<td class="checkNote${note.note_num}"> 
-				          		 <c:if test="${note.checking == 'NO'}"> 
+				          		 <c:if test="${note.read_check == 'NO'}"> 
 										<span class="readCheck">1</span> 				          		 	
 				          		 </c:if> 
 			          		</td>
@@ -106,31 +106,16 @@
 <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script> 
 <script> 
 
+		var actionForm = $("#actionForm");
+		var userId = '${userInfo.username}';
+		
 		var csrfHeaderName ="${_csrf.headerName}"; 
 		var csrfTokenValue="${_csrf.token}";
 		
 		$(document).ajaxSend(function(e, xhr, options) { 
 		    xhr.setRequestHeader(csrfHeaderName, csrfTokenValue);
-		  });
-  
-		function updateAlarmCheck(alarmNum, callback, error) {
-			$.ajax({
-				type : 'put',
-				url : '/dokky/updateAlarmCheck/'+ alarmNum,
-				success : function(result, status, xhr) {
-					if (callback) {
-						callback(result,xhr);
-					}
-				},
-				error : function(xhr, status, er) {
-					if (error) {
-						error(xhr,er);
-					}
-				}
-			});
-		}
+	    });
 		
-		/* 체크박스 전체선택, 전체해제 */
 		function checkAll(){
 		      if( $("#checkAll").is(':checked') ){ 
 		        $("input[name=checkRow]").prop("checked", true);
@@ -155,45 +140,30 @@
 			  }
 			  
 			  if(confirm("정말 삭제 하시겠습니까?")){
-				  actionForm.attr("action","/dokky/removeAllNote").attr("method","post");
+				  actionForm.attr("action","/dokky/deleteAllNote").attr("method","post");
 				  actionForm.append("<input type='hidden' name='checkRow' value='"+checkRow+"'>");
+				  actionForm.append("<input type='hidden' name='note_kind' value='fromNote'>");
 				  actionForm.append("<input type='hidden' id='csrf' name='${_csrf.parameterName}' value='${_csrf.token}'/>");
 				  actionForm.submit();
 			  }
 		}
 		
-		var commonForm = $("#commonForm");
-		
-		$(".getNote").on("click",function(e) {//쪽지 상세보기+ 쪽지 읽기 체크
-			
-					e.preventDefault();
-					var note_num = $(this).data("note_num");  
-					
-					updateNoteCheck(alarmNum, function(result){//알람 읽기 체크
-						var checkNote = $("#checkNote+"+alarmNum);
-							if(result == "success"){
-								
-								checkNote.html("");//알림 숫자 1 없애주기
-								
-								commonForm.append("<input type='hidden' name='note_num' value='"+note_num+"'/>");
-								commonForm.submit();//글 상세보기 
-								}
-				   	  });
-				});
-		
+		$("#deleteBtn").on("click", function() { 
+			deleteAction(); 
+		}); 
 		
 		$(".userMenu").on("click",function(event){//해당 메뉴바 보이기 이벤트
+			
+			var	note_num = $(this).data("note_num");
+			var userMenubar = $("#userMenubar_"+note_num);
 					
-					var	note_num = $(this).data("note_num");
-					var userMenubar = $("#userMenubar_"+note_num);
-							
-					if($(".addBlockClass").length > 0){
-						$(".addBlockClass").css("display","none");  
-						$(".addBlockClass").removeClass('addBlockClass');
-					}
-					userMenubar.css("display","block"); 
-					userMenubar.addClass('addBlockClass'); 
-	    });
+			if($(".addBlockClass").length > 0){
+				$(".addBlockClass").css("display","none");  
+				$(".addBlockClass").removeClass('addBlockClass');
+			}
+			userMenubar.css("display","block"); 
+			userMenubar.addClass('addBlockClass'); 
+		});
 				 
 		$('html').click(function(e) { //html안 Usermenu, hideUsermenu클래스를 가지고있는 곳 제외하고 클릭하면 숨김 이벤트발생
 			
@@ -203,54 +173,53 @@
 			} 
 		});
 		
-		var actionForm = $("#actionForm");
-
-		$(".paginate_button a").on("click", function(e) {//결국pageNum값만 바꿔주기 위해
+		$(".paginate_button a").on("click", function(e) {
 	
 					e.preventDefault();
 	
-					actionForm.find("input[name='pageNum']").val($(this).attr("href"));//pageNum값을 바꿔주는것//this는 a태그의 href값을 가져오는것
+					actionForm.find("input[name='pageNum']").val($(this).attr("href"));
 					
 					actionForm.submit();
 		});
-	
-		$("#deleteBtn").on("click", function() { 
-			deleteAction(); 
-		}); 
 		
-		var commonForm = $("#commonForm");
+		function updateNoteCheck(note_num, callback, error) {
+				$.ajax({
+						type : 'put',
+						url : '/dokky/noteCheck/'+ note_num,
+						success : function(result, status, xhr) {
+							if (callback) {
+								callback(result,xhr);
+							}
+						},
+						error : function(xhr, status, er) {
+							if (error) {
+								error(xhr,er);
+							}
+						}
+				});
+		}
 		
-		$(".getMyCashHistory").on("click",function(e) {//알람 읽기 체크+캐시 히스토리 가져오기
+		$(".getNote").on("click",function(e) {//쪽지 상세보기 + 쪽지 읽기 체크
 			
-			var alarmNum = $(this).data("alarm_num");   
-			
-			updateAlarmCheck(alarmNum, function(result){//알람 읽기 체크
-				
-				var checkAlarm = $("#checkAlarm+"+alarmNum);
-				var userId = '${userInfo.username}';
-				
-				if(result == "success"){
-					checkAlarm.html("");//알림 숫자 1 없애주기 
-					commonForm.attr("action", "/dokky/mypage/myCashHistory");
-					commonForm.append("<input type='hidden' name='userId' value='"+userId+"'/>");
-					commonForm.submit();//글 상세보기 
-			    }
-   	        });
-		});
+					e.preventDefault();
 		
-		$(".getUserReportList").on("click",function(e) {//알람 읽기 체크+신고리스트 가져오기
-			
-			var alarmNum = $(this).data("alarm_num");  
-			
-			updateAlarmCheck(alarmNum, function(result){//알람 읽기 체크
-					var checkAlarm = $(".checkAlarm"+alarmNum);
-				
-					if(result == "success"){
-						checkAlarm.html(""); 
-						commonForm.attr("action", "/dokky/admin/userReportList");
-						commonForm.submit(); 
-					}
-   	        });
+					var note_num = $(this).data("note_num");  
+					
+					updateNoteCheck(note_num, function(result){//쪽지 읽기 체크
+							
+							var checkNote = $("#checkNote+"+note_num);
+							
+							if(result == "success"){
+								
+								checkNote.html("");
+								
+								actionForm.attr("action", "/dokky/detailNotepage");
+								actionForm.find("input[name='pageNum']").remove();
+								actionForm.find("input[name='amount']").remove();
+								actionForm.append("<input type='hidden' name='note_num' value='"+note_num+"'/>");
+								actionForm.submit();
+							}
+			   	  	});
 		});
 		
 </script>
