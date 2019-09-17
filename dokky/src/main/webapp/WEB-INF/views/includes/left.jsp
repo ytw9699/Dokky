@@ -99,12 +99,12 @@
 
 	function noteOpen(userId,nickname){
 			
-		var popupX = (window.screen.width / 2) - (400 / 2);
+		var popupX = (window.screen.width / 2) - (400 / 2); 
 
 		var popupY= (window.screen.height /2) - (500 / 2);
 	         
-        window.open('/dokky/minRegNote?userId='+userId+'&nickname='+nickname, 'ot', 'height=500, width=400, left='+ popupX + ', top='+ popupY + ', screenX='+ popupX + ', screenY= '+ popupY);
-    } 
+        window.open('/dokky/minRegNote?userId='+userId+'&nickname='+nickname, 'ot', 'height=500, width=400, screenX='+ popupX + ', screenY= '+ popupY);
+    }
 	
 	function getAlarmRealCount(userId, callback, error) {
 		$.ajax({
