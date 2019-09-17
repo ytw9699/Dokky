@@ -11,31 +11,29 @@
 		<sec:authentication property="principal" var="userInfo"/>
 		
 	<div class="leftWrap">
-		<div class="mypage"><a href="/dokky/main">Dokky</a></div> 
+		<div class="name"><a href="/dokky/main">Dokky</a></div> 
 		
 		<div class="mypage">  
 			<sec:authorize access="isAuthenticated()">
+					<a href="#" class="leftUsermenu">
+					  	  <img id="leftProfile" src="/dokky/resources/img/profile_img/<c:out value="${userInfo.username}"/>.png" class="memberImage leftHideusermenu" onerror="this.src='/dokky/resources/img/basicProfile.png'" />
+					  	  <c:out value="${userInfo.member.nickName}"/>     
+			  	    </a> 
+			  	    <div id="leftUsermenuBar">
+							<ul class="leftHideusermenu"> 
+								<li class="leftHideusermenu">
+									<a href="/dokky/userBoardList?userId=${userInfo.username}" class="leftHideusermenu">
+										<span class="leftHideusermenu">게시글보기</span>
+									</a>
+								</li>
+								<li class="leftHideusermenu">
+									<a href="#" class="leftHideusermenu" onclick="noteOpen('${userInfo.username}','${userInfo.member.nickName}')">
+										<span class="leftHideusermenu">쪽지보내기</span> 
+									</a>
+								</li>
+							</ul> 
+				    </div>
 					<form id="logoutForm" method='post' action="/dokky/customLogout">
-					  	  <a href="#" class="leftUsermenu">
-						  	  <img id="leftProfile" src="/dokky/resources/img/profile_img/<c:out value="${userInfo.username}"/>.png" class="memberImage leftHideusermenu" onerror="this.src='/dokky/resources/img/basicProfile.png'" />
-						  	  <c:out value="${userInfo.member.nickName}"/>     
-					  	  </a> 
-					  	  
-					  	  <div id="leftUsermenuBar">
-								<ul class="leftHideusermenu"> 
-									<li class="leftHideusermenu">
-										<a href="/dokky/userBoardList?userId=${userInfo.username}" class="leftHideusermenu">
-											<span class="leftHideusermenu">게시글보기</span>
-										</a>
-									</li>
-									<li class="leftHideusermenu">
-										<a href="#" class="leftHideusermenu" onclick="noteOpen('${userInfo.username}','${userInfo.member.nickName}')">
-											<span class="leftHideusermenu">쪽지보내기</span> 
-										</a>
-									</li>
-								</ul> 
-						  </div> 
-
 					    <input id="logoutBtn" type="submit" value="Logout">  
 					</form>  
 			</sec:authorize>
@@ -69,11 +67,11 @@
 			<a href="/dokky/admin/userList">관리자</a>
 		</div>
 		
-		<div class="counts">
-			<div class="countVal">
+		<div class="mypage">
+			<div>
 				Today : ${sessionScope.todayCount} 
 			</div> 
-			<div class="countVal">  
+			<div>  
 				Total : ${sessionScope.totalCount}  
 			</div> 
 		</div>

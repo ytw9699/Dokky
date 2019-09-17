@@ -1,19 +1,19 @@
 @charset "utf-8";
 /* CSS Document */
       @media screen and (max-width:500px){ 
-	              .leftWrap {
-		   				width: 10%;
-					    margin-top: 1%;
-					    margin-left: 0%;
-					    display: inline-block;
-					    float: left;
-					    border-color: #e6e6e6;
-					    border-style: solid;
-					    border-width: 1px;
-					    background-color: #323639;
-					    position: fixed;
-					}
-           }
+              .leftWrap {
+	   				width: 10%;
+				    margin-top: 1%;
+				    margin-left: 0%;
+				    display: inline-block;
+				    float: left;
+				    border-color: #dbdbdb;
+				    border-style: solid;
+				    border-width: 1px;
+				    position: fixed;
+				    color: #333333;
+				}
+      }
       @media screen and (min-width: 501px) and (max-width:1500px){
 	           .leftWrap {
 	   				width: 14%;
@@ -21,69 +21,87 @@
 				    margin-left: 0%;
 				    display: inline-block;
 				    float: left;
-				    border-color: #e6e6e6;
+				    border-color: #dbdbdb;
 				    border-style: solid;
 				    border-width: 1px;
-				    background-color: #323639;
 				    position: fixed;
+				    color: #333333;
 				}
       }
       @media screen and (min-width: 1501px){    
          	 .leftWrap {
-	   				width: 10%;
-				    margin-top: 1%;
-				    margin-left: 18%;
-				    display: inline-block;
-				    float: left;
-				    border-color: #e6e6e6;
-				    border-style: solid;
-				    border-width: 1px; 
-				    background-color: #323639;
-				    position: fixed;
-				}
+			    width: 10%;
+			    margin-top: 1%;
+			    margin-left: 18%;
+			    display: inline-block;
+			    position: fixed;
+			 	/* border-color: #dbdbdb;
+			    border-style: solid;
+			    border-width: 1px; */
+			 	
+			    /* float: left; */
+			    /* color: #333333; */
+         	 }
       }
+      
+      .name{
+			text-align:center;	
+			border-color: white;	
+			padding-bottom: 15px;
+	  }
+	  
+	  .name a{
+			color: #7151fc;
+			font-size: 45px;
+			font-weight: 900;
+			text-decoration:none;
+			background-color: white;
+	  }
 
-	.mypage {
+	  .mypage {
 	    padding: 10px;
 	    box-sizing: border-box;
 	   	width: 100%;
-	    color: #e6e6e6;
-	    border-color: #e6e6e6;
-	    border-style: solid; 
-	    border-width: 1px;
-	}
-	.counts{ 
-		padding: 10px;
-	    box-sizing: border-box;
-	   	width: 100%;
-	    color: #e6e6e6;
-	    border-color: #e6e6e6;
-	    border-style: solid; 
-	    border-width: 1px;
-	}
-	.countVal{ 
-		 margin-top: 2%;
-	}
-	.mypage:hover > a, .mypage:hover {
-	    color: #7151fc;
-	}
-	.mypage a { 
+	    cursor: pointer;
+	    background-color: #7151fc;
+        transition: 0.3s;
 	    color: white;
+	    font-weight: 600;
+	    font-size: 18px;
+	  }
+	  
+	  .mypage a {
+		color: white;
 	    text-decoration:none;
-	}
+	  }
+	  
+      .mypage:hover > a{
+   		color: #7151fc;
+      }
+      
+	  .mypage:hover {
+	    background-color: white;
+	    color: #7151fc;	
+	    border-color: #dbdbdb;
+	    border-style: solid;
+	    border-width: 1px;
+	  }
+	  
+	  
+	/*
 	
 	#leftUsermenuBar{
 	    display: none;
 	    border-style: solid;
 	    border-width: 1px;
 	    border-color: #e6e6e6;
-	    width: 6%;
+	    width: 6%; 
 	    height: 55px;
 	    position: fixed;
 	    background-color: #323639;
 	    margin-left: 1.3%;  
-		/* position : absolute; */ 
-		/* style="display: block; position: absolute; width: 109px; z-index: 1000; top: 332px; left: 535px;" */
+		position : absolute; 
+		style="display: block; position: absolute; width: 109px; z-index: 1000; top: 332px; left: 535px;"
 	}
 	#leftUsermenuBar li {
 	    list-style: none;
@@ -98,8 +116,8 @@
 	    border-width: 1px;
 	    border-color: #e6e6e6;
 	    margin: auto;
-	   /*  width: 95%;
-	    margin-left: 18%; */
+	    width: 95%;
+	    margin-left: 18%;
 	} 
 	#leftProfile{
 		border-radius: 50px;
@@ -109,4 +127,4 @@
 			border-radius: 50px;
 			width: 25px; 
 			height: 30px;
-		}
+		} */
