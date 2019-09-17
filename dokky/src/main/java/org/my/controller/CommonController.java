@@ -251,6 +251,15 @@ public class CommonController {
 		return  new ResponseEntity<>(commonService.getAlarmRealCount(userId), HttpStatus.OK);
 	}
 	
+	@GetMapping(value = "/noteCount/{userId}", produces = "text/plain; charset=UTF-8")
+	@ResponseBody
+	public ResponseEntity<String> getNoteCount(@PathVariable("userId") String userId) {
+		 
+		log.info("/noteCount...="+userId);
+		
+		return  new ResponseEntity<>(commonService.getNoteCount(userId), HttpStatus.OK);
+	}
+	
 	@PreAuthorize("isAuthenticated()")
 	@GetMapping("/alarmList")  
 	 public String getAlarmList(Criteria cri, Model model) {//내 알림 리스트 가져오기

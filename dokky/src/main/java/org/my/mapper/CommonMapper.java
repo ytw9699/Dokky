@@ -53,4 +53,6 @@ public interface CommonMapper {
 
 	public List<noteVO> getMyNoteList(Criteria cri);
 
+	public String getNoteCount(String userId);
+
 }

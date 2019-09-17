@@ -49,4 +49,6 @@ public interface CommonService {
 
 	public List<noteVO> getMyNoteList(Criteria cri);
 
+	public String getNoteCount(String userId);
+
 }

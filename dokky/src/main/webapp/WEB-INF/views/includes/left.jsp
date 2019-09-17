@@ -119,15 +119,37 @@
 			}
 		});
 	}
+	 
+	function getNoteCount(userId, callback, error) {
+		$.ajax({
+			type : 'get',
+			url : '/dokky/noteCount/'+ userId,
+			success : function(result, status, xhr) {
+				if (callback) {
+					callback(result,xhr);
+				}
+			},
+			error : function(xhr, status, er) {
+				if (error) {
+					error(xhr,er);
+				}
+			}
+		});
+	}
 	
 	<sec:authorize access="isAuthenticated()"> 
 		var alarmCount = $(".alarmCount");
+		var noteCount = $(".noteCount");
 		var userId = '${userInfo.username}';
 	</sec:authorize>
 	
 	function schedule(){
 	    getAlarmRealCount(userId, function(result){
 	    	alarmCount.html(result);
+	 	 });
+	    
+	    getNoteCount(userId, function(result){
+	    	noteCount.html(result);
 	 	 });
 	} 
 	
