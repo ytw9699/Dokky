@@ -23,9 +23,17 @@
 					  	  
 					  	  <div id="leftUsermenuBar">
 								<ul class="leftHideusermenu"> 
-									<li class="leftHideusermenu"><a href="/dokky/userBoardList?userId=${userInfo.username}" class="leftHideusermenu"><span class="leftHideusermenu">게시글보기</span></a></li>
-									<li class="leftHideusermenu"><a href="#" class="leftHideusermenu"><span class="leftHideusermenu">쪽지보내기</span></a></li>
-								</ul>   
+									<li class="leftHideusermenu">
+										<a href="/dokky/userBoardList?userId=${userInfo.username}" class="leftHideusermenu">
+											<span class="leftHideusermenu">게시글보기</span>
+										</a>
+									</li>
+									<li class="leftHideusermenu">
+										<a href="#" class="leftHideusermenu" onclick="noteOpen('${userInfo.username}','${userInfo.member.nickName}')">
+											<span class="leftHideusermenu">쪽지보내기</span> 
+										</a>
+									</li>
+								</ul> 
 						  </div> 
 
 					    <input id="logoutBtn" type="submit" value="Logout">  
@@ -89,6 +97,11 @@
 			} 
 	});   
 
+		
+	function noteOpen(userId,nickname){
+        window.open('/dokky/minRegNote?userId='+userId+'&nickname='+nickname, 'ot', 'width=500px, height=500px'); 
+    } 
+	
 	
 	function getAlarmRealCount(userId, callback, error) {
 		$.ajax({

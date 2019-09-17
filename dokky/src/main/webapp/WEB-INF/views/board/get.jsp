@@ -73,7 +73,7 @@
 				</ul>    
 		    </div> 
 	</div>
-        
+         
 	<div class="titleWrapper">
    		<div id="titleNum">
    			#<c:out value="${board.board_num}"/>
@@ -294,11 +294,6 @@
 	 
 	///////////////////////////////////////////////////////함수모음
 	
-	function noteOpen(userId,nickname){
-        window.open('/dokky/minRegNote?userId='+userId+'&nickname='+nickname, 'ot', 'width=500px, height=500px'); 
-    } 
-	
-	
 	function checkLength(obj, maxlength) {//글자수 체크 함수   
 		
 			var str = obj.value; 
@@ -469,8 +464,8 @@
 								   		   + "</a>"
 								   	   + "</li>"
 								   	   
-									   + "<li class='hideUsermenu'>"
-									   	  + "<a href='#' class='hideUsermenu'>"
+									   + "<li class='hideUsermenu'>"  
+									   	  + "<a href='#' class='hideUsermenu' onclick=\"noteOpen('"+userId+"','"+nickName+"')\">"
 										   	+ "<span class='hideUsermenu'>쪽지보내기</span>"
 									   	  + "</a>"
 									   + "</li>"
@@ -564,7 +559,7 @@
 								   	   + "</li>"
 								   	   
 									   + "<li class='hideUsermenu'>"
-									   	  + "<a href='#' class='hideUsermenu'>"
+									   	  + "<a href='#' class='hideUsermenu' onclick=\"noteOpen('"+userId+"','"+nickName+"')\">"
 										   	+ "<span class='hideUsermenu'>쪽지보내기</span>"
 									   	  + "</a>"
 									   + "</li>"
@@ -589,7 +584,7 @@
 								   	   + "</li>"
 								   	   
 									   + "<li class='hideUsermenu'>"
-									   	  + "<a href='#' class='hideUsermenu'>"
+									   	  + "<a href='#' class='hideUsermenu' onclick=\"noteOpen('"+toUserId+"','"+toNickName+"')\">"
 										   	+ "<span class='hideUsermenu'>쪽지보내기</span>"
 									   	  + "</a>"
 									   + "</li>"

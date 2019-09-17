@@ -122,6 +122,13 @@
 		    border-color: #e6e6e6;
 		    margin: auto;
 		}
+		a:hover {   
+		    color: #7151fc;
+		    text-decoration: underline;
+		}   
+		a{     
+			color:#e6e6e6; text-decoration: none;
+		}
 		
 		#to_id{
 		    width: 20%;

@@ -211,6 +211,27 @@
 		  }
 	}); 
 	
+	$(".userMenu").on("click",function(event){//해당 메뉴바 보이기 이벤트
+		
+		var	note_num = $(this).data("note_num");
+		var userMenubar = $("#userMenubar_"+note_num);
+				
+		if($(".addBlockClass").length > 0){
+			$(".addBlockClass").css("display","none");  
+			$(".addBlockClass").removeClass('addBlockClass');
+		}
+		userMenubar.css("display","block"); 
+		userMenubar.addClass('addBlockClass'); 
+	});
+			 
+	$('html').click(function(e) { //html안 Usermenu, hideUsermenu클래스를 가지고있는 곳 제외하고 클릭하면 숨김 이벤트발생
+		
+		if( !$(e.target).is('.userMenu, .hideUsermenu') ) { 	
+		    var userMenu = $(".userMenubar");     
+			userMenu.css("display","none");  
+		} 
+	});
+	
 </script>
 </body>
 </html>

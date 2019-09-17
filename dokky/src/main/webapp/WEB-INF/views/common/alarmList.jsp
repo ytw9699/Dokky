@@ -34,13 +34,21 @@
 									<a href="#" class="userMenu" data-alarm_num="${alarm.alarmNum}">
 										<img src="/dokky/resources/img/profile_img/<c:out value="${alarm.writerId}" />.png"  class="memberImage hideUsermenu" onerror="this.src='/dokky/resources/img/basicProfile.png'" />
 										<c:out value="${alarm.writerNick}" /> 
-									</a>   
-									 <div id="userMenubar_${alarm.alarmNum}" class="userMenubar">
+									</a> 
+									<div id="userMenubar_${alarm.alarmNum}" class="userMenubar">
 										<ul class="hideUsermenu"> 
-											<li class="hideUsermenu"><a href="/dokky/userBoardList?userId=${alarm.writerId}" class="hideUsermenu"><span class="hideUsermenu">게시글보기</span></a></li>
-											<li class="hideUsermenu"><a href="#" class="hideUsermenu"><span class="hideUsermenu">쪽지보내기</span></a></li>
+											<li class="hideUsermenu">
+												<a href="/dokky/userBoardList?userId=${alarm.writerId}" class="hideUsermenu">
+													<span class="hideUsermenu">게시글보기</span>
+												</a>  
+											</li>   
+											<li class="hideUsermenu">
+												<a href="#" class="hideUsermenu" onclick="noteOpen('${alarm.writerId}','${alarm.writerNick}')">
+													<span class="hideUsermenu">쪽지보내기</span> 
+												</a>
+											</li>
 										</ul>      
-								     </div> 
+								    </div> 
 								</td> 
 					
 				          		<td> 

@@ -44,8 +44,16 @@
 							</a> 
 							 <div id="userMenubar_realtime_${board.board_num}" class="userMenubar">
 								<ul class="hideUsermenu"> 
-									<li class="hideUsermenu"><a href="/dokky/userBoardList?userId=${board.userId}" class="hideUsermenu"><span class="hideUsermenu">게시글보기</span></a></li>
-									<li class="hideUsermenu"><a href="#" class="hideUsermenu"><span class="hideUsermenu">쪽지보내기</span></a></li>
+									<li class="hideUsermenu">
+										<a href="/dokky/userBoardList?userId=${board.userId}" class="hideUsermenu">
+											<span class="hideUsermenu">게시글보기</span>
+										</a>
+									</li>
+									<li class="hideUsermenu">
+										<a href="#" class="hideUsermenu" onclick="noteOpen('${board.userId}','${board.nickName}')">
+											<span class="hideUsermenu">쪽지보내기</span> 
+										</a>
+									</li>
 								</ul>  
 						     </div>
 						</td>
@@ -93,9 +101,17 @@
 							</a> 
 							 <div id="userMenubar_like_${board.board_num}" class="userMenubar">
 								<ul class="hideUsermenu"> 
-									<li class="hideUsermenu"><a href="/dokky/userBoardList?userId=${board.userId}" class="hideUsermenu"><span class="hideUsermenu">게시글보기</span></a></li>
-									<li class="hideUsermenu"><a href="#" class="hideUsermenu"><span class="hideUsermenu">쪽지보내기</span></a></li>
-								</ul>  
+									<li class="hideUsermenu">
+										<a href="/dokky/userBoardList?userId=${board.userId}" class="hideUsermenu">
+											<span class="hideUsermenu">게시글보기</span>
+										</a>
+									</li>
+									<li class="hideUsermenu">
+										<a href="#" class="hideUsermenu" onclick="noteOpen('${board.userId}','${board.nickName}')">
+											<span class="hideUsermenu">쪽지보내기</span> 
+										</a>
+									</li>
+								</ul>   
 						     </div>
 						</td>
 						<td class="regdate${board.board_num}" data-regdate_val='<fmt:formatDate value="${board.regDate}" pattern="yyyy/MM/dd/HH:mm:ss" />'>
@@ -142,9 +158,17 @@
 							</a> 
 							 <div id="userMenubar_donate_${board.board_num}" class="userMenubar">
 								<ul class="hideUsermenu"> 
-									<li class="hideUsermenu"><a href="/dokky/userBoardList?userId=${board.userId}" class="hideUsermenu"><span class="hideUsermenu">게시글보기</span></a></li>
-									<li class="hideUsermenu"><a href="#" class="hideUsermenu"><span class="hideUsermenu">쪽지보내기</span></a></li>
-								</ul>  
+									<li class="hideUsermenu">
+										<a href="/dokky/userBoardList?userId=${board.userId}" class="hideUsermenu">
+											<span class="hideUsermenu">게시글보기</span>
+										</a>
+									</li>
+									<li class="hideUsermenu">
+										<a href="#" class="hideUsermenu" onclick="noteOpen('${board.userId}','${board.nickName}')">
+											<span class="hideUsermenu">쪽지보내기</span> 
+										</a>
+									</li>
+								</ul> 
 						     </div>
 						</td>
 						<td class="regdate${board.board_num}" data-regdate_val='<fmt:formatDate value="${board.regDate}" pattern="yyyy/MM/dd/HH:mm:ss" />'>

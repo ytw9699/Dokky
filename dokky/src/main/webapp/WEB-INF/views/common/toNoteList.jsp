@@ -56,12 +56,20 @@
 									<img src="/dokky/resources/img/profile_img/<c:out value="${note.to_id}"/>.png"  class="memberImage hideUsermenu" onerror="this.src='/dokky/resources/img/basicProfile.png'" />
 									<c:out value="${note.to_nickname}" /> 
 								</a>   
-								 <div id="userMenubar_${note.note_num}" class="userMenubar">
+								<div id="userMenubar_${note.note_num}" class="userMenubar">
 									<ul class="hideUsermenu">
-										<li class="hideUsermenu"><a href="/dokky/userBoardList?userId=${note.to_id}" class="hideUsermenu"><span class="hideUsermenu">게시글보기</span></a></li>
-										<li class="hideUsermenu"><a href="#" class="hideUsermenu"><span class="hideUsermenu">쪽지보내기</span></a></li>
+										<li class="hideUsermenu">
+											<a href="/dokky/userBoardList?userId=${note.to_id}" class="hideUsermenu">
+												<span class="hideUsermenu">게시글보기</span>
+											</a>
+										</li>
+										<li class="hideUsermenu">
+											<a href="#" class="hideUsermenu" onclick="noteOpen('${note.to_id}','${note.to_nickname}')">
+												<span class="hideUsermenu">쪽지보내기</span>
+											</a>
+										</li>
 									</ul>      
-							     </div> 
+							    </div> 
 							</td>
 							
 							<td>
@@ -132,6 +140,10 @@
 		$(document).ajaxSend(function(e, xhr, options) { 
 		    xhr.setRequestHeader(csrfHeaderName, csrfTokenValue);
 	    });
+		
+		function noteOpen(userId,nickname){
+	        window.open('/dokky/minRegNote?userId='+userId+'&nickname='+nickname, 'ot', 'width=500px, height=500px'); 
+	    } 
 		
 		function checkAll(){
 		      if( $("#checkAll").is(':checked') ){ 
