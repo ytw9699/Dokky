@@ -130,7 +130,12 @@
 	    });
 		
 		function noteOpen(userId,nickname){
-	        window.open('/dokky/minRegNote?userId='+userId+'&nickname='+nickname, 'ot', 'width=500px, height=500px'); 
+			
+			var popupX = (window.screen.width / 2) - (400 / 2);
+
+			var popupY= (window.screen.height /2) - (500 / 2);
+		         
+	        window.open('/dokky/minRegNote?userId='+userId+'&nickname='+nickname, 'ot', 'height=500, width=400, left='+ popupX + ', top='+ popupY + ', screenX='+ popupX + ', screenY= '+ popupY);
 	    } 
 		
 		function checkAll(){

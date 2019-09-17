@@ -69,8 +69,16 @@
 									</a>   
 									 <div id="userMenubar_${alarm.alarmNum}" class="userMenubar">
 										<ul class="hideUsermenu"> 
-											<li class="hideUsermenu"><a href="/dokky/userBoardList?userId=${alarm.writerId}" class="hideUsermenu"><span class="hideUsermenu">게시글보기</span></a></li>
-											<li class="hideUsermenu"><a href="#" class="hideUsermenu"><span class="hideUsermenu">쪽지보내기</span></a></li>
+											<li class="hideUsermenu">
+												<a href="/dokky/userBoardList?userId=${alarm.writerId}" class="hideUsermenu">
+													<span class="hideUsermenu">게시글보기</span>
+												</a>  
+											</li>   
+											<li class="hideUsermenu">
+												<a href="#" class="hideUsermenu" onclick="noteOpen('${alarm.writerId}','${alarm.writerNick}')">
+													<span class="hideUsermenu">쪽지보내기</span> 
+												</a>
+											</li>
 										</ul>      
 								     </div> 
 								</td>
@@ -93,8 +101,16 @@
 									</a>   
 									 <div id="userMenubar_${alarm.alarmNum}" class="userMenubar">
 										<ul class="hideUsermenu"> 
-											<li class="hideUsermenu"><a href="/dokky/userBoardList?userId=${alarm.writerId}" class="hideUsermenu"><span class="hideUsermenu">게시글보기</span></a></li>
-											<li class="hideUsermenu"><a href="#" class="hideUsermenu"><span class="hideUsermenu">쪽지보내기</span></a></li>
+											<li class="hideUsermenu">
+												<a href="/dokky/userBoardList?userId=${alarm.writerId}" class="hideUsermenu">
+													<span class="hideUsermenu">게시글보기</span>
+												</a>  
+											</li>   
+											<li class="hideUsermenu">
+												<a href="#" class="hideUsermenu" onclick="noteOpen('${alarm.writerId}','${alarm.writerNick}')">
+													<span class="hideUsermenu">쪽지보내기</span> 
+												</a>
+											</li>
 										</ul>      
 								     </div> 
 								</td>
@@ -117,8 +133,16 @@
 									</a>   
 									 <div id="userMenubar_${alarm.alarmNum}" class="userMenubar">
 										<ul class="hideUsermenu"> 
-											<li class="hideUsermenu"><a href="/dokky/userBoardList?userId=${alarm.writerId}" class="hideUsermenu"><span class="hideUsermenu">게시글보기</span></a></li>
-											<li class="hideUsermenu"><a href="#" class="hideUsermenu"><span class="hideUsermenu">쪽지보내기</span></a></li>
+											<li class="hideUsermenu">
+												<a href="/dokky/userBoardList?userId=${alarm.writerId}" class="hideUsermenu">
+													<span class="hideUsermenu">게시글보기</span>
+												</a>  
+											</li>   
+											<li class="hideUsermenu">
+												<a href="#" class="hideUsermenu" onclick="noteOpen('${alarm.writerId}','${alarm.writerNick}')">
+													<span class="hideUsermenu">쪽지보내기</span> 
+												</a>
+											</li>
 										</ul>      
 								     </div> 
 								</td>
@@ -141,9 +165,17 @@
 									</a>   
 									 <div id="userMenubar_${alarm.alarmNum}" class="userMenubar">
 										<ul class="hideUsermenu"> 
-											<li class="hideUsermenu"><a href="/dokky/userBoardList?userId=${alarm.writerId}" class="hideUsermenu"><span class="hideUsermenu">게시글보기</span></a></li>
-											<li class="hideUsermenu"><a href="#" class="hideUsermenu"><span class="hideUsermenu">쪽지보내기</span></a></li>
-										</ul>      
+											<li class="hideUsermenu">
+												<a href="/dokky/userBoardList?userId=${alarm.writerId}" class="hideUsermenu">
+													<span class="hideUsermenu">게시글보기</span>
+												</a>  
+											</li>   
+											<li class="hideUsermenu">
+												<a href="#" class="hideUsermenu" onclick="noteOpen('${alarm.writerId}','${alarm.writerNick}')">
+													<span class="hideUsermenu">쪽지보내기</span> 
+												</a>
+											</li>
+										</ul>     
 								     </div> 
 								</td>
 								
@@ -165,8 +197,16 @@
 									</a>   
 									 <div id="userMenubar_${alarm.alarmNum}" class="userMenubar">
 										<ul class="hideUsermenu"> 
-											<li class="hideUsermenu"><a href="/dokky/userBoardList?userId=${alarm.writerId}" class="hideUsermenu"><span class="hideUsermenu">게시글보기</span></a></li>
-											<li class="hideUsermenu"><a href="#" class="hideUsermenu"><span class="hideUsermenu">쪽지보내기</span></a></li>
+											<li class="hideUsermenu">
+												<a href="/dokky/userBoardList?userId=${alarm.writerId}" class="hideUsermenu">
+													<span class="hideUsermenu">게시글보기</span>
+												</a>  
+											</li>   
+											<li class="hideUsermenu">
+												<a href="#" class="hideUsermenu" onclick="noteOpen('${alarm.writerId}','${alarm.writerNick}')">
+													<span class="hideUsermenu">쪽지보내기</span> 
+												</a>
+											</li>
 										</ul>      
 								     </div> 
 								</td>
@@ -189,8 +229,16 @@
 									</a>   
 									 <div id="userMenubar_${alarm.alarmNum}" class="userMenubar">
 										<ul class="hideUsermenu"> 
-											<li class="hideUsermenu"><a href="/dokky/userBoardList?userId=${alarm.writerId}" class="hideUsermenu"><span class="hideUsermenu">게시글보기</span></a></li>
-											<li class="hideUsermenu"><a href="#" class="hideUsermenu"><span class="hideUsermenu">쪽지보내기</span></a></li>
+											<li class="hideUsermenu">
+												<a href="/dokky/userBoardList?userId=${alarm.writerId}" class="hideUsermenu">
+													<span class="hideUsermenu">게시글보기</span>
+												</a>  
+											</li>   
+											<li class="hideUsermenu">
+												<a href="#" class="hideUsermenu" onclick="noteOpen('${alarm.writerId}','${alarm.writerNick}')">
+													<span class="hideUsermenu">쪽지보내기</span> 
+												</a>
+											</li>
 										</ul>      
 								     </div> 
 								</td>
@@ -210,10 +258,18 @@
 						       				<c:out value="${alarm.writerNick}" /> 
 					       				</a> 
 					       				<div id="userMenubar_${alarm.alarmNum}" class="userMenubar">
-											<ul class="hideUsermenu">  
-												<li class="hideUsermenu"><a href="/dokky/userBoardList?userId=admin" class="hideUsermenu"><span class="hideUsermenu">게시글보기</span></a></li>
-												<li class="hideUsermenu"><a href="#" class="hideUsermenu"><span class="hideUsermenu">쪽지보내기</span></a></li>
-											</ul>      
+											<ul class="hideUsermenu"> 
+												<li class="hideUsermenu">
+													<a href="/dokky/userBoardList?userId=${alarm.writerId}" class="hideUsermenu">
+														<span class="hideUsermenu">게시글보기</span>
+													</a>  
+												</li>   
+												<li class="hideUsermenu">
+													<a href="#" class="hideUsermenu" onclick="noteOpen('${alarm.writerId}','${alarm.writerNick}')">
+														<span class="hideUsermenu">쪽지보내기</span> 
+													</a>
+												</li>
+											</ul>     
 								     	</div> 
 					       			</td> 
 					       			<td>
@@ -232,10 +288,18 @@
 					       				<c:out value="${alarm.writerNick}" />    
 				       				</a> 
 				       				<div id="userMenubar_${alarm.alarmNum}" class="userMenubar">
-										<ul class="hideUsermenu">  
-											<li class="hideUsermenu"><a href="/dokky/userBoardList?userId=admin" class="hideUsermenu"><span class="hideUsermenu">게시글보기</span></a></li>
-											<li class="hideUsermenu"><a href="#" class="hideUsermenu"><span class="hideUsermenu">쪽지보내기</span></a></li>
-										</ul>        
+										<ul class="hideUsermenu"> 
+											<li class="hideUsermenu">
+												<a href="/dokky/userBoardList?userId=${alarm.writerId}" class="hideUsermenu">
+													<span class="hideUsermenu">게시글보기</span>
+												</a>  
+											</li>   
+											<li class="hideUsermenu">
+												<a href="#" class="hideUsermenu" onclick="noteOpen('${alarm.writerId}','${alarm.writerNick}')">
+													<span class="hideUsermenu">쪽지보내기</span> 
+												</a>
+											</li>
+										</ul>       
 							     	</div> 
 				       			</td>  
 				   			    <td>
@@ -256,8 +320,16 @@
 									</a>   
 									 <div id="userMenubar_${alarm.alarmNum}" class="userMenubar">
 										<ul class="hideUsermenu"> 
-											<li class="hideUsermenu"><a href="/dokky/userBoardList?userId=${alarm.writerId}" class="hideUsermenu"><span class="hideUsermenu">게시글보기</span></a></li>
-											<li class="hideUsermenu"><a href="#" class="hideUsermenu"><span class="hideUsermenu">쪽지보내기</span></a></li>
+											<li class="hideUsermenu">
+												<a href="/dokky/userBoardList?userId=${alarm.writerId}" class="hideUsermenu">
+													<span class="hideUsermenu">게시글보기</span>
+												</a>  
+											</li>   
+											<li class="hideUsermenu">
+												<a href="#" class="hideUsermenu" onclick="noteOpen('${alarm.writerId}','${alarm.writerNick}')">
+													<span class="hideUsermenu">쪽지보내기</span> 
+												</a>
+											</li>
 										</ul>      
 								     </div> 
 								</td> 
@@ -266,7 +338,7 @@
 					          	</td> 
 				          		 <td class="checkAlarm${alarm.alarmNum}"> 
 					          		 <c:if test="${alarm.checking == 'NO'}">
-											<span class="readCheck">1</span> 				          		 	
+											<span class="readCheck">1</span> 	 			          		 	
 					          		 </c:if> 
 				          		 </td>
 					       </c:when>
