@@ -348,30 +348,72 @@ public class CommonController {
 	}
 	
 	@PreAuthorize("isAuthenticated()")
-	@GetMapping("/fromNoteList")  
+	@GetMapping("/fromNoteList")
 	 public String getFromNoteList(Criteria cri, Model model) {//받은쪽지함
 		
-		log.info("/fromNoteList");
+			log.info("/fromNoteList");
+			
+			int fromNotetotal = commonService.getFromNoteCount(cri);
+			int toNotetotal   = commonService.getToNoteCount(cri);
+			int myNotetotal   = commonService.getMyNoteCount(cri);
+			
+			model.addAttribute("fromNotetotal", fromNotetotal);
+			model.addAttribute("toNotetotal"  , toNotetotal);
+			model.addAttribute("myNotetotal"  , myNotetotal);
+			
+			model.addAttribute("fromNoteList", commonService.getFromNoteList(cri));
+			
+			model.addAttribute("pageMaker", new PageDTO(cri, fromNotetotal));
+	
+			return "common/fromNoteList";
+	}
+	
+	@PreAuthorize("isAuthenticated()")
+	@GetMapping("/toNoteList")  
+	 public String getToNoteList(Criteria cri, Model model) {//보낸쪽지함
 		
-		int fromNotetotal = commonService.getFromNoteCount(cri);
-		int toNotetotal   = commonService.getToNoteCount(cri);
-		int myNotetotal   = commonService.getMyNoteCount(cri);
+			log.info("/toNoteList");
+			
+			int fromNotetotal = commonService.getFromNoteCount(cri);
+			int toNotetotal   = commonService.getToNoteCount(cri);
+			int myNotetotal   = commonService.getMyNoteCount(cri);
+			
+			model.addAttribute("fromNotetotal", fromNotetotal);
+			model.addAttribute("toNotetotal"  , toNotetotal);
+			model.addAttribute("myNotetotal"  , myNotetotal);
+			
+			model.addAttribute("toNoteList", commonService.getToNoteList(cri));
+			
+			model.addAttribute("pageMaker", new PageDTO(cri, fromNotetotal));
+	
+			return "common/toNoteList";
+	}
+	
+	@PreAuthorize("isAuthenticated()")
+	@GetMapping("/myNoteList")
+	public String getMyNoteList(Criteria cri, Model model) {//내게쓴 쪽지함
 		
-		model.addAttribute("fromNotetotal", fromNotetotal);
-		model.addAttribute("toNotetotal"  , toNotetotal);
-		model.addAttribute("myNotetotal"  , myNotetotal);
-		
-		model.addAttribute("fromNoteList", commonService.getFromNoteList(cri));
-		
-		model.addAttribute("pageMaker", new PageDTO(cri, fromNotetotal));
-
-		return "common/fromNoteList";
+			log.info("/myNoteList");
+			
+			int fromNotetotal = commonService.getFromNoteCount(cri);
+			int toNotetotal   = commonService.getToNoteCount(cri);
+			int myNotetotal   = commonService.getMyNoteCount(cri);
+			
+			model.addAttribute("fromNotetotal", fromNotetotal);
+			model.addAttribute("toNotetotal"  , toNotetotal);
+			model.addAttribute("myNotetotal"  , myNotetotal);
+			
+			model.addAttribute("myNoteList", commonService.getMyNoteList(cri));
+			
+			model.addAttribute("pageMaker", new PageDTO(cri, fromNotetotal));
+	
+			return "common/myNoteList";
 	}
 	
 	@PreAuthorize("isAuthenticated()")
 	@ResponseBody
 	@PutMapping(value = "/noteCheck/{note_num}",produces = "text/plain; charset=UTF-8")
-	public ResponseEntity<String> updateNoteCheck(@PathVariable("note_num") String note_num) {
+	public ResponseEntity<String> updateNoteCheck(@PathVariable("note_num") String note_num) { 
 		
 		log.info("/updateNoteCheck:... " + note_num);
 		
@@ -383,7 +425,7 @@ public class CommonController {
 	
 	@PreAuthorize("principal.username == #cri.userId")
 	@GetMapping("/detailNotepage")
-	public String get(@RequestParam("note_num") Long note_num, Model model, Criteria cri) {
+	public String get(@RequestParam("note_num") Long note_num, @RequestParam("note_kind") String note_kind, Model model, @ModelAttribute("cri") Criteria cri) {
 
 		log.info("/detailNotepage");
 		
@@ -394,16 +436,16 @@ public class CommonController {
 		int myNotetotal   = commonService.getMyNoteCount(cri);
 		
 		model.addAttribute("note", note);
+		model.addAttribute("note_kind", note_kind);
 		model.addAttribute("fromNotetotal", fromNotetotal);
 		model.addAttribute("toNotetotal"  , toNotetotal);
 		model.addAttribute("myNotetotal"  , myNotetotal);
 		
 		return "common/detailNotepage";
 	}
-	
-	@PreAuthorize("principal.username == #cri.userId")   
-	 @PostMapping("/deleteNote")//쪽지 삭제
-		public String deleteNote(@RequestParam("note_num") Long note_num, @RequestParam("note_kind") String note_kind, Criteria cri) {
+	 
+	@PostMapping("/deleteNote")//쪽지 삭제
+	public String deleteNote(@RequestParam("note_num") Long note_num, @RequestParam("note_kind") String note_kind, Criteria cri) {
 
 		 	log.info("/deleteNote..." + note_num);
 		 	

@@ -7,7 +7,7 @@
 <html>
 <head>
 <meta charset="UTF-8"> 
-<title>Dokky - 받은쪽지함</title>
+<title>Dokky - 보낸쪽지함</title>
 <link href="/dokky/resources/css/noteList.css" rel="stylesheet" type="text/css"/>
 </head>
 <%@include file="../includes/left.jsp"%>
@@ -32,19 +32,20 @@
 							<td>
 								<input type="checkbox" name="checkAll" id="checkAll" onclick="checkAll();"/>전체선택
 							</td>
-							<td>
-								보낸사람
+							<td> 
+								받는사람
 							</td>
 							<td>
 								내용
 							</td>
 							<td>
+								수신확인
 							</td>
 							<td>
 								보낸날짜
 							</td>
 						</tr>
-					<c:forEach items="${fromNoteList}" var="note">
+					<c:forEach items="${toNoteList}" var="note">
 						<tr>
 							<td>
 								<input type="checkbox" name="checkRow" value="${note.note_num}" />
@@ -52,12 +53,12 @@
 		                    
 			     			<td> 
 								<a href="#" class="userMenu" data-note_num="${note.note_num}">
-									<img src="/dokky/resources/img/profile_img/<c:out value="${note.from_id}"/>.png"  class="memberImage hideUsermenu" onerror="this.src='/dokky/resources/img/basicProfile.png'" />
-									<c:out value="${note.from_nickname}" /> 
+									<img src="/dokky/resources/img/profile_img/<c:out value="${note.to_id}"/>.png"  class="memberImage hideUsermenu" onerror="this.src='/dokky/resources/img/basicProfile.png'" />
+									<c:out value="${note.to_nickname}" /> 
 								</a>   
 								 <div id="userMenubar_${note.note_num}" class="userMenubar">
 									<ul class="hideUsermenu">
-										<li class="hideUsermenu"><a href="/dokky/userBoardList?userId=${note.from_id}" class="hideUsermenu"><span class="hideUsermenu">게시글보기</span></a></li>
+										<li class="hideUsermenu"><a href="/dokky/userBoardList?userId=${note.to_id}" class="hideUsermenu"><span class="hideUsermenu">게시글보기</span></a></li>
 										<li class="hideUsermenu"><a href="#" class="hideUsermenu"><span class="hideUsermenu">쪽지보내기</span></a></li>
 									</ul>      
 							     </div> 
@@ -69,8 +70,11 @@
 			          		
 			          		<td class="checkNote${note.note_num}"> 
 				          		 <c:if test="${note.read_check == 'NO'}"> 
-										<span class="readCheck">1</span> 				          		 	
+										<span class="readCheck">읽지 않음</span> 				          		 	
 				          		 </c:if> 
+				          		 <c:if test="${note.read_check == 'YES'}"> 
+										<span class="readCheck">읽음</span>				          		 	
+				          		 </c:if>
 			          		</td>
 			          		 
 							<td>
@@ -106,7 +110,7 @@
 				</ul>
 			</div>
 			
-			<form id='actionForm' action="/dokky/fromNoteList" method='get'>  
+			<form id='actionForm' action="/dokky/toNoteList" method='get'>
 				<input type='hidden' name='pageNum' value='${pageMaker.cri.pageNum}'>
 				<input type='hidden' name='amount' value='${pageMaker.cri.amount}'>
 				<input type='hidden' name='userId' value='${pageMaker.cri.userId}'>
@@ -155,7 +159,7 @@
 			  if(confirm("정말 삭제 하시겠습니까?")){
 				  actionForm.attr("action","/dokky/deleteAllNote").attr("method","post");
 				  actionForm.append("<input type='hidden' name='checkRow' value='"+checkRow+"'>");
-				  actionForm.append("<input type='hidden' name='note_kind' value='fromNote'>");
+				  actionForm.append("<input type='hidden' name='note_kind' value='toNote'>");
 				  actionForm.append("<input type='hidden' id='csrf' name='${_csrf.parameterName}' value='${_csrf.token}'/>");
 				  actionForm.submit();
 			  }
@@ -195,43 +199,17 @@
 					actionForm.submit();
 		});
 		
-		function updateNoteCheck(note_num, callback, error) {
-				$.ajax({
-						type : 'put',
-						url : '/dokky/noteCheck/'+ note_num,
-						success : function(result, status, xhr) {
-							if (callback) {
-								callback(result,xhr);
-							}
-						},
-						error : function(xhr, status, er) {
-							if (error) {
-								error(xhr,er);
-							}
-						}
-				});
-		}
-		
-		$(".getNote").on("click",function(e) {//쪽지 상세보기 + 쪽지 읽기 체크
+		$(".getNote").on("click",function(e) {//쪽지 상세보기 
 			
 					e.preventDefault();
 		
 					var note_num = $(this).data("note_num");  
 					
-					updateNoteCheck(note_num, function(result){//쪽지 읽기 체크
-							
-							var checkNote = $("#checkNote+"+note_num);
-							
-							if(result == "success"){
-								
-								checkNote.html("");
-								
-								actionForm.attr("action", "/dokky/detailNotepage");
-								actionForm.append("<input type='hidden' name='note_num' value='"+note_num+"'/>");
-								actionForm.append("<input type='hidden' name='note_kind' value='fromNote'/>");
-								actionForm.submit();
-							}
-			   	  	});
+					actionForm.attr("action", "/dokky/detailNotepage");
+					actionForm.append("<input type='hidden' name='note_num' value='"+note_num+"'/>");
+					actionForm.append("<input type='hidden' name='note_kind' value='toNote'/>");
+					actionForm.submit();
+					
 		});
 		
 </script>

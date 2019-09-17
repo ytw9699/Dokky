@@ -49,4 +49,8 @@ public interface CommonMapper {
 
 	public int updateToNote(Long note_num);
 
+	public List<noteVO> getToNoteList(Criteria cri);
+
+	public List<noteVO> getMyNoteList(Criteria cri);
+
 }

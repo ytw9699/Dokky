@@ -92,6 +92,12 @@
 		min-height: 750px;
 	    margin: 0 auto; 
  	} 
+ 	#menuWrap{
+ 		 	width: 95%;
+ 		 	border-color: #e6e6e6;
+			border-style: solid;
+			border-width: 1px; 
+	 }
 	#menuWrap .tab button {
 		background-color: inherit;
 		border: none;

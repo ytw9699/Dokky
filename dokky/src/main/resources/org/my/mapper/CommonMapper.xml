@@ -131,6 +131,8 @@
 		       		, CONTENT
 		       		, FROM_NICKNAME
 		       		, FROM_ID
+		       		, TO_NICKNAME
+					, TO_ID
 		       		, REGDATE from dk_note where NOTE_NUM = #{note_num}
        </select>
 						  
@@ -170,13 +172,34 @@
 			select count(*) from dk_note where TO_ID = #{userId} and FROM_ID = #{userId}
        </select>
        
+       
+       <select id="getToNoteList" resultType="org.my.domain.noteVO">
+       
+       		  select NOTE_NUM
+				   , CONTENT
+				   , TO_NICKNAME
+				   , TO_ID
+				   , read_check
+				   , regdate 
+				   
+				   from (select /*+INDEX_DESC(DK_NOTE PK_DK_NOTE) */  rownum rn
+			       												 	, NOTE_NUM
+															   	    , CONTENT
+																    , TO_NICKNAME
+																    , TO_ID
+																    , read_check
+																    , regdate 
+																    
+				   from dk_note where from_id = #{userId} and to_id != #{userId} and to_check = 'NO' <![CDATA[ and rownum <= #{pageNum} * #{amount} )
+					 where rn > (#{pageNum} -1) * #{amount}  
+						  ]]>
+       </select>
+       
        <select id="getFromNoteList" resultType="org.my.domain.noteVO"> 
 			select NOTE_NUM,
 				   CONTENT,
 				   FROM_NICKNAME,
 				   FROM_ID,
-				   TO_NICKNAME,
-				   TO_ID,
 				   read_check,
 				   regdate from 
 					 ( select /*+INDEX_DESC(DK_NOTE PK_DK_NOTE) */ rownum rn,
@@ -184,11 +207,26 @@
 															   	   CONTENT,
 																   FROM_NICKNAME,
 																   FROM_ID,
-																   TO_NICKNAME,
-																   TO_ID,
 																   read_check,
 																   regdate
 					from DK_NOTE where TO_ID = #{userId} and FROM_ID != #{userId} and from_check = 'NO'<![CDATA[ and rownum <= #{pageNum} * #{amount} )
+						  where rn > (#{pageNum} -1) * #{amount}  
+						  ]]>
+	   </select>
+	   
+	   <select id="getMyNoteList" resultType="org.my.domain.noteVO">
+		    select NOTE_NUM,
+				   CONTENT,
+				   FROM_NICKNAME,
+				   FROM_ID,
+				   regdate from 
+					 ( select /*+INDEX_DESC(DK_NOTE PK_DK_NOTE) */ rownum rn,
+		 														   NOTE_NUM,
+															   	   CONTENT,
+																   FROM_NICKNAME,
+																   FROM_ID,
+																   regdate
+					from DK_NOTE where TO_ID = #{userId} and FROM_ID = #{userId} <![CDATA[ and rownum <= #{pageNum} * #{amount} )
 						  where rn > (#{pageNum} -1) * #{amount}  
 						  ]]>
 	   </select>

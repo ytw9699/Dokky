@@ -33,8 +33,6 @@ public interface CommonService {
 
 	public int getMyNoteCount(Criteria cri);
 
-	public List<noteVO> getFromNoteList(Criteria cri);
-
 	public int insertNote(noteVO note);
 
 	public int updateNoteCheck(String note_num);
@@ -44,5 +42,11 @@ public interface CommonService {
 	public int updateFromNote(Long note_num);
 
 	public int updateToNote(Long note_num);
+
+	public List<noteVO> getFromNoteList(Criteria cri);
+	
+	public List<noteVO> getToNoteList(Criteria cri);
+
+	public List<noteVO> getMyNoteList(Criteria cri);
 
 }

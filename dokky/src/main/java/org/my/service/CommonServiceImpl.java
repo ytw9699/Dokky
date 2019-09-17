@@ -120,6 +120,20 @@ public class CommonServiceImpl implements CommonService {
 		return mapper.getFromNoteList(cri);
 	}
 	
+	@Override
+	public List<noteVO> getMyNoteList(Criteria cri){
+		log.info("getMyNoteList");
+		
+		return mapper.getMyNoteList(cri);
+	}
+	
+	@Override
+	public List<noteVO> getToNoteList(Criteria cri){
+		log.info("getToNoteList");
+		
+		return mapper.getToNoteList(cri);
+	}
+	
 	@Override 
 	public noteVO getDetailNotepage(Long note_num) {
 		

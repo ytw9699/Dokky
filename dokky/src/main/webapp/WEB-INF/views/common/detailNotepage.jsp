@@ -10,7 +10,7 @@
 	<meta charset="UTF-8">
 	<script src="//code.jquery.com/jquery-1.11.3.min.js"></script>
 	<title>Dokky - 쪽지 상세페이지</title>  
-	<link href="/dokky/resources/css/registerNote.css" rel="stylesheet" type="text/css">
+	<link href="/dokky/resources/css/detailNotepage.css" rel="stylesheet" type="text/css">
 </head>
 <body> 
 
@@ -18,43 +18,74 @@
 	<div class="ContentWrap">
 		  <div id="menuWrap">
 				<div class="tab"> 
-					<button onclick="location.href='registerNote'">쪽지쓰기</button>
-					<button onclick="location.href='fromNoteList?userId=${userInfo.username}'">받은쪽지함 - ${fromNotetotal}</button>
-					<button onclick="location.href='alarmList?userId=${userInfo.username}'">보낸쪽지함  - ${toNotetotal}</button>
-					<button onclick="location.href='alarmList?userId=${userInfo.username}'">내게쓴쪽지함  - ${myNotetotal}</button>
+					<button onclick="location.href='/dokky/registerNote'">쪽지쓰기</button>
+					<button onclick="location.href='/dokky/fromNoteList?userId=${userInfo.username}'">받은쪽지함 - ${fromNotetotal}</button>
+					<button onclick="location.href='/dokky/toNoteList?userId=${userInfo.username}'">보낸쪽지함  - ${toNotetotal}</button>
+					<button onclick="location.href='/dokky/myNoteList?userId=${userInfo.username}'">내게쓴쪽지함  - ${myNotetotal}</button>
 		    	</div>  
 		  </div> 
 		  
           <div class="formWrapper">
 		          <div class="row">
-		          	<div>
-		          		<span><button onclick="location.href='registerNote'">삭제</button></span>
-		          		<span><button onclick="noteOpen('${note.from_id}','${note.from_nickname}')">답장</button></span>
-		          	</div>
-		          	<div>보낸사람 -
-          				<a href="#" class="userMenu" data-note_num="${note.note_num}">
-							<img src="/dokky/resources/img/profile_img/<c:out value="${note.from_id}"/>.png"  class="memberImage hideUsermenu" onerror="this.src='/dokky/resources/img/basicProfile.png'" />
-							<c:out value="${note.from_nickname}" /> 
-						</a>   
-						<div id="userMenubar_${note.note_num}" class="userMenubar">
-							<ul class="hideUsermenu">
-								<li class="hideUsermenu"><a href="/dokky/userBoardList?userId=${note.from_id}" class="hideUsermenu"><span class="hideUsermenu">게시글보기</span></a></li>
-								<li class="hideUsermenu"><a href="#" class="hideUsermenu"><span class="hideUsermenu">쪽지보내기</span></a></li>
-							</ul>      
-					    </div> 
-		          	</div>
-		          	<div>
-		          		받은시각 <fmt:formatDate value="${note.regdate}" pattern="yyyy-MM-dd HH:mm" />
-		          	</div>
+				          	<div>
+				          		<span><button id="deleteBtn">삭제</button></span>
+				          		<c:if test="${note_kind == 'fromNote'}">
+				          			<span><button onclick="noteOpen('${note.from_id}','${note.from_nickname}')">답장</button></span>
+				          		</c:if>
+				          	</div> 
+		          	<c:choose>
+				        <c:when test="${note_kind == 'fromNote' || note_kind == 'myNote'}">
+	     					<div>보낸사람 -
+		          				<a href="#" class="userMenu" data-note_num="${note.note_num}">
+									<img src="/dokky/resources/img/profile_img/<c:out value="${note.from_id}"/>.png"  class="memberImage hideUsermenu" onerror="this.src='/dokky/resources/img/basicProfile.png'" />
+									<c:out value="${note.from_nickname}" /> 
+								</a>   
+								<div id="userMenubar_${note.note_num}" class="userMenubar">
+									<ul class="hideUsermenu">
+										<li class="hideUsermenu"><a href="/dokky/userBoardList?userId=${note.from_id}" class="hideUsermenu"><span class="hideUsermenu">게시글보기</span></a></li>
+										<li class="hideUsermenu"><a href="#" class="hideUsermenu"><span class="hideUsermenu">쪽지보내기</span></a></li>
+									</ul>      
+							    </div> 
+				          	</div>
+				          	<div>
+				          		보낸시각 <fmt:formatDate value="${note.regdate}" pattern="yyyy-MM-dd HH:mm" />
+				          	</div>
+						</c:when>
+						<c:when test="${note_kind == 'toNote'}">
+							<div>받는사람 -
+		          				<a href="#" class="userMenu" data-note_num="${note.note_num}">
+									<img src="/dokky/resources/img/profile_img/<c:out value="${note.to_id}"/>.png"  class="memberImage hideUsermenu" onerror="this.src='/dokky/resources/img/basicProfile.png'" />
+									<c:out value="${note.to_nickname}" /> 
+								</a>   
+								<div id="userMenubar_${note.note_num}" class="userMenubar">
+									<ul class="hideUsermenu">
+										<li class="hideUsermenu"><a href="/dokky/userBoardList?userId=${note.to_id}" class="hideUsermenu"><span class="hideUsermenu">게시글보기</span></a></li>
+										<li class="hideUsermenu"><a href="#" class="hideUsermenu"><span class="hideUsermenu">쪽지보내기</span></a></li>
+									</ul>      
+							    </div> 
+				          	</div>
+				          	<div>
+				          		보낸시각 <fmt:formatDate value="${note.regdate}" pattern="yyyy-MM-dd HH:mm" />
+				          	</div>
+						</c:when>
+	     			</c:choose> 
+		          	
 		          </div>
 		          
-		          <div id="content" class="row">
-		          	${note.content}
-		          </div>
-		          
+	              <div id="content"> 
+	          			${note.content}
+	              </div>
 		  </div>
 	</div>
 </div>
+<form id='actionForm' action="/dokky/deleteNote" method='post'>  
+		<input type='hidden' name='pageNum' value='${cri.pageNum}'>
+		<input type='hidden' name='amount' value='${cri.amount}'>
+		<input type='hidden' name='userId' value='${cri.userId}'>
+		<input type='hidden' name='note_num' value='${note.note_num}'>
+		<input type='hidden' name='note_kind' value='${note_kind}'>
+		<input type="hidden" id='csrf' name="${_csrf.parameterName}" value="${_csrf.token}"/>
+</form>
 
 <script> 
 
@@ -172,6 +203,13 @@
 					alert(result); 
 	   	    });
     });
+	
+	
+	$("#deleteBtn").on("click", function() {
+		if(confirm("정말 삭제 하시겠습니까?")){
+			$("#actionForm").submit();
+		  }
+	}); 
 	
 </script>
 </body>
