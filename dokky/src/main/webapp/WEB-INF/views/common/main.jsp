@@ -15,29 +15,38 @@
 <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
 <body>
 	<div class="bodyWrap">	 
-		<div class="mainLists"> 
+		<div class="mainLists">
+	      <div class="category"> 
 			실시간 게시글
-			<table class=""> 
+		  </div>
+			<table class="table"> 
 				<c:forEach items="${realtimeList}" var="board">
-					<tr>
-						<td>  
+					<tr class="tr">
+						<td class="title">   
 							<a class='move' href='/dokky/board/get?board_num=<c:out value="${board.board_num}"/>'> 
 								<c:out value="${board.title}" /> 
 								<span class="replyCnt">[<c:out value="${board.replyCnt}" />]</span>
 							</a>
 						</td> 
-						<td>
-							<img width="20px" src="/dokky/resources/img/read.png"/>
+						<td class="td">
+							<div class="tdData">  
+								조회수
+							</div>
 							<c:out value="${board.hitCnt}" />
 						</td>
-						<td>   
-							<img width="20px" src="/dokky/resources/img/like.png"/>
-							<c:out value="${board.likeCnt}" />
+						<td class="td">
+							<div class="tdData">  
+								좋아요
+							</div>
+							<c:out value="${board.likeCnt}"/>
 						</td>
-						<td> 
-							\<fmt:formatNumber type="number" maxFractionDigits="3" value="${board.money}"/>
+						<td class="td">
+							<div class="tdData">  
+								기부금
+							</div>
+							    \<fmt:formatNumber type="number" maxFractionDigits="3" value="${board.money}"/>
 						</td>
-						<td> 
+						<td class="td"> 
 							<a href="#" class="userMenu" data-board_num="${board.board_num}" data-menu_kind="realtime">
 								<img src="/dokky/resources/img/profile_img/<c:out value="${board.userId}" />.png"  class="memberImage hideUsermenu" onerror="this.src='/dokky/resources/img/basicProfile.png'" />
 								<c:out value="${board.nickName}" /> 
@@ -57,7 +66,7 @@
 								</ul>  
 						     </div>
 						</td>
-						<td class="regdate${board.board_num}" data-regdate_val='<fmt:formatDate value="${board.regDate}" pattern="yyyy/MM/dd/HH:mm:ss" />'>
+						<td id="dateTd" class="td regdate${board.board_num}" data-regdate_val='<fmt:formatDate value="${board.regDate}" pattern="yyyy/MM/dd/HH:mm:ss" />'>
 								<script>
 									$(document).ready(function(){
 										var	board_num = '${board.board_num}'; 
@@ -72,29 +81,38 @@
 			</table>
 		</div>
 		 
-		<div class="mainLists">  
-			monthly 인기글
-			<table class=""> 
+		<div class="mainLists"> 
+		  <div class="category"> 
+			한달간 인기글
+		  </div> 
+			<table class="table"> 
 				<c:forEach items="${monthlyList}" var="board">
 					<tr>
-						<td>  
+						<td class="title">  
 							<a class='move' href='/dokky/board/get?board_num=<c:out value="${board.board_num}"/>'> 
 								<c:out value="${board.title}" /> 
 								<span class="replyCnt">[<c:out value="${board.replyCnt}" />]</span>
 							</a>
 						</td> 
-						<td>
-							<img width="20px" src="/dokky/resources/img/read.png"/>
+						<td class="td">
+							<div class="tdData">  
+								조회수
+							</div>
 							<c:out value="${board.hitCnt}" />
 						</td>
-						<td>   
-							<img width="20px" src="/dokky/resources/img/like.png"/>
-							<c:out value="${board.likeCnt}" />
+						<td class="td">
+							<div class="tdData">  
+								좋아요
+							</div>
+							<c:out value="${board.likeCnt}"/>
 						</td>
-						<td> 
-							\<fmt:formatNumber type="number" maxFractionDigits="3" value="${board.money}"/>
+						<td class="td">
+							<div class="tdData">  
+								기부금
+							</div>
+							    \<fmt:formatNumber type="number" maxFractionDigits="3" value="${board.money}"/>
 						</td>
-						<td> 
+						<td class="td">
 							<a href="#" class="userMenu" data-board_num="${board.board_num}" data-menu_kind="like">
 								<img width="25px" src="/dokky/resources/img/profile_img/<c:out value="${board.userId}" />.png"  class="memberImage hideUsermenu" onerror="this.src='/dokky/resources/img/basicProfile.png'" />
 								<c:out value="${board.nickName}" />
@@ -114,7 +132,7 @@
 								</ul>   
 						     </div>
 						</td>
-						<td class="regdate${board.board_num}" data-regdate_val='<fmt:formatDate value="${board.regDate}" pattern="yyyy/MM/dd/HH:mm:ss" />'>
+						<td id="dateTd" class="td regdate${board.board_num}" data-regdate_val='<fmt:formatDate value="${board.regDate}" pattern="yyyy/MM/dd/HH:mm:ss" />'>
 								<script>
 									$(document).ready(function(){
 										var	board_num = '${board.board_num}'; 
@@ -130,28 +148,37 @@
 		</div>
 		
 		<div class="mainLists"> 
-			monthly 최다 기부글
-			<table class="">
+		  <span class="category"> 
+			한달간 기부글
+		  </span>
+			<table class="table">
 				<c:forEach items="${donationList}" var="board">
 					<tr>
-						<td>  
+						<td class="title">  
 							<a class='move' href='/dokky/board/get?board_num=<c:out value="${board.board_num}"/>'> 
 								<c:out value="${board.title}" /> 
 								<span class="replyCnt">[<c:out value="${board.replyCnt}" />]</span>
 							</a>    
 						</td> 
-						<td>
-							<img width="20px" src="/dokky/resources/img/read.png"/>
+						<td class="td">
+							<div class="tdData">  
+								조회수
+							</div>
 							<c:out value="${board.hitCnt}" />
 						</td>
-						<td>   
-							<img width="20px" src="/dokky/resources/img/like.png"/>
-							<c:out value="${board.likeCnt}" />
+						<td class="td">
+							<div class="tdData">  
+								좋아요
+							</div>
+							<c:out value="${board.likeCnt}"/>
 						</td>
-						<td> 
-							\<fmt:formatNumber type="number" maxFractionDigits="3" value="${board.money}"/>
+						<td class="td">
+							<div class="tdData">  
+								기부금
+							</div> 
+							    \<fmt:formatNumber type="number" maxFractionDigits="3" value="${board.money}"/>
 						</td>
-						<td> 
+						<td class="td">
 							<a href="#" class="userMenu" data-board_num="${board.board_num}" data-menu_kind="donate"> 
 								<img width="25px" src="/dokky/resources/img/profile_img/<c:out value="${board.userId}" />.png"  class="memberImage hideUsermenu" onerror="this.src='/dokky/resources/img/basicProfile.png'" />
 								<c:out value="${board.nickName}" />
@@ -171,7 +198,7 @@
 								</ul> 
 						     </div>
 						</td>
-						<td class="regdate${board.board_num}" data-regdate_val='<fmt:formatDate value="${board.regDate}" pattern="yyyy/MM/dd/HH:mm:ss" />'>
+						<td id="dateTd" class="td regdate${board.board_num}" data-regdate_val='<fmt:formatDate value="${board.regDate}" pattern="yyyy/MM/dd/HH:mm:ss" />'>
 								<script>
 									$(document).ready(function(){
 										var	board_num = '${board.board_num}';  
