@@ -13,8 +13,8 @@
 	<div class="leftWrap">
 		<div class="name"><a href="/dokky/main">Dokky</a></div> 
 		
+	  <sec:authorize access="isAuthenticated()">
 		<div class="mypage">  
-			<sec:authorize access="isAuthenticated()">
 					<a href="#" class="leftUsermenu">
 					  	  <img id="leftProfile" src="/dokky/resources/img/profile_img/<c:out value="${userInfo.username}"/>.png" class="memberImage leftHideusermenu" onerror="this.src='/dokky/resources/img/basicProfile.png'" />
 					  	  <c:out value="${userInfo.member.nickName}"/>     
@@ -33,16 +33,22 @@
 								</li>
 							</ul> 
 				    </div>
+				    
 					<form id="logoutForm" method='post' action="/dokky/customLogout">
-					    <input id="logoutBtn" type="submit" value="Logout">  
+					    <input id="logoutBtn" type="submit" value="로그아웃">  
 					</form>  
-			</sec:authorize>
-			<sec:authorize access="isAnonymous()"> 
-				<a href="/dokky/customLogin">로그인</a>  
-				<a href="/dokky/memberForm">회원가입</a>
-			</sec:authorize>	
 		</div>
+	  </sec:authorize>
 		
+	  <sec:authorize access="isAnonymous()"> 
+	  	<div class="mypage"> 
+	  	 	<a href="/dokky/customLogin">로그인</a> 
+	  	</div>
+	  	<div class="mypage"> 
+	  	 	<a href="/dokky/memberForm">회원가입</a>
+	  	</div>
+	  </sec:authorize>
+			
 		<div class="mypage"><a href="/dokky/board/allList?category=0">전체글보기</a></div>
 		<div class="mypage"><a href="/dokky/board/list?category=1">공지사항</a></div>
 		<div class="mypage"><a href="/dokky/board/list?category=2">자유게시판</a></div>
