@@ -6,7 +6,7 @@
 <html>
 <head>
 <meta charset="UTF-8">
-<title>Dokky - 리스트</title>
+<title>Dokky - 글 리스트</title>
 <link href="/dokky/resources/css/list.css" rel="stylesheet" type="text/css">
 </head>
 <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
@@ -14,66 +14,72 @@
 <body>
 	<div class="listWrapper">
 		<div class="boardKind">
-			 <span>
-			   <c:choose>
-			   	   <c:when test="${pageMaker.cri.category == 0 }">
-			          	<a href="/dokky/board/allList?category=0">전체글보기</a>
-			       </c:when>
-			       <c:when test="${pageMaker.cri.category == 1 }">
-			          	<a href="/dokky/board/list?category=1">공지사항</a>
-			       </c:when>
-			       <c:when test="${pageMaker.cri.category == 2 }">
-			       		<a href="/dokky/board/list?category=2">자유게시판</a>
-			       </c:when>
-			        <c:when test="${pageMaker.cri.category == 3 }">
-			     		<a href="/dokky/board/list?category=3">묻고답하기</a>
-			       </c:when>
-			        <c:when test="${pageMaker.cri.category == 4 }">
-			   		   <a href="/dokky/board/list?category=4">칼럼/Tech</a>
-			       </c:when>
-			       <c:when test="${pageMaker.cri.category == 5 }">
-			   		   	<a href="/dokky/board/list?category=5">정기모임/스터디</a>
-			       </c:when> 
-			       <c:otherwise>
-			       </c:otherwise>
-		       </c:choose>
-		      </span>   
-		      <span class="regBtn"> 
-		      	<button id='regBtn' type="button" class="">새 글쓰기</button>
-		      </span>
-	     </div> 
+			 <span class="category">
+				   <c:choose>
+				   	   <c:when test="${pageMaker.cri.category == 0 }">
+				          	<a href="/dokky/board/allList?category=0" >전체글보기</a>
+				       </c:when>
+				       <c:when test="${pageMaker.cri.category == 1 }">
+				          	<a href="/dokky/board/list?category=1">공지사항</a>
+				       </c:when>
+				       <c:when test="${pageMaker.cri.category == 2 }">
+				       		<a href="/dokky/board/list?category=2">자유게시판</a>
+				       </c:when>
+				        <c:when test="${pageMaker.cri.category == 3 }">
+				     		<a href="/dokky/board/list?category=3">묻고답하기</a>
+				       </c:when>
+				        <c:when test="${pageMaker.cri.category == 4 }">
+				   		   <a href="/dokky/board/list?category=4">칼럼/Tech</a>
+				       </c:when>
+				       <c:when test="${pageMaker.cri.category == 5 }">
+				   		   	<a href="/dokky/board/list?category=5">정기모임/스터디</a>
+				       </c:when> 
+				       <c:otherwise>
+				       </c:otherwise>
+			       </c:choose>
+		     </span>   
+		     
+		     <span class="regBtn"> 
+		      	<button id='regBtn' type="button">새 글쓰기</button>
+		     </span>
+	    </div> 
 	     
 		<div class="orderMethodWrap">
-			<ul class="orderMethodUL">
-				<li class="orderMethodLI active"> 
-					<a href="${requestScope['javax.servlet.forward.request_uri']}?category=${pageMaker.cri.category}&order=0
-					&type=${pageMaker.cri.type}&keyword=${pageMaker.cri.keyword}&pageNum=${pageMaker.cri.pageNum}&amount=${pageMaker.cri.amount}">최신순</a> 
-				</li> 
-				<li class="orderMethodLI ">
-				<a href="${requestScope['javax.servlet.forward.request_uri']}?category=${pageMaker.cri.category}&order=1
-				&type=${pageMaker.cri.type}&keyword=${pageMaker.cri.keyword}&pageNum=${pageMaker.cri.pageNum}&amount=${pageMaker.cri.amount}">조회순</a>
-				</li>
-				<li class="orderMethodLI ">
-				<a href="${requestScope['javax.servlet.forward.request_uri']}?category=${pageMaker.cri.category}&order=2
-				&type=${pageMaker.cri.type}&keyword=${pageMaker.cri.keyword}&pageNum=${pageMaker.cri.pageNum}&amount=${pageMaker.cri.amount}">댓글순</a>
-				</li>
-				<li class="orderMethodLI ">
-				<a href="${requestScope['javax.servlet.forward.request_uri']}?category=${pageMaker.cri.category}&order=3
-				&type=${pageMaker.cri.type}&keyword=${pageMaker.cri.keyword}&pageNum=${pageMaker.cri.pageNum}&amount=${pageMaker.cri.amount}">좋아요순</a>
-				</li>
-				<li class="orderMethodLI ">
-				<a href="${requestScope['javax.servlet.forward.request_uri']}?category=${pageMaker.cri.category}&order=4
-				&type=${pageMaker.cri.type}&keyword=${pageMaker.cri.keyword}&pageNum=${pageMaker.cri.pageNum}&amount=${pageMaker.cri.amount}">기부순</a>
-				</li>
-			</ul>
-			
+			<div class="orderDiv">
+				<ul class="orderMethodUL">
+					<li class="orderMethodLI <c:if test="${pageMaker.cri.order == 0 }">active</c:if>"> 
+						<a href="${requestScope['javax.servlet.forward.request_uri']}?category=${pageMaker.cri.category}&order=0
+						&type=${pageMaker.cri.type}&keyword=${pageMaker.cri.keyword}&pageNum=${pageMaker.cri.pageNum}&amount=${pageMaker.cri.amount}">최신순</a> 
+					</li> 
+					
+					<li class="orderMethodLI <c:if test="${pageMaker.cri.order == 1 }">active</c:if>"> 
+						<a href="${requestScope['javax.servlet.forward.request_uri']}?category=${pageMaker.cri.category}&order=1
+						&type=${pageMaker.cri.type}&keyword=${pageMaker.cri.keyword}&pageNum=${pageMaker.cri.pageNum}&amount=${pageMaker.cri.amount}">조회순</a>
+					</li>
+					
+					<li class="orderMethodLI <c:if test="${pageMaker.cri.order == 2 }">active</c:if>"> 
+						<a href="${requestScope['javax.servlet.forward.request_uri']}?category=${pageMaker.cri.category}&order=2
+						&type=${pageMaker.cri.type}&keyword=${pageMaker.cri.keyword}&pageNum=${pageMaker.cri.pageNum}&amount=${pageMaker.cri.amount}">댓글순</a>
+					</li>
+					
+					<li class="orderMethodLI <c:if test="${pageMaker.cri.order == 3 }">active</c:if>"> 
+						<a href="${requestScope['javax.servlet.forward.request_uri']}?category=${pageMaker.cri.category}&order=3
+						&type=${pageMaker.cri.type}&keyword=${pageMaker.cri.keyword}&pageNum=${pageMaker.cri.pageNum}&amount=${pageMaker.cri.amount}">좋아요순</a>
+					</li>
+					 
+					<li class="orderMethodLI <c:if test="${pageMaker.cri.order == 4 }">active</c:if>"> 
+						<a href="${requestScope['javax.servlet.forward.request_uri']}?category=${pageMaker.cri.category}&order=4
+						&type=${pageMaker.cri.type}&keyword=${pageMaker.cri.keyword}&pageNum=${pageMaker.cri.pageNum}&amount=${pageMaker.cri.amount}">기부순</a>
+					</li>
+				</ul>
+			</div>	
 			<div class="searchWrapper">
 				<form id='searchForm' action="/dokky/board/list" method='get'>
 					<select name='type'>
 						<option value="TC"
 							<c:out value="${pageMaker.cri.type == null || pageMaker.cri.type eq 'TC'?'selected':''}"/>>제목+내용</option>
-						<%-- <option value="TC"
-							<c:out value="${pageMaker.cri.type eq 'TC'?'selected':''}"/>>제목+내용</option> --%>
+						<option value="TC"
+							<c:out value="${pageMaker.cri.type eq 'TC'?'selected':''}"/>>제목+내용</option>
 						<option value="T"
 							<c:out value="${pageMaker.cri.type eq 'T'?'selected':''}"/>>제목</option>
 						<option value="C"
@@ -92,9 +98,10 @@
 					<input type='hidden' name='category' value='${pageMaker.cri.category}'>
 							
 					<button class=''>검색</button> 
-				</form>
+				</form> 
 			</div> 
-	  </div>
+	    </div>
+	    
 		<div class="">
 			<table class=""> 
 				<c:forEach items="${list}" var="board">

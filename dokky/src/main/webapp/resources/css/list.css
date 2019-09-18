@@ -1,81 +1,163 @@
 @charset "utf-8";
 /* CSS Document */
-
  		@media screen and (max-width:500px){ 
 	           .listWrapper {
-			    border-color: #e6e6e6;
-			    border-style: solid;
-			    border-width: 1px;
-			    background-color: #323639; 
-			    color: #e6e6e6;
+			    width: 85%;
+			    display: inline-block;
 			    margin-left: 15%;
 			    margin-top: 1%;
-			    width: 80%;
-			    display: inline-block;
+			    min-height: 500px;
+			    border-color: #dbdbdb;
+			    border-width: 1px;
+			    border-style: solid;
+			    color: #333333;
 			}
         }
         @media screen and (min-width: 501px) and (max-width:1500px){
           .listWrapper {
-			    border-color: #e6e6e6;
+			    width: 81%;
+			    display: inline-block;
+			    margin-left: 17%;
+			    margin-top: 1%;
+			    min-height: 500px;
+			    border-color: #dbdbdb;
 			    border-style: solid;
 			    border-width: 1px;
-			    background-color: #323639;
-			    color: #e6e6e6;
-			    margin-left: 15%;
-			    margin-top: 1%;
-			    width: 80%;
-			    display: inline-block;
+			    color: #333333;
 			}
         }
         @media screen and (min-width: 1501px){    
           .listWrapper {
-			    border-color: #e6e6e6;
-			    border-style: solid;
-			    border-width: 1px;
-			    background-color: #323639;
-			    color: #e6e6e6;
-			    margin-left: 29%;
-			    margin-top: 1%;
 			    width: 51%;
 			    display: inline-block; 
+			    margin-left: 29%;
+			    margin-top: 1%;
+			    min-height: 500px;
+			    border-color: #dbdbdb;
+			    border-style: solid;
+			    border-width: 1px;
+			    color: #333333; 
 			}
         }
-    .searchWrapper {
-	    width: 12%; 
-	    margin-top: 20px;
-	    margin-left: 1%;
-	    display: inline-block;
-	    width: 24%;
-	    margin-top: -51px;
-	    margin-left: 74%;
-	    border-style: solid;
-	    border-color: #e6e6e6; 
-	}
+        
+        .boardKind{
+			border-style: solid;
+			border-width: 1px; 
+			border-color: #dbdbdb;
+			width: 98%;
+			margin-left:1% ; 
+			margin-right:1%; 
+			margin-top:1%;
+			height: 40px; 
+		}
+		
+		a  {   
+			color:#333333;
+			text-decoration: none;
+		}
 	
-	a  {   
-		color:#e6e6e6;
-		 text-decoration: none;
-	}
-	a:hover {   
-	    color: #7151fc;
-	    text-decoration: underline;
-	}
-	body{
-		background-color: #323639; 
-	}
-	.boardKind{
-		border-style: solid;
-		border-width: 1px;
-		border-color: #e6e6e6;
-		width: 98%;
-		margin-left:1% ; 
-		margin-right:1%; 
-		margin-top:1%;
-		height: 40px; 
-	}
-	.boardKind a { 
-    	color: white;
-	}
+		a:hover {   
+		    color: #7151fc;
+		}
+		
+		.category{ 
+	        border-bottom: 3px solid #7151fc;
+		    display: inline-block;
+		    width: 80%;
+		    padding: 5px;
+		    margin-left: 1%;
+		}
+		.category a{
+			font-size: 18px;
+			font-weight: 600;
+			color: #7151fc;
+		} 
+		.regBtn { 
+		    display: inline-block;
+		    width: 10%;
+		    margin-left: 4%;
+		    height: 30px;
+		}
+
+		#regBtn {
+			border: none;
+		    padding: 6px;
+		    font-size: 15px;
+		    color: white;
+		    width: 99%;
+		    cursor: pointer; 
+		    border-radius: 10px;
+		    background-color: #7151fc;
+		}
+	
+		.orderMethodWrap{
+			border-style: solid;
+		    border-width: 1px;
+		    border-color: #dbdbdb;
+		    width: 99%;
+		    margin-left: 1%;
+		    margin-right: 1%;
+		    margin-top: 1%; 
+		    height: 100px;
+		}
+		.orderDiv{
+			margin-top: 5px;
+		    margin-left: 5px;
+	        border: 1px solid #dbdbdb;
+		    width: 60%;
+		    display: inline-block;
+		    height: 65px;
+		    float: left;
+		}
+		
+		.searchWrapper {
+	    	display: inline-block;
+		    width: 30%;
+		    margin-top: 5px;
+		    margin-left: 5px;
+		    height: 65px;
+		    border: 1px solid #dbdbdb;
+		    float: right;
+		}
+		
+		.orderMethodUL{ 
+	 	       border: 1px solid #dbdbdb;
+			    width: 90%;
+			    margin: 5px;
+			    height: 50px;
+			}
+		
+		.orderMethodLI{ 
+	 	    display: inline-block;
+   		    border: 1px solid #dbdbdb;
+		    width: 19%;
+		    height: 43px;
+		    margin: 3px;
+		    margin-left: -5px;
+		}
+			
+		.orderMethodLI a{
+            margin-left: 18px;
+		    border: 1px solid #dbdbdb;
+		    align-text: center;
+		    padding: 9px;
+		    margin-left: 3px;
+		    border-radius: 20px;
+		    color: #b5b5b5;
+		    font-weight: 500;
+		}
+		.orderMethodLI a:hover{
+			border: 1px solid #7151fc;
+			color: #7151fc;
+			font-weight: 500; 
+		}
+		.active a{
+			background-color:#7151fc; 
+			color: white !important; 
+			border: 1px solid #7151fc; 
+			font-weight: 500;
+		} 
+	/*
 	.pagination { 
 	    display: inline-block;
 	    padding-left: 0;
@@ -90,7 +172,7 @@
 	}
 	.pull-right{
 		width: 80%;
-		border-color: #e6e6e6;/* 흰색 */
+		border-color: #dbdbdb;흰색
 		border-style: solid;
 		border-width: 1px;
 	}
@@ -102,7 +184,7 @@
 	    display: none;
 	    border-style: solid;
 	    border-width: 1px;
-	    border-color: #e6e6e6;
+	    border-color: #dbdbdb;
 	    width: 6%;
 	    height: 55px;
 	    position: fixed;
@@ -113,41 +195,19 @@
 	    list-style: none;
 	    border-style: solid;
 	    border-width: 1px;
-	    border-color: #e6e6e6;
+	    border-color: #dbdbdb;
 	    width: 155%;  
 	    margin-left: -60%;
 	}
 	.userMenubar ul { 
 	    border-style : solid;
 	    border-width: 1px;
-	    border-color: #e6e6e6;
+	    border-color: #dbdbdb;
 	    margin: auto;
 	} 
-	#regBtn {
-	    border-style: solid;
-	    border-width: 1px;
-	    border-color: #e6e6e6;
-	    width: 8%;
-	    margin-left: 80%;
-	    margin-right: 1%;
-	    margin-top: 1%; 
-	    height: 30px;
-	}
-	.orderMethodWrap{
-		border-style: solid;
-	    border-width: 1px;
-	    border-color: #e6e6e6;
-	    width: 99%;
-	    margin-left: 1%;
-	    margin-right: 1%;
-	    margin-top: 1%; 
-	    height: 100px;
-	}
-	.orderMethodLI{
-	 	display: inline; 
-	}
+	
 	.memberImage{
 		border-radius: 50px;
 		width: 25px; 
 		height: 25px;  
-	}
+	} */
