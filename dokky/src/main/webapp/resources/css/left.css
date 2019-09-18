@@ -63,7 +63,29 @@
 	    font-weight: 600;
 	    font-size: 18px;
 	  }
+	  .visitCount{
+	    padding: 10px;
+	    box-sizing: border-box;
+	   	width: 100%; 
+	    background-color: #7151fc;
+        transition: 0.3s;
+	    color: white;
+	    font-weight: 600;
+	    font-size: 18px;
+	  }
 	  
+	  .alarmCount, .noteCount {
+	 	    background-color: #e80935;
+		    color: white;
+		    border-radius: 30px;
+		    width: 20px;
+		    height: 20px;
+		    line-height: 21px;
+		    display: inline-block;
+		    text-align: center;
+		    FONT-SIZE: 15px;
+		}
+
 	  .mypage a {
 		color: white;
 	    text-decoration:none;
