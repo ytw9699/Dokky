@@ -21,7 +21,7 @@
 		  </div>
 			<table class="table"> 
 				<c:forEach items="${realtimeList}" var="board">
-					<tr class="tr">
+					<tr>
 						<td class="title">   
 							<a class='move' href='/dokky/board/get?board_num=<c:out value="${board.board_num}"/>'> 
 								<c:out value="${board.title}" /> 

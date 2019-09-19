@@ -168,8 +168,8 @@
     });//end document ready function
 	
 
-	function checkLength(obj, maxlength) {  
-	
+    function checkLength(obj, maxlength) {  
+
 		if(obj.tagName === "INPUT"){ 
 			var str = obj.value; 
 		}else if(obj.tagName === "DIV"){
@@ -193,14 +193,22 @@
 			li_len = i + 1;         
 		}  
 		
-		if (ko_byte > max_length) {// 전체길이를 초과하면          
+		if(obj.tagName === "INPUT"){ 
+			if (ko_byte > max_length) {// 전체길이를 초과하면          
 				alert(max_length + " 글자 이상 입력할 수 없습니다.");         
 				reStr = str.substr(0, max_length);         
 				obj.value = reStr;      
-		}     
+			}   
+		}else if(obj.tagName === "DIV"){
+			if (ko_byte > max_length) {// 전체길이를 초과하면          
+				alert(max_length + " 글자 이상 입력할 수 없습니다.");         
+				reStr = str.substr(0, max_length);         
+				obj.innerHTML=reStr;    
+			}   
+		} 
 		
 		obj.focus();  
-	}
+}
 	
 	//////////////////////////////////////////////////////////////////////////////
 	
