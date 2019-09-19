@@ -46,8 +46,8 @@
 		          <div class="">
 		          	<textarea id="areaContent" name='content'></textarea>
 		          </div>
-		              
-				  <div class="row" id="divContent" contenteditable="true" placeholder="내용을 입력해 주세요." oninput="checkLength(this,1300);"></div>    
+		               
+				  <div class="row" id="divContent" contenteditable="true" placeholder="내용을 입력해 주세요." oninput="checkLength(this,4000);"></div>    
 				  
 		          <div class='photoUploadResult'> 
 			          <ul>
