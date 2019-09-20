@@ -37,23 +37,29 @@
           </c:choose> 
 	</div>
      
-	<div class="nickName">
+	<div class="topInfoWrap">
 			
-			<a href="#" id="board_userMenu" class="userMenu">
-				<img src="/dokky/resources/img/profile_img/<c:out value="${board.userId}" />.png"  class="memberImage hideUsermenu" onerror="this.src='/dokky/resources/img/basicProfile.png'" />
-				<c:out value="${board.nickName}" /> 
-			</a>
+			<div class="nickName">
+				<a href="#" id="board_userMenu" class="userMenu">
+					<img src="/dokky/resources/img/profile_img/<c:out value="${board.userId}" />.png"  class="memberImage hideUsermenu" onerror="this.src='/dokky/resources/img/basicProfile.png'" />
+					<c:out value="${board.nickName}" /> 
+				</a>
+			</div>
 			
 			<div>
-				<span> 
-						  <fmt:formatDate value="${board.regDate}" pattern="yyyy-MM-dd HH:mm" /><label> 작성</label>
+				<span id="regdate">  
+						  <fmt:formatDate value="${board.regDate}" pattern="yyyy-MM-dd HH:mm" /><label> 작성,</label>
 					<c:if test="${board.regDate != board.updateDate}">
-					    , <fmt:formatDate value="${board.updateDate}" pattern="yyyy-MM-dd HH:mm" /><label> 수정됨</label>
+					      <fmt:formatDate value="${board.updateDate}" pattern="yyyy-MM-dd HH:mm" /><label> 수정됨</label>
 					</c:if>  
 				</span>
-				<span>
-					<img width="20px" src="/dokky/resources/img/read.png"/>
-					<c:out value="${board.hitCnt }"/>
+				<span class="rightInfo">
+					<span class="tdData">   
+						조회수
+					</span>
+					<span id="hitCnt">
+						<c:out value="${board.hitCnt }"/>
+					</span>
 				</span>
 		    </div>  
 			
@@ -75,7 +81,7 @@
 	</div>
          
 	<div class="titleWrapper">
-   		<div id="titleNum">
+   		<div id="titleNum"> 
    			#<c:out value="${board.board_num}"/>
    		</div>
    		
@@ -100,55 +106,50 @@
     </div>
     
     <div class="contentInformation">
-		<span>
-			<button id="like">좋아요</button>
-		</span>
-		<span id="likeCount"> 
-			<c:out value="${board.likeCnt}"/>
-		</span>  
-		
-		<span>
-			<button id="dislike">싫어요</button>
-		</span>
-		<span id="dislikeCount"> 
-			<c:out value="${board.dislikeCnt}"/>
-		</span> 
-		
-		<span>
-			 <button id="donateMoney">기부</button> 
-		</span>
-		<span id="boardMoney">
-			<c:out value="${board.money}"/>\
-		</span>
-		
-       	<sec:authorize access="isAuthenticated()">
-	        <c:if test="${userInfo.username eq board.userId}">
-	          <span>
-	       		 <button id="modify_button">수정 </button>
-	       	  </span>
-	       	  <span> 
-				 <button id="remove_button">삭제 </button>
-			  </span>
+	    <ul id="contentInformation">
+	    	<li class="contentMenu">
+	    		<button class="getButton" id="like">좋아요</button>
+	    	</li>
+	    	<li class="contentMenu" id="likeCount"> 
+				<c:out value="${board.likeCnt}"/></span>
+	    	</li>
+	    	<li class="contentMenu">
+	    		<button class="getButton" id="dislike">싫어요</button>
+	    	</li>
+	    	<li class="contentMenu" id="dislikeCount"> 
+				<span><c:out value="${board.dislikeCnt}"/></span>
+	    	</li>
+	    	<li class="contentMenu">
+	    		 <button class="getButton" id="donateMoney">기부</button> 
+	    	</li>
+	    	<li class="contentMenu" id="boardMoney">
+				\<c:out value="${board.money}"/>
+	    	</li>
+	   		<sec:authorize access="isAuthenticated()">
+		        <c:if test="${userInfo.username eq board.userId}">
+			    	<li class="contentMenu">
+			   		    <button class="getButton" id="modify_button">수정 </button>
+			    	</li>
+			    	<li class="contentMenu">
+			    		<button class="getButton" id="remove_button">삭제 </button>
+			    	</li>
+		    	</c:if>
+	    	<li class="contentMenu">
+				<button class="getButton" id="scrap">스크랩 </button>
+	    	</li>
+	    	<c:if test="${userInfo.username != board.userId}">
+		         <li class="contentMenu">
+		       		 <button class="getButton" id="openReport">신고</button> 
+	       	     </li>
 	        </c:if>
-	        
-	          <span> 
-				 <button id="scrap">스크랩 </button>
-			  </span>
-	         
-	        <c:if test="${userInfo.username != board.userId}">
-	          <span>
-	       		 <button id="openReport">신고</button> 
-	       	  </span>
-	        </c:if>
-       	</sec:authorize> 
-       	
-       	<span>
-     		 <button id="list_button">목록보기 </button>  
-   	    </span>
-       	
+	        </sec:authorize>  
+	    	<li class="contentMenu">
+				<button class="getButton" id="list_button">글목록 </button>  
+	    	</li>
+	    </ul>
     </div> 
     
-    <div id="replyCntVal">
+    <div class="replyCntVal">
     	<!-- 댓글수 -->
     </div> 
 	 
@@ -165,7 +166,7 @@
 	<sec:authorize access="isAuthenticated()">
 		<div class="replyWriteForm"><!--  기본 댓글쓰기 폼 -->
 			<div class="replytextareaWrapper">  
-				<textarea id="reply_contents" rows="3" placeholder="댓글을 입력하세요" name='reply_content' oninput="checkLength(this,700);"></textarea>
+				<textarea id="reply_contents" rows="3" placeholder="댓글을 입력하세요" name='reply_content' oninput="checkLength(this,1000);"></textarea>
 			</div>
 			
 			<div class="replyBtnWrapper">  
@@ -180,7 +181,7 @@
 
 <div class="reReplyWriteForm"><!--  대댓글 쓰기 폼 --> 
 		<div class="textareaWrapper">  
-			<textarea id="reReply_contents" rows="3" placeholder="답글을 입력하세요." name='reReply_content' oninput="checkLength(this,700);"></textarea>
+			<textarea id="reReply_contents" rows="3" placeholder="답글을 입력하세요." name='reReply_content' oninput="checkLength(this,1000);"></textarea>
 		</div> 
 		       
 		<div class="reReplyBtnWrapper">  	 
@@ -323,6 +324,19 @@
 			obj.focus();  
 	}
 	
+	function substr(str){//글자수 자르기 함수
+		
+		var str_length = str.length;  
+		var max_length = 15;
+		     
+		if (str_length > max_length) {   
+			str = str.substr(0, max_length);
+			str = str+"......"
+		}
+		return str;
+	}
+	
+	
 	function checkUser(input_id, loginCheck, idCheck, commonCheck){
  		
  		if(!myId){//로그인 여부 확인
@@ -372,7 +386,7 @@
 	    replyService.getList({board_num:board_num, page: page || 1 }, function(data) {
 	    	
 	    	var replyList = $(".replyList");//댓글리스트 ul  
-	    	var replyCntVal = $("#replyCntVal");//댓글 갯수 div
+	    	var replyCntVal = $(".replyCntVal");//댓글 갯수 div
 			var str ="";
 			var len = data.list.length;//현재 페이지의 댓글 갯수
 			var replyCnt = data.replyCnt;//해당 게시글의 총 댓글 갯수
@@ -415,7 +429,7 @@
 			     
 			         replyCntVal.css("display","block"); 
 			       
-			         replyCntVal.html("댓글-"+replyCnt); //댓글 갯수 보여주기  
+			         replyCntVal.html("<span id='replyCntVal'>댓글 </span>"+replyCnt); //댓글 갯수 보여주기  
 			}
 		     
 	        for (var i = 0; i < len || 0; i++) {
@@ -524,26 +538,27 @@
 		    	  
 		       }else if(depth == 1){    
 		    	   
-		    	   str += "<div class='reply first' data-reply_num='"+reply_nums+"'>└ "  
+		    	   str += "<div class='reply' data-reply_num='"+reply_nums+"'><span class='first'>"  
 		    	  
 		       }else if(depth == 2){
 		    	   
-		    	   str += "<div class='reply second' data-reply_num='"+reply_nums+"'>└ "  
+		    	   str += "<div class='reply' data-reply_num='"+reply_nums+"'><span class='second'>"  
 		    	  
 		       }else if(depth == 3){ 
 		    	   
-	    	       str += "<div class='reply third' data-reply_num='"+reply_nums+"'>└ "  
+	    	       str += "<div class='reply' data-reply_num='"+reply_nums+"'><span class='third'>"  
 	    	      
 		       }else{  
 		    	   
-		    	   str += "<div class='reply other' data-reply_num='"+reply_nums+"'>└ "  
+		    	   str += "<div class='reply' data-reply_num='"+reply_nums+"'><span class='other'>"  
 		    	   
 			   }//end if   
 			   
 			   
 		       if(depth != 0){   
 		    	   
-	    	   			  str += "<span>"
+    	   			     str += "<span class='depthLine'>└ </span>"
+	    	   			  	   +"<span>"
 							       + "<a href='#' class='userMenu' data-reply_num='"+reply_nums+"' data-menu_kind='from'>"   
 									   + "<img src='/dokky/resources/img/profile_img/"+userId+".png' class='memberImage hideUsermenu' onerror='this.src=\"/dokky/resources/img/basicProfile.png\"'/>&nbsp"
 									   + nickName
@@ -566,7 +581,7 @@
 								   + "</ul>"
 							   + "</div>"
 							   
-							   + " ➜ " 
+							   + "<span class='toLine'>➜</span>"  
 							   
 							   + "<span>"
 							       + "<a href='#' class='userMenu' data-reply_num='"+reply_nums+"' data-menu_kind='to'>"
@@ -598,7 +613,8 @@
 				  	  if(myId){ 
 						  str += "<span>" 
 							   		+ "<button data-oper='reReplyForm' type='button' data-reply_num='"+reply_nums+"' data-reply_id='"+userId+"' data-nick_name='"+nickName+"' data-group_num='"+ group_num+"' data-order_step='"+order_step+"' data-depth='"+depth+"'>답글</button>" 
-						       + "</span>"; 
+						       + "</span>"
+				          +"</span>"; 
 				  	  }
 					      
 				   	      str += "<span class='replyInformation'>" 
@@ -641,12 +657,27 @@
 						  	        + "</span>" 
 					  } 
 			   }//end if
-	         		
 	   	    			  str +="</span>"
-			   				   +"<div class='reply_contentWrapper'>" 
-					   	  			+"<span class='reply_content'>"
-				           				+reply_content
-				           			+"</span>"   
+			   				   +"<div class='reply_contentWrapper'>"; 
+			   				   
+   	    			   if(depth == 0){    
+   			    	      str += "<div class='reply_content'>";
+	   			    	  
+	   			       }else if(depth == 1){
+   			    		  str += "<div class='reply_content first'>" ; 
+	   			    	 
+	   			       }else if(depth == 2){ 
+   			    		  str += "<div class='reply_content second'>" ;
+	   		    	      
+	   			       }else if(depth == 3){ 
+   			    		  str += "<div class='reply_content third'>" ; 
+	   		    	      
+	   			       }else{  
+	   			    	  str += "<div class='reply_content other'>" ;
+	   				   }//end if .
+	   				   
+           				   str += reply_content;
+           				   str += "</div>"    
 			           	       +"</div>"
 		          	  +"</div>" 
 		          +"</li>";        
@@ -689,22 +720,22 @@
 	        	next = true;
 	      }
 	      
-	  	  var str = "<ul>";  
+	  	  var str = "<ul class='pagination'>";  
 	      	
 	      if(prev){ 
 	    	  
-	        	str+= "<li class='page-item'><a class='page-link' href='"+(startNum -1)+"'>Previous</a></li>";
+	        	str+= "<li class='paginate_button previous'><a class='page-link' href='"+(startNum -1)+"'>Previous</a></li>";
 	      }
 	      
 	      for(var i = startNum ; i <= endNum; i++){
 	        
-		        var active = pageNum == i? "active":"";
+		        var active = pageNum == i? "page_active":""; 
 		          
-		        str+= "<li class='page-item "+active+" '><a class='page-link' href='"+i+"'> " +i+ " </a></li>"; 
+		        str+= "<li class='paginate_button "+active+" '><a class='page-link' href='"+i+"'> " +i+ " </a></li>"; 
 	      }
 	      
 	      if(next){
-	        str+= "<li class='page-item'><a class='page-link' href='"+(endNum + 1)+"'>Next</a></li>";
+	        str+= "<li class='paginate_button next'><a class='page-link' href='"+(endNum + 1)+"'>Next</a></li>";
 	      }
 	      
       	  str += "</ul>";    
@@ -1212,8 +1243,8 @@
 		 	if(board_id !== myId){
 		 		
 		 		 alarmData = {
-									target  :  board_id,
-								commonVar1  :  reply_contents.val(),
+									target  :  board_id, 
+								commonVar1  :  substr(reply_contents.val()),
 								commonVar2  :  board_num,
 									  kind  :  0,
 								writerNick  :  myNickName,
@@ -1229,9 +1260,8 @@
 									replyVO:reply
 							  };
 		 	}
-						      
+		 	
 			replyService.add(commonData, function(result){
-	        
 			        reply_contents.val("");
 			        
 			        showReplyList(-1);//다시 댓글 목록 마지막 페이지 보여주기
