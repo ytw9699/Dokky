@@ -44,7 +44,7 @@ public class UploadController {
 		return str.replace("-", File.separator);
 	}
 
-	private boolean checkImageType(File file) {
+	private boolean checkImageType(File file) {//이미지 파일확인 여부
 
 		try {
 			String contentType = Files.probeContentType(file.toPath());
@@ -82,11 +82,11 @@ public class UploadController {
 	}
 	
 	@PreAuthorize("isAuthenticated()")
-	@PostMapping(value = "/uploadAjaxAction", produces = MediaType.APPLICATION_JSON_UTF8_VALUE)
+	@PostMapping(value = "/uploadFile", produces = MediaType.APPLICATION_JSON_UTF8_VALUE)
 	@ResponseBody
-	public ResponseEntity<List<AttachFileDTO>> uploadAjaxPost(MultipartFile[] uploadFile) {
-
-		List<AttachFileDTO> list = new ArrayList<>();
+	public ResponseEntity<List<AttachFileDTO>> postUploadFile(MultipartFile[] uploadFile, String uploadKind) {
+		
+		List<AttachFileDTO> list = new ArrayList<>();  
 		
 		String uploadFolder = "C:\\upload";
 
@@ -116,20 +116,23 @@ public class UploadController {
 
 			try {
 				File saveFile = new File(uploadPath, uploadFileName);
+				
 				multipartFile.transferTo(saveFile);
 
 				attachDTO.setUuid(uuid.toString());//uuid저장
 				attachDTO.setUploadPath(uploadFolderPath);//폴더 경로저장
+				
+				if(uploadKind.equals("photo")) {//업로드 종류가 photo가 아닌것은 모두 파일로 취급해서 사진파일이어도 파일종류로 구분
+					if (checkImageType(saveFile)) {//photo를 이미 확인해줬지만 한번더 이미지 파일 이라면 확인
+						
+						attachDTO.setImage(true);
+						
+						FileOutputStream thumbnail = new FileOutputStream(new File(uploadPath, "s_" + uploadFileName));
 
-				if (checkImageType(saveFile)) {
-					
-					attachDTO.setImage(true);
-					
-					FileOutputStream thumbnail = new FileOutputStream(new File(uploadPath, "s_" + uploadFileName));
+						Thumbnailator.createThumbnail(multipartFile.getInputStream(), thumbnail, 100, 100);//썸네일 만들기
 
-					Thumbnailator.createThumbnail(multipartFile.getInputStream(), thumbnail, 100, 100);
-
-					thumbnail.close();
+						thumbnail.close();
+					}
 				}
 
 				list.add(attachDTO);
@@ -182,20 +185,20 @@ public class UploadController {
 	@PreAuthorize("isAuthenticated()")
 	@PostMapping("/deleteFile")
 	@ResponseBody
-	public ResponseEntity<String> deleteFile(String fileName, String type) {
+	public ResponseEntity<String> deleteFile(String fileCallPath, String type) {
 
-		log.info("deleteFile: " + fileName);
+		log.info("deleteFile: " + fileCallPath);  
 
 		File file;
 
 		try {
-			file = new File("c:\\upload\\" + URLDecoder.decode(fileName, "UTF-8"));
+			file = new File("c:\\upload\\" + URLDecoder.decode(fileCallPath, "UTF-8"));
 
-			file.delete();
+			file.delete();//일반파일 or 썸네일파일 지우는것
 
-			if (type.equals("image")) {
+			if (type.equals("image")) {//만약 이미지파일이었다면
 
-				String largeFileName = file.getAbsolutePath().replace("s_", "");
+				String largeFileName = file.getAbsolutePath().replace("s_", "");//오리지날 파일도 지워주기
 
 				log.info("largeFileName: " + largeFileName);
 

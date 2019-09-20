@@ -1,6 +1,4 @@
-<%@ page language="java" contentType="text/html; charset=UTF-8"
-    pageEncoding="UTF-8"%>
-    
+<%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c"%>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/fmt" prefix="fmt"%>
 <%@ taglib uri="http://www.springframework.org/security/tags" prefix="sec" %> 
@@ -9,110 +7,10 @@
 <html>
 <head>
 <meta charset="UTF-8">
-<title>Dokky</title>
-<style>
-	@media screen and (max-width:500px){ 
-    	.myboardWrap {
-				    width: 80%;  
-				    display: inline-block;
-				    margin-left: 15%;
-				    margin-top: 1%;
-				    min-height: 500px; 
-				    border-color: #e6e6e6;
-					border-style: solid;
-					background-color: #323639; 
-					color: #e6e6e6;
-					display: inline-block;
-				}     
-        }
-        @media screen and (min-width: 501px) and (max-width:1500px){
-	        .myboardWrap {
-				    width: 80%; 
-				    display: inline-block;
-				    margin-left: 15%;
-				    margin-top: 1%;
-				    min-height: 500px; 
-				    border-color: #e6e6e6;
-					border-style: solid;
-					background-color: #323639; 
-					color: #e6e6e6;
-					display: inline-block;
-				}
-        }
-        @media screen and (min-width: 1501px){    
-          .myboardWrap {
-			    width: 51%; 
-			    display: inline-block;
-			    margin-left: 29%;
-			    margin-top: 1%;
-			    min-height: 500px; 
-			    border-color: #e6e6e6;
-				border-style: solid;
-				background-color: #323639; 
-				color: #e6e6e6;
-				display: inline-block;
-			}
-        }
-	body{
-		background-color: #323639; 
-	}
-	.listWrapper { 
-	    border-color: #e6e6e6;/* 흰색 */
-		border-style: solid;   
-		background-color: #323639; 
-		color: #e6e6e6;
-		margin-left: 1%;
-		margin-top: 1%; 
-	}
-	.boardTitle a {  
-    color: white;
-	}
-	.pagination { 
-	    display: inline-block;
-	    padding-left: 0;
-	    margin: 20px 0;
-	    border-radius: 4px;
-	}  
-	.pagination li {
-   		display: inline;
-	}
-	.pagination li a{
-   		color: #e6e6e6;  
-	}
-	.pull-right{
-		width: 80%;
-		border-color: #e6e6e6;/* 흰색 */
-		border-style: solid;
-	}
-		 
-	.ContentWrap{box-sizing: border-box;
-	    padding-top: 48px;
-	    padding-left: 20px;
-	    padding-right: 20px;
-	    width: 95%;
-		min-height: 750px;
-	    margin: 0 auto; 
- 	} 
-	#menuWrap .tab button {
-		background-color: inherit;
-		border: none;
-		outline:none;
-		cursor: pointer;
-		padding: 14px 16px;
-		transition: 0.3s;
-		font-size: 20px;  
-		color: #e6e6e6;
-	}
-	#menuWrap .tab button:hover {
-	background-color: #7b7676;
-	}
-	.replyCnt{  
-	  color: #ff2f3b;  
-	}
-	
-</style> 
+<title>Dokky - 나의 게시글</title> 
+<link href="/dokky/resources/css/myBoardList.css" rel="stylesheet" type="text/css"/>
 </head>
-<%@include file="../includes/left.jsp"%>
+<%@include file="../includes/left.jsp"%> 
 <body>
 <sec:authentication property="principal" var="userInfo"/>
 <div class="myboardWrap">	
@@ -133,10 +31,10 @@
 				<c:forEach items="${MyBoard}" var="board">
 					<tr>
 					<td>
-						<input type="checkbox" name="checkRow" value="${board.num}" />
+						<input type="checkbox" name="checkRow" value="${board.board_num}" />
                     </td>
 						<td class="boardTitle">
-							<a class='move' href='<c:out value="${board.num}"/>'> 
+							<a class='move' href='<c:out value="${board.board_num}"/>'> 
 								<c:out value="${board.title}" />
 								<span class="replyCnt">[<c:out value="${board.replyCnt}" />]</span>
 							</a>
@@ -145,8 +43,15 @@
 							<img width="20px" src="/dokky/resources/img/read.png"/>
 							<c:out value="${board.hitCnt}" />
 						</td>
+						<td>   
+							<img width="20px" src="/dokky/resources/img/like.png"/>
+							<c:out value="${board.likeCnt}" />
+						</td>
+						<td>  
+							\<fmt:formatNumber type="number" maxFractionDigits="3" value="${board.money}"/>
+						</td>
 						<td>
-							<fmt:formatDate value="${board.regDate}" pattern="yyyy년 MM월 dd일 HH:mm" />
+							<fmt:formatDate value="${board.regDate}" pattern="yyyy-MM-dd HH:mm" />
 						</td>
 					</tr>
 				</c:forEach>
@@ -216,7 +121,7 @@
 		$(".move").on("click",function(e) {
 			
 			e.preventDefault(); 
-			actionForm.append("<input type='hidden' name='num' value='"+ $(this).attr("href")+ "'>");
+			actionForm.append("<input type='hidden' name='board_num' value='"+ $(this).attr("href")+ "'>");
 			actionForm.attr("action","/dokky/board/get");
 			
 			actionForm.submit();   
@@ -235,14 +140,15 @@
 	function deleteAction(){
 		
 		  var checkRow = "";
+		  console.log(checkRow);
 		  
-		  $( "input[name='checkRow']:checked" ).each (function (){
+		  $( "input[name='checkRow']:checked" ).each (function (){ 
 		    	checkRow = checkRow + $(this).val()+"," ;
 		  });
 		  
 		  checkRow = checkRow.substring(0,checkRow.lastIndexOf( ","));
 		 
-		  if(checkRow == ''){
+		  if(checkRow == ""){
 		   	 alert("삭제할 글을 선택하세요.");
 		    return false;
 		  }

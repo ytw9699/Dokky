@@ -3,6 +3,7 @@ package org.my.service;
 	import org.my.domain.Criteria;
 	import org.my.domain.VisitCountVO;
 	import org.my.domain.alarmVO;
+	import org.my.domain.noteVO;
 	import org.my.mapper.CommonMapper;
 	import org.springframework.beans.factory.annotation.Autowired;
 	import org.springframework.stereotype.Service;
@@ -53,6 +54,14 @@ public class CommonServiceImpl implements CommonService {
 		return mapper.getAlarmRealCount(userId);
 	}
 	
+	@Override 
+	public String getNoteCount(String userId) {
+		log.info("getNoteCount");
+		
+		return mapper.getNoteCount(userId);
+	}
+	
+	
 	@Override
 	public List<alarmVO> getAlarmList(Criteria cri){
 		log.info("getAlarmList");
@@ -66,6 +75,14 @@ public class CommonServiceImpl implements CommonService {
 		log.info("remove...." + alarmNum);
 
 		return mapper.deleteAllAlarm(alarmNum) == 1;
+	}
+	
+	@Override
+	public boolean deleteMyNote(Long note_num) {
+
+		log.info("deleteMyNote...." + note_num);
+
+		return mapper.deleteMyNote(note_num) == 1;
 	}
 	
 	@Override 
@@ -83,5 +100,87 @@ public class CommonServiceImpl implements CommonService {
 		return mapper.updateAlarmCheck(alarmNum);
 	}
 	
+	@Override
+	public int updateFromNote(Long note_num){
+		log.info("updateFromNote");
+		
+		return mapper.updateFromNote(note_num);
+	}
+	
+	@Override
+	public int updateToNote(Long note_num){
+		log.info("updateToNote");
+		
+		return mapper.updateToNote(note_num);
+	}
+	
+	@Override
+	public int updateNoteCheck(String note_num){
+		log.info("updateNoteCheck");
+		
+		return mapper.updateNoteCheck(note_num);
+	}
+	
+	@Override
+	public List<noteVO> getFromNoteList(Criteria cri){
+		log.info("getFromNoteList");
+		
+		return mapper.getFromNoteList(cri);
+	}
+	
+	@Override
+	public List<noteVO> getMyNoteList(Criteria cri){
+		log.info("getMyNoteList");
+		
+		return mapper.getMyNoteList(cri);
+	}
+	
+	@Override
+	public List<noteVO> getToNoteList(Criteria cri){
+		log.info("getToNoteList");
+		
+		return mapper.getToNoteList(cri);
+	}
+	
+	@Override 
+	public noteVO getDetailNotepage(Long note_num) {
+		
+		log.info("getDetailNotepage");
+		
+		return mapper.getDetailNotepage(note_num);
+	}
+	
+	@Override 
+	public int getFromNoteCount(Criteria cri) {
+		log.info("getFromNoteCount");
+		
+		return mapper.getFromNoteCount(cri);
+	}
+	
+	@Override 
+	public int getToNoteCount(Criteria cri) {
+		log.info("getToNoteCount");
+		
+		return mapper.getToNoteCount(cri);
+	}
+	
+	@Override 
+	public int getMyNoteCount(Criteria cri) {
+		log.info("getMyNoteCount");
+		
+		return mapper.getMyNoteCount(cri);
+	}
+	
+	@Override 
+	public int insertNote(noteVO vo) {  
+
+		String to_nickname = mapper.getNickname(vo.getTo_id());
+		
+		vo.setTo_nickname(to_nickname);
+		
+		log.info("insertNote..." + vo); 
+		
+		return mapper.insertNote(vo) ;
+	}
 	
 }

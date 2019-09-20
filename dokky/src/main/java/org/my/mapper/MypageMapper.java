@@ -28,11 +28,11 @@ public interface MypageMapper {
 
 	public int getMyReplyCount(Criteria cri);
 
-	public int insertScrapData(@Param("num") int num, @Param("userId") String userId);
+	public int insertScrapData(@Param("board_num") int board_num, @Param("userId") String userId);
  
-	public int getScrapCnt(@Param("num") int num, @Param("userId") String userId);
+	public int getScrapCnt(@Param("board_num") int board_num, @Param("userId") String userId);
 
-	public int deleteScrap(@Param("num") int num, @Param("userId") String userId);
+	public int deleteScrap(@Param("board_num") int board_num, @Param("userId") String userId);
 
 	public int getMyScrapCount(String userId);
 

@@ -1,164 +1,115 @@
-<%@ page language="java" contentType="text/html; charset=UTF-8"
-    pageEncoding="UTF-8"%>
+<%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
 <%@ taglib uri="http://www.springframework.org/security/tags" prefix="sec" %> 
 
 <!DOCTYPE html>
 <html>
 <head>
 <meta charset="UTF-8"> 
-<style>
-
-      @media screen and (max-width:500px){ 
-	              .leftWrap {
-		   				width: 10%;
-					    margin-top: 1%;
-					    margin-left: 0%;
-					    display: inline-block;
-					    float: left;
-					    border-color: #e6e6e6;
-					    border-style: solid;
-					    border-width: 1px;
-					    background-color: #323639;
-					    position: fixed;
-					}
-           }
-      @media screen and (min-width: 501px) and (max-width:1500px){
-	           .leftWrap {
-	   				width: 14%;
-				    margin-top: 1%;
-				    margin-left: 0%;
-				    display: inline-block;
-				    float: left;
-				    border-color: #e6e6e6;
-				    border-style: solid;
-				    border-width: 1px;
-				    background-color: #323639;
-				    position: fixed;
-				}
-      }
-      @media screen and (min-width: 1501px){    
-         	 .leftWrap {
-	   				width: 10%;
-				    margin-top: 1%;
-				    margin-left: 18%;
-				    display: inline-block;
-				    float: left;
-				    border-color: #e6e6e6;
-				    border-style: solid;
-				    border-width: 1px; 
-				    background-color: #323639;
-				    position: fixed;
-				}
-      }
-
-.mypage {
-    padding: 10px;
-    box-sizing: border-box;
-   	width: 100%;
-    color: #e6e6e6;
-    border-color: #e6e6e6;
-    border-style: solid; 
-    border-width: 1px;
-    
-}
-.mypage:hover > a, .mypage:hover {
-    color: #7151fc;
-}
-.mypage a { 
-    color: white;
-    text-decoration:none;
-}
-
-.perid-layer{
-    display: none;
-    border-style: solid;
-    border-width: 1px;
-    border-color: #e6e6e6;
-    width: 6%;
-    height: 55px;
-    position: fixed;
-    background-color: #323639;
-    margin-left: 1.3%;  
-	/* position : absolute; */ 
-	/* style="display: block; position: absolute; width: 109px; z-index: 1000; top: 332px; left: 535px;" */
-}
-.perid-layer li {
-    list-style: none;
-    border-style: solid;
-    border-width: 1px;
-    border-color: #e6e6e6;
-    width: 155%;  
-    margin-left: -60%;
-} 
-.perid-layer ul {
-    border-style : solid;
-    border-width: 1px;
-    border-color: #e6e6e6;
-    margin: auto;
-   /*  width: 95%;
-    margin-left: 18%; */
-} 
-
-
-</style>
-</head>
+<link href="/dokky/resources/css/left.css" rel="stylesheet" type="text/css"/>
+</head>  
 <body>
 		<sec:authentication property="principal" var="userInfo"/>
 		
 	<div class="leftWrap">
-		<div class="mypage"><a href="/dokky/main">Dokky</a></div> 
+		<div class="name"><a href="/dokky/main">Dokky</a></div> 
+		
+	  <sec:authorize access="isAuthenticated()">
+		<div class="mypage">  
+					<a href="#" class="leftUsermenu">
+					  	  <img id="leftProfile" src="/dokky/resources/img/profile_img/<c:out value="${userInfo.username}"/>.png" class="memberImage leftHideusermenu" onerror="this.src='/dokky/resources/img/basicProfile.png'" />
+					  	  <c:out value="${userInfo.member.nickName}"/>     
+			  	    </a> 
+			  	    <div id="leftUsermenuBar">
+							<ul class="leftHideusermenu"> 
+								<li class="leftHideusermenu">
+									<a href="/dokky/userBoardList?userId=${userInfo.username}" class="leftHideusermenu">
+										<span class="leftHideusermenu">게시글보기</span>
+									</a>
+								</li>
+								<li class="leftHideusermenu">
+									<a href="#" class="leftHideusermenu" onclick="noteOpen('${userInfo.username}','${userInfo.member.nickName}')">
+										<span class="leftHideusermenu">쪽지보내기</span> 
+									</a>
+								</li>
+							</ul> 
+				    </div>
+				    
+					<form id="logoutForm" method='post' action="/dokky/customLogout">
+					    <input id="logoutBtn" type="submit" value="로그아웃">  
+					</form>  
+		</div>
+	  </sec:authorize>
+		
+	  <sec:authorize access="isAnonymous()"> 
+	  	<div class="mypage"> 
+	  	 	<a href="/dokky/customLogin">로그인</a> 
+	  	</div>
+	  	<div class="mypage"> 
+	  	 	<a href="/dokky/memberForm">회원가입</a>
+	  	</div>
+	  </sec:authorize>
+			
 		<div class="mypage"><a href="/dokky/board/allList?category=0">전체글보기</a></div>
 		<div class="mypage"><a href="/dokky/board/list?category=1">공지사항</a></div>
 		<div class="mypage"><a href="/dokky/board/list?category=2">자유게시판</a></div>
 		<div class="mypage"><a href="/dokky/board/list?category=3">묻고답하기</a></div>
 		<div class="mypage"><a href="/dokky/board/list?category=4">칼럼/Tech</a></div>
 		<div class="mypage"><a href="/dokky/board/list?category=5">정기모임/스터디</a></div>
+		
 		<sec:authorize access="isAuthenticated()">
 			<div class="mypage"><a href="/dokky/mypage/myInfoForm?userId=${userInfo.username}">내 정보</a></div>
-			<div class="mypage"><a href="/dokky/alarmList?userId=${userInfo.username}">알림</a>-
-				<a class="alarmCount" href="/dokky/alarmList?userId=${userInfo.username}"></a>
-			</div> 
-		</sec:authorize>
-		<div class="mypage">Today : ${sessionScope.todayCount} / Total : ${sessionScope.totalCount}</div>
-		<div class="mypage">  
-			<sec:authorize access="isAuthenticated()">
-					<form id="logoutForm" method='post' action="/dokky/customLogout">
-					  	  <a href="#" onClick="getUsermenu()" class="leftUsermenu">
-						  	  <img width="30px" src="/dokky/resources/img/profile_img/<c:out value="${userInfo.username}" />" class="memberImage leftHideusermenu" onerror="this.src='/dokky/resources/img/basicProfile.png'" />
-						  	  <c:out value="${userInfo.member.nickName}"/>    
-					  	  </a> 
-					  	  
-					  	  <div id="" class="perid-layer">
-								<ul class="leftHideusermenu"> 
-									<li class="leftHideusermenu"><a href="/dokky/userBoardList?userId=${userInfo.username}" class="leftHideusermenu"><span class="leftHideusermenu">게시글보기</span></a></li>
-									<li class="leftHideusermenu"><a href="#" class="leftHideusermenu"><span class="leftHideusermenu">쪽지보내기</span></a></li>
-								</ul>  
-						  </div> 
-
-					    <input id="logoutBtn" type="submit" value="Logout">  
-					</form>  
-			</sec:authorize>
-			<sec:authorize access="isAnonymous()"> 
-				<a href="/dokky/customLogin">로그인</a>  
-				<a href="/dokky/memberForm">회원가입</a>
-			</sec:authorize>	
+			<div class="mypage">
+				<a href="/dokky/alarmList?userId=${userInfo.username}">
+					알림 <span class="alarmCount"></span>
+				</a>
+			</div>
+			<div class="mypage">
+				<a href="/dokky/fromNoteList?userId=${userInfo.username}"> 
+					쪽지 <span class="noteCount"></span>
+				</a> 
+			</div>
+		</sec:authorize> 
+		
+		<div class="mypage">
+			<a href="/dokky/admin/userList">관리자</a>
 		</div>
-		<div class="mypage"><a href="/dokky/admin/memberList">관리자</a></div>
+		
+		<div class="visitCount">
+			<div>
+				Today : ${sessionScope.todayCount} 
+			</div> 
+			<div>  
+				Total : ${sessionScope.totalCount}  
+			</div> 
+		</div>
+		
 	</div>
 	<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
 	<script>
-	function getUsermenu() { //메뉴바 보이기 이벤트 
-		var userMenu = $(".perid-layer"); 
-		userMenu.css("display","block"); 
-	}
-	   
+	
+	$(".leftUsermenu").on("click",function(event){//메뉴바 보이기 이벤트 
+			 
+			event.preventDefault();
+
+			$("#leftUsermenuBar").css("display","block"); 
+	});
+	 
 	$('html').click(function(e) { //html안 Usermenu, leftHideusermenu클래스를 가지고있는 곳 제외하고 클릭하면 숨김 이벤트발생
-		if( !$(e.target).is('.leftUsermenu, .leftHideusermenu') ) {  
-			var userMenu = $(".perid-layer");  	
-				userMenu.css("display","none");  
+		
+			if( !$(e.target).is('.leftUsermenu, .leftHideusermenu') ) {  
+				
+				$("#leftUsermenuBar").css("display","none");  	
 			} 
 	});   
 
+	function noteOpen(userId,nickname){
+			
+		var popupX = (window.screen.width / 2) - (400 / 2); 
+
+		var popupY= (window.screen.height /2) - (500 / 2);
+	         
+        window.open('/dokky/minRegNote?userId='+userId+'&nickname='+nickname, 'ot', 'height=500, width=400, screenX='+ popupX + ', screenY= '+ popupY);
+    }
 	
 	function getAlarmRealCount(userId, callback, error) {
 		$.ajax({
@@ -176,15 +127,37 @@
 			}
 		});
 	}
+	 
+	function getNoteCount(userId, callback, error) {
+		$.ajax({
+			type : 'get',
+			url : '/dokky/noteCount/'+ userId,
+			success : function(result, status, xhr) {
+				if (callback) {
+					callback(result,xhr);
+				}
+			},
+			error : function(xhr, status, er) {
+				if (error) {
+					error(xhr,er);
+				}
+			}
+		});
+	}
 	
 	<sec:authorize access="isAuthenticated()"> 
 		var alarmCount = $(".alarmCount");
+		var noteCount = $(".noteCount");
 		var userId = '${userInfo.username}';
 	</sec:authorize>
 	
 	function schedule(){
 	    getAlarmRealCount(userId, function(result){
 	    	alarmCount.html(result);
+	 	 });
+	    
+	    getNoteCount(userId, function(result){
+	    	noteCount.html(result);
 	 	 });
 	} 
 	

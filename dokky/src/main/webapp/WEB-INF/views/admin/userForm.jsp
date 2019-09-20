@@ -7,135 +7,18 @@
 <html>
 <head>
 <meta charset="UTF-8">
-	<title>계정관리 상세페이지</title>
-<style>
-		@media screen and (max-width:500px){ 
-			     .userFormWrap {
-					    width: 80%; 
-					    display: inline-block;
-					    margin-left: 15%;
-					    margin-top: 1%;
-					    min-height: 500px; 
-					    border-color: #e6e6e6;
-						border-style: solid;
-						background-color: #323639; 
-						color: #e6e6e6;
-						display: inline-block;
-					}
-		        }
-		        @media screen and (min-width: 501px) and (max-width:1500px){
-		          .userFormWrap {
-					    width: 80%; 
-					    display: inline-block;
-					    margin-left: 15%;
-					    margin-top: 1%;
-					    min-height: 500px; 
-					    border-color: #e6e6e6;
-						border-style: solid;
-						background-color: #323639; 
-						color: #e6e6e6;
-						display: inline-block;
-					}
-		        }
-		        @media screen and (min-width: 1501px){    
-		          .userFormWrap {
-					    width: 51%; 
-					    display: inline-block;
-					    margin-left: 29%;
-					    margin-top: 1%;
-					    min-height: 500px; 
-					    border-color: #e6e6e6;
-						border-style: solid;
-						background-color: #323639; 
-						color: #e6e6e6;
-						display: inline-block;
-					}
-		        }
-	body{
-		background-color: #323639;  
-		}
-	 
-	.ContentWrap{box-sizing: border-box;
-	    padding-top: 48px;
-	    padding-left: 20px;
-	    padding-right: 20px;
-	    width: 95%;
-		min-height: 750px;
-	    margin: 0 auto; 
- 	}
-	#menuWrap .tab button {
-		background-color: inherit;
-		border: none;
-		outline:none;
-		cursor: pointer;
-		padding: 14px 16px;
-		transition: 0.3s;
-		font-size: 20px;  
-		color: #e6e6e6;
-	}
-	#menuWrap .tab button:hover {
-	background-color: #7b7676;
-	}
-	/* #menuWrap .tabcontent {  
-		display: none; 
-		padding: 6px 12px;
-		border: 1px;
-	}  */
-	.tableText{
-		width: 10%;
-		font-size: 20px;  
-		color: #e6e6e6;
-    }
-	.tableValue{    
-		height: 50px;
-	    /* font-size: 18px;
-	    color: #555; */
-	 }
-	 .inputInfo{
-	 	margin-top: 3px;
-	    font-size: 20px;
-	    color: #555;
-	    padding: 8px;
-	    width: 30%;
-	    border-radius: 8px;
-	    border: 1px solid #b5b5b5;
-	    height: 30px;
-	 }
-	 .submitInfo{  
-	 	font-size: 20px;
-	    background-color: #555;
-	    border: 1px solid #555;
-	    color: #e6e6e6;
-	    padding: 8px;
-	    border-radius: 8px;
-	    width: 7%;
-    }
-      
-   .changeButton button {
-		background-color: inherit;
-		border: none; 
-		outline:none;
-		cursor: pointer;
-		padding: 14px 16px;
-		transition: 0.3s;
-		font-size: 20px;  
-		color: #e6e6e6;
-	}
-	.changeButton button:hover {
-	background-color: #7b7676;
-	}
-	
-</style>  
+	<title>Dokky - 유저 개인정보 </title>   
+	<link href="/dokky/resources/css/userForm.css" rel="stylesheet" type="text/css"/>
 </head>
 <body>
 <sec:authentication property="principal" var="userInfo"/>
 <div class="userFormWrap">	
 	<div class="ContentWrap">
 		<div id="menuWrap"> 
-			<div class="tab">    
-		        <button onclick="location.href='userForm?userId=${user.userId}'">유저 개인정보</button> 
-		        <button onclick="location.href='userCashHistory?userId=${user.userId}'">유저 캐시내역</button>
-		        <button onclick="location.href='/dokky/userBoardList?userId=${user.userId}'">유저 활동</button>  
+			<div class="tab">  
+				<button onclick="location.href='/dokky/admin/userForm?userId=${user.userId}'">유저 개인정보</button> 
+		        <button onclick="location.href='/dokky/admin/userCashHistory?userId=${user.userId}'">유저 캐시내역</button>
+		        <button onclick="location.href='/dokky/userBoardList?userId=${user.userId}&pageLocation=admin'">유저 활동</button>
 		    </div>   	 
 		 </div> 
 		 
@@ -194,7 +77,7 @@
 	     				가입일
 	     			</td>
 	     			<td class="tableValue"> 
-	     				<fmt:formatDate value="${user.regDate}" pattern="yyyy년 MM월 dd일 hh:mm" />
+	     				<fmt:formatDate value="${user.regDate}" pattern="yyyy-MM-dd HH:mm" />
 	     			</td>
 	     		</tr>
 	     		<tr>
@@ -202,7 +85,7 @@
 	     				최근 로그인
 	     			</td>
 	     			<td class="tableValue"> 
-	     				<fmt:formatDate value="${user.loginDate}" pattern="yyyy년 MM월 dd일 hh:mm" />
+	     				<fmt:formatDate value="${user.loginDate}" pattern="yyyy-MM-dd HH:mm" />
 	     			</td>
 	     		</tr>
 	     		<tr>
@@ -229,9 +112,9 @@
 	     			</td>
 	     			<td class="tableValue">
 		     			<div class="changeButton">     
-						        <button id="stop" data-user_id="${user.userId}">모든 글쓰기 제한</button> 
-						        <button id="limit" data-user_id="${user.userId}">접속 제한</button> 
-						        <button id="recovery" data-user_id="${user.userId}">계정 복구</button> 
+					        <button id="stop" data-user_id="${user.userId}">모든 글쓰기 제한</button> 
+					        <button id="limit" data-user_id="${user.userId}">접속 제한</button> 
+					        <button id="recovery" data-user_id="${user.userId}">계정 복구</button> 
 			   			 </div>  
 	     			</td> 
 	     		</tr>
@@ -305,6 +188,7 @@
 		limitRegistering(userId, function(result){
 		   	var currentState = $("#currentState");
 		   	currentState.html("모든 글쓰기 제한");
+		   	alert("모든 글쓰기를 제한 하였습니다.");
 	   	  });
 	   	});
 	
@@ -314,6 +198,7 @@
 		limitLogin(userId, function(result){
 		   	var currentState = $("#currentState");
 		   	currentState.html("접속 제한");
+		   	alert("접속을 제한 하였습니다.");
 	   	  });
 	   	});
 	
@@ -323,6 +208,7 @@
 		recovery(userId, function(result){
 		   	var currentState = $("#currentState");
 		   	currentState.html("정상");
+		   	alert("계정을 정상으로 복구 하였습니다.");
 	   	  });
 	   	});
 	

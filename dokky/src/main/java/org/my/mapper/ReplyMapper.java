@@ -13,17 +13,17 @@ public interface ReplyMapper {
 	
 	public int reInsert(ReplyVO replyVO);
 
-	public ReplyVO read(Long num);
+	public ReplyVO read(Long reply_num);
 
-	public int delete(Long num);
+	public int delete(Long reply_num);
 
 	public int update(ReplyVO reply);
 
 	public List<ReplyVO> getListWithPaging(
 			@Param("cri") Criteria cri,
-			@Param("num") Long num );
+			@Param("board_num") Long board_num );
 
-	public int getCountBynum(Long num);
+	public int getCountBynum(Long board_num);
 	
 	public String checkLikeValue(ReplyLikeVO vo);
 
@@ -39,9 +39,9 @@ public interface ReplyMapper {
 
 	public String getLikeCount(Long reply_num);
 	
-	public int pullDisLike(Long num);
+	public int pullDisLike(Long reply_num);
 	
-	public int pushDisLike(Long num);
+	public int pushDisLike(Long reply_num);
 	
 	public String checkDisLikeValue(ReplyDisLikeVO vo);
 	
@@ -51,7 +51,7 @@ public interface ReplyMapper {
 	
 	public void pushDislikeValue(ReplyDisLikeVO vo);
 	
-	public String getDisLikeCount(Long num);
+	public String getDisLikeCount(Long reply_num);
 
 	public void updateReplyUserCash(replyDonateVO vo);
 
@@ -65,8 +65,10 @@ public interface ReplyMapper {
 
 	public List<ReplyVO> selectNextReply(ReplyVO replyVO);
 
-	public int lastReplyStep(int parent_num);
+	public int lastReplyStep(int group_num);
 
 	public int updateOrder_step(ReplyVO replyVO);
+
+	public Long getBoardNum(Long reply_num);
 
 }

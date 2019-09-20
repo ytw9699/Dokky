@@ -5,12 +5,14 @@ package org.my.domain;
 @Data
 public class scrapVO {
 	  private int category;
-	  private Long num;
+	  private Long board_num;
 	  private String userId;
 	  private String nickName; 
 	  private String title;
 	  private Date regDate;
 	  private int replyCnt;
 	  private Long hitCnt;
+	  private int likeCnt;  
+	  private int money;
 	  private Long scrap_num;
 }

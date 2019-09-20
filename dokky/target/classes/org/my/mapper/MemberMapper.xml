@@ -42,6 +42,7 @@
   	
   	 <!-- 회원가입 -->
 	 <insert id="registerMembers">
+	 
 		 insert into dk_member(
 		 					   member_num,
 		 					   userid,
@@ -62,6 +63,7 @@
  					   				    #{account}
 					   				   )
 	 </insert>
+	 
 	 <insert id="registerMember_auth">
 		 insert into dk_member_auth(userid) values(#{userId})
 	 </insert>
@@ -88,7 +90,7 @@
 	 </update>
 	 
 	 <select id="getRealtimeList" resultType="org.my.domain.BoardVO"> 
-		 SELECT /*+INDEX_DESC(DK_BOARD PK_DK_BOARD) */ money,replyCnt, num, title, nickName, regdate, hitCnt,userId,likeCnt
+		 SELECT /*+INDEX_DESC(DK_BOARD PK_DK_BOARD) */ money,replyCnt, board_num, title, nickName, regdate, hitCnt,userId,likeCnt
 		  from dk_board where <![CDATA[ rownum <= 5  ]]>
 	</select>
 	 
@@ -96,7 +98,7 @@
 		select 	 
 				money,
 		 		replyCnt,
-			 	num, 
+			 	board_num, 
 			 	title, 
 			 	nickName, 
 			 	regdate, 
@@ -107,7 +109,7 @@
 		SELECT 
 			money,
 			replyCnt,
-		 	num, 
+		 	board_num, 
 		 	title, 
 		 	nickName, 
 		 	regdate, 
@@ -123,7 +125,7 @@
 		 	select 	 
 		 		 money,
 	 			 replyCnt, 
-	 			 num, 
+	 			 board_num, 
 	 			 title, 
 	 			 nickName, 
 	 			 regdate, 
@@ -135,7 +137,7 @@
 			   SELECT
 			   	 money , 
 			   	 replyCnt, 
-			   	 num, 
+			   	 board_num, 
 			   	 title, 
 			   	 nickName, 
 			   	 regdate, 

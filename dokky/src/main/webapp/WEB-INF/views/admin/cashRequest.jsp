@@ -1,5 +1,4 @@
-<%@ page language="java" contentType="text/html; charset=UTF-8"
-    pageEncoding="UTF-8"%>
+<%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c"%>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/fmt" prefix="fmt"%>
 <%@ taglib uri="http://www.springframework.org/security/tags" prefix="sec" %> 
@@ -8,104 +7,9 @@
 <html>
 <head>
 <meta charset="UTF-8">
-	<title>메인</title>
-	
-<style>
-	@media screen and (max-width:500px){ 
-	     .cashRequestWrap {
-			    width: 80%; 
-			    display: inline-block;
-			    margin-left: 15%;
-			    margin-top: 1%;
-			    min-height: 500px; 
-			    border-color: #e6e6e6;
-				border-style: solid;
-				background-color: #323639; 
-				color: #e6e6e6;
-				display: inline-block;
-			}
-        }
-        @media screen and (min-width: 501px) and (max-width:1500px){
-          .cashRequestWrap {
-			    width: 80%; 
-			    display: inline-block;
-			    margin-left: 15%;
-			    margin-top: 1%;
-			    min-height: 500px; 
-			    border-color: #e6e6e6;
-				border-style: solid;
-				background-color: #323639; 
-				color: #e6e6e6;
-				display: inline-block;
-			}
-        }
-        @media screen and (min-width: 1501px){    
-          .cashRequestWrap {
-			    width: 51%; 
-			    display: inline-block;
-			    margin-left: 29%;
-			    margin-top: 1%;
-			    min-height: 500px; 
-			    border-color: #e6e6e6;
-				border-style: solid;
-				background-color: #323639; 
-				color: #e6e6e6;
-				display: inline-block;
-			}
-        }
-	body{
-		background-color: #323639;  
-		}
-	
-	.ContentWrap{box-sizing: border-box;
-	    padding-top: 48px;
-	    padding-left: 20px;
-	    padding-right: 20px;
-	    width: 95%;
-		min-height: 750px;
-	    margin: 0 auto; 
- 	}
- 	#menuWrap .tab button {
-		background-color: inherit;
-		border: none;
-		outline:none; 
-		cursor: pointer;
-		padding: 14px 16px;
-		transition: 0.3s;
-		font-size: 20px;  
-		color: #e6e6e6;
-	} 
-	#menuWrap .tab button:hover {
-	background-color: #7b7676;
-	}
-	
-	.pagination { 
-	    display: inline-block;
-	    padding-left: 0;
-	    margin: 20px 0;
-	    border-radius: 4px;
-	}  
-	.pagination li { 
-   		display: inline;
-	}
-	.pagination li a{
-   		color: #e6e6e6;  
-	}
-	.pull-right{
-		width: 80%;
-		border-color: #e6e6e6;/* 흰색 */
-		border-style: solid;
-	}
-	a:hover {   
-	    color: #7151fc;
-	    text-decoration: underline;
-	}  
-	a  {    
-			color:#e6e6e6; text-decoration: none;
-		}       
-</style>
+	<title>Dokky - 결제관리</title>  
+<link href="/dokky/resources/css/cashRequest.css" rel="stylesheet" type="text/css"/>
 </head> 
-
 <%@include file="../includes/left.jsp"%>
 
 <body> 
@@ -113,7 +17,7 @@
   <div class="ContentWrap">  
 	 <div id="menuWrap"> 
 		<div class="tab">   
-	        <button onclick="location.href='memberList'">계정관리</button> 
+	        <button onclick="location.href='userList'">계정관리</button> 
 	        <button onclick="location.href='cashRequest'">결제관리</button> 
 	        <button onclick="location.href='userReportList'">신고관리</button> 
 	    </div> 
@@ -130,18 +34,20 @@
 		
 			<td>
 				<a href='userForm?userId=<c:out value="${cash.userId}"/>'> 
-				  <img width="30px" src="/dokky/resources/img/profile_img/<c:out value="${cash.userId}" />" class="memberImage" onerror="this.src='/dokky/resources/img/basicProfile.png'" />
+				  <img src="/dokky/resources/img/profile_img/<c:out value="${cash.userId}"/>.png"  class="memberImage" onerror="this.src='/dokky/resources/img/basicProfile.png'" />
 				  <c:out value="${cash.userId}" />
 				</a> 
 			</td> 
 			<td><c:out value="${cash.cashKind}" /></td> 
 			<td><fmt:formatNumber type="number" maxFractionDigits="3" value="${cash.cashAmount}"/>원</td>
 			<td>  
-				<fmt:formatDate value="${cash.regDate}" pattern="yyyy년 MM월 dd일 HH:mm" />
+				<fmt:formatDate value="${cash.regDate}" pattern="yyyy-MM-dd HH:mm" />
 			</td>
 			<td id="specification${cash.cash_num}"><c:out value="${cash.specification}" /></td>   
 			<td>
-			 	<button class="approveButton" data-cash_kind="${cash.cashKind}" data-user_id="${cash.userId}" data-cash_amount="${cash.cashAmount}" data-cash_num="${cash.cash_num}">승인</button>
+			 	<button class="approveButton" data-cash_kind="${cash.cashKind}" data-user_id="${cash.userId}" data-cash_amount="${cash.cashAmount}" data-cash_num="${cash.cash_num}">
+			 	승인
+			 	</button>
 			</td>
 		</tr>
 	       </c:forEach>
@@ -236,14 +142,19 @@
 					})
 				}
 			 
-			 
 			 $(".approveButton").on("click",function(event){// 이벤트  
 				 	var cash_num = $(this).data("cash_num");
 				 	var userId = $(this).data("user_id");
 				 	var cashAmount = $(this).data("cash_amount");
 				 	var cashKind = $(this).data("cash_kind");
+				 	var specification = $("#specification"+cash_num); 
 				 	var kind;
 				 	
+				 	if(specification.html() === "승인완료"){
+				 		alert("이미 승인완료가 되었습니다.");
+				 		return;
+				 	} 
+				 	 
 				 	 if(cashKind == '충전'){
 				 		kind = 7;
 				 	 }else if(cashKind == '환전'){
@@ -271,8 +182,6 @@
 				 	
 				 	approve(commonData, function(result){
 						if(result == 'success'){ 
-							
-							var specification = $("#specification"+cash_num); 
 							
 					 		specification.html("승인완료"); 
 					 		

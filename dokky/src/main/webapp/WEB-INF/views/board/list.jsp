@@ -1,6 +1,4 @@
-<%@ page language="java" contentType="text/html; charset=UTF-8"
-    pageEncoding="UTF-8"%>
-    
+<%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c"%>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/fmt" prefix="fmt"%>
 
@@ -8,240 +6,160 @@
 <html>
 <head>
 <meta charset="UTF-8">
-<title>Dokky</title>
-<style>
- 		@media screen and (max-width:500px){ 
-	           .listWrapper {
-			    border-color: #e6e6e6;
-			    border-style: solid;
-			    border-width: 1px;
-			    background-color: #323639; 
-			    color: #e6e6e6;
-			    margin-left: 15%;
-			    margin-top: 1%;
-			    width: 80%;
-			    display: inline-block;
-			}
-        }
-        @media screen and (min-width: 501px) and (max-width:1500px){
-          .listWrapper {
-			    border-color: #e6e6e6;
-			    border-style: solid;
-			    border-width: 1px;
-			    background-color: #323639;
-			    color: #e6e6e6;
-			    margin-left: 15%;
-			    margin-top: 1%;
-			    width: 80%;
-			    display: inline-block;
-			}
-        }
-        @media screen and (min-width: 1501px){    
-          .listWrapper {
-			    border-color: #e6e6e6;
-			    border-style: solid;
-			    border-width: 1px;
-			    background-color: #323639;
-			    color: #e6e6e6;
-			    margin-left: 29%;
-			    margin-top: 1%;
-			    width: 51%;
-			    display: inline-block; 
-			}
-        }
-        
-	a  {   
-		color:#e6e6e6;
-		 text-decoration: none;
-	}
-	a:hover {   
-	    color: #7151fc;
-	    text-decoration: underline;
-	}
-	body{
-		background-color: #323639; 
-	}
-	.boardKind{
-		border-style: solid;
-		border-width: 1px;
-		border-color: #e6e6e6;
-		width: 98%;
-		margin-left:1% ; 
-		margin-right:1%; 
-		margin-top:1%;
-		height: 40px; 
-	}
-	.boardKind a { 
-    	color: white;
-	}
-	.pagination { 
-	    display: inline-block;
-	    padding-left: 0;
-	    margin: 20px 0;
-	    border-radius: 4px;
-	}  
-	.pagination li {
-   		display: inline;
-	}
-	.pagination li a{
-   		color: #e6e6e6;  
-	}
-	.pull-right{
-		width: 80%;
-		border-color: #e6e6e6;/* 흰색 */
-		border-style: solid;
-		border-width: 1px;
-	}
-	.replyCnt{  
-	  color: #ff2f3b;  
-	} 
-	
-	.userMenubar{
-	    display: none;
-	    border-style: solid;
-	    border-width: 1px;
-	    border-color: #e6e6e6;
-	    width: 6%;
-	    height: 55px;
-	    position: fixed;
-	    background-color: #323639;
-	    margin-left: 1.3%;
-	}
-	.userMenubar li {
-	    list-style: none;
-	    border-style: solid;
-	    border-width: 1px;
-	    border-color: #e6e6e6;
-	    width: 155%;  
-	    margin-left: -60%;
-	}
-	.userMenubar ul { 
-	    border-style : solid;
-	    border-width: 1px;
-	    border-color: #e6e6e6;
-	    margin: auto;
-	} 
-	#regBtn {
-	    border-style: solid;
-	    border-width: 1px;
-	    border-color: #e6e6e6;
-	    width: 8%;
-	    margin-left: 80%;
-	    margin-right: 1%;
-	    margin-top: 1%; 
-	    height: 30px;
-	}
-	.orderMethodWrap{
-		border-style: solid;
-	    border-width: 1px;
-	    border-color: #e6e6e6;
-	    width: 99%;
-	    margin-left: 1%;
-	    margin-right: 1%;
-	    margin-top: 1%; 
-	    height: 100px;
-	}
-	.orderMethodLI{
-	 	display: inline;
-	}
-	 
-</style>
+<title>Dokky - 글 리스트</title>
+<link href="/dokky/resources/css/list.css" rel="stylesheet" type="text/css">
 </head>
 <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
 <%@include file="../includes/left.jsp"%>
 <body>
 	<div class="listWrapper">
 		<div class="boardKind">
-			 <span>
-			   <c:choose>
-			   	   <c:when test="${pageMaker.cri.category == 0 }">
-			          	<a href="/dokky/board/allList?category=0">전체글보기</a>
-			       </c:when>
-			       <c:when test="${pageMaker.cri.category == 1 }">
-			          	<a href="/dokky/board/list?category=1">공지사항</a>
-			       </c:when>
-			       <c:when test="${pageMaker.cri.category == 2 }">
-			       		<a href="/dokky/board/list?category=2">자유게시판</a>
-			       </c:when>
-			        <c:when test="${pageMaker.cri.category == 3 }">
-			     		<a href="/dokky/board/list?category=3">묻고답하기</a>
-			       </c:when>
-			        <c:when test="${pageMaker.cri.category == 4 }">
-			   		   <a href="/dokky/board/list?category=4">칼럼/Tech</a>
-			       </c:when>
-			       <c:when test="${pageMaker.cri.category == 5 }">
-			   		   	<a href="/dokky/board/list?category=5">정기모임/스터디</a>
-			       </c:when> 
-			       <c:otherwise>
-			       </c:otherwise>
-		       </c:choose>
-		      </span>   
-		      <span class="regBtn"> 
-		      	<button id='regBtn' type="button" class="">새 글쓰기</button>
-		      </span>
-	     </div>
+			 <span class="category">
+				   <c:choose>
+				   	   <c:when test="${pageMaker.cri.category == 0 }">
+				          	<a href="/dokky/board/allList?category=0" >전체글보기</a>
+				       </c:when>
+				       <c:when test="${pageMaker.cri.category == 1 }">
+				          	<a href="/dokky/board/list?category=1">공지사항</a>
+				       </c:when>
+				       <c:when test="${pageMaker.cri.category == 2 }">
+				       		<a href="/dokky/board/list?category=2">자유게시판</a>
+				       </c:when>
+				        <c:when test="${pageMaker.cri.category == 3 }">
+				     		<a href="/dokky/board/list?category=3">묻고답하기</a>
+				       </c:when>
+				        <c:when test="${pageMaker.cri.category == 4 }">
+				   		   <a href="/dokky/board/list?category=4">칼럼/Tech</a>
+				       </c:when>
+				       <c:when test="${pageMaker.cri.category == 5 }">
+				   		   	<a href="/dokky/board/list?category=5">정기모임/스터디</a>
+				       </c:when> 
+				       <c:otherwise>
+				       </c:otherwise>
+			       </c:choose>
+		     </span>   
+		     
+		     <span class="regBtn"> 
+		      	<button id='regBtn' type="button">새 글쓰기</button>
+		     </span>
+	    </div> 
 	     
 		<div class="orderMethodWrap">
-			<ul class="orderMethodUL">
-				<li class="orderMethodLI active"> 
-					<a href="${requestScope['javax.servlet.forward.request_uri']}?category=${pageMaker.cri.category}&order=0
-					&type=${pageMaker.cri.type}&keyword=${pageMaker.cri.keyword}&pageNum=${pageMaker.cri.pageNum}&amount=${pageMaker.cri.amount}">최신순</a> 
-				</li> 
-				<li class="orderMethodLI ">
-				<a href="${requestScope['javax.servlet.forward.request_uri']}?category=${pageMaker.cri.category}&order=1
-				&type=${pageMaker.cri.type}&keyword=${pageMaker.cri.keyword}&pageNum=${pageMaker.cri.pageNum}&amount=${pageMaker.cri.amount}">조회순</a>
-				</li>
-				<li class="orderMethodLI ">
-				<a href="${requestScope['javax.servlet.forward.request_uri']}?category=${pageMaker.cri.category}&order=2
-				&type=${pageMaker.cri.type}&keyword=${pageMaker.cri.keyword}&pageNum=${pageMaker.cri.pageNum}&amount=${pageMaker.cri.amount}">댓글순</a>
-				</li>
-				<li class="orderMethodLI ">
-				<a href="${requestScope['javax.servlet.forward.request_uri']}?category=${pageMaker.cri.category}&order=3
-				&type=${pageMaker.cri.type}&keyword=${pageMaker.cri.keyword}&pageNum=${pageMaker.cri.pageNum}&amount=${pageMaker.cri.amount}">좋아요순</a>
-				</li>
-				<li class="orderMethodLI ">
-				<a href="${requestScope['javax.servlet.forward.request_uri']}?category=${pageMaker.cri.category}&order=4
-				&type=${pageMaker.cri.type}&keyword=${pageMaker.cri.keyword}&pageNum=${pageMaker.cri.pageNum}&amount=${pageMaker.cri.amount}">기부순</a>
-				</li>
-			</ul>
-			<%@include file="../includes/search.jsp"%>
-		</div>
-		 
+			<div class="orderDiv">
+				<ul class="orderMethodUL">
+					<li class="orderMethodLI <c:if test="${pageMaker.cri.order == 0 }">active</c:if>"> 
+						<a href="${requestScope['javax.servlet.forward.request_uri']}?category=${pageMaker.cri.category}&order=0
+						&type=${pageMaker.cri.type}&keyword=${pageMaker.cri.keyword}&pageNum=${pageMaker.cri.pageNum}&amount=${pageMaker.cri.amount}">최신순</a> 
+					</li> 
+					
+					<li class="orderMethodLI <c:if test="${pageMaker.cri.order == 1 }">active</c:if>"> 
+						<a href="${requestScope['javax.servlet.forward.request_uri']}?category=${pageMaker.cri.category}&order=1
+						&type=${pageMaker.cri.type}&keyword=${pageMaker.cri.keyword}&pageNum=${pageMaker.cri.pageNum}&amount=${pageMaker.cri.amount}">조회순</a>
+					</li>
+					
+					<li class="orderMethodLI <c:if test="${pageMaker.cri.order == 2 }">active</c:if>"> 
+						<a href="${requestScope['javax.servlet.forward.request_uri']}?category=${pageMaker.cri.category}&order=2
+						&type=${pageMaker.cri.type}&keyword=${pageMaker.cri.keyword}&pageNum=${pageMaker.cri.pageNum}&amount=${pageMaker.cri.amount}">댓글순</a>
+					</li>
+					
+					<li class="orderMethodLI <c:if test="${pageMaker.cri.order == 3 }">active</c:if>"> 
+						<a href="${requestScope['javax.servlet.forward.request_uri']}?category=${pageMaker.cri.category}&order=3
+						&type=${pageMaker.cri.type}&keyword=${pageMaker.cri.keyword}&pageNum=${pageMaker.cri.pageNum}&amount=${pageMaker.cri.amount}">좋아요순</a>
+					</li>
+					 
+					<li class="orderMethodLI <c:if test="${pageMaker.cri.order == 4 }">active</c:if>"> 
+						<a href="${requestScope['javax.servlet.forward.request_uri']}?category=${pageMaker.cri.category}&order=4
+						&type=${pageMaker.cri.type}&keyword=${pageMaker.cri.keyword}&pageNum=${pageMaker.cri.pageNum}&amount=${pageMaker.cri.amount}">기부순</a>
+					</li>
+				</ul>
+			</div>	
+			
+			<div class="searchWrapper">
+				<form id='searchForm' action="/dokky/board/list" method='get'>
+					<select id="option" name='type'>
+						<option value="TC"
+							<c:out value="${pageMaker.cri.type == null || pageMaker.cri.type eq 'TC'?'selected':''}"/>>제목+내용</option>
+						<option value="TC"
+							<c:out value="${pageMaker.cri.type eq 'TC'?'selected':''}"/>>제목+내용</option>
+						<option value="T"
+							<c:out value="${pageMaker.cri.type eq 'T'?'selected':''}"/>>제목</option>
+						<option value="C"
+							<c:out value="${pageMaker.cri.type eq 'C'?'selected':''}"/>>내용</option>
+						<option value="N"
+							<c:out value="${pageMaker.cri.type eq 'N'?'selected':''}"/>>닉네임</option>
+						<option value="TN"
+							<c:out value="${pageMaker.cri.type eq 'TN'?'selected':''}"/>>제목+닉네임</option>
+						<option value="TNC"
+							<c:out value="${pageMaker.cri.type eq 'TNC'?'selected':''}"/>>제목+내용+닉네임</option>
+					</select> 
+					
+					<input id="keyword" type='text' name='keyword' value='<c:out value="${pageMaker.cri.keyword}"/>' oninput="checkLength(this,15)"/> 
+					<input type='hidden' name='pageNum' value='<c:out value="${pageMaker.cri.pageNum}"/>' /> 
+					<input type='hidden' name='amount' value='<c:out value="${pageMaker.cri.amount}"/>' />
+					<input type='hidden' name='category' value='${pageMaker.cri.category}'>
+					
+					<button id='search'></button> 
+				</form> 
+			</div> 
+	    </div>
+	    
 		<div class="">
-			<table class=""> 
+			<table class="table"> 
 				<c:forEach items="${list}" var="board">
 					<tr>
-						<td>   
-							<a class='move' href='<c:out value="${board.num}"/>'> 
+						<td class="title">  
+							<a class='move' href='<c:out value="${board.board_num}"/>'> 
 								<c:out value="${board.title}" />
 								<span class="replyCnt">[<c:out value="${board.replyCnt}" />]</span>
 							</a> 
 						</td> 
-						<td>
-							<img width="20px" src="/dokky/resources/img/read.png"/>
+						<td class="td">
+							<div class="tdData">  
+								조회수
+							</div>
 							<c:out value="${board.hitCnt}" />
 						</td>
-						<td>   
-							<img width="20px" src="/dokky/resources/img/like.png"/>
-							<c:out value="${board.likeCnt}" />
+						<td class="td">
+							<div class="tdData">  
+								좋아요
+							</div>
+							<c:out value="${board.likeCnt}"/>
+						</td> 
+						<td class="td">
+							<div class="tdData">  
+								기부금
+							</div>
+							    \<fmt:formatNumber type="number" maxFractionDigits="3" value="${board.money}"/>
 						</td>
-						<td> 
-							\<fmt:formatNumber type="number" maxFractionDigits="3" value="${board.money}"/>
-						</td>
-						<td> 
-							<a href="#" class="userMenu" data-board_num="${board.num}">
-								<img width="25px" src="/dokky/resources/img/profile_img/<c:out value="${board.userId}" />" class="memberImage hideUsermenu" onerror="this.src='/dokky/resources/img/basicProfile.png'" />
+						<td class="td"> 
+							<a href="#" class="userMenu" data-board_num="${board.board_num}">
+								<img src="/dokky/resources/img/profile_img/<c:out value="${board.userId}"  />.png"  class="memberImage hideUsermenu" onerror="this.src='/dokky/resources/img/basicProfile.png'" />
 								<c:out value="${board.nickName}" /> 
 							</a> 
-							 <div id="userMenubar_${board.num}" class="userMenubar">
+							 <div id="userMenubar_${board.board_num}" class="userMenubar">
 								<ul class="hideUsermenu"> 
-									<li class="hideUsermenu"><a href="/dokky/userBoardList?userId=${board.userId}" class="hideUsermenu"><span class="hideUsermenu">게시글보기</span></a></li>
-									<li class="hideUsermenu"><a href="#" class="hideUsermenu"><span class="hideUsermenu">쪽지보내기</span></a></li>
-								</ul>    
+									<li class="hideUsermenu">
+										<a href="/dokky/userBoardList?userId=${board.userId}" class="hideUsermenu">
+											<span class="hideUsermenu">게시글보기</span>
+										</a>
+									</li>
+									<li class="hideUsermenu">
+										<a href="#" class="hideUsermenu" onclick="noteOpen('${board.userId}','${board.nickName}')">
+											<span class="hideUsermenu">쪽지보내기</span> 
+										</a>
+									</li>
+								</ul>     
 						     </div> 
 						</td>
-						<td>
-							<fmt:formatDate value="${board.regDate}" pattern="yyyy년 MM월 dd일 HH:mm" />
+						<td id="dateTd" class="regdate${board.board_num}" data-regdate_val='<fmt:formatDate value="${board.regDate}" pattern="yyyy/MM/dd/HH:mm:ss" />'>
+								<script>
+									$(document).ready(function(){
+										var	board_num = '${board.board_num}'; 
+										var	regdateTd = $(".regdate"+board_num);
+										var regdate_val = regdateTd.data("regdate_val");
+										regdateTd.html(timeBefore(regdate_val));
+			            			});
+			    				</script> 
 						</td> 
 					</tr>
 				</c:forEach>
@@ -257,7 +175,7 @@
 					</c:if>
 
 					<c:forEach var="num" begin="${pageMaker.startPage}" end="${pageMaker.endPage}">
-						<li class="paginate_button  ${pageMaker.cri.pageNum == num ? "active":""} ">
+						<li class="paginate_button  ${pageMaker.cri.pageNum == num ? "page_active":""} ">
 							<a href="${num}">${num}</a>
 						</li>
 					</c:forEach> 
@@ -279,8 +197,83 @@
 	<input type='hidden' name='keyword' value='<c:out value="${ pageMaker.cri.keyword }"/>'>
 </form> 
 	
-<script>
-	   
+<script> 
+
+	function checkLength(obj, maxlength) {  
+	
+		var str = obj.value; // 이벤트가 일어난 컨트롤의 value 값    
+		var str_length = str.length; // 전체길이       // 변수초기화     
+		var max_length = maxlength; // 제한할 글자수 크기     
+		var i = 0; // for문에 사용     
+		var ko_byte = 0; // 한글일경우는, 2그밗에는 1을 더함     
+		var li_len = 0; // substring하기 위해서 사용     
+		var one_char = ""; // 한글자씩 검사한다     
+		var reStr = ""; // 글자수를 초과하면 제한할수 글자전까지만 보여준다.  
+		
+		for (i = 0; i < str_length; i++) { // 한글자추출         
+			one_char = str.charAt(i);            
+			ko_byte++;        
+		}     
+		
+		if (ko_byte <= max_length) {// 전체 크기가 max_length를 넘지않으면                
+			li_len = i + 1;         
+		}  
+	
+		if (ko_byte > max_length) {// 전체길이를 초과하면          
+			alert(max_length + " 글자 이상 입력할 수 없습니다.");         
+			reStr = str.substr(0, max_length);         
+			obj.value = reStr;      
+		}   
+    		
+		obj.focus();  
+	}
+
+	function timeBefore(time){  
+	    
+	    var now = new Date();//현재시간
+	    var writeDay = new Date(time);//글쓴 시간 
+	 	var minus;//현재 년도랑 글쓴시간의 년도 비교 
+	    
+	    if(now.getFullYear() > writeDay.getFullYear()){
+	    	
+	        minus= now.getFullYear()-writeDay.getFullYear();//두개의 차이를 구해서 표시
+	        return minus+"년 전";
+	    }else if(now.getMonth() > writeDay.getMonth()){//년도가 같을 경우 달을 비교해서 출력
+	    	
+	        minus= now.getMonth()-writeDay.getMonth();
+	        return minus+"달 전";
+	    }else if(now.getDate() > writeDay.getDate()){//같은 달일 경우 일을 계산
+	    	
+	        minus= now.getDate()-writeDay.getDate();	
+	        return minus+"일 전";
+	    }else if(now.getDate() == writeDay.getDate()){//당일인 경우에는 
+	    	
+	        var nowTime = now.getTime();
+	        var writeTime = writeDay.getTime();
+	        
+	        if(nowTime > writeTime){//시간을 비교
+	            sec =parseInt(nowTime - writeTime) / 1000;
+	            day  = parseInt(sec/60/60/24);
+	            sec = (sec - (day * 60 * 60 * 24));
+	            hour = parseInt(sec/60/60);
+	            sec = (sec - (hour*60*60));
+	            min = parseInt(sec/60);
+	            sec = parseInt(sec-(min*60));
+	            
+	            if(hour > 0){
+	            
+	                return hour+"시간 전";
+	            }else if(min > 0){
+	            	
+	                return min+"분 전";
+	            }else if(sec > 0){
+	            	
+	                return sec+"초 전";
+	            }
+	        }
+	    }
+	}
+
 	$(".userMenu").on("click",function(event){//해당 메뉴바 보이기 이벤트
 		
 		var	board_num = $(this).data("board_num");
@@ -328,7 +321,7 @@
 		$(".move").on("click",function(e) {
 			
 			e.preventDefault();
-			actionForm.append("<input type='hidden' name='num' value='"+ $(this).attr("href")+ "'>");
+			actionForm.append("<input type='hidden' name='board_num' value='"+ $(this).attr("href")+ "'>");
 			actionForm.attr("action","/dokky/board/get");
 			actionForm.submit();   
 		});

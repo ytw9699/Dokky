@@ -1,6 +1,4 @@
-<%@ page language="java" contentType="text/html; charset=UTF-8"
-    pageEncoding="UTF-8"%>
-    
+<%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c"%>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/fmt" prefix="fmt"%>
 <%@ taglib uri="http://www.springframework.org/security/tags" prefix="sec" %> 
@@ -9,136 +7,8 @@
 <html>
 <head>
 <meta charset="UTF-8">
-<title>Dokky</title>
-<style>
-		@media screen and (max-width:500px){ 
-			.myscrapWrap { 
-				    width: 80%;  
-				    display: inline-block;
-				    margin-left: 15%;
-				    margin-top: 1%;
-				    min-height: 500px; 
-				    border-color: #e6e6e6;
-					border-style: solid;
-					background-color: #323639; 
-					color: #e6e6e6;
-					display: inline-block;
-				}     
-        }
-        @media screen and (min-width: 501px) and (max-width:1500px){
-	        .myscrapWrap {
-				    width: 80%; 
-				    display: inline-block;
-				    margin-left: 15%;
-				    margin-top: 1%;
-				    min-height: 500px; 
-				    border-color: #e6e6e6;
-					border-style: solid;
-					background-color: #323639; 
-					color: #e6e6e6;
-					display: inline-block;
-				}
-        }
-        @media screen and (min-width: 1501px){    
-          .myscrapWrap { 
-			    width: 51%; 
-			    display: inline-block;
-			    margin-left: 29%;
-			    margin-top: 1%;
-			    min-height: 500px; 
-			    border-color: #e6e6e6;
-				border-style: solid;
-				background-color: #323639; 
-				color: #e6e6e6;
-				display: inline-block;
-			}
-        }
-	body{
-		background-color: #323639; 
-	}
-	.listWrapper { 
-	    border-color: #e6e6e6;/* 흰색 */
-		border-style: solid;   
-		background-color: #323639; 
-		color: #e6e6e6;
-		margin-left: 1%;
-		margin-top: 1%; 
-	}
-	.boardTitle a { 
-    color: white;
-	}
-	.pagination { 
-	    display: inline-block;
-	    padding-left: 0;
-	    margin: 20px 0;
-	    border-radius: 4px;
-	}  
-	.pagination li {
-   		display: inline;
-	}
-	.pagination li a{
-   		color: #e6e6e6;  
-	}
-	.pull-right{
-		width: 80%; 
-		border-color: #e6e6e6;/* 흰색 */
-		border-style: solid;
-	}
-		
-	.ContentWrap{box-sizing: border-box;
-	    padding-top: 48px;
-	    padding-left: 20px;
-	    padding-right: 20px;
-	    width: 95%;
-		min-height: 750px;
-	    margin: 0 auto; 
- 	} 
-	#menuWrap .tab button {
-		background-color: inherit;
-		border: none;
-		outline:none;
-		cursor: pointer;
-		padding: 14px 16px;
-		transition: 0.3s;
-		font-size: 20px;  
-		color: #e6e6e6;
-	}
-	#menuWrap .tab button:hover {
-	background-color: #7b7676;
-	}
-	.userMenubar{
-	    display: none;
-	    border-style: solid;
-	    border-color: #e6e6e6;
-	    width: 6%;
-	    height: 55px;
-	    position: fixed;
-	    background-color: #323639;
-	    margin-left: 1.3%;
-	}
-	.userMenubar li {
-	    list-style: none;
-	    border-style: solid;
-	    border-color: #e6e6e6;
-	    width: 155%;  
-	    margin-left: -60%;
-	}
-	.userMenubar ul { 
-	    border-style : solid;
-	    border-color: #e6e6e6;
-	    margin: auto;
-	}
-	a:hover {   
-	    color: #7151fc;
-	    text-decoration: underline;
-	}  
-	a  {    
-			color:#e6e6e6; text-decoration: none;
-		} 
-	.replyCnt{   
-	  color: #ff2f3b;  
-	}
-</style> 
+<title>Dokky - 스크랩</title>     
+<link href="/dokky/resources/css/myScraplist.css" rel="stylesheet" type="text/css">
 </head>
 <%@include file="../includes/left.jsp"%>
 <body>
@@ -164,7 +34,7 @@
 						<input type="checkbox" name="checkRow" value="${scrap.scrap_num}" />
                     </td>
 						<td class="boardTitle">
-							<a class='move' href='<c:out value="${scrap.num}"/>'>  
+							<a class='move' href='<c:out value="${scrap.board_num}"/>'>  
 								<c:out value="${scrap.title}" />
 								<span class="replyCnt">[<c:out value="${scrap.replyCnt}" />]</span>
 							</a>
@@ -172,21 +42,36 @@
 						<td>
 							<img width="20px" src="/dokky/resources/img/read.png"/>
 							<c:out value="${scrap.hitCnt}" />
+						</td> 
+						<td>   
+							<img width="20px" src="/dokky/resources/img/like.png"/>
+							<c:out value="${scrap.likeCnt}" />  
 						</td>
+						<td>  
+							\<fmt:formatNumber type="number" maxFractionDigits="3" value="${scrap.money}"/>
+						</td> 
 						<td> 
-							<a href="#" class="userMenu" data-scrap_num="${scrap.scrap_num}">
-								<img width="25px" src="/dokky/resources/img/profile_img/<c:out value="${scrap.userId}" />" class="memberImage hideUsermenu" onerror="this.src='/dokky/resources/img/basicProfile.png'" />
+							<a href="#" class="userMenu" data-scrap_num="${scrap.scrap_num}"> 
+								<img src="/dokky/resources/img/profile_img/<c:out value="${scrap.userId}"  />.png"  class="memberImage hideUsermenu" onerror="this.src='/dokky/resources/img/basicProfile.png'" />
 								<c:out value="${scrap.nickName}" /> 
 							</a>   
 							 <div id="userMenubar_${scrap.scrap_num}" class="userMenubar">
 								<ul class="hideUsermenu"> 
-									<li class="hideUsermenu"><a href="/dokky/userBoardList?userId=${scrap.userId}" class="hideUsermenu"><span class="hideUsermenu">게시글보기</span></a></li>
-									<li class="hideUsermenu"><a href="#" class="hideUsermenu"><span class="hideUsermenu">쪽지보내기</span></a></li>
+									<li class="hideUsermenu">
+										<a href="/dokky/userBoardList?userId=${scrap.userId}" class="hideUsermenu">
+											<span class="hideUsermenu">게시글보기</span>
+										</a>
+									</li> 
+									<li class="hideUsermenu">
+										<a href="#" class="hideUsermenu" onclick="noteOpen('${scrap.userId}','${scrap.nickName}')">
+											<span class="hideUsermenu">쪽지보내기</span> 
+										</a>
+									</li>
 								</ul>      
-						     </div> 
+						     </div>
 						</td>
 						<td>
-							<fmt:formatDate value="${scrap.regDate}" pattern="yyyy년 MM월 dd일 HH:mm" />
+							<fmt:formatDate value="${scrap.regDate}" pattern="yyyy-MM-dd HH:mm" />
 						</td>
 					</tr>
 				</c:forEach>
@@ -270,7 +155,7 @@
 			
 			e.preventDefault(); 
 		
-			actionForm.append("<input type='hidden' name='num' value='"+ $(this).attr("href")+ "'>");
+			actionForm.append("<input type='hidden' name='board_num' value='"+ $(this).attr("href")+ "'>");
 			actionForm.attr("action","/dokky/board/get");
 			actionForm.submit();   
 		});

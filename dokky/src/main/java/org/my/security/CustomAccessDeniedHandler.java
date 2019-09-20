@@ -19,12 +19,8 @@ public class CustomAccessDeniedHandler implements AccessDeniedHandler {
       throws IOException, ServletException {
 
     log.error("Access Denied Handler");
-
-    log.error("Redirect....1");
     
-    log.error("Redirect....2");
-    
-    if(request.getRequestURI().equals("/dokky/board/admin")) {//관리자메인 페이지 접속시
+    if(request.getRequestURI().equals("/dokky/admin/userList")) {//관리자메인 페이지 접속시
 		if(!request.isUserInRole("ROLE_ADMIN")) {//관리자가 아니라면
 			response.sendRedirect("/dokky/adminError");
 			return;

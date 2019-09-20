@@ -5,30 +5,74 @@
 <mapper namespace="org.my.mapper.ReplyMapper">
 
 	<insert id="insert">
-		insert into DK_REPLY (reply_num, num, reply_content, nickName, userId, parent_num, order_step, reply_level)
-		values (seq_dk_reply.nextval, #{num}, #{reply_content}, #{nickName}, #{userId}, seq_dk_reply.currval, 0, 0)
+		insert into DK_REPLY (   
+									  reply_num
+									, board_num
+									, reply_content
+									, nickName
+									, userId
+									, group_num
+									, order_step
+									, depth
+							 )
+						values (  
+									  seq_dk_reply.nextval
+									, #{board_num}
+									, #{reply_content}
+									, #{nickName}
+									, #{userId}
+									, seq_dk_reply.currval
+									, 0
+									, 0
+							   )
 	</insert>
 	
 	<insert id="reInsert">
-		insert into DK_REPLY (reply_num, num, reply_content, nickName, userId, parent_num, order_step, reply_level, toUserId, toNickName)
-		values (seq_dk_reply.nextval, #{num}, #{reply_content}, #{nickName}, #{userId}, #{parent_num}, #{order_step}, #{reply_level}+1, #{toUserId}, #{toNickName} )
+		insert into DK_REPLY (    
+								  reply_num
+								, board_num
+								, reply_content
+								, nickName
+								, userId
+								, group_num
+								, order_step
+								, depth
+								, toUserId
+								, toNickName
+							 )
+					values (   
+								seq_dk_reply.nextval
+							 , #{board_num}
+							 , #{reply_content}
+							 , #{nickName}
+							 , #{userId}
+							 , #{group_num}
+							 , #{order_step}
+							 , #{depth}+1
+							 , #{toUserId}
+							 , #{toNickName} 
+						   )
 	</insert>
 	 
 	<select id="selectNextReply" resultType="org.my.domain.ReplyVO">
-		  <![CDATA[ select * from dk_reply where parent_num = #{parent_num} and order_step > #{order_step} and reply_level <= #{reply_level} order by order_step asc   ]]>
-	</select>
+		  <![CDATA[ select * from dk_reply where group_num = #{group_num} and order_step > #{order_step} and depth <= #{depth} order by order_step asc   ]]>
+	</select> 
 	
 	<!-- 그룹번호에 해당하는 가장 마지막줄의 step_order를 가져오는것 -->
 	<select id="lastReplyStep" resultType="int">
-		SELECT order_step FROM (SELECT order_step FROM dk_reply where parent_num = #{parent_num} order by order_step desc) WHERE ROWNUM = 1
+		SELECT order_step FROM (SELECT order_step FROM dk_reply where group_num = #{group_num} order by order_step desc) WHERE ROWNUM = 1
 	</select>
 	
 	<update id="updateOrder_step">
-	 	<![CDATA[update dk_reply set order_step = order_step+1 where parent_num = #{parent_num} and order_step >= #{order_step} ]]>
+	 	<![CDATA[update dk_reply set order_step = order_step+1 where group_num = #{group_num} and order_step >= #{order_step} ]]>
 	</update>
-	
+		
 	<select id="read" resultType="org.my.domain.ReplyVO">
 		select * from DK_REPLY where reply_num = #{reply_num}
+	</select>
+	
+	<select id="getBoardNum" resultType="long">
+		select board_num from DK_REPLY where reply_num = #{reply_num}
 	</select>
 
 	<delete id="delete">
@@ -42,15 +86,44 @@
 
 	<select id="getListWithPaging" resultType="org.my.domain.ReplyVO">
 	  <![CDATA[
-	    select reply_num, num, reply_content, nickName, userId, replydate, updatedate, likeCnt ,dislikeCnt,money,parent_num, order_step, reply_level,toNickName,toUserId
+	    select reply_num
+		     , board_num
+		     , reply_content
+		     , nickName
+		     , userId
+		     , replydate
+		     , updatedate
+		     , likeCnt 
+		     , dislikeCnt
+		     , money
+		     , group_num
+		     , order_step
+		     , depth
+		     , toNickName
+		     , toUserId
 	 	from 
 	   (
-	    select ROW_NUMBER() OVER(ORDER BY parent_num ASC, order_step ASC) AS rn, reply_num, num, reply_content, nickName, userId, replydate, updatedate, likeCnt ,dislikeCnt,money, parent_num, order_step, reply_level, toNickName, toUserId
-	    from
-	    DK_REPLY  
-	    where num = #{num} 
-	   ) where rn <= #{cri.pageNum} * #{cri.amount} and rn > (#{cri.pageNum} -1) * #{cri.amount}
-	  ]]>
+	    select ROW_NUMBER() OVER(ORDER BY group_num ASC, order_step ASC) AS rn
+																	      , reply_num
+																	      , board_num
+																	      , reply_content
+																	      , nickName
+																	      , userId
+																	      , replydate
+																	      , updatedate
+																	      , likeCnt 
+																	      , dislikeCnt
+																	      , money
+																	      , group_num
+																	      , order_step
+																	      , depth
+																	      , toNickName
+																	      , toUserId
+		    from
+		    	DK_REPLY  
+		     where board_num = #{board_num} 
+		 ) where rn <= #{cri.pageNum} * #{cri.amount} and rn > (#{cri.pageNum} -1) * #{cri.amount}
+		]]>
 	</select>
 	 <!-- select reply_num, num, reply_content, nickName, userId, replydate, updatedate, likeCnt ,dislikeCnt,money,parent_num, order_step, reply_level
 		 from 
@@ -65,7 +138,7 @@
 
 	<select id="getCountBynum" resultType="int">
 		<![CDATA[
-		select count(reply_num) from DK_REPLY where num = #{num}
+		select count(reply_num) from DK_REPLY where board_num = #{board_num}
 		]]>
 	</select>
 	
@@ -74,15 +147,21 @@
 		select likeValue from dk_reply_like where userId = #{userId} and reply_num = #{reply_num}
 	</select>
 	
-	<!-- 댓글 좋아요 누르기 -->
+	<!-- 댓글 좋아요 카운트 누르기 -->
 	<update id="pushLike">
 		update DK_REPLY set likeCnt = likeCnt + 1 where reply_num = #{reply_num}
 	</update>
 	
 	<!-- 댓글 좋아요 컬럼 등록 -->
 	<insert id="registerLike">
-		insert into dk_reply_like (userId, reply_num, likeValue)
-		values (#{userId},#{reply_num},'push')
+		insert into dk_reply_like (	    userId
+									  , reply_num
+									  , likeValue
+								  )
+							values (   #{userId}
+									  ,#{reply_num}
+									  ,'push'
+									)
 	</insert>
 	
 	<!-- 댓글 좋아요 체크값을 push로 변경 -->
@@ -105,12 +184,12 @@
 		select likeCnt from DK_REPLY where reply_num = #{reply_num}
 	</select>
 	
-	<!-- 댓글 싫어요 누르기  -->
+	<!-- 댓글 싫어요 카운트 누르기  -->
 	<update id="pushDisLike">
 		update DK_REPLY set dislikeCnt = dislikeCnt - 1 where reply_num = #{reply_num}
 	</update>
 	
-	<!-- 댓글 싫어요 취소  -->
+	<!-- 댓글 싫어요 카운트 취소  -->
 	<update id="pullDisLike">
 		update DK_REPLY set dislikeCnt = dislikeCnt + 1 where reply_num = #{reply_num}
 	</update>
@@ -125,15 +204,21 @@
 		update dk_reply_dislike set dislikeValue = 'push' where userId = #{userId} and reply_num = #{reply_num}
 	</update>
 	
-	<!-- 싫어요 값 체크 -->	 
+	<!-- 댓글 싫어요 값 체크 -->	 
 	<select id="checkDisLikeValue" resultType="String">
 		select dislikeValue from dk_reply_dislike where userId = #{userId} and reply_num = #{reply_num}
 	</select>
 	
 	<!-- 댓글 싫어요 컬럼 등록 -->
 	<insert id="registerDisLike">
-		insert into dk_reply_dislike (userId, reply_num, dislikeValue)
-		values (#{userId},#{reply_num},'push')
+		insert into dk_reply_dislike (	    userId
+										  , reply_num
+										  , dislikeValue
+									  )
+								values (   #{userId}
+										  ,#{reply_num}
+										  ,'push'
+										)
 	</insert>
 	
 	<!-- 댓글 싫어요 카운트 가져오기 -->
@@ -173,7 +258,7 @@
 											#{money},
 											#{userId},
 											'댓글' ,
-											#{num},
+											#{board_num},
 											#{reply_num}
 										)
 	</insert>
@@ -195,7 +280,7 @@
 												#{money},
 												#{donatedId},
 												'댓글' ,
-												#{num},
+												#{board_num},
 												#{reply_num}
 											)
 	</insert>

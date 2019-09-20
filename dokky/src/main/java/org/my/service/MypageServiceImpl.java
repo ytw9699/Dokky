@@ -90,31 +90,31 @@ public class MypageServiceImpl implements MypageService {
 	}
 	
 	@Override
-	public int getScrapCnt(int num, String userId) {
+	public int getScrapCnt(int board_num, String userId) {
 		
 		log.info("getScrapCnt");
 		
-		int getResult = mapper.getScrapCnt(num,userId); 
+		int getResult = mapper.getScrapCnt(board_num,userId); 
 		
 		return getResult;
 	}
 	
 	@Override
-	public int deleteScrap(int num, String userId) {
+	public int deleteScrap(int board_num, String userId) {
 		
 		log.info("deleteScrap");
 		
-		int deleteResult = mapper.deleteScrap(num,userId); 
+		int deleteResult = mapper.deleteScrap(board_num, userId); 
 		
 		return deleteResult;
 	}
 	
 	@Override
-	public boolean insertScrapData(int num, String userId) {
+	public boolean insertScrapData(int board_num, String userId) {
 		
 		log.info("insertScrapData");
 		
-		boolean inserResult = mapper.insertScrapData(num,userId) == 1; 
+		boolean inserResult = mapper.insertScrapData(board_num, userId) == 1; 
 		
 		return inserResult;
 	}

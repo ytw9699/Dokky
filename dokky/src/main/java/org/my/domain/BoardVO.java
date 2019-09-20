@@ -7,7 +7,7 @@ package org.my.domain;
 @Data//생성자와 getter/setter, toString()
 public class BoardVO {
 	  private int category;
-	  private Long num;
+	  private Long board_num;
 	  private String title;
 	  private String nickName;
 	  private String userId;
@@ -21,6 +21,5 @@ public class BoardVO {
 	  private Long hitCnt;
 	  private int replyCnt;
 	  private String delete_check;
-	  
 	  private List<BoardAttachVO> attachList;//첨부파일관련
 }

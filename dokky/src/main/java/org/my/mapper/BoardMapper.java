@@ -16,7 +16,7 @@ public interface BoardMapper {
 
 	public Integer insertSelectKey(BoardVO board);
 
-	public BoardVO read(Long num);
+	public BoardVO read(Long board_num);
 
 	public int delete(Long bno);
 
@@ -24,17 +24,17 @@ public interface BoardMapper {
 
 	public int getTotalCount(Criteria cri);
 	
-	public void updateReplyCnt(@Param("num") Long num, @Param("amount") int amount);
+	public void updateReplyCnt(@Param("board_num") Long board_num, @Param("amount") int amount);
 
-	public int updateHitCnt(Long num);//조회수 증가
+	public int updateHitCnt(Long board_num);//조회수 증가
 
-	public int pushLike(Long num);
+	public int pushLike(Long board_num);
 	
-	public int pullDisLike(Long num);
+	public int pullDisLike(Long board_num);
 	
-	public int pullLike(Long num);
+	public int pullLike(Long board_num);
 	
-	public int pushDisLike(Long num);
+	public int pushDisLike(Long board_num);
 
 	public String checkLikeValue(BoardLikeVO vo);
 	
@@ -52,11 +52,11 @@ public interface BoardMapper {
 
 	public void pushDislikeValue(BoardDisLikeVO vo);
 	
-	public String getLikeCount(Long num);
+	public String getLikeCount(Long board_num);
 
-	public String getDisLikeCount(Long num);
+	public String getDisLikeCount(Long board_num);
 
-	public String getuserCash(String username); 
+	public String getuserCash(String userId); 
 
 	public String donateMoney(donateVO vo);
 	

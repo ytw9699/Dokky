@@ -1,0 +1,105 @@
+@charset "utf-8";
+/* CSS Document */
+ 		@media screen and (max-width:500px){ 
+	           .memberFormWrap {
+				    width: 50%;
+				    display: inline-block; 
+				    margin-left: 29%;
+				    margin-top: 1%;
+				    min-height: 500px;
+				    border-color: #e6e6e6;
+				    border-style: solid;
+				    background-color: #323639;
+				    color: #e6e6e6;
+				}
+        }
+        @media screen and (min-width: 501px) and (max-width:1500px){
+          	.memberFormWrap {
+			    width: 80%;
+			    display: inline-block;
+			    margin-left: 15%;
+			    margin-top: 1%;
+			    min-height: 500px;
+			    border-color: #e6e6e6;
+			    border-style: solid;
+			    background-color: #323639;
+			    color: #e6e6e6;
+			}
+        }
+        @media screen and (min-width: 1501px){    
+            .memberFormWrap {
+			    width: 51%;
+			    display: inline-block; 
+			    margin-left: 29%;
+			    margin-top: 1%;
+			    min-height: 500px;
+			    border-color: #e6e6e6;
+			    border-style: solid;
+			    background-color: #323639;
+			    color: #e6e6e6;
+			}
+        }
+	body{
+		background-color: #323639;  
+		}
+	.title{
+		width: 95%;
+		font-size: 30px;
+		border-color: #e6e6e6;   
+		border-style: solid;
+		box-sizing: border-box;
+		padding-top: 20px;
+	    padding-left: 20px;
+	    padding-right: 20px;
+	    margin: 0 auto;
+	    min-height: 50px; 
+	}
+ 	.ContentWrap{
+		box-sizing: border-box;
+	    padding-top: 20px;
+	    padding-left: 20px;
+	    padding-right: 20px;
+	    width: 95%;
+		min-height: 500px;
+	    margin: 0 auto; 
+	    border-color: #e6e6e6;
+		border-style: solid;
+ 	}
+ 	
+	.tableText{
+		width: 8%; 
+		font-size: 20px;  
+		color: #e6e6e6;
+		/* border-color: #e6e6e6;
+		border-style: solid; */
+    }
+    
+	.tableValue{    
+		height: 50px; 
+		width: 24%; 
+		/* border-color: #e6e6e6;
+		border-style: solid; */
+	    /* font-size: 18px;
+	    color: #555; */
+	 }
+	 .inputInfo{
+	 	margin-top: 3px;
+	    font-size: 20px;
+	    color: #555; 
+	    padding: 8px;
+	    width: 40%;
+	    border-radius: 8px;
+	    border: 1px solid #b5b5b5;
+	    height: 30px;
+	 }
+	 .submitInfo{  
+	 	font-size: 20px;
+	    background-color: #555;
+	    border: 1px solid #555; 
+	    color: #e6e6e6;
+	    padding: 8px;
+	    border-radius: 8px;
+	    width: 25%;
+	    margin-top: 20px;
+    	margin-bottom: 20px;
+    }

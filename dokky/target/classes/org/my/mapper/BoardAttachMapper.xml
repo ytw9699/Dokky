@@ -5,32 +5,36 @@
 <mapper namespace="org.my.mapper.BoardAttachMapper">
 
 	<insert id="insert">
-		insert into dk_attach (uuid, uploadpath, filename,
-		filetype, num)
-		values (#{uuid}, #{uploadPath}, #{fileName},
-		#{fileType}, #{num} )
+		insert into dk_attach (   uuid
+								, uploadpath
+								, filename
+								, filetype
+								, board_num
+							  )
+		values (   #{uuid}
+				 , #{uploadPath}
+				 , #{fileName}
+				 , #{fileType}
+				 , #{board_num} 
+			   )
 	</insert>
 
 	<delete id="delete">
-
-		delete from dk_attach where uuid = #{uuid}
-
+			delete from dk_attach where uuid = #{uuid}
 	</delete>
 
 	<select id="findByNum" resultType="org.my.domain.BoardAttachVO">
-		select * from dk_attach where num = #{num}
+			select * from dk_attach where board_num = #{board_num}
+			<!-- 특정 게시물의 번호로 첨부파일을 찾는 작업  -->
 	</select>
 
 	<delete id="deleteAll">
-
-		delete dk_attach where num = #{num}
-
+			delete dk_attach where board_num = #{board_num}
 	</delete>
 
-	<select id="getOldFiles" resultType="org.my.domain.BoardAttachVO">
-
-		select * from dk_attach where uploadpath = to_char(sysdate -1 ,'yyyy\mm\dd')
-
+	<select id="getYesterdayFiles" resultType="org.my.domain.BoardAttachVO">
+			select * from dk_attach where uploadpath = to_char(sysdate -1 ,'yyyy\mm\dd')
+			<!-- 어제 날짜 모든첨부파일 목록 가져오기 -->
 	</select>
 
 </mapper>

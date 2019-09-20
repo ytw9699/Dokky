@@ -40,35 +40,43 @@ public class ReplyServiceImpl implements ReplyService {
 		ReplyVO replyVO = vo.getReplyVO();
 
 		log.info("updateReplyCnt......" + vo);
-		boardMapper.updateReplyCnt(replyVO.getNum(),1);
+		boardMapper.updateReplyCnt(replyVO.getBoard_num(), 1);
 		
-		log.info("insertAlarm: ");
-		commonMapper.insertAlarm(vo.getAlarmVO());
+		if(vo.getAlarmVO() != null) {
+			log.info("insertAlarm: "); 
+			commonMapper.insertAlarm(vo.getAlarmVO());
+		}
 		
-		log.info("insert......" + replyVO); 
-		
-		if(replyVO.getParent_num() == 0 ) {//시퀀스값은 디폴트 1부터 시작하니까 0으로 기준을 잡자
+		if(replyVO.getGroup_num() == 0 ) {//시퀀스값은 디폴트 1부터 시작하니까 0으로 기준을 잡자
+			
+			log.info("insert......" + replyVO); 
 			return mapper.insert(replyVO);//일반 루트 부모 댓글 입력
-		}else {//자식 댓글 입력
-			List<ReplyVO> list = mapper.selectNextReply(replyVO);//이게 댓글의 순서를 결정하는 아주 중요한 핵심
-			/*한개의 루트그룹 기준으로 생각할때 대댓글의 그룹순서는 대댓글을 달고자 하는 대상인 부모댓글(루트가 아닌 경우도 포함)보다
-			그룹 순서가 크면서(밑에 있으면서) 깊이가 작거나 같은 최초의 댓글의 그룹순서가 된다*/
-			if(list.isEmpty()){//그런데 최초의 댓글이 없다면
-				int lastReplyStep = mapper.lastReplyStep(replyVO.getParent_num());//그룹내에 맨 마지막 댓글의 순서번호를가져오고
+			
+		}else {//자식 댓글 입력 
+			
+			List<ReplyVO> list = mapper.selectNextReply(replyVO);//이게 댓글의 순서를 결정하는 2번째 중요한 핵심
+			/*한개의 (부모)그룹번호 기준으로 생각할때 대댓글의 출력 순서는 대댓글을 달고자 하는 대상인 부모댓글(루트가 아닌 경우도 포함)의
+			출력 순서 보다 크면서(밑에 있으면서), 부모댓글의 (레벨)깊이보다 작거나 같은 최초의 댓글의 그룹순서가 된다*/
+			
+			if(list.isEmpty()){//그런데 최초의 댓글이 없다면 
+				//댓글의 순서를 결정하는 1번째 핵심
+				int lastReplyStep = mapper.lastReplyStep(replyVO.getGroup_num());//그룹내에 맨 마지막 댓글의 순서번호를가져오고
 				
 				replyVO.setOrder_step(lastReplyStep+1);//순서번호에 +1을 해준다 
 				
-				return mapper.reInsert(replyVO);
+				log.info("reInsert......" + replyVO); 
+				return mapper.reInsert(replyVO);//깊이도 +1해서 입력 해줌 ,
+				
 			}else{// 최초의 댓글이 있다면
+				
 				ReplyVO firstVO = list.get(0);
 				
-				replyVO.setOrder_step(firstVO.getOrder_step());
+				mapper.updateOrder_step(firstVO);//최초댓글을 포함해서 나머지 아래 댓글의 순서값 모두 1씩 올려줌
 				
-				log.info("updateOrder_step......");
-				mapper.updateOrder_step(replyVO);//나머지 아래 스텝값 모두 1씩 올려줌
+				replyVO.setOrder_step(firstVO.getOrder_step());//최초의 댓글에 해당하는 순서값으로 변경후 입력
 				
-				log.info("reInsertreplyVO......" + replyVO);
-				return mapper.reInsert(replyVO);//최초의 댓글에 해당하는 스텝값으로 변경
+				log.info("reInsert......" + replyVO); 
+				return mapper.reInsert(replyVO);//깊이도 +1해서 입력 해줌 , 
 			}
 		}
 	} 
@@ -95,22 +103,22 @@ public class ReplyServiceImpl implements ReplyService {
 	@Override 
 	public int remove(Long reply_num) {
 
-		log.info("remove...." + reply_num);
+    	log.info("remove...." + reply_num);
 
-		ReplyVO vo = mapper.read(reply_num); 
+		Long board_num = mapper.getBoardNum(reply_num); 
 
-		boardMapper.updateReplyCnt(vo.getNum(), -1);
+		boardMapper.updateReplyCnt(board_num, -1);
 		
 		return mapper.delete(reply_num);
 		
-		}
+	}
 	  
 	  @Override
-	  public ReplyPageDTO getListPage(Criteria cri, Long num) {
+	  public ReplyPageDTO getListPage(Criteria cri, Long board_num) {
 	       
 	    return new ReplyPageDTO(
-	        mapper.getCountBynum(num), 
-	        mapper.getListWithPaging(cri, num));
+	        mapper.getCountBynum(board_num), 
+	        mapper.getListWithPaging(cri, board_num));
 	  }
 	  
 		@Override
@@ -122,7 +130,7 @@ public class ReplyServiceImpl implements ReplyService {
 		
 		@Transactional
 		@Override
-		public int registerLike(commonVO vo) {//댓글 좋아요 컬럼 등록 및 좋아요 push
+		public int registerLike(commonVO vo) {//댓글 좋아요 첫 컬럼 등록 및 좋아요 push
 
 			ReplyLikeVO replyLikeVO = vo.getReplyLikeVO();
 			
@@ -231,10 +239,10 @@ public class ReplyServiceImpl implements ReplyService {
 		}
 		
 		@Override
-		public String getDisLikeCount(Long num) {
+		public String getDisLikeCount(Long reply_num) {
 	 
 			log.info("getDisLikeCount");
-			return mapper.getDisLikeCount(num);
+			return mapper.getDisLikeCount(reply_num);
 		}
 		
 		@Transactional

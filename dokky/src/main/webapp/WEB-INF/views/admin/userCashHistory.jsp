@@ -1,6 +1,4 @@
-<%@ page language="java" contentType="text/html; charset=UTF-8"
-    pageEncoding="UTF-8"%>
-    
+<%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c"%>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/fmt" prefix="fmt"%>
 <%@ taglib uri="http://www.springframework.org/security/tags" prefix="sec" %> 
@@ -9,104 +7,8 @@
 <html>
 <head>
 <meta charset="UTF-8">
-<title>Dokky</title>
-<style>
-@media screen and (max-width:500px){ 
-			     .userCashWrap {
-					    width: 80%; 
-					    display: inline-block;
-					    margin-left: 15%;
-					    margin-top: 1%;
-					    min-height: 500px; 
-					    border-color: #e6e6e6;
-						border-style: solid;
-						background-color: #323639; 
-						color: #e6e6e6;
-						display: inline-block;
-					}
-		        }
-		        @media screen and (min-width: 501px) and (max-width:1500px){
-		          .userCashWrap {
-					    width: 80%; 
-					    display: inline-block;
-					    margin-left: 15%;
-					    margin-top: 1%;
-					    min-height: 500px; 
-					    border-color: #e6e6e6;
-						border-style: solid;
-						background-color: #323639; 
-						color: #e6e6e6;
-						display: inline-block;
-					}
-		        }
-		        @media screen and (min-width: 1501px){    
-		          .userCashWrap {
-					    width: 51%; 
-					    display: inline-block;
-					    margin-left: 29%;
-					    margin-top: 1%;
-					    min-height: 500px; 
-					    border-color: #e6e6e6;
-						border-style: solid;
-						background-color: #323639; 
-						color: #e6e6e6;
-						display: inline-block;
-					}
-		        }
-	body{
-		background-color: #323639; 
-	}
-	.listWrapper { 
-	    border-color: #e6e6e6;/* 흰색 */
-		border-style: solid;   
-		background-color: #323639; 
-		color: #e6e6e6;
-		margin-left: 1%;
-		margin-top: 1%; 
-	}
-	.mypage a { 
-    color: white;
-	}
-	.pagination { 
-	    display: inline-block;
-	    padding-left: 0;
-	    margin: 20px 0;
-	    border-radius: 4px;
-	}  
-	.pagination li {
-   		display: inline;
-	}
-	.pagination li a{
-   		color: #e6e6e6;  
-	}
-	.pull-right{
-		width: 80%;
-		border-color: #e6e6e6;/* 흰색 */
-		border-style: solid;
-	}
-	
-	.ContentWrap{box-sizing: border-box;
-	    padding-top: 48px;
-	    padding-left: 20px;
-	    padding-right: 20px;
-	    width: 95%;
-		min-height: 750px;
-	    margin: 0 auto; 
- 	} 
-	#menuWrap .tab button {
-		background-color: inherit;
-		border: none;
-		outline:none;
-		cursor: pointer;
-		padding: 14px 16px;
-		transition: 0.3s;
-		font-size: 20px;  
-		color: #e6e6e6;
-	}
-	#menuWrap .tab button:hover {
-	background-color: #7b7676;
-	}
-</style> 
+<title>Dokky - 유저 캐시내역</title>
+<link href="/dokky/resources/css/userCashHistory.css" rel="stylesheet" type="text/css"/>
 </head>
 <%@include file="../includes/left.jsp"%>
 <body>
@@ -115,14 +17,13 @@
 	<div class="ContentWrap">
 		<div id="menuWrap"> 
 			<div class="tab">    
-		        <button onclick="location.href='userForm?userId=${pageMaker.cri.userId}'">유저 개인정보</button> 
-		        <button onclick="location.href='userCashHistory?userId=${pageMaker.cri.userId}'">유저 캐시내역</button>
-		        <button onclick="location.href='/dokky/userBoardList?userId=${pageMaker.cri.userId}'">유저 활동</button>
-		    </div>  	   
-		 </div>   
+				<button onclick="location.href='/dokky/admin/userForm?userId=${pageMaker.cri.userId}'">유저 개인정보</button> 
+		        <button onclick="location.href='/dokky/admin/userCashHistory?userId=${pageMaker.cri.userId}'">유저 캐시내역</button>
+		        <button onclick="location.href='/dokky/userBoardList?userId=${pageMaker.cri.userId}&pageLocation=admin'">유저 활동</button>
+		    </div>  	    
+		 </div>    
 		 
-	<div class="listWrapper">
-		<div class="">유저 캐시 내역</div> 
+	<div class="listWrapper"> 
 		<div class="">
 			<table class=""> 
 			<tr>
@@ -150,16 +51,16 @@
 					       <c:when test="${History.cashKind == '기부하기' || History.cashKind == '기부받기'}">
 				       			  <c:if test="${History.specification == '게시판'}">
 				       			  		<td><c:out value="${History.specification}" /></td>
-				       			  		<td><a href="/dokky/board/get?num=${History.board_num}"><c:out value="${History.title}" /></a></td>
+				       			  		<td><a href="/dokky/board/get?board_num=${History.board_num}" class="content"><c:out value="${History.title}" /></a></td>
 				       			  </c:if>
 				       			  <c:if test="${History.specification == '댓글'}">
 				       			  		<td><c:out value="${History.specification}" /></td>
-				       					<td><a href="/dokky/board/get?num=${History.board_num}"><c:out value="${History.reply_content}" /></a></td>
+				       					<td><a href="/dokky/board/get?board_num=${History.board_num}" class="content"><c:out value="${History.reply_content}" /></a></td>
 				       			  </c:if>
 					       </c:when>
 			       </c:choose>
 				         <td> 
-							<fmt:formatDate value="${History.regDate}" pattern="yyyy년 MM월 dd일 HH:mm" />
+							<fmt:formatDate value="${History.regDate}" pattern="yyyy-MM-dd HH:mm" />
 						</td> 
 					</tr>
 				</c:forEach>
@@ -213,7 +114,7 @@
 		$(".move").on("click",function(e) {
 			
 			e.preventDefault(); 
-			actionForm.append("<input type='hidden' name='num' value='"+ $(this).attr("href")+ "'>");
+			actionForm.append("<input type='hidden' name='board_num' value='"+ $(this).attr("href")+ "'>");
 			actionForm.attr("action","/dokky/board/get");
 			actionForm.submit();   
 		});

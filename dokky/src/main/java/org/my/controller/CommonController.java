@@ -1,10 +1,15 @@
 package org.my.controller;
 	import java.io.UnsupportedEncodingException;
-	import java.util.Locale;
-	import org.my.domain.Criteria;
+import java.util.List;
+import java.util.Locale;
+
+import org.my.domain.BoardAttachVO;
+import org.my.domain.BoardVO;
+import org.my.domain.Criteria;
 	import org.my.domain.MemberVO;
 	import org.my.domain.PageDTO;
 	import org.my.domain.cashVO;
+	import org.my.domain.noteVO;
 	import org.my.service.CommonService;
 	import org.my.service.MemberService;
 	import org.my.service.MypageService;
@@ -17,7 +22,8 @@ package org.my.controller;
 	import org.springframework.stereotype.Controller;
 	import org.springframework.ui.Model;
 	import org.springframework.web.bind.annotation.GetMapping;
-	import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.ModelAttribute;
+import org.springframework.web.bind.annotation.PathVariable;
 	import org.springframework.web.bind.annotation.PostMapping;
 	import org.springframework.web.bind.annotation.PutMapping;
 	import org.springframework.web.bind.annotation.RequestBody;
@@ -25,7 +31,9 @@ package org.my.controller;
 	import org.springframework.web.bind.annotation.RequestMethod;
 	import org.springframework.web.bind.annotation.RequestParam;
 	import org.springframework.web.bind.annotation.ResponseBody;
-	import lombok.Setter;
+import org.springframework.web.servlet.mvc.support.RedirectAttributes;
+
+import lombok.Setter;
 	import lombok.extern.log4j.Log4j;
 
 @Controller
@@ -47,13 +55,15 @@ public class CommonController {
 	@RequestMapping(value = "/main", method = RequestMethod.GET)
 	public String main(Model model) {
 		
-		model.addAttribute("realtimeList", memberService.getRealtimeList());
+		log.info("/main");
 		
-		model.addAttribute("monthlyList", memberService.getMonthlyList());
+		model.addAttribute("realtimeList", memberService.getRealtimeList());//실시간 게시글
 		
-		model.addAttribute("donationList", memberService.getDonationList());
+		model.addAttribute("monthlyList", memberService.getMonthlyList());//한달 인길글
 		
-		return "main";
+		model.addAttribute("donationList", memberService.getDonationList());//한달 최다 기부글
+		
+		return "common/main";
 	}
 	@RequestMapping(value = "/", method = RequestMethod.GET)
 	public String home(Locale locale, Model model) {
@@ -64,30 +74,35 @@ public class CommonController {
 		
 		model.addAttribute("donationList", memberService.getDonationList());
 		
-		return "main";
+		return "common/main";
 	}
 	
 	@GetMapping("/adminError")
 	public String adminError(Model model) {
 
-		log.info("adminError");
+		log.info("/adminError");
 		
-		model.addAttribute("msg", "Access Denied 관리자 권한이 없습니다.");
+		model.addAttribute("msg", "관리자만 접근 가능합니다.");
 		
-		return "error/adminError";
+		return "error/accessError";  
 	}
 
 	@GetMapping("/accessError")
-	public void accessDenied(Authentication auth, Model model) {
-		//는 Authentication 타입의 파라미터를 받도록 설계해서 필요한 경우에 사용자의 정보를 확인할 수 있도록 합니
-		log.info("access Denied : " + auth);
-
-		model.addAttribute("msg", "Access Denied 로그인 권한이 없습니다.");
+	public String accessDenied(Authentication auth, Model model) {//Authentication 타입의 파라미터를 받도록 설계해서 필요한 경우에 사용자의 정보를 확인할 수 있도록
+		
+		log.info("/accessError");
+		
+		log.info("access Denied : " + auth); 
+ 
+		model.addAttribute("msg", "접근 권한이 없습니다.관리자에게 문의해주세요.");
+		
+		return "error/accessError";
 	}   
 
 	@GetMapping("/customLogin")
-	public void loginInput(String error, String logout,String check, Model model) throws UnsupportedEncodingException {
-
+	public String loginInput(String error, String logout,String check, Model model) throws UnsupportedEncodingException {
+		
+		log.info("/customLogin");
 		log.info("error: " + error);
 		log.info("logout: " + logout);
 		log.info("check: " + check);
@@ -110,48 +125,47 @@ public class CommonController {
 				model.addAttribute("check", "차단된 아이디입니다. 관리자에게 문의해주세요.");
 			}
 		}
+		return "common/customLogin";  
 	}
-
-	/*@GetMapping("/customLogout")
-	public void logoutGET() {
-
-		log.info("custom logout");
-	}*/   
 
 	@PostMapping("/customLogout")
 	public void logoutPost() {
-
-		log.info("post custom logout");
+		
+		log.info("/customLogout");
 	}
+	
 	@GetMapping("/memberForm")
 	public String memberForm() {
 
-		log.info("get memberForm");
-		return "members/memberForm";
+		log.info("/memberForm");
+		
+		return "common/memberForm";
 	}
 	
-	@PostMapping("/members")
-	public String postMembers(MemberVO vo,Model model) {//회원가입
-		log.info("==========================");
-		log.info("post members: " + vo); 
-		log.info("==========================");
+	@PostMapping("/members") 
+	public String postMembers(MemberVO vo, Model model) {//회원가입
+		
+		log.info("/members: vo" + vo); 
 		
 		vo.setUserPw(pwencoder.encode(vo.getUserPw()));//패스워드 암호화
 		
 		if(memberService.registerMembers(vo)){
+			
 			model.addAttribute("check", "가입완료 되었습니다 로그인해주세요.");
 			
-			return "/customLogin";
+			return "common/customLogin";
 		}
-		model.addAttribute("check", "가입실패 하였습니다 관리자에게 문의주세요.");
-		return "/customLogin";
-}
+		
+			model.addAttribute("check", "가입실패 하였습니다 관리자에게 문의주세요.");
+			
+			return "common/customLogin"; 
+	}
 	
 	@GetMapping(value = "/idCheckedVal", produces = "text/plain; charset=UTF-8")
 	@ResponseBody
 	public ResponseEntity<String> getIdCheckedVal(String inputId) {
-		 
-		log.info("username...="+inputId);
+		
+		log.info("/idCheckedVal"); 
 		
 		if(memberService.getIdCheckedVal(inputId)){
 			return new ResponseEntity<>("success", HttpStatus.OK);
@@ -163,7 +177,7 @@ public class CommonController {
 	@ResponseBody
 	public ResponseEntity<String> getNicknameCheckedVal(String inputNickname) {
 		 
-		log.info("inputNickname...="+inputNickname);
+		log.info("/nickCheckedVal"); 
 		
 		if(memberService.getNicknameCheckedVal(inputNickname)){
 			return new ResponseEntity<>("success", HttpStatus.OK);
@@ -175,20 +189,21 @@ public class CommonController {
 	@ResponseBody
 	public ResponseEntity<String> getEmailCheckedVal(String inputEmail) {
 		 
-		log.info("inputEmail...="+inputEmail);
+		log.info("/emailCheckedVal"); 
 		
 		if(memberService.getEmailCheckedVal(inputEmail)){
 			return new ResponseEntity<>("success", HttpStatus.OK);
 		}
 			return new ResponseEntity<>("fail", HttpStatus.OK);
 	}
+	
 	@PreAuthorize("isAuthenticated()")
  	@GetMapping("/userBoardList") 
-	public String userBoardList(Criteria cri, Model model) { //유저 게시글 가져오기
+	public String userBoardList(Criteria cri, Model model, String pageLocation) { //유저 게시글 가져오기
+		
+		log.info("/userBoardList"); 
 		
 		model.addAttribute("userBoard", mypageService.getMyBoardList(cri));
-		
-		log.info("userBoardList"); 
 		
 		int total = mypageService.getMyBoardCount(cri);
 		
@@ -196,53 +211,66 @@ public class CommonController {
 		model.addAttribute("boardTotal",total);  
 		model.addAttribute("replyTotal", mypageService.getMyReplyCount(cri));
 		
-		return "members/userBoardList";
+		if(pageLocation == null) {
+			return "common/userBoardList"; 
+		}else if(pageLocation.equals("admin")) {
+			return "admin/userBoardList";
+		}  
+			return "common/userBoardList";    
 	} 
 	
 	@PreAuthorize("isAuthenticated()")
  	@GetMapping("/userReplylist")  
-	public String userReplylist(Criteria cri, Model model) {
+	public String userReplylist(Criteria cri, Model model, String pageLocation) { 
 		
-		log.info("userReplylist "+cri);
+		log.info("userReplylist cri"+cri);
 		
 		model.addAttribute("userReply", mypageService.getMyReplylist(cri));
 		
-		log.info("getUserReplyCount");
-		
-		int total = mypageService.getMyReplyCount(cri);//total은 내 댓글의 총 게시물수
-		
-		log.info("pageMaker");
+		int total = mypageService.getMyReplyCount(cri);
 		
 		model.addAttribute("boardTotal",mypageService.getMyBoardCount(cri));  
 		model.addAttribute("replyTotal", total);
 		model.addAttribute("pageMaker", new PageDTO(cri, total));
-		
-		return "members/userReplylist";
+	 
+		if(pageLocation == null) { 
+			return "common/userReplylist"; 
+		}else if(pageLocation.equals("admin")) {
+			return "admin/userReplylist";
+		}  
+			return "common/userReplylist";    
 	} 
+
 	
 	@GetMapping(value = "/alarmRealCount/{userId}", produces = "text/plain; charset=UTF-8")
 	@ResponseBody
 	public ResponseEntity<String> getAlarmRealCount(@PathVariable("userId") String userId) {
 		 
-		log.info("getAlarmRealCount...="+userId);
+		log.info("/alarmRealCount...="+userId);
 		
 		return  new ResponseEntity<>(commonService.getAlarmRealCount(userId), HttpStatus.OK);
+	}
+	
+	@GetMapping(value = "/noteCount/{userId}", produces = "text/plain; charset=UTF-8")
+	@ResponseBody
+	public ResponseEntity<String> getNoteCount(@PathVariable("userId") String userId) {
+		 
+		log.info("/noteCount...="+userId);
+		
+		return  new ResponseEntity<>(commonService.getNoteCount(userId), HttpStatus.OK);
 	}
 	
 	@PreAuthorize("isAuthenticated()")
 	@GetMapping("/alarmList")  
 	 public String getAlarmList(Criteria cri, Model model) {//내 알림 리스트 가져오기
 		
-		log.info("getAlarmCount");
+		log.info("/alarmList");
+		
 		int total = commonService.getAlarmCount(cri);
 		
 		model.addAttribute("total", total);
 		
-		log.info("getAlarmList");
-		
 		model.addAttribute("alarmList", commonService.getAlarmList(cri));
-		
-		log.info("pageMaker");
 		
 		model.addAttribute("pageMaker", new PageDTO(cri, total));
 
@@ -253,6 +281,7 @@ public class CommonController {
 	 @PostMapping("/removeAllAlarm")//다중알람삭제
 		public String removeAllAlarm(@RequestParam("checkRow") String checkRow , @RequestParam("userId")String userId, Criteria cri) {
 		 
+			log.info("/removeAllAlarm");
 		 	log.info("checkRow..." + checkRow);
 		 	
 		 	String[] arrIdx = checkRow.split(",");
@@ -266,35 +295,240 @@ public class CommonController {
 				}
 		 	}
 			return "redirect:/alarmList?userId="+userId+"&pageNum="+cri.getPageNum()+"&amount="+cri.getAmount();
-		}
-	
+	}
 	
 	@PreAuthorize("isAuthenticated()")
 	@ResponseBody
 	@PostMapping(value = "/alarm", consumes = "application/json", produces = "text/plain; charset=UTF-8")
-	public ResponseEntity<String> insertAlarm(@RequestBody cashVO vo2 ) {
+	public ResponseEntity<String> insertAlarm(@RequestBody cashVO vo) {
 
-		//log.info("alarmVO: " + vo);
-		log.info("cashVO: " + vo2);
+		log.info("/alarm...cashVO: " + vo);
 
 		//int insertCount = commonService.insertAlarm(vo);
 		
 		//log.info("alarm INSERT COUNT: " + insertCount);
 
 		return new ResponseEntity<>("알림이 입력되었습니다.", HttpStatus.OK) ;
-				
 	}
 	
 	@PreAuthorize("isAuthenticated()")  
 	@ResponseBody
 	@PutMapping(value = "/updateAlarmCheck/{alarmNum}",produces = "text/plain; charset=UTF-8")
 	public ResponseEntity<String> updateAlarmCheck(@PathVariable("alarmNum") String alarmNum) {
-
-		log.info("updateAlarmCheck: " + alarmNum);
+		
+		log.info("/updateAlarmCheck:... " + alarmNum);
 		
 		if(commonService.updateAlarmCheck(alarmNum) == 1) {//알림 체크값을 바꿨다면
 			return new ResponseEntity<>("success", HttpStatus.OK) ;
 		} 
 			return new ResponseEntity<>("fail", HttpStatus.OK) ;
+	}
+	
+	@PreAuthorize("hasAnyRole('ROLE_ADMIN','ROLE_USER')")
+	@GetMapping("/registerNote")
+	public String registerNote(Criteria cri, Model model) {//쪽지 폼 열기
+		
+		int fromNotetotal = commonService.getFromNoteCount(cri);
+		int toNotetotal   = commonService.getToNoteCount(cri);
+		int myNotetotal   = commonService.getMyNoteCount(cri);
+		
+		model.addAttribute("fromNotetotal", fromNotetotal);
+		model.addAttribute("toNotetotal"  , toNotetotal);
+		model.addAttribute("myNotetotal"  , myNotetotal);
+		
+		return "common/registerNote";
+	}
+	
+	@PreAuthorize("hasAnyRole('ROLE_ADMIN','ROLE_USER')")
+	@GetMapping("/minRegNote")
+	public String minRegNote(@RequestParam("userId")String userId, @RequestParam("nickname")String nickname, Model model) {
+			
+		model.addAttribute("to_id", userId);
+		model.addAttribute("to_nickname", nickname);
+		
+		return "common/minRegNote";
+	}
+	
+	@PreAuthorize("principal.username == #vo.from_id")
+	@ResponseBody
+	@PostMapping(value = "/Note", consumes = "application/json", produces = "text/plain; charset=UTF-8")
+	public ResponseEntity<String> insertNote(@RequestBody noteVO vo) {
+
+		log.info("/Note...noteVO: " + vo);
+
+		if(commonService.insertNote(vo) == 1) {
+			return new ResponseEntity<>("쪽지를 보냈습니다.", HttpStatus.OK) ;
+			
+		}else {
+			return new ResponseEntity<>("쪽지보내기에 실패했습니다 관리자에게 문의주세요.", HttpStatus.OK) ;
+		}
+	}
+	
+	@PreAuthorize("isAuthenticated()")
+	@GetMapping("/fromNoteList")
+	 public String getFromNoteList(Criteria cri, Model model) {//받은쪽지함
+		
+			log.info("/fromNoteList");
+			
+			int fromNotetotal = commonService.getFromNoteCount(cri);
+			int toNotetotal   = commonService.getToNoteCount(cri);
+			int myNotetotal   = commonService.getMyNoteCount(cri);
+			
+			model.addAttribute("fromNotetotal", fromNotetotal);
+			model.addAttribute("toNotetotal"  , toNotetotal);
+			model.addAttribute("myNotetotal"  , myNotetotal);
+			
+			model.addAttribute("fromNoteList", commonService.getFromNoteList(cri));
+			
+			model.addAttribute("pageMaker", new PageDTO(cri, fromNotetotal));
+	
+			return "common/fromNoteList";
+	}
+	
+	@PreAuthorize("isAuthenticated()")
+	@GetMapping("/toNoteList")  
+	 public String getToNoteList(Criteria cri, Model model) {//보낸쪽지함
+		
+			log.info("/toNoteList");
+			
+			int fromNotetotal = commonService.getFromNoteCount(cri);
+			int toNotetotal   = commonService.getToNoteCount(cri);
+			int myNotetotal   = commonService.getMyNoteCount(cri);
+			
+			model.addAttribute("fromNotetotal", fromNotetotal);
+			model.addAttribute("toNotetotal"  , toNotetotal);
+			model.addAttribute("myNotetotal"  , myNotetotal);
+			
+			model.addAttribute("toNoteList", commonService.getToNoteList(cri));
+			
+			model.addAttribute("pageMaker", new PageDTO(cri, fromNotetotal));
+	
+			return "common/toNoteList";
+	}
+	
+	@PreAuthorize("isAuthenticated()")
+	@GetMapping("/myNoteList")
+	public String getMyNoteList(Criteria cri, Model model) {//내게쓴 쪽지함
+		
+			log.info("/myNoteList");
+			
+			int fromNotetotal = commonService.getFromNoteCount(cri);
+			int toNotetotal   = commonService.getToNoteCount(cri);
+			int myNotetotal   = commonService.getMyNoteCount(cri);
+			
+			model.addAttribute("fromNotetotal", fromNotetotal);
+			model.addAttribute("toNotetotal"  , toNotetotal);
+			model.addAttribute("myNotetotal"  , myNotetotal);
+			
+			model.addAttribute("myNoteList", commonService.getMyNoteList(cri));
+			
+			model.addAttribute("pageMaker", new PageDTO(cri, fromNotetotal));
+	
+			return "common/myNoteList";
+	}
+	
+	@PreAuthorize("isAuthenticated()")
+	@ResponseBody
+	@PutMapping(value = "/noteCheck/{note_num}",produces = "text/plain; charset=UTF-8")
+	public ResponseEntity<String> updateNoteCheck(@PathVariable("note_num") String note_num) { 
+		
+		log.info("/updateNoteCheck:... " + note_num);
+		
+		if(commonService.updateNoteCheck(note_num) == 1) {//쪽지의 체크값을 바꿨다면
+			return new ResponseEntity<>("success", HttpStatus.OK) ;
+		} 
+			return new ResponseEntity<>("fail", HttpStatus.OK) ;
+	}
+	
+	@PreAuthorize("principal.username == #cri.userId")
+	@GetMapping("/detailNotepage")
+	public String get(@RequestParam("note_num") Long note_num, @RequestParam("note_kind") String note_kind, Model model, @ModelAttribute("cri") Criteria cri) {
+
+		log.info("/detailNotepage");
+		
+		noteVO note = commonService.getDetailNotepage(note_num);
+		
+		int fromNotetotal = commonService.getFromNoteCount(cri);
+		int toNotetotal   = commonService.getToNoteCount(cri);
+		int myNotetotal   = commonService.getMyNoteCount(cri);
+		
+		model.addAttribute("note", note);
+		model.addAttribute("note_kind", note_kind);
+		model.addAttribute("fromNotetotal", fromNotetotal);
+		model.addAttribute("toNotetotal"  , toNotetotal);
+		model.addAttribute("myNotetotal"  , myNotetotal);
+		
+		return "common/detailNotepage";
+	}
+	 
+	@PostMapping("/deleteNote")//쪽지 삭제
+	public String deleteNote(@RequestParam("note_num") Long note_num, @RequestParam("note_kind") String note_kind, Criteria cri) {
+
+		 	log.info("/deleteNote..." + note_num);
+		 	
+		 	if (note_kind.equals("fromNote")) {
+		 		
+		 		commonService.updateFromNote(note_num);
+		 		
+		 		return "redirect:/fromNoteList?userId="+cri.getUserId()+"&pageNum="+cri.getPageNum()+"&amount="+cri.getAmount();
+	 			
+			}else if(note_kind.equals("toNote")) {
+			 		
+		 		commonService.updateToNote(note_num);
+			
+		 		return "redirect:/toNoteList?userId="+cri.getUserId()+"&pageNum="+cri.getPageNum()+"&amount="+cri.getAmount();
+		 		
+			}else{//if(note_kind.equals("myNote")) 
+				
+		 		commonService.deleteMyNote(note_num);
+		 		
+		 		return "redirect:/myNoteList?userId="+cri.getUserId()+"&pageNum="+cri.getPageNum()+"&amount="+cri.getAmount();
+			}
+	}
+	
+	@PreAuthorize("principal.username == #userId")   
+	@PostMapping("/deleteAllNote")//다중 쪽지 삭제
+		public String deleteAllNote(@RequestParam("checkRow") String checkRow , @RequestParam("note_kind") String note_kind,
+				@RequestParam("userId")String userId, Criteria cri) {
+		 
+			log.info("/deleteAllNote");
+		 	log.info("checkRow..." + checkRow);
+		 	
+		 	String[] arrIdx = checkRow.split(",");
+		 	
+		 	
+		 	if (note_kind.equals("fromNote")) {
+		 		
+		 		for (int i=0; i<arrIdx.length; i++) {
+			 		
+			 		Long note_num = Long.parseLong(arrIdx[i]); 
+			 		
+			 		commonService.updateFromNote(note_num);
+			 	}
+		 		
+		 		return "redirect:/fromNoteList?userId="+userId+"&pageNum="+cri.getPageNum()+"&amount="+cri.getAmount();
+	 			
+			}else if(note_kind.equals("toNote")) {
+				
+				for (int i=0; i<arrIdx.length; i++) {
+			 		
+			 		Long note_num = Long.parseLong(arrIdx[i]); 
+			 		
+			 		commonService.updateToNote(note_num);
+			 	}
+				
+				return "redirect:/toNoteList?userId="+userId+"&pageNum="+cri.getPageNum()+"&amount="+cri.getAmount();
+				
+			}else {//if(note_kind.equals("myNote"))
+				
+				for (int i=0; i<arrIdx.length; i++) {
+			 		
+			 		Long note_num = Long.parseLong(arrIdx[i]); 
+			 		
+			 		commonService.deleteMyNote(note_num);
+			 	}
+				
+				return "redirect:/myNoteList?userId="+userId+"&pageNum="+cri.getPageNum()+"&amount="+cri.getAmount();
+			}
 	}
 }

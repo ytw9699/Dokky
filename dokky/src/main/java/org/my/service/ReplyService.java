@@ -16,7 +16,7 @@ public interface ReplyService {
 
 	public int remove(Long reply_num);
 	
-	public ReplyPageDTO getListPage(Criteria cri, Long num);
+	public ReplyPageDTO getListPage(Criteria cri, Long board_num);
 	
 	public String checkLikeValue(ReplyLikeVO vo);
 
@@ -36,7 +36,7 @@ public interface ReplyService {
 	
 	public int registerDisLike(commonVO vo);
 	
-	public String getDisLikeCount(Long num);
+	public String getDisLikeCount(Long reply_num);
 
 	public String replyDonateMoney(commonVO vo);
 

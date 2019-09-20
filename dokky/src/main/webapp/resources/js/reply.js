@@ -1,36 +1,31 @@
-console.log("Reply Module.....22");
- 
 var replyService = (function() {
 
-	function add(commonData, callback, error) {//reply를 객체,
-		console.log("add reply..............."); 
-		$.ajax({
-			type : 'post',
-			url : '/dokky/replies/new',
-			data : JSON.stringify(commonData),//{"reply":"1","replyer":"1","num":"41"}
-			contentType : "application/json; charset=utf-8",
-			success : function(result, status, xhr) {
-				if (callback) { 
-					/*console.log(222);  
-					console.log(callback); 
-					console.log(111);*/
-					callback(result);
-				}
-			},
-			error : function(xhr, status, er) {
-				if (error) {
-					error(er);
-				}
-			}
-		})
+	function add(commonData, callback, error) {
+		
+			$.ajax({
+				type : 'post',
+				url : '/dokky/replies/new',
+				data : JSON.stringify(commonData),
+				contentType : "application/json; charset=utf-8",
+				success : function(result, status, xhr) {
+								if (callback) { 
+									callback(result);
+								}
+						  },
+				error : function(xhr, status, er) {
+							if (error) {
+								error(er);
+							}
+						}
+			})
 	}
 
 	function getList(param, callback, error) { 
 
-		var num = param.num;
+		var board_num = param.board_num;
 		var page = param.page || 1;
 
-		  $.getJSON("/dokky/replies/pages/" + num + "/" + page + ".json",
+		  $.getJSON("/dokky/replies/pages/" + board_num + "/" + page + ".json",
 				function(data) {
 					if (callback) {
 						callback(data);
@@ -41,8 +36,6 @@ var replyService = (function() {
 			}
 		});
 	}
-	
-	
 
 /*	function getList(param, callback, error) {
 
@@ -64,64 +57,44 @@ var replyService = (function() {
 	  }
 */
 	
-	/*function remove(reply_num, callback, error) {
+	function remove(reply_num, reply_id, board_num, callback, error) {
 		
 		$.ajax({
-			type : 'delete',
-			url : '/dokky/replies/' + reply_num,
-			success : function(deleteResult, status, xhr) {
-				if (callback) {
-					callback(deleteResult);
+			
+				type : 'delete',
+				url : '/dokky/replies/' + reply_num,
+				data:  JSON.stringify({reply_num:reply_num, userId:reply_id, board_num:board_num}),
+			    contentType: "application/json; charset=utf-8",
+				success : function(deleteResult, status, xhr) {
+					if (callback) {
+						callback(deleteResult);
+					}
+				},
+				error : function(xhr, status, er) {
+					if (error) {
+						error(er);
+					}
 				}
-			},
-			error : function(xhr, status, er) {
-				if (error) {
-					error(er);
-				}
-			}
-		});
-	}*/
-	function remove(reply_num, user_id, callback, error) {
-		/*console.log("--------------------------------------");  
-		console.log(JSON.stringify({reply_num:reply_num, nickName:orginal_nickname}));  
-		*/
-		$.ajax({
-			type : 'delete',
-			url : '/dokky/replies/' + reply_num,
-			data:  JSON.stringify({reply_num:reply_num, userId:user_id}),
-		    contentType: "application/json; charset=utf-8",
-			success : function(deleteResult, status, xhr) {
-				if (callback) {
-					callback(deleteResult);
-				}
-			},
-			error : function(xhr, status, er) {
-				if (error) {
-					error(er);
-				}
-			}
 		});
 	}
 
-	function update(reply, callback, error) {
-
-		console.log("reply_num: " + reply.reply_num);
+	function updateReply(reply, callback, error) {
 
 		$.ajax({
-			type : 'put',
-			url : '/dokky/replies/' + reply.reply_num,
-			data : JSON.stringify(reply),
-			contentType : "application/json; charset=utf-8",
-			success : function(result, status, xhr) {
-				if (callback) {
-					callback(result);
+				type : 'put',
+				url : '/dokky/replies/reply',
+				data : JSON.stringify(reply),
+				contentType : "application/json; charset=utf-8",
+				success : function(result, status, xhr) {
+					if (callback) {
+						callback(result);
+					}
+				},
+				error : function(xhr, status, er) {
+					if (error) {
+						error(er);
+					}
 				}
-			},
-			error : function(xhr, status, er) {
-				if (error) {
-					error(er);
-				}
-			}
 		});
 	}
 
@@ -142,116 +115,101 @@ var replyService = (function() {
 
 	function displayTime(timeValue) {
 
-		var today = new Date();
-
-		var gap = today.getTime() - timeValue;
-
 		var dateObj = new Date(timeValue);
-		var str = "";
-
-		if (gap < (1000 * 60 * 60 * 24)) {
-
-			var hh = dateObj.getHours();
-			var mi = dateObj.getMinutes();
-			var ss = dateObj.getSeconds();
-
-			return [ (hh > 9 ? '' : '0') + hh, ':', (mi > 9 ? '' : '0') + mi,
-					':', (ss > 9 ? '' : '0') + ss ].join('');
-
-		} else {
-			var yy = dateObj.getFullYear();
-			var mm = dateObj.getMonth() + 1; // getMonth() is zero-based
-			var dd = dateObj.getDate();
-
-			return [ yy, '/', (mm > 9 ? '' : '0') + mm, '/',
-					(dd > 9 ? '' : '0') + dd ].join('');
-		}
+		var yy = dateObj.getFullYear();
+		var mm = dateObj.getMonth() + 1; // getMonth() is zero-based
+		var dd = dateObj.getDate();
+		var hh = dateObj.getHours();
+		var mi = dateObj.getMinutes();
+		var ss = dateObj.getSeconds();
+		
+		return [ yy, '-', (mm > 9 ? '' : '0') + mm, '-',
+				(dd > 9 ? '' : '0') + dd, ' ', (hh > 9 ? '' : '0') + hh, ':', (mi > 9 ? '' : '0') + mi].join('');
 	}
-	;
 
 	function updateLike(commonData, callback, error) {//좋아요 업데이트
 
 		$.ajax({
-			type : 'put', 
-			url : '/dokky/board/likeCount', 
-			data : JSON.stringify(commonData), 
-			contentType : "application/json; charset=utf-8",
-			success : function(result, status, xhr) {
-				if (callback) {
-					callback(result);
+				type : 'put', 
+				url : '/dokky/board/likeCount', 
+				data : JSON.stringify(commonData), 
+				contentType : "application/json; charset=utf-8",
+				success : function(result, status, xhr) {
+					if (callback) {
+						callback(result);
+					}
+				},
+				error : function(xhr, status, er) {
+					if (error) {
+						error(er);
+					}
 				}
-			},
-			error : function(xhr, status, er) {
-				if (error) {
-					error(er);
-				}
-			}
 		});
 	}
 	
 	function updateDisLike(commonData, callback, error) {//싫어요 업데이트
 
 		$.ajax({
-			type : 'put', 
-			url : '/dokky/board/dislikeCount',  
-			data : JSON.stringify(commonData), 
-			contentType : "application/json; charset=utf-8",
-			success : function(result, status, xhr) {
-				if (callback) {
-					callback(result);
+				type : 'put', 
+				url : '/dokky/board/dislikeCount',  
+				data : JSON.stringify(commonData), 
+				contentType : "application/json; charset=utf-8",
+				success : function(result, status, xhr) {
+					if (callback) {
+						callback(result);
+					}
+				},
+				error : function(xhr, status, er) {
+					if (error) {
+						error(er);
+					}
 				}
-			},
-			error : function(xhr, status, er) {
-				if (error) {
-					error(er);
-				}
-			}
 		});
 	}
 	
 	function updateReplyLike(commonData, callback, error) {//댓글 좋아요 업데이트
 
 		$.ajax({
-			type : 'put', 
-			url : '/dokky/replies/likeCount', 
-			data : JSON.stringify(commonData), 
-			contentType : "application/json; charset=utf-8",
-			success : function(result, status, xhr) {
-				if (callback) {
-					callback(result);
+				type : 'put', 
+				url : '/dokky/replies/likeCount', 
+				data : JSON.stringify(commonData), 
+				contentType : "application/json; charset=utf-8",
+				success : function(result, status, xhr) {
+					if (callback) {
+						callback(result);
+					}
+				},
+				error : function(xhr, status, er) {
+					if (error) {
+						error(er);
+					}
 				}
-			},
-			error : function(xhr, status, er) {
-				if (error) {
-					error(er);
-				}
-			}
 		});
 	}
 	
-	function updateReplyDisLike(commonData, callback, error) {//싫어요 업데이트
+	function updateReplyDisLike(commonData, callback, error) {//댓글 싫어요 업데이트
 
 		$.ajax({
-			type : 'put', 
-			url : '/dokky/replies/dislikeCount',  
-			data : JSON.stringify(commonData), 
-			contentType : "application/json; charset=utf-8",
-			success : function(result, status, xhr) {
-				if (callback) {
-					callback(result);
+				type : 'put', 
+				url : '/dokky/replies/dislikeCount',  
+				data : JSON.stringify(commonData), 
+				contentType : "application/json; charset=utf-8",
+				success : function(result, status, xhr) {
+					if (callback) {
+						callback(result);
+					}
+				},
+				error : function(xhr, status, er) {
+					if (error) {
+						error(er);
+					}
 				}
-			},
-			error : function(xhr, status, er) {
-				if (error) {
-					error(er);
-				}
-			}
 		});
 	}
 	
-	function getUserCash(username, callback, error) {
+	function getUserCash(userId, callback, error) {
 
-		$.get("/dokky/board/usercash/" + username, function(result) {
+		$.get("/dokky/board/usercash/" + userId, function(result) {
 
 			if (callback) {
 				callback(result);
@@ -305,44 +263,45 @@ var replyService = (function() {
 		}
 	
 	function ScrapBoard(scrapData, callback, error) {
+		
 		$.ajax({
-			type : 'post',
-			url : '/dokky/mypage/scrapData/' + scrapData.num + '/' + scrapData.userId,
-			success : function(result, status, xhr) {
-				if (callback) {
-					callback(result,xhr);
+				type : 'post',
+				url : '/dokky/mypage/scrapData/' + scrapData.board_num + '/' + scrapData.userId,
+				success : function(result, status, xhr) {
+					if (callback) {
+						callback(result,xhr);
+					}
+				},
+				error : function(xhr, status, er) {
+					if (error) {
+						error(xhr,er);
+					}
 				}
-			},
-			error : function(xhr, status, er) {
-				if (error) {
-					error(xhr,er);
-				}
-			}
 		});
 	}
 	
-	function report(reportData, callback, error) {
-		console.log("report........."); 
-		$.ajax({
-			type : 'post',
-			url : '/dokky/board/report',
-			data : JSON.stringify(reportData),
-			contentType : "application/json; charset=utf-8",
-			success : function(result, status, xhr) {
-				if (callback) { 
-					callback(result);
+	function report(commonData, callback, error) {
+		
+			$.ajax({
+				type : 'post',
+				url : '/dokky/board/report',
+				data : JSON.stringify(commonData),
+				contentType : "application/json; charset=utf-8",
+				success : function(result, status, xhr) {
+					if (callback) { 
+						callback(result);
+					}
+				},
+				error : function(xhr, status, er) {
+					if (error) {
+						error(er);
+					}
 				}
-			},
-			error : function(xhr, status, er) {
-				if (error) {
-					error(er);
-				}
-			}
-		})
+			})
 	}
 	
 	function postAlarm(alarmData, callback, error) {
-		console.log("postAlarm...............");  
+		//console.log("postAlarm...............");  
 		
 		$.ajax({
 			type : 'post',
@@ -384,8 +343,8 @@ var replyService = (function() {
 		add : add,
 		get : get,
 		getList : getList,
-		remove : remove,
-		update : update,
+		remove : remove, 
+		updateReply : updateReply,
 		displayTime : displayTime,
 		updateLike : updateLike,
 		updateDisLike : updateDisLike,

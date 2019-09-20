@@ -3,11 +3,9 @@ package org.my.domain;
 
 @Data
 public class BoardAttachVO {
-
 	  private String uuid;
 	  private String uploadPath;
 	  private String fileName;
 	  private boolean fileType;
-	  private Long num;
-	  
+	  private Long board_num;
 }

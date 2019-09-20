@@ -41,23 +41,26 @@ public class BoardController {
 	
 	@GetMapping("/list")
 	public String list(Criteria cri, Model model) {
-		log.info("list: " + cri);
+		
+		log.info("/list: " + cri);
 	
-		if(cri.getOrder() == 0) {
+		if(cri.getOrder() == 0) {//최신순 이면
 			model.addAttribute("list", service.getList(cri));
 		}else {
-			model.addAttribute("list", service.getListWithOrder(cri));
+			model.addAttribute("list", service.getListWithOrder(cri));//조회순,댓글순,좋아요순,기부순
 		}
 		
-		int total = service.getTotalCount(cri);//total은 특정게시판의 총 게시물수
-		model.addAttribute("pageMaker", new PageDTO(cri, total));
+		int total = service.getTotalCount(cri);//total은 특정 게시판의 총 게시물수
+		
+		model.addAttribute("pageMaker", new PageDTO(cri, total));//페이징
 	
 		return "board/list";
 	}
 	
 	@GetMapping("/allList")
 	public String allList(Criteria cri, Model model) {
-		log.info("allList: " + cri);
+		
+		log.info("/allList: " + cri);
 		
 		if(cri.getOrder() == 0) {
 			model.addAttribute("list", service.getAllList(cri));
@@ -73,61 +76,67 @@ public class BoardController {
 	}
 	
 	
-	@PreAuthorize("hasAnyRole('ROLE_ADMIN','ROLE_USER')")
+	@PreAuthorize("hasAnyRole('ROLE_ADMIN','ROLE_USER')")//관리자이거나, 일반 회원일경우 권한 가짐
 	@GetMapping("/register")
-	public String register(@ModelAttribute("category") int category) {
+	public String register(@ModelAttribute("category") int category) {//게시글 등록 폼
 		
 		return "board/register";
 	}
 	
 	@PreAuthorize("hasAnyRole('ROLE_ADMIN','ROLE_USER')")
 	@PostMapping("/register")
-	public String register(BoardVO board, RedirectAttributes rttr) {
+	public String register(BoardVO board, RedirectAttributes rttr) {//게시글 등록
 
-		//log.info("==========================");
-
-		//log.info("register: " + board);
+		log.info("/register: " + board);
 		
-		/*if (board.getAttachList() != null) {
-
+		if (board.getAttachList() != null) {
 			board.getAttachList().forEach(attach -> log.info(attach));
-		}*/
-		
-		//log.info("==========================");
+		}
 		
 		service.register(board);
 
-		//rttr.addFlashAttribute("result", board.getNum());
-		 rttr.addAttribute("num", board.getNum());
+	   //rttr.addFlashAttribute("result", board.getNum());
+		 rttr.addAttribute("board_num", board.getBoard_num());
 		 rttr.addAttribute("category", board.getCategory());
 
 		return "redirect:/board/get";
 	}
 	
 	@GetMapping("/get")
-	public void get(@RequestParam("num") Long num, @ModelAttribute("cri") Criteria cri, Model model) {
+	public String get(@RequestParam("board_num") Long board_num, @ModelAttribute("cri") Criteria cri, Model model) {
 
 		log.info("/get");
-		model.addAttribute("board", service.get(num));//조회수증가 + 하나의 글 상세 데이터 가져오기
-		log.info("/get complete");
+		
+		BoardVO board = service.get(board_num);
+		
+		if(board == null) {
+			
+			log.info("/getBoardError");
+			
+			model.addAttribute("msg", "글이 삭제되었습니다.");
+			
+			return "error/accessError";
+		}   
+		
+		model.addAttribute("board", board); //조회수증가 + 한줄 글 상세 데이터 가져오기
+		
+		return "board/get";
 	}
 	
 	@GetMapping("/modify")
-	public void getModifyForm(@RequestParam("num") Long num, @ModelAttribute("cri") Criteria cri, Model model) {
+	public void getModifyForm(@RequestParam("board_num") Long board_num, @ModelAttribute("cri") Criteria cri, Model model) {
 
 		log.info("/modify");
-		model.addAttribute("board", service.getModifyForm(num));//수정폼+데이터 가져오기
+		model.addAttribute("board", service.getModifyForm(board_num));//수정폼+데이터 가져오기
 	}
 	
 	 @PreAuthorize("principal.username == #board.userId")
 	 @PostMapping("/modify")
 	 public String modify(BoardVO board, Criteria cri, RedirectAttributes rttr) {
-		 log.info("modify BoardVO:" + board);
-		 log.info("modify Criteria:" + board);
+		 
+		 log.info("/modify BoardVO:" + board);
+		 log.info("/modify Criteria:" + cri);
 		
-		 /*if (service.modify(board)) { 
-		 rttr.addFlashAttribute("result", "success");
-		 }*/
 		 service.modify(board);
 		 
 		 rttr.addAttribute("pageNum", cri.getPageNum());
@@ -135,41 +144,20 @@ public class BoardController {
 		 rttr.addAttribute("type", cri.getType());
 		 rttr.addAttribute("keyword", cri.getKeyword());
 		 rttr.addAttribute("category", cri.getCategory());
-		 rttr.addAttribute("num", board.getNum());
+		 rttr.addAttribute("board_num", board.getBoard_num());
 		 
 	 return "redirect:/board/get";
 	 }
 
-	/*@GetMapping("/remove")
-	public String remove(@RequestParam("num") Long num, Criteria cri, RedirectAttributes rttr) {
-
-		//log.info("remove..." + num);
-		if (service.remove(num)) {
-			rttr.addFlashAttribute("result", "success");
-		}
-		service.remove(num); 
-		
-		rttr.addAttribute("pageNum", cri.getPageNum());
-		rttr.addAttribute("amount", cri.getAmount());
-		rttr.addAttribute("type", cri.getType());
-		rttr.addAttribute("keyword", cri.getKeyword());
-		rttr.addAttribute("category", cri.getCategory());
-		
-		return "redirect:/board/list";
-	}*/
-	 
 	 @PreAuthorize("principal.username == #userId")   
 	 @PostMapping("/remove")//삭제시 글+댓글+첨부파일 모두 삭제
-		public String remove(@RequestParam("num") Long num, @RequestParam("userId")String userId, Criteria cri, RedirectAttributes rttr) {
+		public String remove(@RequestParam("board_num") Long board_num, @RequestParam("userId")String userId, Criteria cri, RedirectAttributes rttr) {
 
-		 	log.info("remove..." + num);
+		 	log.info("/remove..." + board_num);
 
-			List<BoardAttachVO> attachList = service.getAttachList(num);
-
-			if (service.remove(num)) {
-				// delete Attach Files
-				deleteFiles(attachList);
-
+			if (service.remove(board_num)) { //첨부파일 디비 삭제 + 글삭제
+				List<BoardAttachVO> attachList = service.getAttachList(board_num);
+				deleteFiles(attachList); //실제 첨부파일 모두 삭제
 				rttr.addFlashAttribute("result", "success");
 			}
 			return "redirect:/board/list" + cri.getListLink();
@@ -178,6 +166,8 @@ public class BoardController {
 	 @PreAuthorize("principal.username == #userId")   
 	 @PostMapping("/removeAll")//다중삭제
 		public String removeAll(@RequestParam("checkRow") String checkRow , @RequestParam("userId")String userId, Criteria cri) {
+		 	
+		 	log.info("/removeAll...");
 		 
 		 	log.info("checkRow..." + checkRow);
 		 	
@@ -185,15 +175,15 @@ public class BoardController {
 		 	
 		 	for (int i=0; i<arrIdx.length; i++) {
 		 		
-		 		Long num = Long.parseLong(arrIdx[i]); 
+		 		Long board_num = Long.parseLong(arrIdx[i]); 
 		 		
-		 		if (service.remove(num)) {
+		 		if (service.remove(board_num)) {
 		 			
-		 			log.info("remove...num=" + num);
+		 			log.info("remove...board_num=" + board_num);
 					
-		 			List<BoardAttachVO> attachList = service.getAttachList(num);
+		 			List<BoardAttachVO> attachList = service.getAttachList(board_num);
 		 			
-		 			log.info("deleteFiles...attachList=");
+		 			log.info("deleteFiles...attachList");
 		 			
 					deleteFiles(attachList);
 				}
@@ -201,23 +191,24 @@ public class BoardController {
 			return "redirect:/mypage/myBoardList?userId="+userId+"&pageNum="+cri.getPageNum()+"&amount="+cri.getAmount();
 		}
 	
-	@RequestMapping(method = { RequestMethod.PUT,RequestMethod.PATCH },
+	@RequestMapping(method = { RequestMethod.PUT, RequestMethod.PATCH },
 		value = "/likeCount", consumes = "application/json", produces = "text/plain; charset=UTF-8")
 	@ResponseBody
-	public ResponseEntity<String> updateLike(@RequestBody commonVO vo) {//좋아요 누르기 및 취소
-			
+	public ResponseEntity<String> updateLike(@RequestBody commonVO vo) {//게시글 좋아요 누르기 및 취소
+		
+		log.info("/likeCount");
 		log.info("commonVO: " + vo);
 		
 		BoardLikeVO boardLikeVO = vo.getBoardLikeVO();
 		
 		String CheckResult = service.checkLikeValue(boardLikeVO);
 		
-		log.info("CheckResult: " + CheckResult);
+		log.info("CheckResult: " + CheckResult);//좋아요가 눌러져 있는지 아닌지 체크
 		
 		int returnVal = 0;
 		
 		if(CheckResult == null){ 
-			returnVal = service.registerLike(vo);
+			returnVal = service.registerLike(vo);//좋아요 첫 셋팅
 			log.info("registerLike..." );
 			
 		}else if(CheckResult.equals("pull")){
@@ -231,18 +222,19 @@ public class BoardController {
 		
 		log.info("returnVal: " + returnVal);
 		
-		return returnVal == 1 ? new ResponseEntity<>(service.getLikeCount(boardLikeVO.getNum()), HttpStatus.OK)
+		return returnVal == 1 ? new ResponseEntity<>(service.getLikeCount(boardLikeVO.getBoard_num()), HttpStatus.OK)
 				: new ResponseEntity<>(HttpStatus.INTERNAL_SERVER_ERROR);
 	}
 	
 	@RequestMapping(method = { RequestMethod.PUT,RequestMethod.PATCH },
-			value = "/dislikeCount", consumes = "application/json", produces = "text/plain; charset=UTF-8")
+			value = "/dislikeCount", consumes = "application/json", produces ="text/plain; charset=UTF-8")
 		@ResponseBody
-		public ResponseEntity<String> updateDisLike(@RequestBody commonVO vo) {//싫어요 누르기 및 취소
-
-		log.info("vo: " +vo);
+		public ResponseEntity<String> updateDisLike(@RequestBody commonVO vo) {//게시글 싫어요 누르기 및 취소
 		
-		BoardDisLikeVO boardDisLikeVO = vo.getBoardDisLikeVO();
+			log.info("/dislikeCount");
+			log.info("vo: " +vo);
+			
+			BoardDisLikeVO boardDisLikeVO = vo.getBoardDisLikeVO();
 		
 			String CheckResult = service.checkDisLikeValue(boardDisLikeVO);
 			
@@ -266,17 +258,18 @@ public class BoardController {
 			
 			log.info("returnVal: " + returnVal);
 			
-			return returnVal == 1 ? new ResponseEntity<>(service.getDisLikeCount(boardDisLikeVO.getNum()), HttpStatus.OK)
+			return returnVal == 1 ? new ResponseEntity<>(service.getDisLikeCount(boardDisLikeVO.getBoard_num()), HttpStatus.OK)
 					: new ResponseEntity<>(HttpStatus.INTERNAL_SERVER_ERROR);
 		}
 	
-	@GetMapping(value = "/usercash/{username}", produces = "text/plain; charset=UTF-8")
+	@GetMapping(value = "/usercash/{userId}", produces = "text/plain; charset=UTF-8")
 	@ResponseBody
-	public ResponseEntity<String> usermoney(@PathVariable("username") String username) {
+	public ResponseEntity<String> userCash(@PathVariable("userId") String userId) {
 		 
-		log.info("username...="+username);
+		log.info("/usercash");
+		log.info("userId...="+userId);
 		
-		String userCash = service.getuserCash(username);
+		String userCash = service.getuserCash(userId);
 				
 		log.info("userCash...="+userCash); 
 		
@@ -288,6 +281,7 @@ public class BoardController {
 		@ResponseBody
 		public ResponseEntity<String> donateMoney(@RequestBody commonVO vo) {//기부하기
 			
+			log.info("/donateMoney");
 			log.info("commonVO: " + vo);
 			
 			String BoardMoney = service.donateMoney(vo);
@@ -297,31 +291,29 @@ public class BoardController {
 	
 	@PostMapping(value = "/report", consumes = "application/json", produces = "text/plain; charset=UTF-8")
 	@ResponseBody
-	public ResponseEntity<String> report(@RequestBody reportVO vo) {
+	public ResponseEntity<String> report(@RequestBody commonVO vo) {//신고
+		
+		log.info("/report");
 		
 		if(service.insertReportdata(vo)) {
 			
 			log.info("insertReportdata...success "+vo);
-			
 			return new ResponseEntity<>("success", HttpStatus.OK);
+			
 		}else{
-			
 			log.info("insertChargeData...fail "+vo);
-			
 			return new ResponseEntity<>("fail", HttpStatus.OK);
 		}
 	}
 	
-	
-	@GetMapping(value = "/getAttachList",
-		    produces = MediaType.APPLICATION_JSON_UTF8_VALUE)
+	@GetMapping(value = "/getAttachList", produces = MediaType.APPLICATION_JSON_UTF8_VALUE)
 	@ResponseBody
-	public ResponseEntity<List<BoardAttachVO>> getAttachList(Long num) {
+	public ResponseEntity<List<BoardAttachVO>> getAttachList(Long board_num) {
 	
-		log.info("getAttachList " + num);
+		log.info("/getAttachList " + board_num);
 
-	return new ResponseEntity<>(service.getAttachList(num), HttpStatus.OK);
-}
+		return new ResponseEntity<>(service.getAttachList(board_num), HttpStatus.OK);
+	}
 	
 	private void deleteFiles(List<BoardAttachVO> attachList) {
 	    
@@ -329,7 +321,7 @@ public class BoardController {
 	      return;
 	    }
 	    
-	    log.info("delete attach files...................");
+	    log.info("delete attach files........");
 	    log.info(attachList);
 	    
 	    attachList.forEach(attach -> {
@@ -348,7 +340,7 @@ public class BoardController {
 	      }catch(Exception e) {
 	        log.error("delete file error" + e.getMessage());
 	      }//end catch
-	    });//end foreachd
+	    });//end foreach
 	  }
 	
 }
