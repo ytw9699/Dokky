@@ -179,6 +179,51 @@
 			min-height: 300px;
 		}
 		
+		.replyInformation {  
+		    margin-top: 1%;
+		    float: right;
+		    /* width: 44%; */
+		    /* margin-left: 6%; */
+		    margin-right: 0.5%;
+		    
+		    /* margin-bottom: 1%; */
+		  
+		    /* display: block; */
+		}
+		
+		.replyMenu{  
+		    list-style: none;
+		    display: inline-block;
+		    /* float: left; */
+		    margin-left: 3px;
+		    font-size: 15px; 
+		}
+		
+		.replyButton{
+	        width: 52px;
+		    /* margin: 0 auto; */
+		    /* margin-left: 0px; */
+		    border: 1px solid #7151fc;
+		    background-color: white;
+			color: #7151fc;
+		    font-size: 12px;
+		    border-radius: 5px;
+		    height: 25px;
+		}
+		.replyButton:hover{ 
+			color: white;
+			border: none;
+		    background-color: #7151fc;
+			border: 1px solid #7151fc;
+			cursor:pointer;
+		}
+		
+		.reply_date{
+		    font-size: 14px;
+ 		    margin-left: 10px;
+	    	margin-right: 10px;
+		}
+		
 		.contentInformation {
 		    width: 81%;
 		    margin-left: 17%;
@@ -191,27 +236,28 @@
 		    height: 27px;
 		    margin-top: 0px;
 		}
-		.contentMenu{ 
-			list-style:none;
+		.contentMenu{  
+		    list-style: none;
 		    display: inline-block;
-		    float: left;
-		    margin-right: 5px;
-		    font-size:18px;
+		    /* float: left; */
+		    margin-left: 3px;
+		    font-size: 18px;
 		}
 		.getButton{
 		    width: 70px;
 		    /* margin: 0 auto; */
 		    /* margin-left: 0px; */
 		    border: none;
-		    color: white;
-		    background-color: #7151fc;
+		    border: 1px solid #7151fc; 
+	    	background-color: white; 
+			color: #7151fc;
 		    font-size: 14px; 
 		    border-radius: 5px;
 		    height: 28px;
 		}
 		.getButton:hover{
-			background-color: white;
-			color: #7151fc;
+			color: white;
+		    background-color: #7151fc;
 			border: 1px solid #7151fc;
 			cursor:pointer;
 		}
@@ -301,19 +347,6 @@
 		word-break:break-all;  */
 		}
 		
-		.replyInformation { 
-	   		border-style: solid;
-		    border-width: 1px;
-		    border-color: #e6e6e6;
-		    /* width: 44%; */
-		    margin-left: 6%;
-		    /* margin-right: 4%; */
-		    margin-top: 1%;
-		    /* margin-bottom: 1%; */
-		    float: right;
-		    /* display: block; */
-		}
-	
 		
 		.replyLi{
 			list-style: none; 
@@ -343,7 +376,32 @@
 			font-size:16px;
 			color: #7151fc; 
 		}
-					
+			
+		.replytextareaWrapper{
+		    width: 96%;
+		    display: inline-block;
+		    height: 60px;
+		    border: 10px solid #f3f3f3;
+		}
+		
+		#reply_contents{
+	        width: 88.2%;
+		    margin-left: 0%;
+		    margin-right: 1%;
+		    margin-top: 0%;
+		    margin-bottom: 1%;
+		    padding: 10px;
+		    height: 38px;
+		    float: left;
+		}
+		
+		#replyRegisterBtn{
+			width: 9.2%;
+		    height: 60px;
+		    float: left;
+		    margin-left: -8px;
+		}
+			
     #replyModForm{ 
       display:none;
     }  
@@ -536,16 +594,6 @@
 	    margin-left: -3.5%;
 	}
 	
-	
-	
-	
-	#reply_contents{
-		    width: 99%; 
-		    margin-left: 0%;
-		    margin-right: 1%;
-		    margin-top: 1%;
-		    margin-bottom: 1%;
-	}
 	.replyWriteForm{  
 		margin-left:1%; 
 		margin-top:1%; 
@@ -612,6 +660,7 @@
 	    display: inline-block;
 	    position: absolute;
 	}
+	
 	.textareaWrapper{
 		border-style: solid;
 		border-width: 1px;
@@ -619,13 +668,7 @@
 		width: 80%; 
 		display: inline-block; 
 	}
-	.replytextareaWrapper{
-		border-style: solid;
-		border-width: 1px;
-		border-color: #e6e6e6;
-		width: 90%; 
-		display: inline-block; 
-	}
+	
 	 
 	.replyBtnWrapper {
 	    border-style: solid;
@@ -636,11 +679,7 @@
 	    position: absolute;
 	    height: 72px;
 	}
-	#replyRegisterBtn{
-		width: 90%;
-	    height: 53px;
-	    margin-top: 8%; 
-	}
+	
 	
 	 .modifyTextareaWrapper{ 
 	    border-style: solid;

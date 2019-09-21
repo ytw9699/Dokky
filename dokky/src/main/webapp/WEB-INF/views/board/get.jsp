@@ -111,7 +111,7 @@
 	    		<button class="getButton" id="like">좋아요</button>
 	    	</li>
 	    	<li class="contentMenu" id="likeCount"> 
-				<c:out value="${board.likeCnt}"/></span>
+				<span><c:out value="${board.likeCnt}"/></span>
 	    	</li>
 	    	<li class="contentMenu">
 	    		<button class="getButton" id="dislike">싫어요</button>
@@ -167,11 +167,8 @@
 		<div class="replyWriteForm"><!--  기본 댓글쓰기 폼 -->
 			<div class="replytextareaWrapper">  
 				<textarea id="reply_contents" rows="3" placeholder="댓글을 입력하세요" name='reply_content' oninput="checkLength(this,1000);"></textarea>
-			</div>
-			
-			<div class="replyBtnWrapper">  
 				<button id='replyRegisterBtn' type="button">등록</button>
-			</div> 
+			</div>
 		</div>  
 	</sec:authorize>
 	
@@ -486,53 +483,53 @@
 								   + "</ul>"
 							   + "</div>"
 							   
-							   + "<span>" 
+							   + "<span class='reply_date'>"
 							   		+ replyService.displayTime(replyDate) 
 							   + "</span>";
 				  
 					  if(myId){ 
-						  str += "<span>" 
-							   		+ "<button data-oper='reReplyForm' type='button' data-reply_num='"+reply_nums+"' data-reply_id='"+userId+"' data-nick_name='"+nickName+"' data-group_num='"+ group_num+"' data-order_step='"+order_step+"' data-depth='"+depth+"'>답글</button>" 
+						  str += "<span class='replyMenu'>" 
+							   		+ "<button class='replyButton' data-oper='reReplyForm' type='button' data-reply_num='"+reply_nums+"' data-reply_id='"+userId+"' data-nick_name='"+nickName+"' data-group_num='"+ group_num+"' data-order_step='"+order_step+"' data-depth='"+depth+"'>답글</button>" 
 						       + "</span>"; 
 					  }
 		    	  
 		    	  	  	  str += "<span class='replyInformation'>" 
-				    	  	   		+ "<span>"
-				    	  	   				+ "<button data-oper='like' type='button' data-reply_content='"+reply_content+"' data-reply_id='"+userId+"' data-reply_num='"+reply_nums+"'>좋아요</button>"
+				    	  	   		+ "<span class='replyMenu'>"
+				    	  	   				+ "<button class='replyButton' data-oper='like' type='button' data-reply_content='"+reply_content+"' data-reply_id='"+userId+"' data-reply_num='"+reply_nums+"'>좋아요</button>"
 				    	  	   		+ "</span>"
-				    	  	   		+ "<span id='replyLikeCount"+reply_nums+"'>"
+				    	  	   		+ "<span class='replyMenu' id='replyLikeCount"+reply_nums+"'>"
 				    	  	   				+ likeCnt
 				    	  			+ "</span>" 
 				    	  			
-				    	  			+ "<span>"
-				    	  					+"<button data-oper='dislike' type='button' data-reply_content='"+reply_content+"' data-reply_id='"+userId+"' data-reply_num='"+reply_nums+"'>싫어요</button>"
+				    	  			+ "<span class='replyMenu'>"
+				    	  					+"<button class='replyButton' data-oper='dislike' type='button' data-reply_content='"+reply_content+"' data-reply_id='"+userId+"' data-reply_num='"+reply_nums+"'>싫어요</button>"
 		    	  	   				+ "</span>"
-					       			+ "<span id='replyDisLikeCount"+reply_nums+"'>"
+					       			+ "<span class='replyMenu' id='replyDisLikeCount"+reply_nums+"'>"
 					       					+dislikeCnt
 				       				+ "</span>"
 				       				
-				       				+ "<span>"
-				       						+"<button data-oper='donateMoney' type='button' data-reply_content='"+reply_content+"' data-reply_id='"+userId+"' data-reply_num='"+reply_nums+"'>기부</button>"
+				       				+ "<span class='replyMenu'>"
+				       						+"<button class='replyButton' data-oper='donateMoney' type='button' data-reply_content='"+reply_content+"' data-reply_id='"+userId+"' data-reply_num='"+reply_nums+"'>기부</button>"
 				  	   				+ "</span>" 	
-					       			+ "<span id='replyMoney"+reply_nums+"'>"
+					       			+ "<span class='replyMenu' id='replyMoney"+reply_nums+"'>\\"
 					       				+ money
-					       			+"\\</span>"  
+					       			+"</span>"  
 		      
 	          	     if(myId == userId){   
 		        	  
-		        	     str += "<span>"
-			        	  		    + "<button data-oper='modify' type='button' data-reply_id='"+userId+"' data-reply_num='"+reply_nums+"'>수정</button>"
+		        	     str += "<span class='replyMenu'>"
+			        	  		    + "<button class='replyButton' data-oper='modify' type='button' data-reply_id='"+userId+"' data-reply_num='"+reply_nums+"'>수정</button>"
 	   					      + "</span>"
 	   					   
-	   					      + "<span>"
-	   							    +"<button data-oper='delete' type='button' data-reply_id='"+userId+"' data-reply_num='"+reply_nums+"'>삭제</button>"
+	   					      + "<span class='replyMenu'>"
+	   							    +"<button class='replyButton' data-oper='delete' type='button' data-reply_id='"+userId+"' data-reply_num='"+reply_nums+"'>삭제</button>"
 	  	   				      + "</span>"
 		             }    
 		        
-		          	 if(myId != userId){  
+		          	 if(myId != userId){   
 		          		 
-		        	     str += "<span>"
-			        		 	  	+ "<button data-oper='report' type='button' data-reply_id='"+userId+"' data-reply_nickname='"+nickName+"'>신고</button>"
+		        	     str += "<span class='replyMenu'>" 
+			        		 	  	+ "<button class='replyButton' data-oper='report' type='button' data-reply_id='"+userId+"' data-reply_nickname='"+nickName+"'>신고</button>"
 				  	          + "</span>"
 		          	 } 
 		    	  
@@ -553,7 +550,7 @@
 		    	   str += "<div class='reply' data-reply_num='"+reply_nums+"'><span class='other'>"  
 		    	   
 			   }//end if   
-			   
+			     
 			   
 		       if(depth != 0){   
 		    	   
@@ -606,54 +603,54 @@
 								   + "</ul>"
 							   + "</div>"
 					   
-							   + "<span>"
+							   + "<span class='reply_date'>"
 						   			+ replyService.displayTime(replyDate) 
 						  	   + "</span>"; 
 				
 				  	  if(myId){ 
-						  str += "<span>" 
-							   		+ "<button data-oper='reReplyForm' type='button' data-reply_num='"+reply_nums+"' data-reply_id='"+userId+"' data-nick_name='"+nickName+"' data-group_num='"+ group_num+"' data-order_step='"+order_step+"' data-depth='"+depth+"'>답글</button>" 
+						  str += "<span class='replyMenu'>" 
+							   		+ "<button class='replyButton' data-oper='reReplyForm' type='button' data-reply_num='"+reply_nums+"' data-reply_id='"+userId+"' data-nick_name='"+nickName+"' data-group_num='"+ group_num+"' data-order_step='"+order_step+"' data-depth='"+depth+"'>답글</button>" 
 						       + "</span>"
 				          +"</span>"; 
 				  	  }
 					      
 				   	      str += "<span class='replyInformation'>" 
-					   	  	   		+ "<span>"
-					   	  	   				+ "<button data-oper='like' type='button' data-reply_content='"+reply_content+"' data-reply_id='"+userId+"' data-reply_num='"+reply_nums+"'>좋아요</button>"
+					   	  	   		+ "<span class='replyMenu'>"
+					   	  	   				+ "<button class='replyButton' data-oper='like' type='button' data-reply_content='"+reply_content+"' data-reply_id='"+userId+"' data-reply_num='"+reply_nums+"'>좋아요</button>"
 					   	  	   		+ "</span>"
-					   	  	   		+ "<span id='replyLikeCount"+reply_nums+"'>"
+					   	  	   		+ "<span class='replyMenu' id='replyLikeCount"+reply_nums+"'>"
 					   	  	   				+ likeCnt
 					   	  			+ "</span>" 
 				   	  			
-				   	  				+ "<span>"
-				   	  					+"<button data-oper='dislike' type='button' data-reply_content='"+reply_content+"' data-reply_id='"+userId+"' data-reply_num='"+reply_nums+"'>싫어요</button>"
+				   	  				+ "<span class='replyMenu'>"
+				   	  					+"<button class='replyButton' data-oper='dislike' type='button' data-reply_content='"+reply_content+"' data-reply_id='"+userId+"' data-reply_num='"+reply_nums+"'>싫어요</button>"
 				 	   				+ "</span>"
-					       			+ "<span id='replyDisLikeCount"+reply_nums+"'>"
+					       			+ "<span class='replyMenu' id='replyDisLikeCount"+reply_nums+"'>"
 					       					+dislikeCnt
 				      				+ "</span>"
 				      				
-				      				+ "<span>"
-				      						+"<button data-oper='donateMoney' type='button' data-reply_content='"+reply_content+"' data-reply_id='"+userId+"' data-reply_num='"+reply_nums+"'>기부</button>"
+				      				+ "<span class='replyMenu'>"
+				      						+"<button class='replyButton' data-oper='donateMoney' type='button' data-reply_content='"+reply_content+"' data-reply_id='"+userId+"' data-reply_num='"+reply_nums+"'>기부</button>"
 				 	   				+ "</span>" 	
-					       			+ "<span id='replyMoney"+reply_nums+"'>"
-					       				+ money
-					       			+"\\</span>"
+				 	   				+ "<span class='replyMenu' id='replyMoney"+reply_nums+"'>\\"
+					       				+ money 
+					       			+ "</span>" 
 				   
 					  if(myId == userId){   
 					        	  
-					   	       str += "<span>"
-				    	  		    	+ "<button data-oper='modify' type='button' data-reply_id='"+userId+"' data-reply_num='"+reply_nums+"'>수정</button>"
+					   	       str += "<span class='replyMenu'>"
+				    	  		    	+ "<button class='replyButton' data-oper='modify' type='button' data-reply_id='"+userId+"' data-reply_num='"+reply_nums+"'>수정</button>"
 						      	    + "</span>"
 							   
-						     	    + "<span>"
-								   		+ "<button data-oper='delete' type='button' data-reply_id='"+userId+"' data-reply_num='"+reply_nums+"'>삭제</button>"
+						     	    + "<span class='replyMenu'>"
+								   		+ "<button class='replyButton' data-oper='delete' type='button' data-reply_id='"+userId+"' data-reply_num='"+reply_nums+"'>삭제</button>"
 							        + "</span>"
 					  }  
 					    
 					  if(myId != userId){  
 					       	  
-				   	   	       str += "<span>"
-					   		 	 		  + "<button data-oper='report' type='button' data-reply_id='"+userId+"' data-reply_nickname='"+nickName+"'>신고</button>"
+				   	   	       str += "<span class='replyMenu'>"
+					   		 	 		  + "<button class='replyButton' data-oper='report' type='button' data-reply_id='"+userId+"' data-reply_nickname='"+nickName+"'>신고</button>"
 						  	        + "</span>" 
 					  } 
 			   }//end if
@@ -676,11 +673,11 @@
 	   			    	  str += "<div class='reply_content other'>" ;
 	   				   }//end if .
 	   				   
-           				   str += reply_content;
+           				   str += reply_content; 
            				   str += "</div>"    
 			           	       +"</div>"
 		          	  +"</div>" 
-		          +"</li>";        
+		          +"</li>";         
 			}//end for
 	        
 	        replyList.html(str);//댓글목록안에 채워주기
