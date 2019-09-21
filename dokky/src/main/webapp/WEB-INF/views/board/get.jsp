@@ -1144,14 +1144,14 @@
    		 reportForm.css("display","block");
 	} 
 
-  		function closeReportForm(){//신고폼 닫기 함수
-		
-  			reportBackGround.css("display","none");
-  			reportForm.css("display","none");
-  			reportInput.val(""); 
-  		}  
+	function closeReportForm(){//신고폼 닫기 함수
+
+		reportBackGround.css("display","none");
+		reportForm.css("display","none");
+		reportInput.val(""); 
+	}  
   		
-  		$("#closeReport").on("click",function(event){//신고폼 닫기 공통
+	$("#closeReport").on("click",function(event){//신고폼 닫기 공통
   			
  			closeReportForm(); 
  	});
@@ -1165,11 +1165,19 @@
 	});	 
 		 	
 	$(".replyList").on("click",'button[data-oper="report"]', function(event){//댓글 신고폼 열기 버튼
-				
-			openReportForm();
-			reportKind = '댓글';
-			reportedId = $(this).data("reply_id");
-			reportedNick = $(this).data("reply_nickname");
+		
+		reportedId = $(this).data("reply_id");
+		var loginCheck = "로그인후 신고를 해주세요.";
+		var reportCheck = "자신의 댓글에는 신고를 할 수 없습니다.";
+		 
+		if(checkUser(reportedId, loginCheck, null, reportCheck)){ 
+			return;
+		} 
+		
+		openReportForm();
+		reportKind = '댓글';
+		reportedNick = $(this).data("reply_nickname");
+		
 	});
 	
     $("#submitReport").on("click",function(event){//신고 확인 버튼 
