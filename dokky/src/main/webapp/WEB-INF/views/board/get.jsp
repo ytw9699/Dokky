@@ -48,9 +48,9 @@
 			
 			<div>
 				<span id="regdate">  
-						  <fmt:formatDate value="${board.regDate}" pattern="yyyy-MM-dd HH:mm" /><label> 작성,</label>
+						  <fmt:formatDate value="${board.regDate}" pattern="yyyy-MM-dd HH:mm" /><label> 작성</label>
 					<c:if test="${board.regDate != board.updateDate}">
-					      <fmt:formatDate value="${board.updateDate}" pattern="yyyy-MM-dd HH:mm" /><label> 수정됨</label>
+					      , <fmt:formatDate value="${board.updateDate}" pattern="yyyy-MM-dd HH:mm" /><label> 수정됨</label>
 					</c:if>  
 				</span>
 				<span class="rightInfo">
