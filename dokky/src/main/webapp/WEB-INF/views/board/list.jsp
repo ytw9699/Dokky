@@ -93,7 +93,7 @@
 							<c:out value="${pageMaker.cri.type eq 'TNC'?'selected':''}"/>>제목+내용+닉네임</option>
 					</select> 
 					
-					<input id="keyword" type='text' name='keyword' value='<c:out value="${pageMaker.cri.keyword}"/>' oninput="checkLength(this,15)"/> 
+					<input id="keyword" type='text' name='keyword' value='<c:out value="${pageMaker.cri.keyword}"/>' oninput="checkLength(this,30)"/> 
 					<input type='hidden' name='pageNum' value='<c:out value="${pageMaker.cri.pageNum}"/>' /> 
 					<input type='hidden' name='amount' value='<c:out value="${pageMaker.cri.amount}"/>' />
 					<input type='hidden' name='category' value='${pageMaker.cri.category}'>
