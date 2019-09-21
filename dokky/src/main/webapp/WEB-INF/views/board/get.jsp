@@ -85,19 +85,19 @@
    			#<c:out value="${board.board_num}"/>
    		</div>
    		
-   		<div id="title">
-   		 	<c:out value="${board.title}"/>
-   		</div>
-   		
    		<div class="fileUploadWrap userMenu"> 
 	   		<a href="#" id="fileUploadLink" class="userMenu"> 
 				첨부파일
 			</a> 
 		</div>
+   		
+   		<div id="title">
+   		 	<c:out value="${board.title}"/>
+   		</div>
 		
 		<div class='fileUploadResult userMenu'>
            <ul class="userMenu">
-           </ul>  
+           </ul>
 	    </div>
 	</div> 
             
@@ -166,8 +166,8 @@
 	<sec:authorize access="isAuthenticated()">
 		<div class="replyWriteForm"><!--  기본 댓글쓰기 폼 -->
 			<div class="replytextareaWrapper">  
-				<textarea id="reply_contents" rows="3" placeholder="댓글을 입력하세요" name='reply_content' oninput="checkLength(this,1000);"></textarea>
-				<button id='replyRegisterBtn' type="button">등록</button>
+				<textarea id="reply_contents" rows="3" placeholder="댓글을 입력하세요." name='reply_content' oninput="checkLength(this,1000);"></textarea>
+				<button id='replyRegisterBtn' type="button">작성</button>
 			</div>
 		</div>  
 	</sec:authorize>
@@ -179,12 +179,9 @@
 <div class="reReplyWriteForm"><!--  대댓글 쓰기 폼 --> 
 		<div class="textareaWrapper">  
 			<textarea id="reReply_contents" rows="3" placeholder="답글을 입력하세요." name='reReply_content' oninput="checkLength(this,1000);"></textarea>
-		</div> 
-		       
-		<div class="reReplyBtnWrapper">  	 
-			<button id='reReplyRegisterBtn' class="reReplyBtn" type="button">등록</button>
+			<button id='reReplyRegisterBtn' class="reReplyBtn" type="button">작성</button>
 			<button id='reReplyCancelBtn' class="reReplyBtn" type="button">취소</button>
-		</div>    	
+		</div> 
 </div> 
 
 <div id="replyModForm" ><!-- 댓글의 수정 폼+값 불러오기 --> 
