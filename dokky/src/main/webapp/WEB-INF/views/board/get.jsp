@@ -48,9 +48,9 @@
 			
 			<div>
 				<span id="regdate">  
-						  <fmt:formatDate value="${board.regDate}" pattern="yyyy-MM-dd HH:mm" /><label> 작성,</label>
+						  <fmt:formatDate value="${board.regDate}" pattern="yyyy-MM-dd HH:mm" /><label> 작성</label>
 					<c:if test="${board.regDate != board.updateDate}">
-					      <fmt:formatDate value="${board.updateDate}" pattern="yyyy-MM-dd HH:mm" /><label> 수정됨</label>
+					      , <fmt:formatDate value="${board.updateDate}" pattern="yyyy-MM-dd HH:mm" /><label> 수정됨</label>
 					</c:if>  
 				</span>
 				<span class="rightInfo">
@@ -85,19 +85,19 @@
    			#<c:out value="${board.board_num}"/>
    		</div>
    		
-   		<div id="title">
-   		 	<c:out value="${board.title}"/>
-   		</div>
-   		
    		<div class="fileUploadWrap userMenu"> 
 	   		<a href="#" id="fileUploadLink" class="userMenu"> 
 				첨부파일
 			</a> 
 		</div>
+   		
+   		<div id="title">
+   		 	<c:out value="${board.title}"/>
+   		</div>
 		
 		<div class='fileUploadResult userMenu'>
            <ul class="userMenu">
-           </ul>  
+           </ul>
 	    </div>
 	</div> 
             
@@ -111,7 +111,7 @@
 	    		<button class="getButton" id="like">좋아요</button>
 	    	</li>
 	    	<li class="contentMenu" id="likeCount"> 
-				<c:out value="${board.likeCnt}"/></span>
+				<span><c:out value="${board.likeCnt}"/></span>
 	    	</li>
 	    	<li class="contentMenu">
 	    		<button class="getButton" id="dislike">싫어요</button>
@@ -165,13 +165,11 @@
     
 	<sec:authorize access="isAuthenticated()">
 		<div class="replyWriteForm"><!--  기본 댓글쓰기 폼 -->
-			<div class="replytextareaWrapper">  
-				<textarea id="reply_contents" rows="3" placeholder="댓글을 입력하세요" name='reply_content' oninput="checkLength(this,1000);"></textarea>
+			<div class="replytextareaWrapper">
+					<textarea id="reply_contents" rows="3" placeholder="댓글을 입력하세요."
+						name='reply_content' oninput="checkLength(this,3000);"></textarea>
+					<button id='replyRegisterBtn' type="button">작성</button>
 			</div>
-			
-			<div class="replyBtnWrapper">  
-				<button id='replyRegisterBtn' type="button">등록</button>
-			</div> 
 		</div>  
 	</sec:authorize>
 	
@@ -181,18 +179,15 @@
 
 <div class="reReplyWriteForm"><!--  대댓글 쓰기 폼 --> 
 		<div class="textareaWrapper">  
-			<textarea id="reReply_contents" rows="3" placeholder="답글을 입력하세요." name='reReply_content' oninput="checkLength(this,1000);"></textarea>
-		</div> 
-		       
-		<div class="reReplyBtnWrapper">  	 
-			<button id='reReplyRegisterBtn' class="reReplyBtn" type="button">등록</button>
+			<textarea id="reReply_contents" rows="3" placeholder="답글을 입력하세요." name='reReply_content' oninput="checkLength(this,3000);"></textarea>
+			<button id='reReplyRegisterBtn' class="reReplyBtn" type="button">작성</button>
 			<button id='reReplyCancelBtn' class="reReplyBtn" type="button">취소</button>
-		</div>    	
+		</div> 
 </div> 
 
 <div id="replyModForm" ><!-- 댓글의 수정 폼+값 불러오기 --> 
 	  	<div class="modifyTextareaWrapper">  
-			<textarea name='reply_content' rows="3" class="reply_contents" value='' oninput="checkLength(this,700);"></textarea>
+			<textarea name='reply_content' rows="3" class="reply_contents" value='' oninput="checkLength(this,3000);"></textarea>
 		</div> 
 		
 		<div class="replyModFormBtnWrapper"> 
@@ -295,31 +290,46 @@
 	 
 	///////////////////////////////////////////////////////함수모음
 	
-	function checkLength(obj, maxlength) {//글자수 체크 함수   
-		
-			var str = obj.value; 
-			var str_length = str.length; // 전체길이       // 변수초기화     
-			var max_length = maxlength; // 제한할 글자수 크기     
-			var i = 0; // for문에 사용     
-			var ko_byte = 0; // 한글일경우는, 2그밗에는 1을 더함     
-			var li_len = 0; // substring하기 위해서 사용     
-			var one_char = ""; // 한글자씩 검사한다     
-			var reStr = ""; // 글자수를 초과하면 제한할수 글자전까지만 보여준다.  
+	function checkLength(obj, maxByte) { 
+			 
+			if(obj.tagName === "INPUT" || obj.tagName === "TEXTAREA"){ 
+				var str = obj.value; 
+			}else if(obj.tagName === "DIV" ){
+				var str = obj.innerHTML; 
+			} 
+ 			
+			var stringByteLength = 0;
+			var reStr;
+				
+			stringByteLength = (function(s,b,i,c){
+				
+			    for(b=i=0; c=s.charCodeAt(i++);){
+			    
+				    b+=c>>11?3:c>>7?2:1;
+				    //3은 한글인 경우 한글자당 3바이트를 의미,영어는 1바이트 의미 3을2로바꾸면 한글은 2바이트 영어는 1바이트 의미
+				    //현재 나의 오라클 셋팅 같은경우 한글을 한자당 3바이트로 처리
+				    if (b > maxByte) { 
+				    	break;
+				    }
+				    
+				    reStr = str.substring(0,i);
+			    }
+			    
+			    return b //b는 바이트수 의미
+			    
+			})(str);
 			
-			for (i = 0; i < str_length; i++) { // 한글자추출         
-				one_char = str.charAt(i);            
-				ko_byte++;        
-			}     
-			
-			if (ko_byte <= max_length) {// 전체 크기가 max_length를 넘지않으면                
-				li_len = i + 1;         
-			}  
-			
-			if (ko_byte > max_length) {// 전체길이를 초과하면          
-					alert(max_length + " 글자 이상 입력할 수 없습니다.");         
-					reStr = str.substr(0, max_length);         
-					obj.value = reStr;      
-			}     
+			if(obj.tagName === "INPUT" || obj.tagName === "TEXTAREA"){ 
+				if (stringByteLength > maxByte) {// 전체길이를 초과하면          
+					alert(maxByte + " Byte 이상 입력할 수 없습니다.");         
+					obj.value = reStr;       
+				}   
+			}else if(obj.tagName === "DIV"){
+				if (stringByteLength > maxByte) {// 전체길이를 초과하면          
+					alert(maxByte + " Byte 이상 입력할 수 없습니다.");         
+					obj.innerHTML = reStr;    
+				}   
+			} 
 			
 			obj.focus();  
 	}
@@ -450,7 +460,7 @@
 			   
 		   	   str +=  "<div id='replyModForm"+reply_nums+"' class='replyModForm'>"
 			       		   + "<div class='modifyTextareaWrapper'>"  
-				    	   +	"<textarea name='reply_content' rows='3' class='reply_contents' value='' oninput='checkLength(this,700);'></textarea>"
+				    	   +	"<textarea name='reply_content' rows='3' class='reply_contents' value='' oninput='checkLength(this,3000);'></textarea>"
 				    	   + "</div>"
 				    	   + "<div class='replyModFormBtnWrapper'>" 
 					    	   + "<button id='replyModFormModBtn"+reply_nums+"' class='replyModFormBtn' type='button' >수정</button>" 
@@ -486,53 +496,53 @@
 								   + "</ul>"
 							   + "</div>"
 							   
-							   + "<span>" 
+							   + "<span class='reply_date'>"
 							   		+ replyService.displayTime(replyDate) 
 							   + "</span>";
 				  
 					  if(myId){ 
-						  str += "<span>" 
-							   		+ "<button data-oper='reReplyForm' type='button' data-reply_num='"+reply_nums+"' data-reply_id='"+userId+"' data-nick_name='"+nickName+"' data-group_num='"+ group_num+"' data-order_step='"+order_step+"' data-depth='"+depth+"'>답글</button>" 
+						  str += "<span class='replyMenu'>" 
+							   		+ "<button class='replyButton' data-oper='reReplyForm' type='button' data-reply_num='"+reply_nums+"' data-reply_id='"+userId+"' data-nick_name='"+nickName+"' data-group_num='"+ group_num+"' data-order_step='"+order_step+"' data-depth='"+depth+"'>답글</button>" 
 						       + "</span>"; 
 					  }
 		    	  
 		    	  	  	  str += "<span class='replyInformation'>" 
-				    	  	   		+ "<span>"
-				    	  	   				+ "<button data-oper='like' type='button' data-reply_content='"+reply_content+"' data-reply_id='"+userId+"' data-reply_num='"+reply_nums+"'>좋아요</button>"
+				    	  	   		+ "<span class='replyMenu'>"
+				    	  	   				+ "<button class='replyButton' data-oper='like' type='button' data-reply_content='"+reply_content+"' data-reply_id='"+userId+"' data-reply_num='"+reply_nums+"'>좋아요</button>"
 				    	  	   		+ "</span>"
-				    	  	   		+ "<span id='replyLikeCount"+reply_nums+"'>"
+				    	  	   		+ "<span class='replyMenu' id='replyLikeCount"+reply_nums+"'>"
 				    	  	   				+ likeCnt
 				    	  			+ "</span>" 
 				    	  			
-				    	  			+ "<span>"
-				    	  					+"<button data-oper='dislike' type='button' data-reply_content='"+reply_content+"' data-reply_id='"+userId+"' data-reply_num='"+reply_nums+"'>싫어요</button>"
+				    	  			+ "<span class='replyMenu'>"
+				    	  					+"<button class='replyButton' data-oper='dislike' type='button' data-reply_content='"+reply_content+"' data-reply_id='"+userId+"' data-reply_num='"+reply_nums+"'>싫어요</button>"
 		    	  	   				+ "</span>"
-					       			+ "<span id='replyDisLikeCount"+reply_nums+"'>"
+					       			+ "<span class='replyMenu' id='replyDisLikeCount"+reply_nums+"'>"
 					       					+dislikeCnt
 				       				+ "</span>"
 				       				
-				       				+ "<span>"
-				       						+"<button data-oper='donateMoney' type='button' data-reply_content='"+reply_content+"' data-reply_id='"+userId+"' data-reply_num='"+reply_nums+"'>기부</button>"
+				       				+ "<span class='replyMenu'>"
+				       						+"<button class='replyButton' data-oper='donateMoney' type='button' data-reply_content='"+reply_content+"' data-reply_id='"+userId+"' data-reply_num='"+reply_nums+"'>기부</button>"
 				  	   				+ "</span>" 	
-					       			+ "<span id='replyMoney"+reply_nums+"'>"
+					       			+ "<span class='replyMenu' id='replyMoney"+reply_nums+"'>\\"
 					       				+ money
-					       			+"\\</span>"  
+					       			+"</span>"  
 		      
 	          	     if(myId == userId){   
 		        	  
-		        	     str += "<span>"
-			        	  		    + "<button data-oper='modify' type='button' data-reply_id='"+userId+"' data-reply_num='"+reply_nums+"'>수정</button>"
+		        	     str += "<span class='replyMenu'>"
+			        	  		    + "<button class='replyButton' data-oper='modify' type='button' data-reply_id='"+userId+"' data-reply_num='"+reply_nums+"'>수정</button>"
 	   					      + "</span>"
 	   					   
-	   					      + "<span>"
-	   							    +"<button data-oper='delete' type='button' data-reply_id='"+userId+"' data-reply_num='"+reply_nums+"'>삭제</button>"
+	   					      + "<span class='replyMenu'>"
+	   							    +"<button class='replyButton' data-oper='delete' type='button' data-reply_id='"+userId+"' data-reply_num='"+reply_nums+"'>삭제</button>"
 	  	   				      + "</span>"
 		             }    
 		        
-		          	 if(myId != userId){  
+		          	 if(myId != userId){   
 		          		 
-		        	     str += "<span>"
-			        		 	  	+ "<button data-oper='report' type='button' data-reply_id='"+userId+"' data-reply_nickname='"+nickName+"'>신고</button>"
+		        	     str += "<span class='replyMenu'>" 
+			        		 	  	+ "<button class='replyButton' data-oper='report' type='button' data-reply_id='"+userId+"' data-reply_nickname='"+nickName+"'>신고</button>"
 				  	          + "</span>"
 		          	 } 
 		    	  
@@ -553,7 +563,7 @@
 		    	   str += "<div class='reply' data-reply_num='"+reply_nums+"'><span class='other'>"  
 		    	   
 			   }//end if   
-			   
+			     
 			   
 		       if(depth != 0){   
 		    	   
@@ -606,54 +616,54 @@
 								   + "</ul>"
 							   + "</div>"
 					   
-							   + "<span>"
+							   + "<span class='reply_date'>"
 						   			+ replyService.displayTime(replyDate) 
 						  	   + "</span>"; 
 				
 				  	  if(myId){ 
-						  str += "<span>" 
-							   		+ "<button data-oper='reReplyForm' type='button' data-reply_num='"+reply_nums+"' data-reply_id='"+userId+"' data-nick_name='"+nickName+"' data-group_num='"+ group_num+"' data-order_step='"+order_step+"' data-depth='"+depth+"'>답글</button>" 
+						  str += "<span class='replyMenu'>" 
+							   		+ "<button class='replyButton' data-oper='reReplyForm' type='button' data-reply_num='"+reply_nums+"' data-reply_id='"+userId+"' data-nick_name='"+nickName+"' data-group_num='"+ group_num+"' data-order_step='"+order_step+"' data-depth='"+depth+"'>답글</button>" 
 						       + "</span>"
 				          +"</span>"; 
 				  	  }
 					      
 				   	      str += "<span class='replyInformation'>" 
-					   	  	   		+ "<span>"
-					   	  	   				+ "<button data-oper='like' type='button' data-reply_content='"+reply_content+"' data-reply_id='"+userId+"' data-reply_num='"+reply_nums+"'>좋아요</button>"
+					   	  	   		+ "<span class='replyMenu'>"
+					   	  	   				+ "<button class='replyButton' data-oper='like' type='button' data-reply_content='"+reply_content+"' data-reply_id='"+userId+"' data-reply_num='"+reply_nums+"'>좋아요</button>"
 					   	  	   		+ "</span>"
-					   	  	   		+ "<span id='replyLikeCount"+reply_nums+"'>"
+					   	  	   		+ "<span class='replyMenu' id='replyLikeCount"+reply_nums+"'>"
 					   	  	   				+ likeCnt
 					   	  			+ "</span>" 
 				   	  			
-				   	  				+ "<span>"
-				   	  					+"<button data-oper='dislike' type='button' data-reply_content='"+reply_content+"' data-reply_id='"+userId+"' data-reply_num='"+reply_nums+"'>싫어요</button>"
+				   	  				+ "<span class='replyMenu'>"
+				   	  					+"<button class='replyButton' data-oper='dislike' type='button' data-reply_content='"+reply_content+"' data-reply_id='"+userId+"' data-reply_num='"+reply_nums+"'>싫어요</button>"
 				 	   				+ "</span>"
-					       			+ "<span id='replyDisLikeCount"+reply_nums+"'>"
+					       			+ "<span class='replyMenu' id='replyDisLikeCount"+reply_nums+"'>"
 					       					+dislikeCnt
 				      				+ "</span>"
 				      				
-				      				+ "<span>"
-				      						+"<button data-oper='donateMoney' type='button' data-reply_content='"+reply_content+"' data-reply_id='"+userId+"' data-reply_num='"+reply_nums+"'>기부</button>"
+				      				+ "<span class='replyMenu'>"
+				      						+"<button class='replyButton' data-oper='donateMoney' type='button' data-reply_content='"+reply_content+"' data-reply_id='"+userId+"' data-reply_num='"+reply_nums+"'>기부</button>"
 				 	   				+ "</span>" 	
-					       			+ "<span id='replyMoney"+reply_nums+"'>"
-					       				+ money
-					       			+"\\</span>"
+				 	   				+ "<span class='replyMenu' id='replyMoney"+reply_nums+"'>\\"
+					       				+ money 
+					       			+ "</span>" 
 				   
 					  if(myId == userId){   
 					        	  
-					   	       str += "<span>"
-				    	  		    	+ "<button data-oper='modify' type='button' data-reply_id='"+userId+"' data-reply_num='"+reply_nums+"'>수정</button>"
+					   	       str += "<span class='replyMenu'>"
+				    	  		    	+ "<button class='replyButton' data-oper='modify' type='button' data-reply_id='"+userId+"' data-reply_num='"+reply_nums+"'>수정</button>"
 						      	    + "</span>"
 							   
-						     	    + "<span>"
-								   		+ "<button data-oper='delete' type='button' data-reply_id='"+userId+"' data-reply_num='"+reply_nums+"'>삭제</button>"
+						     	    + "<span class='replyMenu'>"
+								   		+ "<button class='replyButton' data-oper='delete' type='button' data-reply_id='"+userId+"' data-reply_num='"+reply_nums+"'>삭제</button>"
 							        + "</span>"
 					  }  
 					    
 					  if(myId != userId){  
 					       	  
-				   	   	       str += "<span>"
-					   		 	 		  + "<button data-oper='report' type='button' data-reply_id='"+userId+"' data-reply_nickname='"+nickName+"'>신고</button>"
+				   	   	       str += "<span class='replyMenu'>"
+					   		 	 		  + "<button class='replyButton' data-oper='report' type='button' data-reply_id='"+userId+"' data-reply_nickname='"+nickName+"'>신고</button>"
 						  	        + "</span>" 
 					  } 
 			   }//end if
@@ -676,11 +686,11 @@
 	   			    	  str += "<div class='reply_content other'>" ;
 	   				   }//end if .
 	   				   
-           				   str += reply_content;
+           				   str += reply_content; 
            				   str += "</div>"    
 			           	       +"</div>"
 		          	  +"</div>" 
-		          +"</li>";        
+		          +"</li>";         
 			}//end for
 	        
 	        replyList.html(str);//댓글목록안에 채워주기
@@ -1150,14 +1160,14 @@
    		 reportForm.css("display","block");
 	} 
 
-  		function closeReportForm(){//신고폼 닫기 함수
-		
-  			reportBackGround.css("display","none");
-  			reportForm.css("display","none");
-  			reportInput.val(""); 
-  		}  
+	function closeReportForm(){//신고폼 닫기 함수
+
+		reportBackGround.css("display","none");
+		reportForm.css("display","none");
+		reportInput.val(""); 
+	}  
   		
-  		$("#closeReport").on("click",function(event){//신고폼 닫기 공통
+	$("#closeReport").on("click",function(event){//신고폼 닫기 공통
   			
  			closeReportForm(); 
  	});
@@ -1171,11 +1181,19 @@
 	});	 
 		 	
 	$(".replyList").on("click",'button[data-oper="report"]', function(event){//댓글 신고폼 열기 버튼
-				
-			openReportForm();
-			reportKind = '댓글';
-			reportedId = $(this).data("reply_id");
-			reportedNick = $(this).data("reply_nickname");
+		
+		reportedId = $(this).data("reply_id");
+		var loginCheck = "로그인후 신고를 해주세요.";
+		var reportCheck = "자신의 댓글에는 신고를 할 수 없습니다.";
+		 
+		if(checkUser(reportedId, loginCheck, null, reportCheck)){ 
+			return;
+		} 
+		
+		openReportForm();
+		reportKind = '댓글';
+		reportedNick = $(this).data("reply_nickname");
+		
 	});
 	
     $("#submitReport").on("click",function(event){//신고 확인 버튼 

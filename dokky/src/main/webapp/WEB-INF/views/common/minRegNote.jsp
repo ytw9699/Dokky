@@ -49,31 +49,48 @@
 	var myId = '${userInfo.username}';  
 	var myNickName = '${userInfo.member.nickName}';
 
-	function checkLength(obj, maxlength) {   
-			var str = obj.value; // 이벤트가 일어난 컨트롤의 value 값    
-			var str_length = str.length; // 전체길이       // 변수초기화     
-			var max_length = maxlength; // 제한할 글자수 크기     
-			var i = 0; // for문에 사용     
-			var ko_byte = 0; // 한글일경우는, 2그밗에는 1을 더함     
-			var li_len = 0; // substring하기 위해서 사용     
-			var one_char = ""; // 한글자씩 검사한다     
-			var reStr = ""; // 글자수를 초과하면 제한할수 글자전까지만 보여준다.  
+	function checkLength(obj, maxByte) { 
+		 
+		if(obj.tagName === "INPUT" || obj.tagName === "TEXTAREA"){ 
+			var str = obj.value; 
+		}else if(obj.tagName === "DIV" ){
+			var str = obj.innerHTML; 
+		} 
 			
-			for (i = 0; i < str_length; i++) { // 한글자추출         
-				one_char = str.charAt(i);            
-				ko_byte++;        
-			}     
+		var stringByteLength = 0;
+		var reStr;
 			
-			if (ko_byte <= max_length) {// 전체 크기가 max_length를 넘지않으면                
-				li_len = i + 1;         
-			}  
+		stringByteLength = (function(s,b,i,c){
 			
-			if (ko_byte > max_length) {// 전체길이를 초과하면          
-					alert(max_length + " 글자 이상 입력할 수 없습니다.");         
-					reStr = str.substr(0, max_length);         
-					obj.value = reStr;      
-			}     
-			obj.focus();  
+		    for(b=i=0; c=s.charCodeAt(i++);){
+		    
+			    b+=c>>11?3:c>>7?2:1;
+			    //3은 한글인 경우 한글자당 3바이트를 의미,영어는 1바이트 의미 3을2로바꾸면 한글은 2바이트 영어는 1바이트 의미
+			    //현재 나의 오라클 셋팅 같은경우 한글을 한자당 3바이트로 처리
+			    if (b > maxByte) { 
+			    	break;
+			    }
+			    
+			    reStr = str.substring(0,i);
+		    }
+		    
+		    return b //b는 바이트수 의미
+		    
+		})(str);
+		
+		if(obj.tagName === "INPUT" || obj.tagName === "TEXTAREA"){ 
+			if (stringByteLength > maxByte) {// 전체길이를 초과하면          
+				alert(maxByte + " Byte 이상 입력할 수 없습니다.");         
+				obj.value = reStr;       
+			}   
+		}else if(obj.tagName === "DIV"){
+			if (stringByteLength > maxByte) {// 전체길이를 초과하면          
+				alert(maxByte + " Byte 이상 입력할 수 없습니다.");         
+				obj.innerHTML = reStr;    
+			}   
+		} 
+		
+		obj.focus();  
 	}
 	
 	//////////////////////////////////////////////////////////////////////////////
