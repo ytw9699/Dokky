@@ -14,56 +14,67 @@
 <body>
 <sec:authentication property="principal" var="userInfo"/>
 <div class="myboardWrap">	
-	<div class="ContentWrap">
-		<div id="menuWrap">
-			<div class="tab"> 
-				<button onclick="location.href='myInfoForm?userId=${userInfo.username}'">개인정보 변경</button>
-		        <button onclick="location.href='rePasswordForm?userId=${userInfo.username}'">비밀번호 변경</button> 
-		        <button onclick="location.href='myBoardList?userId=${userInfo.username}'">나의 게시글</button> 
-		        <button onclick="location.href='myReplylist?userId=${userInfo.username}'">나의 댓글</button> 
-		        <button onclick="location.href='myScraplist?userId=${userInfo.username}'">스크랩</button>
-		        <button onclick="location.href='myCashInfo?userId=${userInfo.username}'">캐시</button>  
-		    </div> 
-		</div>
+	<div id="menuWrap">
+		<div class="tab"> 
+			<button onclick="location.href='myInfoForm?userId=${userInfo.username}'">개인정보 변경</button>
+	        <button onclick="location.href='rePasswordForm?userId=${userInfo.username}'">비밀번호 변경</button> 
+	        <button onclick="location.href='myBoardList?userId=${userInfo.username}'">나의 게시글</button> 
+	        <button onclick="location.href='myReplylist?userId=${userInfo.username}'">나의 댓글</button> 
+	        <button onclick="location.href='myScraplist?userId=${userInfo.username}'">스크랩</button>
+	        <button onclick="location.href='myCashInfo?userId=${userInfo.username}'">캐시</button>  
+	    </div> 
+	</div>
 	<div class="listWrapper">
-		<div class="">
-			<table class=""> 
+			<table id="inforTable">
 				<c:forEach items="${MyBoard}" var="board">
 					<tr>
-					<td>
-						<input type="checkbox" name="checkRow" value="${board.board_num}" />
-                    </td>
-						<td class="boardTitle">
+						<td>
+							<input type="checkbox" name="checkRow" value="${board.board_num}" />
+	                    </td>
+						<td class="title">
 							<a class='move' href='<c:out value="${board.board_num}"/>'> 
 								<c:out value="${board.title}" />
 								<span class="replyCnt">[<c:out value="${board.replyCnt}" />]</span>
 							</a>
 						</td>  
-						<td>
-							<img width="20px" src="/dokky/resources/img/read.png"/>
+						<td class="td"> 
+						</td>
+						
+						<td class="td">
+							<div class="tdData">  
+								조회수
+							</div>
 							<c:out value="${board.hitCnt}" />
 						</td>
-						<td>   
-							<img width="20px" src="/dokky/resources/img/like.png"/>
-							<c:out value="${board.likeCnt}" />
+						<td class="td" >
+							<div class="tdData">  
+								좋아요
+							</div>
+							<c:out value="${board.likeCnt}"/>
+						</td> 
+						<td class="td">
+							<div class="tdData">  
+								기부금
+							</div>
+							    \<fmt:formatNumber type="number" maxFractionDigits="3" value="${board.money}"/>
 						</td>
-						<td>  
-							\<fmt:formatNumber type="number" maxFractionDigits="3" value="${board.money}"/>
-						</td>
-						<td>
+						
+						<td id="dateTd">
 							<fmt:formatDate value="${board.regDate}" pattern="yyyy-MM-dd HH:mm" />
 						</td>
-					</tr>
+						
+					</tr> 
 				</c:forEach>
 				    <tr>
-				        <td><input type="checkbox" name="checkAll" id="checkAll" onclick="checkAll();"/>전체선택</td>
-				        <td><button id='deleteBtn' type="button" class="">삭제</button></td>
-				        <td></td>
-						<td><button id='regBtn' type="button" class="">새 글쓰기</button></td> 
-						<td>총 게시글 ${total}개 </td>  
+				        <td class="bottomTd"><input type="checkbox" name="checkAll" id="checkAll" onclick="checkAll();"/>전체선택</td>
+				        <td class="bottomTd"><button id='deleteBtn' type="button" class="btn">삭제</button></td>
+				       	<td class="bottomTd"></td> 
+				       	<td class="bottomTd"></td>
+				       	<td class="bottomTd"></td>
+				        <td class="bottomTd"><span>총 게시글 ${total}개</span></td>  
+						<td class="bottomTd"><button id='regBtn' type="button" class="btn">새 글쓰기</button></td> 
 				    </tr>
 			</table>
-		</div>
 		
 			<div class='pull-right'>
 				<ul class="pagination">
@@ -74,7 +85,7 @@
 					</c:if>
 
 					<c:forEach var="num" begin="${pageMaker.startPage}" end="${pageMaker.endPage}">
-						<li class="paginate_button  ${pageMaker.cri.pageNum == num ? "active":""} ">
+						<li class="paginate_button  ${pageMaker.cri.pageNum == num ? "page_active":""} ">
 							<a href="${num}">${num}</a>
 						</li> 
 					</c:forEach>
@@ -86,12 +97,13 @@
 					</c:if>
 				</ul>
 			</div>
-	<form id='actionForm' action="/dokky/mypage/myBoardList" method='get'>  
-		<input type='hidden' name='pageNum' value='${pageMaker.cri.pageNum}'>
-		<input type='hidden' name='amount' value='${pageMaker.cri.amount}'>
-		<input type='hidden' name='userId' value='${pageMaker.cri.userId}'>
-	</form> 
-		</div>
+			
+		<form id='actionForm' action="/dokky/mypage/myBoardList" method='get'>  
+			<input type='hidden' name='pageNum' value='${pageMaker.cri.pageNum}'>
+			<input type='hidden' name='amount' value='${pageMaker.cri.amount}'>
+			<input type='hidden' name='userId' value='${pageMaker.cri.userId}'>
+		</form> 
+		
 	</div>
 </div> 
 	
