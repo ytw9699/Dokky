@@ -14,7 +14,6 @@
 <body>
 <sec:authentication property="principal" var="userInfo"/>
 <div class="myinfoWrap">	
-	<div class="ContentWrap">
 		<div id="menuWrap">
 			<div class="tab">  
 				<button onclick="location.href='myInfoForm?userId=${userInfo.username}'">개인정보 변경</button>
@@ -43,10 +42,11 @@
 			</form>
 		</div>
 		<!-- 프로필 이미지 관련  끝-->
+		
 		<div id="infomation" class="tabcontent">
 	       <form method='post' action="/dokky/mypage/myInfo" id="operForm">	
 	     	  <input type="hidden" name="${_csrf.parameterName}" value="${_csrf.token}" />
-	     	<table>   
+	     	<table id="inforTable">   
 	     		<tr>
 	     			<td class="tableText">
 	     				프로필 
@@ -133,7 +133,6 @@
 	     		<input type="button" id="SumbitMyInfo" value="변경하기" class="submitInfo" /> 
 	      </form>
      	</div>
-	</div> 
 </div> 
 <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
 	<script>
