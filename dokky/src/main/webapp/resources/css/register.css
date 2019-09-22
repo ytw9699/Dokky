@@ -10,20 +10,22 @@
 				    min-height: 500px; 
 				    border: 2px solid #dbdbdb;
 				    border-radius: 5px;
+				    color: #333333;
 				}     
         }
-        @media screen and (min-width: 501px) and (max-width:1500px){
+        @media screen and (min-width: 501px) and (max-width:1600px){
 	        .registerWrapper {
 				    width: 80%; 
-				    display: inline-block;
-				    margin-left: 15%;
+				    display: inline-block; 
+				    margin-left: 17%; 
 				    margin-top: 1%;
 				    min-height: 500px; 
 				    border: 2px solid #dbdbdb;
 				    border-radius: 5px;
+				    color: #333333;
 				}
         }
-        @media screen and (min-width: 1501px){    
+        @media screen and (min-width: 1601px){    
           .registerWrapper { 
 			    width: 51%; 
 			    display: inline-block;
@@ -32,6 +34,7 @@
 			    min-height: 500px;  
 				border: 2px solid #dbdbdb;
 				border-radius: 5px; 
+				color: #333333;   
 			}
         }
         
@@ -61,11 +64,10 @@
 		    font-size: 15px;
 		    border: 2px solid #dbdbdb;
 		    border-radius: 5px;
-		    padding-left: 12px;
-		    color : #333333 !important; 
+		    padding-left: 12px; 
 		}
 		#title::placeholder {
-			color: #333333; 
+			color: #abaaaa;  
 		}
 
 		#selectId{
@@ -89,10 +91,11 @@
 		    border: 2px solid #dbdbdb;
 		    overflow-y: auto;
 		    width: 93.5%;
-		    margin-left: 16px;
+		    margin-left: 1.5%;
 		    border-radius: 5px;
 		    padding: 10px;
 		}
+		
 		#divContent img{
 			max-width: 400px;
 			height: auto;
@@ -100,6 +103,7 @@
 		
 		[contenteditable=true]:empty:before{
 		 	content: attr(placeholder);  
+		 	color: #abaaaa;    
 		}
 		
 	    .fileUploadResult { 
@@ -209,10 +213,11 @@
 		    margin-top: 10px;
 		}
 		.photo{
-		    float: left;
-		    width: 11%;
+		    float: left; 
 		    display: inline-block;
 		    height: 28px;
+		    width: 95px;
+		    margin-left: -40px;  
 		}
 		#inputPhoto{
 			display: none;
@@ -222,6 +227,7 @@
 		    width: 11%;
 		    display: inline-block;
 		    height: 28px; 
+	        margin-left: -20px;
 		}
 		#inputFile{
 			display: none;  
@@ -231,6 +237,7 @@
 		    width: 11%;
 		    display: inline-block;
 		    height: 28px; 
+		    margin-right: -40px;
 		}
 		.inputButton{
 		    border: 1px solid #7151fc;
