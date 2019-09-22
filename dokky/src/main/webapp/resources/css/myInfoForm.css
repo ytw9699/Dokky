@@ -13,11 +13,11 @@
 					border-radius: 10px;
 				}     
         }
-        @media screen and (min-width: 501px) and (max-width:1500px){
+        @media screen and (min-width: 501px) and (max-width:1600px){
 	        .myinfoWrap {
 				    width: 80%; 
 				    display: inline-block;
-				    margin-left: 15%;
+				    margin-left: 17%;
 				    margin-top: 1%;
 				    min-height: 500px; 
 					display: inline-block;
@@ -25,7 +25,7 @@
 					border-radius: 10px;
 			}
         }
-        @media screen and (min-width: 1501px){    
+        @media screen and (min-width: 1601px){    
 	          .myinfoWrap {
 				    width: 51%; 
 				    display: inline-block;
@@ -67,7 +67,7 @@
 		
 		#inforTable{
 	        /* border: 1px solid #dbdbdb; */
-	        margin: 10px; 
+	        margin: 15px;  
 		}
 	
 		.tableText{
@@ -104,6 +104,7 @@
 		    border-radius: 8px;
 		    width: 12%;
 		    margin: 10px;
+		    margin-top: -10px; 
 		}
 		
 	
