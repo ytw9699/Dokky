@@ -13,7 +13,7 @@
 					border-radius: 10px;
 				}     
         }
-        @media screen and (min-width: 501px) and (max-width:1500px){
+        @media screen and (min-width: 501px) and (max-width:1600px){
 	        .myboardWrap {
 				    width: 80%; 
 				    display: inline-block;
@@ -25,7 +25,7 @@
 					border-radius: 10px;
 				}
         }
-        @media screen and (min-width: 1501px){    
+        @media screen and (min-width: 1601px){    
 	          .myboardWrap {
 			        width: 51%; 
 				    display: inline-block;
@@ -110,11 +110,9 @@
 			color: #333333;
 			width: 16%;
 		}
-		.import{
-			width: 5%;
-		}
+		
 		.btn {
-		   font-size: 15px;
+		    font-size: 15px;
 		    background-color: #7151fc;
 		    border: 1px solid #7151fc;
 		    color: white;
