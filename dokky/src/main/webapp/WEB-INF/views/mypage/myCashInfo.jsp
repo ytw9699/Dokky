@@ -3,6 +3,7 @@
 <%@ taglib uri="http://java.sun.com/jsp/jstl/fmt" prefix="fmt"%>
 <%@ taglib uri="http://www.springframework.org/security/tags" prefix="sec" %> 
 <%@include file="../includes/left.jsp"%>
+
 <!DOCTYPE html>
 <html>
 <head>
@@ -35,7 +36,6 @@
 	</div>
 	
 <div class="mycashInfoWrap">	
-	<div class="ContentWrap">
 		<div id="menuWrap">
 			<div class="tab"> 
 				<button onclick="location.href='myInfoForm?userId=${userInfo.username}'">개인정보 변경</button>
@@ -49,10 +49,10 @@
 		
 		<div class="tabcontent">
     		<div class="dotContentWrap">   
-	     		<span class="dotText">Cash</span> <span class="dotValue"><fmt:formatNumber type="number" maxFractionDigits="3" value="${userCash}"/>원</span> 
-	     	</div>
+	     		<span id="dotText">My Cash </span> <span id="dotValue"><fmt:formatNumber type="number" maxFractionDigits="3" value="${userCash}"/>원</span> 
+	     	</div> 
 	     	<div class="dotContentWrap">  
-	     		<span class="dotText">입금 가상계좌</span> <span class="dotValue">신한 110-237-583410</span>  
+	     		<span id="account">입금 계좌 </span> <span id="accountVal">신한 110-237-583410</span>  
 	     	</div> 
 	     	<div class="dotButtonWrap"> 
 		     	<input type="button" id="charging" class="dotButtons" value="충전하기"/>
@@ -60,7 +60,6 @@
 		     	<input type="button" class="dotButtons" value="내역보기" onclick="location.href='myCashHistory?userId=${userInfo.username}'">
 	     	</div>
     	</div>
-	</div> 
 </div> 
 
 <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
