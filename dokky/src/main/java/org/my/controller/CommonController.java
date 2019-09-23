@@ -341,7 +341,7 @@ public class CommonController {
 	
 	@PreAuthorize("hasAnyRole('ROLE_ADMIN','ROLE_USER')")
 	@GetMapping("/registerNote")
-	public String registerNote(Criteria cri, Model model) {//쪽지 폼 열기
+	public String registerNote(@ModelAttribute("cri") Criteria cri, Model model) {//쪽지 폼 열기
 		
 		int fromNotetotal = commonService.getFromNoteCount(cri);
 		int toNotetotal   = commonService.getToNoteCount(cri);

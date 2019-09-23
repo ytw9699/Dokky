@@ -36,6 +36,12 @@
 					border-radius: 10px;
 			}
         }
+        
+        .active{
+			background-color: #7151fc !important;
+			color: white !important;   
+		}
+		
         #menuWrap{ 
 		    margin: 15px; 
 		    padding: 5px;
