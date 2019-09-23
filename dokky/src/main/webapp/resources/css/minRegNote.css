@@ -1,23 +1,13 @@
 @charset "utf-8";
 /* CSS Document */
 
-	body{
-			background-color: #323639; 
-		}
- 	
-	    .formWrapper{ 
+	    .formWrapper{  
 			width: 95%; 
 			margin: 0 auto;  
-			border-color: #e6e6e6; 
-			border-width: 1px; 
-			border-style: solid;
 		}
         .row{
 			width: 100%;
 			margin: 0 auto;
-			border-width: 1px;    
-			border-color: #e6e6e6; 
-			border-style: solid; 
 		}
 		.memberImage{
 			border-radius: 50px;
@@ -30,26 +20,33 @@
 		    margin-bottom: 5px;
 		    font-size: 12px;
 		}
+		.top{
+			padding: 10px; 
+		}
 		
 	    #content{ 
-	    	width: 98%;  
-			height: 400px;  
-			margin-bottom: 10px; 
-			background-color: white; 
-			border-width: 1px; 
-			color: black;
-			overflow-y: auto;/* 사이드바 */ 
+	    	width: 93%;
+		    height: 350px;
+		    background-color: white;
+		    border-radius: 5px;
+		    padding: 10px;
+		    border: 1px solid #7151fc;
+		    overflow-y: auto;
 		}
 		
 		.submitBtnWrap{
-			border-color: #e6e6e6;
-			border-width: 1px; 
-			border-style: solid;
 			width: 100%; 
-			height: 50px;
+		    height: 35px;
 		}
 		
-		#submitBtn{  
-			float: left;
+		.btn{  
+		    background-color: #7151fc;
+		    color: white;
+		    border-radius: 3px;
+		    border: 1px solid #7151fc;
+		    margin: 5px;
+		    margin-right:-4px;
+		    width: 70px;
+		    height: 27px;
 		}
 		
