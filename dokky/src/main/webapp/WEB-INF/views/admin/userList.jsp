@@ -14,50 +14,49 @@
 
 <body> 
 	<div class="memberListWrap">	 
-	 <div class="ContentWrap">  
 	 
 		 <div id="menuWrap"> 
-			<div class="tab">     
-		        <button onclick="location.href='userList'">계정관리</button> 
-		        <button onclick="location.href='cashRequest'">결제관리</button> 
-		        <button onclick="location.href='userReportList'">신고관리</button>
-		    </div> 
+				<div class="tab">      
+					<button class="active" onclick="location.href='/dokky/admin/userList'">계정관리</button>
+					<button onclick="location.href='/dokky/admin/cashRequest'">결제관리</button> 
+					<button onclick="location.href='/dokky/admin/userReportList'">신고관리</button>
+			    </div>
 		 </div>    
 		  
-	<div class="searchWrapper">  
-		<form id='searchForm' action="/dokky/admin/userList" method='get'>
-			<select name='type'>
-				<option value="I"
-					<c:out value="${pageMaker.cri.type eq 'I'?'selected':''}"/>>아이디</option>
-				<option value="N"
-					<c:out value="${pageMaker.cri.type eq 'N'?'selected':''}"/>>닉네임</option>
-				<option value="IN"
-					<c:out value="${pageMaker.cri.type eq 'IN'?'selected':''}"/>>아이디+닉네임</option>
-			</select> 
-						
-			<input type='text'   name='keyword' value='<c:out value="${pageMaker.cri.keyword}"/>' /> 
-			<input type='hidden' name='pageNum' value='<c:out value="${pageMaker.cri.pageNum}"/>' /> 
-			<input type='hidden' name='amount'  value='<c:out value="${pageMaker.cri.amount}"/>' />
-					
-			<button class='btn btn-default'>검색</button>
-		</form>
-	</div>
+		 <div class="searchWrapper">  
+			<form id='searchForm' action="/dokky/admin/userList" method='get'>
+				<select id="option" name='type'> 
+					<option value="I" 
+						<c:out value="${pageMaker.cri.type eq 'I'?'selected':''}"/>>아이디</option>
+					<option value="N"
+						<c:out value="${pageMaker.cri.type eq 'N'?'selected':''}"/>>닉네임</option>
+					<option value="IN"
+						<c:out value="${pageMaker.cri.type eq 'IN'?'selected':''}"/>>아이디+닉네임</option>
+				</select> 
+							
+				<input id="keyword" type='text' name='keyword' value='<c:out value="${pageMaker.cri.keyword}"/>' /> 
+				<input type='hidden' name='pageNum' value='<c:out value="${pageMaker.cri.pageNum}"/>' /> 
+				<input type='hidden' name='amount'  value='<c:out value="${pageMaker.cri.amount}"/>' />
+						 
+				<button id='search' class='btn btn-default'></button> 
+			</form>
+		 </div>
 		 
-	<div class="infoWrap"> 
-		<c:forEach items="${userList}" var="user">
-			<div class="memberInfoWrap" onclick="location.href='userForm?userId=<c:out value="${user.userId}" />'" >
-				<div class="memberProfile">
-					<img src="/dokky/resources/img/profile_img/<c:out value="${user.userId}"/>.png" id="memberProfile" onerror="this.src='/dokky/resources/img/basicProfile.png'" />
-				</div>		 		 												 									
-				<div class="memberInfo">
-					<span class="nickName"><c:out value="${user.nickName}" /></span><br/>
-					<span class="userId"><c:out value="${user.userId}" /></span>
+		 <div class="infoWrap"> 
+			<c:forEach items="${userList}" var="user">
+				<div class="memberInfoWrap" onclick="location.href='userForm?userId=<c:out value="${user.userId}" />'" >
+					<div class="memberProfile">
+						<img src="/dokky/resources/img/profile_img/<c:out value="${user.userId}"/>.png" id="memberProfile" onerror="this.src='/dokky/resources/img/basicProfile.png'" />
+					</div>		 		 												 									
+					<div class="memberInfo">
+						<span class="nickName"><c:out value="${user.nickName}" /></span><br/>
+						<span class="userId"><c:out value="${user.userId}" /></span>
+					</div>
 				</div>
-			</div>
-		</c:forEach>
-	</div>
+			</c:forEach>
+		 </div>
 	 
-		<div class='pull-right'>
+		 <div class='pull-right'>
 				<ul class="pagination">
 					<c:if test="${pageMaker.prev}">
 						<li class="paginate_button previous">
@@ -66,7 +65,7 @@
 					</c:if>
 
 					<c:forEach var="num" begin="${pageMaker.startPage}" end="${pageMaker.endPage}">
-						<li class="paginate_button  ${pageMaker.cri.pageNum == num ? "active":""} ">
+						<li class="paginate_button  ${pageMaker.cri.pageNum == num ? "page_active":""} ">
 							<a href="${num}">${num}</a>
 						</li> 
 					</c:forEach>
@@ -77,14 +76,15 @@
 						</li>
 					</c:if> 
 				</ul>
-		</div>
-			<form id='actionForm' action="/dokky/admin/memberList" method='get'>  
-				<input type='hidden' name='pageNum' value='${pageMaker.cri.pageNum}'>
-				<input type='hidden' name='amount' value='${pageMaker.cri.amount}'>
-				<input type='hidden' name='type' value='<c:out value="${ pageMaker.cri.type }"/>'> 
-				<input type='hidden' name='keyword' value='<c:out value="${ pageMaker.cri.keyword }"/>'>
-			</form>  
-	 </div>
+		 </div>
+		 
+		 <form id='actionForm' action="/dokky/admin/userList" method='get'>  
+			<input type='hidden' name='pageNum' value='${pageMaker.cri.pageNum}'>
+			<input type='hidden' name='amount' value='${pageMaker.cri.amount}'>
+			<input type='hidden' name='type' value='<c:out value="${ pageMaker.cri.type }"/>'> 
+			<input type='hidden' name='keyword' value='<c:out value="${ pageMaker.cri.keyword }"/>'>
+		 </form>  
+		 
 	</div> 
 	
 	<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script> 
