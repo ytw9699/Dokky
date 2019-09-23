@@ -2,100 +2,152 @@
 /* CSS Document */
 		@media screen and (max-width:500px){ 
 	           .mycashHisWrap {
-				    width: 50%;
-				    display: inline-block; 
-				    margin-left: 29%;
+				    width: 80%; 
+				    display: inline-block;
+				    margin-left: 15%;
 				    margin-top: 1%;
-				    min-height: 500px;
-				    border-color: #e6e6e6;
-				    border-style: solid;
-				    background-color: #323639;
-				    color: #e6e6e6;
+				    min-height: 500px; 
+					display: inline-block;
+					border: 2px solid #dbdbdb;
+					border-radius: 10px;
 				}
         }
-        @media screen and (min-width: 501px) and (max-width:1500px){
+        @media screen and (min-width: 501px) and (max-width:1600px){
           	.mycashHisWrap {
-			    width: 80%;
-			    display: inline-block;
-			    margin-left: 15%;
-			    margin-top: 1%;
-			    min-height: 500px;
-			    border-color: #e6e6e6;
-			    border-style: solid;
-			    background-color: #323639;
-			    color: #e6e6e6;
+			 		width: 80%; 
+				    display: inline-block;
+				    margin-left: 17%;
+				    margin-top: 1%;
+				    min-height: 500px; 
+					display: inline-block;
+					border: 2px solid #dbdbdb;
+					border-radius: 10px;
 			}
         }
-        @media screen and (min-width: 1501px){    
+        @media screen and (min-width: 1601px){    
             .mycashHisWrap {
-			    width: 51%;
-			    display: inline-block; 
-			    margin-left: 29%;
-			    margin-top: 1%;
-			    min-height: 500px;
-			    border-color: #e6e6e6;
-			    border-style: solid;
-			    background-color: #323639;
-			    color: #e6e6e6;
+			    width: 51%; 
+				    display: inline-block;
+				    margin-left: 29%;
+				    margin-top: 1%;
+				    min-height: 500px; 
+					display: inline-block;
+					border: 2px solid #dbdbdb;
+					border-radius: 10px;
 			}
         }
-	body{
-		background-color: #323639; 
-	}
-	.listWrapper { 
-	    border-color: #e6e6e6;/* 흰색 */
-		border-style: solid;   
-		background-color: #323639; 
-		color: #e6e6e6;
-		margin-left: 1%;
-		margin-top: 1%; 
-	}
-	.mypage a { 
-    color: white;
-	}
-	.pagination { 
-	    display: inline-block;
-	    padding-left: 0;
-	    margin: 20px 0;
-	    border-radius: 4px;
-	}  
-	.pagination li {
-   		display: inline;
-	}
-	.pagination li a{
-   		color: #e6e6e6;  
-	}
-	.pull-right{
-		width: 80%;
-		border-color: #e6e6e6;/* 흰색 */
-		border-style: solid;
-	}
+	
+		#menuWrap{ 
+		    margin: 15px; 
+		    padding: 5px;
+		    width: 97.8%; 
+		}
 		
-	.ContentWrap{box-sizing: border-box;
-	    padding-top: 48px;
-	    padding-left: 20px;
-	    padding-right: 20px;
-	    width: 95%;
-		min-height: 750px;
-	    margin: 0 auto; 
- 	} 
-	#menuWrap .tab button {
-		background-color: inherit;
-		border: none;
-		outline:none;
-		cursor: pointer;
-		padding: 14px 16px;
-		transition: 0.3s;
-		font-size: 20px;  
-		color: #e6e6e6;
-	}
-	#menuWrap .tab button:hover {
-	background-color: #7b7676;
-	}
-	a:hover {   
-	    color: #7151fc;
-	    text-decoration: underline;
-	}  
-	a  {    
-			color:#e6e6e6; text-decoration: none;
-		}   
+		#menuWrap .tab button {
+		    background-color: white;
+		    cursor: pointer; 
+		    padding: 10px;
+		    font-size: 17px;
+		    color: #7151fc; 
+		    width: 16%;
+		    border-radius: 10px;
+		    border: 1px solid #7151fc;   
+		}
+		#menuWrap .tab button:hover {
+			background-color: #7151fc;
+			color: white;  
+		} 
+        
+        .listWrapper {  
+			 border: 2px solid #dbdbdb;
+		     margin: 15px;
+		     border-radius: 10px; 
+		     color: #e6e6e6;
+        } 
+        
+        #inforTable{
+	        /* border: 1px solid #dbdbdb; */
+	        margin: 15px;  
+	        width: 97%;
+	        margin-top: -2px;
+		}  
+		
+		.topTd{
+			color: #7151fc; 
+		    font-size: 19px;
+		    width: 14%;
+		}
+		.content{
+			width: 40%;
+		}
+		
+		td{
+			height: 37px;
+		}
+				
+		.td {
+		}
+		.tdData{
+			display: inline-block;
+		    color: #333333;
+		    font-weight: 500;
+		    font-size: 16px;
+		}
+		a:hover {   
+		    color: #7151fc;
+		}
+		
+		.pull-right {
+		    width: 97.7%; 
+		    height: 45px;
+		    margin-left: 1%;
+		    margin-bottom: 10px;
+		}
+		
+		.pagination { 
+		     /* display: inline-block; */
+		    padding-left: 0px;
+		    margin: 7px;
+		    border-radius: 4px;
+		    display: 1px solid gray;
+		    width: 70%;
+		    margin-left: 23px;
+		    height: 30px;
+		}
+		.pagination li {
+	   		display: inline;
+	   		
+		}
+		.pagination li a { 
+		    color: #7151fc;
+		    position: relative;
+		    float: left;
+		    padding: 7px 12px;
+		    margin-left: 0px;
+		    line-height: 1;
+		    /* color: #337ab7; */
+		    text-decoration: none;
+		    border-right: 1px solid #ddd;   
+		    border-bottom: 1px solid #ddd;    
+		    border-top: 1px solid #ddd;   
+		}
+		
+		.page_active a { 
+			color: white !important;
+			background-color: #7151fc;
+		} 
+		
+		.pagination>li:first-child>a{
+		    margin-left: 0;
+		    border-top-left-radius: 4px;
+		    border-bottom-left-radius: 4px;
+		    border-left: 1px solid #ddd; 
+		} 
+		
+		.pagination>li:last-child>a{
+		    border-top-right-radius: 4px;
+		    border-bottom-right-radius: 4px;
+		} 
+		
+	
+	  
