@@ -14,7 +14,7 @@
 <body>
 <sec:authentication property="principal" var="userInfo"/>
 <div class="myscrapWrap">	
-	<div class="ContentWrap">
+
 		<div id="menuWrap">
 			<div class="tab"> 
 				<button onclick="location.href='myInfoForm?userId=${userInfo.username}'">개인정보 변경</button>
@@ -25,92 +25,106 @@
 		        <button onclick="location.href='myCashInfo?userId=${userInfo.username}'">캐시</button>  
 		    </div> 
 		</div>
-	<div class="listWrapper">
-		<div class="">
-			<table class="">  
-				<c:forEach items="${myScraplist}" var="scrap"> 
-					<tr>
-						<td>
-						<input type="checkbox" name="checkRow" value="${scrap.scrap_num}" />
-                    </td>
-						<td class="boardTitle">
-							<a class='move' href='<c:out value="${scrap.board_num}"/>'>  
-								<c:out value="${scrap.title}" />
-								<span class="replyCnt">[<c:out value="${scrap.replyCnt}" />]</span>
-							</a>
-						</td>  
-						<td>
-							<img width="20px" src="/dokky/resources/img/read.png"/>
-							<c:out value="${scrap.hitCnt}" />
-						</td> 
-						<td>   
-							<img width="20px" src="/dokky/resources/img/like.png"/>
-							<c:out value="${scrap.likeCnt}" />  
-						</td>
-						<td>  
-							\<fmt:formatNumber type="number" maxFractionDigits="3" value="${scrap.money}"/>
-						</td> 
-						<td> 
-							<a href="#" class="userMenu" data-scrap_num="${scrap.scrap_num}"> 
-								<img src="/dokky/resources/img/profile_img/<c:out value="${scrap.userId}"  />.png"  class="memberImage hideUsermenu" onerror="this.src='/dokky/resources/img/basicProfile.png'" />
-								<c:out value="${scrap.nickName}" /> 
-							</a>   
-							 <div id="userMenubar_${scrap.scrap_num}" class="userMenubar">
-								<ul class="hideUsermenu"> 
-									<li class="hideUsermenu">
-										<a href="/dokky/userBoardList?userId=${scrap.userId}" class="hideUsermenu">
-											<span class="hideUsermenu">게시글보기</span>
-										</a>
-									</li> 
-									<li class="hideUsermenu">
-										<a href="#" class="hideUsermenu" onclick="noteOpen('${scrap.userId}','${scrap.nickName}')">
-											<span class="hideUsermenu">쪽지보내기</span> 
-										</a>
-									</li>
-								</ul>      
-						     </div>
-						</td>
-						<td>
-							<fmt:formatDate value="${scrap.regDate}" pattern="yyyy-MM-dd HH:mm" />
-						</td>
-					</tr>
+		
+		<div class="listWrapper">
+				<table id="inforTable">  
+					<c:forEach items="${myScraplist}" var="scrap"> 
+						<tr>
+							<td class="td">
+								<input type="checkbox" name="checkRow" value="${scrap.scrap_num}" />
+	                    	</td>
+	                    	
+							<td class="boardTitle">
+								<a class='move' href='<c:out value="${scrap.board_num}"/>'>  
+									<c:out value="${scrap.title}" />
+									<span class="replyCnt">[<c:out value="${scrap.replyCnt}" />]</span>
+								</a>
+							</td>  
+							
+							<td class="td">
+								<div class="tdData">  
+									조회수
+								</div>
+								<c:out value="${scrap.hitCnt}" />
+							</td>
+							<td class="td" >
+								<div class="tdData">  
+									좋아요
+								</div>
+								<c:out value="${scrap.likeCnt}"/>
+							</td> 
+							<td class="td">
+								<div class="tdData">  
+									기부금
+								</div>
+								    \<fmt:formatNumber type="number" maxFractionDigits="3" value="${scrap.money}"/>
+							</td>
+						 
+							<td class="td">
+								<a href="#" class="userMenu" data-scrap_num="${scrap.scrap_num}"> 
+									<img src="/dokky/resources/img/profile_img/<c:out value="${scrap.userId}"  />.png"  class="memberImage hideUsermenu" onerror="this.src='/dokky/resources/img/basicProfile.png'" />
+									<c:out value="${scrap.nickName}" /> 
+								</a>   
+								<div id="userMenubar_${scrap.scrap_num}" class="userMenubar">
+									<ul class="hideUsermenu"> 
+										<li class="hideUsermenu">
+											<a href="/dokky/userBoardList?userId=${scrap.userId}" class="hideUsermenu">
+												<span class="hideUsermenu">게시글보기</span>
+											</a>
+										</li> 
+										<li class="hideUsermenu">
+											<a href="#" class="hideUsermenu" onclick="noteOpen('${scrap.userId}','${scrap.nickName}')">
+												<span class="hideUsermenu">쪽지보내기</span> 
+											</a>
+										</li>
+									</ul>      
+							    </div>
+							</td>
+							
+							<td id="dateTd">
+								<fmt:formatDate value="${scrap.regDate}" pattern="yyyy-MM-dd HH:mm" />
+							</td>
+						</tr>
+					</c:forEach>
+						<tr>
+					        <td class="bottomTd"><input type="checkbox" name="checkAll" id="checkAll" onclick="checkAll();"/>전체선택</td>
+					        <td class="bottomTd"><button id='deleteBtn' type="button" class="btn">삭제</button></td>
+					        <td class="bottomTd"></td>  
+					        <td class="bottomTd"></td>
+					        <td class="bottomTd"></td>
+					        <td class="bottomTd"></td> 
+					        <td class="bottomTd">총 스크랩수 ${total}개 </td>  
+					    </tr>
+				</table>
+		</div>
+			
+		<div class='pull-right'>
+			<ul class="pagination">
+				<c:if test="${pageMaker.prev}">
+					<li class="paginate_button previous">
+						<a href="${pageMaker.startPage -1}">Previous</a>
+					</li>
+				</c:if>
+
+				<c:forEach var="num" begin="${pageMaker.startPage}" end="${pageMaker.endPage}">
+					<li class="paginate_button  ${pageMaker.cri.pageNum == num ? "page_active":""} ">
+						<a href="${num}">${num}</a>
+					</li> 
 				</c:forEach>
-					<tr>
-				        <td><input type="checkbox" name="checkAll" id="checkAll" onclick="checkAll();"/>전체선택</td>
-				        <td><button id='deleteBtn' type="button" class="">삭제</button></td>
-				         <td>총 스크랩수 ${total}개 </td> 
-				    </tr>
-			</table>
+
+				<c:if test="${pageMaker.next}">
+					<li class="paginate_button next"><a
+						href="${pageMaker.endPage +1 }">Next</a>
+					</li>
+				</c:if>
+			</ul>
 		</div>
 		
-			<div class='pull-right'>
-				<ul class="pagination">
-					<c:if test="${pageMaker.prev}">
-						<li class="paginate_button previous">
-							<a href="${pageMaker.startPage -1}">Previous</a>
-						</li>
-					</c:if>
-
-					<c:forEach var="num" begin="${pageMaker.startPage}" end="${pageMaker.endPage}">
-						<li class="paginate_button  ${pageMaker.cri.pageNum == num ? "active":""} ">
-							<a href="${num}">${num}</a>
-						</li> 
-					</c:forEach>
-
-					<c:if test="${pageMaker.next}">
-						<li class="paginate_button next"><a
-							href="${pageMaker.endPage +1 }">Next</a>
-						</li>
-					</c:if>
-				</ul>
-			</div>
-	<form id='actionForm' action="/dokky/mypage/myScraplist" method='get'>  
-		<input type='hidden' name='pageNum' value='${pageMaker.cri.pageNum}'><!--  $(this).attr("href") -->
-		<input type='hidden' name='amount' value='${pageMaker.cri.amount}'>
-		<input type='hidden' name='userId' value='${pageMaker.cri.userId}'>
-	</form> 
-		</div>
-	</div>
+		<form id='actionForm' action="/dokky/mypage/myScraplist" method='get'>  
+			<input type='hidden' name='pageNum' value='${pageMaker.cri.pageNum}'><!--  $(this).attr("href") -->
+			<input type='hidden' name='amount' value='${pageMaker.cri.amount}'>
+			<input type='hidden' name='userId' value='${pageMaker.cri.userId}'>
+		</form> 
 </div> 
 	
 <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script> 

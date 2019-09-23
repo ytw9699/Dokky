@@ -37,9 +37,6 @@
 								<span class="replyCnt">[<c:out value="${board.replyCnt}" />]</span>
 							</a>
 						</td>  
-						<td class="td"> 
-						</td>
-						
 						<td class="td">
 							<div class="tdData">  
 								조회수
@@ -68,7 +65,6 @@
 				    <tr>
 				        <td class="bottomTd"><input type="checkbox" name="checkAll" id="checkAll" onclick="checkAll();"/>전체선택</td>
 				        <td class="bottomTd"><button id='deleteBtn' type="button" class="btn">삭제</button></td>
-				       	<td class="bottomTd"></td> 
 				       	<td class="bottomTd"></td>
 				       	<td class="bottomTd"></td>
 				        <td class="bottomTd"><span>총 게시글 ${total}개</span></td>  
