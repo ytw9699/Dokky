@@ -41,11 +41,15 @@
 			select count(*) from dk_alarm where target = #{userId} and checking = 'NO'
        </select>
        
+       <select id="getAlarmReadCount" resultType="int">
+       		select count(*) from dk_alarm where target = #{userId} and checking = 'YES' 
+       </select>
+       
        <select id="getNoteCount" resultType="String">
 			select count(*) from dk_note where TO_ID = #{userId} and FROM_ID != #{userId} and from_check = 'NO' and read_check = 'NO'
        </select>
 	  
-       <select id="getAlarmList" resultType="org.my.domain.alarmVO"> 
+       <select id="getAllAlarmList" resultType="org.my.domain.alarmVO"> 
 			select alarmNum,
 				   checking,
 				   target,
@@ -66,6 +70,56 @@
 																			commonVar2,
 					 														regdate
 					from dk_alarm where target = #{userId} and <![CDATA[ rownum <= #{pageNum} * #{amount} )
+						  where rn > (#{pageNum} -1) * #{amount}  
+						  ]]>
+	   </select>
+	   
+	    <select id="getReadedAlarmList" resultType="org.my.domain.alarmVO"> 
+			select alarmNum,
+				   checking,
+				   target,
+				   writerNick,
+				   writerId,
+				   kind,
+				   commonVar1,
+				   commonVar2,
+				   regdate from 
+					 ( select /*+INDEX_DESC(dk_alarm pk_alarm) */ rownum rn,
+					 														alarmNum,
+					 														checking,
+					 														target,
+					 														writerNick,
+					 														writerId,
+					 														kind,
+					 														commonVar1,
+																			commonVar2,
+					 														regdate
+					from dk_alarm where target = #{userId} and checking = 'YES' and <![CDATA[ rownum <= #{pageNum} * #{amount} )
+						  where rn > (#{pageNum} -1) * #{amount}  
+						  ]]>
+	   </select>
+	   
+	    <select id="getNotReadedAlarmList" resultType="org.my.domain.alarmVO"> 
+			select alarmNum,
+				   checking,
+				   target,
+				   writerNick,
+				   writerId,
+				   kind,
+				   commonVar1,
+				   commonVar2,
+				   regdate from 
+					 ( select /*+INDEX_DESC(dk_alarm pk_alarm) */ rownum rn,
+					 														alarmNum,
+					 														checking,
+					 														target,
+					 														writerNick,
+					 														writerId,
+					 														kind,
+					 														commonVar1,
+																			commonVar2,
+					 														regdate
+					from dk_alarm where target = #{userId} and checking = 'NO' and <![CDATA[ rownum <= #{pageNum} * #{amount} )
 						  where rn > (#{pageNum} -1) * #{amount}  
 						  ]]>
 	   </select>

@@ -15,7 +15,7 @@ public interface CommonMapper {
 
 	public int getAlarmCount(Criteria cri);
 
-	public List<alarmVO> getAlarmList(Criteria cri);
+	public List<alarmVO> getAllAlarmList(Criteria cri);
 
 	public int insertAlarm(alarmVO vo);
 	
@@ -54,5 +54,11 @@ public interface CommonMapper {
 	public List<noteVO> getMyNoteList(Criteria cri);
 
 	public String getNoteCount(String userId);
+
+	public int getAlarmReadCount(Criteria cri);
+
+	public List<alarmVO> getReadedAlarmList(Criteria cri);
+
+	public List<alarmVO> getNotReadedAlarmList(Criteria cri);
 
 }

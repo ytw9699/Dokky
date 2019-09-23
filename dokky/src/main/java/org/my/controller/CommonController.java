@@ -266,14 +266,29 @@ public class CommonController {
 		
 		log.info("/alarmList");
 		
-		int total = commonService.getAlarmCount(cri);
+		int Alltotal = commonService.getAlarmCount(cri);//전체알람
+		int readedTotal = commonService.getAlarmReadCount(cri);//읽은 알람
+		int notReadedTotal = Integer.parseInt(commonService.getAlarmRealCount(cri.getUserId()));//읽지않은 알람
 		
-		model.addAttribute("total", total);
+		if(cri.getOrder() == 0) {
+			
+			model.addAttribute("alarmList", commonService.getAllAlarmList(cri));
+			model.addAttribute("pageMaker", new PageDTO(cri, Alltotal));
+			
+		}else if(cri.getOrder() == 1){
+			model.addAttribute("alarmList", commonService.getReadedAlarmList(cri));
+			model.addAttribute("pageMaker", new PageDTO(cri, readedTotal));
+			 
+		}
+		else if (cri.getOrder() == 2){
+			model.addAttribute("alarmList", commonService.getNotReadedAlarmList(cri));
+			model.addAttribute("pageMaker", new PageDTO(cri, notReadedTotal));
+		}
 		
-		model.addAttribute("alarmList", commonService.getAlarmList(cri));
+		model.addAttribute("Alltotal", Alltotal);
+		model.addAttribute("readedTotal", readedTotal);
+		model.addAttribute("notReadedtotal", notReadedTotal);
 		
-		model.addAttribute("pageMaker", new PageDTO(cri, total));
-
 		return "common/alarmList";
 	}
 	
@@ -294,7 +309,7 @@ public class CommonController {
 		 			log.info("delete...deleteAllAlarm=" + alarmNum);
 				}
 		 	}
-			return "redirect:/alarmList?userId="+userId+"&pageNum="+cri.getPageNum()+"&amount="+cri.getAmount();
+			return "redirect:/alarmList?userId="+userId+"&pageNum="+cri.getPageNum()+"&amount="+cri.getAmount()+"&order="+cri.getOrder();
 	}
 	
 	@PreAuthorize("isAuthenticated()")
