@@ -249,7 +249,7 @@
 			신고사유를 입력해주세요.
 		 </div>
 		 <div class="reportText">	 
-		 	<textarea id="reportInput" rows="3" oninput="checkLength(this,40);"></textarea>
+		 	<textarea id="reportInput" rows="3" oninput="checkLength(this,60);"></textarea>
 		 </div>  
 	 
          <div class="">

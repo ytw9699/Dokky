@@ -40,9 +40,9 @@
         }
         
          #menuWrap{ 
-		    margin: 15px; 
+		    margin: 22px; 
 		    padding: 5px;
-		    width: 97.8%; 
+		    width: 105%; 
 		}
 		
 		#menuWrap .tab button {
@@ -163,6 +163,11 @@
 			color: white !important;   
 		}
         
+        .memberImage{ 
+				border-radius: 50px;
+				width: 25px; 
+				height: 25px;
+			}
 	    
 
  	
