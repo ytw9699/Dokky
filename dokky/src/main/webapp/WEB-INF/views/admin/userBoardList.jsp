@@ -7,7 +7,7 @@
 <html>
 <head>
 <meta charset="UTF-8"> 
-<title>Dokky - 관리자 유저 등록 게시글</title>
+<title>Dokky - 회원 등록 게시글</title>
 <link href="/dokky/resources/css/userBoardList.css" rel="stylesheet" type="text/css"/>
 </head>
 <%@include file="../includes/left.jsp"%>

@@ -3,27 +3,29 @@
 <%@ taglib uri="http://java.sun.com/jsp/jstl/fmt" prefix="fmt"%>
 <%@ taglib uri="http://www.springframework.org/security/tags" prefix="sec" %> 
 <%@include file="../includes/left.jsp"%>
+
 <!DOCTYPE html>
 <html>
 <head>
 <meta charset="UTF-8">
-	<title>Dokky - 유저 개인정보 </title>   
+	<title>Dokky - 회원 개인정보 </title>   
 	<link href="/dokky/resources/css/userForm.css" rel="stylesheet" type="text/css"/>
 </head>
 <body>
 <sec:authentication property="principal" var="userInfo"/>
+
 <div class="userFormWrap">	
-	<div class="ContentWrap">
+
 		<div id="menuWrap"> 
 			<div class="tab">  
-				<button onclick="location.href='/dokky/admin/userForm?userId=${user.userId}'">유저 개인정보</button> 
-		        <button onclick="location.href='/dokky/admin/userCashHistory?userId=${user.userId}'">유저 캐시내역</button>
-		        <button onclick="location.href='/dokky/userBoardList?userId=${user.userId}&pageLocation=admin'">유저 활동</button>
+				<button onclick="location.href='/dokky/admin/userForm?userId=${user.userId}'">회원 개인정보</button> 
+		        <button onclick="location.href='/dokky/admin/userCashHistory?userId=${user.userId}'">회원 캐시내역</button>
+		        <button onclick="location.href='/dokky/userBoardList?userId=${user.userId}&pageLocation=admin'">회원 활동</button>
 		    </div>   	 
-		 </div> 
+		</div> 
 		 
-		<div id="infomation" class="tabcontent">
-	     	<table width="100%" style="margin-bottom: 30px;">
+     	<div class="listWrapper">
+			<table id="inforTable">
 	     		<tr>
 	     			<td class="tableText">
 	     				아이디
@@ -112,16 +114,14 @@
 	     			</td>
 	     			<td class="tableValue">
 		     			<div class="changeButton">     
-					        <button id="stop" data-user_id="${user.userId}">모든 글쓰기 제한</button> 
-					        <button id="limit" data-user_id="${user.userId}">접속 제한</button> 
-					        <button id="recovery" data-user_id="${user.userId}">계정 복구</button> 
+					        <button class="submitInfo" id="stop" data-user_id="${user.userId}">모든 글쓰기 제한</button> 
+					        <button class="submitInfo" id="limit" data-user_id="${user.userId}">접속 제한</button> 
+					        <button class="submitInfo" id="recovery" data-user_id="${user.userId}">계정 복구</button> 
 			   			 </div>  
 	     			</td> 
 	     		</tr>
 	     	</table>
-	     	
-     	</div>
-	</div> 
+	   </div>
 </div> 
 <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
 <script>

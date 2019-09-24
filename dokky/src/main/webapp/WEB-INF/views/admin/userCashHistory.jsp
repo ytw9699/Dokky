@@ -7,7 +7,7 @@
 <html>
 <head>
 <meta charset="UTF-8">
-<title>Dokky - 유저 캐시내역</title>
+<title>Dokky - 회원 캐시내역</title>
 <link href="/dokky/resources/css/userCashHistory.css" rel="stylesheet" type="text/css"/>
 </head>
 <%@include file="../includes/left.jsp"%>
