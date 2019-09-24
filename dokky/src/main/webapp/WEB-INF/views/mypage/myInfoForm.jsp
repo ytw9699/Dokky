@@ -14,15 +14,14 @@
 <body>
 <sec:authentication property="principal" var="userInfo"/>
 <div class="myinfoWrap">	
-	<div class="ContentWrap">
 		<div id="menuWrap">
 			<div class="tab">  
-				<button onclick="location.href='myInfoForm?userId=${userInfo.username}'">개인정보 변경</button>
+				<button class="active" onclick="location.href='myInfoForm?userId=${userInfo.username}'">개인정보 변경</button>
 		        <button onclick="location.href='rePasswordForm?userId=${userInfo.username}'">비밀번호 변경</button> 
 		        <button onclick="location.href='myBoardList?userId=${userInfo.username}'">나의 게시글</button> 
 		        <button onclick="location.href='myReplylist?userId=${userInfo.username}'">나의 댓글</button> 
 		        <button onclick="location.href='myScraplist?userId=${userInfo.username}'">스크랩</button>
-		        <button onclick="location.href='myCashInfo?userId=${userInfo.username}'">캐시</button>  
+		        <button onclick="location.href='myCashInfo?userId=${userInfo.username}'">캐시</button>
 		    </div> 
 		</div>
 		<!-- 프로필 이미지 관련 -->
@@ -43,10 +42,11 @@
 			</form>
 		</div>
 		<!-- 프로필 이미지 관련  끝-->
+		
 		<div id="infomation" class="tabcontent">
 	       <form method='post' action="/dokky/mypage/myInfo" id="operForm">	
 	     	  <input type="hidden" name="${_csrf.parameterName}" value="${_csrf.token}" />
-	     	<table>   
+	     	<table id="inforTable">   
 	     		<tr>
 	     			<td class="tableText">
 	     				프로필 
@@ -133,7 +133,6 @@
 	     		<input type="button" id="SumbitMyInfo" value="변경하기" class="submitInfo" /> 
 	      </form>
      	</div>
-	</div> 
 </div> 
 <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
 	<script>

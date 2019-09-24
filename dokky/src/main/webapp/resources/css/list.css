@@ -190,6 +190,11 @@
 		    margin-right: 10px;
 		}
 		
+		.userMenu{
+			color:#333333; 
+			text-decoration: none;
+		}	
+		
 		.userMenubar{
 		    display: none; 
 	        border-style: solid;
@@ -252,10 +257,7 @@
 			color:#333333; 
 			text-decoration: none;
 		}
-		.userMenu{
-			color:#333333; 
-			text-decoration: none;
-		}		
+			
 		.td {
 		    color: #7151fc;
 		    font-weight: 600;

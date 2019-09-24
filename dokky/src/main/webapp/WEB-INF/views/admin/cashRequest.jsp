@@ -14,49 +14,62 @@
 
 <body> 
  <div class="cashRequestWrap">	 
-  <div class="ContentWrap">  
+	 
 	 <div id="menuWrap"> 
-		<div class="tab">   
-	        <button onclick="location.href='userList'">계정관리</button> 
-	        <button onclick="location.href='cashRequest'">결제관리</button> 
-	        <button onclick="location.href='userReportList'">신고관리</button> 
-	    </div> 
+		<div class="tab">      
+			<button onclick="location.href='/dokky/admin/userList'">계정관리</button>
+			<button class="active" onclick="location.href='/dokky/admin/cashRequest'">결제관리</button> 
+			<button onclick="location.href='/dokky/admin/userReportList'">신고관리</button>
+	    </div>
 	 </div> 
 	 
-  <div class="listWrapper">
-	<div class="">
-	 <table class=""> 
-		 <tr>
-			<td>요청아이디</td><td>종류</td><td>금액</td><td>요청날짜</td><td>상태</td><td>승인하기</td>
-		</tr>
-			<c:forEach items="${cashRequest}" var="cash">
-		<tr>  
+  	 <div class="listWrapper">
+		 <table id="inforTable">
+			 <tr>
+				<td class="topTd">요청아이디</td>
+				<td class="topTd">종류</td>
+				<td class="topTd">금액</td>
+				<td class="topTd">요청날짜</td>
+				<td class="topTd">상태</td> 
+				<td class="topTd">승인하기</td>
+			</tr>
+				<c:forEach items="${cashRequest}" var="cash">
+			<tr>  
+			
+				<td class="td">
+					<a href='userForm?userId=<c:out value="${cash.userId}"/>'> 
+					  <img src="/dokky/resources/img/profile_img/<c:out value="${cash.userId}"/>.png"  class="memberImage" onerror="this.src='/dokky/resources/img/basicProfile.png'" />
+					  <c:out value="${cash.userId}" />
+					</a> 
+				</td> 
+				<td class="td">
+					<c:out value="${cash.cashKind}" />
+				</td> 
+				<td class="td">
+					<fmt:formatNumber type="number" maxFractionDigits="3" value="${cash.cashAmount}"/>원
+				</td>
+				<td class="td"> 
+					<fmt:formatDate value="${cash.regDate}" pattern="yyyy-MM-dd HH:mm" />
+				</td>
+				<td class="td" id="specification${cash.cash_num}">
+					<c:out value="${cash.specification}" />
+				</td>   
+				<td class="td">
+				 	<button class="btn approveButton" data-cash_kind="${cash.cashKind}" data-user_id="${cash.userId}" data-cash_amount="${cash.cashAmount}" data-cash_num="${cash.cash_num}">
+				 	승인
+				 	</button>
+				</td>
+			</tr>
+		       </c:forEach>
+		 </table>
+	 </div>
 		
-			<td>
-				<a href='userForm?userId=<c:out value="${cash.userId}"/>'> 
-				  <img src="/dokky/resources/img/profile_img/<c:out value="${cash.userId}"/>.png"  class="memberImage" onerror="this.src='/dokky/resources/img/basicProfile.png'" />
-				  <c:out value="${cash.userId}" />
-				</a> 
-			</td> 
-			<td><c:out value="${cash.cashKind}" /></td> 
-			<td><fmt:formatNumber type="number" maxFractionDigits="3" value="${cash.cashAmount}"/>원</td>
-			<td>  
-				<fmt:formatDate value="${cash.regDate}" pattern="yyyy-MM-dd HH:mm" />
-			</td>
-			<td id="specification${cash.cash_num}"><c:out value="${cash.specification}" /></td>   
-			<td>
-			 	<button class="approveButton" data-cash_kind="${cash.cashKind}" data-user_id="${cash.userId}" data-cash_amount="${cash.cashAmount}" data-cash_num="${cash.cash_num}">
-			 	승인
-			 	</button>
-			</td>
-		</tr>
-	       </c:forEach>
-	 </table>
-	</div>
-	</div>
-		
-		
-		<div class='pull-right'>
+	<form id='actionForm' action="/dokky/admin/cashRequest" method='get'>  
+		<input type='hidden' name='pageNum' value='${pageMaker.cri.pageNum}'><!--  $(this).attr("href") -->
+		<input type='hidden' name='amount' value='${pageMaker.cri.amount}'>
+	</form>  
+	
+	<div class='pull-right'>
 				<ul class="pagination">
 					<c:if test="${pageMaker.prev}">
 						<li class="paginate_button previous">
@@ -65,7 +78,7 @@
 					</c:if>
 
 					<c:forEach var="num" begin="${pageMaker.startPage}" end="${pageMaker.endPage}">
-						<li class="paginate_button  ${pageMaker.cri.pageNum == num ? "active":""} ">
+						<li class="paginate_button  ${pageMaker.cri.pageNum == num ? "page_active":""} ">
 							<a href="${num}">${num}</a>
 						</li> 
 					</c:forEach>
@@ -77,12 +90,7 @@
 					</c:if>
 				</ul>
 		</div>
-			<form id='actionForm' action="/dokky/admin/cashRequest" method='get'>  
-				<input type='hidden' name='pageNum' value='${pageMaker.cri.pageNum}'><!--  $(this).attr("href") -->
-				<input type='hidden' name='amount' value='${pageMaker.cri.amount}'>
-			</form>  
 			
-	 </div>
 	</div> 
 	
 	<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script> 
@@ -149,8 +157,8 @@
 				 	var cashKind = $(this).data("cash_kind");
 				 	var specification = $("#specification"+cash_num); 
 				 	var kind;
-				 	
-				 	if(specification.html() === "승인완료"){
+					
+				 	if($.trim(specification.html()) === "승인완료"){
 				 		alert("이미 승인완료가 되었습니다.");
 				 		return;
 				 	} 

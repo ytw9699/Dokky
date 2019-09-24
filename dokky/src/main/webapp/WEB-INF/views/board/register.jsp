@@ -21,11 +21,10 @@
   </div>
 </div>
 
-<div class="registerWrapper">
-          <div class="formWrapper">
-	           <div class="row">
-			     <h1>새 글쓰기</h1>   
-			   </div> 
+<div class="registerWrapper"> 
+	              <div class="row">
+			     	 	<span id="category">새 글쓰기</span>   
+			      </div> 
 			  
 	          <form role="form" action="/dokky/board/register" method="post">
 			      <div class="row">
@@ -40,27 +39,26 @@
 				  </div>
 				 
 		          <div class="row">
-		            <input id="title" class="" placeholder="제목을 입력해 주세요." name='title' oninput="checkLength(this,30);"/>  
+		            <input id="title" placeholder="제목을 입력해 주세요." name='title' oninput="checkLength(this,30);"/>   
 		          </div>
 		          
-		          <div class="">
+		          <div>
 		          	<textarea id="areaContent" name='content'></textarea>
 		          </div>
 		               
 				  <div class="row" id="divContent" contenteditable="true" placeholder="내용을 입력해 주세요." oninput="checkLength(this,3500);"></div>    
 				  
-		          <div class='photoUploadResult'> 
+		          <div class='photoUploadResult row'> 
 			          <ul>
+			          </ul>
+			      </div>  
+			      
+			      <div class='fileUploadResult row'> <!-- 첨부파일 --> 
+			          <ul id="fileUploadResultUl">
 			          </ul>
 			      </div>
 			      
-			      <div class='fileUploadResult'> 
-			      	첨부파일
-			          <ul>
-			          </ul>
-			      </div>
-			      
-		          <div class="bottomMenuWrap">  
+		          <div class="bottomMenuWrap row">  
 			          <ul class="bottomMenu">
 				          <li class="photo"> 
 				          	  <label for="inputPhoto" class="inputButton">사진</label>  
@@ -71,7 +69,7 @@
 					          <input type="file" id="inputFile" name='uploadFile' multiple>
 					      </li> 
 				          <li class="submit"> 
-				          	<button type="submit" class="btn btn-default">등록</button> 
+				          	<button type="submit" class="submitButton">등록</button>    
 				          </li>
 			          </ul> 
 		          </div>
@@ -80,7 +78,6 @@
 		          <input type='hidden' name='userId' value='<sec:authentication property="principal.username"/>' /> 
 				  <input type="hidden" name="${_csrf.parameterName}" value="${_csrf.token}"/>
 	        </form>
-       </div>
 </div>
 
 <script> 

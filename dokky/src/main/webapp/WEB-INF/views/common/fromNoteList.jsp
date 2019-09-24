@@ -1,5 +1,6 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c"%>
+<%@ taglib prefix="fn" uri="http://java.sun.com/jsp/jstl/functions"%>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/fmt" prefix="fmt"%>
 <%@ taglib uri="http://www.springframework.org/security/tags" prefix="sec" %>
  
@@ -15,42 +16,40 @@
 <sec:authentication property="principal" var="userInfo"/>
 
 <div class="noteWrap">	
-	<div class="ContentWrap">
+
 		<div id="menuWrap">
-			<div class="tab"> 
+			<div class="tab">  
 				<button onclick="location.href='/dokky/registerNote?userId=${userInfo.username}'">쪽지쓰기</button>
-				<button onclick="location.href='/dokky/fromNoteList?userId=${userInfo.username}'">받은쪽지함 - ${fromNotetotal}</button>
+				<button class="active" onclick="location.href='/dokky/fromNoteList?userId=${userInfo.username}'">받은쪽지함 - ${fromNotetotal}</button>
 				<button onclick="location.href='/dokky/toNoteList?userId=${userInfo.username}'">보낸쪽지함  - ${toNotetotal}</button>
 				<button onclick="location.href='/dokky/myNoteList?userId=${userInfo.username}'">내게쓴쪽지함  - ${myNotetotal}</button>
 		    </div> 
 		</div>
 		
 		<div class="listWrapper">
-			<div class="">
-				<table class=""> 
+				<table id="inforTable">
 						<tr>
-							<td>
+							<td class="topTd"> 
 								<input type="checkbox" name="checkAll" id="checkAll" onclick="checkAll();"/>전체선택
 							</td>
-							<td>
-								보낸사람
+							<td class="topTd">
+								보낸이
 							</td>
-							<td>
+							<td class="topTd">
 								내용
 							</td>
-							<td>
-							</td>
-							<td>
+							<td class="topTd">
 								보낸날짜
 							</td>
 						</tr>
+						
 					<c:forEach items="${fromNoteList}" var="note">
 						<tr>
 							<td>
 								<input type="checkbox" name="checkRow" value="${note.note_num}" />
 		                    </td>
 		                    
-			     			<td> 
+			     			<td class="td"> 
 								<a href="#" class="userMenu" data-note_num="${note.note_num}">
 									<img src="/dokky/resources/img/profile_img/<c:out value="${note.from_id}"/>.png"  class="memberImage hideUsermenu" onerror="this.src='/dokky/resources/img/basicProfile.png'" />
 									<c:out value="${note.from_nickname}" /> 
@@ -71,57 +70,64 @@
 							    </div> 
 							</td>
 							
-							<td>
-			          			<a href="#" class="getNote" data-note_num="${note.note_num}">"${note.content}"</a>
+							<td class="content">
+			          			<a href="#" class="getNote" data-note_num="${note.note_num}">
+		          					<c:choose>
+								        <c:when test="${fn:length(note.content) > 20}">
+								        	<c:out value="${fn:substring(note.content, 0, 20)}"/>.....
+								        </c:when>
+								        <c:otherwise>
+								        	<c:out value="${note.content}"/> 
+								        </c:otherwise>
+									</c:choose>
+			          			</a>
+			          			
+			          			<c:if test="${note.read_check == 'NO'}">
+				          			<span class="readCheck checkNote${note.note_num}">
+										1 
+									</span> 
+								</c:if>
 				          	</td>
-			          		
-			          		<td class="checkNote${note.note_num}"> 
-				          		 <c:if test="${note.read_check == 'NO'}"> 
-										<span class="readCheck">1</span> 				          		 	
-				          		 </c:if> 
-			          		</td>
 			          		 
-							<td>
+							<td id="dateTd">
 								<fmt:formatDate value="${note.regdate}" pattern="yyyy-MM-dd HH:mm" />
 							</td>
+							
 						</tr>
 					</c:forEach>
 					    <tr>
-					        <td><button id='deleteBtn' type="button" class="">삭제</button></td>
+					        <td><button id='deleteBtn' type="button" class="btn">삭제</button></td>
 					    </tr>
 				</table>
-			</div>
 		
-			<div class='pull-right'>
-				<ul class="pagination">
-					<c:if test="${pageMaker.prev}">
-						<li class="paginate_button previous">
-							<a href="${pageMaker.startPage -1}">Previous</a>
-						</li>
-					</c:if>
-
-					<c:forEach var="num" begin="${pageMaker.startPage}" end="${pageMaker.endPage}">
-						<li class="paginate_button  ${pageMaker.cri.pageNum == num ? "active":""} ">
-							<a href="${num}">${num}</a>
-						</li> 
-					</c:forEach>
-
-					<c:if test="${pageMaker.next}">
-						<li class="paginate_button next"><a
-							href="${pageMaker.endPage +1 }">Next</a>
-						</li>
-					</c:if>
-				</ul>
-			</div>
-			
-			<form id='actionForm' action="/dokky/fromNoteList" method='get'>  
-				<input type='hidden' name='pageNum' value='${pageMaker.cri.pageNum}'>
-				<input type='hidden' name='amount' value='${pageMaker.cri.amount}'>
-				<input type='hidden' name='userId' value='${pageMaker.cri.userId}'>
-			</form> 
-			
+				<form id='actionForm' action="/dokky/fromNoteList" method='get'>  
+					<input type='hidden' name='pageNum' value='${pageMaker.cri.pageNum}'>
+					<input type='hidden' name='amount' value='${pageMaker.cri.amount}'>
+					<input type='hidden' name='userId' value='${pageMaker.cri.userId}'>
+				</form> 
 		</div>
-	</div>
+	
+		<div class='pull-right'>
+			<ul class="pagination">
+				<c:if test="${pageMaker.prev}">
+					<li class="paginate_button previous">
+						<a href="${pageMaker.startPage -1}">Previous</a>
+					</li>
+				</c:if>
+
+				<c:forEach var="num" begin="${pageMaker.startPage}" end="${pageMaker.endPage}">
+					<li class="paginate_button  ${pageMaker.cri.pageNum == num ? "page_active":""} ">
+						<a href="${num}">${num}</a>
+					</li> 
+				</c:forEach>
+
+				<c:if test="${pageMaker.next}">
+					<li class="paginate_button next"><a
+						href="${pageMaker.endPage +1 }">Next</a>
+					</li>
+				</c:if>
+			</ul>
+		</div>
 </div> 
 	
 <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script> 

@@ -14,41 +14,38 @@
 <body>
 <sec:authentication property="principal" var="userInfo"/>
 <div class="myreplyWrap">	
-	<div class="ContentWrap"> 
+
 		<div id="menuWrap">
-			<div class="tab"> 5 
+			<div class="tab">
 				<button onclick="location.href='myInfoForm?userId=${userInfo.username}'">개인정보 변경</button>
 		        <button onclick="location.href='rePasswordForm?userId=${userInfo.username}'">비밀번호 변경</button> 
 		        <button onclick="location.href='myBoardList?userId=${userInfo.username}'">나의 게시글</button> 
-		        <button onclick="location.href='myReplylist?userId=${userInfo.username}'">나의 댓글</button> 
+		        <button class="active" onclick="location.href='myReplylist?userId=${userInfo.username}'">나의 댓글</button> 
 		        <button onclick="location.href='myScraplist?userId=${userInfo.username}'">스크랩</button>
-		        <button onclick="location.href='myCashInfo?userId=${userInfo.username}'">캐시</button> 
+		        <button onclick="location.href='myCashInfo?userId=${userInfo.username}'">캐시</button>
 		    </div> 
 		</div>
-	<div class="listWrapper">
 		
-		
-		<div class="">
-			<table class=""> 
+	<div class="listWrapper"> 
+			<table id="inforTable"> 
 				<c:forEach items="${myReply}" var="Reply">
 					<tr>
-					<td>
-						<input type="checkbox" name="checkRow" value="${Reply.reply_num}" />
-                    </td>
+						<td class="td">
+							<input type="checkbox" name="checkRow" value="${Reply.reply_num}" />
+	                    </td>
 						<td class="replyTitle"><a class='move' href='<c:out value="${Reply.board_num}"/>'> 
 							<c:out value="${Reply.reply_content}" /></a></td> 
-					   <td> 
+					    <td id="dateTd">
 							<fmt:formatDate value="${Reply.replyDate}" pattern="yyyy-MM-dd HH:mm" />
 						</td>
  					</tr>
 				</c:forEach>
 					<tr>
-				        <td><input type="checkbox" name="checkAll" id="checkAll" onclick="checkAll();"/>전체선택</td>
-				        <td><button id='deleteBtn' type="button" class="">삭제</button></td>
-				        <td>총 댓글 ${total}개 </td>  
+				        <td class="bottomTd"><input type="checkbox" name="checkAll" id="checkAll" onclick="checkAll();"/>전체선택</td>
+				        <td class="bottomTd"><button id='deleteBtn' type="button" class="btn">삭제</button></td>
+				        <td class="bottomTd">총 댓글 ${total}개 </td>   
 				    </tr>
 			</table>
-		</div>
 		
 			<div class='pull-right'>
 				<ul class="pagination">
@@ -56,10 +53,10 @@
 						<li class="paginate_button previous">
 							<a href="${pageMaker.startPage -1}">Previous</a>
 						</li>
-					</c:if>
+					</c:if> 
 
 					<c:forEach var="num" begin="${pageMaker.startPage}" end="${pageMaker.endPage}">
-						<li class="paginate_button  ${pageMaker.cri.pageNum == num ? "active":""} ">
+						<li class="paginate_button  ${pageMaker.cri.pageNum == num ? "page_active":""} ">
 							<a href="${num}">${num}</a>
 						</li> 
 					</c:forEach>
@@ -71,13 +68,14 @@
 					</c:if>
 				</ul>
 			</div>
-	 <form id='actionForm' action="/dokky/mypage/myReplylist" method='get'>  
-		<input type='hidden' name='pageNum' value='${pageMaker.cri.pageNum}'><!--  $(this).attr("href") -->
-		<input type='hidden' name='amount' value='${pageMaker.cri.amount}'>
-		<input type='hidden' name='userId' value='${pageMaker.cri.userId}'> 
-	</form>
+			
+			 <form id='actionForm' action="/dokky/mypage/myReplylist" method='get'>  
+				<input type='hidden' name='pageNum' value='${pageMaker.cri.pageNum}'><!--  $(this).attr("href") -->
+				<input type='hidden' name='amount' value='${pageMaker.cri.amount}'>
+				<input type='hidden' name='userId' value='${pageMaker.cri.userId}'> 
+			</form>
+			
 		</div>
-	</div>
 </div>
 	
 <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>

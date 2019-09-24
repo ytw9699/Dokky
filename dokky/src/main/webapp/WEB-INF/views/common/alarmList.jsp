@@ -1,6 +1,7 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c"%>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/fmt" prefix="fmt"%>
+<%@ taglib prefix="fn" uri="http://java.sun.com/jsp/jstl/functions"%>
 <%@ taglib uri="http://www.springframework.org/security/tags" prefix="sec" %>
  
 <!DOCTYPE html>
@@ -11,383 +12,230 @@
 <link href="/dokky/resources/css/alarmList.css" rel="stylesheet" type="text/css"/>
 </head>
 <%@include file="../includes/left.jsp"%>
+
 <body>
 <sec:authentication property="principal" var="userInfo"/>
 <div class="alarmWrap">	
-	<div class="ContentWrap">
-		<div id="menuWrap">
-			<div class="tab"> 
-				<button onclick="location.href='alarmList?userId=${userInfo.username}'">총 알림 ${total}개</button> 
-		    </div> 
-		</div>
+
+	<div id="menuWrap">
+		<div class="tab">  
+			<button class="<c:if test="${pageMaker.cri.order == 0 }">active</c:if>" onclick="location.href='alarmList?userId=${userInfo.username}&order=0'">모든 알림 ${Alltotal}개</button> 
+			<button class="<c:if test="${pageMaker.cri.order == 1 }">active</c:if>" onclick="location.href='alarmList?userId=${userInfo.username}&order=1'">읽은 알림 ${readedTotal}개</button>
+			<button class="<c:if test="${pageMaker.cri.order == 2 }">active</c:if>" onclick="location.href='alarmList?userId=${userInfo.username}&order=2'">읽지 않은 알림 ${notReadedtotal}개</button> 
+	    </div> 																								
+	</div> 
+	
 	<div class="listWrapper">
-		<div class="">
-			<table class=""> 
+			<table id="inforTable">
 				<c:forEach items="${alarmList}" var="alarm">
 					<tr>
-					<td>
-						<input type="checkbox" name="checkRow" value="${alarm.alarmNum}" />
-                    </td>
-                    <c:choose> 
-					       <c:when test="${alarm.kind == 0 }"> 
-				          		<td> 
-									<a href="#" class="userMenu" data-alarm_num="${alarm.alarmNum}">
-										<img src="/dokky/resources/img/profile_img/<c:out value="${alarm.writerId}" />.png"  class="memberImage hideUsermenu" onerror="this.src='/dokky/resources/img/basicProfile.png'" />
-										<c:out value="${alarm.writerNick}" /> 
-									</a> 
-									<div id="userMenubar_${alarm.alarmNum}" class="userMenubar">
-										<ul class="hideUsermenu"> 
-											<li class="hideUsermenu">
-												<a href="/dokky/userBoardList?userId=${alarm.writerId}" class="hideUsermenu">
-													<span class="hideUsermenu">게시글보기</span>
-												</a>  
-											</li>   
-											<li class="hideUsermenu">
-												<a href="#" class="hideUsermenu" onclick="noteOpen('${alarm.writerId}','${alarm.writerNick}')">
-													<span class="hideUsermenu">쪽지보내기</span> 
-												</a>
-											</li>
-										</ul>      
-								    </div> 
-								</td> 
-					
-				          		<td> 
-				          			<a href="#" class="getBoard" data-alarm_num="${alarm.alarmNum}" data-board_num="${alarm.commonVar2}">댓글이 달렸습니다. "${alarm.commonVar1}"</a>
-					          	</td>
-					          	
-				          		 <td class="checkAlarm${alarm.alarmNum}"> 
-					          		 <c:if test="${alarm.checking == 'NO'}">
-											<span class="readCheck">1</span> 				          		 	
-					          		 </c:if> 
-				          		 </td>
-					       </c:when>
-					      <c:when test="${alarm.kind == 1 }">
-				     			<td> 
-									<a href="#" class="userMenu" data-alarm_num="${alarm.alarmNum}">
-										<img src="/dokky/resources/img/profile_img/<c:out value="${alarm.writerId}"  />.png"  class="memberImage hideUsermenu" onerror="this.src='/dokky/resources/img/basicProfile.png'" />
-										<c:out value="${alarm.writerNick}" /> 
-									</a>   
-									 <div id="userMenubar_${alarm.alarmNum}" class="userMenubar">
-										<ul class="hideUsermenu"> 
-											<li class="hideUsermenu">
-												<a href="/dokky/userBoardList?userId=${alarm.writerId}" class="hideUsermenu">
-													<span class="hideUsermenu">게시글보기</span>
-												</a>  
-											</li>   
-											<li class="hideUsermenu">
-												<a href="#" class="hideUsermenu" onclick="noteOpen('${alarm.writerId}','${alarm.writerNick}')">
-													<span class="hideUsermenu">쪽지보내기</span> 
-												</a>
-											</li>
-										</ul>      
-								     </div> 
-								</td>
-								
-								<td>
-				          			<a href="#" class="getBoard" data-alarm_num="${alarm.alarmNum}" data-board_num="${alarm.commonVar2}">다음 글에 좋아요 하셨습니다. "${alarm.commonVar1}"</a>
-					          	</td>
-				          		
-				          		 <td class="checkAlarm${alarm.alarmNum}"> 
-					          		 <c:if test="${alarm.checking == 'NO'}"> 
-											<span class="readCheck">1</span> 				          		 	
-					          		 </c:if> 
-				          		 </td>
-					       </c:when> 
-					        <c:when test="${alarm.kind == 2 }">
-				      			<td> 
-									<a href="#" class="userMenu" data-alarm_num="${alarm.alarmNum}">
-										<img src="/dokky/resources/img/profile_img/<c:out value="${alarm.writerId}"  />.png"  class="memberImage hideUsermenu" onerror="this.src='/dokky/resources/img/basicProfile.png'" />
-										<c:out value="${alarm.writerNick}" /> 
-									</a>   
-									 <div id="userMenubar_${alarm.alarmNum}" class="userMenubar">
-										<ul class="hideUsermenu"> 
-											<li class="hideUsermenu">
-												<a href="/dokky/userBoardList?userId=${alarm.writerId}" class="hideUsermenu">
-													<span class="hideUsermenu">게시글보기</span>
-												</a>  
-											</li>   
-											<li class="hideUsermenu">
-												<a href="#" class="hideUsermenu" onclick="noteOpen('${alarm.writerId}','${alarm.writerNick}')">
-													<span class="hideUsermenu">쪽지보내기</span> 
-												</a>
-											</li>
-										</ul>      
-								     </div> 
-								</td>
-								
-								<td>
-				          			<a href="#" class="getBoard" data-alarm_num="${alarm.alarmNum}" data-board_num="${alarm.commonVar2}">다음 글에 싫어요 하셨습니다. "${alarm.commonVar1}"</a>
-					          	</td>
-					          	
-				          		  <td class="checkAlarm${alarm.alarmNum}"> 
-					          		 <c:if test="${alarm.checking == 'NO'}">
-											<span class="readCheck">1</span> 				          		 	
-					          		 </c:if> 
-				          		 </td>
-					       </c:when> 
-					        <c:when test="${alarm.kind == 3 }">
-				        		 <td> 
-									<a href="#" class="userMenu" data-alarm_num="${alarm.alarmNum}">
-										<img src="/dokky/resources/img/profile_img/<c:out value="${alarm.writerId}"  />.png"  class="memberImage hideUsermenu" onerror="this.src='/dokky/resources/img/basicProfile.png'" />
-										<c:out value="${alarm.writerNick}" /> 
-									</a>   
-									 <div id="userMenubar_${alarm.alarmNum}" class="userMenubar">
-										<ul class="hideUsermenu"> 
-											<li class="hideUsermenu">
-												<a href="/dokky/userBoardList?userId=${alarm.writerId}" class="hideUsermenu">
-													<span class="hideUsermenu">게시글보기</span>
-												</a>  
-											</li>   
-											<li class="hideUsermenu">
-												<a href="#" class="hideUsermenu" onclick="noteOpen('${alarm.writerId}','${alarm.writerNick}')">
-													<span class="hideUsermenu">쪽지보내기</span> 
-												</a>
-											</li>
-										</ul>      
-								     </div> 
-								</td>
-								
-								<td>
-				          			<a href="#" class="getBoard" data-alarm_num="${alarm.alarmNum}" data-board_num="${alarm.commonVar2}">다음 글에 기부하셨습니다. "${alarm.commonVar1}"</a>
-					          	</td>
-					          	
-				          		  <td class="checkAlarm${alarm.alarmNum}"> 
-					          		 <c:if test="${alarm.checking == 'NO'}">
-											<span class="readCheck">1</span> 				          		 	
-					          		 </c:if> 
-				          		 </td>
-					       </c:when> 
-					       <c:when test="${alarm.kind == 4 }">
-				 			    <td> 
-									<a href="#" class="userMenu" data-alarm_num="${alarm.alarmNum}">
-										<img src="/dokky/resources/img/profile_img/<c:out value="${alarm.writerId}"  />.png"  class="memberImage hideUsermenu" onerror="this.src='/dokky/resources/img/basicProfile.png'" />
-										<c:out value="${alarm.writerNick}" /> 
-									</a>   
-									 <div id="userMenubar_${alarm.alarmNum}" class="userMenubar">
-										<ul class="hideUsermenu"> 
-											<li class="hideUsermenu">
-												<a href="/dokky/userBoardList?userId=${alarm.writerId}" class="hideUsermenu">
-													<span class="hideUsermenu">게시글보기</span>
-												</a>  
-											</li>   
-											<li class="hideUsermenu">
-												<a href="#" class="hideUsermenu" onclick="noteOpen('${alarm.writerId}','${alarm.writerNick}')">
-													<span class="hideUsermenu">쪽지보내기</span> 
-												</a>
-											</li>
-										</ul>     
-								     </div> 
-								</td>
-								
-								<td>
-				          			<a href="#" class="getBoard" data-alarm_num="${alarm.alarmNum}" data-board_num="${alarm.commonVar2}">다음 댓글에 기부하셨습니다. "${alarm.commonVar1}"</a>
-					          	</td>
-					          	
-				          		 <td class="checkAlarm${alarm.alarmNum}"> 
-					          		 <c:if test="${alarm.checking == 'NO'}">
-											<span class="readCheck">1</span> 					          		 	
-					          		 </c:if> 
-				          		 </td>
-					       </c:when>
-					       <c:when test="${alarm.kind == 5 }">
-				      		  	<td> 
-									<a href="#" class="userMenu" data-alarm_num="${alarm.alarmNum}">
-										<img src="/dokky/resources/img/profile_img/<c:out value="${alarm.writerId}"  />.png"  class="memberImage hideUsermenu" onerror="this.src='/dokky/resources/img/basicProfile.png'" />
-										<c:out value="${alarm.writerNick}" /> 
-									</a>   
-									 <div id="userMenubar_${alarm.alarmNum}" class="userMenubar">
-										<ul class="hideUsermenu"> 
-											<li class="hideUsermenu">
-												<a href="/dokky/userBoardList?userId=${alarm.writerId}" class="hideUsermenu">
-													<span class="hideUsermenu">게시글보기</span>
-												</a>  
-											</li>   
-											<li class="hideUsermenu">
-												<a href="#" class="hideUsermenu" onclick="noteOpen('${alarm.writerId}','${alarm.writerNick}')">
-													<span class="hideUsermenu">쪽지보내기</span> 
-												</a>
-											</li>
-										</ul>      
-								     </div> 
-								</td>
-								
-								<td>
-				          			<a href="#" class="getBoard" data-alarm_num="${alarm.alarmNum}" data-board_num="${alarm.commonVar2}">다음 댓글에 좋아요 하셨습니다. "${alarm.commonVar1}"</a>
-					          	</td>
-					          	
-				          		 <td class="checkAlarm${alarm.alarmNum}"> 
-					          		 <c:if test="${alarm.checking == 'NO'}">
-											<span class="readCheck">1</span> 				          		 	
-					          		 </c:if> 
-				          		 </td>
-					       </c:when>
-					       <c:when test="${alarm.kind == 6 }">
-				   				<td> 
-									<a href="#" class="userMenu" data-alarm_num="${alarm.alarmNum}">
-										<img src="/dokky/resources/img/profile_img/<c:out value="${alarm.writerId}" />.png"  class="memberImage hideUsermenu" onerror="this.src='/dokky/resources/img/basicProfile.png'" />
-										<c:out value="${alarm.writerNick}" /> 
-									</a>   
-									 <div id="userMenubar_${alarm.alarmNum}" class="userMenubar">
-										<ul class="hideUsermenu"> 
-											<li class="hideUsermenu">
-												<a href="/dokky/userBoardList?userId=${alarm.writerId}" class="hideUsermenu">
-													<span class="hideUsermenu">게시글보기</span>
-												</a>  
-											</li>   
-											<li class="hideUsermenu">
-												<a href="#" class="hideUsermenu" onclick="noteOpen('${alarm.writerId}','${alarm.writerNick}')">
-													<span class="hideUsermenu">쪽지보내기</span> 
-												</a>
-											</li>
-										</ul>      
-								     </div> 
-								</td>
-				          		<td>
-				          			<a href="#" class="getBoard" data-alarm_num="${alarm.alarmNum}" data-board_num="${alarm.commonVar2}">다음 댓글에 싫어요 하셨습니다. "${alarm.commonVar1}"</a>
-					          	</td>
-				          		 <td class="checkAlarm${alarm.alarmNum}"> 
-					          		 <c:if test="${alarm.checking == 'NO'}">
-											<span class="readCheck">1</span> 				          		 	
-					          		 </c:if> 
-				          		 </td>
-					       </c:when>
-					       <c:when test="${alarm.kind == 7 }">
-					       			<td>  
-					       				<a href="#" class="userMenu" data-alarm_num="${alarm.alarmNum}">
-						       				<img src="/dokky/resources/img/profile_img/admin.png" class="memberImage hideUsermenu" onerror="this.src='/dokky/resources/img/basicProfile.png'">
-						       				<c:out value="${alarm.writerNick}" /> 
-					       				</a> 
-					       				<div id="userMenubar_${alarm.alarmNum}" class="userMenubar">
-											<ul class="hideUsermenu"> 
-												<li class="hideUsermenu">
-													<a href="/dokky/userBoardList?userId=${alarm.writerId}" class="hideUsermenu">
-														<span class="hideUsermenu">게시글보기</span>
-													</a>  
-												</li>   
-												<li class="hideUsermenu">
-													<a href="#" class="hideUsermenu" onclick="noteOpen('${alarm.writerId}','${alarm.writerNick}')">
-														<span class="hideUsermenu">쪽지보내기</span> 
-													</a>
-												</li>
-											</ul>     
-								     	</div> 
-					       			</td> 
-					       			<td>
-					          			<a href="#" class="getMyCashHistory" data-alarm_num="${alarm.alarmNum}"> 캐시충전이 완료되었습니다.</a>
-						           </td>
-				          		   <td class="checkAlarm${alarm.alarmNum}"> 
-					          		 <c:if test="${alarm.checking == 'NO'}">
-										<span class="readCheck">1</span>  					          		 	
-					          		 </c:if> 
-				          		   </td>
-					       </c:when>
-					       <c:when test="${alarm.kind == 8 }">  
-				   			    <td>  
-				       				<a href="#" class="userMenu" data-alarm_num="${alarm.alarmNum}">
-					       				<img src="/dokky/resources/img/profile_img/admin.png" class="memberImage hideUsermenu" onerror="this.src='/dokky/resources/img/basicProfile.png'">
-					       				<c:out value="${alarm.writerNick}" />    
-				       				</a> 
-				       				<div id="userMenubar_${alarm.alarmNum}" class="userMenubar">
-										<ul class="hideUsermenu"> 
-											<li class="hideUsermenu">
-												<a href="/dokky/userBoardList?userId=${alarm.writerId}" class="hideUsermenu">
-													<span class="hideUsermenu">게시글보기</span>
-												</a>  
-											</li>   
-											<li class="hideUsermenu">
-												<a href="#" class="hideUsermenu" onclick="noteOpen('${alarm.writerId}','${alarm.writerNick}')">
-													<span class="hideUsermenu">쪽지보내기</span> 
-												</a>
-											</li>
-										</ul>       
-							     	</div> 
-				       			</td>  
-				   			    <td>
-					          		<a href="#" class="getMyCashHistory" data-alarm_num="${alarm.alarmNum}"> 캐시환전이 완료되었습니다.</a>
-						        </td>
-			          		    <td class="checkAlarm${alarm.alarmNum}"> 
-					          		 <c:if test="${alarm.checking == 'NO'}">
-										<span class="readCheck">1</span> 					          		 	
-					          		 </c:if>  
-			          		    </td>
-					       </c:when> 
-					       
-					          <c:when test="${alarm.kind == 9 }">
-				   				<td> 
-									<a href="#" class="userMenu" data-alarm_num="${alarm.alarmNum}">
-										<img src="/dokky/resources/img/profile_img/<c:out value="${alarm.writerId}" />.png"  class="memberImage hideUsermenu" onerror="this.src='/dokky/resources/img/basicProfile.png'" />
-										<c:out value="${alarm.writerNick}" /> 
-									</a>   
-									 <div id="userMenubar_${alarm.alarmNum}" class="userMenubar">
-										<ul class="hideUsermenu"> 
-											<li class="hideUsermenu">
-												<a href="/dokky/userBoardList?userId=${alarm.writerId}" class="hideUsermenu">
-													<span class="hideUsermenu">게시글보기</span>
-												</a>  
-											</li>   
-											<li class="hideUsermenu">
-												<a href="#" class="hideUsermenu" onclick="noteOpen('${alarm.writerId}','${alarm.writerNick}')">
-													<span class="hideUsermenu">쪽지보내기</span> 
-												</a>
-											</li>
-										</ul>      
-								     </div> 
-								</td> 
-				          		<td> 
-				          			<a href="#" class="getUserReportList" data-alarm_num="${alarm.alarmNum}">다음 사유로 신고가 접수되었습니다. "${alarm.commonVar1}"</a>  
-					          	</td> 
-				          		 <td class="checkAlarm${alarm.alarmNum}"> 
-					          		 <c:if test="${alarm.checking == 'NO'}">
-											<span class="readCheck">1</span> 	 			          		 	
-					          		 </c:if> 
-				          		 </td>
-					       </c:when>
-					       
-			       </c:choose> 
-						<td> 
+						<td>
+							<input type="checkbox" name="checkRow" value="${alarm.alarmNum}" />
+	                    </td>
+	                    
+	                    <td class="td"> 
+							<a href="#" class="userMenu" data-alarm_num="${alarm.alarmNum}">
+								<img src="/dokky/resources/img/profile_img/<c:out value="${alarm.writerId}" />.png"  class="memberImage hideUsermenu" onerror="this.src='/dokky/resources/img/basicProfile.png'" />
+								<c:out value="${alarm.writerNick}" /> 
+							</a>
+							 
+							<div id="userMenubar_${alarm.alarmNum}" class="userMenubar">
+								<ul class="hideUsermenu"> 
+									<li class="hideUsermenu">
+										<a href="/dokky/userBoardList?userId=${alarm.writerId}" class="hideUsermenu">
+											<span class="hideUsermenu">게시글보기</span>
+										</a>  
+									</li>   
+									<li class="hideUsermenu">
+										<a href="#" class="hideUsermenu" onclick="noteOpen('${alarm.writerId}','${alarm.writerNick}')">
+											<span class="hideUsermenu">쪽지보내기</span> 
+										</a>
+									</li>
+								</ul>      
+						    </div> 
+						</td>
+						<td class="title">
+			                    <c:choose>
+							       <c:when test="${alarm.kind == 0 }"> 
+								        <c:choose>
+										        <c:when test="${fn:length(alarm.commonVar1) gt 17}">
+											        <a href="#" class="getBoard" data-alarm_num="${alarm.alarmNum}" data-board_num="${alarm.commonVar2}">
+											        	댓글이 달렸습니다. "<c:out value="${fn:substring(alarm.commonVar1, 0, 17)}"/>....."
+										        	</a>
+										        </c:when>
+										        <c:otherwise>
+											        <a href="#" class="getBoard" data-alarm_num="${alarm.alarmNum}" data-board_num="${alarm.commonVar2}">
+											        	댓글이 달렸습니다. "<c:out value="${alarm.commonVar1}"/>"
+										        	</a> 
+										        </c:otherwise>
+										</c:choose>
+							       </c:when>
+							
+							       <c:when test="${alarm.kind == 1 }">
+						          			<c:choose>
+										        <c:when test="${fn:length(alarm.commonVar1) gt 13}">
+											        <a href="#" class="getBoard" data-alarm_num="${alarm.alarmNum}" data-board_num="${alarm.commonVar2}">
+											        	다음 글에 좋아요 하셨습니다. "<c:out value="${fn:substring(alarm.commonVar1, 0, 13)}"/>....."
+										        	</a>
+										        </c:when>
+										        <c:otherwise>
+											        <a href="#" class="getBoard" data-alarm_num="${alarm.alarmNum}" data-board_num="${alarm.commonVar2}">
+											        	다음 글에 좋아요 하셨습니다. "<c:out value="${alarm.commonVar1}"/>"
+										        	</a>
+										        </c:otherwise>
+											</c:choose>
+							       </c:when> 
+							       
+							       <c:when test="${alarm.kind == 2 }">
+						          			<c:choose>
+											        <c:when test="${fn:length(alarm.commonVar1) gt 13}">
+												        <a href="#" class="getBoard" data-alarm_num="${alarm.alarmNum}" data-board_num="${alarm.commonVar2}">
+												        	다음 글에 싫어요 하셨습니다. "<c:out value="${fn:substring(alarm.commonVar1, 0, 13)}"/>....."
+											        	</a>
+											        </c:when>
+											        <c:otherwise>
+												        <a href="#" class="getBoard" data-alarm_num="${alarm.alarmNum}" data-board_num="${alarm.commonVar2}">
+												        	다음 글에 싫어요 하셨습니다. "<c:out value="${alarm.commonVar1}"/>"
+											        	</a>  
+											        </c:otherwise>
+											</c:choose>
+							       </c:when> 
+							       
+							       <c:when test="${alarm.kind == 3 }">
+						          			<c:choose>
+										        <c:when test="${fn:length(alarm.commonVar1) gt 15}">
+											        <a href="#" class="getBoard" data-alarm_num="${alarm.alarmNum}" data-board_num="${alarm.commonVar2}">
+											        	다음 글에 기부하셨습니다. "<c:out value="${fn:substring(alarm.commonVar1, 0, 15)}"/>....."
+										        	</a>
+										        </c:when>
+										        <c:otherwise>
+											        <a href="#" class="getBoard" data-alarm_num="${alarm.alarmNum}" data-board_num="${alarm.commonVar2}">
+											        	다음 글에 기부하셨습니다. "<c:out value="${alarm.commonVar1}"/>"
+										        	</a>
+										        </c:otherwise>
+											</c:choose>
+							       </c:when> 
+							       
+							       <c:when test="${alarm.kind == 4 }"> 
+						          			<c:choose>
+										        <c:when test="${fn:length(alarm.commonVar1) gt 13}">
+										        	<a href="#" class="getBoard" data-alarm_num="${alarm.alarmNum}" data-board_num="${alarm.commonVar2}">
+										        		다음 댓글에 기부하셨습니다. "<c:out value="${fn:substring(alarm.commonVar1, 0, 13)}"/>....."
+										        	</a>
+										        </c:when>
+										        <c:otherwise>
+										        	<a href="#" class="getBoard" data-alarm_num="${alarm.alarmNum}" data-board_num="${alarm.commonVar2}">
+										        		다음 댓글에 기부하셨습니다. "<c:out value="${alarm.commonVar1}"/>"
+										        	</a> 
+										        </c:otherwise>
+											</c:choose>
+							       </c:when>
+							       
+							       <c:when test="${alarm.kind == 5 }"> 
+						          			<c:choose>
+										        <c:when test="${fn:length(alarm.commonVar1) gt 13}">
+										        	<a href="#" class="getBoard" data-alarm_num="${alarm.alarmNum}" data-board_num="${alarm.commonVar2}">
+										        		다음 댓글에 좋아요 하셨습니다. "<c:out value="${fn:substring(alarm.commonVar1, 0, 13)}"/>....."
+								        			</a>
+										        </c:when>
+										        <c:otherwise>
+										        	<a href="#" class="getBoard" data-alarm_num="${alarm.alarmNum}" data-board_num="${alarm.commonVar2}">
+										        		다음 댓글에 좋아요 하셨습니다. "<c:out value="${alarm.commonVar1}"/>"
+									        		</a>
+										        </c:otherwise>
+											</c:choose>
+							       </c:when>
+							       
+							       <c:when test="${alarm.kind == 6 }">
+							       			<c:choose>
+										        <c:when test="${fn:length(alarm.commonVar1) gt 13}">
+										        	<a href="#" class="getBoard" data-alarm_num="${alarm.alarmNum}" data-board_num="${alarm.commonVar2}">
+										        		다음 댓글에 싫어요 하셨습니다. "<c:out value="${fn:substring(alarm.commonVar1, 0, 13)}"/>....."
+										        	</a>
+										        </c:when>
+										        <c:otherwise>
+									        		<a href="#" class="getBoard" data-alarm_num="${alarm.alarmNum}" data-board_num="${alarm.commonVar2}">
+										        		다음 댓글에 싫어요 하셨습니다. "<c:out value="${alarm.commonVar1}"/>"
+										        	</a>
+										        </c:otherwise>
+											</c:choose>
+							       </c:when>
+							       
+							       <c:when test="${alarm.kind == 7 }">
+							       		<a href="#" class="getMyCashHistory" data-alarm_num="${alarm.alarmNum}">
+						          			캐시충전이 완료되었습니다.
+						          		</a>
+							       </c:when>
+							       
+							       <c:when test="${alarm.kind == 8 }">  
+						          		<a href="#" class="getMyCashHistory" data-alarm_num="${alarm.alarmNum}">
+						          			캐시환전이 완료되었습니다.
+						          		</a>
+							       </c:when>  
+							       
+						           <c:when test="${alarm.kind == 9 }">
+						          			<c:choose>
+										        <c:when test="${fn:length(alarm.commonVar1) gt 13}">
+										        	<a href="#" class="getUserReportList" data-alarm_num="${alarm.alarmNum}">
+										        		다음 사유로 신고가 접수되었습니다. "<c:out value="${fn:substring(alarm.commonVar1, 0, 13)}"/>....."
+										        	</a>
+										        </c:when>
+										        <c:otherwise>
+										        	<a href="#" class="getUserReportList" data-alarm_num="${alarm.alarmNum}">
+										        		다음 사유로 신고가 접수되었습니다. "<c:out value="${alarm.commonVar1}"/>"
+										        	</a> 
+										        </c:otherwise>
+											</c:choose>
+							       </c:when>
+						        </c:choose>  
+					        <c:if test="${alarm.checking == 'NO'}">
+					        	<span class="readCheck checkAlarm${alarm.alarmNum}">1</span> 
+					        </c:if>
+			       		</td>
+						<td id="dateTd"> 
 							<fmt:formatDate value="${alarm.regdate}" pattern="yyyy-MM-dd HH:mm" />
 						</td>
 					</tr>
 				</c:forEach>
 				    <tr>
-				        <td><input type="checkbox" name="checkAll" id="checkAll" onclick="checkAll();"/>전체선택</td>
-				        <td><button id='deleteBtn' type="button" class="">삭제</button></td>
+				        <td class="bottomTd"><input type="checkbox" name="checkAll" id="checkAll" onclick="checkAll();"/>전체선택</td>
+				        <td class="bottomTd"><button id='deleteBtn' type="button" class="btn">삭제</button></td> 
 				    </tr>
 			</table>
-		</div>
-		
-			<div class='pull-right'>
-				<ul class="pagination">
-					<c:if test="${pageMaker.prev}">
-						<li class="paginate_button previous">
-							<a href="${pageMaker.startPage -1}">Previous</a>
-						</li>
-					</c:if>
-
-					<c:forEach var="num" begin="${pageMaker.startPage}" end="${pageMaker.endPage}">
-						<li class="paginate_button  ${pageMaker.cri.pageNum == num ? "active":""} ">
-							<a href="${num}">${num}</a>
-						</li> 
-					</c:forEach>
-
-					<c:if test="${pageMaker.next}">
-						<li class="paginate_button next"><a
-							href="${pageMaker.endPage +1 }">Next</a>
-						</li>
-					</c:if>
-				</ul>
-			</div>
-	<form id='actionForm' action="/dokky/alarmList" method='get'>  
-		<input type='hidden' name='pageNum' value='${pageMaker.cri.pageNum}'>
-		<input type='hidden' name='amount' value='${pageMaker.cri.amount}'>
-		<input type='hidden' name='userId' value='${pageMaker.cri.userId}'>
-	</form> 
-	
-	<form id='commonForm' action="/dokky/board/get" method='get'>  
-	</form>
-	
-		</div>
+			
+			<form id='actionForm' action="/dokky/alarmList" method='get'>  
+				<input type='hidden' name='pageNum' value='${pageMaker.cri.pageNum}'>
+				<input type='hidden' name='order' value='${pageMaker.cri.order}'>
+				<input type='hidden' name='amount' value='${pageMaker.cri.amount}'>
+				<input type='hidden' name='userId' value='${pageMaker.cri.userId}'>
+			</form> 
+			
+			<form id='commonForm' action="/dokky/board/get" method='get'>  
+			</form>
 	</div>
+	
+	<div class='pull-right'>
+		<ul class="pagination">
+			<c:if test="${pageMaker.prev}">
+				<li class="paginate_button previous">
+					<a href="${pageMaker.startPage -1}">Previous</a>
+				</li>
+			</c:if>
+
+			<c:forEach var="num" begin="${pageMaker.startPage}" end="${pageMaker.endPage}">
+				<li class="paginate_button  ${pageMaker.cri.pageNum == num ? "page_active":""} ">
+					<a href="${num}">${num}</a>
+				</li> 
+			</c:forEach>
+
+			<c:if test="${pageMaker.next}">
+				<li class="paginate_button next"><a
+					href="${pageMaker.endPage +1 }">Next</a>
+				</li>
+			</c:if>
+		</ul>
+	</div>
+			
 </div> 
 	
 <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script> 
@@ -488,7 +336,7 @@
 				var userId = '${userInfo.username}';
 				
 					if(result == "success"){
-						checkAlarm.html("");//알림 숫자 1 없애주기 
+						checkAlarm.html("");//알림 숫자 1 없애주기   
 						commonForm.attr("action", "/dokky/mypage/myCashHistory");
 						commonForm.append("<input type='hidden' name='userId' value='"+userId+"'/>");
 						commonForm.submit();//글 상세보기 

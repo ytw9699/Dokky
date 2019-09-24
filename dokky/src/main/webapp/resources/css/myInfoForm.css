@@ -1,108 +1,113 @@
 @charset "utf-8";
 /* CSS Document */
 
-	@media screen and (max-width:500px){ 
-    	.myinfoWrap {
+		@media screen and (max-width:500px){ 
+	   			.myinfoWrap {
 				    width: 80%; 
 				    display: inline-block;
 				    margin-left: 15%;
 				    margin-top: 1%;
 				    min-height: 500px; 
-				    border-color: #e6e6e6;
-					border-style: solid;
-					background-color: #323639; 
-					color: #e6e6e6;
 					display: inline-block;
+					border: 2px solid #dbdbdb;
+					border-radius: 10px;
 				}     
         }
-        @media screen and (min-width: 501px) and (max-width:1500px){
+        @media screen and (min-width: 501px) and (max-width:1600px){
 	        .myinfoWrap {
 				    width: 80%; 
 				    display: inline-block;
-				    margin-left: 15%;
+				    margin-left: 17%;
 				    margin-top: 1%;
 				    min-height: 500px; 
-				    border-color: #e6e6e6;
-					border-style: solid;
-					background-color: #323639; 
-					color: #e6e6e6;
 					display: inline-block;
-				}
-        }
-        @media screen and (min-width: 1501px){    
-          .myinfoWrap {
-			    width: 51%; 
-			    display: inline-block;
-			    margin-left: 29%;
-			    margin-top: 1%;
-			    min-height: 500px; 
-			    border-color: #e6e6e6;
-				border-style: solid;
-				background-color: #323639; 
-				color: #e6e6e6;
-				display: inline-block;
+					border: 2px solid #dbdbdb;
+					border-radius: 10px;
 			}
         }
+        @media screen and (min-width: 1601px){    
+	          .myinfoWrap {
+				    width: 51%; 
+				    display: inline-block;
+				    margin-left: 29%;
+				    margin-top: 1%;
+				    min-height: 500px; 
+					display: inline-block;
+					border: 2px solid #dbdbdb;
+					border-radius: 10px;
+				}
+        }
         
-	body{
-		background-color: #323639;  
+		#menuWrap{
+		    margin: 15px; 
+		    padding: 5px;
+		    width: 97.8%; 
 		}
-	.ContentWrap{
-		box-sizing: border-box;
-	    padding-top: 48px;
-	    padding-left: 20px;
-	    padding-right: 20px;
-	    width: 95%;
-		min-height: 750px;
-	    margin: 0 auto; 
- 	}
-	#menuWrap .tab button {
-		background-color: inherit;
-		border: none;
-		outline:none;
-		cursor: pointer;
-		padding: 14px 16px;
-		transition: 0.3s;
-		font-size: 20px;  
-		color: #e6e6e6;
-	}
-	#menuWrap .tab button:hover {
-		background-color: #7b7676;
-	}
-	.tabcontent {  
-		 border-color: #e6e6e6; 
-		 border-style: solid; 
-	} 
-	.tableText{
-		width: 5%; 
-		font-size: 20px;  
-		color: #e6e6e6;
-    }
-	.tableValue{    
-		width: 24%;
-		height: 50px;
-	    /* font-size: 18px;
-	    color: #555; */
-	 }
-	 .inputInfo{
-	 	margin-top: 3px;
-	    font-size: 20px;
-	    color: #555;
-	    padding: 8px;
-	    width: 35%;
-	    border-radius: 8px;
-	    border: 1px solid #b5b5b5;
-	    height: 30px;
-	 }
-	 .submitInfo{  
-	 	font-size: 20px;
-	    background-color: #555;
-	    border: 1px solid #555;
-	    color: #e6e6e6;
-	    padding: 8px;
-	    border-radius: 8px;
-	    width: 12%;
-    }
+		
+		#menuWrap .tab button {
+		    background-color: white;
+		    cursor: pointer; 
+		    padding: 10px;
+		    font-size: 17px;
+		    color: #7151fc; 
+		    width: 16%;
+		    border-radius: 10px;
+		    border: 1px solid #7151fc;   
+		}
+		#menuWrap .tab button:hover {
+			background-color: #7151fc;
+			color: white;  
+		}
+	 
+		.tabcontent {  
+			 border: 2px solid #dbdbdb;
+		     margin: 15px;
+		     border-radius: 10px; 
+		} 
+		
+		#inforTable{
+	        /* border: 1px solid #dbdbdb; */
+	        margin: 15px;  
+		}
+	
+		.tableText{
+			width: 5%; 
+			font-size: 18px;  
+			color: #333333;
+	    }
+	    
+		.tableValue{    
+			width: 24%;
+			height: 50px;
+			font-size: 18px; 
+		    color: #333333;
+		 }
+		 
+		 .inputInfo{
+		 	margin-top: 3px;
+		    font-size: 18px;
+		    color: #333333; 
+		    padding: 8px;
+		    width: 35%;
+		    border-radius: 8px;
+		    border: 1px solid #b5b5b5;
+		    height: 28px;
+		 }
+		 
+		 .submitInfo{  
+		    font-size: 18px;
+		    background-color: #7151fc;
+		    border: 1px solid #7151fc;
+		    color: white;
+		    cursor: pointer;
+		    padding: 8px;
+		    border-radius: 8px;
+		    width: 12%;
+		    margin: 10px;
+		    margin-top: -10px; 
+		}
+		
+	
     .memberProfile {
 	    display: inline-block;
 	    float: left; 
@@ -185,3 +190,8 @@
 	    border-radius: 80px;
 	    height: 70px;
 	}
+	
+	.active{
+			background-color: #7151fc !important;
+			color: white !important;   
+		}

@@ -15,10 +15,10 @@
 <body> 
 
 <div class="noteWrap">	
-	<div class="ContentWrap">
+
 		  <div id="menuWrap">
 				<div class="tab">  
-					<button onclick="location.href='/dokky/registerNote'">쪽지쓰기</button>
+					<button class="active" onclick="location.href='/dokky/registerNote?userId=${userInfo.username}'">쪽지쓰기</button>
 					<button onclick="location.href='/dokky/fromNoteList?userId=${userInfo.username}'">받은쪽지함 - ${fromNotetotal}</button>
 					<button onclick="location.href='/dokky/toNoteList?userId=${userInfo.username}'">보낸쪽지함  - ${toNotetotal}</button>
 					<button onclick="location.href='/dokky/myNoteList?userId=${userInfo.username}'">내게쓴쪽지함  - ${myNotetotal}</button>
@@ -27,23 +27,22 @@
 		  
           <div class="formWrapper">
 		          <div class="row">
-		          	<span>
-		          		<input id="to_id" class="" placeholder="받는사람 아이디를 입력하세요." oninput="checkLength(this,20);"/>
-		          	</span>
-		          	<span>
-		          		<input id="checkbox" type="checkbox" value="" />내게쓰기
-		          	</span>
+			          	<div class="topbody">
+			          		<input id="to_id" class="" placeholder="받는사람 아이디를 입력하세요." oninput="checkLength(this,20);"/>
+			          	</div> 
+			          	<div class="topbody">
+			          		<input id="checkbox" type="checkbox" value="" />내게쓰기
+			          	</div>
 		          </div>
 		          
 		          <div class="row">
-		          	<textarea id="content" placeholder="내용을 입력해 주세요." oninput="checkLength(this,1300);"></textarea>
+		          		<textarea id="content" placeholder="내용을 입력해 주세요." oninput="checkLength(this,1300);"></textarea>
 		          </div>
 		         
 		          <div class="submitBtnWrap">  
 			          	<button type="submit" id="submitBtn">보내기</button> 
 		          </div>
 		  </div>
-	</div>
 </div>
 
 <script> 

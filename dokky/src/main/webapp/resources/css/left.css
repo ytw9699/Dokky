@@ -71,9 +71,15 @@
         transition: 0.3s;
 	    color: white;
 	    font-weight: 600;
-	    font-size: 18px;
+	    font-size: 18px; 
+        border-bottom-right-radius: 10px;
+    	border-bottom-left-radius: 10px;
 	  }
-	  
+	  .topMypage{
+	  	border-top-right-radius: 10px;
+    	border-top-left-radius: 10px;
+	  }
+	   
 	  .alarmCount, .noteCount {
 	 	    background-color: #e80935;
 		    color: white;
@@ -83,7 +89,7 @@
 		    line-height: 21px;
 		    display: inline-block;
 		    text-align: center;
-		    FONT-SIZE: 15px;
+		    FONT-SIZE: 14px;
 		}
 
 	  .mypage a {

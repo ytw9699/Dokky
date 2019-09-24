@@ -14,26 +14,26 @@
 </head>
 <body> 
         <div class="formWrapper">
-	          <div class="row">
-	          	<span>
-	          		받는사람 -
-	          	</span>
-	          	<span>
-	          		<img src="/dokky/resources/img/profile_img/<c:out value="${to_id}" />.png" class="memberImage" onerror="this.src='/dokky/resources/img/basicProfile.png'" />
-	          		${to_nickname} 
-	          	</span>
-	          	(<span id="to_id">
-	          		 ${to_id}
-	          	</span>)
+	          <div class="row top">
+		          	<span>
+		          		받는사람 -
+		          	</span>
+		          	<span>
+		          		<img src="/dokky/resources/img/profile_img/<c:out value="${to_id}" />.png" class="memberImage" onerror="this.src='/dokky/resources/img/basicProfile.png'" />
+		          		${to_nickname} 
+		          	</span>
+		          	(<span id="to_id">
+		          		 ${to_id}
+		          	</span>)
 	          </div>
 	          
 	          <div class="row">
-	          	<textarea id="content" placeholder="내용을 입력해 주세요." oninput="checkLength(this,1300);"></textarea>
+	          		<textarea id="content" placeholder="내용을 입력해 주세요." oninput="checkLength(this,1300);"></textarea>
 	          </div>
 	         
 	          <div class="submitBtnWrap">  
-		          	<button type="submit" id="submitBtn">보내기</button>    
-		          	<button type="button" id="cancel" onclick="window.close()">취소</button>
+		          	<button type="submit" class="btn" id="submitBtn">보내기</button>    
+		          	<button type="button" class="btn" id="cancel" onclick="window.close()">취소</button>
 	          </div>
 	    </div> 
 <script> 

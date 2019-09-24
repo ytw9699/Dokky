@@ -1,11 +1,7 @@
 package org.my.controller;
 	import java.io.UnsupportedEncodingException;
-import java.util.List;
-import java.util.Locale;
-
-import org.my.domain.BoardAttachVO;
-import org.my.domain.BoardVO;
-import org.my.domain.Criteria;
+	import java.util.Locale;
+	import org.my.domain.Criteria;
 	import org.my.domain.MemberVO;
 	import org.my.domain.PageDTO;
 	import org.my.domain.cashVO;
@@ -22,8 +18,8 @@ import org.my.domain.Criteria;
 	import org.springframework.stereotype.Controller;
 	import org.springframework.ui.Model;
 	import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.ModelAttribute;
-import org.springframework.web.bind.annotation.PathVariable;
+	import org.springframework.web.bind.annotation.ModelAttribute;
+	import org.springframework.web.bind.annotation.PathVariable;
 	import org.springframework.web.bind.annotation.PostMapping;
 	import org.springframework.web.bind.annotation.PutMapping;
 	import org.springframework.web.bind.annotation.RequestBody;
@@ -31,9 +27,7 @@ import org.springframework.web.bind.annotation.PathVariable;
 	import org.springframework.web.bind.annotation.RequestMethod;
 	import org.springframework.web.bind.annotation.RequestParam;
 	import org.springframework.web.bind.annotation.ResponseBody;
-import org.springframework.web.servlet.mvc.support.RedirectAttributes;
-
-import lombok.Setter;
+	import lombok.Setter;
 	import lombok.extern.log4j.Log4j;
 
 @Controller
@@ -266,14 +260,29 @@ public class CommonController {
 		
 		log.info("/alarmList");
 		
-		int total = commonService.getAlarmCount(cri);
+		int Alltotal = commonService.getAlarmCount(cri);//전체알람
+		int readedTotal = commonService.getAlarmReadCount(cri);//읽은 알람
+		int notReadedTotal = Integer.parseInt(commonService.getAlarmRealCount(cri.getUserId()));//읽지않은 알람
 		
-		model.addAttribute("total", total);
+		if(cri.getOrder() == 0) {
+			
+			model.addAttribute("alarmList", commonService.getAllAlarmList(cri));
+			model.addAttribute("pageMaker", new PageDTO(cri, Alltotal));
+			
+		}else if(cri.getOrder() == 1){
+			model.addAttribute("alarmList", commonService.getReadedAlarmList(cri));
+			model.addAttribute("pageMaker", new PageDTO(cri, readedTotal));
+			 
+		}
+		else if (cri.getOrder() == 2){
+			model.addAttribute("alarmList", commonService.getNotReadedAlarmList(cri));
+			model.addAttribute("pageMaker", new PageDTO(cri, notReadedTotal));
+		}
 		
-		model.addAttribute("alarmList", commonService.getAlarmList(cri));
+		model.addAttribute("Alltotal", Alltotal);
+		model.addAttribute("readedTotal", readedTotal);
+		model.addAttribute("notReadedtotal", notReadedTotal);
 		
-		model.addAttribute("pageMaker", new PageDTO(cri, total));
-
 		return "common/alarmList";
 	}
 	
@@ -294,7 +303,7 @@ public class CommonController {
 		 			log.info("delete...deleteAllAlarm=" + alarmNum);
 				}
 		 	}
-			return "redirect:/alarmList?userId="+userId+"&pageNum="+cri.getPageNum()+"&amount="+cri.getAmount();
+			return "redirect:/alarmList?userId="+userId+"&pageNum="+cri.getPageNum()+"&amount="+cri.getAmount()+"&order="+cri.getOrder();
 	}
 	
 	@PreAuthorize("isAuthenticated()")

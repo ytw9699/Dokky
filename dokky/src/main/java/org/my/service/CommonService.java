@@ -14,13 +14,19 @@ public interface CommonService {
 	public int getVisitTotalCount();
 
 	public int getAlarmCount(Criteria cri);
+	
+	public int getAlarmReadCount(Criteria cri);
 
-	public List<alarmVO> getAlarmList(Criteria cri);
+	public List<alarmVO> getAllAlarmList(Criteria cri);
+	
+	public List<alarmVO> getReadedAlarmList(Criteria cri);
 
+	public List<alarmVO> getNotReadedAlarmList(Criteria cri);
+	
 	public int insertAlarm(alarmVO vo);
 
 	public String getAlarmRealCount(String userId);
-
+	
 	public int updateAlarmCheck(String alarmNum);
 
 	public boolean deleteAllAlarm(Long alarmNum);
@@ -50,5 +56,6 @@ public interface CommonService {
 	public List<noteVO> getMyNoteList(Criteria cri);
 
 	public String getNoteCount(String userId);
+
 
 }
