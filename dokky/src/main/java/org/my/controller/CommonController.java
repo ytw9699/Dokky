@@ -1,11 +1,7 @@
 package org.my.controller;
 	import java.io.UnsupportedEncodingException;
-import java.util.List;
-import java.util.Locale;
-
-import org.my.domain.BoardAttachVO;
-import org.my.domain.BoardVO;
-import org.my.domain.Criteria;
+	import java.util.Locale;
+	import org.my.domain.Criteria;
 	import org.my.domain.MemberVO;
 	import org.my.domain.PageDTO;
 	import org.my.domain.cashVO;
@@ -22,8 +18,8 @@ import org.my.domain.Criteria;
 	import org.springframework.stereotype.Controller;
 	import org.springframework.ui.Model;
 	import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.ModelAttribute;
-import org.springframework.web.bind.annotation.PathVariable;
+	import org.springframework.web.bind.annotation.ModelAttribute;
+	import org.springframework.web.bind.annotation.PathVariable;
 	import org.springframework.web.bind.annotation.PostMapping;
 	import org.springframework.web.bind.annotation.PutMapping;
 	import org.springframework.web.bind.annotation.RequestBody;
@@ -31,9 +27,7 @@ import org.springframework.web.bind.annotation.PathVariable;
 	import org.springframework.web.bind.annotation.RequestMethod;
 	import org.springframework.web.bind.annotation.RequestParam;
 	import org.springframework.web.bind.annotation.ResponseBody;
-import org.springframework.web.servlet.mvc.support.RedirectAttributes;
-
-import lombok.Setter;
+	import lombok.Setter;
 	import lombok.extern.log4j.Log4j;
 
 @Controller
@@ -341,7 +335,7 @@ public class CommonController {
 	
 	@PreAuthorize("hasAnyRole('ROLE_ADMIN','ROLE_USER')")
 	@GetMapping("/registerNote")
-	public String registerNote(@ModelAttribute("cri") Criteria cri, Model model) {//쪽지 폼 열기
+	public String registerNote(Criteria cri, Model model) {//쪽지 폼 열기
 		
 		int fromNotetotal = commonService.getFromNoteCount(cri);
 		int toNotetotal   = commonService.getToNoteCount(cri);

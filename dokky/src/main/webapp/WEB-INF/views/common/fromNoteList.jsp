@@ -19,10 +19,10 @@
 
 		<div id="menuWrap">
 			<div class="tab">  
-				<button class="<c:if test="${pageMaker.cri.order == 0 }">active</c:if>" onclick="location.href='/dokky/registerNote?userId=${userInfo.username}&order=0'">쪽지쓰기</button>
-				<button class="<c:if test="${pageMaker.cri.order == 1 }">active</c:if>" onclick="location.href='/dokky/fromNoteList?userId=${userInfo.username}&order=1'">받은쪽지함 - ${fromNotetotal}</button>
-				<button class="<c:if test="${pageMaker.cri.order == 2 }">active</c:if>" onclick="location.href='/dokky/toNoteList?userId=${userInfo.username}&order=2'">보낸쪽지함  - ${toNotetotal}</button>
-				<button class="<c:if test="${pageMaker.cri.order == 3 }">active</c:if>" onclick="location.href='/dokky/myNoteList?userId=${userInfo.username}&order=3'">내게쓴쪽지함  - ${myNotetotal}</button>
+				<button onclick="location.href='/dokky/registerNote?userId=${userInfo.username}'">쪽지쓰기</button>
+				<button class="active" onclick="location.href='/dokky/fromNoteList?userId=${userInfo.username}'">받은쪽지함 - ${fromNotetotal}</button>
+				<button onclick="location.href='/dokky/toNoteList?userId=${userInfo.username}'">보낸쪽지함  - ${toNotetotal}</button>
+				<button onclick="location.href='/dokky/myNoteList?userId=${userInfo.username}'">내게쓴쪽지함  - ${myNotetotal}</button>
 		    </div> 
 		</div>
 		
