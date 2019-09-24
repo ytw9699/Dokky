@@ -64,7 +64,7 @@
 				</a>
 			</div>
 			<div class="mypage">
-				<a href="/dokky/fromNoteList?userId=${userInfo.username}"> 
+				<a href="/dokky/fromNoteList?userId=${userInfo.username}&order=1"> 
 					쪽지 <span class="noteCount"></span>
 				</a> 
 			</div>
