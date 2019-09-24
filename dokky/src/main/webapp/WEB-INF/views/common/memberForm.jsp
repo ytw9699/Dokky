@@ -13,14 +13,13 @@
 </head>
 <body>
 	<div class="memberFormWrap">	
-	  <div class="title">
-		회원가입
-	  </div>	 
-	  <div class="ContentWrap">
+	
+		  <div class="title">
+			회원가입
+		  </div>	 
+		  
 		  <div class="tabcontent">
 			 <form method='post' action="/dokky/members">	
-			  	<input type="hidden" name="${_csrf.parameterName}" value="${_csrf.token}" />
-			  	
 			  	<table>
 					<tr>
 						<td class="tableText">
@@ -107,9 +106,10 @@
 				<div class="nextWrap">
 					<input type="button" class="submitInfo" id="join" value="가입완료"/>
 				</div>
+				
+				<input type="hidden" name="${_csrf.parameterName}" value="${_csrf.token}" />
 			 </form> 
 		  </div>
-	  </div>
 	</div>
 	
 <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
