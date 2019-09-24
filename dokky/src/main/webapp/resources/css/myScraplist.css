@@ -230,8 +230,10 @@
 		    border-bottom-right-radius: 4px;
 		} 
 		
-		
-		
+		.active{
+			background-color: #7151fc !important;
+			color: white !important;   
+		}
 		
 		
 		

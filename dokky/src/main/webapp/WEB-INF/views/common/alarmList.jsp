@@ -339,7 +339,6 @@
 						checkAlarm.html("");//알림 숫자 1 없애주기   
 						commonForm.attr("action", "/dokky/mypage/myCashHistory");
 						commonForm.append("<input type='hidden' name='userId' value='"+userId+"'/>");
-						commonForm.append("<input type='hidden' name='order' value='5'/>");
 						commonForm.submit();//글 상세보기 
 						}
 		   	  });

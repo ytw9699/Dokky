@@ -171,4 +171,8 @@
     #realCommonWon{
     	display:none;
     }
+    .active{
+			background-color: #7151fc !important;
+			color: white !important;   
+		}
     

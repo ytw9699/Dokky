@@ -190,3 +190,8 @@
 	    border-radius: 80px;
 	    height: 70px;
 	}
+	
+	.active{
+			background-color: #7151fc !important;
+			color: white !important;   
+		}
