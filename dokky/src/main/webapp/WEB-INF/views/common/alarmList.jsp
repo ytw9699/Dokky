@@ -55,48 +55,63 @@
 						    </div> 
 						</td>
 						<td class="title">
-							<a href="#" class="getBoard" data-alarm_num="${alarm.alarmNum}" data-board_num="${alarm.commonVar2}">
-			                    <c:choose> 
+			                    <c:choose>
 							       <c:when test="${alarm.kind == 0 }"> 
 								        <c:choose>
 										        <c:when test="${fn:length(alarm.commonVar1) gt 17}">
-										        	댓글이 달렸습니다. "<c:out value="${fn:substring(alarm.commonVar1, 0, 17)}"/>....."
+											        <a href="#" class="getBoard" data-alarm_num="${alarm.alarmNum}" data-board_num="${alarm.commonVar2}">
+											        	댓글이 달렸습니다. "<c:out value="${fn:substring(alarm.commonVar1, 0, 17)}"/>....."
+										        	</a>
 										        </c:when>
 										        <c:otherwise>
-										        	댓글이 달렸습니다. "<c:out value="${alarm.commonVar1}"/>" 
+											        <a href="#" class="getBoard" data-alarm_num="${alarm.alarmNum}" data-board_num="${alarm.commonVar2}">
+											        	댓글이 달렸습니다. "<c:out value="${alarm.commonVar1}"/>"
+										        	</a> 
 										        </c:otherwise>
 										</c:choose>
 							       </c:when>
-							       
+							
 							       <c:when test="${alarm.kind == 1 }">
 						          			<c:choose>
 										        <c:when test="${fn:length(alarm.commonVar1) gt 13}">
-										        	다음 글에 좋아요 하셨습니다. "<c:out value="${fn:substring(alarm.commonVar1, 0, 13)}"/>....."
+											        <a href="#" class="getBoard" data-alarm_num="${alarm.alarmNum}" data-board_num="${alarm.commonVar2}">
+											        	다음 글에 좋아요 하셨습니다. "<c:out value="${fn:substring(alarm.commonVar1, 0, 13)}"/>....."
+										        	</a>
 										        </c:when>
 										        <c:otherwise>
-										        	다음 글에 좋아요 하셨습니다. "<c:out value="${alarm.commonVar1}"/>"
+											        <a href="#" class="getBoard" data-alarm_num="${alarm.alarmNum}" data-board_num="${alarm.commonVar2}">
+											        	다음 글에 좋아요 하셨습니다. "<c:out value="${alarm.commonVar1}"/>"
+										        	</a>
 										        </c:otherwise>
 											</c:choose>
 							       </c:when> 
 							       
 							       <c:when test="${alarm.kind == 2 }">
 						          			<c:choose>
-										        <c:when test="${fn:length(alarm.commonVar1) gt 13}">
-										        	다음 글에 싫어요 하셨습니다. "<c:out value="${fn:substring(alarm.commonVar1, 0, 13)}"/>....."
-										        </c:when>
-										        <c:otherwise>
-										        	다음 글에 싫어요 하셨습니다. "<c:out value="${alarm.commonVar1}"/>" 
-										        </c:otherwise>
+											        <c:when test="${fn:length(alarm.commonVar1) gt 13}">
+												        <a href="#" class="getBoard" data-alarm_num="${alarm.alarmNum}" data-board_num="${alarm.commonVar2}">
+												        	다음 글에 싫어요 하셨습니다. "<c:out value="${fn:substring(alarm.commonVar1, 0, 13)}"/>....."
+											        	</a>
+											        </c:when>
+											        <c:otherwise>
+												        <a href="#" class="getBoard" data-alarm_num="${alarm.alarmNum}" data-board_num="${alarm.commonVar2}">
+												        	다음 글에 싫어요 하셨습니다. "<c:out value="${alarm.commonVar1}"/>"
+											        	</a>  
+											        </c:otherwise>
 											</c:choose>
 							       </c:when> 
 							       
 							       <c:when test="${alarm.kind == 3 }">
 						          			<c:choose>
 										        <c:when test="${fn:length(alarm.commonVar1) gt 15}">
-										        	다음 글에 기부하셨습니다. "<c:out value="${fn:substring(alarm.commonVar1, 0, 15)}"/>....."
+											        <a href="#" class="getBoard" data-alarm_num="${alarm.alarmNum}" data-board_num="${alarm.commonVar2}">
+											        	다음 글에 기부하셨습니다. "<c:out value="${fn:substring(alarm.commonVar1, 0, 15)}"/>....."
+										        	</a>
 										        </c:when>
 										        <c:otherwise>
-										        	다음 글에 기부하셨습니다. "<c:out value="${alarm.commonVar1}"/>"
+											        <a href="#" class="getBoard" data-alarm_num="${alarm.alarmNum}" data-board_num="${alarm.commonVar2}">
+											        	다음 글에 기부하셨습니다. "<c:out value="${alarm.commonVar1}"/>"
+										        	</a>
 										        </c:otherwise>
 											</c:choose>
 							       </c:when> 
@@ -104,10 +119,14 @@
 							       <c:when test="${alarm.kind == 4 }"> 
 						          			<c:choose>
 										        <c:when test="${fn:length(alarm.commonVar1) gt 13}">
-										        	다음 댓글에 기부하셨습니다. "<c:out value="${fn:substring(alarm.commonVar1, 0, 13)}"/>....."
+										        	<a href="#" class="getBoard" data-alarm_num="${alarm.alarmNum}" data-board_num="${alarm.commonVar2}">
+										        		다음 댓글에 기부하셨습니다. "<c:out value="${fn:substring(alarm.commonVar1, 0, 13)}"/>....."
+										        	</a>
 										        </c:when>
 										        <c:otherwise>
-										        	다음 댓글에 기부하셨습니다. "<c:out value="${alarm.commonVar1}"/>" 
+										        	<a href="#" class="getBoard" data-alarm_num="${alarm.alarmNum}" data-board_num="${alarm.commonVar2}">
+										        		다음 댓글에 기부하셨습니다. "<c:out value="${alarm.commonVar1}"/>"
+										        	</a> 
 										        </c:otherwise>
 											</c:choose>
 							       </c:when>
@@ -115,10 +134,14 @@
 							       <c:when test="${alarm.kind == 5 }"> 
 						          			<c:choose>
 										        <c:when test="${fn:length(alarm.commonVar1) gt 13}">
-										        	다음 댓글에 좋아요 하셨습니다. "<c:out value="${fn:substring(alarm.commonVar1, 0, 13)}"/>....."
+										        	<a href="#" class="getBoard" data-alarm_num="${alarm.alarmNum}" data-board_num="${alarm.commonVar2}">
+										        		다음 댓글에 좋아요 하셨습니다. "<c:out value="${fn:substring(alarm.commonVar1, 0, 13)}"/>....."
+								        			</a>
 										        </c:when>
 										        <c:otherwise>
-										        	다음 댓글에 좋아요 하셨습니다. "<c:out value="${alarm.commonVar1}"/>"
+										        	<a href="#" class="getBoard" data-alarm_num="${alarm.alarmNum}" data-board_num="${alarm.commonVar2}">
+										        		다음 댓글에 좋아요 하셨습니다. "<c:out value="${alarm.commonVar1}"/>"
+									        		</a>
 										        </c:otherwise>
 											</c:choose>
 							       </c:when>
@@ -126,35 +149,45 @@
 							       <c:when test="${alarm.kind == 6 }">
 							       			<c:choose>
 										        <c:when test="${fn:length(alarm.commonVar1) gt 13}">
-										        	다음 댓글에 싫어요 하셨습니다. "<c:out value="${fn:substring(alarm.commonVar1, 0, 13)}"/>....."
+										        	<a href="#" class="getBoard" data-alarm_num="${alarm.alarmNum}" data-board_num="${alarm.commonVar2}">
+										        		다음 댓글에 싫어요 하셨습니다. "<c:out value="${fn:substring(alarm.commonVar1, 0, 13)}"/>....."
+										        	</a>
 										        </c:when>
 										        <c:otherwise>
-										        	다음 댓글에 싫어요 하셨습니다. "<c:out value="${alarm.commonVar1}"/>"
+									        		<a href="#" class="getBoard" data-alarm_num="${alarm.alarmNum}" data-board_num="${alarm.commonVar2}">
+										        		다음 댓글에 싫어요 하셨습니다. "<c:out value="${alarm.commonVar1}"/>"
+										        	</a>
 										        </c:otherwise>
 											</c:choose>
 							       </c:when>
 							       
 							       <c:when test="${alarm.kind == 7 }">
+							       		<a href="#" class="getMyCashHistory" data-alarm_num="${alarm.alarmNum}">
 						          			캐시충전이 완료되었습니다.
+						          		</a>
 							       </c:when>
 							       
 							       <c:when test="${alarm.kind == 8 }">  
-							          		캐시환전이 완료되었습니다.
+						          		<a href="#" class="getMyCashHistory" data-alarm_num="${alarm.alarmNum}">
+						          			캐시환전이 완료되었습니다.
+						          		</a>
 							       </c:when>  
 							       
 						           <c:when test="${alarm.kind == 9 }">
 						          			<c:choose>
 										        <c:when test="${fn:length(alarm.commonVar1) gt 13}">
-										        	다음 사유로 신고가 접수되었습니다. "<c:out value="${fn:substring(alarm.commonVar1, 0, 13)}"/>....."
+										        	<a href="#" class="getUserReportList" data-alarm_num="${alarm.alarmNum}">
+										        		다음 사유로 신고가 접수되었습니다. "<c:out value="${fn:substring(alarm.commonVar1, 0, 13)}"/>....."
+										        	</a>
 										        </c:when>
 										        <c:otherwise>
-										        	다음 사유로 신고가 접수되었습니다. "<c:out value="${alarm.commonVar1}"/>" 
+										        	<a href="#" class="getUserReportList" data-alarm_num="${alarm.alarmNum}">
+										        		다음 사유로 신고가 접수되었습니다. "<c:out value="${alarm.commonVar1}"/>"
+										        	</a> 
 										        </c:otherwise>
 											</c:choose>
-											
 							       </c:when>
-						        </c:choose> 
-					        </a>
+						        </c:choose>  
 					        <c:if test="${alarm.checking == 'NO'}">
 					        	<span class="readCheck checkAlarm${alarm.alarmNum}">1</span> 
 					        </c:if>
@@ -303,9 +336,10 @@
 				var userId = '${userInfo.username}';
 				
 					if(result == "success"){
-						checkAlarm.html("");//알림 숫자 1 없애주기 
+						checkAlarm.html("");//알림 숫자 1 없애주기   
 						commonForm.attr("action", "/dokky/mypage/myCashHistory");
 						commonForm.append("<input type='hidden' name='userId' value='"+userId+"'/>");
+						commonForm.append("<input type='hidden' name='order' value='5'/>");
 						commonForm.submit();//글 상세보기 
 						}
 		   	  });
