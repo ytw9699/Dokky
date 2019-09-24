@@ -9,58 +9,56 @@
 <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
 <title>Dokky - 에러 페이지</title>
 <style>
-	 @media screen and (max-width:500px){ 
-	           .accessWrap {
-				    width: 50%;
-				    display: inline-block; 
-				    margin-left: 29%;
+       @media screen and (max-width:500px){ 
+		     .accessWrap {
+				    width: 80%; 
+				    display: inline-block;
+				    margin-left: 15%;
 				    margin-top: 1%;
-				    min-height: 500px;
-				    border-color: #e6e6e6;
-				    border-width: 1px;
-				    border-style: solid;
-				    background-color: #323639;
-				    color: #e6e6e6;
+				    min-height: 500px; 
+					display: inline-block;
+					border: 2px solid #dbdbdb;
+					border-radius: 10px;
 				}
         }
-        @media screen and (min-width: 501px) and (max-width:1500px){
-          	.accessWrap {
-			    width: 80%;
-			    display: inline-block;
-			    margin-left: 15%;
-			    margin-top: 1%;
-			    min-height: 500px;
-			    border-color: #e6e6e6;
-			    border-style: solid;
-			    border-width: 1px;
-			    background-color: #323639;
-			    color: #e6e6e6;
-			}  
-        }
-        @media screen and (min-width: 1501px){    
-            .accessWrap {
-			    width: 51%;
-			    display: inline-block; 
-			    margin-left: 29%;
-			    margin-top: 1%;
-			    min-height: 500px;
-			    border-color: #e6e6e6;
-			    border-style: solid;
-			    border-width: 1px;
-			    background-color: #323639;
-			    color: #e6e6e6;
+        @media screen and (min-width: 501px) and (max-width:1600px){
+          .accessWrap {
+			    	width: 80%; 
+				    display: inline-block;
+				    margin-left: 17%;
+				    margin-top: 1%;
+				    min-height: 500px; 
+					display: inline-block;
+					border: 2px solid #dbdbdb;
+					border-radius: 10px;
 			}
         }
-        body{
-			background-color: #323639;   
-		}  
+        @media screen and (min-width: 1601px){    
+		      .accessWrap {
+			   		width: 51%; 
+				    display: inline-block;
+				    margin-left: 29%;
+				    margin-top: 1%;
+				    min-height: 500px; 
+					display: inline-block;
+					border: 2px solid #dbdbdb;
+					border-radius: 10px;
+			}
+        }
+        .content {
+		    width: 54%;
+		    margin-left: 23%;
+		    margin-top: 23%;
+		    color: #7151fc;
+	    }
 </style>
 </head> 
 <body>
-	<div class="accessWrap">  
+	<div class="accessWrap">
+		<div class="content">
 			<h2><c:out value="${SPRING_SECURITY_403_EXCEPTION.getMessage()}"/></h2>
-			<!-- SPRING_SECURITY_403_EXCEPTION’이라는 이름으로 Access DeniedException 객체가 전달 -->
 			<h2><c:out value="${msg}"/></h2> 
+		</div>  
 	</div>
 </body>	
 </html>
