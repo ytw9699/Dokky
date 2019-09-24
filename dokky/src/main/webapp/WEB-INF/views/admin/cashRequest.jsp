@@ -157,8 +157,8 @@
 				 	var cashKind = $(this).data("cash_kind");
 				 	var specification = $("#specification"+cash_num); 
 				 	var kind;
-				 	
-				 	if(specification.html() === "승인완료"){
+					
+				 	if($.trim(specification.html()) === "승인완료"){
 				 		alert("이미 승인완료가 되었습니다.");
 				 		return;
 				 	} 
