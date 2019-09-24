@@ -18,9 +18,9 @@
 
 	<div id="menuWrap"> 
 		<div class="tab">    
-			<button onclick="location.href='/dokky/admin/userForm?userId=${pageMaker.cri.userId}'">유저 개인정보</button> 
-	        <button onclick="location.href='/dokky/admin/userCashHistory?userId=${pageMaker.cri.userId}'">유저 캐시내역</button>
-	        <button onclick="location.href='/dokky/userBoardList?userId=${pageMaker.cri.userId}&pageLocation=admin'">유저 활동</button>
+			<button onclick="location.href='/dokky/admin/userForm?userId=${pageMaker.cri.userId}'">회원 개인정보</button> 
+	        <button class="active" onclick="location.href='/dokky/admin/userCashHistory?userId=${pageMaker.cri.userId}'">회원 캐시내역</button>
+	        <button onclick="location.href='/dokky/userBoardList?userId=${pageMaker.cri.userId}&pageLocation=admin'">회원 활동</button>
 	    </div>  	    
 	</div>    
 		 
