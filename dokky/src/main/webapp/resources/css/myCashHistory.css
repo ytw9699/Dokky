@@ -74,7 +74,7 @@
 		
 		.topTd{
 			color: #7151fc; 
-		    font-size: 19px;
+		    font-size: 17px;
 		    width: 14%;
 		}
 		.content{
@@ -93,6 +93,11 @@
 		    font-weight: 500;
 		    font-size: 16px;
 		}
+		.tdData a{
+	    	text-decoration: none;
+   			color: #333333;
+		}
+    
 		a:hover {   
 		    color: #7151fc;
 		}
