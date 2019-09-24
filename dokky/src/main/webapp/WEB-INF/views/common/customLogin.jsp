@@ -12,10 +12,10 @@
 </head>
 <body> 
 <div class="loginWrap">
+
 	<div class="title">
-			Dokky    
+			Login 
 	</div>
-	
 	<div class="container"> 
 		<form role="form" method='post' action="/dokky/login">
 				<div class="form-group">
@@ -27,12 +27,12 @@
 				</div>
 				
 				<div class="form-group"> 
-					<label><input name="remember-me" type="checkbox">로그인 상태 유지</label>
+					<label id="loginLabel"><input name="remember-me" type="checkbox">로그인 상태 유지</label>
 				</div> 
 				
-				<div class="form-group">
-					<a href="" id="login" class="next">로그인</a>
-					<a href="/dokky/memberForm" class="next">회원가입</a>
+				<div class="form-group loginGroup">
+					<button class="btn" id="login" >로그인</button>
+					<button class="btn" id="join">회원가입</button>
 				</div>
 			<input type="hidden" name="${_csrf.parameterName}" value="${_csrf.token}" />
 		</form> 
@@ -62,7 +62,6 @@
 		
 		return false;
 	  }
-	  
 		     
 	  $("#login").on("click", function(e){
 		    e.preventDefault();
@@ -72,6 +71,12 @@
 		    }
 		    
 		    $("form").submit();
+	  });
+	  
+	  $("#join").on("click", function(e){
+		    e.preventDefault();
+		    
+		    location.href='/dokky/memberForm';
 	  });
 	  
 </script>

@@ -40,8 +40,8 @@
 		</div>
 	  </sec:authorize>
 		
-	  <sec:authorize access="isAnonymous()"> 
-	  	<div class="mypage"> 
+	  <sec:authorize access="isAnonymous()">  
+	  	<div class="mypage topMypage"> 
 	  	 	<a href="/dokky/customLogin">로그인</a> 
 	  	</div>
 	  	<div class="mypage"> 
