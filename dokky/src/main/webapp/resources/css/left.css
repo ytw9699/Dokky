@@ -120,6 +120,11 @@
 		    margin-bottom: -4px;
 		    padding: 4px;
 		    cursor: pointer;
+		    border-radius: 5px;
+	  }
+	  #logoutBtn:hover{
+	  		background-color: #7151fc;
+	  		color: white; 
 	  }
 		
 	  .leftUsermenu{
@@ -130,40 +135,41 @@
 			    display: none; 
 		        border-style: solid;
 			    border-width: 1px;
-			    border-color: #dbdbdb;
+			    border-color: #7151fc; 
 			    width: 88px;
 			    height: 53px;
 			    position: fixed;
-			    background-color: #7151fc;
+			    background-color: white;
 			    margin-left: 30px;
+			    border-radius: 5px;
 		}
 		#leftUsermenuBar ul {
 		    margin: auto;
 		}
+		 
 		#leftUsermenuBar ul li{
 		    list-style: none;
 		    width: 86px;
-		    margin-left: -83%;
+		    margin-left: -83%; 
 		    margin-bottom: 3px;
 		    height: 25px; 
 		}
 		#leftUsermenuBar ul li a{
 	        text-decoration: none;
-		    color: white;
+		    color: #7151fc;
 		    margin-left: 3px;
 		    font-size: 16px;
 		}
 		
 		#leftUsermenuBar ul li:hover{ 
-			background-color: white;
-			border-style: solid;
-		    border-width: 1px;
-		    border-color: #7151fc;
-		    color: #7151fc;
+			background-color: #7151fc;
+			border-radius: 2px;     
+			border:1px solid #7151fc;  
 		}
 		#leftUsermenuBar ul li a:hover{
 			text-decoration: none;
-		    color: #7151fc;
+			background-color: #7151fc;
+		    color: white;
 		}
 		
 		.memberImage{

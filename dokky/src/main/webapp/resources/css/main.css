@@ -106,45 +106,48 @@
 			color: #7151fc;
 		}
 		
+		
 		.userMenubar{
-		    display: none; 
-	        border-style: solid;
-		    border-width: 1px;
-		    border-color: #dbdbdb;
-		    width: 88px;
-		    height: 53px;
-		    position: fixed;
-		    background-color: #7151fc;
-		    margin-left: 30px;
+			    display: none; 
+		        border-style: solid;
+			    border-width: 1px;
+			    border-color: #7151fc; 
+			    width: 88px;
+			    height: 53px;
+			    position: fixed;
+			    background-color: white;
+			    margin-left: 30px;
+			    border-radius: 5px;
 		}
 		.userMenubar ul {
 		    margin: auto;
 		}
+		 
 		.userMenubar ul li{
 		    list-style: none;
 		    width: 86px;
-		    margin-left: -83%;
+		    margin-left: -83%; 
 		    margin-bottom: 3px;
 		    height: 25px; 
 		}
 		.userMenubar ul li a{
 	        text-decoration: none;
-		    color: white;
+		    color: #7151fc;
 		    margin-left: 3px;
 		    font-size: 16px;
 		}
-		
+		 
 		.userMenubar ul li:hover{ 
-			background-color: white;
-			border-style: solid;
-		    border-width: 1px;
-		    border-color: #7151fc;
-		    color: #7151fc;
+			background-color: #7151fc;
+			border-radius: 2px;     
+			border:1px solid #7151fc;  
 		}
 		.userMenubar ul li a:hover{
 			text-decoration: none;
-		    color: #7151fc;
+			background-color: #7151fc;
+		    color: white;
 		}
+		
 		.memberImage{
 			border-radius: 50px;
 			width: 25px; 
