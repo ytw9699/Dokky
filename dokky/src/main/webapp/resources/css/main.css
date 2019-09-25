@@ -9,9 +9,10 @@
 			    margin-top: 1%;
 			    min-height: 500px;
 			    border-color: #dbdbdb;
-			    border-width: 1px;
+			    border-width: 2px;
 			    border-style: solid;
 			    color: #333333;
+			    border-radius:5px;
 			}
         }
         
@@ -24,8 +25,9 @@
 			    min-height: 500px;
 			    border-color: #dbdbdb;
 			    border-style: solid;
-			    border-width: 1px;
+			    border-width: 2px;
 			    color: #333333;
+			    border-radius:5px;
 			}
         }
         
@@ -38,8 +40,9 @@
 			    min-height: 500px;
 			    border-color: #dbdbdb;
 			    border-style: solid;
-			    border-width: 1px;
+			    border-width: 2px;
 			    color: #333333;
+			    border-radius:5px;
 			}
         }
         
@@ -71,8 +74,9 @@
 		.table{
 		    border-color: #dbdbdb;
 		    border-style: solid;
-		    border-width: 1px;
-		    margin: 1%;
+		    border-width: 2px;
+		    border-radius:5px;
+		    margin: 1%; 
 		    padding: 15px;
 		    width: 98%;
 		}

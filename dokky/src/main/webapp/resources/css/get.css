@@ -5,35 +5,39 @@
 			     .getWrapper {
 				    border-color: #dbdbdb;
 				    border-style: solid;
-				    border-width: 1px;
+				    border-width: 2px;
 				    color: #333333;
 				    margin-left: 15%;
 				    margin-top: 1%;
 				    width: 80%;
 				    display: inline-block; 
+				    border-radius:5px;
 				}    
         }
         @media screen and (min-width: 501px) and (max-width:1600px){
 	          .getWrapper {
 				    border-color: #dbdbdb;
 				    border-style: solid;
-				    border-width: 1px;
+				    border-width: 2px;
 				    color: #333333;
 				    margin-left: 17%;
 				    margin-top: 1%;
 				    width: 80%;
 				    display: inline-block; 
+				    border-radius:5px;
 				}
+				
         }
         @media screen and (min-width: 1601px){    
           .getWrapper {
 			    border-color: #dbdbdb;
 			    border-style: solid;
-			    border-width: 1px;
+			    border-width: 2px;
 			    color: #333333;
 			    margin-left: 29%;
 			    margin-top: 1%;
 			    width: 51%;
+			    border-radius:5px;
 			    display: inline-block; 
 			}
         }
@@ -53,6 +57,7 @@
 			border-style: solid;
 			border-width: 1px;
 			border-color: #dbdbdb;
+			border-radius:5px;
 			width: 97%;
 			margin-left:1% ; 
 			margin-right:1%;
@@ -89,43 +94,50 @@
 		}
 		
 		.userMenubar{
-		    display: none; 
-	        border-style: solid;
-		    border-width: 1px; 
-		    border-color: black;
-		    width: 88px;
-		    height: 53px;
-		    position: fixed;
-		    background-color: #7151fc;
-		    margin-left: 30px;
+			    display: none; 
+		        border-style: solid;
+			    border-width: 1px;
+			    border-color: #7151fc; 
+			    width: 88px;
+			    height: 53px;
+			    position: fixed;
+			    background-color: white;
+			    margin-left: 30px;
+			    border-radius: 5px;
 		}
+		
+		.topUserMenubar{
+		    margin-left: 39px !important;
+		    margin-top: -20px !important; 
+		}
+		
 		.userMenubar ul {
 		    margin: auto;
 		}
+		 
 		.userMenubar ul li{
 		    list-style: none;
 		    width: 86px;
-		    margin-left: -83%;
+		    margin-left: -83%; 
 		    margin-bottom: 3px;
 		    height: 25px; 
 		}
 		.userMenubar ul li a{
 	        text-decoration: none;
-		    color: white;
+		    color: #7151fc;
 		    margin-left: 3px;
 		    font-size: 16px;
 		}
-		
+		 
 		.userMenubar ul li:hover{ 
-			background-color: white;
-			border-style: solid;
-		    border-width: 1px;
-		    border-color: #7151fc;
-		    color: #7151fc;
+			background-color: #7151fc;
+			border-radius: 2px;     
+			border:1px solid #7151fc;  
 		}
-		.userMenubar ul li a:hover{
+		.userMenubar ul li a:hover{ 
 			text-decoration: none;
-		    color: #7151fc;
+			background-color: #7151fc;
+		    color: white;
 		}
 		.memberImage{
 			border-radius: 50px;
@@ -137,6 +149,7 @@
 			border-style: solid;
 			border-width: 1px;
 			border-color: #dbdbdb;
+			border-radius:5px;
 			width: 97%;
 			margin-left:1% ; 
 			margin-right:1%;
@@ -169,6 +182,7 @@
 			border-style: solid;
 			border-width: 1px;
 			border-color: #dbdbdb;
+			border-radius:5px;
 			/* background-color: white; 
 			color: black; */  
 			padding:10px;
@@ -267,6 +281,7 @@
 			border-style: solid;
 			border-width: 1px;
 			border-color: #e6e6e6;
+			border-radius:5px;
 			width: 97%;
 			margin-left:1% ; 
 			margin-right:1%; 
@@ -633,6 +648,7 @@
         padding: 10px;
 	    border: 1px solid #7151fc;
 	    background-color: white;
+	    border-radius:5px;
 	}
 	.fileUploadResult ul li{
         cursor:pointer;  

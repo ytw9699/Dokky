@@ -8,9 +8,10 @@
 			    margin-top: 1%;
 			    min-height: 500px;
 			    border-color: #dbdbdb;
-			    border-width: 1px;
+			    border-width: 2px;
 			    border-style: solid;
 			    color: #333333;
+			    border-radius:5px;
 			}
         }
         @media screen and (min-width: 501px) and (max-width:1600px){
@@ -22,8 +23,9 @@
 			    min-height: 500px;
 			    border-color: #dbdbdb;
 			    border-style: solid;
-			    border-width: 1px;
+			    border-width: 2px;
 			    color: #333333;
+			    border-radius:5px;
 			}
         }
         @media screen and (min-width: 1601px){    
@@ -35,15 +37,16 @@
 			    min-height: 500px;
 			    border-color: #dbdbdb;
 			    border-style: solid;
-			    border-width: 1px;
+			    border-width: 2px;
 			    color: #333333; 
+			    border-radius:5px;
 			}
         }
         
         #menuWrap{ 
 		    padding: 12px;
 		    width: 52%;
-		    display: inline-block;
+		    display: inline-block;	
 		    float: left;
 		    height: 63px;
 		}
@@ -60,6 +63,7 @@
 		    border: 1px solid #7151fc;
 		    height: 36px;
 		    padding: 1px;
+		    border-radius:5px;
 		}
 		#menuWrap .tab button:hover {
 			background-color: #7151fc;
@@ -75,6 +79,7 @@
 		    margin-right: 1%;
 		    margin-top: 1%;
 		    height: 60px;
+		    border-radius:5px;
 		}
 		
 		a  {   
@@ -121,6 +126,7 @@
 			border-style: solid;
 		    border-width: 1px;
 		    border-color: #dbdbdb;
+		    border-radius:5px;
 		    width: 98%;
 		    margin-left: 1%;
 		    margin-right: 1%;
@@ -228,6 +234,7 @@
 			height: 25px;  
 		}
 		.table{
+			border-radius:5px;
 		    border-color: #dbdbdb;
 		    border-style: solid;
 		    border-width: 1px;
@@ -270,6 +277,7 @@
 		    border-color: #dbdbdb;
 		    border-style: solid;
 		    border-width: 1px;
+		    border-radius:5px; 
 		    height: 45px;
 		    margin-left: 1%;
 		    margin-bottom: 10px;

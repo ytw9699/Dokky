@@ -63,7 +63,7 @@
 				</span>
 		    </div>  
 			
-			<div id="UserMenubar_board" class="userMenubar">
+			<div id="UserMenubar_board" class="userMenubar topUserMenubar">
 				<ul class="hideUsermenu">  
 					<li class="hideUsermenu">
 						<a href="/dokky/userBoardList?userId=${board.userId}" class="hideUsermenu">

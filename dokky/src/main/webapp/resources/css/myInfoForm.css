@@ -145,16 +145,18 @@
 	    color: #7151fc; 
 	}
 	.profileButtons {
-	    width: 32%;
+	   width: 32%;
 	    margin: 0 auto;
 	    margin-left: 0%;
 	    border: none;
 	    color: white;
 	    background-color: #7151fc;
-	    padding: 7%;
-	    font-size: 12px;
+	    padding: 20px;
+	    font-size: 13px;
+	    text-align: center;
 	    height: 0px;
 	    line-height: 0;
+	    border-radius: 5px;
 	} 
    .mainImgWrap {
 	    width: 33%;  
