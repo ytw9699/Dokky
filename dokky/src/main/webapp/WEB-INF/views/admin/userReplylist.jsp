@@ -9,7 +9,7 @@
 <head> 
 <meta charset="UTF-8">
 	<title>Dokky - 회원 등록 댓글</title>   
-	<link href="/dokky/resources/css/userReplylist.css" rel="stylesheet" type="text/css"/>
+	<link href="/dokky/resources/css/adminUserReplylist.css" rel="stylesheet" type="text/css"/>
 </head>
 <%@include file="../includes/left.jsp"%> 
 <body>

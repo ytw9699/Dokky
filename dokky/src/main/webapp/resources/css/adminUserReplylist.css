@@ -37,18 +37,10 @@ yyyy-MM-dd HH:mm@charset "utf-8";
 			}
         }
 		  
-	    #userId{
-			color: #7151fc;
-		    font-size: 26px;
-		    margin: 10px;
-		    margin-left: 25px;
-		    margin-top: 20px;
-		}
-		
 		#menuWrap{ 
 			    margin: 15px; 
 			    padding: 5px;
-			    width: 98.8%; 
+			    width: 97.8%; 
 		}
 		
 		#menuWrap .tab button {
@@ -66,6 +58,26 @@ yyyy-MM-dd HH:mm@charset "utf-8";
 			color: white;  
 		} 
         
+        #secondMenuWrap{
+			    margin: 15px; 
+			    padding: 5px;
+			    width: 101.8%; 
+		}
+		
+		#secondMenuWrap .tab button {
+			background-color: white;
+		    cursor: pointer;
+		    padding: 10px;
+		    font-size: 15px;
+		    color: #7151fc;
+		    width: 15%;
+		    border-radius: 10px;
+		    border: 1px solid #7151fc;
+		}
+		#secondMenuWrap .tab button:hover {
+			background-color: #7151fc;
+			color: white;  
+		} 
 		
         .listWrapper {  
 			 border: 2px solid #dbdbdb;
@@ -76,9 +88,9 @@ yyyy-MM-dd HH:mm@charset "utf-8";
         
         #inforTable{
 	        /* border: 1px solid #dbdbdb; */
-	         margin: 15px;  
+	        margin: 15px;  
 	        width: 97%;
-            margin-top: 10px;
+	        margin-top: -2px;
 		} 
 		
 		td{
