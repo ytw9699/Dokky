@@ -7,69 +7,83 @@
 <html>
 <head>
 <meta charset="UTF-8"> 
-<title>Dokky - 유저 등록 게시글</title>
+<title>Dokky - 회원 등록 게시글</title>
 <link href="/dokky/resources/css/userBoardList.css" rel="stylesheet" type="text/css"/>
 </head>
 <%@include file="../includes/left.jsp"%>
 <body>
 <sec:authentication property="principal" var="userInfo"/>
 <div class="userBoardWrap">	
-	<div class="ContentWrap">
-		<div id="menuWrap">
-			<div class="tab"> 
-		      <h1>${pageMaker.cri.userId} 유저 </h1> 
-		    </div>  
+
+		<div id="userId">
+		      	${pageMaker.cri.userId} 회원님의 게시글
 		</div>
+		
 		<div id="menuWrap"> 
 			<div class="tab"> 
-		        <button onclick="location.href='userBoardList?userId=${pageMaker.cri.userId}'">등록 게시글 ${boardTotal}개</button> 
+		        <button class="active" onclick="location.href='userBoardList?userId=${pageMaker.cri.userId}'">등록 게시글 ${boardTotal}개</button> 
 		        <button onclick="location.href='userReplylist?userId=${pageMaker.cri.userId}'">등록 댓글  ${replyTotal}개 </button>  
 		    </div> 
 		</div>
-	<div class="listWrapper">
-		<div class="">
-			<table class=""> 
+		
+		<div class="listWrapper">
+			<table id="inforTable">  
 				<c:forEach items="${userBoard}" var="board">
 					<tr>
-						<td class="boardTitle">  
+						<td class="title"> 
 							<a class='move' href='<c:out value="${board.board_num}"/>'> 
 								<c:out value="${board.title}" /> 
 								<span class="replyCnt">[<c:out value="${board.replyCnt}" />]</span>
 							</a>
 						</td> 
-						<td>
-							<img width="20px" src="/dokky/resources/img/read.png"/>
+						<td class="td">
+							<div class="tdData">  
+								조회수
+							</div>
 							<c:out value="${board.hitCnt}" />
 						</td>
-						<td>   
-							<img width="20px" src="/dokky/resources/img/like.png"/>
-							<c:out value="${board.likeCnt}" />
+						<td class="td" >
+							<div class="tdData">  
+								좋아요
+							</div>
+							<c:out value="${board.likeCnt}"/>
+						</td> 
+						<td class="td">
+							<div class="tdData">  
+								기부금
+							</div>
+							    \<fmt:formatNumber type="number" maxFractionDigits="3" value="${board.money}"/>
 						</td>
-						<td> 
-							\<fmt:formatNumber type="number" maxFractionDigits="3" value="${board.money}"/>
-						</td>
-						<td>
+						
+						<td id="dateTd">
 							<fmt:formatDate value="${board.regDate}" pattern="yyyy-MM-dd HH:mm" />
 						</td>
 					</tr>
 				</c:forEach>
 			</table>
+				
+			<form id='actionForm' action="/dokky/userBoardList" method='get'>  
+				<input type='hidden' name='pageNum' value='${pageMaker.cri.pageNum}'>
+				<input type='hidden' name='amount' value='${pageMaker.cri.amount}'>
+				<input type='hidden' name='userId' value='${pageMaker.cri.userId}'>
+			</form> 
+		
 		</div>
 		
-			<div class='pull-right'>
+		<div class='pull-right'>
 				<ul class="pagination">
 					<c:if test="${pageMaker.prev}">
 						<li class="paginate_button previous">
 							<a href="${pageMaker.startPage -1}">Previous</a>
 						</li>
 					</c:if>
-
+		
 					<c:forEach var="num" begin="${pageMaker.startPage}" end="${pageMaker.endPage}">
-						<li class="paginate_button  ${pageMaker.cri.pageNum == num ? "active":""} ">
+						<li class="paginate_button  ${pageMaker.cri.pageNum == num ? "page_active":""} ">
 							<a href="${num}">${num}</a>
 						</li> 
 					</c:forEach>
-
+		
 					<c:if test="${pageMaker.next}">
 						<li class="paginate_button next"><a
 							href="${pageMaker.endPage +1 }">Next</a>
@@ -77,13 +91,6 @@
 					</c:if>
 				</ul>
 			</div>
-	<form id='actionForm' action="/dokky/userBoardList" method='get'>  
-		<input type='hidden' name='pageNum' value='${pageMaker.cri.pageNum}'>
-		<input type='hidden' name='amount' value='${pageMaker.cri.amount}'>
-		<input type='hidden' name='userId' value='${pageMaker.cri.userId}'>
-	</form> 
-		</div>
-	</div>
 </div> 
 	
 <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script> 
