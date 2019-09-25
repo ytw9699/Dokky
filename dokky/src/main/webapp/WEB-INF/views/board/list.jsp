@@ -45,34 +45,21 @@
 	    </div> 
 	     
 		<div class="orderMethodWrap">
-			<div class="orderDiv">
-				<ul class="orderMethodUL">
-					<li class="orderMethodLI <c:if test="${pageMaker.cri.order == 0 }">active</c:if>"> 
-						<a href="${requestScope['javax.servlet.forward.request_uri']}?category=${pageMaker.cri.category}&order=0
-						&type=${pageMaker.cri.type}&keyword=${pageMaker.cri.keyword}&pageNum=${pageMaker.cri.pageNum}&amount=${pageMaker.cri.amount}">최신순</a> 
-					</li> 
-					
-					<li class="orderMethodLI <c:if test="${pageMaker.cri.order == 1 }">active</c:if>"> 
-						<a href="${requestScope['javax.servlet.forward.request_uri']}?category=${pageMaker.cri.category}&order=1
-						&type=${pageMaker.cri.type}&keyword=${pageMaker.cri.keyword}&pageNum=${pageMaker.cri.pageNum}&amount=${pageMaker.cri.amount}">조회순</a>
-					</li>
-					
-					<li class="orderMethodLI <c:if test="${pageMaker.cri.order == 2 }">active</c:if>"> 
-						<a href="${requestScope['javax.servlet.forward.request_uri']}?category=${pageMaker.cri.category}&order=2
-						&type=${pageMaker.cri.type}&keyword=${pageMaker.cri.keyword}&pageNum=${pageMaker.cri.pageNum}&amount=${pageMaker.cri.amount}">댓글순</a>
-					</li>
-					
-					<li class="orderMethodLI <c:if test="${pageMaker.cri.order == 3 }">active</c:if>"> 
-						<a href="${requestScope['javax.servlet.forward.request_uri']}?category=${pageMaker.cri.category}&order=3
-						&type=${pageMaker.cri.type}&keyword=${pageMaker.cri.keyword}&pageNum=${pageMaker.cri.pageNum}&amount=${pageMaker.cri.amount}">좋아요순</a>
-					</li>
-					 
-					<li class="orderMethodLI <c:if test="${pageMaker.cri.order == 4 }">active</c:if>"> 
-						<a href="${requestScope['javax.servlet.forward.request_uri']}?category=${pageMaker.cri.category}&order=4
-						&type=${pageMaker.cri.type}&keyword=${pageMaker.cri.keyword}&pageNum=${pageMaker.cri.pageNum}&amount=${pageMaker.cri.amount}">기부순</a>
-					</li>
-				</ul>
-			</div>	
+		
+			<div id="menuWrap"> 
+				<div class="tab">   
+					<button class="<c:if test="${pageMaker.cri.order == 0 }">active</c:if>"  
+					onclick="location.href='${requestScope['javax.servlet.forward.request_uri']}?category=${pageMaker.cri.category}&order=0&type=${pageMaker.cri.type}&keyword=${pageMaker.cri.keyword}&pageNum=${pageMaker.cri.pageNum}&amount=${pageMaker.cri.amount}'">최신순</button>
+					<button class="<c:if test="${pageMaker.cri.order == 1 }">active</c:if>"  
+					onclick="location.href='${requestScope['javax.servlet.forward.request_uri']}?category=${pageMaker.cri.category}&order=1&type=${pageMaker.cri.type}&keyword=${pageMaker.cri.keyword}&pageNum=${pageMaker.cri.pageNum}&amount=${pageMaker.cri.amount}'">조회순</button>
+					<button class="<c:if test="${pageMaker.cri.order == 2 }">active</c:if>"  
+					onclick="location.href='${requestScope['javax.servlet.forward.request_uri']}?category=${pageMaker.cri.category}&order=2&type=${pageMaker.cri.type}&keyword=${pageMaker.cri.keyword}&pageNum=${pageMaker.cri.pageNum}&amount=${pageMaker.cri.amount}'">댓글순</button>
+					<button class="<c:if test="${pageMaker.cri.order == 3 }">active</c:if>"  
+					onclick="location.href='${requestScope['javax.servlet.forward.request_uri']}?category=${pageMaker.cri.category}&order=3&type=${pageMaker.cri.type}&keyword=${pageMaker.cri.keyword}&pageNum=${pageMaker.cri.pageNum}&amount=${pageMaker.cri.amount}'">좋아요순</button>
+					<button class="<c:if test="${pageMaker.cri.order == 4 }">active</c:if>"  
+					onclick="location.href='${requestScope['javax.servlet.forward.request_uri']}?category=${pageMaker.cri.category}&order=4&type=${pageMaker.cri.type}&keyword=${pageMaker.cri.keyword}&pageNum=${pageMaker.cri.pageNum}&amount=${pageMaker.cri.amount}'">기부순</button>
+			    </div>
+		 	</div>
 			
 			<div class="searchWrapper">
 				<form id='searchForm' action="/dokky/board/list" method='get'>
@@ -101,6 +88,7 @@
 					<button id='search'></button> 
 				</form> 
 			</div> 
+			
 	    </div>
 	    
 		<div class="">

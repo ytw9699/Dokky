@@ -40,15 +40,41 @@
 			}
         }
         
+        #menuWrap{ 
+		    padding: 12px;
+		    width: 52%;
+		    display: inline-block;
+		    float: left;
+		    height: 63px;
+		}
+		
+		#menuWrap .tab button {
+            background-color: white;
+		    cursor: pointer;
+		    padding: 10px;
+		    font-size: 16px;
+		    color: #7151fc;
+		    width: 18%;
+		    margin-top: 3px;
+		    border-radius: 10px;
+		    border: 1px solid #7151fc;
+		    height: 36px;
+		    padding: 1px;
+		}
+		#menuWrap .tab button:hover {
+			background-color: #7151fc;
+			color: white;  
+		}
+		
         .boardKind{
 			border-style: solid;
-			border-width: 1px; 
-			border-color: #dbdbdb;
-			width: 98%;
-			margin-left:1% ; 
-			margin-right:1%; 
-			margin-top:1%;
-			height: 40px; 
+		    border-width: 1px;
+		    border-color: #dbdbdb;
+		    width: 98%;
+		    margin-left: 1%;
+		    margin-right: 1%;
+		    margin-top: 1%;
+		    height: 60px;
 		}
 		
 		a  {   
@@ -61,16 +87,17 @@
 		}
 		
 		.category{ 
-	        border-bottom: 3px solid #7151fc;
+	       border-bottom: 3px solid #7151fc;
 		    display: inline-block;
 		    width: 80%;
 		    padding: 5px;
 		    margin-left: 1%;
+		    margin-top: 7px
 		}
 		.category a{
-			font-size: 18px;
-			font-weight: 600;
-			color: #7151fc;
+			font-size: 23px;
+		    font-weight: 600;
+		    color: #7151fc;
 		} 
 		.regBtn { 
 		    display: inline-block;
@@ -101,48 +128,7 @@
 		    margin-bottom: 1%; 
 		    height: 70px;
 		}
-		.orderDiv{
-			margin-top: 5px;
-		    margin-left: 5px;
-	        /* border: 1px solid #dbdbdb; */
-		    width: 60%;
-		    display: inline-block;
-		    height: 65px;
-		    float: left;
-		}
 		
-		.orderMethodUL{ 
-	 	        /* border: 1px solid #dbdbdb; */
-			    width: 90%;
-			    margin: 5px;
-			    height: 50px;
-			    margin-top: 10px;
-			}
-		
-		.orderMethodLI{ 
-	 	    display: inline-block;
-   		     /* border: 1px solid #dbdbdb; */
-		    width: 19%;
-		    height: 43px;
-		    margin: 3px;
-		    margin-left: -5px;
-		}
-			
-		.orderMethodLI a{
-            margin-left: 18px;
-		    border: 1px solid #dbdbdb;
-		    align-text: center;
-		    padding: 9px;
-		    margin-left: 3px;
-		    border-radius: 10px;
-		    color: #b5b5b5;
-		    font-weight: 500;
-		}
-		.orderMethodLI a:hover{
-			border: 1px solid #7151fc;
-			color: #7151fc;
-			font-weight: 500; 
-		}
 		.active a{
 			background-color:#7151fc; 
 			color: white !important; 
@@ -331,4 +317,9 @@
 		    border-top-right-radius: 4px;
 		    border-bottom-right-radius: 4px;
 		} 
+		
+		.active{
+			background-color: #7151fc !important;
+			color: white !important;   
+		}
 	
