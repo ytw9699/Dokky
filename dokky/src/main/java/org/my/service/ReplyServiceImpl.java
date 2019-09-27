@@ -15,7 +15,7 @@ package org.my.service;
 	import org.springframework.transaction.annotation.Transactional;
 	import lombok.Setter;
 	//import lombok.AllArgsConstructor;
-		import lombok.extern.log4j.Log4j;
+	import lombok.extern.log4j.Log4j;
 
 @Service
 @Log4j
