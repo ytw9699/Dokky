@@ -1,5 +1,6 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
 <%@ taglib uri="http://www.springframework.org/security/tags" prefix="sec" %> 
+<%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c"%>
 
 <!DOCTYPE html>
 <html>
@@ -11,7 +12,12 @@
 		<sec:authentication property="principal" var="userInfo"/>
 		
 	<div class="leftWrap">
-		<div class="name"><a href="/dokky/main">Dokky</a></div> 
+		
+		<a class="name" href="/dokky/main">
+			<span class="leftTitle">
+				Dokky
+			</span> 
+		</a>
 		
 	  <sec:authorize access="isAuthenticated()">
 		<div class="mypage topMypage">  
@@ -41,38 +47,53 @@
 	  </sec:authorize>
 		
 	  <sec:authorize access="isAnonymous()">  
-	  	<div class="mypage topMypage"> 
-	  	 	<a href="/dokky/customLogin">로그인</a> 
-	  	</div>
-	  	<div class="mypage"> 
-	  	 	<a href="/dokky/memberForm">회원가입</a>
-	  	</div>
+		  <a href="/dokky/customLogin">
+		  	<span class="mypage topMypage">로그인 </span>
+	  	  </a> 
+	  	  <a href="/dokky/memberForm">
+		  	<span class="mypage">회원가입</span>
+	  	  </a>
 	  </sec:authorize>
 			
-		<div class="mypage"><a href="/dokky/board/allList?category=0">전체글보기</a></div>
-		<div class="mypage"><a href="/dokky/board/list?category=1">공지사항</a></div>
-		<div class="mypage"><a href="/dokky/board/list?category=2">자유게시판</a></div>
-		<div class="mypage"><a href="/dokky/board/list?category=3">묻고답하기</a></div>
-		<div class="mypage"><a href="/dokky/board/list?category=4">칼럼/Tech</a></div>
-		<div class="mypage"><a href="/dokky/board/list?category=5">정기모임/스터디</a></div>
-		
+		  <a href="/dokky/board/allList?category=0">
+			<span class="mypage">전체글보기</span>
+		  </a>
+		  <a href="/dokky/board/list?category=1">
+			<span class="mypage">공지사항</span>
+		  </a>
+		  <a href="/dokky/board/list?category=2">
+			<span class="mypage">자유게시판</span>
+		  </a>
+		  <a href="/dokky/board/list?category=3">
+			<span class="mypage">묻고답하기</span>
+		  </a>
+		  <a href="/dokky/board/list?category=4">
+			<span class="mypage">칼럼/Tech</span>
+		  </a>
+		  <a href="/dokky/board/list?category=5">
+			<span class="mypage">정기모임/스터디</span>
+		  </a>
+			
 		<sec:authorize access="isAuthenticated()">
-			<div class="mypage"><a href="/dokky/mypage/myInfoForm?userId=${userInfo.username}">내 정보</a></div>
-			<div class="mypage">
-				<a href="/dokky/alarmList?userId=${userInfo.username}">
-					알림 <span class="alarmCount"></span>
+			<a href="/dokky/alarmList?userId=${userInfo.username}">
+				<span class="mypage">
+						알림 <span class="alarmCount"></span>
+				</span>
+			</a>
+			<a href="/dokky/fromNoteList?userId=${userInfo.username}"> 
+				<span class="mypage">
+						쪽지 <span class="noteCount"></span>
+				</span>
+			</a> 
+			<a href="/dokky/mypage/myInfoForm?userId=${userInfo.username}">
+				<span class="mypage">내 정보</span>
+			</a>
+			<c:if test= "${userInfo.username == 'admin'}">
+				<a href="/dokky/admin/userList">
+			    	<span class="mypage">관리자</span>
 				</a>
-			</div>
-			<div class="mypage">
-				<a href="/dokky/fromNoteList?userId=${userInfo.username}"> 
-					쪽지 <span class="noteCount"></span>
-				</a> 
-			</div>
+			</c:if>
 		</sec:authorize> 
-		
-		<div class="mypage">
-			<a href="/dokky/admin/userList">관리자</a>
-		</div>
 		
 		<div class="visitCount">
 			<div>

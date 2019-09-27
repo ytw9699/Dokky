@@ -7,7 +7,7 @@
 <html>
 <head>
 <meta charset="UTF-8">
-	<title>Dokky - 메인</title> 
+	<title>Dokky - Developer community</title> 
 	<link href="/dokky/resources/css/main.css" rel="stylesheet" type="text/css"/>
 </head>
 

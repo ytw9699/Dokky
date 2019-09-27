@@ -39,17 +39,20 @@
 	         	 }
       }
       
-      .name{
+      .leftTitle{
 			text-align:center;	
 			padding-bottom: 15px;
+			color: #7151fc !important;
+			font-size: 45px !important;
+			font-weight: 900 !important;
+			background-color: white;
+		   	width: 100%;
+		    cursor: pointer;
+		    display:block;
 	  }
 	  
-	  .name a{
-			color: #7151fc;
-			font-size: 45px;
-			font-weight: 900;
-			text-decoration:none;
-			background-color: white;
+	  .name{
+			text-decoration:none !important;
 	  }
 
 	  .mypage {
@@ -62,6 +65,7 @@
 	    color: white;
 	    font-weight: 600;
 	    font-size: 18px;
+	    display:block;
 	  }
 	  .visitCount{
 	    padding: 10px;
@@ -92,7 +96,7 @@
 		    FONT-SIZE: 14px;
 		}
 
-	  .mypage a {
+	  .leftWrap a { 
 		color: white;
 	    text-decoration:none;
 	  }
@@ -129,7 +133,7 @@
 		
 	  .leftUsermenu{
   		display: inline-block;
-	  	width: 100%;
+	  	width: 55%;
 	  }
 		#leftUsermenuBar{
 			    display: none; 
