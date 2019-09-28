@@ -19,11 +19,11 @@
 	<div class="container"> 
 		<form role="form" method='post' action="/dokky/login">
 				<div class="form-group">
-					<input id="userId" class="form-control" placeholder="아이디를 입력하세요." name="username" type="text" autofocus> 
+					<input id="userId" class="form-control" placeholder="아이디를 입력하세요." name="username" type="text" oninput="checkLength(this,20);" autofocus/>
 				</div>
 				
 				<div class="form-group">
-					<input id="password" class="form-control" placeholder="비밀번호를 입력하세요." name="password" type="password" value="">
+					<input id="password" class="form-control" placeholder="비밀번호를 입력하세요." name="password" type="password" value="" oninput="checkLength(this,20);"/>
 				</div>
 				
 				<div class="form-group"> 
@@ -41,7 +41,51 @@
 </div>
 <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
 <script>
-  
+	  	
+	function checkLength(obj, maxByte) { 
+		 
+		if(obj.tagName === "INPUT" || obj.tagName === "TEXTAREA"){ 
+			var str = obj.value; 
+		}else if(obj.tagName === "DIV" ){
+			var str = obj.innerHTML; 
+		} 
+			
+		var stringByteLength = 0;
+		var reStr;
+			
+		stringByteLength = (function(s,b,i,c){
+			
+		    for(b=i=0; c=s.charCodeAt(i++);){
+		    
+			    b+=c>>11?3:c>>7?2:1;
+			    //3은 한글인 경우 한글자당 3바이트를 의미,영어는 1바이트 의미 3을2로바꾸면 한글은 2바이트 영어는 1바이트 의미
+			    //현재 나의 오라클 셋팅 같은경우 한글을 한자당 3바이트로 처리
+			    if (b > maxByte) { 
+			    	break;
+			    }
+			    
+			    reStr = str.substring(0,i);
+		    }
+		    
+		    return b //b는 바이트수 의미
+		    
+		})(str);
+		
+		if(obj.tagName === "INPUT" || obj.tagName === "TEXTAREA"){ 
+			if (stringByteLength > maxByte) {// 전체길이를 초과하면          
+				alert(maxByte + " Byte 이상 입력할 수 없습니다.");         
+				obj.value = reStr;       
+			}   
+		}else if(obj.tagName === "DIV"){
+			if (stringByteLength > maxByte) {// 전체길이를 초과하면          
+				alert(maxByte + " Byte 이상 입력할 수 없습니다.");         
+				obj.innerHTML = reStr;    
+			}   
+		} 
+		
+		obj.focus();  
+	}
+
 	  function memberCheck(){
 		  
 	     var userId = $('#userId').val();

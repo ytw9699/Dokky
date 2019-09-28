@@ -27,7 +27,7 @@
 						</td>
 						<td class="tableValue">
 							<div class="memberProfile">
-								<input type="text" name="userId" id="userId"  class="inputInfo" oninput="checkLength(this,20);"/>
+								<input type="text" name="userId" id="userId"  class="inputInfo" oninput="checkLength(this,20);" autofocus/> 
 							</div> 
 						</td> 	
 					</tr>
