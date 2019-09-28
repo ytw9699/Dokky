@@ -27,7 +27,7 @@
 						</td>
 						<td class="tableValue">
 							<div class="memberProfile">
-								<input type="text" name="userId" id="userId"  class="inputInfo"/>
+								<input type="text" name="userId" id="userId"  class="inputInfo" oninput="checkLength(this,20);"/>
 							</div> 
 						</td> 	
 					</tr>
@@ -37,7 +37,7 @@
 						</td>
 						<td class="tableValue">
 							<div class="memberProfile">
-								<input type="password" name="userPw" id="userpw" class="inputInfo"/>
+								<input type="password" name="userPw" id="userpw" class="inputInfo" oninput="checkLength(this,20);"/>
 							</div> 
 						</td> 	
 					</tr>
@@ -47,7 +47,7 @@
 						</td>
 						<td class="tableValue">
 							<div class="memberProfile">
-								<input type="password" name="userpwCheck" id="userpwCheck" class="inputInfo"/>
+								<input type="password" name="userpwCheck" id="userpwCheck" class="inputInfo" oninput="checkLength(this,20);"/>
 							</div> 
 						</td> 	
 					</tr>
@@ -57,7 +57,7 @@
 						</td>
 						<td class="tableValue">
 							<div class="memberProfile">
-								<input type="text" name="nickName" id="nickName" class="inputInfo" />
+								<input type="text" name="nickName" id="nickName" class="inputInfo" oninput="checkLength(this,21);"/>
 							</div> 
 						</td> 	
 					</tr>
@@ -67,7 +67,7 @@
 						</td>
 						<td class="tableValue">
 							<div class="memberProfile">
-								<input type="email" name="email" id="email" class="inputInfo"/>
+								<input type="email" name="email" id="email" class="inputInfo" oninput="checkLength(this,21);"/>
 							</div> 
 						</td> 	
 					</tr>
@@ -77,7 +77,7 @@
 						</td>
 						<td class="tableValue">
 							<div class="memberProfile">
-								<input type="text" name="phoneNum" class="inputInfo"/>
+								<input type="text" name="phoneNum" class="inputInfo" oninput="checkLength(this,21);"/>
 							</div> 
 						</td> 	
 					</tr>
@@ -87,7 +87,7 @@
 						</td>
 						<td class="tableValue">
 							<div class="memberProfile">
-								<input type="text" name="bankName" class="inputInfo"/> 
+								<input type="text" name="bankName" class="inputInfo" oninput="checkLength(this,21);"/>
 							</div> 
 						</td> 	
 					</tr>
@@ -97,7 +97,7 @@
 						</td>
 						<td class="tableValue">
 							<div class="memberProfile">
-								<input type="text" name="account" class="inputInfo"/>
+								<input type="text" name="account" class="inputInfo" oninput="checkLength(this,21);"/>
 							</div> 
 						</td> 	
 					</tr>
@@ -121,6 +121,51 @@
 		 $(document).ajaxSend(function(e, xhr, options) { 
 	       xhr.setRequestHeader(csrfHeaderName, csrfTokenValue);
 	   	 });
+		 
+		 
+		 function checkLength(obj, maxByte) { 
+			 
+				if(obj.tagName === "INPUT" || obj.tagName === "TEXTAREA"){ 
+					var str = obj.value; 
+				}else if(obj.tagName === "DIV" ){
+					var str = obj.innerHTML; 
+				} 
+					
+				var stringByteLength = 0;
+				var reStr;
+					
+				stringByteLength = (function(s,b,i,c){
+					
+				    for(b=i=0; c=s.charCodeAt(i++);){
+				    
+					    b+=c>>11?3:c>>7?2:1;
+					    //3은 한글인 경우 한글자당 3바이트를 의미,영어는 1바이트 의미 3을2로바꾸면 한글은 2바이트 영어는 1바이트 의미
+					    //현재 나의 오라클 셋팅 같은경우 한글을 한자당 3바이트로 처리
+					    if (b > maxByte) { 
+					    	break;
+					    }
+					    
+					    reStr = str.substring(0,i);
+				    }
+				    
+				    return b //b는 바이트수 의미
+				    
+				})(str);
+				
+				if(obj.tagName === "INPUT" || obj.tagName === "TEXTAREA"){ 
+					if (stringByteLength > maxByte) {// 전체길이를 초과하면          
+						alert(maxByte + " Byte 이상 입력할 수 없습니다.");         
+						obj.value = reStr;       
+					}   
+				}else if(obj.tagName === "DIV"){
+					if (stringByteLength > maxByte) {// 전체길이를 초과하면          
+						alert(maxByte + " Byte 이상 입력할 수 없습니다.");         
+						obj.innerHTML = reStr;    
+					}   
+				} 
+				
+				obj.focus();  
+			}
 		 
 		 function checkDuplicatedId(id, callback, error) {
 			 	var checkReturn; 
