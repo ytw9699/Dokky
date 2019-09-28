@@ -28,7 +28,7 @@
           <div class="formWrapper">
 		          <div class="row">
 			          	<div class="topbody">
-			          		<input id="to_id" class="" placeholder="받는사람 아이디를 입력하세요." oninput="checkLength(this,20);"/>
+			          		<input id="to_id" class="" placeholder="받는사람 아이디를 입력하세요." oninput="checkLength(this,20);" autofocus/>
 			          	</div> 
 			          	<div class="topbody">
 			          		<input id="checkbox" type="checkbox" value="" />내게쓰기

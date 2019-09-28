@@ -28,7 +28,7 @@
 	          </div>
 	          
 	          <div class="row">
-	          		<textarea id="content" placeholder="내용을 입력해 주세요." oninput="checkLength(this,1300);"></textarea>
+	          		<textarea id="content" placeholder="내용을 입력해 주세요." oninput="checkLength(this,1300);" autofocus></textarea> 
 	          </div>
 	         
 	          <div class="submitBtnWrap">  

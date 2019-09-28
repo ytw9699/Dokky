@@ -35,7 +35,7 @@
 	     			현재 비밀번호
 	     			</td>
 	     			<td class="tableValue">
-	     				<input type="password" name="userPw" value="" class="inputInfo" oninput="checkLength(this,20)">
+	     				<input type="password" name="userPw" value="" class="inputInfo" oninput="checkLength(this,20)" autofocus>
 	     			</td> 
 	     		</tr>
 	     		<tr>
