@@ -45,6 +45,7 @@
 		    padding: 10px;
 		    min-height: 50px;
 		    color: #7151fc;
+		    font-weight: 500; 
 		}
 		.tabcontent{
 			width: 91%;
