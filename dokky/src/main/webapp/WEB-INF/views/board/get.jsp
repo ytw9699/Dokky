@@ -167,7 +167,7 @@
 		<div class="replyWriteForm"><!--  기본 댓글쓰기 폼 -->
 			<div class="replytextareaWrapper">
 					<textarea id="reply_contents" rows="3" placeholder="댓글을 입력하세요."
-						name='reply_content' oninput="checkLength(this,3000);"></textarea>
+						name='reply_content' oninput="checkLength(this,3000);" autofocus></textarea>
 					<button id='replyRegisterBtn' type="button">작성</button>
 			</div>
 		</div>  
