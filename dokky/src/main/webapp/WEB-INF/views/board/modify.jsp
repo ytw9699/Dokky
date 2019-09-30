@@ -54,7 +54,7 @@
 		  </div>
 				  
 		  <div class="row">
-		  	 <input id="title" class="" placeholder="제목을 입력해 주세요" name='title' oninput="checkLength(this,30);" value='<c:out value="${board.title }"/>'>
+		  	 <input id="title" class="" placeholder="제목을 입력해 주세요" name='title' oninput="checkLength(this,50);" value='<c:out value="${board.title }"/>'>
 		  </div>
 		
 		  <div class="">
