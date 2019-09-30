@@ -187,6 +187,12 @@
       <artifactId>spring-tx</artifactId>
       <version>${org.springframework-version}</version>
     </dependency>
+    
+   <dependency>
+	  <groupId>com.oracle</groupId>
+	  <artifactId>ojdbc7</artifactId>
+	  <version>12.1.0.2.0</version>
+	</dependency>
   
   <!-- 커넥션풀 설정https://mvnrepository.com/artifact/org.mybatis/mybatis -->
     <dependency>
