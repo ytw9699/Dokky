@@ -193,6 +193,12 @@
 	  <artifactId>ojdbc7</artifactId>
 	  <version>12.1.0.2.0</version>
 	</dependency>
+	
+	<dependency>
+        <groupId>commons-dbcp</groupId>
+        <artifactId>commons-dbcp</artifactId>
+        <version>1.3</version>
+	</dependency>
   
   <!-- 커넥션풀 설정https://mvnrepository.com/artifact/org.mybatis/mybatis -->
     <dependency>
