@@ -13,28 +13,32 @@
 	
 	<!-- Root Context: defines shared resources visible to all other web components -->
 		
-	<!-- <bean id="hikariConfig" class="com.zaxxer.hikari.HikariConfig">
-
+	 <bean id="hikariConfig" class="com.zaxxer.hikari.HikariConfig">
 		<property name="driverClassName"
 			value="net.sf.log4jdbc.sql.jdbcapi.DriverSpy"></property>
 		<property name="jdbcUrl"
 			value="jdbc:log4jdbc:oracle:thin:@dokky.cvqjmdzadv0t.ap-northeast-2.rds.amazonaws.com:1521:ORCL"></property>
 		<property name="username" value="dokky9699"></property>
+		<property name="password" value="cgdeveloper9865"></property>
+	</bean>
+	
+	<!-- <bean id="hikariConfig" class="com.zaxxer.hikari.HikariConfig">
+		<property name="driverClassName"
+			value="net.sf.log4jdbc.sql.jdbcapi.DriverSpy"></property>
 		<property name="jdbcUrl"
 			value="jdbc:log4jdbc:oracle:thin:@localhost:1521:XE"></property>
 		<property name="username" value="dokky_ex"></property>
 		<property name="password" value="cgdeveloper9865"></property>
-
 	</bean> -->
 	
-	<bean id="hikariConfig" class="com.zaxxer.hikari.HikariConfig">
+	<!-- <bean id="hikariConfig" class="com.zaxxer.hikari.HikariConfig">
 		<property name="driverClassName"
 			value="net.sf.log4jdbc.sql.jdbcapi.DriverSpy"></property>
 		<property name="jdbcUrl"
 			value="jdbc:log4jdbc:oracle:thin:@shop.cndlt88yvvsy.ap-northeast-2.rds.amazonaws.com:1521:ORCL"></property>
 		<property name="username" value="shop9699"></property>
 		<property name="password" value="cgdeveloper9865"></property>
-	</bean>
+	</bean> -->
    
 	<!-- HikariCP configuration 커넥션풀 설정 -->
 	<bean id="dataSource" class="com.zaxxer.hikari.HikariDataSource" destroy-method="close">
