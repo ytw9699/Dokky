@@ -19,25 +19,26 @@
 </div>
 
 <div class="modifyWrapper">
-	<div class="formWrapper">
 		<div class="row">
-			 <c:choose>
+			<span id="category">
+			 	<c:choose>
 			       <c:when test="${board.category == 1 }">
-			          		<h1>공지사항</h1>
+			          		공지사항
 			       </c:when>
 			       <c:when test="${board.category == 2 }">
-			       			<h1>자유게시판</h1>
+			       			자유게시판
 			       </c:when>
 			        <c:when test="${board.category == 3 }">
-			     		 	<h1>묻고답하기</h1>
+			     		 	묻고답하기
 			       </c:when>
 			        <c:when test="${board.category == 4 }">
-			   		   	  	<h1>칼럼/Tech</h1>
+			   		   	  	칼럼/Tech
 			       </c:when>
 			       <c:when test="${board.category == 5 }">
-			   		   		<h1>정기모임/스터디 </h1> 
+			   		   		정기모임/스터디 
 			       </c:when>
-	           </c:choose> 
+	            </c:choose>
+            </span>  
       	 </div> 
       
       <form role="form" action="/dokky/board/modify" method="post"> 
@@ -54,7 +55,7 @@
 		  </div>
 				  
 		  <div class="row">
-		  	 <input id="title" class="" placeholder="제목을 입력해 주세요" name='title' oninput="checkLength(this,30);" value='<c:out value="${board.title }"/>'>
+		  	 <input id="title" class="" placeholder="제목을 입력해 주세요" name='title' oninput="checkLength(this,50);" value='<c:out value="${board.title }"/>'>
 		  </div>
 		
 		  <div class="">
@@ -69,13 +70,12 @@
 	           </ul>
 	      </div>
 		      
-	      <div class='fileUploadResult'> 
-	      	     첨부파일
-	           <ul>
+	      <div class='fileUploadResult row'> 
+	           <ul id="fileUploadResultUl">
 	           </ul>
 	      </div>
 	      
-	      <div class="bottomMenuWrap">  
+	      <div class="bottomMenuWrap row">  
 	          <ul class="bottomMenu">
 		          <li class="photo"> 
 		          	  <label for="inputPhoto" class="inputButton" >사진</label>  
@@ -92,8 +92,8 @@
 				       		 <button type="submit">수정완료</button>
 				        </c:if>
 			        </sec:authorize> --%> 
-		          <li class="submit">  
-		          	<button type="submit" class="btn btn-default">수정완료</button> 
+		          <li class="submit">
+		          	<button type="submit" class="submitButton">등록</button> 
 		          </li>
 	          </ul>
           </div> 
@@ -107,7 +107,6 @@
 		   <input type='hidden' name='keyword' value='<c:out value="${cri.keyword }"/>'>
      
 	</form>
-  </div>
 </div>
 <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
 <script> 

@@ -3,6 +3,7 @@ package org.my.controller;
 	import java.nio.file.Path;
 	import java.nio.file.Paths;
 	import java.util.List;
+
 	import org.my.domain.BoardAttachVO;
 	import org.my.domain.BoardDisLikeVO;
 	import org.my.domain.BoardLikeVO;
@@ -10,7 +11,6 @@ package org.my.controller;
 	import org.my.domain.Criteria;
 	import org.my.domain.PageDTO;
 	import org.my.domain.commonVO;
-	import org.my.domain.reportVO;
 	import org.my.service.BoardService;
 	import org.springframework.http.HttpStatus;
 	import org.springframework.http.MediaType;
@@ -28,6 +28,7 @@ package org.my.controller;
 	import org.springframework.web.bind.annotation.RequestParam;
 	import org.springframework.web.bind.annotation.ResponseBody;
 	import org.springframework.web.servlet.mvc.support.RedirectAttributes;
+	
 	import lombok.AllArgsConstructor;
 	import lombok.extern.log4j.Log4j;
 
