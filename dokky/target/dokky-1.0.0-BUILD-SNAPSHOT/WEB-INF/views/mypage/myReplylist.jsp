@@ -1,5 +1,6 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c"%>
+<%@ taglib prefix="fn" uri="http://java.sun.com/jsp/jstl/functions"%>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/fmt" prefix="fmt"%>
 <%@ taglib uri="http://www.springframework.org/security/tags" prefix="sec" %> 
 
@@ -33,8 +34,18 @@
 						<td class="td">
 							<input type="checkbox" name="checkRow" value="${Reply.reply_num}" />
 	                    </td>
-						<td class="replyTitle"><a class='move' href='<c:out value="${Reply.board_num}"/>'> 
-							<c:out value="${Reply.reply_content}" /></a></td> 
+						<td class="replyTitle">
+							<a class='move' href='<c:out value="${Reply.board_num}"/>'> 
+								<c:choose>
+							        <c:when test="${fn:length(Reply.reply_content) > 40}">
+							        	<c:out value="${fn:substring(Reply.reply_content, 0, 40)}"/>.....
+							        </c:when>
+							        <c:otherwise>
+							        	<c:out value="${Reply.reply_content}"/> 
+							        </c:otherwise>
+								</c:choose>
+							</a>
+						</td> 
 					    <td id="dateTd">
 							<fmt:formatDate value="${Reply.replyDate}" pattern="yyyy-MM-dd HH:mm" />
 						</td>
