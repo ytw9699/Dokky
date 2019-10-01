@@ -116,7 +116,7 @@
 		 	hitCnt,
 		 	userId,
 		 	likeCnt
-		  from dk_board WHERE REGDATE >= TO_CHAR(SYSDATE-30,'YYYYMMDD') order by likeCnt desc,hitcnt desc,replycnt desc )
+		  from dk_board WHERE REGDATE >= SYSDATE-30 order by likeCnt desc,hitcnt desc,replycnt desc )
 		  where <![CDATA[ rownum <= 5 ]]>
 	</select>
 	
@@ -145,7 +145,7 @@
 			   	 userId,
 			   	 likeCnt
 			FROM 
-				  dk_board WHERE REGDATE >= TO_CHAR(SYSDATE-30,'YYYYMMDD') order by money desc )
+				  dk_board WHERE REGDATE >= SYSDATE-30 order by money desc )
 			
 			where rownum <= 5 
 			]]>
