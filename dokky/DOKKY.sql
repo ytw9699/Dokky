@@ -337,6 +337,8 @@ drop table dk_alarm purge
 	컬럼 값 변경
 	update dk_cash set specification = '미승인' where specification = '승인중'
 	
+	update dk_member_auth set auth = 'ROLE_ADMIN' where userid = 'admin'
+	
 	시퀀스 삭제
 	drop sequence seq_dk_reply ;
 	
