@@ -242,12 +242,18 @@
 	    <version>2.9.11</version>
 	  </dependency>
 	  
-	  <!-- <dependency>
+	 <!-- <dependency> 
+	    <groupId>com.amazonaws</groupId>
+	    <artifactId>aws-java-sdk-s3</artifactId>
+	    <version>1.11.267</version>
+	</dependency> -->
+	
+	<dependency>
 	    <groupId>com.amazonaws</groupId>
 	    <artifactId>aws-java-sdk</artifactId>
 	    <version>1.11.66</version>
-	</dependency> -->
-			             
+	</dependency>
+
 	</dependencies>
     <build>
         <plugins>
