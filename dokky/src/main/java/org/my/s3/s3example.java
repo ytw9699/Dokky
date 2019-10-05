@@ -1,29 +1,5 @@
-//snippet-sourcedescription:[S3ObjectOperations.java demonstrates how to create S3 buckets, upload objects into that bucket, list objects in that bucket and finally delete the bucket.]
-//snippet-keyword:[SDK for Java 2.0]
-//snippet-keyword:[Code Sample]
-//snippet-service:[s3]
-//snippet-sourcetype:[full-example]
-//snippet-sourcedate:[]
-//snippet-sourceauthor:[soo-aws]
-/*
- * Copyright 2011-2019 Amazon.com, Inc. or its affiliates. All Rights Reserved.
- *
- * Licensed under the Apache License, Version 2.0 (the "License");
- * you may not use this file except in compliance with the License.
- * You may obtain a copy of the License at:
- *
- *    http://aws.amazon.com/apache2.0
- *
- * This file is distributed on an "AS IS" BASIS, WITHOUT WARRANTIES
- * OR CONDITIONS OF ANY KIND, either express or implied. See the
- * License for the specific language governing permissions and
- * limitations under the License.
- */
-package org.my.controller;
-// snippet-start:[s3.java2.s3_object_operations.complete]
-// snippet-start:[s3.java2.s3_object_operations.import]
+package org.my.s3;import java.io.IOException;
 
-import java.io.IOException;
 import java.nio.ByteBuffer;
 import java.nio.file.Paths;
 import java.util.Random;
@@ -50,13 +26,13 @@ import software.amazon.awssdk.core.sync.ResponseTransformer;
 // snippet-end:[s3.java2.s3_object_operations.import]
 
 // snippet-start:[s3.java2.s3_object_operations.main]
-public class S3ObjectOperations {
+public class s3example {
 
     private static S3Client s3;
 
     public static void main(String[] args) throws IOException {
         // snippet-start:[s3.java2.s3_object_operations.upload]
-        Region region = Region.AP_NORTHEAST_2;
+    	Region region = Region.AP_NORTHEAST_2;
         s3 = S3Client.builder().region(region).build();
         
 
@@ -210,6 +186,3 @@ public class S3ObjectOperations {
         return ByteBuffer.wrap(b);
     }
 }
- 
-// snippet-end:[s3.java2.s3_object_operations.main]
-// snippet-end:[s3.java2.s3_object_operations.complete]
