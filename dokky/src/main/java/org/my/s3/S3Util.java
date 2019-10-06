@@ -54,7 +54,7 @@ public class S3Util {
 	    ByteArrayInputStream byteArrayInputStream = new ByteArrayInputStream(fileData); //파일 넣음
 
 		conn.putObject(bucketName, filePath, byteArrayInputStream, metaData);
-
+		
 	}
 
 	// 파일 삭제

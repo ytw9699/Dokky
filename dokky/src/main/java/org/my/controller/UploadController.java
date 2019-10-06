@@ -1,6 +1,7 @@
 package org.my.controller;
 	import java.io.File;
-	import java.io.FileOutputStream;
+import java.io.FileNotFoundException;
+import java.io.FileOutputStream;
 	import java.io.IOException;
 	import java.io.UnsupportedEncodingException;
 	import java.net.URLDecoder;
@@ -11,9 +12,13 @@ package org.my.controller;
 	import java.util.Date;
 	import java.util.List;
 	import java.util.UUID;
-	
-	import org.my.domain.AttachFileDTO;
-	import org.springframework.core.io.FileSystemResource;
+
+import javax.inject.Inject;
+
+import org.my.domain.AttachFileDTO;
+import org.my.s3.UploadFileUtils;
+import org.my.s3.myS3Util;
+import org.springframework.core.io.FileSystemResource;
 	import org.springframework.core.io.Resource;
 	import org.springframework.http.HttpHeaders;
 	import org.springframework.http.HttpStatus;
@@ -31,10 +36,13 @@ package org.my.controller;
 	import lombok.extern.log4j.Log4j;
 	import net.coobird.thumbnailator.Thumbnailator;
 
+
 @Controller
 @Log4j
 public class UploadController {
-
+	
+	private myS3Util s3Util;
+	
 	private String getFolder() {
 
 		SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd");
@@ -45,6 +53,17 @@ public class UploadController {
 
 		return str.replace("-", File.separator);
 	}
+	
+	/*private String getFolder() {
+
+		SimpleDateFormat sdf = new SimpleDateFormat("yyyy/MM/dd");
+
+		Date date = new Date();
+
+		String str = sdf.format(date);
+
+		return str;
+	}*/
 
 	private boolean checkImageType(File file) {//이미지 파일확인 여부
 
@@ -83,90 +102,32 @@ public class UploadController {
 		return result;
 	}
 	
-	@PreAuthorize("isAuthenticated()")
-	@PostMapping(value = "/uploadFile", produces = MediaType.APPLICATION_JSON_UTF8_VALUE)
-	@ResponseBody
-	public ResponseEntity<List<AttachFileDTO>> postUploadFile(MultipartFile[] uploadFile, String uploadKind) {
-		
-		String bucket_name = "picksell-bucket/upload";
-		String key_name ;
-		
-		List<AttachFileDTO> list = new ArrayList<>();  
-		
-		String uploadFolder = "C:\\upload";
-		
-
-		String uploadFolderPath = getFolder();
-		
-		File uploadPath = new File(uploadFolder, uploadFolderPath);
-
-		if (uploadPath.exists() == false) {
-			uploadPath.mkdirs();
-		}
-
-		for (MultipartFile multipartFile : uploadFile) {
-
-			AttachFileDTO attachDTO = new AttachFileDTO();
-
-			String uploadFileName = multipartFile.getOriginalFilename();
-
-			uploadFileName = uploadFileName.substring(uploadFileName.lastIndexOf("\\") + 1);//ie의경우 짤라줌
-			
-			log.info("only file name: " + uploadFileName);
-			
-			attachDTO.setFileName(uploadFileName);//오리지날 이름 저장
-
-			UUID uuid = UUID.randomUUID();
-
-			uploadFileName = uuid.toString() + "_" + uploadFileName;
-
-			try {
-				File saveFile = new File(uploadPath, uploadFileName);
-				
-				multipartFile.transferTo(saveFile);
-
-				attachDTO.setUuid(uuid.toString());//uuid저장
-				attachDTO.setUploadPath(uploadFolderPath);//폴더 경로저장
-				
-				if(uploadKind.equals("photo")) {//업로드 종류가 photo가 아닌것은 모두 파일로 취급해서 사진파일이어도 파일종류로 구분
-					if (checkImageType(saveFile)) {//photo를 이미 확인해줬지만 한번더 이미지 파일 이라면 확인
-						
-						attachDTO.setImage(true);
-						
-						FileOutputStream thumbnail = new FileOutputStream(new File(uploadPath, "s_" + uploadFileName));
-
-						Thumbnailator.createThumbnail(multipartFile.getInputStream(), thumbnail, 100, 100);//썸네일 만들기
-
-						thumbnail.close();
-					}
-				}
-
-				list.add(attachDTO);
-
-			} catch (Exception e) {
-				e.printStackTrace();
-			}
-
-		} // end for
-		return new ResponseEntity<>(list, HttpStatus.OK);
-	}
-	
 	/*@PreAuthorize("isAuthenticated()")
 	@PostMapping(value = "/uploadFile", produces = MediaType.APPLICATION_JSON_UTF8_VALUE)
 	@ResponseBody
 	public ResponseEntity<List<AttachFileDTO>> postUploadFile(MultipartFile[] uploadFile, String uploadKind) {
 		
-		List<AttachFileDTO> list = new ArrayList<>();  
+		final AmazonS3 s3 = AmazonS3ClientBuilder.
+    			standard().
+    			withRegion(Regions.AP_NORTHEAST_2).
+    			build(); 
 		
-		String uploadFolder = "C:\\upload";
-
+		String bucket_name = "picksell-bucket/upload";
 		String uploadFolderPath = getFolder();
+		//File uploadPath = new File(uploadFolder, uploadFolderPath);
+		//String key_name ;
+		//List<AttachFileDTO> list = new ArrayList<>();  
 		
-		File uploadPath = new File(uploadFolder, uploadFolderPath);
-
-		if (uploadPath.exists() == false) {
-			uploadPath.mkdirs();
-		}
+		try {
+			
+			if (s3.doesBucketExist(bucket_name + uploadFolderPath) == false) {
+				s3.putObject(bucket_name, uploadFolderPath + "/", new ByteArrayInputStream(new byte[0]), new ObjectMetadata());//폴더생성
+			}
+			
+		}catch(AmazonS3Exception e) {
+    		
+			log.info(e.getErrorMessage());
+    	}
 
 		for (MultipartFile multipartFile : uploadFile) {
 
@@ -214,6 +175,86 @@ public class UploadController {
 		} // end for
 		return new ResponseEntity<>(list, HttpStatus.OK);
 	}*/
+	
+	@PreAuthorize("isAuthenticated()")
+	@PostMapping(value = "/s3uploadFile", produces = "text/plain;charset=UTF-8")
+	@ResponseBody
+	public ResponseEntity<String> posts3UploadFile(MultipartFile[] uploadFile, String uploadKind) throws IOException {
+		
+		log.info("MultipartFile: " + uploadFile);  
+		log.info("uploadKind: " + uploadKind);
+		
+		for (MultipartFile multipartFile : uploadFile) {
+
+			s3Util.fileUpload(multipartFile.getOriginalFilename(), multipartFile.getBytes() , uploadKind);
+		}
+		
+		return new ResponseEntity<>("dd", HttpStatus.OK);
+	}
+	
+	@PreAuthorize("isAuthenticated()")
+	@PostMapping(value = "/uploadFile", produces = MediaType.APPLICATION_JSON_UTF8_VALUE)
+	@ResponseBody
+	public ResponseEntity<List<AttachFileDTO>> postUploadFile(MultipartFile[] uploadFile, String uploadKind) {
+		
+		List<AttachFileDTO> list = new ArrayList<>();  
+		
+		String uploadFolder = "C:\\upload";
+
+		String uploadFolderPath = getFolder();
+		
+		File uploadPath = new File(uploadFolder, uploadFolderPath);
+
+		if (uploadPath.exists() == false) {
+			uploadPath.mkdirs();
+		}
+
+		for (MultipartFile multipartFile : uploadFile) {
+
+			AttachFileDTO attachDTO = new AttachFileDTO();
+
+			String uploadFileName = multipartFile.getOriginalFilename();
+
+			uploadFileName = uploadFileName.substring(uploadFileName.lastIndexOf("\\") + 1);//ie의경우 짤라줌
+			
+			log.info("only file name: " + uploadFileName);
+			
+			attachDTO.setFileName(uploadFileName);//오리지날 이름 저장
+
+			UUID uuid = UUID.randomUUID();
+
+			uploadFileName = uuid.toString() + "_" + uploadFileName;
+
+			try {
+				File saveFile = new File(uploadPath, uploadFileName);
+				
+				multipartFile.transferTo(saveFile);
+
+				attachDTO.setUuid(uuid.toString());//uuid저장
+				attachDTO.setUploadPath(uploadFolderPath);//폴더 경로저장
+				
+				if(uploadKind.equals("photo")) {//업로드 종류가 photo가 아닌것은 모두 파일로 취급해서 사진파일이어도 파일종류로 구분
+					if (checkImageType(saveFile)) {//photo를 이미 확인해줬지만 한번더 이미지 파일 이라면 확인
+						
+						attachDTO.setImage(true);
+						
+						FileOutputStream thumbnail = new FileOutputStream(new File(uploadPath, "s_" + uploadFileName));
+
+						Thumbnailator.createThumbnail(multipartFile.getInputStream(), thumbnail, 100, 100);//썸네일 만들기
+
+						thumbnail.close();
+					}
+				}
+
+				list.add(attachDTO);
+
+			} catch (Exception e) {
+				e.printStackTrace();
+			}
+
+		} // end for
+		return new ResponseEntity<>(list, HttpStatus.OK);
+	}
 
 	@GetMapping(value = "/download", produces = MediaType.APPLICATION_OCTET_STREAM_VALUE)
 	@ResponseBody

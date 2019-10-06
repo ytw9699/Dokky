@@ -1,4 +1,4 @@
-package org.my.s3;
+/*package org.my.s3;
 
 import java.io.File;
 import java.io.InputStream;
@@ -211,4 +211,4 @@ public class UploadController {
 	}
 
 
-}
+}*/

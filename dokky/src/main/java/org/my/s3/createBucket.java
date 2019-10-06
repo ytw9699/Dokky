@@ -2,14 +2,7 @@ package org.my.s3;
 
 import com.amazonaws.services.s3.AmazonS3;
 import com.amazonaws.services.s3.model.AmazonS3Exception;
-import com.amazonaws.services.s3.model.ObjectMetadata;
 import com.amazonaws.services.s3.AmazonS3ClientBuilder;
-
-import java.io.ByteArrayInputStream;
-import java.io.File;
-import java.text.SimpleDateFormat;
-import java.util.Date;
-
 import com.amazonaws.regions.Regions;
 
 
@@ -21,39 +14,17 @@ public class createBucket {
 			    			standard().
 			    			withRegion(Regions.AP_NORTHEAST_2).
 			    			build(); 
-			    	
-    		String bucket_name;
+    	    
+    	String bucket_name = "new-bucket";
     	
-    		SimpleDateFormat sdf = new SimpleDateFormat("yyyy/MM/dd");
-
-    		Date date = new Date();
-
-    		String str = sdf.format(date);
-
-    		System.out.println(str);
+    	try {
+    		s3.createBucket(bucket_name);
     		
-    	    // create bucket if the bucket name does not exist
-    	    if (s3.doesBucketExist("picksell-bucket/upload/"+str)) {
-    	        
-    	    	System.out.format("폴더가 이미 있음");
-    	    	
-    	    } else {
-    	 
-		    	try {
-		    		
-	    		s3.putObject("picksell-bucket/upload", str + "/", new ByteArrayInputStream(new byte[0]), new ObjectMetadata());
-		    	
-    	    	bucket_name = "picksell-bucket/upload/"+str;
-    	    	
-		    		//s3.createBucket(bucket_name);
-		    		
-		    		System.out.format("폴더 생성 완료");
-		    		
-		    	}catch(AmazonS3Exception e) {
-		    		
-		    		System.out.println(e.getErrorMessage());
-		    	}
-	    	
-	    	}
+    	System.out.println("버킷 생성완료");
+    		
+    	}catch(AmazonS3Exception e) {
+    		
+    		System.out.println(e.getErrorMessage());
+    	}
     }
  }

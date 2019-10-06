@@ -40,6 +40,13 @@ public class BoardController {
 
 	private BoardService service;
 	
+	@PreAuthorize("hasAnyRole('ROLE_ADMIN','ROLE_USER')")
+	@GetMapping("/test")
+	public String test() {
+		
+		return "board/test";
+	}
+	
 	@GetMapping("/list")
 	public String list(Criteria cri, Model model) {
 		
