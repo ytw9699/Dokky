@@ -15,8 +15,11 @@
 
 <div class="registerWrapper"> 
 		  <input type="file" id="inputPhoto" name='uploadPhoto' multiple> 
-		  <input type="file" id="inputPhoto" name='uploadFile' multiple> 
-		  <img src="http://t1.daumcdn.net/friends/prod/editor/dc8b3d02-a15a-4afa-a88b-989cf2a50476.jpg" alt="카카오 라이언" width="100" height="50" align="center" border="0">
+		  <input type="file" id="inputPhoto" name='uploadFile' multiple>
+		  <a href="https://s3.ap-northeast-2.amazonaws.com/picksell-bucket/upload/2019/10/06/dokky.png?X-Amz-Algorithm=AWS4-HMAC-SHA256&X-Amz-Date=20191006T143655Z&X-Amz-SignedHeaders=host&X-Amz-Expires=900&X-Amz-Credential=AKIA47S6HNIPMDWY3OGR%2F20191006%2Fap-northeast-2%2Fs3%2Faws4_request&X-Amz-Signature=c56c14ff384418b217659f9d1a50417cc5567c409c27dcf6c2edc89ae1257073">
+		  dddcdddddddddddddddddddddddddd</a>
+		  <img src="https://s3.ap-northeast-2.amazonaws.com/picksell-bucket/upload/2019/10/06/dokky.png?X-Amz-Algorithm=AWS4-HMAC-SHA256&X-Amz-Date=20191006T143655Z&X-Amz-SignedHeaders=host&X-Amz-Expires=900&X-Amz-Credential=AKIA47S6HNIPMDWY3OGR%2F20191006%2Fap-northeast-2%2Fs3%2Faws4_request&X-Amz-Signature=c56c14ff384418b217659f9d1a50417cc5567c409c27dcf6c2edc89ae1257073"
+ alt="카카오 라이언" width="100" height="50" align="center" border="0">
 </div>
  
 <script> 

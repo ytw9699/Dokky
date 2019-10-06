@@ -184,19 +184,16 @@ public class UploadController {
 	@ResponseBody
 	public ResponseEntity<String> posts3UploadFile(MultipartFile[] uploadFile, String uploadKind) throws IOException {
 		
-		log.info("MultipartFile: " + uploadFile);  
-		log.info("uploadKind: " + uploadKind);
+		log.info("/s3uploadFile");  
+		String result = null;
 		
 		for (MultipartFile multipartFile : uploadFile) {
 			
-			log.info("multipartFile.getOriginalFilename(): " + multipartFile.getOriginalFilename());
-			log.info("multipartFile.getBytes(): " + multipartFile.getBytes());
-			log.info("uploadKind: " + uploadKind);
-			
-			s3Util.fileUpload(multipartFile.getOriginalFilename(), multipartFile.getBytes() , uploadKind);
+			result = s3Util.fileUpload(multipartFile.getOriginalFilename(), multipartFile.getBytes() , uploadKind);
+			log.info("/result"+result);  
 		}
 		
-		return new ResponseEntity<>("dd", HttpStatus.OK);
+		return new ResponseEntity<>(result , HttpStatus.OK);
 	}
 	
 	@PreAuthorize("isAuthenticated()")
