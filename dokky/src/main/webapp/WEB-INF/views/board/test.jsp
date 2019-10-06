@@ -16,6 +16,7 @@
 <div class="registerWrapper"> 
 		  <input type="file" id="inputPhoto" name='uploadPhoto' multiple> 
 		  <input type="file" id="inputPhoto" name='uploadFile' multiple> 
+		  <img src="http://t1.daumcdn.net/friends/prod/editor/dc8b3d02-a15a-4afa-a88b-989cf2a50476.jpg" alt="카카오 라이언" width="100" height="50" align="center" border="0">
 </div>
  
 <script> 

@@ -18,6 +18,8 @@ import javax.inject.Inject;
 import org.my.domain.AttachFileDTO;
 import org.my.s3.UploadFileUtils;
 import org.my.s3.myS3Util;
+import org.my.service.CommonService;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.core.io.FileSystemResource;
 	import org.springframework.core.io.Resource;
 	import org.springframework.http.HttpHeaders;
@@ -32,7 +34,7 @@ import org.springframework.core.io.FileSystemResource;
 	import org.springframework.web.bind.annotation.RequestHeader;
 	import org.springframework.web.bind.annotation.ResponseBody;
 	import org.springframework.web.multipart.MultipartFile;
-	
+	import lombok.Setter;
 	import lombok.extern.log4j.Log4j;
 	import net.coobird.thumbnailator.Thumbnailator;
 
@@ -41,6 +43,7 @@ import org.springframework.core.io.FileSystemResource;
 @Log4j
 public class UploadController {
 	
+	@Setter(onMethod_ = @Autowired)
 	private myS3Util s3Util;
 	
 	private String getFolder() {
@@ -185,7 +188,11 @@ public class UploadController {
 		log.info("uploadKind: " + uploadKind);
 		
 		for (MultipartFile multipartFile : uploadFile) {
-
+			
+			log.info("multipartFile.getOriginalFilename(): " + multipartFile.getOriginalFilename());
+			log.info("multipartFile.getBytes(): " + multipartFile.getBytes());
+			log.info("uploadKind: " + uploadKind);
+			
 			s3Util.fileUpload(multipartFile.getOriginalFilename(), multipartFile.getBytes() , uploadKind);
 		}
 		
@@ -228,7 +235,7 @@ public class UploadController {
 			try {
 				File saveFile = new File(uploadPath, uploadFileName);
 				
-				multipartFile.transferTo(saveFile);
+				multipartFile.transferTo(saveFile);//파일,사진 업로드
 
 				attachDTO.setUuid(uuid.toString());//uuid저장
 				attachDTO.setUploadPath(uploadFolderPath);//폴더 경로저장
@@ -240,7 +247,7 @@ public class UploadController {
 						
 						FileOutputStream thumbnail = new FileOutputStream(new File(uploadPath, "s_" + uploadFileName));
 
-						Thumbnailator.createThumbnail(multipartFile.getInputStream(), thumbnail, 100, 100);//썸네일 만들기
+						Thumbnailator.createThumbnail(multipartFile.getInputStream(), thumbnail, 100, 100);//썸네일 이미지 만들고 업로드
 
 						thumbnail.close();
 					}

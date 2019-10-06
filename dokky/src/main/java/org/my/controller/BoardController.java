@@ -102,6 +102,7 @@ public class BoardController {
 		}
 		
 		service.register(board);
+		log.info("/register2: " + board);
 
 	   //rttr.addFlashAttribute("result", board.getNum());
 		 rttr.addAttribute("board_num", board.getBoard_num());
