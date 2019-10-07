@@ -236,11 +236,11 @@
 		</dependency>
 	<!-- 롬복 -->
 	
-	  <dependency>
+	  <!-- <dependency>
 	    <groupId>software.amazon.awssdk</groupId>
 	    <artifactId>aws-sdk-java</artifactId>
 	    <version>2.9.11</version>
-	  </dependency>
+	  </dependency> -->
 	  
 	 <!-- <dependency> 
 	    <groupId>com.amazonaws</groupId>

@@ -180,20 +180,23 @@ public class UploadController {
 	}*/
 	
 	@PreAuthorize("isAuthenticated()")
-	@PostMapping(value = "/s3uploadFile", produces = "text/plain;charset=UTF-8")
+	@PostMapping(value = "/s3uploadFile", produces = MediaType.APPLICATION_JSON_UTF8_VALUE)
 	@ResponseBody
-	public ResponseEntity<String> posts3UploadFile(MultipartFile[] uploadFile, String uploadKind) throws IOException {
+	public ResponseEntity<List<String>> posts3UploadFile(MultipartFile[] uploadFile, String uploadKind) throws IOException {
 		
 		log.info("/s3uploadFile");  
 		String result = null;
+		
+		List<String> list = new ArrayList<>();  
 		
 		for (MultipartFile multipartFile : uploadFile) {
 			
 			result = s3Util.fileUpload(multipartFile.getOriginalFilename(), multipartFile.getBytes() , uploadKind);
 			log.info("/result"+result);  
+			list.add(result);
 		}
 		
-		return new ResponseEntity<>(result , HttpStatus.OK);
+		return new ResponseEntity<>(list, HttpStatus.OK);
 	}
 	
 	@PreAuthorize("isAuthenticated()")
@@ -259,22 +262,28 @@ public class UploadController {
 		} // end for
 		return new ResponseEntity<>(list, HttpStatus.OK);
 	}
-
-	@GetMapping(value = "/download", produces = MediaType.APPLICATION_OCTET_STREAM_VALUE)
+	
+	@GetMapping(value = "/download2", produces = MediaType.APPLICATION_OCTET_STREAM_VALUE)
 	@ResponseBody
-	public ResponseEntity<Resource> downloadFile(@RequestHeader("User-Agent") String userAgent, String fileName) {
+	public ResponseEntity<Resource> downloadFile2(@RequestHeader("User-Agent") String userAgent, String fileName) {
 
 		Resource resource = new FileSystemResource("c:\\upload\\" + fileName);
-
+		log.info("userAgent"+userAgent);
+		log.info("fileName"+fileName);
+		log.info("resource"+resource);
+		
 		if (resource.exists() == false) {
 			return new ResponseEntity<>(HttpStatus.NOT_FOUND);
 		}
 
 		String resourceName = resource.getFilename();
-
+		log.info("resourceName"+resourceName);
+		
 		// remove UUID
 		String resourceOriginalName = resourceName.substring(resourceName.indexOf("_") + 1);
 
+		log.info("resourceOriginalName"+resourceOriginalName);
+		
 		HttpHeaders headers = new HttpHeaders();
 		try {
 
@@ -290,6 +299,53 @@ public class UploadController {
 
 			headers.add("Content-Disposition", "attachment; filename=" + downloadName);
 
+			log.info("downloadName"+downloadName);
+			
+		} catch (UnsupportedEncodingException e) {
+			e.printStackTrace();
+		}
+
+		return new ResponseEntity<Resource>(resource, headers, HttpStatus.OK);
+	}
+	
+	@GetMapping(value = "/download", produces = MediaType.APPLICATION_OCTET_STREAM_VALUE)
+	@ResponseBody
+	public ResponseEntity<Resource> downloadFile(@RequestHeader("User-Agent") String userAgent, String fileName) {
+
+		Resource resource = new FileSystemResource("c:\\upload\\" + fileName);
+		log.info("userAgent"+userAgent);
+		log.info("fileName"+fileName);
+		log.info("resource"+resource);
+		
+		if (resource.exists() == false) {
+			return new ResponseEntity<>(HttpStatus.NOT_FOUND);
+		}
+
+		String resourceName = resource.getFilename();
+		log.info("resourceName"+resourceName);
+		
+		// remove UUID
+		String resourceOriginalName = resourceName.substring(resourceName.indexOf("_") + 1);
+
+		log.info("resourceOriginalName"+resourceOriginalName);
+		
+		HttpHeaders headers = new HttpHeaders();
+		try {
+
+			boolean checkIE = (userAgent.indexOf("MSIE") > -1 || userAgent.indexOf("Trident") > -1);
+
+			String downloadName = null;
+
+			if (checkIE) {
+				downloadName = URLEncoder.encode(resourceOriginalName, "UTF8").replaceAll("\\+", " ");
+			} else {
+				downloadName = new String(resourceOriginalName.getBytes("UTF-8"), "ISO-8859-1");
+			}
+
+			headers.add("Content-Disposition", "attachment; filename=" + downloadName);
+
+			log.info("downloadName"+downloadName);
+			
 		} catch (UnsupportedEncodingException e) {
 			e.printStackTrace();
 		}

@@ -10,17 +10,80 @@
 	<meta charset="UTF-8">
 	<script src="//code.jquery.com/jquery-1.11.3.min.js"></script>
 	<title>Dokky - test</title>  
+	<link href="/dokky/resources/css/register.css" rel="stylesheet" type="text/css"> 
 </head>
 <body> 
 
-<div class="registerWrapper"> 
-		  <input type="file" id="inputPhoto" name='uploadPhoto' multiple> 
-		  <input type="file" id="inputPhoto" name='uploadFile' multiple>
-		  <a href="https://s3.ap-northeast-2.amazonaws.com/picksell-bucket/upload/2019/10/06/dokky.png?X-Amz-Algorithm=AWS4-HMAC-SHA256&X-Amz-Date=20191006T143655Z&X-Amz-SignedHeaders=host&X-Amz-Expires=900&X-Amz-Credential=AKIA47S6HNIPMDWY3OGR%2F20191006%2Fap-northeast-2%2Fs3%2Faws4_request&X-Amz-Signature=c56c14ff384418b217659f9d1a50417cc5567c409c27dcf6c2edc89ae1257073">
-		  dddcdddddddddddddddddddddddddd</a>
-		  <img src="https://s3.ap-northeast-2.amazonaws.com/picksell-bucket/upload/2019/10/06/dokky.png?X-Amz-Algorithm=AWS4-HMAC-SHA256&X-Amz-Date=20191006T143655Z&X-Amz-SignedHeaders=host&X-Amz-Expires=900&X-Amz-Credential=AKIA47S6HNIPMDWY3OGR%2F20191006%2Fap-northeast-2%2Fs3%2Faws4_request&X-Amz-Signature=c56c14ff384418b217659f9d1a50417cc5567c409c27dcf6c2edc89ae1257073"
- alt="카카오 라이언" width="100" height="50" align="center" border="0">
+<a href="http://www.asanfoundation.or.kr/af/file/download.do?fileId=F000000084165_wZfyCD&amp;fileSeq=98099" download="newFileName">사진 다운로드</a>
+  
+<!--  <a href="https://s3.ap-northeast-2.amazonaws.com/picksell-bucket/upload/2019/10/06/dokky.png?X-Amz-Algorithm=AWS4-HMAC-SHA256&X-Amz-Date=20191006T143655Z&X-Amz-SignedHeaders=host&X-Amz-Expires=900&X-Amz-Credential=AKIA47S6HNIPMDWY3OGR%2F20191006%2Fap-northeast-2%2Fs3%2Faws4_request&X-Amz-Signature=c56c14ff384418b217659f9d1a50417cc5567c409c27dcf6c2edc89ae1257073">
+  dddcdd</a>
+  <img src="https://s3.ap-northeast-2.amazonaws.com/picksell-bucket/upload/2019/10/06/dokky.png?X-Amz-Algorithm=AWS4-HMAC-SHA256&X-Amz-Date=20191006T143655Z&X-Amz-SignedHeaders=host&X-Amz-Expires=900&X-Amz-Credential=AKIA47S6HNIPMDWY3OGR%2F20191006%2Fap-northeast-2%2Fs3%2Faws4_request&X-Amz-Signature=c56c14ff384418b217659f9d1a50417cc5567c409c27dcf6c2edc89ae1257073"
+ alt="카카오 라이언" width="100" height="50" align="center" border="0"> -->
+<div class='bigPictureWrapper'>
+  <div class='bigPicture'>
+  </div>
 </div>
+
+<div class="registerWrapper"> 
+	              <div class="row">
+			     	 	<span id="category">새 글쓰기</span>   
+			      </div> 
+			  
+	          <form role="form" action="/dokky/board/register" method="post">
+			      <div class="row">
+					<select id="selectId" name="category" class="">
+						   <option value=0>게시판을 선택해 주세요.</option>
+	                       <option value=1>공지사항</option>
+	                       <option value=2>자유게시판</option>
+	                       <option value=3>묻고답하기</option> 
+	                       <option value=4>칼럼/Tech</option>
+	                       <option value=5>정기모임/스터디</option>
+				     </select>
+				  </div>
+				 
+		          <div class="row">
+		            <input id="title" placeholder="제목을 입력해 주세요." name='title' oninput="checkLength(this,50);" autofocus/>   
+		          </div>
+		          
+		          <div>
+		          	<textarea id="areaContent" name='content'></textarea>
+		          </div>
+		               
+				  <div class="row" id="divContent" contenteditable="true" placeholder="내용을 입력해 주세요." oninput="checkLength(this,3500);"></div>    
+				  
+		          <div class='photoUploadResult row'> 
+			          <ul>
+			          </ul>
+			      </div>  
+			      
+			      <div class='fileUploadResult row'> <!-- 첨부파일 --> 
+			          <ul id="fileUploadResultUl">
+			          </ul>
+			      </div>
+			      
+		          <div class="bottomMenuWrap row">  
+			          <ul class="bottomMenu">
+				          <li class="photo"> 
+				          	  <label for="inputPhoto" class="inputButton">사진</label>  
+				          	  <input type="file" id="inputPhoto" name='uploadPhoto' multiple> 
+				          </li>
+				          <li class="file">  
+				         	  <label for="inputFile" class="inputButton">파일</label>    
+					          <input type="file" id="inputFile" name='uploadFile' multiple>
+					      </li> 
+				          <li class="submit"> 
+				          	<button type="submit" class="submitButton">등록</button>    
+				          </li>
+			          </ul> 
+		          </div>
+		          
+		          <input type='hidden' name='nickName' value='<sec:authentication property="principal.member.nickName"/>' /> 
+		          <input type='hidden' name='userId' value='<sec:authentication property="principal.username"/>' /> 
+				  <input type="hidden" name="${_csrf.parameterName}" value="${_csrf.token}"/>
+	        </form>
+</div>
+
  
 <script> 
 		
@@ -69,12 +132,89 @@ $("input[type='file']").change(function(e){//업로드하기
 		      },
 		      data: formData,
 		      dataType:'json',
-	          success: function(result){ 
-				  	   alert(result);  
+	          success: function(result){
+	        	  	showUploadResult(result, inputName); 
 		      }
 	    });
 	});  
 	
+	
+	function showUploadResult(uploadResultArr, inputName){
+	    if(!uploadResultArr || uploadResultArr.length == 0){ 
+	    	return; 
+	    }
+	    
+	    var str ="";
+	    var divContent = $("#divContent");//본문 내용
+	    
+	    var contentVal ="";
+	  		contentVal = divContent.html();
+	    
+	    $(uploadResultArr).each(function(i, obj){  
+				 
+				  
+				str += "<a href='"+obj+"' download='newfilename'><li><img src='"+obj+"' width='50' height='50' data-filecallpath='"+obj+"'>";
+				str +"</li></a>";  
+				
+				contentVal += "<img src='"+obj+"' data-filecallpath='"+obj+"'>";
+				divContent.html(contentVal);//본문 삽입    
+	    }); 
+	    
+	    if(inputName === "uploadPhoto" ){
+	    	
+	    	var uploadUL = $(".photoUploadResult ul");
+		    	uploadUL.append(str); 
+		    	
+		    $(".photoUploadResult").css("display","block");//업로드결과 div보이기
+		    
+	    }else if(inputName === "uploadFile" ){
+	    	
+	    	var uploadUL = $(".fileUploadResult ul"); 
+			    uploadUL.append(str);
+			    
+		    $(".fileUploadResult").css("display","block");
+	    }
+	}
+	
+	function showImage(fileCallPath){//원본 이미지 파일 보기
+	    
+		console.log("showImage filecallpath"); 
+	    console.log(fileCallPath);
+		  
+	    $(".bigPictureWrapper").css("display","flex").show();
+	    
+	    $(".bigPicture").html("<img src='"+fileCallPath+"'>");
+  }
+
+  $(".photoUploadResult").on("click","img", function(e){//아래 포토리스트에서 사진을 클릭한다면
+	      
+	    var liObj = $(this);    
+	    
+	    var path = encodeURIComponent(liObj.data("path")+"/" + liObj.data("uuid")+"_" + liObj.data("filename"));
+	    
+	    if(liObj.data("type")){      
+	      showImage(path);//원본 이미지 파일 보기
+	    } 
+	  });
+  
+  $("#divContent").on("click","img", function(e){//본문에서 사진을 클릭한다면
+  	
+	  var imgObj = $(this);
+  
+	  var path = imgObj.data("filecallpath"); 
+	  
+	  console.log("filecallpath"); 
+	  console.log(path);
+	  
+	  showImage(path);  
+  });
+  
+	  $(".bigPictureWrapper").on("click", function(e){//원본 이미지 파일 숨기기 
+		  
+			$('.bigPictureWrapper').hide();
+	  });
+
+
 </script>
 </body>
 </html>

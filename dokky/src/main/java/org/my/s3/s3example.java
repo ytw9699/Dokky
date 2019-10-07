@@ -1,4 +1,4 @@
-package org.my.s3;import java.io.IOException;
+/*package org.my.s3;import java.io.IOException;
 
 import java.nio.ByteBuffer;
 import java.nio.file.Paths;
@@ -141,9 +141,9 @@ public class s3example {
         s3.deleteBucket(deleteBucketRequest);
     }
 
-    /**
+    *//**
      * Uploading an object to S3 in parts
-     */
+     *//*
     private static void multipartUpload(String bucketName, String key) throws IOException {
 
         int MB = 1024 * 1024;
@@ -185,4 +185,4 @@ public class s3example {
         new Random().nextBytes(b);
         return ByteBuffer.wrap(b);
     }
-}
+}*/
