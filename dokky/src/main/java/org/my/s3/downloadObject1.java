@@ -21,17 +21,19 @@ public class downloadObject1 {
 			   withRegion(Regions.AP_NORTHEAST_2).
 										  build();
     	
-    	String bucket_name = "picksell-bucket/upload";
+    	String bucket_name = "picksell-bucket";
+    	String folder_name = "/upload";
     	String objectName = "dokky.png";
-    	String downloadPath = "C:\\upload\\dokky.png";
+    	String downloadPath = "C:\\Users\\champ\\Downloads\\";
     	
     	try {
     		
-    		S3Object s3Object = s3.getObject(bucket_name, objectName);
+    		
+    		S3Object s3Object = s3.getObject(bucket_name + folder_name, objectName);
 			
 		    S3ObjectInputStream s3ObjectInputStream = s3Object.getObjectContent();
 
-		    OutputStream outputStream = new BufferedOutputStream(new FileOutputStream(downloadPath));
+		    OutputStream outputStream = new BufferedOutputStream(new FileOutputStream(downloadPath + objectName));
 		    
 		    byte[] bytesArray = new byte[4096];
 		    

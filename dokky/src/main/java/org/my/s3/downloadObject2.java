@@ -3,8 +3,8 @@ package org.my.s3;
 	import com.amazonaws.regions.Regions;
 	import com.amazonaws.services.s3.AmazonS3;
 	import com.amazonaws.services.s3.AmazonS3ClientBuilder;
-import com.amazonaws.services.s3.model.GeneratePresignedUrlRequest;
-import com.amazonaws.services.s3.model.S3Object;
+	import com.amazonaws.services.s3.model.GeneratePresignedUrlRequest;
+	import com.amazonaws.services.s3.model.S3Object;
 	import com.amazonaws.services.s3.model.S3ObjectInputStream;
 	import java.io.File;
 	import java.io.FileNotFoundException;
@@ -26,7 +26,7 @@ public class downloadObject2 {
     	
     	System.out.format("Downloading %s from S3 bucket %s...\n", objectName, bucket_name);
     	
-    	s3.generatePresignedUrl(new GeneratePresignedUrlRequest(bucket_name, objectName)).toString();
+    	//s3.generatePresignedUrl(new GeneratePresignedUrlRequest(bucket_name, objectName)).toString();
     	
     	/*s3.download();
     	
