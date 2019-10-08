@@ -280,9 +280,11 @@ public class MypageController {
 		log.info("/mypage/profileFile"); 
 		
 		String uploadPath =request.getSession().getServletContext().getRealPath("/")+File.separator+"resources/img/profile_img";
+		
 		log.info(uploadPath);
 		
 		String userId = request.getParameter("userId");
+		
 		MultipartFile profileFile = request.getFile("profileFile");
 		 
 		File uploadFile = new File(uploadPath , userId+".png");  
