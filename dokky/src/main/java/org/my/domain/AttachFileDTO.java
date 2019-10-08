@@ -7,4 +7,5 @@ public class AttachFileDTO {
 		private String uploadPath;
 		private String uuid;
 		private boolean image;
+		private String downUrl;
 }

@@ -16,7 +16,6 @@ import java.io.FileOutputStream;
 import javax.inject.Inject;
 
 import org.my.domain.AttachFileDTO;
-import org.my.s3.UploadFileUtils;
 import org.my.s3.myS3Util;
 import org.my.service.CommonService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -182,17 +181,18 @@ public class UploadController {
 	@PreAuthorize("isAuthenticated()")
 	@PostMapping(value = "/s3uploadFile", produces = MediaType.APPLICATION_JSON_UTF8_VALUE)
 	@ResponseBody
-	public ResponseEntity<List<String>> posts3UploadFile(MultipartFile[] uploadFile, String uploadKind) throws IOException {
+	public ResponseEntity<List<AttachFileDTO>> posts3UploadFile(MultipartFile[] uploadFile, String uploadKind) throws IOException {
 		
 		log.info("/s3uploadFile");  
-		String result = null;
 		
-		List<String> list = new ArrayList<>();  
+		AttachFileDTO result;
+		
+		List<AttachFileDTO> list = new ArrayList<>();  
 		
 		for (MultipartFile multipartFile : uploadFile) {
 			
 			result = s3Util.fileUpload(multipartFile.getOriginalFilename(), multipartFile.getBytes() , uploadKind);
-			log.info("/result"+result);  
+			
 			list.add(result);
 		}
 		

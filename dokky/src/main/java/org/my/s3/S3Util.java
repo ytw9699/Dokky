@@ -1,4 +1,4 @@
-package org.my.s3;
+/*package org.my.s3;
 import java.io.ByteArrayInputStream;
 import java.io.File;
 import java.io.FileNotFoundException;
@@ -71,4 +71,4 @@ public class S3Util {
 		return conn.generatePresignedUrl(new GeneratePresignedUrlRequest(bucketName, imgName)).toString();
 	}
 
-}
+}*/

@@ -3,7 +3,8 @@ package org.my.s3;
 	import com.amazonaws.regions.Regions;
 	import com.amazonaws.services.s3.AmazonS3;
 	import com.amazonaws.services.s3.AmazonS3ClientBuilder;
-	import com.amazonaws.services.s3.model.S3Object;
+import com.amazonaws.services.s3.model.GeneratePresignedUrlRequest;
+import com.amazonaws.services.s3.model.S3Object;
 	import com.amazonaws.services.s3.model.S3ObjectInputStream;
 	import java.io.File;
 	import java.io.FileNotFoundException;
@@ -21,9 +22,16 @@ public class downloadObject2 {
     	
     	String bucket_name = "picksell-bucket/upload";
     	String objectName = "dokky.png";
-    	String downloadPath = "C:\\upload\\dokky.png";
+    	String downloadPath = "C:\\Users\\champ\\dokky.png"; 
     	
     	System.out.format("Downloading %s from S3 bucket %s...\n", objectName, bucket_name);
+    	
+    	s3.generatePresignedUrl(new GeneratePresignedUrlRequest(bucket_name, objectName)).toString();
+    	
+    	/*s3.download();
+    	
+    	PresignedUrlDownloadResult	download(PresignedUrlDownloadRequest presignedUrlDownloadRequest)
+    	Gets the object stored in Amazon S3 using a presigned url.*/
     	
     	try {
     		
@@ -56,3 +64,51 @@ public class downloadObject2 {
     }
 }
 }
+
+/*
+try {
+
+	Map<String, Object> params = ReqUtil.getParameterMap(request);
+
+
+
+	String id = Util.nullToStr(params.get("id"));
+
+
+
+	FileVO fileVo = fileService.getFile(id);
+
+
+
+	byte fileByte[] = FileUtils.readFileToByteArray(new File(SystemConstants.FILE_PATH + fileVo.getStoredFileName()));
+
+
+
+	response.setContentType("application/octet-stream");
+
+	response.setContentLength(fileByte.length);
+
+	response.setHeader("Content-Disposition",
+
+			"attachment; fileName=\"" + URLEncoder.encode(fileVo.getOriginalFileName(), "UTF-8") + "\";");
+
+	response.setHeader("Content-Transfer-Encoding", "binary");
+
+	response.getOutputStream().write(fileByte);
+
+
+
+	response.getOutputStream().flush();
+
+	response.getOutputStream().close();
+
+
+
+} catch (Exception e) {
+
+	// TODO: handle exception
+
+	e.printStackTrace();
+
+}
+*/

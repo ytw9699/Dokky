@@ -1,4 +1,4 @@
-package org.my.s3;
+/*package org.my.s3;
 
 	import java.io.File;
 	import java.text.DecimalFormat;
@@ -72,4 +72,4 @@ public class UploadFileUtils {
 			}
 		}
 	}
-}
+}*/

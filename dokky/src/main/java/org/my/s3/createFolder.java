@@ -22,25 +22,29 @@ public class createFolder {
 		Date date = new Date();
 
 		String str = sdf.format(date);
-
-		System.out.println(str);
-    		
-	    // create bucket if the bucket name does not exist
-	    if (s3.doesBucketExist("picksell-bucket/upload/"+str)) {
-	        
-	    	System.out.format("폴더가 이미 있음");
-	    	
-	    }else {
-	 
-	    	try {
-	    		s3.putObject("picksell-bucket/upload", str + "/", new ByteArrayInputStream(new byte[0]), new ObjectMetadata());
+		
+		String bucket_name = "picksell-bucket";
+		String folder_name = "upload/" + str;
+		
+		System.out.println(folder_name);
+    	
+		try {
+		    
+			if (s3.doesBucketExist(bucket_name + "/" + folder_name)) {
+		        
+		    	System.out.format("폴더가 이미 있음");
+		    	
+		    }else {
+		    	
+	    		s3.putObject(bucket_name, folder_name + "/", new ByteArrayInputStream(new byte[0]), new ObjectMetadata());
 	    		
 	    		System.out.format("폴더 생성 완료");
-	    		
-	    	}catch(AmazonS3Exception e) {
-	    		
-	    		System.out.println(e.getErrorMessage());
 	    	}
+		    
+		}catch(AmazonS3Exception e) {
+    		
+    		System.out.println(e.getErrorMessage());
     	}
+		
     }
  }
