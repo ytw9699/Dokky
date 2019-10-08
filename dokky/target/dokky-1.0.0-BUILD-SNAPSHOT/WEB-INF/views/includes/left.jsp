@@ -185,7 +185,7 @@
 	$(document).ready(function() {
 		<sec:authorize access="isAuthenticated()">  
 			schedule();
-		 	setInterval(schedule, 30000);//30초마다 알람카운트 불러오기
+		 	setInterval(schedule, 60000);//60초마다 알람카운트 불러오기
 		</sec:authorize>
 		
 		 var parameterName = '${_csrf.parameterName}';

@@ -63,6 +63,8 @@
 	<context:component-scan base-package="org.my.task"></context:component-scan>
     <!-- 스케쥴러 task작업처리 빈 등록 -->
     
+    <context:component-scan base-package="org.my.s3"></context:component-scan>
+    
  	<task:annotation-driven />
  	<!-- 스케쥴러 어노테이션 이용 위해 -->
  			

@@ -6,14 +6,13 @@
 
 <!DOCTYPE html>
 <html>
-<head>
-	<meta charset="UTF-8">
-	<script src="//code.jquery.com/jquery-1.11.3.min.js"></script>
-	<!-- <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script> -->
-	<!-- <script type="text/javascript" src="/dokky/resources/SmartEditor/js/HuskyEZCreator.js" charset="utf-8" ></script> -->
-	<title>Dokky - 새 글쓰기</title>  
-	<link href="/dokky/resources/css/register.css" rel="stylesheet" type="text/css">
-</head>
+	<head>
+		<meta charset="UTF-8">
+		<script src="//code.jquery.com/jquery-1.11.3.min.js"></script>
+		<!-- <script type="text/javascript" src="/dokky/resources/SmartEditor/js/HuskyEZCreator.js" charset="utf-8" ></script> -->
+		<title>Dokky - 새 글쓰기</title>  
+		<link href="/dokky/resources/css/register.css" rel="stylesheet" type="text/css">
+	</head>
 <body> 
 
 <div class='bigPictureWrapper'>
@@ -191,7 +190,7 @@
 	    }
 	    
 	    var str ="";
-	    var divContent = $("#divContent");
+	    var divContent = $("#divContent");//본문 내용
 	    
 	    var contentVal ="";
 	  		contentVal = divContent.html();
@@ -205,8 +204,9 @@
 				str += "<br><img src='/dokky/display?fileName="+fileCallPath+"' data-type='"+obj.image+"' data-path='"+obj.uploadPath+"' data-uuid='"+obj.uuid+"' data-filename='"+obj.fileName+"'>";
 				str += "<button type='button' data-uuid='"+obj.uuid+"' data-filecallpath=\'"+fileCallPath+"\' "
 				str += "data-type='image' class='btn btn-warning btn-circle'><span class='css-cancel'></span></button>"; 
-				str +"</li>";   
-				fileCallPath =  encodeURIComponent( obj.uploadPath+"/"+ obj.uuid +"_"+obj.fileName); 
+				str +"</li>";
+				
+				fileCallPath =  encodeURIComponent( obj.uploadPath+"/"+ obj.uuid +"_"+obj.fileName);
 				contentVal += "<img src='/dokky/display?fileName="+fileCallPath+"' data-uuid='"+obj.uuid+"' data-filecallpath='"+fileCallPath+"'>";
 				divContent.html(contentVal);//본문 삽입  
 				
@@ -224,19 +224,23 @@
 	    });
 	    
 	    if(inputName === "uploadPhoto" ){
+	    	
 	    	var uploadUL = $(".photoUploadResult ul");
+		    	uploadUL.append(str);
+		    	
 		    $(".photoUploadResult").css("display","block");//업로드결과 div보이기
-		    uploadUL.append(str);
 		    
 	    }else if(inputName === "uploadFile" ){
+	    	
 	    	var uploadUL = $(".fileUploadResult ul"); 
+			    uploadUL.append(str);
+			    
 		    $(".fileUploadResult").css("display","block");
-		    uploadUL.append(str);
 	    }
 	}
 	
 	//////////////////////////////////////////////////////////////////////////////
-
+					          
 	var csrfHeaderName ="${_csrf.headerName}"; 
 	var csrfTokenValue="${_csrf.token}";
 	  
@@ -308,7 +312,7 @@
 		      data: formData,
 		      dataType:'json',
 	          success: function(result){ 
-				  	   showUploadResult(result,inputName); //업로드 결과 처리 함수 
+				  	   showUploadResult(result, inputName); //업로드 결과 처리 함수 
 		      }
 	      });
 	  });  

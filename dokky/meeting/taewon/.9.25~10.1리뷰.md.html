@@ -648,7 +648,7 @@ function setDocumentScrollTop(ypos)
 <p>이에 SSL을 알아보았고 SSL을 적용하기 위해서는</p> 
 <p>인프라(EC2,도메인)를 구축이 선행되어야 함을 다시 확인했다.</p> 
 <ol> 
- <li>리뷰후:</li> 
+ <li>리뷰후: - 개인정보를 내 사이트에서 안가지고 가는방법이 있다. - 구글, 페이스북, 인스타그램 계정 연동해서 회원가입 혹은 바로 로그인 - 개인정보는 저장하는 데이터가 아니라 사용하는 데이터의 관점으로 바라보자 - 하지만 SSL은 적용해야 계정연동이 가능하다 - 그리고 인증서 같은 경우는 가짜 인증서로도 가능은하다. - localhost 도메인도 등록가능하다. - 세상에 클라우드 서비스는 많으니 amazon 말고 microsoft, ibm, google에 대해서도 추후 관심을 가져보자</li> 
 </ol> 
 <h2> <a id="2-일주일간-진행-하였던-내용들" class="anchor" href="#2-%EC%9D%BC%EC%A3%BC%EC%9D%BC%EA%B0%84-%EC%A7%84%ED%96%89-%ED%95%98%EC%98%80%EB%8D%98-%EB%82%B4%EC%9A%A9%EB%93%A4" aria-hidden="true"><span aria-hidden="true" class="octicon octicon-link"></span></a>2. 일주일간 진행 하였던 내용들</h2> 
 <ul> 
@@ -664,6 +664,7 @@ function setDocumentScrollTop(ypos)
 <p>1년 무료라고했는데 도무지 프리티어 적용이 안되서 당황스러운..</p> 
 <p>아니면 몇일이 지나야 프리티어를 쓸 수 있는건지 .. 계속 찾아보는중..</p> 
 <p><a href="https://aws.amazon.com/ko/premiumsupport/knowledge-center/?icmpid=support_rt_kc_articles#rds" rel="nofollow">https://aws.amazon.com/ko/premiumsupport/knowledge-center/?icmpid=support_rt_kc_articles#rds</a></p> 
+<p>3-1) 리뷰후: rds를 삭제하고서도 복구가 되는지 확인해보자 그러면 실마리가 보일것같다. 아마도 aws정책상 백업기간을 설정안하고 삭제하더라도 데이터를 당분간은 복구할수있도록 하는거같다. 그래서 아직 깔끔하게 데이터베이스가 삭제안됬을수도있다.</p> 
 <h3> <a id="2-aws-계정-mfa활성화-방법" class="anchor" href="#2-aws-%EA%B3%84%EC%A0%95-mfa%ED%99%9C%EC%84%B1%ED%99%94-%EB%B0%A9%EB%B2%95" aria-hidden="true"><span aria-hidden="true" class="octicon octicon-link"></span></a>2) AWS 계정 MFA활성화 방법</h3> 
 <p>처음만들었던 계정에서는 구글 opt를 활용해서</p> 
 <p>mfa 활성화가 되었었는데.. 두번째 만든계정에서 할려고 보니 활성화가 도무지 안된다..</p> 
@@ -676,6 +677,10 @@ function setDocumentScrollTop(ypos)
 <p>의심가는건 첫번째 계정에서 이미 만들었기 때문에 , 권한을 첫번째 계정에서</p> 
 <p>두번째 계정에다가 허용을 해줘야 하는건지..</p> 
 <p>이것 또한 계속 찾아보는중이고..</p> 
+<p>3-2)리뷰후: - MFA 문제: google otp 문제에 대해 조사(디바이스 레벨로 설정해서 문제가 있음)</p> 
+<ul> 
+ <li>Authy 2-Factor Authentication로 대체해서 해보자. otp같은경우 하나의 디바이스에 하나만 되는거 같다.</li> 
+</ul> 
 <h3> <a id="3-왜-80포트로-접속이-안될까" class="anchor" href="#3-%EC%99%9C-80%ED%8F%AC%ED%8A%B8%EB%A1%9C-%EC%A0%91%EC%86%8D%EC%9D%B4-%EC%95%88%EB%90%A0%EA%B9%8C" aria-hidden="true"><span aria-hidden="true" class="octicon octicon-link"></span></a>3) 왜 80포트로 접속이 안될까?</h3> 
 <p>ec2의 아파치 웹서버의 포트는 80이고 톰캣의 포트는 8080이다.</p> 
 <p>아파치와 톰캣의 연동전에는 아파치로 80포트로 접속이 됬는데,</p> 
@@ -687,6 +692,7 @@ function setDocumentScrollTop(ypos)
 <p>리후 정적인 페이지를 아파치에게 전달하는것으로 알고있는데</p> 
 <p>그런데도 접속이 안되는건 연동을 하게되면 아파치로의 접속이 현재 막혀있고</p> 
 <p>톰캣 8080으로만 열리게 되어있다는건데..</p> 
+<p>3-3)리뷰후: 로컬 환경에서 아파치와 톰캣을 연동한 후에 잘 동작하는지 테스트 진행,잘된다면 그것을 그대로 AWS에 적용해보자</p> 
 <h3> <a id="4-아파치웹서버와-톰캣의-제대로된-역할은" class="anchor" href="#4-%EC%95%84%ED%8C%8C%EC%B9%98%EC%9B%B9%EC%84%9C%EB%B2%84%EC%99%80-%ED%86%B0%EC%BA%A3%EC%9D%98-%EC%A0%9C%EB%8C%80%EB%A1%9C%EB%90%9C-%EC%97%AD%ED%95%A0%EC%9D%80" aria-hidden="true"><span aria-hidden="true" class="octicon octicon-link"></span></a>4) 아파치웹서버와 톰캣의 제대로된 역할은?</h3> 
 <p>웹서버(아파치)는 정적컨텐츠</p> 
 <p>was(톰캣)는 동적컨텐츠(JSP 서블릿 파일 처리)를 담당한다고는 알고있는데,</p> 
@@ -709,12 +715,16 @@ function setDocumentScrollTop(ypos)
 <p>WAS는 아무나 접근 못하게 IP를 다 차단시켜놓고,</p> 
 <p>웹서버 IP에서만 WAS로 통신이 되게끔 해놓고,</p> 
 <p>중요한 DB관련 접속은 WEB이 아니라 WAS에서만 해놓아 중요한 정보를 보호하려고..?</p> 
+<p>3-4) 리뷰후 : 웹서버와 웹어플리케이션 서버의 구분: 로직 처리를 하고 결과를 주느냐 아니냐의 큰 차이 웹서버는 로직처리(조건문,if문등등)가 없지만 was는 로직처리가있다 그래서 성능이 더떨어진다. was가 일반사람들이 다이렉트로 접근을 못하게 하기위해서라는 말은 확실치않다 node.js같은경우 was와 웹서버의 구분이 없다.</p> 
+<p><a href="https://cg-developer.tistory.com/348" rel="nofollow">https://cg-developer.tistory.com/348</a> 블로그 정리</p> 
 <h3> <a id="5-장시간-고생했던-빌드-실패의-문제" class="anchor" href="#5-%EC%9E%A5%EC%8B%9C%EA%B0%84-%EA%B3%A0%EC%83%9D%ED%96%88%EB%8D%98-%EB%B9%8C%EB%93%9C-%EC%8B%A4%ED%8C%A8%EC%9D%98-%EB%AC%B8%EC%A0%9C" aria-hidden="true"><span aria-hidden="true" class="octicon octicon-link"></span></a>5) 장시간 고생했던 빌드 실패의 문제</h3> 
 <p><a href="https://github.com/ytw9699/Dokky/issues/7">https://github.com/ytw9699/Dokky/issues/7</a></p> 
+<p>3-5) 리뷰후: 메이븐의 기능이 완전하지않다. maven =&gt; gradle로 바뀌어 가고 있는 흐름을 알아봐도 좋을것같다.</p> 
 <h3> <a id="6-자바와-오라클-설치시-고민됬던점" class="anchor" href="#6-%EC%9E%90%EB%B0%94%EC%99%80-%EC%98%A4%EB%9D%BC%ED%81%B4-%EC%84%A4%EC%B9%98%EC%8B%9C-%EA%B3%A0%EB%AF%BC%EB%90%AC%EB%8D%98%EC%A0%90" aria-hidden="true"><span aria-hidden="true" class="octicon octicon-link"></span></a>6) 자바와 오라클 설치시 고민됬던점</h3> 
 <p>Oracle JDK 와 OpenJDK</p> 
 <p>추후 유료/무료 관련 문제가있을수 있어서 아무래도 OpenJDK 를 선택해서 설치함</p> 
 <p>성능상에서는 크게차이는 없는것으로 확인..</p> 
-<p>오라클은 상업적인용도로는 유료라는데 일단은 오라클로 설치..추후 다른것으로 변환이 필요할듯하다.</p>
+<p>오라클은 상업적인용도로는 유료라는데 일단은 오라클로 설치..추후 다른것으로 변환이 필요할듯하다.</p> 
+<p>3-6) 리뷰후: OpenJDK쓰자 다른 OpenJDK를 거의 안쓰는곳이없을정도다.</p>
 </body>
 </html>

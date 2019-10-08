@@ -37,8 +37,8 @@
 						<td class="replyTitle">
 							<a class='move' href='<c:out value="${Reply.board_num}"/>'> 
 								<c:choose>
-							        <c:when test="${fn:length(Reply.reply_content) > 40}">
-							        	<c:out value="${fn:substring(Reply.reply_content, 0, 40)}"/>.....
+							        <c:when test="${fn:length(Reply.reply_content) > 30}">
+							        	<c:out value="${fn:substring(Reply.reply_content, 0, 30)}"/>.....
 							        </c:when>
 							        <c:otherwise>
 							        	<c:out value="${Reply.reply_content}"/> 
