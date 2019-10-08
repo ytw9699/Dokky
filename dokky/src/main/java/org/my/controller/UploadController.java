@@ -104,80 +104,6 @@ public class UploadController {
 		return result;
 	}
 	
-	/*@PreAuthorize("isAuthenticated()")
-	@PostMapping(value = "/uploadFile", produces = MediaType.APPLICATION_JSON_UTF8_VALUE)
-	@ResponseBody
-	public ResponseEntity<List<AttachFileDTO>> postUploadFile(MultipartFile[] uploadFile, String uploadKind) {
-		
-		final AmazonS3 s3 = AmazonS3ClientBuilder.
-    			standard().
-    			withRegion(Regions.AP_NORTHEAST_2).
-    			build(); 
-		
-		String bucket_name = "picksell-bucket/upload";
-		String uploadFolderPath = getFolder();
-		//File uploadPath = new File(uploadFolder, uploadFolderPath);
-		//String key_name ;
-		//List<AttachFileDTO> list = new ArrayList<>();  
-		
-		try {
-			
-			if (s3.doesBucketExist(bucket_name + uploadFolderPath) == false) {
-				s3.putObject(bucket_name, uploadFolderPath + "/", new ByteArrayInputStream(new byte[0]), new ObjectMetadata());//폴더생성
-			}
-			
-		}catch(AmazonS3Exception e) {
-    		
-			log.info(e.getErrorMessage());
-    	}
-
-		for (MultipartFile multipartFile : uploadFile) {
-
-			AttachFileDTO attachDTO = new AttachFileDTO();
-
-			String uploadFileName = multipartFile.getOriginalFilename();
-
-			uploadFileName = uploadFileName.substring(uploadFileName.lastIndexOf("\\") + 1);//ie의경우 짤라줌
-			
-			log.info("only file name: " + uploadFileName);
-			
-			attachDTO.setFileName(uploadFileName);//오리지날 이름 저장
-
-			UUID uuid = UUID.randomUUID();
-
-			uploadFileName = uuid.toString() + "_" + uploadFileName;
-
-			try {
-				File saveFile = new File(uploadPath, uploadFileName);
-				
-				multipartFile.transferTo(saveFile);
-
-				attachDTO.setUuid(uuid.toString());//uuid저장
-				attachDTO.setUploadPath(uploadFolderPath);//폴더 경로저장
-				
-				if(uploadKind.equals("photo")) {//업로드 종류가 photo가 아닌것은 모두 파일로 취급해서 사진파일이어도 파일종류로 구분
-					if (checkImageType(saveFile)) {//photo를 이미 확인해줬지만 한번더 이미지 파일 이라면 확인
-						
-						attachDTO.setImage(true);
-						
-						FileOutputStream thumbnail = new FileOutputStream(new File(uploadPath, "s_" + uploadFileName));
-
-						Thumbnailator.createThumbnail(multipartFile.getInputStream(), thumbnail, 100, 100);//썸네일 만들기
-
-						thumbnail.close();
-					}
-				}
-
-				list.add(attachDTO);
-
-			} catch (Exception e) {
-				e.printStackTrace();
-			}
-
-		} // end for
-		return new ResponseEntity<>(list, HttpStatus.OK);
-	}*/
-	
 	@PreAuthorize("isAuthenticated()")
 	@PostMapping(value = "/s3uploadFile", produces = MediaType.APPLICATION_JSON_UTF8_VALUE)
 	@ResponseBody
@@ -263,50 +189,79 @@ public class UploadController {
 		return new ResponseEntity<>(list, HttpStatus.OK);
 	}
 	
-	@GetMapping(value = "/download2", produces = MediaType.APPLICATION_OCTET_STREAM_VALUE)
+	/*@PreAuthorize("isAuthenticated()")
+	@PostMapping(value = "/uploadFile", produces = MediaType.APPLICATION_JSON_UTF8_VALUE)
 	@ResponseBody
-	public ResponseEntity<Resource> downloadFile2(@RequestHeader("User-Agent") String userAgent, String fileName) {
-
-		Resource resource = new FileSystemResource("c:\\upload\\" + fileName);
-		log.info("userAgent"+userAgent);
-		log.info("fileName"+fileName);
-		log.info("resource"+resource);
+	public ResponseEntity<List<AttachFileDTO>> postUploadFile(MultipartFile[] uploadFile, String uploadKind) {
 		
-		if (resource.exists() == false) {
-			return new ResponseEntity<>(HttpStatus.NOT_FOUND);
-		}
-
-		String resourceName = resource.getFilename();
-		log.info("resourceName"+resourceName);
+		final AmazonS3 s3 = AmazonS3ClientBuilder.
+    			standard().
+    			withRegion(Regions.AP_NORTHEAST_2).
+    			build(); 
 		
-		// remove UUID
-		String resourceOriginalName = resourceName.substring(resourceName.indexOf("_") + 1);
-
-		log.info("resourceOriginalName"+resourceOriginalName);
+		String bucket_name = "picksell-bucket/upload";
+		String uploadFolderPath = getFolder();
+		//File uploadPath = new File(uploadFolder, uploadFolderPath);
+		//String key_name ;
+		//List<AttachFileDTO> list = new ArrayList<>();  
 		
-		HttpHeaders headers = new HttpHeaders();
 		try {
+			
+			if (s3.doesBucketExist(bucket_name + uploadFolderPath) == false) {
+				s3.putObject(bucket_name, uploadFolderPath + "/", new ByteArrayInputStream(new byte[0]), new ObjectMetadata());//폴더생성
+			}
+			
+		}catch(AmazonS3Exception e) {
+    		
+			log.info(e.getErrorMessage());
+    	}
 
-			boolean checkIE = (userAgent.indexOf("MSIE") > -1 || userAgent.indexOf("Trident") > -1);
+		for (MultipartFile multipartFile : uploadFile) {
 
-			String downloadName = null;
+			AttachFileDTO attachDTO = new AttachFileDTO();
 
-			if (checkIE) {
-				downloadName = URLEncoder.encode(resourceOriginalName, "UTF8").replaceAll("\\+", " ");
-			} else {
-				downloadName = new String(resourceOriginalName.getBytes("UTF-8"), "ISO-8859-1");
+			String uploadFileName = multipartFile.getOriginalFilename();
+
+			uploadFileName = uploadFileName.substring(uploadFileName.lastIndexOf("\\") + 1);//ie의경우 짤라줌
+			
+			log.info("only file name: " + uploadFileName);
+			
+			attachDTO.setFileName(uploadFileName);//오리지날 이름 저장
+
+			UUID uuid = UUID.randomUUID();
+
+			uploadFileName = uuid.toString() + "_" + uploadFileName;
+
+			try {
+				File saveFile = new File(uploadPath, uploadFileName);
+				
+				multipartFile.transferTo(saveFile);
+
+				attachDTO.setUuid(uuid.toString());//uuid저장
+				attachDTO.setUploadPath(uploadFolderPath);//폴더 경로저장
+				
+				if(uploadKind.equals("photo")) {//업로드 종류가 photo가 아닌것은 모두 파일로 취급해서 사진파일이어도 파일종류로 구분
+					if (checkImageType(saveFile)) {//photo를 이미 확인해줬지만 한번더 이미지 파일 이라면 확인
+						
+						attachDTO.setImage(true);
+						
+						FileOutputStream thumbnail = new FileOutputStream(new File(uploadPath, "s_" + uploadFileName));
+
+						Thumbnailator.createThumbnail(multipartFile.getInputStream(), thumbnail, 100, 100);//썸네일 만들기
+
+						thumbnail.close();
+					}
+				}
+
+				list.add(attachDTO);
+
+			} catch (Exception e) {
+				e.printStackTrace();
 			}
 
-			headers.add("Content-Disposition", "attachment; filename=" + downloadName);
-
-			log.info("downloadName"+downloadName);
-			
-		} catch (UnsupportedEncodingException e) {
-			e.printStackTrace();
-		}
-
-		return new ResponseEntity<Resource>(resource, headers, HttpStatus.OK);
-	}
+		} // end for
+		return new ResponseEntity<>(list, HttpStatus.OK);
+	}*/
 	
 	@GetMapping(value = "/download", produces = MediaType.APPLICATION_OCTET_STREAM_VALUE)
 	@ResponseBody

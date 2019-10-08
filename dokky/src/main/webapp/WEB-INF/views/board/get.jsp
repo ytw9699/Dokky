@@ -1472,7 +1472,7 @@
     	    var path = encodeURIComponent(liObj.data("path")+"/" + liObj.data("uuid")+"_" + liObj.data("filename"));
     	    
     	    if(!liObj.data("type")){//파일이라면  
-    	    	self.location ="/dokky/download2?fileName=https://picksell-bucket.s3.ap-northeast-2.amazonaws.com/upload/2019/10/07/dokky.png" 
+    	    	self.location ="/dokky/download?fileName=https://picksell-bucket.s3.ap-northeast-2.amazonaws.com/upload/2019/10/07/dokky.png" 
     	    }
    });
    ///////////////////////////////////////////////////////
