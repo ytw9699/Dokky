@@ -117,7 +117,28 @@ public class UploadController {
 		
 		for (MultipartFile multipartFile : uploadFile) {
 			
-			result = s3Util.fileUpload(multipartFile.getOriginalFilename(), multipartFile.getBytes() , uploadKind);
+			result = s3Util.fileUpload(multipartFile.getOriginalFilename(), multipartFile , uploadKind);
+			
+			list.add(result);
+		}
+		
+		return new ResponseEntity<>(list, HttpStatus.OK);
+	}
+	
+	@PreAuthorize("isAuthenticated()")
+	@PostMapping(value = "/s3uploadFile2", produces = MediaType.APPLICATION_JSON_UTF8_VALUE)
+	@ResponseBody
+	public ResponseEntity<List<AttachFileDTO>> posts3UploadFile2(MultipartFile[] uploadFile, String uploadKind) throws IOException {
+		
+		log.info("/s3uploadFile");  
+		
+		AttachFileDTO result;
+		
+		List<AttachFileDTO> list = new ArrayList<>();  
+		
+		for (MultipartFile multipartFile : uploadFile) {
+			
+			result = s3Util.fileUpload2(multipartFile.getOriginalFilename(), multipartFile.getBytes() , uploadKind);
 			
 			list.add(result);
 		}
@@ -268,6 +289,7 @@ public class UploadController {
 	public ResponseEntity<Resource> downloadFile(@RequestHeader("User-Agent") String userAgent, String fileName) {
 
 		Resource resource = new FileSystemResource("c:\\upload\\" + fileName);
+		
 		log.info("userAgent"+userAgent);
 		log.info("fileName"+fileName);
 		log.info("resource"+resource);
@@ -285,6 +307,7 @@ public class UploadController {
 		log.info("resourceOriginalName"+resourceOriginalName);
 		
 		HttpHeaders headers = new HttpHeaders();
+		
 		try {
 
 			boolean checkIE = (userAgent.indexOf("MSIE") > -1 || userAgent.indexOf("Trident") > -1);
