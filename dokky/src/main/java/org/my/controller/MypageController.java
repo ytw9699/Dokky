@@ -274,7 +274,7 @@ public class MypageController {
 		return "mypage/myCashHistory"; 
 	}
 	
-	@PostMapping(value = "/profileFile")
+	@PostMapping(value = "/profileFile")//
 	public String registerProfileFile(MultipartHttpServletRequest request) { //프로필 이미지 올리기
 		
 		log.info("/mypage/profileFile"); 
