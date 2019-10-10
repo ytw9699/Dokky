@@ -44,7 +44,7 @@ import com.amazonaws.services.s3.model.S3Object;
 @Component
 public class myS3Util {
 	
-	String bucket_name = "dokky-bucket";
+	String bucket_name = "picksell-bucket";
 	String folder_name;
 	AmazonS3 s3;
 	
