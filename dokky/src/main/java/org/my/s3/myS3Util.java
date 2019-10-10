@@ -7,7 +7,9 @@ package org.my.s3;
 	import java.io.IOException;
 	import java.io.InputStream;
 	import java.io.OutputStream;
-	import java.text.SimpleDateFormat;
+import java.io.UnsupportedEncodingException;
+import java.net.URLEncoder;
+import java.text.SimpleDateFormat;
 	import java.util.Date;
 	import java.util.List;
 	import java.util.UUID;
@@ -17,7 +19,8 @@ import org.my.domain.AttachFileDTO;
 	import org.springframework.stereotype.Component;
 	import org.springframework.web.multipart.MultipartFile;
 	import com.amazonaws.AmazonServiceException;
-	import com.amazonaws.auth.AWSCredentials;
+import com.amazonaws.HttpMethod;
+import com.amazonaws.auth.AWSCredentials;
 	import com.amazonaws.auth.AWSStaticCredentialsProvider;
 	import com.amazonaws.auth.BasicAWSCredentials;
 	import com.amazonaws.regions.Regions;
@@ -30,7 +33,8 @@ import org.my.domain.AttachFileDTO;
 	import com.amazonaws.services.s3.model.ObjectMetadata;
 	import com.amazonaws.services.s3.model.PutObjectRequest;
 	import com.amazonaws.services.s3.model.PutObjectResult;
-	import com.amazonaws.services.s3.model.S3Object;
+import com.amazonaws.services.s3.model.ResponseHeaderOverrides;
+import com.amazonaws.services.s3.model.S3Object;
 	import com.amazonaws.services.s3.model.S3ObjectInputStream;
 	import com.amazonaws.services.s3.model.S3ObjectSummary;
 	import lombok.extern.log4j.Log4j;
@@ -63,7 +67,93 @@ public class myS3Util {
 								    build();*/
 	}
 	
-	public AttachFileDTO fileUpload(String fileName, MultipartFile multipartFile, String uploadKind) throws FileNotFoundException {
+	
+	public AttachFileDTO fileUpload(String fileName, byte[] fileData, String uploadKind) throws FileNotFoundException {
+		
+			createFolder();
+			
+			AttachFileDTO attachDTO = new AttachFileDTO();
+			
+			fileName = fileName.substring(fileName.lastIndexOf("\\") + 1);
+			
+			attachDTO.setFileName(fileName);//오리지날 이름 저장
+			
+			UUID uuid = UUID.randomUUID();
+			
+			fileName = uuid.toString() + "_" + fileName;
+			
+			attachDTO.setUuid(uuid.toString());//uuid저장
+			
+			attachDTO.setUploadPath(folder_name);//폴더 경로저장
+			
+			if(uploadKind.equals("photo")) {
+				
+					attachDTO.setImage(true);
+			}
+			
+			ObjectMetadata metaData = new ObjectMetadata();
+			
+			//metaData.setContentLength(fileData.length);   //메타데이터 설정 -->원래는 128kB까지 업로드 가능했으나 파일크기만큼 버퍼를 설정시켰다.
+		   
+			ByteArrayInputStream byteArrayInputStream = new ByteArrayInputStream(fileData); //파일 넣음
+			
+		    //s3.putObject(bucket_name + "/" + folder_name, fileName, byteArrayInputStream, metaData);//퍼블릭 없이 디폴트로 설정해서 업로드
+		    
+		    PutObjectRequest putObjectRequest = new PutObjectRequest(bucket_name + "/" + folder_name, fileName, byteArrayInputStream, metaData);
+		    
+	        putObjectRequest.setCannedAcl(CannedAccessControlList.PublicRead); // 파일의 권한 퍼블릭으로 설정
+	        
+	        s3.putObject(putObjectRequest); // upload file
+	        
+	        ResponseHeaderOverrides header = new ResponseHeaderOverrides();
+	        
+	        //String encodedName = StringUtil.encodeAsUTF8(fileName);
+	        
+	        /*byte ptext[] = null;
+	        String encodedName = null;
+	        
+			try {
+				ptext = fileName.getBytes("ISO_8859_1");
+				encodedName = new String(ptext, "UTF-8");
+			} catch (UnsupportedEncodingException e1) {
+				e1.printStackTrace();
+			}*/
+			
+			/*try {
+				fileName = URLEncoder.encode(fileName, "UTF8").replaceAll("\\+", " ");
+			} catch (UnsupportedEncodingException e) {
+				e.printStackTrace();
+			}*/
+			
+			/*try {
+				fileName = new String(fileName.getBytes("UTF-8"),"iso-8859-1");
+			} catch (UnsupportedEncodingException e) {
+				e.printStackTrace();
+			}*/
+			
+	        header.setContentDisposition("response-content-disposition=attachment; filename=\"" + fileName + "\"");
+	        header.setContentEncoding("utf-8");
+	        
+	        GeneratePresignedUrlRequest request = new GeneratePresignedUrlRequest(bucket_name + "/" + folder_name, fileName);
+	        request.setMethod(HttpMethod.GET);
+		    request.setResponseHeaders(header);
+		    
+		    Date today = new Date();
+		    
+		    request.setExpiration(new Date(today.getTime() + (long)(3000)));//3초후 다운로드 못하게 막음
+		    
+	        String url = s3.generatePresignedUrl(request).toString();
+	       // String url = s3.getUrl(bucket_name + "/" + folder_name, fileName).toString();
+		    
+		    attachDTO.setDownUrl(url);
+		    
+		    //attachDTO.setDownUrl(s3.generatePresignedUrl(new GeneratePresignedUrlRequest(bucket_name + "/" + folder_name, fileName)).toString());
+		    
+		    return attachDTO;
+	}
+	
+	  
+	/*public AttachFileDTO fileUpload2(String fileName, MultipartFile multipartFile, String uploadKind) throws FileNotFoundException {
 		
 			createFolder();
 			
@@ -107,54 +197,8 @@ public class myS3Util {
 		    //attachDTO.setDownUrl(s3.generatePresignedUrl(new GeneratePresignedUrlRequest(bucket_name + "/" + folder_name, fileName)).toString());
 		  
 		    return attachDTO;
-	}
+	}*/
 	
-	public AttachFileDTO fileUpload2(String fileName, byte[] fileData, String uploadKind) throws FileNotFoundException {
-		
-			createFolder();
-			
-			AttachFileDTO attachDTO = new AttachFileDTO();
-			
-			fileName = fileName.substring(fileName.lastIndexOf("\\") + 1);
-			
-			attachDTO.setFileName(fileName);//오리지날 이름 저장
-			
-			UUID uuid = UUID.randomUUID();
-			
-			fileName = uuid.toString() + "_" + fileName;
-			
-			attachDTO.setUuid(uuid.toString());//uuid저장
-			
-			attachDTO.setUploadPath(folder_name);//폴더 경로저장
-			
-			if(uploadKind.equals("photo")) {
-				
-					attachDTO.setImage(true);
-			}
-			
-			ObjectMetadata metaData = new ObjectMetadata();
-			
-			metaData.setContentLength(fileData.length);   //메타데이터 설정 -->원래는 128kB까지 업로드 가능했으나 파일크기만큼 버퍼를 설정시켰다.
-		   
-			ByteArrayInputStream byteArrayInputStream = new ByteArrayInputStream(fileData); //파일 넣음
-			
-		    //s3.putObject(bucket_name + "/" + folder_name, fileName, byteArrayInputStream, metaData);//퍼블릭 없이 디폴트로 설정해서 업로드
-		    
-		    PutObjectRequest putObjectRequest = new PutObjectRequest(bucket_name + "/" + folder_name, fileName, byteArrayInputStream, metaData);
-		    
-	        putObjectRequest.setCannedAcl(CannedAccessControlList.PublicRead); // 파일의 권한 퍼블릭으로 설정
-	        
-	        s3.putObject(putObjectRequest); // upload file
-	        
-		    String url = s3.getUrl(bucket_name + "/" + folder_name, fileName).toString();
-		    
-		    attachDTO.setDownUrl(url);
-		    
-		    //attachDTO.setDownUrl(s3.generatePresignedUrl(new GeneratePresignedUrlRequest(bucket_name + "/" + folder_name, fileName)).toString());
-		    
-		    return attachDTO;
-	}
-		
 	public void createFolder() {
 		
 			SimpleDateFormat sdf = new SimpleDateFormat("yyyy/MM/dd");

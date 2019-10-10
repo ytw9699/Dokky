@@ -117,7 +117,7 @@ public class UploadController {
 		
 		for (MultipartFile multipartFile : uploadFile) {
 			
-			result = s3Util.fileUpload(multipartFile.getOriginalFilename(), multipartFile , uploadKind);
+			result = s3Util.fileUpload(multipartFile.getOriginalFilename(), multipartFile.getBytes() , uploadKind);
 			
 			list.add(result);
 		}
@@ -125,7 +125,7 @@ public class UploadController {
 		return new ResponseEntity<>(list, HttpStatus.OK);
 	}
 	
-	@PreAuthorize("isAuthenticated()")
+	/*@PreAuthorize("isAuthenticated()")
 	@PostMapping(value = "/s3uploadFile2", produces = MediaType.APPLICATION_JSON_UTF8_VALUE)
 	@ResponseBody
 	public ResponseEntity<List<AttachFileDTO>> posts3UploadFile2(MultipartFile[] uploadFile, String uploadKind) throws IOException {
@@ -138,13 +138,13 @@ public class UploadController {
 		
 		for (MultipartFile multipartFile : uploadFile) {
 			
-			result = s3Util.fileUpload2(multipartFile.getOriginalFilename(), multipartFile.getBytes() , uploadKind);
+			result = s3Util.fileUpload2(multipartFile.getOriginalFilename(), multipartFile , uploadKind);
 			
 			list.add(result);
 		}
 		
 		return new ResponseEntity<>(list, HttpStatus.OK);
-	}
+	}*/
 	
 	@PreAuthorize("isAuthenticated()")
 	@PostMapping(value = "/uploadFile", produces = MediaType.APPLICATION_JSON_UTF8_VALUE)
