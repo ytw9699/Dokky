@@ -16,6 +16,8 @@
 
 <a href="https://picksell-bucket.s3.ap-northeast-2.amazonaws.com/upload/2019/10/08/0a38de9a-5d3a-463b-8319-377c821de9d9_dokky.png" download="newFileName.png">다운로드</a>
   
+  <a href="/dokky/download2?fileName=dokky.png">s3다운로드</a>  
+  
 <div class='bigPictureWrapper'>
   <div class='bigPicture'>
   </div>

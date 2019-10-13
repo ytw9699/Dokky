@@ -33,8 +33,8 @@ import com.amazonaws.auth.AWSCredentials;
 	import com.amazonaws.services.s3.model.ObjectMetadata;
 	import com.amazonaws.services.s3.model.PutObjectRequest;
 	import com.amazonaws.services.s3.model.PutObjectResult;
-import com.amazonaws.services.s3.model.ResponseHeaderOverrides;
-import com.amazonaws.services.s3.model.S3Object;
+	import com.amazonaws.services.s3.model.ResponseHeaderOverrides;
+	import com.amazonaws.services.s3.model.S3Object;
 	import com.amazonaws.services.s3.model.S3ObjectInputStream;
 	import com.amazonaws.services.s3.model.S3ObjectSummary;
 	import lombok.extern.log4j.Log4j;
@@ -44,27 +44,27 @@ import com.amazonaws.services.s3.model.S3Object;
 @Component
 public class myS3Util {
 	
-	String bucket_name = "picksell-bucket";
+	private static final String bucket_name = "picksell-bucket";
+	private static final String ACCESS_KEY = "AKIA47S6HNIPBSOVXPXH";
+    private static final String SECRET_KEY = "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";
 	String folder_name;
 	AmazonS3 s3;
 	
+    private AmazonS3 amazonS3;
+	 
 	public myS3Util() {
 		
-			 s3 = AmazonS3ClientBuilder.
+			 /*s3 = AmazonS3ClientBuilder.
 									 standard().
 			 withRegion(Regions.AP_NORTHEAST_2).
-										build();
+										build();*/
 			 
-			 /*String ACCESS_KEY = "";
-	         String SECRET_KEY = "";
-		         
-	   AWSCredentials awsCredentials = 
-			   new BasicAWSCredentials(ACCESS_KEY, SECRET_KEY);// 인증 객체를 생성한다.
-	   
-				final AmazonS3 s3 = AmazonS3ClientBuilder.standard().
-					                withRegion(Regions.AP_NORTHEAST_2).
-					                withCredentials(new AWSStaticCredentialsProvider(awsCredentials)).
-								    build();*/
+			 AWSCredentials awsCredentials = new BasicAWSCredentials(ACCESS_KEY, SECRET_KEY);// 인증 객체를 생성한다.
+			 
+			 s3  = AmazonS3ClientBuilder.standard().
+		                withRegion(Regions.AP_NORTHEAST_2).
+		                withCredentials(new AWSStaticCredentialsProvider(awsCredentials)).
+					    build();
 	}
 	
 	

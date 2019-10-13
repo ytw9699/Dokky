@@ -14,6 +14,7 @@ import java.io.FileOutputStream;
 	import java.util.UUID;
 
 import javax.inject.Inject;
+import javax.servlet.http.HttpServletRequest;
 
 import org.my.domain.AttachFileDTO;
 import org.my.s3.myS3Util;
@@ -31,9 +32,12 @@ import org.springframework.core.io.FileSystemResource;
 	import org.springframework.web.bind.annotation.GetMapping;
 	import org.springframework.web.bind.annotation.PostMapping;
 	import org.springframework.web.bind.annotation.RequestHeader;
-	import org.springframework.web.bind.annotation.ResponseBody;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.ResponseBody;
 	import org.springframework.web.multipart.MultipartFile;
-	import lombok.Setter;
+import org.springframework.web.servlet.ModelAndView;
+
+import lombok.Setter;
 	import lombok.extern.log4j.Log4j;
 	import net.coobird.thumbnailator.Thumbnailator;
 
@@ -283,6 +287,14 @@ public class UploadController {
 		} // end for
 		return new ResponseEntity<>(list, HttpStatus.OK);
 	}*/
+	
+	@GetMapping("/download2")		
+	public ModelAndView download2(HttpServletRequest request) throws Exception {
+		
+		String fileName = request.getParameter("fileName");
+		
+		return new ModelAndView("DownloadView", "fileName", fileName);
+	}
 	
 	@GetMapping(value = "/download", produces = MediaType.APPLICATION_OCTET_STREAM_VALUE)
 	@ResponseBody

@@ -43,7 +43,7 @@ public class BoardController {
 	@PreAuthorize("hasAnyRole('ROLE_ADMIN','ROLE_USER')")
 	@GetMapping("/test")
 	public String test() {
-		
+
 		return "board/test";
 	}
 	
