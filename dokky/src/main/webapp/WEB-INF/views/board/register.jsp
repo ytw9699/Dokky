@@ -185,6 +185,7 @@
 	//////////////////////////////////////////////////////////////////////////////
 	  
 	function showUploadResult(uploadResultArr, inputName){
+		
 	    if(!uploadResultArr || uploadResultArr.length == 0){ 
 	    	return; 
 	    }
@@ -264,15 +265,18 @@
 		  	  }    
 			   
 			  for(var i = 0; i < files.length; i++){
+				  
 			      if(!checkImage(files[i].name, files[i].size) ){
 			    	 
-			    	inputFile.val("");//사진,파일 input value 값 비워주기
+			    	inputFile.val("");//사진 input value 값 비워주기
 			    	
 			        return false; 
 			      }
+			      
 		      	  formData.append("uploadFile", files[i]);
 		      }
-		   		  formData.append("uploadKind", "photo");
+			  
+	   		  formData.append("uploadKind", "photo");
 		   		  
 		  }else if(inputName === "uploadFile"){//파일업로드라면
 			  
@@ -288,32 +292,33 @@
 		  	  }
 			  
 			  for(var i = 0; i < files.length; i++){
+				  
 			      if(!checkFile(files[i].name, files[i].size) ){
 			    	 
 			    	inputFile.val(""); 
 			    	  
 			        return false;
 			      }
+			      
 		     	  formData.append("uploadFile", files[i]);
 		      }
 		     	  formData.append("uploadKind", "file");
-		     	  
 		  }  
 		  		  inputFile.val("");  
 		  
 		  $.ajax({
-		      url: '/dokky/uploadFile',
-		      type: 'POST',
-		      processData: false, 
-		      contentType: false,
-		      beforeSend: function(xhr) {
-		          xhr.setRequestHeader(csrfHeaderName, csrfTokenValue);
-		      },
-		      data: formData,
-		      dataType:'json',
-	          success: function(result){ 
-				  	   showUploadResult(result, inputName); //업로드 결과 처리 함수 
-		      }
+			      url: '/dokky/s3upload',
+			      type: 'POST',
+			      processData: false, 
+			      contentType: false,
+			      beforeSend: function(xhr) {
+			          xhr.setRequestHeader(csrfHeaderName, csrfTokenValue);
+			      },
+			      data: formData,
+			      dataType:'json',
+		          success: function(result){ 
+					  	   showUploadResult(result, inputName); 
+			      }
 	      });
 	  });  
 	  

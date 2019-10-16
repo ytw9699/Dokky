@@ -17,6 +17,7 @@
 <a href="https://picksell-bucket.s3.ap-northeast-2.amazonaws.com/upload/2019/10/08/0a38de9a-5d3a-463b-8319-377c821de9d9_dokky.png" download="newFileName.png">다운로드</a>
   
   <a href="/dokky/download2?fileName=dokky.png">s3다운로드</a>  
+  <img src="/dokky/display2?folder_name=upload/2019/10/15&fileName=dokky.png" />
   
 <div class='bigPictureWrapper'>
   <div class='bigPicture'>
@@ -149,11 +150,11 @@ $("input[type='file']").change(function(e){//업로드하기
 	    
 	    $(uploadResultArr).each(function(i, obj){  
 				 
-				str += "<a href='"+obj.downUrl+"' download='newfilename'><li><img src='"+obj.downUrl+"' width='50' height='50' data-filecallpath='"+obj.downUrl+"'>";
-				str +"</li></a>";  
-				
-				contentVal += "<img src='"+obj.downUrl+"' data-filecallpath='"+obj.downUrl+"'>";
-				divContent.html(contentVal);//본문 삽입    
+				str += "<a href='"+obj.downUrl+"' download='newfilename'><li><img src='/dokky/display2?folder_name="+obj.uploadPath+"&fileName="+obj.uuid+"_"+obj.fileName+"' width='50' height='50'>";
+				str +"</li></a>";                    
+									 
+				contentVal += "<img src='/dokky/display2?folder_name="+obj.uploadPath+"&fileName="+obj.uuid+"_"+obj.fileName+"' width='50' height='50'>";
+				divContent.html(contentVal);//본문 삽입     
 	    }); 
 	    
 	    if(inputName === "uploadPhoto" ){

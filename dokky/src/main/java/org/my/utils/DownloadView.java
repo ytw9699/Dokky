@@ -20,8 +20,8 @@ package org.my.utils;
 @Component
 public class DownloadView extends AbstractView {//AbstractView를 상속
 	
-	private static final String ACCESS_KEY = "AKIA47S6HNIPBSOVXPXH";
-    private static final String SECRET_KEY = "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";
+	//private static final String ACCESS_KEY = "AKIA47S6HNIPBSOVXPXH";
+    //private static final String SECRET_KEY = "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";
     
 	public DownloadView() {//생성자
 		setContentType("application/download; charset=utf-8");
@@ -31,17 +31,17 @@ public class DownloadView extends AbstractView {//AbstractView를 상속
 	protected void renderMergedOutputModel(Map<String, Object> model, HttpServletRequest request, HttpServletResponse response)
 			throws Exception {
 		
-		/*final AmazonS3 s3 = AmazonS3ClientBuilder.
+		final AmazonS3 s3 = AmazonS3ClientBuilder.
 									   standard().
 			   withRegion(Regions.AP_NORTHEAST_2).
-										  build();*/
+										  build();
 		
-		 AWSCredentials awsCredentials = new BasicAWSCredentials(ACCESS_KEY, SECRET_KEY);// 인증 객체를 생성한다.
+		 //AWSCredentials awsCredentials = new BasicAWSCredentials(ACCESS_KEY, SECRET_KEY);// 인증 객체를 생성한다.
 		 
-		 final AmazonS3 s3  = AmazonS3ClientBuilder.standard().
+		/* final AmazonS3 s3  = AmazonS3ClientBuilder.standard().
 	                withRegion(Regions.AP_NORTHEAST_2).
 	                withCredentials(new AWSStaticCredentialsProvider(awsCredentials)).
-				    build();
+				    build();*/
 			
 		String bucket_name = "picksell-bucket";
 		String folder_name = "/upload";

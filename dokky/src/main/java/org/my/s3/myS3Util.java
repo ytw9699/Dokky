@@ -1,5 +1,6 @@
 package org.my.s3;
-	import java.io.BufferedOutputStream;
+	import java.io.BufferedInputStream;
+import java.io.BufferedOutputStream;
 	import java.io.ByteArrayInputStream;
 	import java.io.File;
 	import java.io.FileNotFoundException;
@@ -45,8 +46,10 @@ import com.amazonaws.auth.AWSCredentials;
 public class myS3Util {
 	
 	private static final String bucket_name = "picksell-bucket";
-	private static final String ACCESS_KEY = "AKIA47S6HNIPBSOVXPXH";
-    private static final String SECRET_KEY = "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";
+	
+	//private static final String ACCESS_KEY = "AKIA47S6HNIPBSOVXPXH";
+    //private static final String SECRET_KEY = "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";
+	
 	String folder_name;
 	AmazonS3 s3;
 	
@@ -54,19 +57,18 @@ public class myS3Util {
 	 
 	public myS3Util() {
 		
-			 /*s3 = AmazonS3ClientBuilder.
-									 standard().
-			 withRegion(Regions.AP_NORTHEAST_2).
-										build();*/
-			 
-			 AWSCredentials awsCredentials = new BasicAWSCredentials(ACCESS_KEY, SECRET_KEY);// 인증 객체를 생성한다.
-			 
-			 s3  = AmazonS3ClientBuilder.standard().
-		                withRegion(Regions.AP_NORTHEAST_2).
-		                withCredentials(new AWSStaticCredentialsProvider(awsCredentials)).
-					    build();
+				 s3 = AmazonS3ClientBuilder.
+						 		 standard().
+		 withRegion(Regions.AP_NORTHEAST_2).
+									build();
+		 
+		 /*AWSCredentials awsCredentials = new BasicAWSCredentials(ACCESS_KEY, SECRET_KEY);// 인증 객체를 생성한다.
+		 
+		 s3  = AmazonS3ClientBuilder.standard().
+	                withRegion(Regions.AP_NORTHEAST_2).
+	                withCredentials(new AWSStaticCredentialsProvider(awsCredentials)).
+				    build();*/
 	}
-	
 	
 	public AttachFileDTO fileUpload(String fileName, byte[] fileData, String uploadKind) throws FileNotFoundException {
 		
@@ -74,7 +76,7 @@ public class myS3Util {
 			
 			AttachFileDTO attachDTO = new AttachFileDTO();
 			
-			fileName = fileName.substring(fileName.lastIndexOf("\\") + 1);
+			fileName = fileName.substring(fileName.lastIndexOf("\\") + 1);//ie의경우 짤라줌
 			
 			attachDTO.setFileName(fileName);//오리지날 이름 저장
 			
@@ -88,7 +90,46 @@ public class myS3Util {
 			
 			if(uploadKind.equals("photo")) {
 				
-					attachDTO.setImage(true);
+				attachDTO.setImage(true);//타입이 이미지면 1 //1은 true 0은 false
+				
+			}else {
+				
+				attachDTO.setImage(false);//파일이면 0
+			}
+			
+			ObjectMetadata metaData = new ObjectMetadata();
+			
+			//metaData.setContentLength(fileData.length);   //메타데이터 설정 -->원래는 128kB까지 업로드 가능했으나 파일크기만큼 버퍼를 설정시켰다.
+		   
+			ByteArrayInputStream byteArrayInputStream = new ByteArrayInputStream(fileData); //파일 넣음
+			
+		    s3.putObject(bucket_name + "/" + folder_name, fileName, byteArrayInputStream, metaData);//퍼블릭 없이 디폴트로 설정해서 업로드
+		    
+		    return attachDTO;
+	}
+	
+	
+	public AttachFileDTO fileUpload2(String fileName, byte[] fileData, String uploadKind) throws FileNotFoundException {
+		
+			createFolder();
+			
+			AttachFileDTO attachDTO = new AttachFileDTO();
+			
+			fileName = fileName.substring(fileName.lastIndexOf("\\") + 1);//ie의경우 짤라줌
+			
+			attachDTO.setFileName(fileName);//오리지날 이름 저장
+			
+			UUID uuid = UUID.randomUUID();
+			
+			fileName = uuid.toString() + "_" + fileName;
+			
+			attachDTO.setUuid(uuid.toString());//uuid저장
+			
+			attachDTO.setUploadPath(folder_name);//폴더 경로저장
+			
+			if(uploadKind.equals("photo")) {
+				
+				attachDTO.setImage(true);//타입이 포토라고 저장 //1은 true 0은 false
 			}
 			
 			ObjectMetadata metaData = new ObjectMetadata();
@@ -101,11 +142,9 @@ public class myS3Util {
 		    
 		    PutObjectRequest putObjectRequest = new PutObjectRequest(bucket_name + "/" + folder_name, fileName, byteArrayInputStream, metaData);
 		    
-	        putObjectRequest.setCannedAcl(CannedAccessControlList.PublicRead); // 파일의 권한 퍼블릭으로 설정
+	        //putObjectRequest.setCannedAcl(CannedAccessControlList.PublicRead); // 파일의 권한 퍼블릭으로 설정
 	        
-	        s3.putObject(putObjectRequest); // upload file
-	        
-	        ResponseHeaderOverrides header = new ResponseHeaderOverrides();
+	        s3.putObject(putObjectRequest); //업로드
 	        
 	        //String encodedName = StringUtil.encodeAsUTF8(fileName);
 	        
@@ -130,6 +169,8 @@ public class myS3Util {
 			} catch (UnsupportedEncodingException e) {
 				e.printStackTrace();
 			}*/
+	        
+	        /*ResponseHeaderOverrides header = new ResponseHeaderOverrides();
 			
 	        header.setContentDisposition("response-content-disposition=attachment; filename=\"" + fileName + "\"");
 	        header.setContentEncoding("utf-8");
@@ -142,10 +183,10 @@ public class myS3Util {
 		    
 		    request.setExpiration(new Date(today.getTime() + (long)(3000)));//3초후 다운로드 못하게 막음
 		    
-	        String url = s3.generatePresignedUrl(request).toString();
+	        String url = s3.generatePresignedUrl(request).toString();*/
 	       // String url = s3.getUrl(bucket_name + "/" + folder_name, fileName).toString();
 		    
-		    attachDTO.setDownUrl(url);
+		    //attachDTO.setDownUrl(url);
 		    
 		    //attachDTO.setDownUrl(s3.generatePresignedUrl(new GeneratePresignedUrlRequest(bucket_name + "/" + folder_name, fileName)).toString());
 		    
@@ -212,18 +253,19 @@ public class myS3Util {
 			try {
 					if (s3.doesBucketExist(bucket_name + "/" + folder_name)) {
 				        
-				    	System.out.format("폴더가 이미 있음");
-				    	
+						log.info("폴더가 이미 있음");  
+						
 				    }else {
 				    	
 			    		s3.putObject(bucket_name, folder_name + "/", new ByteArrayInputStream(new byte[0]), new ObjectMetadata());
 			    		
-			    		System.out.format("폴더 생성 완료");
+			    		log.info("폴더 생성 완료");  
 			    	}
 				    
 			}catch(AmazonS3Exception e) {
 	    		
-	    		System.out.println(e.getErrorMessage());
+				
+				log.info(e.getErrorMessage());  
 	    	}
 			
 	}
@@ -232,7 +274,39 @@ public class myS3Util {
 		
 		return s3.generatePresignedUrl(new GeneratePresignedUrlRequest(bucket_name + "/" + folder_path, fileName)).toString();
 	}
+	
+	public byte[] downloadImage(String folder_name, String objectName) {
+		
+		byte[] bytesArray = null;
+		
+		try {
+    		
+    		S3Object s3Object = s3.getObject(bucket_name + "/" + folder_name, objectName);
+    		
+    		ObjectMetadata metaData = s3Object.getObjectMetadata();
+		    
+		    bytesArray = new byte[(int)metaData.getContentLength()];//겍체 크기를 구해서 바이트배열의 크기를 지정하고
+		    
+		    log.info("metaDatagetContentLength()");
+		    log.info(metaData.getContentLength()); 
+		    
+		    S3ObjectInputStream s3ObjectInputStream = s3Object.getObjectContent();
+		    
+		    BufferedInputStream bin = new BufferedInputStream(s3ObjectInputStream);
+		    
+		    while ((bin.read(bytesArray)) != -1) {
+		    }
 
+		    s3ObjectInputStream.close();
+    	
+    	} catch (IOException e) {
+    	    System.err.println(e.getMessage());
+    	    System.exit(1);
+    	}
+		
+		return bytesArray;
+	}
+	
 	
 	public void downloadObject(String folder_name, String objectName) {
 		
@@ -278,11 +352,11 @@ public class myS3Util {
 		
 		try {
     		s3.deleteObject(bucket_name + "/" +folder_name, objectName);
-    		System.err.println("삭제 완료");
+    		log.info("삭제 완료");
     		
     	}catch(AmazonServiceException e) {
     		
-	    	System.err.println(e.getErrorMessage());
+    		log.info(e.getErrorMessage());
 	    	System.exit(1);
     		
     	}
@@ -293,11 +367,11 @@ public class myS3Util {
 		try {
     		s3.createBucket(bucket_name);
     		
-    		System.out.println("버킷 생성완료");
+    		log.info("버킷 생성완료");
     		
     	}catch(AmazonS3Exception e) {
     		
-    		System.out.println(e.getErrorMessage());
+    		log.info(e.getErrorMessage());
     	}
 	}
 	
@@ -305,11 +379,11 @@ public class myS3Util {
 		
     	try {
     		s3.putObject(bucket_name + "/"+  folder_name, key_name, new File(file_path));
-    		System.err.println("업로드 완료");
+    		log.info("업로드 완료");
     		
     	}catch(AmazonServiceException e) {
     		
-	    	System.err.println(e.getErrorMessage());
+    		log.info(e.getErrorMessage());
 	    	System.exit(1);
     	}
 	}
@@ -326,7 +400,7 @@ public class myS3Util {
                 // Access List 를 설정 하는 부분이다. 공개 조회가 가능 하도록 public Read 로 설정 하였다.
                 s3.putObject(putObjectRequest); // upload file
              // 실제로 업로드 할 액션이다.
-                System.err.println("업로드 완료");
+                log.info("업로드 완료");
                 
             } catch (AmazonServiceException ase) {
                 ase.printStackTrace();
@@ -345,7 +419,7 @@ public class myS3Util {
     	List<S3ObjectSummary> objects =  ObjectList.getObjectSummaries();
     	
     	for(S3ObjectSummary os : objects) {
-    		System.out.println(os.getKey());
+    		log.info(os.getKey());
     	}
 	}
 }
@@ -365,7 +439,7 @@ try {
 
 
 
-	byte fileByte[] = FileUtils.readFileToByteArray(new File(SystemConstants.FILE_PATH + fileVo.getStoredFileName()));
+	byte fileByte[] = FileUtils.readFileToByteArray(new File(.temConstants.FILE_PATH + fileVo.getStoredFileName()));
 
 
 
