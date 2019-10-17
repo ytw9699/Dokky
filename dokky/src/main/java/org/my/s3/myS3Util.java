@@ -14,6 +14,10 @@ import java.text.SimpleDateFormat;
 	import java.util.Date;
 	import java.util.List;
 	import java.util.UUID;
+	import java.awt.Graphics2D; 
+	import java.awt.image.BufferedImage;
+	import java.io.File;
+	import javax.imageio.ImageIO;
 
 import org.apache.commons.io.FileUtils;
 import org.my.domain.AttachFileDTO;
@@ -70,7 +74,7 @@ public class myS3Util {
 				    build();*/
 	}
 	
-	public AttachFileDTO fileUpload(String fileName, byte[] fileData, String uploadKind) throws FileNotFoundException {
+	public AttachFileDTO upload(byte[] fileData, MultipartFile multipartFile, String fileName, String uploadKind) throws FileNotFoundException {
 		
 			createFolder();
 			
@@ -88,23 +92,65 @@ public class myS3Util {
 			
 			attachDTO.setUploadPath(folder_name);//폴더 경로저장
 			
-			if(uploadKind.equals("photo")) {
+			ObjectMetadata metaData = new ObjectMetadata();
+			
+			//metaData.setContentLength(fileData.length);//원래는 128kB, 파일크기만큼 버퍼를 설정시켰다.
+		   
+			ByteArrayInputStream byteArrayInputStream = new ByteArrayInputStream(fileData);
+			
+		    s3.putObject(bucket_name + "/" + folder_name, fileName, byteArrayInputStream, metaData);//퍼블릭 없이 디폴트로 설정해서 업로드
+		    
+	    	if(uploadKind.equals("photo")) {
 				
 				attachDTO.setImage(true);//타입이 이미지면 1 //1은 true 0은 false
+				
+				File originalFile = new File(System.getProperty("java.io.tmpdir")+"/"+fileName);
+				
+				File thumbnailFile = null;
+				
+				try {
+					multipartFile.transferTo(originalFile);
+					
+				}  catch (IOException e) {
+					e.printStackTrace();
+				}
+				
+				try { 
+					
+					thumbnailFile = new File(System.getProperty("java.io.tmpdir")+"/s_"+fileName); 
+				
+					int width = 50; 
+					int height = 50; // 썸네일 이미지 생성 
+					
+					log.info("read()1");
+					
+					BufferedImage originalImg = ImageIO.read(originalFile); 
+					
+					log.info("read()2");
+					
+					BufferedImage thumbnailImg = new BufferedImage(width, height, BufferedImage.TYPE_3BYTE_BGR); // 썸네일 그리기 
+					
+					Graphics2D g = thumbnailImg.createGraphics(); 
+					
+					g.drawImage(originalImg, 0, 0, width, height, null); // 파일생성 
+					
+					ImageIO.write(thumbnailImg, "jpg", thumbnailFile);
+				} 
+				
+				catch (Exception e) { 
+					e.printStackTrace();  
+				} 
+				
+				s3.putObject(bucket_name + "/" + folder_name, "s_"+fileName, thumbnailFile);
+				
+				originalFile.delete(); 
+				thumbnailFile.delete();
 				
 			}else {
 				
 				attachDTO.setImage(false);//파일이면 0
 			}
-			
-			ObjectMetadata metaData = new ObjectMetadata();
-			
-			//metaData.setContentLength(fileData.length);   //메타데이터 설정 -->원래는 128kB까지 업로드 가능했으나 파일크기만큼 버퍼를 설정시켰다.
-		   
-			ByteArrayInputStream byteArrayInputStream = new ByteArrayInputStream(fileData); //파일 넣음
-			
-		    s3.putObject(bucket_name + "/" + folder_name, fileName, byteArrayInputStream, metaData);//퍼블릭 없이 디폴트로 설정해서 업로드
-		    
+
 		    return attachDTO;
 	}
 	

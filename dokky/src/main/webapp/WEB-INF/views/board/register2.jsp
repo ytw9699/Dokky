@@ -197,18 +197,17 @@
 	  		contentVal = divContent.html();
 	    
 	    $(uploadResultArr).each(function(i, obj){ 
-			if(obj.image){//이미지라면 1 
-				var fileCallPath =  encodeURIComponent( obj.uploadPath+ "/s_"+obj.uuid +"_"+obj.fileName);
+			if(obj.image){//이미지라면 1 true
+				
 				str += "<li id='"+obj.uuid+"' data-path='"+obj.uploadPath+"'";
 				str +=" data-uuid='"+obj.uuid+"' data-filename='"+obj.fileName+"' data-type='"+obj.image+"'"
-				str +" >";                
-				str += "<br><img src='/dokky/display?fileName="+fileCallPath+"' data-type='"+obj.image+"' data-path='"+obj.uploadPath+"' data-uuid='"+obj.uuid+"' data-filename='"+obj.fileName+"'>";
+				str +" >";               
+				str += "<br><img src='/dokky/display2?folder_name="+obj.uploadPath+"&fileName="+obj.uuid+"_"+obj.fileName+"' data-folder_name='"+obj.uploadPath+"' data-file_name='"+obj.uuid+"_"+obj.fileName+"'>";
 				str += "<button type='button' data-uuid='"+obj.uuid+"' data-filecallpath=\'"+fileCallPath+"\' "
 				str += "data-type='image' class='btn btn-warning btn-circle'><span class='css-cancel'></span></button>"; 
 				str +"</li>";
 				
-				fileCallPath =  encodeURIComponent( obj.uploadPath+"/"+ obj.uuid +"_"+obj.fileName);
-				contentVal += "<img src='/dokky/display?fileName="+fileCallPath+"' data-uuid='"+obj.uuid+"' data-filecallpath='"+fileCallPath+"'>";
+				contentVal += "<img src='/dokky/display2?folder_name="+obj.uploadPath+"&fileName="+obj.uuid+"_"+obj.fileName+"' data-folder_name='"+obj.uploadPath+"' data-file_name='"+obj.uuid+"_"+obj.fileName+"'>";
 				divContent.html(contentVal);//본문 삽입  
 				
 				
@@ -387,7 +386,7 @@
 	      	    
 			           targetLi.remove(); 
 			           
-			           if(type == "image"){  
+			           if(type == "image"){
 			        	    
 			        	   if($(".photoUploadResult ul li").length == 0 ){ //업로드결과 li가 0개라면 div숨기기
 				        	    $(".photoUploadResult").css("display","none");
@@ -412,37 +411,37 @@
 
 	////////////////////////////////////////////////////////////////////////////// 
 		
-	  function showImage(fileCallPath){//원본 이미지 파일 보기
-    	    
-    	    $(".bigPictureWrapper").css("display","flex").show();
-    	    
-    	    $(".bigPicture").html("<img src='/dokky/display?fileName="+fileCallPath+"' >");
-      }
 	
-	  $(".photoUploadResult").on("click","img", function(e){//아래 포토리스트에서 사진을 클릭한다면
+	
+	  function showImage(folder_name, file_name){//원본 이미지 파일 보기
+    	    
+    	    $(".bigPictureWrapper").css("display","flex").show(); 
+    	    
+    	    $(".bigPicture").html("<img src='/dokky/display2?folder_name="+folder_name+"&fileName="+file_name+"'>");
+      }
+		
+	  $(".bigPictureWrapper").on("click", function(e){//원본 이미지 파일 숨기기 
+   		  
+ 			$('.bigPictureWrapper').hide();
+ 	  });
+	  
+	  $(".photoUploadResult, #divContent").on("click","img", function(e){//이미지를 클릭한다면
    	      
-    	    var liObj = $(this);    
+    	    var imgObj = $(this);    
+    	    var folder_name = imgObj.data("folder_name"); 
+  		 	var file_name = imgObj.data("file_name");
     	    
-    	    var path = encodeURIComponent(liObj.data("path")+"/" + liObj.data("uuid")+"_" + liObj.data("filename"));
-    	    
-    	    if(liObj.data("type")){      
-    	      showImage(path);//원본 이미지 파일 보기
-    	    } 
+   	    	showImage(folder_name, file_name);
    	  });
 	  
-	  $("#divContent").on("click","img", function(e){//본문에서 사진을 클릭한다면
+	/*   $("#divContent").on("click","img", function(e){//본문에서 사진을 클릭한다면
 	  	
 		  var imgObj = $(this);
-	  
-		  var path = imgObj.data("filecallpath");
+		  var folder_name = imgObj.data("folder_name"); 
+		  var file_name = imgObj.data("file_name");
 		  
-		  showImage(path);  
-	  });
-	  
-   	  $(".bigPictureWrapper").on("click", function(e){//원본 이미지 파일 숨기기 
-   		  
-   			$('.bigPictureWrapper').hide();
-   	  });
+		  showImage(folder_name, file_name);  
+	  }); */
    	  
 	//////////////////////////////////////////////////////////////////////////////
 

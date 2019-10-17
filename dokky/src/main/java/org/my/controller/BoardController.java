@@ -83,12 +83,11 @@ public class BoardController {
 		return "board/list";
 	}
 	
-	
 	@PreAuthorize("hasAnyRole('ROLE_ADMIN','ROLE_USER')")//관리자이거나, 일반 회원일경우 권한 가짐
 	@GetMapping("/register")
 	public String register(@ModelAttribute("category") int category) {//게시글 등록 폼
 		
-		return "board/register";
+		return "board/register2";
 	}
 	
 	@PreAuthorize("hasAnyRole('ROLE_ADMIN','ROLE_USER')")
