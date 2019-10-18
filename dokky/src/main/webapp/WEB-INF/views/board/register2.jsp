@@ -207,7 +207,7 @@
 				str += "data-type='image' class='btn btn-warning btn-circle'><span class='css-cancel'></span></button>"; 
 				str +"</li>";
 				
-				contentVal += "<img src='/dokky/display2?folder_name="+obj.uploadPath+"&fileName="+obj.uuid+"_"+obj.fileName+"' data-folder_name='"+obj.uploadPath+"' data-file_name='"+obj.uuid+"_"+obj.fileName+"'>";
+				contentVal += "<img src='/dokky/display2?folder_name="+obj.uploadPath+"&fileName=s_"+obj.uuid+"_"+obj.fileName+"' data-folder_name='"+obj.uploadPath+"' data-file_name='"+obj.uuid+"_"+obj.fileName+"'>";
 				divContent.html(contentVal);//본문 삽입  
 				
 				

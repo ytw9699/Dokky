@@ -109,24 +109,15 @@ public class myS3Util {
 				File thumbnailFile = null;
 				
 				try {
-					multipartFile.transferTo(originalFile);
 					
-				}  catch (IOException e) {
-					e.printStackTrace();
-				}
-				
-				try { 
+					multipartFile.transferTo(originalFile);
 					
 					thumbnailFile = new File(System.getProperty("java.io.tmpdir")+"/s_"+fileName); 
 				
-					int width = 50; 
-					int height = 50; // 썸네일 이미지 생성 
-					
-					log.info("read()1");
+					int width = 100;
+					int height = 100; // 썸네일 이미지 생성 
 					
 					BufferedImage originalImg = ImageIO.read(originalFile); 
-					
-					log.info("read()2");
 					
 					BufferedImage thumbnailImg = new BufferedImage(width, height, BufferedImage.TYPE_3BYTE_BGR); // 썸네일 그리기 
 					
@@ -145,10 +136,6 @@ public class myS3Util {
 				
 				originalFile.delete(); 
 				thumbnailFile.delete();
-				
-			}else {
-				
-				attachDTO.setImage(false);//파일이면 0
 			}
 
 		    return attachDTO;
