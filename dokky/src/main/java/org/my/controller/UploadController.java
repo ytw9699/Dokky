@@ -359,6 +359,26 @@ public class UploadController {
 	
 	@PreAuthorize("isAuthenticated()")
 	@PostMapping("/deleteFile")
+	@ResponseBody 
+	public ResponseEntity<String> deleteFile2(String folder_name, String file_name, String type) {
+
+		log.info("deleteFile: " + folder_name+file_name);  
+		
+		if(s3Util.deleteObject(folder_name, file_name)) {
+			
+			if (type.equals("image")) {//만약 이미지파일이었다면
+
+				s3Util.deleteObject(folder_name, "s_"+file_name);//썸네일 삭제
+			}
+			
+			return new ResponseEntity<String>("deleted", HttpStatus.OK);
+		}
+		
+		return new ResponseEntity<>(HttpStatus.NOT_FOUND);
+	}
+	
+	/*@PreAuthorize("isAuthenticated()")
+	@PostMapping("/deleteFile")
 	@ResponseBody
 	public ResponseEntity<String> deleteFile(String fileCallPath, String type) {
 
@@ -386,9 +406,7 @@ public class UploadController {
 			e.printStackTrace();
 			return new ResponseEntity<>(HttpStatus.NOT_FOUND);
 		}
-
 		return new ResponseEntity<String>("deleted", HttpStatus.OK);
-
-	}
+	}*/
 
 }//end

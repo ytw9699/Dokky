@@ -78,9 +78,9 @@ public class BoardServiceImpl implements BoardService {
 		
 		log.info("register......getAttachList");
 
-		board.getAttachList().forEach(attach -> {// attach는 BoardAttachVO
-			attach.setBoard_num(board.getBoard_num());
-			attachMapper.insert(attach);
+		board.getAttachList().forEach(boardAttachVO -> {// attach는 BoardAttachVO
+			boardAttachVO.setBoard_num(board.getBoard_num());
+			attachMapper.insert(boardAttachVO);
 		});
 	}
 	 

@@ -100,30 +100,27 @@ public class myS3Util {
 			
 		    s3.putObject(bucket_name + "/" + folder_name, fileName, byteArrayInputStream, metaData);//퍼블릭 없이 디폴트로 설정해서 업로드
 		    
-	    	if(uploadKind.equals("photo")) {
+	    	if(uploadKind.equals("photo")) {//썸네일 만들자 
 				
 				attachDTO.setImage(true);//타입이 이미지면 1 //1은 true 0은 false
-				
-				File originalFile = new File(System.getProperty("java.io.tmpdir")+"/"+fileName);
 				
 				File thumbnailFile = null;
 				
 				try {
 					
-					multipartFile.transferTo(originalFile);
-					
-					thumbnailFile = new File(System.getProperty("java.io.tmpdir")+"/s_"+fileName); 
+					thumbnailFile = new File(System.getProperty("java.io.tmpdir")+"/s_"+fileName); //임시파일 생성
 				
-					int width = 100;
-					int height = 100; // 썸네일 이미지 생성 
+					BufferedImage originalImg = ImageIO.read(multipartFile.getInputStream()); 
 					
-					BufferedImage originalImg = ImageIO.read(originalFile); 
+					int width = originalImg.getWidth();
+					 
+					int height = originalImg.getHeight();
 					
-					BufferedImage thumbnailImg = new BufferedImage(width, height, BufferedImage.TYPE_3BYTE_BGR); // 썸네일 그리기 
+					BufferedImage thumbnailImg = new BufferedImage(width, height, BufferedImage.TYPE_3BYTE_BGR); 
 					
 					Graphics2D g = thumbnailImg.createGraphics(); 
 					
-					g.drawImage(originalImg, 0, 0, width, height, null); // 파일생성 
+					g.drawImage(originalImg, 0, 0, width, height, null);
 					
 					ImageIO.write(thumbnailImg, "jpg", thumbnailFile);
 				} 
@@ -134,8 +131,7 @@ public class myS3Util {
 				
 				s3.putObject(bucket_name + "/" + folder_name, "s_"+fileName, thumbnailFile);
 				
-				originalFile.delete(); 
-				thumbnailFile.delete();
+				thumbnailFile.delete();//임시파일 삭제
 			}
 
 		    return attachDTO;
@@ -380,18 +376,19 @@ public class myS3Util {
 	    	}
 	}
 	
-	
-	public void deleteObject(String folder_name, String objectName) {
+	public boolean deleteObject(String folder_name, String objectName) {
 		
 		try {
+			
     		s3.deleteObject(bucket_name + "/" +folder_name, objectName);
     		log.info("삭제 완료");
+    		return true;
     		
     	}catch(AmazonServiceException e) {
     		
     		log.info(e.getErrorMessage());
-	    	System.exit(1);
-    		
+    		System.exit(1);
+    		return false;
     	}
 	}
 	
