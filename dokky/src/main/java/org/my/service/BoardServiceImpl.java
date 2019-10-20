@@ -116,10 +116,10 @@ public class BoardServiceImpl implements BoardService {
 		
 		if (modifyResult && board.getAttachList() != null && board.getAttachList().size() > 0) {
 
-			board.getAttachList().forEach(attach -> {
+			board.getAttachList().forEach(boardAttachVO -> {
 
-				attach.setBoard_num(board.getBoard_num());
-				attachMapper.insert(attach);//다시 모든파일 정보를 다 디비에 넣어준다
+				boardAttachVO.setBoard_num(board.getBoard_num());
+				attachMapper.insert(boardAttachVO);//다시 모든파일 정보를 다 디비에 넣어준다
 			});
 		}
 		return modifyResult;

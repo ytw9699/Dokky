@@ -324,7 +324,7 @@
 	  
 	//////////////////////////////////////////////////////////////////////////////
 
-	$("#divContent").on("keydown", function(e){ //본문 이미지 제거시     
+	$("#divContent").on("keydown", function(e){ //본문 이미지 제거시     + 사진 업로드 보여주기도 제거 
 		
 			if(e.keyCode === 8){ 
 				
@@ -393,55 +393,59 @@
 	
 	$(".photoUploadResult, .fileUploadResult").on("click", "button", function(e){//업로드 삭제    
 	  	
-		var imgObj = $(this);
-		var path = imgObj.data("path"); 
-	 	var filename = imgObj.data("filename");
-	    var type = imgObj.data("type");
-	    var uuid = imgObj.data("uuid");
-	    var targetLi = imgObj.closest("li");
-	    var imgTags = $('#divContent img');
+		if(confirm("삭제하시겠습니까?")){
+		
+			var imgObj = $(this);
+			var path = imgObj.data("path"); 
+		 	var filename = imgObj.data("filename");
+		    var type = imgObj.data("type");
+		    var uuid = imgObj.data("uuid");
+		    var targetLi = imgObj.closest("li");
+		    var imgTags = $('#divContent img');
+		    
+		    $.ajax({
+			      url: '/dokky/deleteS3File',
+			      type: 'POST',
+			      dataType:'text',
+			      data: {	
+				    	  	path		: path,
+				    	  	filename	: filename,
+		    	  		    type		: type
+			    	  	},
+			      beforeSend: function(xhr) {
+			          xhr.setRequestHeader(csrfHeaderName, csrfTokenValue); 
+			      },
+			      
+		          success: function(result){
+		      	    		
+		        	  if(result === "deleted"){
+		        		  
+		        		  targetLi.remove();//프론트 업로드결과의 사진 or 파일 삭제
+				           
+			              if(type == "image"){
+				        	    
+				        	   if($(".photoUploadResult ul li").length == 0 ){ //사진 업로드결과 li가 0개라면 div숨기기
+					        	    $(".photoUploadResult").css("display","none");
+					           }
+				        	   
+				        	   for(var i = 0; i < imgTags.length; i++) {
+					                var obj = imgTags[i];
+										                     
+						  	 		if( uuid == obj.dataset.uuid){  
+						  	 			imgTags[i].remove();//본문 이미지도 삭제해주기
+						  	 		}
+					       		}
+				        	   
+				          }else if(type == "file"){//파일 업로드결과 li가 0개라면 div숨기기
+				        	   if($(".fileUploadResult ul li").length == 0 ){ 
+					        	    $(".fileUploadResult").css("display","none");
+					           }
+				          }
+		        	  }
+		          } 
+		    });//$.ajax
 	    
-	    $.ajax({
-		      url: '/dokky/deleteS3File',
-		      type: 'POST',
-		      dataType:'text',
-		      data: {	
-			    	  	path		: path,
-			    	  	filename	: filename,
-	    	  		    type		: type
-		    	  	},
-		      beforeSend: function(xhr) {
-		          xhr.setRequestHeader(csrfHeaderName, csrfTokenValue); 
-		      },
-		      
-	          success: function(result){
-	      	    		
-	        	  if(result === "deleted"){
-	        		  
-	        		  targetLi.remove();//프론트 업로드결과의 사진 or 파일 삭제
-			           
-		              if(type == "image"){
-			        	    
-			        	   if($(".photoUploadResult ul li").length == 0 ){ //사진 업로드결과 li가 0개라면 div숨기기
-				        	    $(".photoUploadResult").css("display","none");
-				           }
-			        	   
-			        	   for(var i = 0; i < imgTags.length; i++) {
-				                var obj = imgTags[i];
-									                     
-					  	 		if( uuid == obj.dataset.uuid){  
-					  	 			imgTags[i].remove();//본문 이미지도 삭제해주기
-					  	 		}
-				       		}
-			        	   
-			          }else if(type == "file"){//파일 업로드결과 li가 0개라면 div숨기기
-			        	   if($(".fileUploadResult ul li").length == 0 ){ 
-				        	    $(".fileUploadResult").css("display","none");
-				           }
-			          }
-	        	  }
-	          } 
-	    });//$.ajax
+		}
    });
 
 	////////////////////////////////////////////////////////////////////////////// 
