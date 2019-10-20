@@ -87,7 +87,7 @@ public class BoardController {
 	@GetMapping("/register")
 	public String register(@ModelAttribute("category") int category) {//게시글 등록 폼
 		
-		return "board/register2";
+		return "board/register";
 	}
 	
 	@PreAuthorize("hasAnyRole('ROLE_ADMIN','ROLE_USER')")
@@ -101,7 +101,7 @@ public class BoardController {
 		}
 		
 		service.register(board);
-		log.info("/register2: " + board);
+		log.info("/register: " + board);
 
 	   //rttr.addFlashAttribute("result", board.getNum());
 		 rttr.addAttribute("board_num", board.getBoard_num());
@@ -128,7 +128,7 @@ public class BoardController {
 		
 		model.addAttribute("board", board); //조회수증가 + 한줄 글 상세 데이터 가져오기
 		
-		return "board/get2";
+		return "board/get";
 	}
 	
 	@GetMapping("/modify")
