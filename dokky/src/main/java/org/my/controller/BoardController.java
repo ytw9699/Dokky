@@ -128,7 +128,7 @@ public class BoardController {
 		
 		model.addAttribute("board", board); //조회수증가 + 한줄 글 상세 데이터 가져오기
 		
-		return "board/get";
+		return "board/get2";
 	}
 	
 	@GetMapping("/modify")

@@ -108,15 +108,15 @@ public class UploadController {
 		return result;
 	}
 	
-	@GetMapping("/display2")
+	@GetMapping("/displayS3")
 	@ResponseBody
-	public ResponseEntity<byte[]> getFile2(String folder_name , String fileName) {
+	public ResponseEntity<byte[]> getS3File(String path , String filename) {
  
-		log.info("folder_name + fileName: " + folder_name + fileName);
+		log.info("path + filename: " + path + filename);
 
 		ResponseEntity<byte[]> result = null;
 
-		result = new ResponseEntity<>(s3Util.downloadImage(folder_name, fileName), HttpStatus.OK);
+		result = new ResponseEntity<>(s3Util.downloadImage(path, filename), HttpStatus.OK);
 		
 		return result;
 	}
@@ -302,15 +302,14 @@ public class UploadController {
 		return new ResponseEntity<>(list, HttpStatus.OK);
 	}*/
 	
-	@GetMapping("/download2")		
+	@PreAuthorize("isAuthenticated()")
+	@GetMapping("/download")		
 	public ModelAndView download2(HttpServletRequest request) throws Exception {
 		
-		String fileName = request.getParameter("fileName");
-		
-		return new ModelAndView("DownloadView", "fileName", fileName);
+		return new ModelAndView("DownloadView", "temp", "temp");
 	}
 	
-	@GetMapping(value = "/download", produces = MediaType.APPLICATION_OCTET_STREAM_VALUE)
+	/*@GetMapping(value = "/download2", produces = MediaType.APPLICATION_OCTET_STREAM_VALUE)
 	@ResponseBody
 	public ResponseEntity<Resource> downloadFile(@RequestHeader("User-Agent") String userAgent, String fileName) {
 
@@ -355,20 +354,20 @@ public class UploadController {
 		}
 
 		return new ResponseEntity<Resource>(resource, headers, HttpStatus.OK);
-	}
+	}*/
 	
 	@PreAuthorize("isAuthenticated()")
-	@PostMapping("/deleteFile")
+	@PostMapping("/deleteS3File")
 	@ResponseBody 
-	public ResponseEntity<String> deleteFile2(String folder_name, String file_name, String type) {
+	public ResponseEntity<String> deleteS3File(String path, String filename, String type) {
 
-		log.info("deleteFile: " + folder_name+file_name);  
+		log.info("deleteS3File: " + path+filename);  
 		
-		if(s3Util.deleteObject(folder_name, file_name)) {
+		if(s3Util.deleteObject(path, filename)) {
 			
 			if (type.equals("image")) {//만약 이미지파일이었다면
 
-				s3Util.deleteObject(folder_name, "s_"+file_name);//썸네일 삭제
+				s3Util.deleteObject(path, "s_"+filename);//썸네일도 삭제
 			}
 			
 			return new ResponseEntity<String>("deleted", HttpStatus.OK);

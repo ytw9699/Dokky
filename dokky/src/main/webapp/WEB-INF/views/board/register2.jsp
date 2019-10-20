@@ -198,28 +198,27 @@
 	  		contentVal = divContent.html();
 	    
 	    $(uploadResultArr).each(function(i, obj){ 
+	    	
 			if(obj.image){//이미지라면 1 true
 				
 				str += "<li id='"+obj.uuid+"' data-path='"+obj.uploadPath+"'";
 				str +=" data-uuid='"+obj.uuid+"' data-filename='"+obj.fileName+"' data-type='"+obj.image+"'"
 				str +" >";            
-				str += "<br><img src='/dokky/display2?folder_name="+obj.uploadPath+"&fileName=s_"+obj.uuid+"_"+obj.fileName+"' data-folder_name='"+obj.uploadPath+"' data-file_name='"+obj.uuid+"_"+obj.fileName+"'>";
-				str += "<button type='button' data-uuid='"+obj.uuid+"' data-file_name='"+obj.uuid+"_"+obj.fileName+"' data-folder_name='"+obj.uploadPath+"'"
+				str += "<br><img src='/dokky/displayS3?path="+obj.uploadPath+"&filename=s_"+obj.uuid+"_"+obj.fileName+"' data-path='"+obj.uploadPath+"' data-filename='"+obj.uuid+"_"+obj.fileName+"'>";
+				str += "<button type='button' data-uuid='"+obj.uuid+"' data-filename='"+obj.uuid+"_"+obj.fileName+"' data-path='"+obj.uploadPath+"'"
 				str += "data-type='image' class='btn btn-warning btn-circle'><span class='css-cancel'></span></button>"; 
 				str +"</li>";
 				
-				contentVal += "<img src='/dokky/display2?folder_name="+obj.uploadPath+"&fileName=s_"+obj.uuid+"_"+obj.fileName+"' data-uuid='"+obj.uuid+"' data-folder_name='"+obj.uploadPath+"' data-file_name='"+obj.uuid+"_"+obj.fileName+"'>";
+				contentVal += "<img src='/dokky/displayS3?path="+obj.uploadPath+"&filename=s_"+obj.uuid+"_"+obj.fileName+"' data-type='image' data-uuid='"+obj.uuid+"' data-path='"+obj.uploadPath+"' data-filename='"+obj.uuid+"_"+obj.fileName+"'>";
 				divContent.html(contentVal);//본문 삽입  
 				
-				
 			}else{//일반파일이라면
-				var fileCallPath =  encodeURIComponent( obj.uploadPath+"/"+ obj.uuid +"_"+obj.fileName);			      
-			    //var fileLink = fileCallPath.replace(new RegExp(/\\/g),"/");
+				
 				str += "<li " 
 				str += "data-path='"+obj.uploadPath+"' data-uuid='"+obj.uuid+"' data-filename='"+obj.fileName+"' data-type='"+obj.image+"' >";
 				str += obj.fileName;  
-				str += "<button type='button' data-uuid='"+obj.uuid+"' data-filecallpath=\'"+fileCallPath+"\' data-type='file' " 
-				str += "class='btn btn-warning btn-circle'><span class='css-cancel'></span></button>";  
+				str += "<button type='button' data-uuid='"+obj.uuid+"' data-filename='"+obj.uuid+"_"+obj.fileName+"' data-path='"+obj.uploadPath+"'"
+				str += "data-type='file' class='btn btn-warning btn-circle'><span class='css-cancel'></span></button>";   
 				str +"</li>";   
 			}
 	    });
@@ -238,7 +237,8 @@
 			    
 		    $(".fileUploadResult").css("display","block");
 	    }
-	}
+	    
+	}//end showUploadResult 함수
 	
 	//////////////////////////////////////////////////////////////////////////////
 					          
@@ -324,7 +324,7 @@
 	  
 	//////////////////////////////////////////////////////////////////////////////
 
-	$("#divContent").on("keydown", function(e){ //본문 이미지 제거     
+	$("#divContent").on("keydown", function(e){ //본문 이미지 제거시     
 		
 			if(e.keyCode === 8){ 
 				
@@ -344,16 +344,44 @@
 		     	var removeTarget = range.cloneContents().lastChild;
 				
 		     	if(removeTarget.tagName === 'IMG'){
+		     		
 					if(confirm("이미지를 삭제하시겠습니까?")){
 						 
 						 var removeid = removeTarget.getAttribute('data-uuid');
 						 var removeLi = $("#"+removeid);
 						  
-						 removeLi.remove();
+						 removeLi.remove();//photoUploadResult ul li의 이미지도 삭제한다.
 						 
-						 if($(".photoUploadResult ul li").length == 0 ){ //업로드결과 li가 0개라면
-		        	    	$(".photoUploadResult").css("display","none");//div숨기기
-				         }
+						 var path = removeTarget.getAttribute('data-path');
+						 var filename = removeTarget.getAttribute('data-filename');
+						 var type = removeTarget.getAttribute('data-type');
+						 
+						 $.ajax({
+						      url: '/dokky/deleteS3File',
+						      type: 'POST',
+						      dataType:'text',
+						      data: {	
+							    	  	path		: path,
+							    	  	filename	: filename,
+					    	  		    type		: type
+						    	  	},
+						      beforeSend: function(xhr) {
+						          xhr.setRequestHeader(csrfHeaderName, csrfTokenValue); 
+						      },
+						      
+					          success: function(result){
+					      	    		
+					        	  if(result === "deleted"){
+						              if(type == "image"){
+							        	    
+							        	   if($(".photoUploadResult ul li").length == 0 ){ //사진 업로드결과 li가 0개라면 div숨기기
+								        	    $(".photoUploadResult").css("display","none");
+								           }
+							          }
+					        	  }
+					          } 
+					     });//$.ajax
+					    
 					}else{
 						 e.preventDefault();
 				    } 
@@ -366,20 +394,20 @@
 	$(".photoUploadResult, .fileUploadResult").on("click", "button", function(e){//업로드 삭제    
 	  	
 		var imgObj = $(this);
-		var folder_name = imgObj.data("folder_name"); 
-	 	var file_name = imgObj.data("file_name");
-	    var type = $(this).data("type");
-	    var uuid = $(this).data("uuid");
-	    var targetLi = $(this).closest("li");
+		var path = imgObj.data("path"); 
+	 	var filename = imgObj.data("filename");
+	    var type = imgObj.data("type");
+	    var uuid = imgObj.data("uuid");
+	    var targetLi = imgObj.closest("li");
 	    var imgTags = $('#divContent img');
 	    
 	    $.ajax({
-		      url: '/dokky/deleteFile',
+		      url: '/dokky/deleteS3File',
 		      type: 'POST',
 		      dataType:'text',
 		      data: {	
-			    	  	folder_name	: folder_name,
-			    	  	file_name	: file_name,
+			    	  	path		: path,
+			    	  	filename	: filename,
 	    	  		    type		: type
 		    	  	},
 		      beforeSend: function(xhr) {
@@ -390,7 +418,7 @@
 	      	    		
 	        	  if(result === "deleted"){
 	        		  
-	        		  targetLi.remove(); 
+	        		  targetLi.remove();//프론트 업로드결과의 사진 or 파일 삭제
 			           
 		              if(type == "image"){
 			        	    
@@ -398,11 +426,11 @@
 				        	    $(".photoUploadResult").css("display","none");
 				           }
 			        	   
-			        	   for(var i = 0; i < imgTags.length; i++) {//본문 이미지도 삭제해주기
+			        	   for(var i = 0; i < imgTags.length; i++) {
 				                var obj = imgTags[i];
 									                     
 					  	 		if( uuid == obj.dataset.uuid){  
-					  	 			imgTags[i].remove();  
+					  	 			imgTags[i].remove();//본문 이미지도 삭제해주기
 					  	 		}
 				       		}
 			        	   
@@ -418,40 +446,31 @@
 
 	////////////////////////////////////////////////////////////////////////////// 
 	
-	  function showImage(folder_name, file_name){//원본 이미지 파일 보기
+    function showImage(path, filename){//원본 이미지 파일 보기
     	    
 			$(".bigPictureWrapper").css("display","flex").show(); 
     	    
-    	    $(".bigPicture").html("<img src='/dokky/display2?folder_name="+folder_name+"&fileName="+file_name+"'>");
+    	    $(".bigPicture").html("<img src='/dokky/displayS3?path="+path+"&filename="+filename+"'>");
     	    
     	    $("#profileGray").css("display","block");
-      }
+    }
 		
-	  $(".bigPictureWrapper").on("click", function(e){//원본 이미지 파일 숨기기 
-   		  
- 			$('.bigPictureWrapper').hide();
+    $(".bigPictureWrapper").on("click", function(e){//원본 이미지 파일 숨기기 
+  		  
+			$('.bigPictureWrapper').hide();
+  
+			$("#profileGray").hide();
+    });
 	  
- 			$("#profileGray").hide();
- 	  });
-	  
-	  $(".photoUploadResult, #divContent").on("click","img", function(e){//이미지를 클릭한다면
+    $(".photoUploadResult, #divContent").on("click","img", function(e){//이미지를 클릭한다면
    	      
     	    var imgObj = $(this);    
-    	    var folder_name = imgObj.data("folder_name"); 
-  		 	var file_name = imgObj.data("file_name");
+    	    var path = imgObj.data("path"); 
+  		 	var filename = imgObj.data("filename");
     	    
-   	    	showImage(folder_name, file_name);
-   	  });
+   	    	showImage(path, filename);
+	});
 	  
-	/*   $("#divContent").on("click","img", function(e){//본문에서 사진을 클릭한다면
-	  	
-		  var imgObj = $(this);
-		  var folder_name = imgObj.data("folder_name"); 
-		  var file_name = imgObj.data("file_name");
-		  
-		  showImage(folder_name, file_name);  
-	  }); */
-   	  
 	//////////////////////////////////////////////////////////////////////////////
 
 	$("button[type='submit']").on("click", function(e){//글쓰기 등록

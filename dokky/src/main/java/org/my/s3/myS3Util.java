@@ -90,7 +90,7 @@ public class myS3Util {
 			
 			attachDTO.setUuid(uuid.toString());//uuid저장
 			
-			attachDTO.setUploadPath(folder_name);//폴더 경로저장
+			attachDTO.setUploadPath(folder_name);//업로드 폴더 경로저장
 			
 			ObjectMetadata metaData = new ObjectMetadata();
 			
@@ -98,9 +98,9 @@ public class myS3Util {
 		   
 			ByteArrayInputStream byteArrayInputStream = new ByteArrayInputStream(fileData);
 			
-		    s3.putObject(bucket_name + "/" + folder_name, fileName, byteArrayInputStream, metaData);//퍼블릭 없이 디폴트로 설정해서 업로드
+		    s3.putObject(bucket_name + "/" + folder_name, fileName, byteArrayInputStream, metaData);//s3 권한 퍼블릭 없이 디폴트로 설정해서 업로드
 		    
-	    	if(uploadKind.equals("photo")) {//썸네일 만들자 
+	    	if(uploadKind.equals("photo")) {//이미지라면 썸네일 만들자 
 				
 				attachDTO.setImage(true);//타입이 이미지면 1 //1은 true 0은 false
 				
@@ -304,20 +304,17 @@ public class myS3Util {
 		return s3.generatePresignedUrl(new GeneratePresignedUrlRequest(bucket_name + "/" + folder_path, fileName)).toString();
 	}
 	
-	public byte[] downloadImage(String folder_name, String objectName) {
+	public byte[] downloadImage(String path, String filename) {
 		
 		byte[] bytesArray = null;
 		
 		try {
     		
-    		S3Object s3Object = s3.getObject(bucket_name + "/" + folder_name, objectName);
+    		S3Object s3Object = s3.getObject(bucket_name + "/" + path, filename);
     		
     		ObjectMetadata metaData = s3Object.getObjectMetadata();
 		    
 		    bytesArray = new byte[(int)metaData.getContentLength()];//겍체 크기를 구해서 바이트배열의 크기를 지정하고
-		    
-		    log.info("metaDatagetContentLength()");
-		    log.info(metaData.getContentLength()); 
 		    
 		    S3ObjectInputStream s3ObjectInputStream = s3Object.getObjectContent();
 		    
@@ -376,11 +373,11 @@ public class myS3Util {
 	    	}
 	}
 	
-	public boolean deleteObject(String folder_name, String objectName) {
+	public boolean deleteObject(String path, String filename) {
 		
 		try {
 			
-    		s3.deleteObject(bucket_name + "/" +folder_name, objectName);
+    		s3.deleteObject(bucket_name + "/" +path, filename);
     		log.info("삭제 완료");
     		return true;
     		

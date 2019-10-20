@@ -1,7 +1,8 @@
 package org.my.utils;
 	import java.io.IOException;
 	import java.io.OutputStream;
-	import java.util.Map;
+import java.net.URLEncoder;
+import java.util.Map;
 	import javax.servlet.http.HttpServletRequest;
 	import javax.servlet.http.HttpServletResponse;
 	import org.my.s3.myS3Util;
@@ -42,20 +43,34 @@ public class DownloadView extends AbstractView {//AbstractView를 상속
 	                withRegion(Regions.AP_NORTHEAST_2).
 	                withCredentials(new AWSStaticCredentialsProvider(awsCredentials)).
 				    build();*/
-			
+		
 		String bucket_name = "picksell-bucket";
-		String folder_name = "/upload";
-		String fileName = (String)model.get("fileName");
+		String path = request.getParameter("path");
+		String filename = request.getParameter("filename");
+		
+		System.out.println(filename); 
+		
+		String uuid = request.getParameter("uuid");
 		
 		try {
 		
-			S3Object s3Object = s3.getObject(bucket_name + folder_name, fileName);
+			S3Object s3Object = s3.getObject(bucket_name + "/" + path, uuid+"_"+filename);
 			
 			response.setContentType(getContentType());//리스폰스에 설정//다운로드타입이어야하니까
 			
 			response.setContentLength((int)s3Object.getObjectMetadata().getContentLength());//파일 크기설정
-
-			response.setHeader("Content-Disposition", "attachment; filename=\"" + fileName + "\";");//다운로드할때의 파일이름설정을 해줘야한다!
+			
+			String userAgent = request.getHeader("User-Agent");
+			
+			boolean ie = userAgent.indexOf("MSIE") > -1;
+		
+			if (ie) {
+				filename = URLEncoder.encode(filename, "UTF-8");
+			} else {
+				filename = new String(filename.getBytes("UTF-8"),"iso-8859-1");
+			}
+			
+			response.setHeader("Content-Disposition", "attachment; filename=\"" + filename + "\";");//다운로드할때의 파일이름설정을 해줘야한다!
 			
 			response.setHeader("Content-Transfer-Encoding", "binary");//인코딩설정
 			
