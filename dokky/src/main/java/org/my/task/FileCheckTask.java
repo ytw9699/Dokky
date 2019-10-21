@@ -32,7 +32,7 @@ public class FileCheckTask {//task 작업 처리 ,스케쥴러
 	@Setter(onMethod_ = @Autowired)
 	private myS3Util s3Util;
 
-	@Scheduled(cron = "9 * * * * *")//매일 새벽 2시 동작
+	@Scheduled(cron = "0 0 9 * * *")//매일 9시 동작
 	public void checkFiles() throws Exception {
 		
 		boolean type;
