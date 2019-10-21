@@ -11,7 +11,8 @@ import java.io.BufferedOutputStream;
 import java.io.UnsupportedEncodingException;
 import java.net.URLEncoder;
 import java.text.SimpleDateFormat;
-	import java.util.Date;
+import java.util.Calendar;
+import java.util.Date;
 	import java.util.List;
 	import java.util.UUID;
 	import java.awt.Graphics2D; 
@@ -74,6 +75,25 @@ public class myS3Util {
 				    build();*/
 	}
 	
+	public List<S3ObjectSummary> getObjectsList() {
+			
+			SimpleDateFormat sdf = new SimpleDateFormat("yyyy/MM/dd");
+			
+			Calendar cal = Calendar.getInstance();
+
+			cal.add(Calendar.DATE, -1);//-1은 어제날짜
+			
+			String str = sdf.format(cal.getTime());
+			
+			String folder_name = "upload/" + str;
+		
+			ObjectListing ObjectList = s3.listObjects(bucket_name , folder_name);
+			
+	    	List<S3ObjectSummary> objects =  ObjectList.getObjectSummaries();
+	    	
+	    	return objects;
+	}
+
 	public AttachFileDTO upload(byte[] fileData, MultipartFile multipartFile, String fileName, String uploadKind) throws FileNotFoundException {
 		
 			createFolder();
@@ -374,11 +394,13 @@ public class myS3Util {
 	}
 	
 	public boolean deleteObject(String path, String filename) {
-		
+		//upload/2019/10/21/0c32d231-c65f-4ad1-b5d7-ea2668d15d68_20190827_134231.png
 		try {
 			
     		s3.deleteObject(bucket_name + "/" +path, filename);
-    		log.info("삭제 완료");
+    		
+    		log.info("deleted"+path+filename); 
+    		
     		return true;
     		
     	}catch(AmazonServiceException e) {
@@ -439,16 +461,6 @@ public class myS3Util {
         }
 	}
 	
-	public void getObjectsList(String folder_name) {
-		
-		ObjectListing ObjectList = s3.listObjects(bucket_name);
-    	
-    	List<S3ObjectSummary> objects =  ObjectList.getObjectSummaries();
-    	
-    	for(S3ObjectSummary os : objects) {
-    		log.info(os.getKey());
-    	}
-	}
 }
 
 /*	

@@ -150,6 +150,8 @@ public class UploadController {
 		
 		log.info("/s3upload");
 		
+		s3Util.getObjectsList();
+		
 		AttachFileDTO result;
 		
 		List<AttachFileDTO> list = new ArrayList<>();  
