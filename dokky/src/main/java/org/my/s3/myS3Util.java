@@ -52,8 +52,8 @@ public class myS3Util {
 	
 	private static final String bucket_name = "picksell-bucket";
 	
-	//private static final String ACCESS_KEY = "AKIA47S6HNIPBSOVXPXH";
-    //private static final String SECRET_KEY = "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";
+	private static final String ACCESS_KEY = "AKIA47S6HNIPJQPLUMNX";
+    private static final String SECRET_KEY = "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";
 	
 	String folder_name;
 	AmazonS3 s3;
@@ -62,17 +62,17 @@ public class myS3Util {
 	 
 	public myS3Util() {
 		
-				 s3 = AmazonS3ClientBuilder.
+				 /*s3 = AmazonS3ClientBuilder.
 						 		 standard().
 		 withRegion(Regions.AP_NORTHEAST_2).
-									build();
+									build();*/
 		 
-		 /*AWSCredentials awsCredentials = new BasicAWSCredentials(ACCESS_KEY, SECRET_KEY);// 인증 객체를 생성한다.
+		 AWSCredentials awsCredentials = new BasicAWSCredentials(ACCESS_KEY, SECRET_KEY);// 인증 객체를 생성한다.
 		 
 		 s3  = AmazonS3ClientBuilder.standard().
 	                withRegion(Regions.AP_NORTHEAST_2).
 	                withCredentials(new AWSStaticCredentialsProvider(awsCredentials)).
-				    build();*/
+				    build();
 	}
 	
 	public List<S3ObjectSummary> getObjectsList() {
