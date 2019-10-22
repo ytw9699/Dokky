@@ -394,7 +394,7 @@ public class myS3Util {
 	}
 	
 	public boolean deleteObject(String path, String filename) {
-		//upload/2019/10/21/0c32d231-c65f-4ad1-b5d7-ea2668d15d68_20190827_134231.png
+		
 		try {
 			
     		s3.deleteObject(bucket_name + "/" +path, filename);

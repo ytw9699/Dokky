@@ -1,24 +1,13 @@
 package org.my.task;
-	import java.io.File;
-	import java.nio.file.Path;
-	import java.nio.file.Paths;
-	import java.text.SimpleDateFormat;
-import java.util.ArrayList;
-import java.util.Calendar;
-	import java.util.Date;
+	import java.util.ArrayList;
 	import java.util.List;
-	import java.util.stream.Collectors;
-	import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.http.HttpStatus;
-import org.springframework.http.ResponseEntity;
-import org.springframework.scheduling.annotation.Scheduled;
-	import org.springframework.stereotype.Component;
-
-import com.amazonaws.services.s3.model.S3ObjectSummary;
-
-import org.my.domain.BoardAttachVO;
+	import org.my.domain.BoardAttachVO;
 	import org.my.mapper.BoardAttachMapper;
 	import org.my.s3.myS3Util;
+	import org.springframework.beans.factory.annotation.Autowired;
+	import org.springframework.scheduling.annotation.Scheduled;
+	import org.springframework.stereotype.Component;
+	import com.amazonaws.services.s3.model.S3ObjectSummary;
 	import lombok.Setter;
 	import lombok.extern.log4j.Log4j;
 
@@ -35,33 +24,31 @@ public class FileCheckTask {//task 작업 처리 ,스케쥴러
 	@Scheduled(cron = "0 0 9 * * *")//매일 9시 동작
 	public void checkFiles() throws Exception {
 		
-		boolean type;
+		boolean type;//파일의 타입
 		
-		ArrayList<String> numbers = new ArrayList<String>();//디비의 업로드 목록
+		ArrayList<String> dbUploadList = new ArrayList<String>();//어제 날짜 최종 디비의 업로드 목록
 		
-		List<BoardAttachVO> fileList = attachMapper.getYesterdayFiles();//어제 날짜 database 모든 첨부파일 목록 가져오기
+		List<BoardAttachVO> fileList = attachMapper.getYesterdayFiles();//어제 날짜 db 모든 업로드 목록 일단 가져오기
 		
         for(int j = 0; j < fileList.size(); j++){
             	
         	BoardAttachVO boardAttachVO = fileList.get(j);
         	
-        	String dbkey = boardAttachVO.getUploadPath()+"/"+boardAttachVO.getUuid()+"_"+boardAttachVO.getFileName();
-        	//log.info("S3key"+S3key); 
-        	//log.info("S3key2"+boardAttachVO.getUploadPath()+"/"+boardAttachVO.getUuid()+"_"+boardAttachVO.getFileName());
+        	String uploadKey = boardAttachVO.getUploadPath()+"/"+boardAttachVO.getUuid()+"_"+boardAttachVO.getFileName();
         	
-        	numbers.add(dbkey);
+        	dbUploadList.add(uploadKey);
             	
         	type = boardAttachVO.isFileType();
         	
         	if(type) {//이미지라면
-    			numbers.add("s_"+dbkey);//썸네일 추가
+    			dbUploadList.add(boardAttachVO.getUploadPath()+"/s_"+boardAttachVO.getUuid()+"_"+boardAttachVO.getFileName());//썸네일 목록 추가
         	}
             	
         }
             	
-        for (int i = 0; i < numbers.size(); i++) {
-            log.info("numbers "+numbers.get(i)); 
-        }
+        /*for (int i = 0; i < dbUploadList.size(); i++) {
+            log.info("dbUploadList "+dbUploadList.get(i)); 
+        }*/
         
     	List<S3ObjectSummary> objects = s3Util.getObjectsList();//s3의 업로드 목록
             	
@@ -69,33 +56,31 @@ public class FileCheckTask {//task 작업 처리 ,스케쥴러
     		
     		String S3key = objects.get(i).getKey();
     		
-    		if(!numbers.contains(S3key)){// s3의 목록 파일이 디비의 목록파일에 없다면
+    		if(!dbUploadList.contains(S3key)){// s3의 업로드 목록 파일이 디비의 업로드 목록에 없다면
     			
     			log.info("S3key "+S3key); 
     			
     			String filename = S3key.substring(S3key.lastIndexOf("/")+1);
             	String path = S3key.substring(0, S3key.lastIndexOf("/"));
-            	
-            	s3Util.deleteObject(path, filename);
+            
+            	s3Util.deleteObject(path, filename);//삭제를 해준다//즉 디비와 S3의 업로드파일을 동기화시키는것
     		}
         }
     	
     }
 }
-    
-
-/*private String getFolderYesterDay() {
-
-	SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd");
-
-	Calendar cal = Calendar.getInstance();
-
-	cal.add(Calendar.DATE, -1);
-
-	String str = sdf.format(cal.getTime());
-
-	return str.replace("-", File.separator);
-}*/
+		/*private String getFolderYesterDay() {
+		
+			SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd");
+		
+			Calendar cal = Calendar.getInstance();
+		
+			cal.add(Calendar.DATE, -1);
+		
+			String str = sdf.format(cal.getTime());
+		
+			return str.replace("-", File.separator);
+		}*/
 
 		/*log.warn("File Check Task run.................");
 		log.warn(new Date());
