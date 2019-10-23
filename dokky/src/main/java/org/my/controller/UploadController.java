@@ -16,6 +16,7 @@ import java.io.FileOutputStream;
 import javax.inject.Inject;
 import javax.servlet.http.HttpServletRequest;
 
+import org.apache.log4j.Logger;
 import org.my.domain.AttachFileDTO;
 import org.my.s3.myS3Util;
 import org.my.service.CommonService;
@@ -163,6 +164,7 @@ public class UploadController {
 			}
 		
 		}catch (Exception e) { 
+			log.error(e.getMessage());
 			e.printStackTrace();  
 		} 
 		
