@@ -279,7 +279,8 @@ public class MypageController {
 		
 		log.info("/mypage/profileFile"); 
 		
-		String uploadPath =request.getSession().getServletContext().getRealPath("/")+File.separator+"resources/img/profile_img";
+		//String uploadPath =request.getSession().getServletContext().getRealPath("/")+File.separator+"resources/img/profile_img";
+		String uploadPath ="/home/ubuntu/upload"; 
 		
 		log.info(uploadPath);
 		
@@ -302,7 +303,8 @@ public class MypageController {
 		
 		log.info("/mypage/deleteProfile"); 
 		
-		String uploadPath =request.getSession().getServletContext().getRealPath("/")+File.separator+"resources/img/profile_img/";
+		//String uploadPath =request.getSession().getServletContext().getRealPath("/")+File.separator+"resources/img/profile_img/";
+		String uploadPath ="/home/ubuntu/upload/";
 		String userId = request.getParameter("userId");
 		
 		try {

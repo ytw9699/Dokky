@@ -153,13 +153,18 @@ public class UploadController {
 		AttachFileDTO result;
 		
 		List<AttachFileDTO> list = new ArrayList<>();  
+		try {
+			
+			for (MultipartFile multipartFile : uploadFile) {
+				
+				result = s3Util.upload(multipartFile.getBytes(), multipartFile, multipartFile.getOriginalFilename(), uploadKind);
+				
+				list.add(result);
+			}
 		
-		for (MultipartFile multipartFile : uploadFile) {
-			
-			result = s3Util.upload(multipartFile.getBytes(), multipartFile, multipartFile.getOriginalFilename(), uploadKind);
-			
-			list.add(result);
-		}
+		}catch (Exception e) { 
+			e.printStackTrace();  
+		} 
 		
 		return new ResponseEntity<>(list, HttpStatus.OK);
 	}

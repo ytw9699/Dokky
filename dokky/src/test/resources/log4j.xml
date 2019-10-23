@@ -12,29 +12,29 @@
 	
 	<!-- Application Loggers -->
 	<logger name="org.my.dokky">
-		<level value="info" />
+		<level value="ALL" />
 	</logger>
 	
 	<!-- 3rdparty Loggers -->
 	<logger name="org.springframework.core">
-		<level value="info" />
+		<level value="ALL" />
 	</logger>	
 	
 	<logger name="org.springframework.beans">
-		<level value="info" />
+		<level value="ALL" />
 	</logger>
 	
 	<logger name="org.springframework.context">
-		<level value="info" />
+		<level value="ALL" />
 	</logger>
 
 	<logger name="org.springframework.web">
-		<level value="info" />
+		<level value="ALL" />
 	</logger>
 
 	<!-- Root Logger -->
 	<root>
-		<priority value="info" />
+		<priority value="ALL" />
 		<appender-ref ref="console" />
 	</root>
 	<!-- info보다 높은 warn으로 조정하면 더높은 로그 레벨만 출력된다 -->
