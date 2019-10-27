@@ -118,12 +118,7 @@ public class myS3Util {
 		   
 			ByteArrayInputStream byteArrayInputStream = new ByteArrayInputStream(fileData);
 			
-			try {
-				s3.putObject(bucket_name + "/" + folder_name, fileName, byteArrayInputStream, metaData);//s3 권한 퍼블릭 없이 디폴트로 설정해서 업로드	
-			}
-			catch (Exception e) { 
-				e.printStackTrace();  
-			} 
+		    s3.putObject(bucket_name + "/" + folder_name, fileName, byteArrayInputStream, metaData);//s3 권한 퍼블릭 없이 디폴트로 설정해서 업로드
 		    
 	    	if(uploadKind.equals("photo")) {//이미지라면 썸네일 만들자 
 				
@@ -154,12 +149,7 @@ public class myS3Util {
 					e.printStackTrace();  
 				} 
 				
-				try {
-					s3.putObject(bucket_name + "/" + folder_name, "s_"+fileName, thumbnailFile);
-				}
-				catch (Exception e) { 
-					e.printStackTrace();  
-				} 
+				s3.putObject(bucket_name + "/" + folder_name, "s_"+fileName, thumbnailFile);
 				
 				thumbnailFile.delete();//임시파일 삭제
 			}

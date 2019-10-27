@@ -167,22 +167,8 @@ public class UploadController {
 		
 		}catch (Exception e) { 
 			
-			log.error(e.getMessage());
 			e.printStackTrace();  
-			
-			String txt = e.getMessage();
-			
-			String fileName = "/home/ubuntu/upload/test.txt" ;
-			 
-			 // BufferedWriter 와 FileWriter를 조합하여 사용 (속도 향상)
-            BufferedWriter fw = new BufferedWriter(new FileWriter(fileName, true));
-             
-            // 파일안에 문자열 쓰기
-            fw.write(txt);
-            fw.flush();
  
-            // 객체 닫기
-            fw.close();
 		} 
 		return new ResponseEntity<>(list, HttpStatus.OK);
 	}
