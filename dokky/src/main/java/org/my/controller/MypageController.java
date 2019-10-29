@@ -1,7 +1,10 @@
 package org.my.controller;
-	import java.io.File;
+	import java.io.BufferedWriter;
+import java.io.File;
+import java.io.FileWriter;
+import java.io.IOException;
 
-	import org.my.domain.Criteria;
+import org.my.domain.Criteria;
 	import org.my.domain.MemberVO;
 	import org.my.domain.PageDTO;
 	import org.my.domain.cashVO;
@@ -275,14 +278,13 @@ public class MypageController {
 	}
 	
 	@PostMapping(value = "/profileFile")//
-	public String registerProfileFile(MultipartHttpServletRequest request) { //프로필 이미지 올리기
+	public String registerProfileFile(MultipartHttpServletRequest request) throws IOException { //프로필 이미지 올리기
 		
 		log.info("/mypage/profileFile"); 
-		
 		//String uploadPath =request.getSession().getServletContext().getRealPath("/")+File.separator+"resources/img/profile_img";
 		String uploadPath ="/home/ubuntu/upload"; 
 		
-		log.info(uploadPath);
+		log.info("uploadPath"+uploadPath);
 		
 		String userId = request.getParameter("userId");
 		
@@ -290,11 +292,14 @@ public class MypageController {
 		 
 		File uploadFile = new File(uploadPath , userId+".png");  
 		
+		
 		try {
 			profileFile.transferTo(uploadFile);
 		} catch (Exception e) {
-			
+			e.getStackTrace();
+			e.getMessage();
 		}
+        
 		return "redirect:/mypage/myInfoForm?userId="+userId;
 	}
 	
