@@ -43,7 +43,7 @@ public class BoardController {
 	@PreAuthorize("hasAnyRole('ROLE_ADMIN','ROLE_USER')")
 	@GetMapping("/test")
 	public String test() {
-		
+
 		return "board/test";
 	}
 	
@@ -83,7 +83,6 @@ public class BoardController {
 		return "board/list";
 	}
 	
-	
 	@PreAuthorize("hasAnyRole('ROLE_ADMIN','ROLE_USER')")//관리자이거나, 일반 회원일경우 권한 가짐
 	@GetMapping("/register")
 	public String register(@ModelAttribute("category") int category) {//게시글 등록 폼
@@ -102,7 +101,7 @@ public class BoardController {
 		}
 		
 		service.register(board);
-		log.info("/register2: " + board);
+		log.info("/register: " + board);
 
 	   //rttr.addFlashAttribute("result", board.getNum());
 		 rttr.addAttribute("board_num", board.getBoard_num());

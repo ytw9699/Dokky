@@ -196,6 +196,7 @@
 		</div> 
 </div>  
 
+<div id="profileGray"></div> 
 <div class='bigPictureWrapper'><!-- 사진클릭시 -->
 	 <div class='bigPicture'>
 	 </div>
@@ -1460,47 +1461,54 @@
 		    	    	   $(".fileUploadWrap").css("display","inline-block");
 			    	       $(".fileUploadResult ul").html(fileStr);
 		    	       }
-		   	     });
+		   	    });
 	   	 })(); 
    }); 
     	  
    ///////////////////////////////////////////////////////
-   $(".fileUploadResult").on("click","li", function(e){
-   	      
-    	    var liObj = $(this); 
-    	    
-    	    var path = encodeURIComponent(liObj.data("path")+"/" + liObj.data("uuid")+"_" + liObj.data("filename"));
-    	    
-    	    if(!liObj.data("type")){//파일이라면  
-    	    	self.location ="/dokky/download2?fileName=https://picksell-bucket.s3.ap-northeast-2.amazonaws.com/upload/2019/10/07/dokky.png" 
-    	    }
-   });
+   
+   $(".fileUploadResult").on("click","li", function(e){//첨부파일 다운로드
+	      
+		    var liObj = $(this); 
+		    var path = liObj.data("path");
+		    var filename = liObj.data("filename");
+		    var uuid = liObj.data("uuid");
+		    
+		    if(!liObj.data("type")){//파일이라면  
+		    	self.location ="/dokky/download?uuid="+uuid+"&filename="+filename+"&path="+path
+		    }
+	});
+   
    ///////////////////////////////////////////////////////
    	  
-   function showImage(fileCallPath){
-  	    
-	  	    $(".bigPictureWrapper").css("display","flex").show();
-	  	    
-	  	    $(".bigPicture").html("<img src='/dokky/display?fileName="+fileCallPath+"' >");
-   } 
+   function showImage(path, filename){//원본 이미지 파일 보기
+    	    
+			$(".bigPictureWrapper").css("display","flex").show(); 
+    	    
+    	    $(".bigPicture").html("<img src='/dokky/displayS3?path="+path+"&filename="+filename+"'>");
+    	    
+    	    $("#profileGray").css("display","block");
+   }
    
    ///////////////////////////////////////////////////////
 
    $(".content").on("click","img", function(e){//본문에서 사진을 클릭한다면
 	  	
-			var imgObj = $(this);
-		  
-			var path = imgObj.data("filecallpath");
-			  
-			showImage(path);  
+			var imgObj = $(this); 
+    	    var path = imgObj.data("path"); 
+  		 	var filename = imgObj.data("filename");
+    	    
+   	    	showImage(path, filename);
    });
 	
    ///////////////////////////////////////////////////////
 	    	  
-   $(".bigPictureWrapper").on("click", function(e){
+   $(".bigPictureWrapper").on("click", function(e){//원본 이미지 파일 숨기기 
    		  
-   			$('.bigPictureWrapper').hide();
-   });  
+		$('.bigPictureWrapper').hide();
+ 
+		$("#profileGray").hide();
+   }); 
 	      
 	///////////////////////////////////////////////////////
    
