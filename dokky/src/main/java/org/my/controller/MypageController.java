@@ -281,8 +281,8 @@ public class MypageController {
 	public String registerProfileFile(MultipartHttpServletRequest request) throws IOException { //프로필 이미지 올리기
 		
 		log.info("/mypage/profileFile"); 
-		//String uploadPath =request.getSession().getServletContext().getRealPath("/")+File.separator+"resources/img/profile_img";
-		String uploadPath ="/home/ubuntu/upload"; 
+		String uploadPath =request.getSession().getServletContext().getRealPath("/")+File.separator+"resources/img/profile_img";
+		//String uploadPath ="/home/ubuntu/upload"; 
 		
 		log.info("uploadPath"+uploadPath);
 		
@@ -292,12 +292,10 @@ public class MypageController {
 		 
 		File uploadFile = new File(uploadPath , userId+".png");  
 		
-		
 		try {
 			profileFile.transferTo(uploadFile);
 		} catch (Exception e) {
 			e.getStackTrace();
-			e.getMessage();
 		}
         
 		return "redirect:/mypage/myInfoForm?userId="+userId;

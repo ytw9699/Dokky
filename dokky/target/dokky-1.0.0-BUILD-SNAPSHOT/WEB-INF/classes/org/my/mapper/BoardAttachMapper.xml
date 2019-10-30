@@ -33,7 +33,7 @@
 	</delete>
 
 	<select id="getYesterdayFiles" resultType="org.my.domain.BoardAttachVO">
-			select * from dk_attach where uploadpath = to_char(sysdate -1 ,'yyyy\mm\dd')
+			select * from dk_attach where uploadpath = 'upload' || to_char(sysdate -1 ,'/yyyy/mm/dd')
 			<!-- 어제 날짜 모든첨부파일 목록 가져오기 -->
 	</select>
 

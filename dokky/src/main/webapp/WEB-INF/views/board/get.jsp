@@ -41,7 +41,7 @@
 			
 			<div class="nickName">
 				<a href="#" id="board_userMenu" class="userMenu">
-					<img src="/dokky/resources/img/profile_img/<c:out value="${board.userId}" />.png"  class="memberImage hideUsermenu" onerror="this.src='/dokky/resources/img/basicProfile.png'" />
+					<img src="/dokky/resources/img/profile_img/<c:out value="${board.userId}" />.png"  class="memberImage hideUsermenu" onerror="this.src='/dokky/resources/img/profile_img/basicProfile.png'" />
 					<c:out value="${board.nickName}" /> 
 				</a>
 			</div>

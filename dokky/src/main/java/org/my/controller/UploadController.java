@@ -89,11 +89,12 @@ public class UploadController {
 	
 	@GetMapping("/display")
 	@ResponseBody
-	public ResponseEntity<byte[]> getFile(String fileName) {
+	public ResponseEntity<byte[]> getFile(String fileName) throws IOException {
 
 		log.info("fileName: " + fileName);
 
-		File file = new File("c:\\upload\\" + fileName);
+		//File file = new File("c:\\upload\\" + fileName);
+		File file = new File("/home/ubuntu/upload/" + fileName);
 
 		log.info("file: " + file);
 
@@ -108,6 +109,7 @@ public class UploadController {
 		} catch (IOException e) {
 			e.printStackTrace();
 		}
+        
 		return result;
 	}
 	
