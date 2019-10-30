@@ -95,7 +95,7 @@
 		    padding: 10px;
 		}
 		
-		#divContent img{
+		#divContent img{ 
 			max-width: 400px;
 			height: auto;
 		} 
@@ -166,6 +166,17 @@
 		.fileUploadResult ul li img {
 			width: 100px;
 		}
+		
+		 #profileGray{
+		    position: fixed; 
+		    width: 100%; 
+		    height: 100%; 
+		    top: 0; 
+		    left: 0; 
+		    background-color: #000;
+		    opacity: 0.6;
+		    display: none;
+	    }
 		
 		.bigPictureWrapper {
 		  /* border-color: #e6e6e6;

@@ -1,8 +1,10 @@
 package org.my.controller;
-	import java.io.File;
+	import java.io.BufferedWriter;
+import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
-	import java.io.IOException;
+import java.io.FileWriter;
+import java.io.IOException;
 	import java.io.UnsupportedEncodingException;
 	import java.net.URLDecoder;
 	import java.net.URLEncoder;
@@ -14,7 +16,9 @@ import java.io.FileOutputStream;
 	import java.util.UUID;
 
 import javax.inject.Inject;
+import javax.servlet.http.HttpServletRequest;
 
+import org.apache.log4j.Logger;
 import org.my.domain.AttachFileDTO;
 import org.my.s3.myS3Util;
 import org.my.service.CommonService;
@@ -31,9 +35,12 @@ import org.springframework.core.io.FileSystemResource;
 	import org.springframework.web.bind.annotation.GetMapping;
 	import org.springframework.web.bind.annotation.PostMapping;
 	import org.springframework.web.bind.annotation.RequestHeader;
-	import org.springframework.web.bind.annotation.ResponseBody;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.ResponseBody;
 	import org.springframework.web.multipart.MultipartFile;
-	import lombok.Setter;
+import org.springframework.web.servlet.ModelAndView;
+
+import lombok.Setter;
 	import lombok.extern.log4j.Log4j;
 	import net.coobird.thumbnailator.Thumbnailator;
 
@@ -82,11 +89,12 @@ public class UploadController {
 	
 	@GetMapping("/display")
 	@ResponseBody
-	public ResponseEntity<byte[]> getFile(String fileName) {
+	public ResponseEntity<byte[]> getFile(String fileName) throws IOException {
 
 		log.info("fileName: " + fileName);
 
-		File file = new File("c:\\upload\\" + fileName);
+		//File file = new File("c:\\upload\\" + fileName);
+		File file = new File("/home/ubuntu/upload/" + fileName);
 
 		log.info("file: " + file);
 
@@ -101,8 +109,136 @@ public class UploadController {
 		} catch (IOException e) {
 			e.printStackTrace();
 		}
+        
 		return result;
 	}
+	
+	@GetMapping("/displayS3")
+	@ResponseBody
+	public ResponseEntity<byte[]> getS3File(String path , String filename) {
+ 
+		log.info("path + filename: " + path + filename);
+
+		ResponseEntity<byte[]> result = null;
+
+		result = new ResponseEntity<>(s3Util.downloadImage(path, filename), HttpStatus.OK);
+		
+		return result;
+	}
+	
+	
+	/*@PreAuthorize("isAuthenticated()")
+	@PostMapping(value = "/s3uploadFile2", produces = MediaType.APPLICATION_JSON_UTF8_VALUE)
+	@ResponseBody
+	public ResponseEntity<List<AttachFileDTO>> posts3UploadFile2(MultipartFile[] uploadFile, String uploadKind) throws IOException {
+		
+		log.info("/s3uploadFile");  
+		
+		AttachFileDTO result;
+		
+		List<AttachFileDTO> list = new ArrayList<>();  
+		
+		for (MultipartFile multipartFile : uploadFile) {
+			
+			result = s3Util.fileUpload2(multipartFile.getOriginalFilename(), multipartFile , uploadKind);
+			
+			list.add(result);
+		}
+		
+		return new ResponseEntity<>(list, HttpStatus.OK);
+	}*/
+	
+	@PreAuthorize("isAuthenticated()")
+	@PostMapping(value = "/s3upload", produces = MediaType.APPLICATION_JSON_UTF8_VALUE)
+	@ResponseBody
+	public ResponseEntity<List<AttachFileDTO>> posts3UploadFile(MultipartFile[] uploadFile, String uploadKind) throws IOException {
+		
+		log.info("/s3upload");
+		
+		AttachFileDTO result;
+		
+		List<AttachFileDTO> list = new ArrayList<>();  
+		try {
+			
+			for (MultipartFile multipartFile : uploadFile) {
+				
+				result = s3Util.upload(multipartFile.getBytes(), multipartFile, multipartFile.getOriginalFilename(), uploadKind);
+				
+				list.add(result);
+			}
+		
+		}catch (Exception e) { 
+			
+			e.printStackTrace();  
+ 
+		} 
+		return new ResponseEntity<>(list, HttpStatus.OK);
+	}
+	
+	
+	/*@PreAuthorize("isAuthenticated()")
+	@PostMapping(value = "/upload", produces = MediaType.APPLICATION_JSON_UTF8_VALUE)
+	@ResponseBody
+	public ResponseEntity<List<AttachFileDTO>> postUploadFile(MultipartFile[] uploadFile, String uploadKind) {
+		
+		List<AttachFileDTO> list = new ArrayList<>();  
+		
+		String uploadFolder = "C:\\upload";
+
+		String uploadFolderPath = getFolder();
+		
+		File uploadPath = new File(uploadFolder, uploadFolderPath);
+
+		if (uploadPath.exists() == false) {
+			uploadPath.mkdirs();
+		}
+
+		for (MultipartFile multipartFile : uploadFile) {
+
+			AttachFileDTO attachDTO = new AttachFileDTO();
+
+			String uploadFileName = multipartFile.getOriginalFilename();
+
+			uploadFileName = uploadFileName.substring(uploadFileName.lastIndexOf("\\") + 1);//ie의경우 짤라줌
+			
+			log.info("only file name: " + uploadFileName);
+			
+			attachDTO.setFileName(uploadFileName);//오리지날 이름 저장
+
+			UUID uuid = UUID.randomUUID();
+
+			uploadFileName = uuid.toString() + "_" + uploadFileName;
+
+			try {
+				File saveFile = new File(uploadPath, uploadFileName);
+				
+				multipartFile.transferTo(saveFile);//파일,사진 업로드
+
+				attachDTO.setUuid(uuid.toString());//uuid저장
+				attachDTO.setUploadPath(uploadFolderPath);//폴더 경로저장
+				
+				if(uploadKind.equals("photo")) {//업로드 종류가 photo가 아닌것은 모두 파일로 취급해서 사진파일이어도 파일종류로 구분
+					if (checkImageType(saveFile)) {//photo를 이미 확인해줬지만 한번더 이미지 파일 이라면 확인
+						
+						attachDTO.setImage(true);
+						
+						FileOutputStream thumbnail = new FileOutputStream(new File(uploadPath, "s_" + uploadFileName));
+
+						Thumbnailator.createThumbnail(multipartFile.getInputStream(), thumbnail, 100, 100);//썸네일 이미지 만들고 업로드
+
+						thumbnail.close();
+					}
+				}
+
+				list.add(attachDTO);
+
+			} catch (Exception e) {
+				e.printStackTrace();
+			}
+
+		} // end for
+		return new ResponseEntity<>(list, HttpStatus.OK);
+	}*/
 	
 	/*@PreAuthorize("isAuthenticated()")
 	@PostMapping(value = "/uploadFile", produces = MediaType.APPLICATION_JSON_UTF8_VALUE)
@@ -179,140 +315,18 @@ public class UploadController {
 	}*/
 	
 	@PreAuthorize("isAuthenticated()")
-	@PostMapping(value = "/s3uploadFile", produces = MediaType.APPLICATION_JSON_UTF8_VALUE)
-	@ResponseBody
-	public ResponseEntity<List<AttachFileDTO>> posts3UploadFile(MultipartFile[] uploadFile, String uploadKind) throws IOException {
+	@GetMapping("/download")		
+	public ModelAndView download2(HttpServletRequest request) throws Exception {
 		
-		log.info("/s3uploadFile");  
-		
-		AttachFileDTO result;
-		
-		List<AttachFileDTO> list = new ArrayList<>();  
-		
-		for (MultipartFile multipartFile : uploadFile) {
-			
-			result = s3Util.fileUpload(multipartFile.getOriginalFilename(), multipartFile.getBytes() , uploadKind);
-			
-			list.add(result);
-		}
-		
-		return new ResponseEntity<>(list, HttpStatus.OK);
+		return new ModelAndView("DownloadView", "temp", "temp");
 	}
 	
-	@PreAuthorize("isAuthenticated()")
-	@PostMapping(value = "/uploadFile", produces = MediaType.APPLICATION_JSON_UTF8_VALUE)
-	@ResponseBody
-	public ResponseEntity<List<AttachFileDTO>> postUploadFile(MultipartFile[] uploadFile, String uploadKind) {
-		
-		List<AttachFileDTO> list = new ArrayList<>();  
-		
-		String uploadFolder = "C:\\upload";
-
-		String uploadFolderPath = getFolder();
-		
-		File uploadPath = new File(uploadFolder, uploadFolderPath);
-
-		if (uploadPath.exists() == false) {
-			uploadPath.mkdirs();
-		}
-
-		for (MultipartFile multipartFile : uploadFile) {
-
-			AttachFileDTO attachDTO = new AttachFileDTO();
-
-			String uploadFileName = multipartFile.getOriginalFilename();
-
-			uploadFileName = uploadFileName.substring(uploadFileName.lastIndexOf("\\") + 1);//ie의경우 짤라줌
-			
-			log.info("only file name: " + uploadFileName);
-			
-			attachDTO.setFileName(uploadFileName);//오리지날 이름 저장
-
-			UUID uuid = UUID.randomUUID();
-
-			uploadFileName = uuid.toString() + "_" + uploadFileName;
-
-			try {
-				File saveFile = new File(uploadPath, uploadFileName);
-				
-				multipartFile.transferTo(saveFile);//파일,사진 업로드
-
-				attachDTO.setUuid(uuid.toString());//uuid저장
-				attachDTO.setUploadPath(uploadFolderPath);//폴더 경로저장
-				
-				if(uploadKind.equals("photo")) {//업로드 종류가 photo가 아닌것은 모두 파일로 취급해서 사진파일이어도 파일종류로 구분
-					if (checkImageType(saveFile)) {//photo를 이미 확인해줬지만 한번더 이미지 파일 이라면 확인
-						
-						attachDTO.setImage(true);
-						
-						FileOutputStream thumbnail = new FileOutputStream(new File(uploadPath, "s_" + uploadFileName));
-
-						Thumbnailator.createThumbnail(multipartFile.getInputStream(), thumbnail, 100, 100);//썸네일 이미지 만들고 업로드
-
-						thumbnail.close();
-					}
-				}
-
-				list.add(attachDTO);
-
-			} catch (Exception e) {
-				e.printStackTrace();
-			}
-
-		} // end for
-		return new ResponseEntity<>(list, HttpStatus.OK);
-	}
-	
-	@GetMapping(value = "/download2", produces = MediaType.APPLICATION_OCTET_STREAM_VALUE)
-	@ResponseBody
-	public ResponseEntity<Resource> downloadFile2(@RequestHeader("User-Agent") String userAgent, String fileName) {
-
-		Resource resource = new FileSystemResource("c:\\upload\\" + fileName);
-		log.info("userAgent"+userAgent);
-		log.info("fileName"+fileName);
-		log.info("resource"+resource);
-		
-		if (resource.exists() == false) {
-			return new ResponseEntity<>(HttpStatus.NOT_FOUND);
-		}
-
-		String resourceName = resource.getFilename();
-		log.info("resourceName"+resourceName);
-		
-		// remove UUID
-		String resourceOriginalName = resourceName.substring(resourceName.indexOf("_") + 1);
-
-		log.info("resourceOriginalName"+resourceOriginalName);
-		
-		HttpHeaders headers = new HttpHeaders();
-		try {
-
-			boolean checkIE = (userAgent.indexOf("MSIE") > -1 || userAgent.indexOf("Trident") > -1);
-
-			String downloadName = null;
-
-			if (checkIE) {
-				downloadName = URLEncoder.encode(resourceOriginalName, "UTF8").replaceAll("\\+", " ");
-			} else {
-				downloadName = new String(resourceOriginalName.getBytes("UTF-8"), "ISO-8859-1");
-			}
-
-			headers.add("Content-Disposition", "attachment; filename=" + downloadName);
-
-			log.info("downloadName"+downloadName);
-			
-		} catch (UnsupportedEncodingException e) {
-			e.printStackTrace();
-		}
-
-		return new ResponseEntity<Resource>(resource, headers, HttpStatus.OK);
-	}
-	
-	@GetMapping(value = "/download", produces = MediaType.APPLICATION_OCTET_STREAM_VALUE)
+	/*@GetMapping(value = "/download2", produces = MediaType.APPLICATION_OCTET_STREAM_VALUE)
 	@ResponseBody
 	public ResponseEntity<Resource> downloadFile(@RequestHeader("User-Agent") String userAgent, String fileName) {
 
 		Resource resource = new FileSystemResource("c:\\upload\\" + fileName);
+		
 		log.info("userAgent"+userAgent);
 		log.info("fileName"+fileName);
 		log.info("resource"+resource);
@@ -330,6 +344,7 @@ public class UploadController {
 		log.info("resourceOriginalName"+resourceOriginalName);
 		
 		HttpHeaders headers = new HttpHeaders();
+		
 		try {
 
 			boolean checkIE = (userAgent.indexOf("MSIE") > -1 || userAgent.indexOf("Trident") > -1);
@@ -351,9 +366,29 @@ public class UploadController {
 		}
 
 		return new ResponseEntity<Resource>(resource, headers, HttpStatus.OK);
-	}
+	}*/
 	
 	@PreAuthorize("isAuthenticated()")
+	@PostMapping("/deleteS3File")
+	@ResponseBody 
+	public ResponseEntity<String> deleteS3File(String path, String filename, String type) {
+
+		log.info("deleteS3File: " + path+filename);  
+		
+		if(s3Util.deleteObject(path, filename)) {
+			
+			if (type.equals("image")) {//만약 이미지파일이었다면
+
+				s3Util.deleteObject(path, "s_"+filename);//썸네일도 삭제
+			}
+			
+			return new ResponseEntity<String>("deleted", HttpStatus.OK);
+		}
+		
+		return new ResponseEntity<>(HttpStatus.NOT_FOUND);
+	}
+	
+	/*@PreAuthorize("isAuthenticated()")
 	@PostMapping("/deleteFile")
 	@ResponseBody
 	public ResponseEntity<String> deleteFile(String fileCallPath, String type) {
@@ -382,9 +417,7 @@ public class UploadController {
 			e.printStackTrace();
 			return new ResponseEntity<>(HttpStatus.NOT_FOUND);
 		}
-
 		return new ResponseEntity<String>("deleted", HttpStatus.OK);
-
-	}
+	}*/
 
 }//end

@@ -22,7 +22,8 @@
 	  <sec:authorize access="isAuthenticated()">
 		<div class="mypage topMypage">  
 					<a href="#" class="leftUsermenu">
-					  	  <img id="leftProfile" src="/dokky/resources/img/profile_img/<c:out value="${userInfo.username}"/>.png" class="memberImage leftHideusermenu" onerror="this.src='/dokky/resources/img/basicProfile.png'" />
+					  	  <%-- <img id="leftProfile" src="/dokky/display?fileName=<c:out value="${userInfo.username}"/>.png" class="memberImage leftHideusermenu" onerror="this.src='/dokky/resources/img/basicProfile.png'"/> --%>
+					  	  <img id="leftProfile" src="/dokky/resources/img/profile_img/<c:out value="${userInfo.username}"/>.png" class="memberImage leftHideusermenu" onerror="this.src='/dokky/resources/img/profile_img/basicProfile.png'" />
 					  	  <c:out value="${userInfo.member.nickName}"/>     
 			  	    </a> 
 			  	    <div id="leftUsermenuBar">
