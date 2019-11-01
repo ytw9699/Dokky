@@ -28,7 +28,7 @@
 		<property name="jdbcUrl"
 			value="jdbc:log4jdbc:oracle:thin:@shop.cndlt88yvvsy.ap-northeast-2.rds.amazonaws.com:1521:ORCL"></property>
 		<property name="username" value="shop9699"></property>
-		<property name="password" value="cgdeveloper568954"></property>
+		<property name="password" value="dpwm9865cgdeveloper568954"></property>
 	</bean>
 	
 	<!-- <bean id="hikariConfig" class="com.zaxxer.hikari.HikariConfig">
