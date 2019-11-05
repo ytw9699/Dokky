@@ -4,11 +4,11 @@
 <html>
 <head>
 <meta charset="UTF-8">
-	<title>Dokky - main2 </title> 
+	<title>Dokky - Developer community</title> 
 </head>
 
 <body>
-	Dokky - main2 
+okky - Developer communiokky - Developer communiokky - Developer communi
 </body>
 
 </html>
