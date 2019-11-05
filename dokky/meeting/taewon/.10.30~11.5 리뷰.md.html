@@ -639,27 +639,46 @@ function setDocumentScrollTop(ypos)
 
 </head>
 <body class="markdown-body">
-<h2> <a id="1-ec2의-우분투-서버에서-로그를-찍지-못하는점" class="anchor" href="#1-ec2%EC%9D%98-%EC%9A%B0%EB%B6%84%ED%88%AC-%EC%84%9C%EB%B2%84%EC%97%90%EC%84%9C-%EB%A1%9C%EA%B7%B8%EB%A5%BC-%EC%B0%8D%EC%A7%80-%EB%AA%BB%ED%95%98%EB%8A%94%EC%A0%90" aria-hidden="true"><span aria-hidden="true" class="octicon octicon-link"></span></a>1. ec2의 우분투 서버에서 로그를 찍지 못하는점</h2> 
+<h2> <a id="1-웹서버와-was의-연동" class="anchor" href="#1-%EC%9B%B9%EC%84%9C%EB%B2%84%EC%99%80-was%EC%9D%98-%EC%97%B0%EB%8F%99" aria-hidden="true"><span aria-hidden="true" class="octicon octicon-link"></span></a>1. 웹서버와 WAS의 연동</h2> 
 <h3> <a id="0-문제점" class="anchor" href="#0-%EB%AC%B8%EC%A0%9C%EC%A0%90" aria-hidden="true"><span aria-hidden="true" class="octicon octicon-link"></span></a>0) 문제점</h3> 
+<p>웹서버와 WAS의 연동후 8080 포트로만 접근이 되고 80포트로는 접근 불가했다.</p> 
 <h3> <a id="1-시도해본-방법들" class="anchor" href="#1-%EC%8B%9C%EB%8F%84%ED%95%B4%EB%B3%B8-%EB%B0%A9%EB%B2%95%EB%93%A4" aria-hidden="true"><span aria-hidden="true" class="octicon octicon-link"></span></a>1) 시도해본 방법들</h3> 
 <ol> 
- <li>기본적인 방법</li> 
+ <li> <p>아파치 동작 확인</p> </li> 
+ <li> <p>연동과정에서의 포트 관련 설정이 제대로 된 것인가 확인</p> </li> 
+ <li> <p>aws 보안그룹 80,8080 포트 열림 확인</p> </li> 
+ <li> <p>aws 보안그룹 8009 포트 열림 확인</p> </li> 
+ <li> <p>참고 영상 및 포스팅 <a href="https://cg-developer.tistory.com/344" rel="nofollow">https://cg-developer.tistory.com/344</a></p> </li> 
 </ol> 
 <h3> <a id="2-결과" class="anchor" href="#2-%EA%B2%B0%EA%B3%BC" aria-hidden="true"><span aria-hidden="true" class="octicon octicon-link"></span></a>2) 결과</h3> 
-<ul> 
- <li>로그를 보려하면 권한문제에 걸렸으나 루트계정으로 바꾸어 명령어를</li> 
-</ul> 
+<p>aws 보안그룹의 8009 포트를 열어줌으로써 80 포트로 접속이 되었다. 왜냐하면 80포트로 처음 접속을해서 ajp13 8009번 커넥터 포트를 거쳐 다시 8080포트로 들어가 처리하기 때문이었다.</p> 
 <h3> <a id="3-배운점과-느낀점" class="anchor" href="#3-%EB%B0%B0%EC%9A%B4%EC%A0%90%EA%B3%BC-%EB%8A%90%EB%82%80%EC%A0%90" aria-hidden="true"><span aria-hidden="true" class="octicon octicon-link"></span></a>3) 배운점과 느낀점</h3> 
-<ol> 
- <li> </li> 
-</ol> 
-<h2> <a id="2-로컬호스트에서-s3로의-업로드는-가능-ec2에서-업로드-불가-문제" class="anchor" href="#2-%EB%A1%9C%EC%BB%AC%ED%98%B8%EC%8A%A4%ED%8A%B8%EC%97%90%EC%84%9C-s3%EB%A1%9C%EC%9D%98-%EC%97%85%EB%A1%9C%EB%93%9C%EB%8A%94-%EA%B0%80%EB%8A%A5-ec2%EC%97%90%EC%84%9C-%EC%97%85%EB%A1%9C%EB%93%9C-%EB%B6%88%EA%B0%80-%EB%AC%B8%EC%A0%9C" aria-hidden="true"><span aria-hidden="true" class="octicon octicon-link"></span></a>2. 로컬호스트에서 s3로의 업로드는 가능, ec2에서 업로드 불가 문제</h2> 
+<p>웹서버와 was의 연동전에는 80포트로 접속이 되고 , 연동후에는 안되었기때문에 연동과 관련된것에 문제가 있었음을 알게되었다. 그런데 연동과정에서 뭐가 문제인지를 장시간 파악 못한것은 연동을 처리하는 모든것에 대해서 제대로 이해하지 못하고 따라하기만 해서였던것 같다. 단순히 포스팅만 보고 급하게 따라서 진행하다보니 왜 이런 과정을 거치는지 근본적인 이해를 못한 상태였다. 그래서 연동과 관련된 문제점들이 발생했을때 제대로 파악할 수 없음을 느꼈다. 간단하게 해결할수 있었지만, 8009번 포트를 열어줘야 한다는 생각이 들지못한것은 80포트로 접속시 80포트로 처음들어와 - ajp13 8009커넥터 포트 거쳐서 - 8080포트로 처리 하는 전체적인 과정을 이해하지 못하고 있었기 때문이다. 근본적인 이해가 되지 않는다면 문제 해결의 실마리를 찾기 어려움을 느끼는것 같다.</p> 
+<h2> <a id="2-웹서버와-was의-동적정적-처리--분산" class="anchor" href="#2-%EC%9B%B9%EC%84%9C%EB%B2%84%EC%99%80-was%EC%9D%98-%EB%8F%99%EC%A0%81%EC%A0%95%EC%A0%81-%EC%B2%98%EB%A6%AC--%EB%B6%84%EC%82%B0" aria-hidden="true"><span aria-hidden="true" class="octicon octicon-link"></span></a>2. 웹서버와 WAS의 동적,정적 처리 분산</h2> 
 <h3> <a id="0-문제점-1" class="anchor" href="#0-%EB%AC%B8%EC%A0%9C%EC%A0%90-1" aria-hidden="true"><span aria-hidden="true" class="octicon octicon-link"></span></a>0) 문제점</h3> 
+<p>정적인 요청은 아파치가 처리하고, 동적인 요청은 톰캣이 처리해야 하는데 현재는 톰캣이 모든걸 처리하고 있는 건지..?, 분산 처리가 되고 있는게 맞는지..? 모든 jsp 파일 요청에 대해서는 톰캣서버로 요청이 들어가게끔 만들어진게 맞는지..?</p> 
 <h3> <a id="1-시도해본-방법들-1" class="anchor" href="#1-%EC%8B%9C%EB%8F%84%ED%95%B4%EB%B3%B8-%EB%B0%A9%EB%B2%95%EB%93%A4-1" aria-hidden="true"><span aria-hidden="true" class="octicon octicon-link"></span></a>1) 시도해본 방법들</h3> 
-<h3> <a id="2-결과-1" class="anchor" href="#2-%EA%B2%B0%EA%B3%BC-1" aria-hidden="true"><span aria-hidden="true" class="octicon octicon-link"></span></a>2) 결과</h3> 
-<h3> <a id="3-배운점과-느낀점-1" class="anchor" href="#3-%EB%B0%B0%EC%9A%B4%EC%A0%90%EA%B3%BC-%EB%8A%90%EB%82%80%EC%A0%90-1" aria-hidden="true"><span aria-hidden="true" class="octicon octicon-link"></span></a>3) 배운점과 느낀점</h3> 
+<ul> 
+ <li> <p><a href="https://www.youtube.com/watch?v=j6qeCBWM4YI&amp;t=889s" rel="nofollow">https://www.youtube.com/watch?v=j6qeCBWM4YI&amp;t=889s</a></p> </li> 
+ <li> <p><a href="https://www.youtube.com/watch?v=j4R8V823ZLQ" rel="nofollow">https://www.youtube.com/watch?v=j4R8V823ZLQ</a></p> </li> 
+ <li> <p>연동을 한 이유는 동적(jsp,서블릿)과 정적(html,이미지등)인 요청의 분산 처리를 위함이다.</p> </li> 
+</ul> 
+<p>대표적인 연동 모듈(The Apache Tomcat Connectors)인 mod_jk가 있는데,</p> 
+<p>mod_jk는 아파치에 들어온 요청을 다시 톰캣으로 연결을 해주는 역할을 한다.</p> 
 <ol> 
- <li> </li> 
-</ol>
+ <li>mod_jk모듈을 설정한다.</li> 
+ <li>worker(톰캣)을 정의한다.</li> 
+ <li>톰캣이 처리할 요청을 정의한다.-jkmount</li> 
+</ol> 
+<h3> <a id="2-결과-1" class="anchor" href="#2-%EA%B2%B0%EA%B3%BC-1" aria-hidden="true"><span aria-hidden="true" class="octicon octicon-link"></span></a>2) 결과</h3> 
+<p>80포트는 잘 열어놨지만, 80포트로 jsp파일을 요청을 하게되면 8080 톰캣 서버가 처리를 못한다.</p> 
+<h2> <a id="3-계속된-로그가-찍히지-않는-문제" class="anchor" href="#3-%EA%B3%84%EC%86%8D%EB%90%9C-%EB%A1%9C%EA%B7%B8%EA%B0%80-%EC%B0%8D%ED%9E%88%EC%A7%80-%EC%95%8A%EB%8A%94-%EB%AC%B8%EC%A0%9C" aria-hidden="true"><span aria-hidden="true" class="octicon octicon-link"></span></a>3. 계속된 로그가 찍히지 않는 문제</h2> 
+<h3> <a id="0-문제점-2" class="anchor" href="#0-%EB%AC%B8%EC%A0%9C%EC%A0%90-2" aria-hidden="true"><span aria-hidden="true" class="octicon octicon-link"></span></a>0) 문제점</h3> 
+<h3> <a id="1-시도해본-방법들-2" class="anchor" href="#1-%EC%8B%9C%EB%8F%84%ED%95%B4%EB%B3%B8-%EB%B0%A9%EB%B2%95%EB%93%A4-2" aria-hidden="true"><span aria-hidden="true" class="octicon octicon-link"></span></a>1) 시도해본 방법들</h3> 
+<h3> <a id="2-결과-2" class="anchor" href="#2-%EA%B2%B0%EA%B3%BC-2" aria-hidden="true"><span aria-hidden="true" class="octicon octicon-link"></span></a>2) 결과</h3> 
+<h3> <a id="3-요청" class="anchor" href="#3-%EC%9A%94%EC%B2%AD" aria-hidden="true"><span aria-hidden="true" class="octicon octicon-link"></span></a>3) 요청</h3> 
+<p>장기간 로그를 계속 찍지 못하고 있어,한계점을 느끼는데 어떻게 해야지 로그를 찍는 방법을 찾을수 있는지 과정을 보고 싶어 원격 요청드립니다.</p> 
+<h2> <a id="4-리뷰파일-위치-변경-요청" class="anchor" href="#4-%EB%A6%AC%EB%B7%B0%ED%8C%8C%EC%9D%BC-%EC%9C%84%EC%B9%98-%EB%B3%80%EA%B2%BD-%EC%9A%94%EC%B2%AD" aria-hidden="true"><span aria-hidden="true" class="octicon octicon-link"></span></a>4. 리뷰파일 위치 변경 요청</h2> 
+<p>미팅 리뷰파일을 이클립스 내에서 보지 못하는 불편함이 있어서 리뷰파일을 프로젝트 안으로 위치를 변경시켜주셨으면 합니다.</p>
 </body>
 </html>
