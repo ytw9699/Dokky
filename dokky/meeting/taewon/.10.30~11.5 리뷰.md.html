@@ -648,37 +648,62 @@ function setDocumentScrollTop(ypos)
  <li> <p>연동과정에서의 포트 관련 설정이 제대로 된 것인가 확인</p> </li> 
  <li> <p>aws 보안그룹 80,8080 포트 열림 확인</p> </li> 
  <li> <p>aws 보안그룹 8009 포트 열림 확인</p> </li> 
- <li> <p>참고 영상 및 포스팅 <a href="https://cg-developer.tistory.com/344" rel="nofollow">https://cg-developer.tistory.com/344</a></p> </li> 
+ <li> <p>참고 포스팅 <a href="https://cg-developer.tistory.com/344" rel="nofollow">https://cg-developer.tistory.com/344</a></p> </li> 
 </ol> 
 <h3> <a id="2-결과" class="anchor" href="#2-%EA%B2%B0%EA%B3%BC" aria-hidden="true"><span aria-hidden="true" class="octicon octicon-link"></span></a>2) 결과</h3> 
 <p>aws 보안그룹의 8009 포트를 열어줌으로써 80 포트로 접속이 되었다. 왜냐하면 80포트로 처음 접속을해서 ajp13 8009번 커넥터 포트를 거쳐 다시 8080포트로 들어가 처리하기 때문이었다.</p> 
 <h3> <a id="3-배운점과-느낀점" class="anchor" href="#3-%EB%B0%B0%EC%9A%B4%EC%A0%90%EA%B3%BC-%EB%8A%90%EB%82%80%EC%A0%90" aria-hidden="true"><span aria-hidden="true" class="octicon octicon-link"></span></a>3) 배운점과 느낀점</h3> 
-<p>웹서버와 was의 연동전에는 80포트로 접속이 되고 , 연동후에는 안되었기때문에 연동과 관련된것에 문제가 있었음을 알게되었다. 그런데 연동과정에서 뭐가 문제인지를 장시간 파악 못한것은 연동을 처리하는 모든것에 대해서 제대로 이해하지 못하고 따라하기만 해서였던것 같다. 단순히 포스팅만 보고 급하게 따라서 진행하다보니 왜 이런 과정을 거치는지 근본적인 이해를 못한 상태였다. 그래서 연동과 관련된 문제점들이 발생했을때 제대로 파악할 수 없음을 느꼈다. 간단하게 해결할수 있었지만, 8009번 포트를 열어줘야 한다는 생각이 들지못한것은 80포트로 접속시 80포트로 처음들어와 - ajp13 8009커넥터 포트 거쳐서 - 8080포트로 처리 하는 전체적인 과정을 이해하지 못하고 있었기 때문이다. 근본적인 이해가 되지 않는다면 문제 해결의 실마리를 찾기 어려움을 느끼는것 같다.</p> 
+<p>웹서버와 was의 연동전에는 80포트로 접속이 되고 , 연동후에는 안되었기때문에 연동과 관련된것에 문제가 있었음을 알게되었다. 그런데 연동과정에서 뭐가 문제인지를 장시간 파악 못한것은 연동을 처리하는 모든것에 대해서 제대로 이해하지 못하고 따라하기만 해서였던것 같다. 단순히 포스팅만 보고 급하게 따라서 진행하다보니 왜 이런 과정을 거치는지 근본적인 이해를 못한 상태였다. 그래서 연동과 관련된 문제점들이 발생했을때 제대로 파악할 수 없음을 느꼈다. 간단하게 해결할수 있었지만, 8009번 포트를 열어줘야 한다는 생각이 들지못한것은 아래와 같은 전체적인 과정을 이해하지 못하고 있었기 때문이다. 근본적인 이해가 되지 않는다면 문제 해결의 실마리를 찾기 어려움을 가지는것 같다.</p> 
+<ol> 
+ <li>사용자의 브라우저는 아파치 웹서버(기본 포트 80)에 접속해 요청</li> 
+ <li>아파치 웹서버는 사용자의 요청이 톰캣에서 처리하도록 지정된 요청인지 확인하여 톰캣에서 처리해야하는 경우 아파치 웹 서버는 톰캣의 AJP포트(기본 8009 포트)에 접속해 요청을 전달</li> 
+ <li>톰캣은 아파치 웹서버로부터 요청을 받아 처리 후 처리 결과를 아파치 웹서버에 되돌려 준다</li> 
+ <li>아파치 웹서버는 톰캣으로부터 받은 처리 결과를 사용자에게 전송</li> 
+</ol> 
 <h2> <a id="2-웹서버와-was의-동적정적-처리--분산" class="anchor" href="#2-%EC%9B%B9%EC%84%9C%EB%B2%84%EC%99%80-was%EC%9D%98-%EB%8F%99%EC%A0%81%EC%A0%95%EC%A0%81-%EC%B2%98%EB%A6%AC--%EB%B6%84%EC%82%B0" aria-hidden="true"><span aria-hidden="true" class="octicon octicon-link"></span></a>2. 웹서버와 WAS의 동적,정적 처리 분산</h2> 
 <h3> <a id="0-문제점-1" class="anchor" href="#0-%EB%AC%B8%EC%A0%9C%EC%A0%90-1" aria-hidden="true"><span aria-hidden="true" class="octicon octicon-link"></span></a>0) 문제점</h3> 
-<p>정적인 요청은 아파치가 처리하고, 동적인 요청은 톰캣이 처리해야 하는데 현재는 톰캣이 모든걸 처리하고 있는 건지..?, 분산 처리가 되고 있는게 맞는지..? 모든 jsp 파일 요청에 대해서는 톰캣서버로 요청이 들어가게끔 만들어진게 맞는지..?</p> 
+<p>정적인 요청은 아파치가 처리하고, 동적인 요청은 톰캣이 처리해야 하는데 css,js,img등의 파일들을 아파치가 처리하지 못하고 있다. The requested URL was not found on this server. 404 (Not Found)</p> 
 <h3> <a id="1-시도해본-방법들-1" class="anchor" href="#1-%EC%8B%9C%EB%8F%84%ED%95%B4%EB%B3%B8-%EB%B0%A9%EB%B2%95%EB%93%A4-1" aria-hidden="true"><span aria-hidden="true" class="octicon octicon-link"></span></a>1) 시도해본 방법들</h3> 
 <ul> 
  <li> <p><a href="https://www.youtube.com/watch?v=j6qeCBWM4YI&amp;t=889s" rel="nofollow">https://www.youtube.com/watch?v=j6qeCBWM4YI&amp;t=889s</a></p> </li> 
  <li> <p><a href="https://www.youtube.com/watch?v=j4R8V823ZLQ" rel="nofollow">https://www.youtube.com/watch?v=j4R8V823ZLQ</a></p> </li> 
- <li> <p>연동을 한 이유는 동적(jsp,서블릿)과 정적(html,이미지등)인 요청의 분산 처리를 위함이다.</p> </li> 
+ <li> <p><a href="https://all-record.tistory.com/188?category=733055" rel="nofollow">https://all-record.tistory.com/188?category=733055</a></p> </li> 
+ <li> <p><a href="https://mytory.net/archives/3143" rel="nofollow">https://mytory.net/archives/3143</a></p> </li> 
+ <li> <p><a href="https://stufeel.tistory.com/10" rel="nofollow">https://stufeel.tistory.com/10</a></p> </li> 
+ <li> <p>연동을 하는 이유는</p> </li> 
 </ul> 
+<p>동적(jsp,서블릿,데이터처리)과 정적(html,이미지등)인 요청의 분산 처리를 위함이다.</p> 
 <p>대표적인 연동 모듈(The Apache Tomcat Connectors)인 mod_jk가 있는데,</p> 
 <p>mod_jk는 아파치에 들어온 요청을 다시 톰캣으로 연결을 해주는 역할을 한다.</p> 
 <ol> 
  <li>mod_jk모듈을 설정한다.</li> 
- <li>worker(톰캣)을 정의한다.</li> 
- <li>톰캣이 처리할 요청을 정의한다.-jkmount</li> 
+ <li>worker(톰캣)을 정의한다. tomcat1</li> 
+ <li>톰캣이 처리할 요청을 정의한다. DocumentRoot /var/lib/tomcat9/webapps/ROOT/ JkMount /*.jsp tomcat1</li> 
 </ol> 
+<p>4)모든 url을 톰캣이 처리하고 몇몇파일들은 아파치가 처리하도록 제외하였다.</p> 
+<ul> 
+ <li>JkMount /* tomcat1</li> 
+ <li>SetEnvIf Request_URI &quot;/*.css&quot; no-jk</li> 
+ <li>SetEnvIf Request_URI &quot;/*.jpg&quot; no-jk</li> 
+ <li>SetEnvIf Request_URI &quot;/*.gif&quot; no-jk</li> 
+ <li>SetEnvIf Request_URI &quot;/*.png&quot; no-jk</li> 
+ <li>SetEnvIf Request_URI &quot;/*.html&quot; no-jk</li> 
+ <li>SetEnvIf Request_URI &quot;/*.js&quot; no-jk</li> 
+</ul> 
 <h3> <a id="2-결과-1" class="anchor" href="#2-%EA%B2%B0%EA%B3%BC-1" aria-hidden="true"><span aria-hidden="true" class="octicon octicon-link"></span></a>2) 결과</h3> 
-<p>80포트는 잘 열어놨지만, 80포트로 jsp파일을 요청을 하게되면 8080 톰캣 서버가 처리를 못한다.</p> 
-<h2> <a id="3-계속된-로그가-찍히지-않는-문제" class="anchor" href="#3-%EA%B3%84%EC%86%8D%EB%90%9C-%EB%A1%9C%EA%B7%B8%EA%B0%80-%EC%B0%8D%ED%9E%88%EC%A7%80-%EC%95%8A%EB%8A%94-%EB%AC%B8%EC%A0%9C" aria-hidden="true"><span aria-hidden="true" class="octicon octicon-link"></span></a>3. 계속된 로그가 찍히지 않는 문제</h2> 
-<h3> <a id="0-문제점-2" class="anchor" href="#0-%EB%AC%B8%EC%A0%9C%EC%A0%90-2" aria-hidden="true"><span aria-hidden="true" class="octicon octicon-link"></span></a>0) 문제점</h3> 
-<h3> <a id="1-시도해본-방법들-2" class="anchor" href="#1-%EC%8B%9C%EB%8F%84%ED%95%B4%EB%B3%B8-%EB%B0%A9%EB%B2%95%EB%93%A4-2" aria-hidden="true"><span aria-hidden="true" class="octicon octicon-link"></span></a>1) 시도해본 방법들</h3> 
-<h3> <a id="2-결과-2" class="anchor" href="#2-%EA%B2%B0%EA%B3%BC-2" aria-hidden="true"><span aria-hidden="true" class="octicon octicon-link"></span></a>2) 결과</h3> 
-<h3> <a id="3-요청" class="anchor" href="#3-%EC%9A%94%EC%B2%AD" aria-hidden="true"><span aria-hidden="true" class="octicon octicon-link"></span></a>3) 요청</h3> 
-<p>장기간 로그를 계속 찍지 못하고 있어,한계점을 느끼는데 어떻게 해야지 로그를 찍는 방법을 찾을수 있는지 과정을 보고 싶어 원격 요청드립니다.</p> 
-<h2> <a id="4-리뷰파일-위치-변경-요청" class="anchor" href="#4-%EB%A6%AC%EB%B7%B0%ED%8C%8C%EC%9D%BC-%EC%9C%84%EC%B9%98-%EB%B3%80%EA%B2%BD-%EC%9A%94%EC%B2%AD" aria-hidden="true"><span aria-hidden="true" class="octicon octicon-link"></span></a>4. 리뷰파일 위치 변경 요청</h2> 
+<p>8080 포트로 프로젝트에 접속하면 모든것이 돌아간다 하지만 80포트로 프로젝트에 접속시, css나 png파일등은 아파치가 처리하고 나머지는 톰캣이 처리해야하는데..css와 png파일등을 아파치가 처리하지못한다. The requested URL was not found on this server. 404 (Not Found)</p> 
+<p>처음 메인으로 요청이 들어가는 리스트이다.</p> 
+<ul> 
+ <li>59.15.213.244 - - [05/Nov/2019:10:44:24 +0000] &quot;GET /dokky/main HTTP/1.1&quot; 200 34471</li> 
+ <li>59.15.213.244 - - [05/Nov/2019:10:44:24 +0000] &quot;GET /dokky/resources/img/profile_img/admin.png HTTP/1.1&quot; 200 740</li> 
+ <li>59.15.213.244 - - [05/Nov/2019:10:44:24 +0000] &quot;GET /dokky/resources/css/left.css HTTP/1.1&quot; 200 3979</li> 
+ <li>59.15.213.244 - - [05/Nov/2019:10:44:24 +0000] &quot;GET /dokky/resources/css/main.css HTTP/1.1&quot; 200 3259</li> 
+ <li>59.15.213.244 - - [05/Nov/2019:10:44:24 +0000] &quot;GET /dokky/resources/img/profile_img/dokky.png HTTP/1.1&quot; 200 519540</li> 
+ <li>59.15.213.244 - - [05/Nov/2019:10:44:24 +0000] &quot;GET /dokky/resources/img/profile_img/admin.png HTTP/1.1&quot; 200 740</li> 
+ <li>59.15.213.244 - - [05/Nov/2019:10:44:24 +0000] &quot;GET /dokky/resources/img/profile_img/dokky.png HTTP/1.1&quot; 200 519540</li> 
+ <li>59.15.213.244 - - [05/Nov/2019:10:44:24 +0000] &quot;GET /dokky/resources/img/profile_img/dokky.png HTTP/1.1&quot; 200 519540</li> 
+</ul> 
+<h2> <a id="3-리뷰파일-위치-변경-요청" class="anchor" href="#3-%EB%A6%AC%EB%B7%B0%ED%8C%8C%EC%9D%BC-%EC%9C%84%EC%B9%98-%EB%B3%80%EA%B2%BD-%EC%9A%94%EC%B2%AD" aria-hidden="true"><span aria-hidden="true" class="octicon octicon-link"></span></a>3. 리뷰파일 위치 변경 요청</h2> 
 <p>미팅 리뷰파일을 이클립스 내에서 보지 못하는 불편함이 있어서 리뷰파일을 프로젝트 안으로 위치를 변경시켜주셨으면 합니다.</p>
 </body>
 </html>
