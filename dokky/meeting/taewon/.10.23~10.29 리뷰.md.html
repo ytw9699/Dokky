@@ -2,7 +2,7 @@
 <html>
 <head>
 <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
-<title>F:\java\GitApp\Dokky\dokky\meeting\taewon\.10.2~10.8리뷰.md.html</title>
+<title>F:\java\GitApp\Dokky\dokky\meeting\taewon\.10.23~10.29 리뷰.md.html</title>
 
 
 <style type="text/css">
@@ -639,52 +639,58 @@ function setDocumentScrollTop(ypos)
 
 </head>
 <body class="markdown-body">
-<h2> <a id="1-한주간-진행하였던-것들" class="anchor" href="#1-%ED%95%9C%EC%A3%BC%EA%B0%84-%EC%A7%84%ED%96%89%ED%95%98%EC%98%80%EB%8D%98-%EA%B2%83%EB%93%A4" aria-hidden="true"><span aria-hidden="true" class="octicon octicon-link"></span></a>1. 한주간 진행하였던 것들</h2> 
+<h2> <a id="1-ec2의-우분투-서버에서-로그를-찍지-못하는점" class="anchor" href="#1-ec2%EC%9D%98-%EC%9A%B0%EB%B6%84%ED%88%AC-%EC%84%9C%EB%B2%84%EC%97%90%EC%84%9C-%EB%A1%9C%EA%B7%B8%EB%A5%BC-%EC%B0%8D%EC%A7%80-%EB%AA%BB%ED%95%98%EB%8A%94%EC%A0%90" aria-hidden="true"><span aria-hidden="true" class="octicon octicon-link"></span></a>1. ec2의 우분투 서버에서 로그를 찍지 못하는점</h2> 
+<h3> <a id="0-문제점" class="anchor" href="#0-%EB%AC%B8%EC%A0%9C%EC%A0%90" aria-hidden="true"><span aria-hidden="true" class="octicon octicon-link"></span></a>0) 문제점</h3> 
+<p>윈도우의 이클립스의 콜손처럼 우분투에서도 실시간 로그를 확인하고싶은데 실시간 로그를 확인 못하고있다. 보통의경우 카탈리나.out 파일이 존재하는데, 이 파일이 존재하지 않아 계속 헤매고 있다.</p> 
+<h3> <a id="1-시도해본-방법들" class="anchor" href="#1-%EC%8B%9C%EB%8F%84%ED%95%B4%EB%B3%B8-%EB%B0%A9%EB%B2%95%EB%93%A4" aria-hidden="true"><span aria-hidden="true" class="octicon octicon-link"></span></a>1) 시도해본 방법들</h3> 
+<ol> 
+ <li>기본적인 방법 : 명령어로 로그 파일 열기</li> 
+ <li>임시방법: 텍스프 파일에 로그를 찍기</li> 
+ <li>개인블로그에 시도방법들을 정리하였다 : <a href="https://cg-developer.tistory.com/355" rel="nofollow">https://cg-developer.tistory.com/355</a> </li> 
+</ol> 
+<h3> <a id="2-결과" class="anchor" href="#2-%EA%B2%B0%EA%B3%BC" aria-hidden="true"><span aria-hidden="true" class="octicon octicon-link"></span></a>2) 결과</h3> 
 <ul> 
- <li> <p>AWS 계정 MFA활성화 정상 작동 확인</p> </li> 
- <li> <p>RDS 프리티어 재생성시 계속된 막힘 문제</p> </li> 
- <li> <p>S3를 활용한 업로드,다운로드 구현중</p> </li> 
+ <li>로그를 보려하면 권한문제에 걸렸으나 루트계정으로 바꾸어 명령어를 내렸고, 권한문제는 해결하였다.</li> 
+ <li>하지만 보통과는 다르게 catalina.out 파일이 존재하지 않았다..그래서 실시간 로그파일을 볼 수 없었다.</li> 
+ <li>그리고 날짜별로 로그 파일들이 나뉘어져 있었고, 이것 또한 모든로그가 아닌 부분적으로만 찍혀나왔다.</li> 
+ <li>어떠한 요청이 들어간건지 or exception이 발생하면 그 내용을 보여준다.하지만 컨트롤러단에서의 로그를 찍어내지 못한다</li> 
+ <li>그래서 임시방법으로 텍스트 파일에 로그를 찍어보는 수밖에 없었다.</li> 
+ <li>왜.. 완전하게 로그를 찍지 못하는지 모르겠다. 어떻게 접근해가야 완전하게 로그를 찍을까..?</li> 
+ <li>왜 catalina.out 파일이 존재하지 않는것인지?</li> 
+ <li>아니면 다른방식으로 로그가 찍히고 있는것인지?</li> 
+ <li>톰캣버젼이 9.0이라 파일이 존재안하는것인지..?</li> 
+ <li>빌드방식이 문제인것인지?</li> 
+ <li>근본적인 원인을 모르겠다..</li> 
+ <li>로그를 제대로 찍을수없으니 상당히 개발에 불편함과 개발 속도가 느려짐을 느낀다..</li> 
 </ul> 
-<h2> <a id="2-진행중-겪었던-모든것들" class="anchor" href="#2-%EC%A7%84%ED%96%89%EC%A4%91-%EA%B2%AA%EC%97%88%EB%8D%98-%EB%AA%A8%EB%93%A0%EA%B2%83%EB%93%A4" aria-hidden="true"><span aria-hidden="true" class="octicon octicon-link"></span></a>2. 진행중 겪었던 모든것들</h2> 
-<h3> <a id="1-html-a태그에서-파일을-다운로드할때-이름을-변경할수-없을까" class="anchor" href="#1-html-a%ED%83%9C%EA%B7%B8%EC%97%90%EC%84%9C-%ED%8C%8C%EC%9D%BC%EC%9D%84-%EB%8B%A4%EC%9A%B4%EB%A1%9C%EB%93%9C%ED%95%A0%EB%95%8C-%EC%9D%B4%EB%A6%84%EC%9D%84-%EB%B3%80%EA%B2%BD%ED%95%A0%EC%88%98-%EC%97%86%EC%9D%84%EA%B9%8C" aria-hidden="true"><span aria-hidden="true" class="octicon octicon-link"></span></a>1) html a태그에서 파일을 다운로드할때 이름을 변경할수 없을까..?</h3> 
-<p>파일이 uuid 로 이름이 변경되어 저장되있어서 다운로드시 다시 원본이름으로 되돌려줘야 하는문제가 있는데..</p> 
-<p>s3에서 다운로드 하는 가장 쉬운 첫번째 방법은 s3로 업로드된 파일의 링크를 얻어서 다운로드하는것인데</p> 
-<p>이 링크를 a태그 href속성에 입력시켜주면 파일의 원본이름을 가져올수 없다는것이다..</p> 
-<p>a태그의 download 속성값에 download=&quot;dokky.png&quot; 라고 넣어주면 이름이 변경된다고 하는데 소용이없다..</p> 
-<p><a href="https://picksell-bucket.s3.ap-northeast-2.amazonaws.com/upload/2019/10/08/0a38de9a-5d3a-463b-8319-377c821de9d9_dokky.png" rel="nofollow">다운로드</a></p> 
-<p><a href="https://picksell-bucket.s3.ap-northeast-2.amazonaws.com/upload/2019/10/08/0a38de9a-5d3a-463b-8319-377c821de9d9_dokky.png" rel="nofollow">https://picksell-bucket.s3.ap-northeast-2.amazonaws.com/upload/2019/10/08/0a38de9a-5d3a-463b-8319-377c821de9d9_dokky.png</a>&quot; download=&quot;dokky.png&quot;</p> 
-<h3> <a id="2-퍼블릭프라이빗-접근의-복잡한설정문제" class="anchor" href="#2-%ED%8D%BC%EB%B8%94%EB%A6%AD%ED%94%84%EB%9D%BC%EC%9D%B4%EB%B9%97-%EC%A0%91%EA%B7%BC%EC%9D%98-%EB%B3%B5%EC%9E%A1%ED%95%9C%EC%84%A4%EC%A0%95%EB%AC%B8%EC%A0%9C" aria-hidden="true"><span aria-hidden="true" class="octicon octicon-link"></span></a>2) 퍼블릭,프라이빗 접근의 복잡한..설정문제..</h3> 
-<p>s3에서 업로드와 다운로드를 할때 로그인한 회원에게만 파일 업로드와 다운로드를 제공하고싶다.</p> 
-<p>왜냐하면 아무나 외부에서 대량 요청시(다운로드,업로드) 서버 과금발생을 막기 위해서인데,</p> 
-<p>이 설정을 제대로 잡는게 굉장히 복잡하고 진입하기 어렵다..</p> 
-<h3> <a id="업로드의-경우" class="anchor" href="#%EC%97%85%EB%A1%9C%EB%93%9C%EC%9D%98-%EA%B2%BD%EC%9A%B0" aria-hidden="true"><span aria-hidden="true" class="octicon octicon-link"></span></a>업로드의 경우///////////////////////////////////////////////////</h3> 
-<p>ec2에서 s3로 업로드를 할때 aws계정 인증이 기본적으로 필요하다</p> 
-<p>첫번째 방법은 : aws루투 계정에서 하위 사용자(s3의 모든 관리 권한이 부여된)의 계정을 생성한다.</p> 
-<p>그리고 업로드전 자바 코드안에 이 사용자의 Access key ID와 Secret access key를 입력하여 증명을 한다.</p> 
-<p>하지만 이 방법이 느낌상 좋지않다. 코드안에 중요한 아이디와 비밀번호가 들어간다는것 자체부터..좋지않다.</p> 
-<p>두번재 방법은: IAM 역할이라는 것이있는데, 이 하나의 역할에 정책(AmazonS3FullAccess)을 만들고 이 역할을 EC2에 적용해준다.</p> 
-<p>그러면 ec2에서 s3로 접근할시에는 s3의 모든 관리 권한을 EC2는 부여받는것이다.</p> 
-<p>이렇게 되면 굳이 사용자라는것을 안만들어도, Access key ID와 Secret access key를 코드상에 입력하지 않아도, s3의 관리 권한을 가진다고 알고있다.</p> 
-<p>그래서 IAM 역할을 EC2에 적용까지 해놓았는데 빌드가 계속 실패되서 테스트를 못하고있다..현재는 사용자로 접속해서 하는중..</p> 
-<h3> <a id="다운로드의-경우-" class="anchor" href="#%EB%8B%A4%EC%9A%B4%EB%A1%9C%EB%93%9C%EC%9D%98-%EA%B2%BD%EC%9A%B0-" aria-hidden="true"><span aria-hidden="true" class="octicon octicon-link"></span></a>다운로드의 경우 ///////////////////////////////////////////////////</h3> 
-<p>첫번째 : 링크를 받아서 다운받게 되면</p> 
-<p>문제점 1. 파일의 이름변경을 못한다.</p> 
-<p>문제점 2. 퍼블릭으로 아무나 접근해서 다운받을수있다. 이걸어떻게 못막는것인가..</p> 
-<p>두번째: 업로드처럼 EC2에 IAM 역할적용해서 직접 다운로드 구현..</p> 
-<p>원래 구현되어있던 다운로드 방식과 s3의 api를 이용한 다운로드방식이 달라서 어떻게 조합을 해야할지 헤매고있다..</p> 
-<h3> <a id="3-s3로-업로드-해야할-항목은" class="anchor" href="#3-s3%EB%A1%9C-%EC%97%85%EB%A1%9C%EB%93%9C-%ED%95%B4%EC%95%BC%ED%95%A0-%ED%95%AD%EB%AA%A9%EC%9D%80" aria-hidden="true"><span aria-hidden="true" class="octicon octicon-link"></span></a>3) s3로 업로드 해야할 항목은..?</h3> 
-<p>기존에는 ec2로 파일과,이미지 모두 올리고 있었다.</p> 
-<p>그런데 이것을 S3로 파일과 이미지를 바꿔 올리려한다.</p> 
-<p>현재, ec2의 경우 750시간,30GB 무료이고</p> 
-<p>S3의 경우는 표준 스토리지 5GB, GET 요청 20,000건, PUT 요청 2,000건으로 트래픽에 대한 요금이 발생한다.</p> 
-<p>이해할 수 없는건 벌써 S3의 경우 일주일도 안되서 30퍼센트 GET 요청이 이루어졌다.</p> 
-<p>이대로 가다간 금방 과금이 발생할것만 같다. 저 정도의 요청을 하지는 않았던것 같은데..</p> 
-<p>S3의 경우 트래픽에 대한 요금이 발생해 굉장히 조심스럽다..</p> 
-<p>게시글의 다운로드 파일같은경우는 회원들이 클릭을 할때만 S3로 요청을 하겠지만,</p> 
-<p>이미지 파일같은경우는 비회원까지 포함해서 게시글을 읽는 것만으로도 요청이 수많이 들어갈텐데</p> 
-<p>그러면 이미지들은 그냥 EC2에다가 저장을 하는것이 비용문제를 줄일수 있는것일까..?</p> 
-<p>현재 게시글 쓰기 페이지에서 파일과,이미지를 올릴수 있는데..</p> 
-<p>문제는 이미지도 s3로 올려야 하는지 잘 모르겠다.</p> 
-<p>ec2와 분리해서 s3를 사용하는 이유가 있을텐데..</p>
+<h3> <a id="3-배운점과-느낀점" class="anchor" href="#3-%EB%B0%B0%EC%9A%B4%EC%A0%90%EA%B3%BC-%EB%8A%90%EB%82%80%EC%A0%90" aria-hidden="true"><span aria-hidden="true" class="octicon octicon-link"></span></a>3) 배운점과 느낀점</h3> 
+<ol> 
+ <li> <p>로그 파일을 찾기 위해서 리눅스 명령어들이 필요했고, 잘 모르던 리눅스 명령어들을 알아봄으로써,평소 부족했던 기본적인 리눅스 명령어들을 익힐 수 있었다.</p> </li> 
+ <li> <p>리눅스에서도 보안문제 때문에 루트계정과 사용자 계정을 나누어 사용한다는것을 알게 되었다.</p> </li> 
+ <li> <p>로그를 계속해서 찍지 못하면 급한데로 임시적인 방법이지만 , 텍스트 파일을 만들어 직접 로그를 찍어봄으로써 상황적인 대응력을 키울수 있었던것 같다.</p> </li> 
+ <li> <p>구글링으로 계속 찾아보다가 원하는 답을 못찾는다면. 이것저것 시도해보는것도 문제를 해결하는 실마리를 찾을수 있을것같다.</p> </li> 
+</ol> 
+<p>현재 로그를 완전히 찍을수 있는것은 아니지만, 부분적으로 로그를 찍어낼수 있었던것도 계속해서 이것저것 아무거나 다 시도해보면서</p> 
+<p>알아낼수 있었기 때문이다.</p> 
+<h2> <a id="2-로컬호스트에서-s3로의-업로드는-가능-ec2에서-업로드-불가-문제" class="anchor" href="#2-%EB%A1%9C%EC%BB%AC%ED%98%B8%EC%8A%A4%ED%8A%B8%EC%97%90%EC%84%9C-s3%EB%A1%9C%EC%9D%98-%EC%97%85%EB%A1%9C%EB%93%9C%EB%8A%94-%EA%B0%80%EB%8A%A5-ec2%EC%97%90%EC%84%9C-%EC%97%85%EB%A1%9C%EB%93%9C-%EB%B6%88%EA%B0%80-%EB%AC%B8%EC%A0%9C" aria-hidden="true"><span aria-hidden="true" class="octicon octicon-link"></span></a>2. 로컬호스트에서 s3로의 업로드는 가능, ec2에서 업로드 불가 문제</h2> 
+<h3> <a id="0-문제점-1" class="anchor" href="#0-%EB%AC%B8%EC%A0%9C%EC%A0%90-1" aria-hidden="true"><span aria-hidden="true" class="octicon octicon-link"></span></a>0) 문제점</h3> 
+<p>똑같은 코드로 로컬호스트에서 s3로 파일을 업로드시 업로드가 됬다. 하지만 똑같은 코드로 우분투에서 배포후 s2로 업로드시 되지 않는 문제.</p> 
+<h3> <a id="1-시도해본-방법들-1" class="anchor" href="#1-%EC%8B%9C%EB%8F%84%ED%95%B4%EB%B3%B8-%EB%B0%A9%EB%B2%95%EB%93%A4-1" aria-hidden="true"><span aria-hidden="true" class="octicon octicon-link"></span></a>1) 시도해본 방법들</h3> 
+<ol> 
+ <li>s3로의 접근 할수 있는 ip와 관련된 보안 확인</li> 
+ <li>aws 설정 확인</li> 
+ <li>로그를 확인해보려함</li> 
+ <li>배포전과 후의 코드를 계속 비교</li> 
+</ol> 
+<h3> <a id="2-결과-1" class="anchor" href="#2-%EA%B2%B0%EA%B3%BC-1" aria-hidden="true"><span aria-hidden="true" class="octicon octicon-link"></span></a>2) 결과</h3> 
+<p>운영체제가 다름으로써 경로 설정의 문제였다. 로컬호스트는 윈도우이고, ec2는 우분투이다. 그래서 파일업로드시 web.xml의 경로설정을 다르게 설정하여야 했다.</p> 
+<h3> <a id="3-배운점과-느낀점-1" class="anchor" href="#3-%EB%B0%B0%EC%9A%B4%EC%A0%90%EA%B3%BC-%EB%8A%90%EB%82%80%EC%A0%90-1" aria-hidden="true"><span aria-hidden="true" class="octicon octicon-link"></span></a>3) 배운점과 느낀점</h3> 
+<ol> 
+ <li> <p>이 문제를 해결하는데 오랜기간 걸린이유가 로그를 계속해서 찍고있지 못해서 원인을 제대로 파악하기 힘들었다. 어떤 문제를 해결하려면 순차적으로 해결해야함을 느꼈다. 로그확인 없이 문제점을 해결하는것은 더 많은 시간이 소비되는것 같다.</p> </li> 
+ <li> <p>컨트롤러,뷰단에서 경로 설정을 우분투이기 때문에 다르게 설정을 해두었기에, 경로에는 전혀문제가 없다고 느꼈다. 그런데 매일 ,매시간 보는 컨트롤러와 뷰쪽이 아닌..web.xml과 같은 설정파일에도 업로드 경로설정이 있었던것을 까막득히 잊고 있었다. 무언가 문제점이 계속해서 해결이 안될때 너무 한쪽으로만 파고 집중해서 찾다보니, 여러 변수들을 생각 못하게 된것 같다. 여러 방면에서 문제가 있지 않을까?라는 생각의 전환이 필요한것같다. 사실 문제는 엄청 허무하게 풀린것이였는데..</p> </li> 
+</ol> 
+<h2> <a id="3-프로젝트-복구-문제" class="anchor" href="#3-%ED%94%84%EB%A1%9C%EC%A0%9D%ED%8A%B8-%EB%B3%B5%EA%B5%AC-%EB%AC%B8%EC%A0%9C" aria-hidden="true"><span aria-hidden="true" class="octicon octicon-link"></span></a>3. 프로젝트 복구 문제..</h2> 
+<h3> <a id="0-문제점-2" class="anchor" href="#0-%EB%AC%B8%EC%A0%9C%EC%A0%90-2" aria-hidden="true"><span aria-hidden="true" class="octicon octicon-link"></span></a>0) 문제점</h3> 
+<p>소스트리를 통해 새로운 브랜치를 만들다가 본 프로젝트에 구성에 문제가 생긴것같다. 어떠한 파일을 잘못만져.. 현재 프로젝트가 온통 빨간줄과 함께 실행이 되지않는다..복구를 못하고있다..</p>
 </body>
 </html>

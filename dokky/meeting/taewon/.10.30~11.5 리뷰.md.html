@@ -2,7 +2,7 @@
 <html>
 <head>
 <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
-<title>F:\java\GitApp\Dokky\dokky\meeting\taewon\.10.2~10.8리뷰.md.html</title>
+<title>F:\java\GitApp\Dokky\dokky\meeting\taewon\.10.30~11.5 리뷰.md.html</title>
 
 
 <style type="text/css">
@@ -639,52 +639,27 @@ function setDocumentScrollTop(ypos)
 
 </head>
 <body class="markdown-body">
-<h2> <a id="1-한주간-진행하였던-것들" class="anchor" href="#1-%ED%95%9C%EC%A3%BC%EA%B0%84-%EC%A7%84%ED%96%89%ED%95%98%EC%98%80%EB%8D%98-%EA%B2%83%EB%93%A4" aria-hidden="true"><span aria-hidden="true" class="octicon octicon-link"></span></a>1. 한주간 진행하였던 것들</h2> 
+<h2> <a id="1-ec2의-우분투-서버에서-로그를-찍지-못하는점" class="anchor" href="#1-ec2%EC%9D%98-%EC%9A%B0%EB%B6%84%ED%88%AC-%EC%84%9C%EB%B2%84%EC%97%90%EC%84%9C-%EB%A1%9C%EA%B7%B8%EB%A5%BC-%EC%B0%8D%EC%A7%80-%EB%AA%BB%ED%95%98%EB%8A%94%EC%A0%90" aria-hidden="true"><span aria-hidden="true" class="octicon octicon-link"></span></a>1. ec2의 우분투 서버에서 로그를 찍지 못하는점</h2> 
+<h3> <a id="0-문제점" class="anchor" href="#0-%EB%AC%B8%EC%A0%9C%EC%A0%90" aria-hidden="true"><span aria-hidden="true" class="octicon octicon-link"></span></a>0) 문제점</h3> 
+<h3> <a id="1-시도해본-방법들" class="anchor" href="#1-%EC%8B%9C%EB%8F%84%ED%95%B4%EB%B3%B8-%EB%B0%A9%EB%B2%95%EB%93%A4" aria-hidden="true"><span aria-hidden="true" class="octicon octicon-link"></span></a>1) 시도해본 방법들</h3> 
+<ol> 
+ <li>기본적인 방법</li> 
+</ol> 
+<h3> <a id="2-결과" class="anchor" href="#2-%EA%B2%B0%EA%B3%BC" aria-hidden="true"><span aria-hidden="true" class="octicon octicon-link"></span></a>2) 결과</h3> 
 <ul> 
- <li> <p>AWS 계정 MFA활성화 정상 작동 확인</p> </li> 
- <li> <p>RDS 프리티어 재생성시 계속된 막힘 문제</p> </li> 
- <li> <p>S3를 활용한 업로드,다운로드 구현중</p> </li> 
+ <li>로그를 보려하면 권한문제에 걸렸으나 루트계정으로 바꾸어 명령어를</li> 
 </ul> 
-<h2> <a id="2-진행중-겪었던-모든것들" class="anchor" href="#2-%EC%A7%84%ED%96%89%EC%A4%91-%EA%B2%AA%EC%97%88%EB%8D%98-%EB%AA%A8%EB%93%A0%EA%B2%83%EB%93%A4" aria-hidden="true"><span aria-hidden="true" class="octicon octicon-link"></span></a>2. 진행중 겪었던 모든것들</h2> 
-<h3> <a id="1-html-a태그에서-파일을-다운로드할때-이름을-변경할수-없을까" class="anchor" href="#1-html-a%ED%83%9C%EA%B7%B8%EC%97%90%EC%84%9C-%ED%8C%8C%EC%9D%BC%EC%9D%84-%EB%8B%A4%EC%9A%B4%EB%A1%9C%EB%93%9C%ED%95%A0%EB%95%8C-%EC%9D%B4%EB%A6%84%EC%9D%84-%EB%B3%80%EA%B2%BD%ED%95%A0%EC%88%98-%EC%97%86%EC%9D%84%EA%B9%8C" aria-hidden="true"><span aria-hidden="true" class="octicon octicon-link"></span></a>1) html a태그에서 파일을 다운로드할때 이름을 변경할수 없을까..?</h3> 
-<p>파일이 uuid 로 이름이 변경되어 저장되있어서 다운로드시 다시 원본이름으로 되돌려줘야 하는문제가 있는데..</p> 
-<p>s3에서 다운로드 하는 가장 쉬운 첫번째 방법은 s3로 업로드된 파일의 링크를 얻어서 다운로드하는것인데</p> 
-<p>이 링크를 a태그 href속성에 입력시켜주면 파일의 원본이름을 가져올수 없다는것이다..</p> 
-<p>a태그의 download 속성값에 download=&quot;dokky.png&quot; 라고 넣어주면 이름이 변경된다고 하는데 소용이없다..</p> 
-<p><a href="https://picksell-bucket.s3.ap-northeast-2.amazonaws.com/upload/2019/10/08/0a38de9a-5d3a-463b-8319-377c821de9d9_dokky.png" rel="nofollow">다운로드</a></p> 
-<p><a href="https://picksell-bucket.s3.ap-northeast-2.amazonaws.com/upload/2019/10/08/0a38de9a-5d3a-463b-8319-377c821de9d9_dokky.png" rel="nofollow">https://picksell-bucket.s3.ap-northeast-2.amazonaws.com/upload/2019/10/08/0a38de9a-5d3a-463b-8319-377c821de9d9_dokky.png</a>&quot; download=&quot;dokky.png&quot;</p> 
-<h3> <a id="2-퍼블릭프라이빗-접근의-복잡한설정문제" class="anchor" href="#2-%ED%8D%BC%EB%B8%94%EB%A6%AD%ED%94%84%EB%9D%BC%EC%9D%B4%EB%B9%97-%EC%A0%91%EA%B7%BC%EC%9D%98-%EB%B3%B5%EC%9E%A1%ED%95%9C%EC%84%A4%EC%A0%95%EB%AC%B8%EC%A0%9C" aria-hidden="true"><span aria-hidden="true" class="octicon octicon-link"></span></a>2) 퍼블릭,프라이빗 접근의 복잡한..설정문제..</h3> 
-<p>s3에서 업로드와 다운로드를 할때 로그인한 회원에게만 파일 업로드와 다운로드를 제공하고싶다.</p> 
-<p>왜냐하면 아무나 외부에서 대량 요청시(다운로드,업로드) 서버 과금발생을 막기 위해서인데,</p> 
-<p>이 설정을 제대로 잡는게 굉장히 복잡하고 진입하기 어렵다..</p> 
-<h3> <a id="업로드의-경우" class="anchor" href="#%EC%97%85%EB%A1%9C%EB%93%9C%EC%9D%98-%EA%B2%BD%EC%9A%B0" aria-hidden="true"><span aria-hidden="true" class="octicon octicon-link"></span></a>업로드의 경우///////////////////////////////////////////////////</h3> 
-<p>ec2에서 s3로 업로드를 할때 aws계정 인증이 기본적으로 필요하다</p> 
-<p>첫번째 방법은 : aws루투 계정에서 하위 사용자(s3의 모든 관리 권한이 부여된)의 계정을 생성한다.</p> 
-<p>그리고 업로드전 자바 코드안에 이 사용자의 Access key ID와 Secret access key를 입력하여 증명을 한다.</p> 
-<p>하지만 이 방법이 느낌상 좋지않다. 코드안에 중요한 아이디와 비밀번호가 들어간다는것 자체부터..좋지않다.</p> 
-<p>두번재 방법은: IAM 역할이라는 것이있는데, 이 하나의 역할에 정책(AmazonS3FullAccess)을 만들고 이 역할을 EC2에 적용해준다.</p> 
-<p>그러면 ec2에서 s3로 접근할시에는 s3의 모든 관리 권한을 EC2는 부여받는것이다.</p> 
-<p>이렇게 되면 굳이 사용자라는것을 안만들어도, Access key ID와 Secret access key를 코드상에 입력하지 않아도, s3의 관리 권한을 가진다고 알고있다.</p> 
-<p>그래서 IAM 역할을 EC2에 적용까지 해놓았는데 빌드가 계속 실패되서 테스트를 못하고있다..현재는 사용자로 접속해서 하는중..</p> 
-<h3> <a id="다운로드의-경우-" class="anchor" href="#%EB%8B%A4%EC%9A%B4%EB%A1%9C%EB%93%9C%EC%9D%98-%EA%B2%BD%EC%9A%B0-" aria-hidden="true"><span aria-hidden="true" class="octicon octicon-link"></span></a>다운로드의 경우 ///////////////////////////////////////////////////</h3> 
-<p>첫번째 : 링크를 받아서 다운받게 되면</p> 
-<p>문제점 1. 파일의 이름변경을 못한다.</p> 
-<p>문제점 2. 퍼블릭으로 아무나 접근해서 다운받을수있다. 이걸어떻게 못막는것인가..</p> 
-<p>두번째: 업로드처럼 EC2에 IAM 역할적용해서 직접 다운로드 구현..</p> 
-<p>원래 구현되어있던 다운로드 방식과 s3의 api를 이용한 다운로드방식이 달라서 어떻게 조합을 해야할지 헤매고있다..</p> 
-<h3> <a id="3-s3로-업로드-해야할-항목은" class="anchor" href="#3-s3%EB%A1%9C-%EC%97%85%EB%A1%9C%EB%93%9C-%ED%95%B4%EC%95%BC%ED%95%A0-%ED%95%AD%EB%AA%A9%EC%9D%80" aria-hidden="true"><span aria-hidden="true" class="octicon octicon-link"></span></a>3) s3로 업로드 해야할 항목은..?</h3> 
-<p>기존에는 ec2로 파일과,이미지 모두 올리고 있었다.</p> 
-<p>그런데 이것을 S3로 파일과 이미지를 바꿔 올리려한다.</p> 
-<p>현재, ec2의 경우 750시간,30GB 무료이고</p> 
-<p>S3의 경우는 표준 스토리지 5GB, GET 요청 20,000건, PUT 요청 2,000건으로 트래픽에 대한 요금이 발생한다.</p> 
-<p>이해할 수 없는건 벌써 S3의 경우 일주일도 안되서 30퍼센트 GET 요청이 이루어졌다.</p> 
-<p>이대로 가다간 금방 과금이 발생할것만 같다. 저 정도의 요청을 하지는 않았던것 같은데..</p> 
-<p>S3의 경우 트래픽에 대한 요금이 발생해 굉장히 조심스럽다..</p> 
-<p>게시글의 다운로드 파일같은경우는 회원들이 클릭을 할때만 S3로 요청을 하겠지만,</p> 
-<p>이미지 파일같은경우는 비회원까지 포함해서 게시글을 읽는 것만으로도 요청이 수많이 들어갈텐데</p> 
-<p>그러면 이미지들은 그냥 EC2에다가 저장을 하는것이 비용문제를 줄일수 있는것일까..?</p> 
-<p>현재 게시글 쓰기 페이지에서 파일과,이미지를 올릴수 있는데..</p> 
-<p>문제는 이미지도 s3로 올려야 하는지 잘 모르겠다.</p> 
-<p>ec2와 분리해서 s3를 사용하는 이유가 있을텐데..</p>
+<h3> <a id="3-배운점과-느낀점" class="anchor" href="#3-%EB%B0%B0%EC%9A%B4%EC%A0%90%EA%B3%BC-%EB%8A%90%EB%82%80%EC%A0%90" aria-hidden="true"><span aria-hidden="true" class="octicon octicon-link"></span></a>3) 배운점과 느낀점</h3> 
+<ol> 
+ <li> </li> 
+</ol> 
+<h2> <a id="2-로컬호스트에서-s3로의-업로드는-가능-ec2에서-업로드-불가-문제" class="anchor" href="#2-%EB%A1%9C%EC%BB%AC%ED%98%B8%EC%8A%A4%ED%8A%B8%EC%97%90%EC%84%9C-s3%EB%A1%9C%EC%9D%98-%EC%97%85%EB%A1%9C%EB%93%9C%EB%8A%94-%EA%B0%80%EB%8A%A5-ec2%EC%97%90%EC%84%9C-%EC%97%85%EB%A1%9C%EB%93%9C-%EB%B6%88%EA%B0%80-%EB%AC%B8%EC%A0%9C" aria-hidden="true"><span aria-hidden="true" class="octicon octicon-link"></span></a>2. 로컬호스트에서 s3로의 업로드는 가능, ec2에서 업로드 불가 문제</h2> 
+<h3> <a id="0-문제점-1" class="anchor" href="#0-%EB%AC%B8%EC%A0%9C%EC%A0%90-1" aria-hidden="true"><span aria-hidden="true" class="octicon octicon-link"></span></a>0) 문제점</h3> 
+<h3> <a id="1-시도해본-방법들-1" class="anchor" href="#1-%EC%8B%9C%EB%8F%84%ED%95%B4%EB%B3%B8-%EB%B0%A9%EB%B2%95%EB%93%A4-1" aria-hidden="true"><span aria-hidden="true" class="octicon octicon-link"></span></a>1) 시도해본 방법들</h3> 
+<h3> <a id="2-결과-1" class="anchor" href="#2-%EA%B2%B0%EA%B3%BC-1" aria-hidden="true"><span aria-hidden="true" class="octicon octicon-link"></span></a>2) 결과</h3> 
+<h3> <a id="3-배운점과-느낀점-1" class="anchor" href="#3-%EB%B0%B0%EC%9A%B4%EC%A0%90%EA%B3%BC-%EB%8A%90%EB%82%80%EC%A0%90-1" aria-hidden="true"><span aria-hidden="true" class="octicon octicon-link"></span></a>3) 배운점과 느낀점</h3> 
+<ol> 
+ <li> </li> 
+</ol>
 </body>
 </html>
