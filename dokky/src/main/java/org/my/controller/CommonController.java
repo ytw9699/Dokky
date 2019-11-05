@@ -61,6 +61,14 @@ public class CommonController {
 		
 		return "common/main";
 	}
+	@RequestMapping(value = "/main2.do", method = RequestMethod.GET)
+	public String main2(Model model) {
+		
+		log.info("/main2");
+		
+		return "common/main2";
+	}
+	
 	@RequestMapping(value = "/", method = RequestMethod.GET)
 	public String home(Locale locale, Model model) {
 		
