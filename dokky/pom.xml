@@ -248,6 +248,7 @@
 	    <version>1.11.267</version>
 	</dependency> -->
 	
+	<!-- aws s3 관련 sdk -->
 	<dependency>
 	    <groupId>com.amazonaws</groupId>
 	    <artifactId>aws-java-sdk</artifactId>
