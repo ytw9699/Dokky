@@ -16,6 +16,8 @@
 	<dependencies>
 		
 		<!-- 시큐리티  -->
+	<!-- 		스프링 공식 문서에는 spring-security-web만이 존재하지만 다양한 처리를 위해서는 아래와
+	같이 3개의 파일을 받고, 3개의 파일은 동일한 버전으로 맞춰야 한다. -->
 			<dependency>
 			    <groupId>org.springframework.security</groupId>
 			    <artifactId>spring-security-web</artifactId>
@@ -34,6 +36,7 @@
 			    <version>5.0.7.RELEASE</version>
 			</dependency>
 			
+			<!-- JSP에서는 스프링 시큐리티 관련된 태그 라이브러리를 활용할 수 있도록 springsecurity-taglib 을 추가 -->
 			<dependency>
 			    <groupId>org.springframework.security</groupId>
 			    <artifactId>spring-security-taglibs</artifactId>
@@ -314,7 +317,7 @@
 		            <url>http://52.79.82.204:8080/manager/text</url>
 		            <path>/dokky</path>
 		            <username>admin</username>
-		            <password>5689</password>
+		            <password>568954</password>
 		        </configuration>
 		    </plugin>
 		    <!-- 메이븐을 통한 서버 배포 --> 
