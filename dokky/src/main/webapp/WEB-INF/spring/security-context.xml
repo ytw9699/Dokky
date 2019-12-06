@@ -19,7 +19,8 @@
 		<security:access-denied-handler ref="customAccessDenied" />
 		
 		<security:form-login login-page="/customLogin" authentication-failure-handler-ref="loginFailHandler"/>
-	
+	 	<!-- 스프링 시큐리티의 시작 지점이 필요 -->
+	 
 		 <security:remember-me data-source-ref="dataSource" token-validity-seconds="604800" />
 		
 		<security:logout logout-url="/customLogout" invalidate-session="true" delete-cookies="remember-me,JSESSION_ID" />
@@ -32,6 +33,7 @@
 	</security:http>
 	
 	<security:authentication-manager>
+	<!-- 스프링 시큐리티가 동작하기 위해서는 Authentication Manager라는 존재 필요 -->
 	
 		<security:authentication-provider user-service-ref="customUserDetailsService">
 		
