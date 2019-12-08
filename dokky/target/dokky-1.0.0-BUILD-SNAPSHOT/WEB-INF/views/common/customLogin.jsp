@@ -72,7 +72,7 @@
 	      var profile = gauth.currentUser.get().getBasicProfile();
 	      
           nameTxt.innerHTML = '<strong>'+profile.getName()+'</strong> ';
-          console.log(profile.profile.getImageUrl());
+          console.log(profile.getImageUrl());
 	        
 	    } else {
 	      console.log('logouted');
