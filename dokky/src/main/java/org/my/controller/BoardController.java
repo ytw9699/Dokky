@@ -36,7 +36,7 @@ package org.my.controller;
 @Log4j
 @RequestMapping("/board/*")
 @AllArgsConstructor
-public class BoardController {
+public class BoardController {//
 
 	private BoardService service;
 	
