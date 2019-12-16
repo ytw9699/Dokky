@@ -74,7 +74,7 @@ public class CommonController {
 	}
 	
 	@GetMapping("/adminError")
-	public String adminError(Model model) {
+	public String adminError(Model model) {//관리자 리스트 접근 제한 에러페이지
 
 		log.info("/adminError");
 		
@@ -83,20 +83,20 @@ public class CommonController {
 		return "error/accessError";  
 	}
 
-	@GetMapping("/accessError")
+	@GetMapping("/accessError")//공통 접근제한 에러페이지
 	public String accessDenied(Authentication auth, Model model) {//Authentication 타입의 파라미터를 받도록 설계해서 필요한 경우에 사용자의 정보를 확인할 수 있도록
 		
 		log.info("/accessError");
 		
 		log.info("access Denied : " + auth); 
  
-		model.addAttribute("msg", "접근 권한이 없습니다.관리자에게 문의해주세요.");
+		model.addAttribute("msg", "접근 권한이 없습니다. 관리자에게 문의해주세요.");
 		
 		return "error/accessError";
 	}   
 
-	@GetMapping("/customLogin")
-	public String loginInput(String error, String logout,String check, Model model) throws UnsupportedEncodingException {
+	@GetMapping("/customLogin")//커스톰 로그인 페이지는 반드시 get방식 이여야한다.시큐리티의 특성임
+	public String loginInput(String error, String logout, String check, Model model) throws UnsupportedEncodingException {
 		
 		log.info("/customLogin");
 		log.info("error: " + error);
