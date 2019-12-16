@@ -10,9 +10,9 @@ package org.my.security;
 
 @Log4j
 public class CustomAccessDeniedHandler implements AccessDeniedHandler {
-	/*쿠키나 세션에 특정한
-	작업을 하거나 HttpServletResponse에 특정한 헤더 정보를 추가하는 등의 행위를 할
-	경우에는 직접 구현하는 방식이 더 권장*/
+	/*쿠키나 세션에 특정한 작업을 하거나 HttpServletResponse에 특정한 헤더 정보를 추가하는 등의 행위를 할
+	경우에는 지금처럼 직접 구현하는 방식이 더 권장*/
+	
   @Override
   public void handle(HttpServletRequest request, 
       HttpServletResponse response, AccessDeniedException accessException)
