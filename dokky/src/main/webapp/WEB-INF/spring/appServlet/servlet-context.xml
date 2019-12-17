@@ -35,7 +35,8 @@
 	
 	<context:component-scan base-package="org.my.controller" />
 	
-	<security:global-method-security
-		pre-post-annotations="enabled" secured-annotations="enabled" />
+	<security:global-method-security pre-post-annotations="enabled" secured-annotations="enabled" />
+		<!-- 어노테이션을 이용하는 스프링 시큐리티 설정 / 어노테이션은 기본으로 ’disabled’되어 있으므로 enabled'로 설정 -->
+		<!-- 어노테이션을 활성화하기 위해서는 스프링 MVC의 설정을 담당하는 servlet-context.xml에 관련 설정이 추가된다는 점 -->
 		
 </beans:beans>

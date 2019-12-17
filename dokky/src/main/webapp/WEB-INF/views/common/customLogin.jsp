@@ -9,6 +9,9 @@
 	<meta charset="utf-8"> 
 	<title>Dokky - 로그인</title>
 	<link href="/dokky/resources/css/customLogin.css" rel="stylesheet" type="text/css"/>
+	<!-- <script src="https://apis.google.com/js/platform.js" async defer></script> -->
+	<script src="https://apis.google.com/js/platform.js?onload=init" async defer></script>
+	<!-- <meta name="google-signin-client_id" content="749898735018-a2kvi2854s1v85pfel1097as260uivu2.apps.googleusercontent.com"> -->
 </head>
 <body> 
 <div class="loginWrap">
@@ -31,6 +34,21 @@
 				</div> 
 				
 				<div class="form-group loginGroup">
+					<!-- <div class="g-signin2" data-onsuccess="onSignIn"></div> -->
+					<span id="name"></span>
+					<input type="button" id="loginBtn" value="checking..." onclick="
+					    if(this.value === 'Login'){
+					      gauth.signIn().then(function(){
+					        console.log('gauth.signIn()');
+					        checkLoginStatus();
+					      });
+					    } else {
+					      gauth.signOut().then(function(){
+					        console.log('gauth.signOut()');
+					        checkLoginStatus();
+					      });
+					    }
+					  ">
 					<button class="btn" id="login" >로그인</button>
 					<button class="btn" id="join">회원가입</button>
 				</div>
@@ -41,7 +59,59 @@
 </div>
 <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
 <script>
-	  	
+	
+	function checkLoginStatus(){
+		
+	    var loginBtn = document.querySelector('#loginBtn');
+	    var nameTxt = document.querySelector('#name');
+	    
+	    if(gauth.isSignedIn.get()){//로그인 되어있으면 true
+	      console.log('logined');
+	      loginBtn.value = 'Logout';
+	      
+	      var profile = gauth.currentUser.get().getBasicProfile();
+	      
+          nameTxt.innerHTML = '<strong>'+profile.getName()+'</strong> ';
+          console.log(profile.getImageUrl());
+	        
+	    } else {
+	      console.log('logouted');
+	      loginBtn.value = 'Login';
+	      
+	      nameTxt.innerHTML = '';
+	    }
+    }
+  
+	function init(){
+		
+	      console.log('init');
+	      
+	      gapi.load('auth2', function() {
+	    	  
+		        console.log('auth2');
+		        
+		        window.gauth = gapi.auth2.init({
+		          	client_id:'749898735018-a2kvi2854s1v85pfel1097as260uivu2.apps.googleusercontent.com'
+		        })
+		        
+		        gauth.then(function(){
+		          	console.log('googleAuth success');
+		          	checkLoginStatus();
+		        }, function(){
+		          	console.log('googleAuth fail');
+		          	checkLoginStatus();
+		        });
+	      });
+    }
+	
+	/* function onSignIn(googleUser) {
+		  var profile = googleUser.getBasicProfile();
+		  console.log('ID: ' + profile.getId()); // Do not send to your backend! Use an ID token instead.
+		  console.log('Name: ' + profile.getName());
+		  console.log('Image URL: ' + profile.getImageUrl());
+		  console.log('Email: ' + profile.getEmail()); // This is null if the 'email' scope is not present.
+	} */
+	
 	function checkLength(obj, maxByte) { 
 		 
 		if(obj.tagName === "INPUT" || obj.tagName === "TEXTAREA"){ 
