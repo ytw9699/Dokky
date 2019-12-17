@@ -10,7 +10,8 @@
 	<title>Dokky - 로그인</title>
 	<link href="/dokky/resources/css/customLogin.css" rel="stylesheet" type="text/css"/>
 	<!-- <script src="https://apis.google.com/js/platform.js" async defer></script> -->
-	<script src="https://apis.google.com/js/platform.js?onload=init" async defer></script>
+		 <script src="https://apis.google.com/js/platform.js?onload=init" async defer></script>
+		 <!-- onload는 호출이끝났을때 init함수를 호출 --> 
 	<!-- <meta name="google-signin-client_id" content="749898735018-a2kvi2854s1v85pfel1097as260uivu2.apps.googleusercontent.com"> -->
 </head>
 <body> 
@@ -34,16 +35,18 @@
 				</div> 
 				
 				<div class="form-group loginGroup">
-					<!-- <div class="g-signin2" data-onsuccess="onSignIn"></div> -->
+					<!-- <div class="g-signin2" data-onsuccess="onSignIn"></div> 
+					onSignIn은 로그인이끝났을때 onSignIn함수를 구글 자스 sdk가 호출할것이다
+					-->
 					<span id="name"></span>
 					<input type="button" id="loginBtn" value="checking..." onclick="
 					    if(this.value === 'Login'){
-					      gauth.signIn().then(function(){
+					      gauth.signIn().then(function(){//로그인하는것
 					        console.log('gauth.signIn()');
 					        checkLoginStatus();
 					      });
 					    } else {
-					      gauth.signOut().then(function(){
+					      gauth.signOut().then(function(){//로그아웃하는것
 					        console.log('gauth.signOut()');
 					        checkLoginStatus();
 					      });
@@ -69,7 +72,7 @@
 	      console.log('logined');
 	      loginBtn.value = 'Logout';
 	      
-	      var profile = gauth.currentUser.get().getBasicProfile();
+	      var profile = gauth.currentUser.get().getBasicProfile();//currentUser현재유저의 기본프로필을 얻는다라는뜻
 	      
           nameTxt.innerHTML = '<strong>'+profile.getName()+'</strong> ';
           console.log(profile.getImageUrl());
@@ -86,13 +89,13 @@
 		
 	      console.log('init');
 	      
-	      gapi.load('auth2', function() {
+	      gapi.load('auth2', function() {//gapi는 구글api인데, OAuth와 관련된 라이브러리 기능들만을 부분적으로 로드하는 코드 이지 않을까,그 로드가 끝나면 함수가 실행될것이다.
 	    	  
 		        console.log('auth2');
 		        
-		        window.gauth = gapi.auth2.init({
-		          	client_id:'749898735018-a2kvi2854s1v85pfel1097as260uivu2.apps.googleusercontent.com'
-		        })
+		        window.gauth = gapi.auth2.init({//init 초기화 //gauth는 전역변수
+		          	client_id:'749898735018-a2kvi2854s1v85pfel1097as260uivu2.apps.googleusercontent.com'//파라미터에 객체전달
+		        })//그러면 GoogleAuth를 리턴한다 그것을 gauth라는 이름의 변수에 담는다.
 		        
 		        gauth.then(function(){
 		          	console.log('googleAuth success');
