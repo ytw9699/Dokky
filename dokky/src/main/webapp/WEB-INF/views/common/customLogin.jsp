@@ -39,7 +39,7 @@
 					onSignIn은 로그인이끝났을때 onSignIn함수를 구글 자스 sdk가 호출할것이다
 					-->
 					<span id="name"></span>
-					<input type="button" id="loginBtn" value="checking..." onclick="
+					<!-- <input type="button" id="loginBtn" value="checking..." onclick="
 					    if(this.value === 'Login'){
 					      gauth.signIn().then(function(){//로그인하는것
 					        console.log('gauth.signIn()');
@@ -51,7 +51,7 @@
 					        checkLoginStatus();
 					      });
 					    }
-					  ">
+					  "> -->
 					<button class="btn" id="login" >로그인</button>
 					<button class="btn" id="join">회원가입</button>
 				</div>
