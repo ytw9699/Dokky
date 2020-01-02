@@ -14,6 +14,18 @@
 		<org.slf4j-version>1.6.6</org.slf4j-version>
 	</properties>
 	<dependencies>
+	
+	<!-- <dependency>
+	    <groupId>org.springframework.security.oauth</groupId>
+	    <artifactId>spring-security-oauth2</artifactId>
+	    <version>2.3.3.RELEASE</version>
+	</dependency>
+	<dependency>
+	    <groupId>org.springframework.security.oauth.boot</groupId>
+	    <artifactId>spring-security-oauth2-autoconfigure</artifactId>
+	    <version>2.0.0.RELEASE</version>
+	</dependency> -->
+
 		
 		<!-- 시큐리티  -->
 	<!-- 		스프링 공식 문서에는 spring-security-web만이 존재하지만 다양한 처리를 위해서는 아래와
