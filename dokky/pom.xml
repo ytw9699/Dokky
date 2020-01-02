@@ -15,6 +15,26 @@
 	</properties>
 	<dependencies>
 	
+	<!-- oauth2 login -->
+	
+	    <dependency>
+              <groupId>com.github.scribejava</groupId>
+              <artifactId>scribejava-apis</artifactId>
+              <version>5.6.0</version>
+        </dependency>
+
+        <dependency>
+              <groupId>com.github.scribejava</groupId>
+              <artifactId>scribejava-core</artifactId>
+              <version>5.6.0</version>
+        </dependency>
+
+        <dependency>
+              <groupId>org.springframework.social</groupId>
+              <artifactId>spring-social-google</artifactId>
+              <version>1.0.0.RELEASE</version>
+        </dependency>
+        
 	<!-- <dependency>
 	    <groupId>org.springframework.security.oauth</groupId>
 	    <artifactId>spring-security-oauth2</artifactId>
