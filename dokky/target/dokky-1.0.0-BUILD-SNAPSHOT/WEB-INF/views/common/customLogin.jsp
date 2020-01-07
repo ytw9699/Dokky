@@ -57,6 +57,11 @@
 				</div>
 			<input type="hidden" name="${_csrf.parameterName}" value="${_csrf.token}" />
 		</form> 
+		
+		<div class="text-center">
+		   <a href="${ naver_url }"><img width="150" src="/resources/img/naver-login.png" alt="Naver Login" /></a>
+		   <a href="${ google_url }"><img width="150" src="/resources/img/google-login.png" alt="Google Login" /></a>
+		</div>
 	</div>
 	
 </div>

@@ -55,28 +55,52 @@ public class CommonController {
 	@Setter(onMethod_ = @Autowired)
 	private SnsValue googleSns;
 	
-	@RequestMapping(value = "/socialLogin", method = RequestMethod.GET)
-	public String socialLogin(Model model) throws Exception {
+	@GetMapping("/customLogin")//커스톰 로그인 페이지는 반드시 get방식 이여야한다.시큐리티의 특성임
+	public String loginInput(String error, String logout, String check, Model model) throws UnsupportedEncodingException {
 		
-		log.info("login GET .....");
+		log.info("/customLogin");
+		log.info("error: " + error);
+		log.info("logout: " + logout);
+		log.info("check: " + check);
 		
-		SNSLogin naverLogin = new SNSLogin(naverSns);
+		/*소셜로그인*/
+			SNSLogin naverLogin = new SNSLogin(naverSns);
+			
+			model.addAttribute("naver_url", naverLogin.getNaverAuthURL());
+			
+			SNSLogin googleLogin = new SNSLogin(googleSns);
+			
+			model.addAttribute("google_url", googleLogin.getNaverAuthURL());
+			
+			/* 구글code 발행을 위한 URL 생성 */
+			/*OAuth2Operations oauthOperations = googleConnectionFactory.getOAuthOperations();
+			
+			String google_url = oauthOperations.buildAuthorizeUrl(GrantType.AUTHORIZATION_CODE, googleOAuth2Parameters);
+			
+			model.addAttribute("google_url", google_url);*/
+		/*소셜로그인*/
 		
-		model.addAttribute("naver_url", naverLogin.getNaverAuthURL());
+		if (error != null) {
+			model.addAttribute("error", "Login Error Check Your Account");
+		}
+
+		if (logout != null) {
+			model.addAttribute("logout", "Logout!!");
+		}
 		
-		SNSLogin googleLogin = new SNSLogin(googleSns);
-		
-		model.addAttribute("google_url", googleLogin.getNaverAuthURL());
-		
-		/* 구글code 발행을 위한 URL 생성 */
-		/*OAuth2Operations oauthOperations = googleConnectionFactory.getOAuthOperations();
-		
-		String google_url = oauthOperations.buildAuthorizeUrl(GrantType.AUTHORIZATION_CODE, googleOAuth2Parameters);
-		
-		model.addAttribute("google_url", google_url);*/
-		
-		return "common/socialLogin";
+		if (check != null) {
+			if(check.equals("notId") ) {
+				model.addAttribute("check", "아이디가 없습니다.");
+			}else if(check.equals("notPassword") ) {
+				model.addAttribute("check", "비밀번호가 틀립니다.");
+			}
+			else if(check.equals("limit") ) {
+				model.addAttribute("check", "차단된 아이디입니다. 관리자에게 문의해주세요.");
+			}
+		}
+		return "common/customLogin";  
 	}
+	
 	
 	@RequestMapping(value = "/auth/{snsService}/callback", method = { RequestMethod.GET, RequestMethod.POST})
 	public String snsLoginCallback(@PathVariable String snsService, Model model, @RequestParam String code, HttpSession session) throws Exception {
@@ -170,34 +194,6 @@ public class CommonController {
 		return "error/accessError";
 	}   
 
-	@GetMapping("/customLogin")//커스톰 로그인 페이지는 반드시 get방식 이여야한다.시큐리티의 특성임
-	public String loginInput(String error, String logout, String check, Model model) throws UnsupportedEncodingException {
-		
-		log.info("/customLogin");
-		log.info("error: " + error);
-		log.info("logout: " + logout);
-		log.info("check: " + check);
-		
-		if (error != null) {
-			model.addAttribute("error", "Login Error Check Your Account");
-		}
-
-		if (logout != null) {
-			model.addAttribute("logout", "Logout!!");
-		}
-		
-		if (check != null) {
-			if(check.equals("notId") ) {
-				model.addAttribute("check", "아이디가 없습니다.");
-			}else if(check.equals("notPassword") ) {
-				model.addAttribute("check", "비밀번호가 틀립니다.");
-			}
-			else if(check.equals("limit") ) {
-				model.addAttribute("check", "차단된 아이디입니다. 관리자에게 문의해주세요.");
-			}
-		}
-		return "common/customLogin";  
-	}
 
 	@PostMapping("/customLogout")
 	public void logoutPost() {
