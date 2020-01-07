@@ -89,13 +89,13 @@
 	</bean>
 	
 	<bean id="googleClientID" class="java.lang.String">
-	   <constructor-arg value="657950072273-5100hdu7ag1m86ak9pptbcoorkpn62kj.apps.googleusercontent.com" />
+	   <constructor-arg value="749898735018-a2kvi2854s1v85pfel1097as260uivu2.apps.googleusercontent.com" />
     </bean>
 	<bean id="googleClientSecret" class="java.lang.String">
-		<constructor-arg value="yG0GgaeWmh0O7NWTaVxaUY6c" />
+		<constructor-arg value="vj6QvX2mlwTT6i8Jcut4mh0M" />
 	</bean>
 	<bean id="googleRedirectUrl" class="java.lang.String">
-		<constructor-arg value="https://devyoon.site/auth/google/callback" />
+		<constructor-arg value="https://dokky.ga/auth/google/callback" />
 	</bean>
 
 	<bean id="googleSns" class="org.my.auth.SnsValue">
