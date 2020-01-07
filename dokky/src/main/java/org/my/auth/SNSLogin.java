@@ -26,7 +26,7 @@ public class SNSLogin {
 		this.sns = sns;
 	}
 	
-	public String getNaverAuthURL() {
+	public String getAuthURL() {
 		return this.oauthService.getAuthorizationUrl();
 	}
 

@@ -66,11 +66,11 @@ public class CommonController {
 		/*소셜로그인*/
 			SNSLogin naverLogin = new SNSLogin(naverSns);
 			
-			model.addAttribute("naver_url", naverLogin.getNaverAuthURL());
+			model.addAttribute("naver_url", naverLogin.getAuthURL());
 			
 			SNSLogin googleLogin = new SNSLogin(googleSns);
 			
-			model.addAttribute("google_url", googleLogin.getNaverAuthURL());
+			model.addAttribute("google_url", googleLogin.getAuthURL());
 			
 			/* 구글code 발행을 위한 URL 생성 */
 			/*OAuth2Operations oauthOperations = googleConnectionFactory.getOAuthOperations();
