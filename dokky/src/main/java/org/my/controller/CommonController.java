@@ -1,7 +1,9 @@
 package org.my.controller;
 	import java.io.UnsupportedEncodingException;
 	import java.util.Locale;
-	
+	import javax.servlet.http.HttpSession;
+	import org.my.auth.SNSLogin;
+	import org.my.auth.SnsValue;
 	import org.my.domain.Criteria;
 	import org.my.domain.MemberVO;
 	import org.my.domain.PageDTO;
@@ -28,7 +30,6 @@ package org.my.controller;
 	import org.springframework.web.bind.annotation.RequestMethod;
 	import org.springframework.web.bind.annotation.RequestParam;
 	import org.springframework.web.bind.annotation.ResponseBody;
-	
 	import lombok.Setter;
 	import lombok.extern.log4j.Log4j;
 
@@ -47,6 +48,80 @@ public class CommonController {
 	
 	@Setter(onMethod_ = @Autowired)
 	private PasswordEncoder pwencoder;
+	
+	@Setter(onMethod_ = @Autowired)
+	private SnsValue naverSns;
+	
+	@Setter(onMethod_ = @Autowired)
+	private SnsValue googleSns;
+	
+	@RequestMapping(value = "/socialLogin", method = RequestMethod.GET)
+	public String socialLogin(Model model) throws Exception {
+		
+		log.info("login GET .....");
+		
+		SNSLogin naverLogin = new SNSLogin(naverSns);
+		
+		model.addAttribute("naver_url", naverLogin.getNaverAuthURL());
+		
+		SNSLogin googleLogin = new SNSLogin(googleSns);
+		
+		model.addAttribute("google_url", googleLogin.getNaverAuthURL());
+		
+		/* 구글code 발행을 위한 URL 생성 */
+		/*OAuth2Operations oauthOperations = googleConnectionFactory.getOAuthOperations();
+		
+		String google_url = oauthOperations.buildAuthorizeUrl(GrantType.AUTHORIZATION_CODE, googleOAuth2Parameters);
+		
+		model.addAttribute("google_url", google_url);*/
+		
+		return "common/socialLogin";
+	}
+	
+	@RequestMapping(value = "/auth/{snsService}/callback", method = { RequestMethod.GET, RequestMethod.POST})
+	public String snsLoginCallback(@PathVariable String snsService, Model model, @RequestParam String code, HttpSession session) throws Exception {
+		
+		log.info("snsLoginCallback: service={}" + snsService);
+		
+		SnsValue sns = null;
+		
+		if ("naver".equals(snsService))
+			sns = naverSns;
+		else
+			sns = googleSns;
+		
+		// 1. code를 이용해서 access_token 받기
+		// 2. access_token을 이용해서 사용자 profile 정보 가져오기
+		
+		SNSLogin snsLogin = new SNSLogin(sns);
+		
+		String snsUser = snsLogin.getUserProfile(code); // 1,2번 동시
+		
+		//User snsUser = snsLogin.getUserProfile(code); // 1,2번 동시
+		
+		System.out.println("Profile>>" + snsUser);
+		
+		model.addAttribute("result", snsUser);
+		
+		//model.addAttribute("result", snsUser.getEmail()+snsUser.getNaverid()+snsUser.getNickname() + "님 반갑습니다.");
+		
+		// 3. DB 해당 유저가 존재하는 체크 (googleid, naverid 컬럼 추가)
+		/*User user = service.getBySns(snsUser);
+		
+		if (user == null) {
+			model.addAttribute("result", "존재하지 않는 사용자입니다. 가입해 주세요.");
+			
+			//미존재시 가입페이지로!!
+			
+		} else {
+			model.addAttribute("result", user.getUname() + "님 반갑습니다.");
+			
+			// 4. 존재시 강제로그인
+			session.setAttribute(SessionNames.LOGIN, user);
+		}*/
+		
+		return "common/loginResult";
+	}
 	
 	@RequestMapping(value = "/main", method = RequestMethod.GET)
 	public String main(Model model) {
