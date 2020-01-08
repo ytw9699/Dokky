@@ -7,7 +7,7 @@ import lombok.Data;
 @Data
 public class SnsValue implements SnsUrls {//SnsValue는 중요 값들을 가지고있는것이다.
 	
-	private String service;
+	private String service; 
 	private String clientId;
 	private String clientSecret;
 	private String redirectUrl;

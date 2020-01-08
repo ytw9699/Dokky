@@ -18,10 +18,10 @@ public class SNSLogin {
 	public SNSLogin(SnsValue sns) {
 		
 		this.oauthService = new ServiceBuilder(sns.getClientId())
-				.apiSecret(sns.getClientSecret())
-				.callback(sns.getRedirectUrl())
-				.scope("profile")
-				.build(sns.getApi20Instance());
+	                .apiSecret(sns.getClientSecret())
+	                .scope("profile")
+	                .callback(sns.getRedirectUrl())
+	                .build(sns.getApi20Instance());
 		
 		this.sns = sns;
 	}

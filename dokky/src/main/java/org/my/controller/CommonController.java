@@ -63,7 +63,7 @@ public class CommonController {
 		log.info("logout: " + logout);
 		log.info("check: " + check);
 		
-		/*소셜로그인*/
+		//소셜로그인
 			SNSLogin naverLogin = new SNSLogin(naverSns);
 			
 			model.addAttribute("naver_url", naverLogin.getAuthURL());
@@ -71,14 +71,7 @@ public class CommonController {
 			SNSLogin googleLogin = new SNSLogin(googleSns);
 			
 			model.addAttribute("google_url", googleLogin.getAuthURL());
-			
-			/* 구글code 발행을 위한 URL 생성 */
-			/*OAuth2Operations oauthOperations = googleConnectionFactory.getOAuthOperations();
-			
-			String google_url = oauthOperations.buildAuthorizeUrl(GrantType.AUTHORIZATION_CODE, googleOAuth2Parameters);
-			
-			model.addAttribute("google_url", google_url);*/
-		/*소셜로그인*/
+		//소셜로그인
 		
 		if (error != null) {
 			model.addAttribute("error", "Login Error Check Your Account");
@@ -107,7 +100,7 @@ public class CommonController {
 		
 		log.info("snsLoginCallback: service={}" + snsService);
 		
-		SnsValue sns = null;
+		SnsValue sns = null; 
 		
 		if ("naver".equals(snsService))
 			sns = naverSns;
@@ -124,7 +117,6 @@ public class CommonController {
 		//User snsUser = snsLogin.getUserProfile(code); // 1,2번 동시
 		
 		System.out.println("Profile>>" + snsUser);
-		
 		model.addAttribute("result", snsUser);
 		
 		//model.addAttribute("result", snsUser.getEmail()+snsUser.getNaverid()+snsUser.getNickname() + "님 반갑습니다.");
