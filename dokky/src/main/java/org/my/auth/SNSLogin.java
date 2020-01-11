@@ -1,6 +1,6 @@
 package org.my.auth;
 	import java.util.Iterator;
-	import org.my.domain.User;
+	import org.my.domain.myUser;
 	import com.fasterxml.jackson.databind.JsonNode;
 	import com.fasterxml.jackson.databind.ObjectMapper;
 	import com.github.scribejava.core.builder.ServiceBuilder;
@@ -30,20 +30,7 @@ public class SNSLogin {
 		return this.oauthService.getAuthorizationUrl();
 	}
 
-	public String getUserProfile(String code) throws Exception {
-		
-		OAuth2AccessToken accessToken = oauthService.getAccessToken(code);
-		
-		OAuthRequest request = new OAuthRequest(Verb.GET, this.sns.getProfileUrl());
-		
-		oauthService.signRequest(accessToken, request);
-		
-		Response response = oauthService.execute(request);
-		
-		return response.getBody();
-	}
-
-	/*public User getUserProfile(String code) throws Exception {
+	public myUser getUserProfile(String code) throws Exception {
 		
 		OAuth2AccessToken accessToken = oauthService.getAccessToken(code);
 		
@@ -54,13 +41,13 @@ public class SNSLogin {
 		Response response = oauthService.execute(request);
 		
 		return parseJson(response.getBody());
-	}*/
+	}
 	
-	private User parseJson(String body) throws Exception {
+	private myUser parseJson(String body) throws Exception {
 		
 		System.out.println("============================\n" + body + "\n==================");
 		
-		User user = new User();
+		myUser user = new myUser();
 		
 		ObjectMapper mapper = new ObjectMapper();
 		
@@ -68,10 +55,10 @@ public class SNSLogin {
 		
 		if (this.sns.isGoogle()) {
 			
-			/*String id = rootNode.get("id").asText();
+			String id = rootNode.get("id").asText();
 			
 			if (sns.isGoogle()){
-				user.setGoogleid(id);
+				user.setId(id);
 			}
 			
 			user.setNickname(rootNode.get("displayName").asText());
@@ -80,7 +67,7 @@ public class SNSLogin {
 			
 			String uname = nameNode.get("familyName").asText() + nameNode.get("givenName").asText();
 			
-			user.setUname(uname);
+			//user.setUname(uname);
 
 			Iterator<JsonNode> iterEmails = rootNode.path("emails").elements();
 			
@@ -95,14 +82,14 @@ public class SNSLogin {
 					user.setEmail(emailNode.get("value").asText());
 					break;
 				}
-			}*/
+			}
 			
 			
 		}else if (this.sns.isNaver()) {
 				
 			JsonNode resNode = rootNode.get("response");
 			
-			user.setNaverid(resNode.get("id").asText());
+			user.setId(resNode.get("id").asText());
 			
 			user.setNickname(resNode.get("nickname").asText());
 			

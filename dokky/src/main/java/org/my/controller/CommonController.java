@@ -1,5 +1,7 @@
 package org.my.controller;
 	import java.io.UnsupportedEncodingException;
+	import java.util.ArrayList;
+	import java.util.List;
 	import java.util.Locale;
 	import javax.servlet.http.HttpSession;
 	import org.my.auth.SNSLogin;
@@ -17,6 +19,11 @@ package org.my.controller;
 	import org.springframework.http.ResponseEntity;
 	import org.springframework.security.access.prepost.PreAuthorize;
 	import org.springframework.security.core.Authentication;
+	import org.springframework.security.core.GrantedAuthority;
+	import org.springframework.security.core.authority.SimpleGrantedAuthority;
+	import org.springframework.security.core.context.SecurityContextHolder;
+	import org.springframework.security.core.userdetails.User;
+	import org.my.domain.myUser;
 	import org.springframework.security.crypto.password.PasswordEncoder;
 	import org.springframework.stereotype.Controller;
 	import org.springframework.ui.Model;
@@ -30,9 +37,12 @@ package org.my.controller;
 	import org.springframework.web.bind.annotation.RequestMethod;
 	import org.springframework.web.bind.annotation.RequestParam;
 	import org.springframework.web.bind.annotation.ResponseBody;
-	import lombok.Setter;
-	import lombok.extern.log4j.Log4j;
+import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
+import lombok.Setter;
+	import lombok.extern.log4j.Log4j;
+	import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
+	
 @Controller
 @Log4j 
 public class CommonController {
@@ -94,9 +104,22 @@ public class CommonController {
 		return "common/customLogin";  
 	}
 	
+	/*@RequestMapping("/loginWithoutForm/{username}")
+	public String loginWithoutForm(@PathVariable(value="username") String username) {
+	  
+	  List<GrantedAuthority> roles = new ArrayList<>(1);
+	  //String roleStr = username.equals("admin") ? "ROLE_ADMIN" : "ROLE_GUEST";
+	  roles.add(new SimpleGrantedAuthority("ROLE_USER"));
+	  
+	  User user = new User(username, "", roles);
+	  
+	  Authentication auth = new UsernamePasswordAuthenticationToken(user, null, roles);
+	  SecurityContextHolder.getContext().setAuthentication(auth);
+	  return "redirect:/";
+	}*/
 	
 	@RequestMapping(value = "/auth/{snsService}/callback", method = { RequestMethod.GET, RequestMethod.POST})
-	public String snsLoginCallback(@PathVariable String snsService, Model model, @RequestParam String code, HttpSession session) throws Exception {
+	public String snsLoginCallback(@PathVariable String snsService, Model model, @RequestParam String code,RedirectAttributes rttr) throws Exception {
 		
 		log.info("snsLoginCallback: service={}" + snsService);
 		
@@ -112,13 +135,22 @@ public class CommonController {
 		
 		SNSLogin snsLogin = new SNSLogin(sns);
 		
-		String snsUser = snsLogin.getUserProfile(code); // 1,2번 동시
+		myUser snsUser = snsLogin.getUserProfile(code); // 1,2번 동시
 		
-		//User snsUser = snsLogin.getUserProfile(code); // 1,2번 동시
+		System.out.println("result" + snsUser);
 		
-		System.out.println("Profile>>" + snsUser);
 		model.addAttribute("result", snsUser);
 		
+		List<GrantedAuthority> roles = new ArrayList<>(1);
+		
+		roles.add(new SimpleGrantedAuthority("ROLE_USER"));
+		  
+		User user = new User(snsUser.getId(), "22", roles);
+		  
+		Authentication auth = new UsernamePasswordAuthenticationToken(user, "22", roles);
+		
+		SecurityContextHolder.getContext().setAuthentication(auth);//Authentication 인증객체를 SecurityContext에 보관
+		  
 		//model.addAttribute("result", snsUser.getEmail()+snsUser.getNaverid()+snsUser.getNickname() + "님 반갑습니다.");
 		
 		// 3. DB 해당 유저가 존재하는 체크 (googleid, naverid 컬럼 추가)
@@ -136,7 +168,14 @@ public class CommonController {
 			session.setAttribute(SessionNames.LOGIN, user);
 		}*/
 		
-		return "common/loginResult";
+		//return "common/loginResult";
+		
+		rttr.addFlashAttribute("username", "12830731"); 
+		rttr.addFlashAttribute("password", "22"); 
+	     
+		return "redirect:/dokky/login";
+	      
+		//return "common/loginResult";
 	}
 	
 	@RequestMapping(value = "/main", method = RequestMethod.GET)
