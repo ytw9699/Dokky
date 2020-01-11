@@ -104,18 +104,5 @@
 		<constructor-arg ref="googleClientSecret" />
 		<constructor-arg ref="googleRedirectUrl" />
 	</bean>
-	<!-- 
-	<beans:bean id="googleConnectionFactory" class="org.springframework.social.google.connect.GoogleConnectionFactory">
-	   <beans:constructor-arg ref="googleClientID" />
-	   <beans:constructor-arg ref="googleClientSecret" />
-    </beans:bean>
-
-	<beans:bean id="googleOAuth2Parameters" class="org.springframework.social.oauth2.OAuth2Parameters">
-		<beans:property name="scope" value="https://www.googleapis.com/auth/userinfo.profile" />
-		<beans:property name="scope" value="https://www.googleapis.com/auth/userinfo.email" />
-		<beans:property name="scope" value="https://www.googleapis.com/auth/plus.login" 
-			/>
-		<beans:property name="redirectUri" ref="googleRedirectUrl" />
-	</beans:bean> -->
  			
 </beans>
