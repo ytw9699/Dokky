@@ -13,7 +13,7 @@
 		
 	<div class="leftWrap">
 		
-		<a class="name" href="/dokky/main">
+		<a class="name" href="/main">
 			<span class="leftTitle">
 				Dokky
 			</span> 
@@ -29,7 +29,7 @@
 			  	    <div id="leftUsermenuBar">
 							<ul class="leftHideusermenu"> 
 								<li class="leftHideusermenu">
-									<a href="/dokky/userBoardList?userId=${userInfo.username}" class="leftHideusermenu">
+									<a href="/userBoardList?userId=${userInfo.username}" class="leftHideusermenu">
 										<span class="leftHideusermenu">게시글보기</span>
 									</a>
 								</li>
@@ -41,56 +41,56 @@
 							</ul> 
 				    </div>
 				    
-					<form id="logoutForm" method='post' action="/dokky/customLogout">
+					<form id="logoutForm" method='post' action="/customLogout">
 					    <input id="logoutBtn" type="submit" value="로그아웃">  
 					</form>  
 		</div>
 	  </sec:authorize>
 		
 	  <sec:authorize access="isAnonymous()">  
-		  <a href="/dokky/customLogin">
+		  <a href="/customLogin">
 		  	<span class="mypage topMypage">로그인 </span>
 	  	  </a> 
-	  	  <a href="/dokky/memberForm">
+	  	  <a href="/memberForm">
 		  	<span class="mypage">회원가입</span>
 	  	  </a>
 	  </sec:authorize>
 			
-		  <a href="/dokky/board/allList?category=0">
+		  <a href="/board/allList?category=0">
 			<span class="mypage">전체글보기</span>
 		  </a>
-		  <a href="/dokky/board/list?category=1">
+		  <a href="/board/list?category=1">
 			<span class="mypage">공지사항</span>
 		  </a>
-		  <a href="/dokky/board/list?category=2">
+		  <a href="/board/list?category=2">
 			<span class="mypage">자유게시판</span>
 		  </a>
-		  <a href="/dokky/board/list?category=3">
+		  <a href="/board/list?category=3">
 			<span class="mypage">묻고답하기</span>
 		  </a>
-		  <a href="/dokky/board/list?category=4">
+		  <a href="/board/list?category=4">
 			<span class="mypage">칼럼/Tech</span>
 		  </a>
-		  <a href="/dokky/board/list?category=5">
+		  <a href="/board/list?category=5">
 			<span class="mypage">정기모임/스터디</span>
 		  </a>
 			
 		<sec:authorize access="isAuthenticated()">
-			<a href="/dokky/alarmList?userId=${userInfo.username}">
+			<a href="/alarmList?userId=${userInfo.username}">
 				<span class="mypage">
 						알림 <span class="alarmCount"></span>
 				</span>
 			</a>
-			<a href="/dokky/fromNoteList?userId=${userInfo.username}"> 
+			<a href="/fromNoteList?userId=${userInfo.username}"> 
 				<span class="mypage">
 						쪽지 <span class="noteCount"></span>
 				</span>
 			</a> 
-			<a href="/dokky/mypage/myInfoForm?userId=${userInfo.username}">
+			<a href="/mypage/myInfoForm?userId=${userInfo.username}">
 				<span class="mypage">내 정보</span>
 			</a>
 			<c:if test= "${userInfo.username == 'admin'}">
-				<a href="/dokky/admin/userList">
+				<a href="/admin/userList">
 			    	<span class="mypage">관리자</span>
 				</a>
 			</c:if>
