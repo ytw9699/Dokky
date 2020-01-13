@@ -1,12 +1,22 @@
 package org.my.controller;
 	import java.io.UnsupportedEncodingException;
+	import java.util.ArrayList;
+import java.util.Iterator;
+import java.util.List;
 	import java.util.Locale;
-	
-	import org.my.domain.Criteria;
+import java.util.Random;
+
+import javax.servlet.http.HttpSession;
+	import org.my.auth.SNSLogin;
+	import org.my.auth.SnsValue;
+import org.my.domain.AuthVO;
+import org.my.domain.Criteria;
 	import org.my.domain.MemberVO;
 	import org.my.domain.PageDTO;
 	import org.my.domain.cashVO;
 	import org.my.domain.noteVO;
+	import org.my.mapper.MemberMapper;
+	import org.my.security.domain.CustomUser;
 	import org.my.service.CommonService;
 	import org.my.service.MemberService;
 	import org.my.service.MypageService;
@@ -15,6 +25,10 @@ package org.my.controller;
 	import org.springframework.http.ResponseEntity;
 	import org.springframework.security.access.prepost.PreAuthorize;
 	import org.springframework.security.core.Authentication;
+	import org.springframework.security.core.GrantedAuthority;
+	import org.springframework.security.core.authority.SimpleGrantedAuthority;
+	import org.springframework.security.core.context.SecurityContextHolder;
+	import org.springframework.security.core.userdetails.User;
 	import org.springframework.security.crypto.password.PasswordEncoder;
 	import org.springframework.stereotype.Controller;
 	import org.springframework.ui.Model;
@@ -28,10 +42,11 @@ package org.my.controller;
 	import org.springframework.web.bind.annotation.RequestMethod;
 	import org.springframework.web.bind.annotation.RequestParam;
 	import org.springframework.web.bind.annotation.ResponseBody;
-	
+	import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 	import lombok.Setter;
 	import lombok.extern.log4j.Log4j;
-
+	import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
+	
 @Controller
 @Log4j 
 public class CommonController {
@@ -47,6 +62,114 @@ public class CommonController {
 	
 	@Setter(onMethod_ = @Autowired)
 	private PasswordEncoder pwencoder;
+	
+	@Setter(onMethod_ = @Autowired)
+	private SnsValue naverSns;
+	
+	@Setter(onMethod_ = @Autowired)
+	private SnsValue googleSns;
+	
+	@Setter(onMethod_ = { @Autowired })
+	private MemberMapper memberMapper;
+	
+	@GetMapping("/customLogin")//커스톰 로그인 페이지는 반드시 get방식 이여야한다.시큐리티의 특성임
+	public String loginInput(String error, String logout, String check, Model model) throws UnsupportedEncodingException {
+		
+		log.info("/customLogin");
+		log.info("error: " + error);
+		log.info("logout: " + logout);
+		log.info("check: " + check);
+		
+		//소셜로그인
+			SNSLogin naverLogin = new SNSLogin(naverSns);
+			
+			model.addAttribute("naver_url", naverLogin.getAuthURL());
+			
+			SNSLogin googleLogin = new SNSLogin(googleSns);
+			
+			model.addAttribute("google_url", googleLogin.getAuthURL());
+		//소셜로그인
+		
+		if (error != null) {
+			model.addAttribute("error", "Login Error Check Your Account");
+		}
+
+		if (logout != null) {
+			model.addAttribute("logout", "Logout!!");
+		}
+		
+		if (check != null) {
+			if(check.equals("notId") ) {
+				model.addAttribute("check", "아이디가 없습니다.");
+			}else if(check.equals("notPassword") ) {
+				model.addAttribute("check", "비밀번호가 틀립니다.");
+			}
+			else if(check.equals("limit") ) {
+				model.addAttribute("check", "차단된 아이디입니다. 관리자에게 문의해주세요.");
+			}
+		}
+		return "common/customLogin";  
+	}
+	
+	/*@RequestMapping("/loginWithoutForm/{username}")
+	public String loginWithoutForm(@PathVariable(value="username") String username) {
+	  
+	  List<GrantedAuthority> roles = new ArrayList<>(1);
+	  //String roleStr = username.equals("admin") ? "ROLE_ADMIN" : "ROLE_GUEST";
+	  roles.add(new SimpleGrantedAuthority("ROLE_USER"));
+	  
+	  User user = new User(username, "", roles);
+	  
+	  Authentication auth = new UsernamePasswordAuthenticationToken(user, null, roles);
+	  SecurityContextHolder.getContext().setAuthentication(auth);
+	  return "redirect:/";
+	}*/
+	
+	@RequestMapping(value = "/auth/{snsService}/callback", method = { RequestMethod.GET, RequestMethod.POST})
+	public String snsLoginCallback(@PathVariable String snsService, Model model, @RequestParam String code,RedirectAttributes rttr) throws Exception {
+		
+		SnsValue sns = null; 
+		
+		if ("naver".equals(snsService))
+			sns = naverSns;
+		else
+			sns = googleSns;
+		
+		SNSLogin snsLogin = new SNSLogin(sns);
+		
+		MemberVO profile = snsLogin.getUserProfile(code);//사용자 profile 정보 가져오기
+		
+		if(!memberService.getIdCheckedVal(profile.getUserId())){//회원가입되어있지 않다면 , DB 해당 유저가 존재하는 체크
+			
+			profile.setUserPw(pwencoder.encode("22"));//임시 패스워드 암호화
+			profile.setEmail("@"+Math.random());//임시 이메일 난수 생성
+			profile.setPhoneNum("");
+			profile.setBankName("");
+			profile.setAccount("");
+			memberService.registerMembers(profile);//회원가입
+		}
+		
+		//model.addAttribute("result", profile);
+		
+		MemberVO vo = memberMapper.read(profile.getUserId());
+		
+		List<AuthVO> AuthList = vo.getAuthList();
+		
+		List<GrantedAuthority> roles = new ArrayList<>(1);
+		
+		Iterator<AuthVO> it = AuthList.iterator();
+		
+		while (it.hasNext()) {
+			AuthVO authVO = it.next(); 
+			roles.add(new SimpleGrantedAuthority(authVO.getAuth()));
+        }
+		
+		Authentication auth = new UsernamePasswordAuthenticationToken(new CustomUser(vo), null, roles);
+		
+		SecurityContextHolder.getContext().setAuthentication(auth);//Authentication 인증객체를 SecurityContext에 보관
+		
+		return "redirect:/main";
+	}
 	
 	@RequestMapping(value = "/main", method = RequestMethod.GET)
 	public String main(Model model) {
@@ -95,34 +218,6 @@ public class CommonController {
 		return "error/accessError";
 	}   
 
-	@GetMapping("/customLogin")//커스톰 로그인 페이지는 반드시 get방식 이여야한다.시큐리티의 특성임
-	public String loginInput(String error, String logout, String check, Model model) throws UnsupportedEncodingException {
-		
-		log.info("/customLogin");
-		log.info("error: " + error);
-		log.info("logout: " + logout);
-		log.info("check: " + check);
-		
-		if (error != null) {
-			model.addAttribute("error", "Login Error Check Your Account");
-		}
-
-		if (logout != null) {
-			model.addAttribute("logout", "Logout!!");
-		}
-		
-		if (check != null) {
-			if(check.equals("notId") ) {
-				model.addAttribute("check", "아이디가 없습니다.");
-			}else if(check.equals("notPassword") ) {
-				model.addAttribute("check", "비밀번호가 틀립니다.");
-			}
-			else if(check.equals("limit") ) {
-				model.addAttribute("check", "차단된 아이디입니다. 관리자에게 문의해주세요.");
-			}
-		}
-		return "common/customLogin";  
-	}
 
 	@PostMapping("/customLogout")
 	public void logoutPost() {

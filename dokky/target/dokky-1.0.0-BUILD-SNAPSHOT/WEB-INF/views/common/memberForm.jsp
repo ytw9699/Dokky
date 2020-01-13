@@ -9,7 +9,7 @@
 <head>
 <meta charset="UTF-8">
 	<title>Dokky - 회원가입</title> 
-<link href="/dokky/resources/css/memberForm.css" rel="stylesheet" type="text/css"/>
+<link href="/resources/css/memberForm.css" rel="stylesheet" type="text/css"/>
 </head>
 <body>
 	<div class="memberFormWrap">	
@@ -19,7 +19,7 @@
 		  </div>	 
 		  
 		  <div class="tabcontent">
-			 <form method='post' action="/dokky/members">	
+			 <form method='post' action="/members">	
 			  	<table>
 					<tr>
 						<td class="tableText">
@@ -172,7 +172,7 @@
 			 
 				$.ajax({
 					type : 'get',
-					url : '/dokky/idCheckedVal?inputId='+id,
+					url : '/idCheckedVal?inputId='+id,
 					async: false, //동기로 처리  
 					success : function(result, status, xhr) {
 						if (callback) {
@@ -196,7 +196,7 @@
 			 
 				$.ajax({
 					type : 'get',
-					url : '/dokky/nickCheckedVal?inputNickname='+nickname,
+					url : '/nickCheckedVal?inputNickname='+nickname,
 					async: false,  
 					success : function(result, status, xhr) {
 						if (callback) {
@@ -220,7 +220,7 @@
 			 
 				$.ajax({
 					type : 'get',
-					url : '/dokky/emailCheckedVal?inputEmail='+email,
+					url : '/emailCheckedVal?inputEmail='+email,
 					async: false, //동기로 처리  
 					success : function(result, status, xhr) {
 						if (callback) {

@@ -7,7 +7,7 @@
 <head>
 <meta charset="UTF-8">
 <title>Dokky - 글 리스트</title>
-<link href="/dokky/resources/css/list.css" rel="stylesheet" type="text/css">
+<link href="/resources/css/list.css" rel="stylesheet" type="text/css">
 </head>
 <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
 <%@include file="../includes/left.jsp"%>
@@ -17,22 +17,22 @@
 			 <span class="category">
 				   <c:choose>
 				   	   <c:when test="${pageMaker.cri.category == 0 }">
-				          	<a href="/dokky/board/allList?category=0" >전체글보기</a>
+				          	<a href="/board/allList?category=0" >전체글보기</a>
 				       </c:when>
 				       <c:when test="${pageMaker.cri.category == 1 }">
-				          	<a href="/dokky/board/list?category=1">공지사항</a>
+				          	<a href="/board/list?category=1">공지사항</a>
 				       </c:when>
 				       <c:when test="${pageMaker.cri.category == 2 }">
-				       		<a href="/dokky/board/list?category=2">자유게시판</a>
+				       		<a href="/board/list?category=2">자유게시판</a>
 				       </c:when>
 				        <c:when test="${pageMaker.cri.category == 3 }">
-				     		<a href="/dokky/board/list?category=3">묻고답하기</a>
+				     		<a href="/board/list?category=3">묻고답하기</a>
 				       </c:when>
 				        <c:when test="${pageMaker.cri.category == 4 }">
-				   		   <a href="/dokky/board/list?category=4">칼럼/Tech</a>
+				   		   <a href="/board/list?category=4">칼럼/Tech</a>
 				       </c:when>
 				       <c:when test="${pageMaker.cri.category == 5 }">
-				   		   	<a href="/dokky/board/list?category=5">정기모임/스터디</a>
+				   		   	<a href="/board/list?category=5">정기모임/스터디</a>
 				       </c:when> 
 				       <c:otherwise>
 				       </c:otherwise>
@@ -62,7 +62,7 @@
 		 	</div>
 			
 			<div class="searchWrapper">
-				<form id='searchForm' action="/dokky/board/list" method='get'>
+				<form id='searchForm' action="/board/list" method='get'>
 					<select id="option" name='type'>
 						<option value="TC"
 							<c:out value="${pageMaker.cri.type == null || pageMaker.cri.type eq 'TC'?'selected':''}"/>>제목+내용</option>
@@ -121,13 +121,13 @@
 						</td>
 						<td class="td"> 
 							<a href="#" class="userMenu" data-board_num="${board.board_num}">
-								<img src="/dokky/resources/img/profile_img/<c:out value="${board.userId}"  />.png"  class="memberImage hideUsermenu" onerror="this.src='/dokky/resources/img/profile_img/basicProfile.png'" />
+								<img src="/resources/img/profile_img/<c:out value="${board.userId}"  />.png"  class="memberImage hideUsermenu" onerror="this.src='/resources/img/profile_img/basicProfile.png'" />
 								<c:out value="${board.nickName}" /> 
 							</a> 
 							 <div id="userMenubar_${board.board_num}" class="userMenubar">
 								<ul class="hideUsermenu"> 
 									<li class="hideUsermenu">
-										<a href="/dokky/userBoardList?userId=${board.userId}" class="hideUsermenu">
+										<a href="/userBoardList?userId=${board.userId}" class="hideUsermenu">
 											<span class="hideUsermenu">게시글보기</span>
 										</a>
 									</li>
@@ -177,7 +177,7 @@
 			</div>
 	</div>
 	
-<form id='actionForm' action="/dokky/board/list" method='get'> 
+<form id='actionForm' action="/board/list" method='get'> 
 	<input type='hidden' name='pageNum' value='${pageMaker.cri.pageNum}'><!--  $(this).attr("href") -->
 	<input type='hidden' name='amount' value='${pageMaker.cri.amount}'>
 	<input type='hidden' name='category' value='${pageMaker.cri.category}'>
@@ -299,7 +299,7 @@
 
 	$("#regBtn").on("click", function() { 
 	
-		self.location = "/dokky/board/register?category="+${pageMaker.cri.category};
+		self.location = "/board/register?category="+${pageMaker.cri.category};
 	}); 
     
 	
@@ -316,7 +316,7 @@
 				var category = '${pageMaker.cri.category}';//전체보기
 				
 				if(category == 0){ //전체보기	
-					actionForm.attr("action","/dokky/board/allList");//전체보기
+					actionForm.attr("action","/board/allList");//전체보기
 				}
 				actionForm.submit(); 
 			});
@@ -325,7 +325,7 @@
 			
 			e.preventDefault();
 			actionForm.append("<input type='hidden' name='board_num' value='"+ $(this).attr("href")+ "'>");
-			actionForm.attr("action","/dokky/board/get");
+			actionForm.attr("action","/board/get");
 			actionForm.submit();   
 		});
 	
@@ -352,7 +352,7 @@
 					var category = '${pageMaker.cri.category}';//전체보기
 					
 					if(category == 0){ //전체보기	
-						searchForm.attr("action","/dokky/board/allList");//전체보기
+						searchForm.attr("action","/board/allList");//전체보기
 					}
 
 					searchForm.submit();

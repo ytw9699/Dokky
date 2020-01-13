@@ -28,9 +28,10 @@ public class CustomUserDetailsService implements UserDetailsService {
 		log.warn("queried by member mapper: " + vo);
 		
 		if(vo == null ) {
-			   throw new BadCredentialsException("NULL");
+			throw new BadCredentialsException("NULL");
 		}
-		else if(vo != null) {
+		else if(vo != null) { 
+			
 			List<AuthVO> AuthList = vo.getAuthList(); 
 			
 			for(AuthVO authvo : AuthList){
@@ -38,8 +39,10 @@ public class CustomUserDetailsService implements UserDetailsService {
 					throw new BadCredentialsException("limit");
 			}
 		}
-			memberMapper.updateLoginDate(userName);//로긴날짜찍기
-		 return new CustomUser(vo);
+		
+		memberMapper.updateLoginDate(userName);//로긴날짜찍기
+		
+		return new CustomUser(vo);
 	} 
 }
 

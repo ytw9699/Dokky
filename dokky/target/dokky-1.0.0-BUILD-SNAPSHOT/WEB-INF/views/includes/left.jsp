@@ -6,14 +6,14 @@
 <html>
 <head>
 <meta charset="UTF-8"> 
-<link href="/dokky/resources/css/left.css" rel="stylesheet" type="text/css"/>
+<link href="/resources/css/left.css" rel="stylesheet" type="text/css"/>
 </head>  
 <body>
 		<sec:authentication property="principal" var="userInfo"/>
 		
 	<div class="leftWrap">
 		
-		<a class="name" href="/dokky/main">
+		<a class="name" href="/main">
 			<span class="leftTitle">
 				Dokky
 			</span> 
@@ -23,13 +23,13 @@
 		<div class="mypage topMypage">  
 					<a href="#" class="leftUsermenu">
 					  	  <%-- <img id="leftProfile" src="/dokky/display?fileName=<c:out value="${userInfo.username}"/>.png" class="memberImage leftHideusermenu" onerror="this.src='/dokky/resources/img/basicProfile.png'"/> --%>
-					  	  <img id="leftProfile" src="/dokky/resources/img/profile_img/<c:out value="${userInfo.username}"/>.png" class="memberImage leftHideusermenu" onerror="this.src='/dokky/resources/img/profile_img/basicProfile.png'" />
+					  	  <img id="leftProfile" src="/resources/img/profile_img/<c:out value="${userInfo.username}"/>.png" class="memberImage leftHideusermenu" onerror="this.src='/resources/img/profile_img/basicProfile.png'" />
 					  	  <c:out value="${userInfo.member.nickName}"/>     
 			  	    </a> 
 			  	    <div id="leftUsermenuBar">
 							<ul class="leftHideusermenu"> 
 								<li class="leftHideusermenu">
-									<a href="/dokky/userBoardList?userId=${userInfo.username}" class="leftHideusermenu">
+									<a href="/userBoardList?userId=${userInfo.username}" class="leftHideusermenu">
 										<span class="leftHideusermenu">게시글보기</span>
 									</a>
 								</li>
@@ -41,56 +41,56 @@
 							</ul> 
 				    </div>
 				    
-					<form id="logoutForm" method='post' action="/dokky/customLogout">
+					<form id="logoutForm" method='post' action="/customLogout">
 					    <input id="logoutBtn" type="submit" value="로그아웃">  
 					</form>  
 		</div>
 	  </sec:authorize>
 		
 	  <sec:authorize access="isAnonymous()">  
-		  <a href="/dokky/customLogin">
+		  <a href="/customLogin">
 		  	<span class="mypage topMypage">로그인 </span>
 	  	  </a> 
-	  	  <a href="/dokky/memberForm">
+	  	  <a href="/memberForm">
 		  	<span class="mypage">회원가입</span>
 	  	  </a>
 	  </sec:authorize>
 			
-		  <a href="/dokky/board/allList?category=0">
+		  <a href="/board/allList?category=0">
 			<span class="mypage">전체글보기</span>
 		  </a>
-		  <a href="/dokky/board/list?category=1">
+		  <a href="/board/list?category=1">
 			<span class="mypage">공지사항</span>
 		  </a>
-		  <a href="/dokky/board/list?category=2">
+		  <a href="/board/list?category=2">
 			<span class="mypage">자유게시판</span>
 		  </a>
-		  <a href="/dokky/board/list?category=3">
+		  <a href="/board/list?category=3">
 			<span class="mypage">묻고답하기</span>
 		  </a>
-		  <a href="/dokky/board/list?category=4">
+		  <a href="/board/list?category=4">
 			<span class="mypage">칼럼/Tech</span>
 		  </a>
-		  <a href="/dokky/board/list?category=5">
+		  <a href="/board/list?category=5">
 			<span class="mypage">정기모임/스터디</span>
 		  </a>
 			
 		<sec:authorize access="isAuthenticated()">
-			<a href="/dokky/alarmList?userId=${userInfo.username}">
+			<a href="/alarmList?userId=${userInfo.username}">
 				<span class="mypage">
 						알림 <span class="alarmCount"></span>
 				</span>
 			</a>
-			<a href="/dokky/fromNoteList?userId=${userInfo.username}"> 
+			<a href="/fromNoteList?userId=${userInfo.username}"> 
 				<span class="mypage">
 						쪽지 <span class="noteCount"></span>
 				</span>
 			</a> 
-			<a href="/dokky/mypage/myInfoForm?userId=${userInfo.username}">
+			<a href="/mypage/myInfoForm?userId=${userInfo.username}">
 				<span class="mypage">내 정보</span>
 			</a>
 			<c:if test= "${userInfo.username == 'admin'}">
-				<a href="/dokky/admin/userList">
+				<a href="/admin/userList">
 			    	<span class="mypage">관리자</span>
 				</a>
 			</c:if>
@@ -130,13 +130,13 @@
 
 		var popupY= (window.screen.height /2) - (500 / 2);
 	         
-        window.open('/dokky/minRegNote?userId='+userId+'&nickname='+nickname, 'ot', 'height=500, width=400, screenX='+ popupX + ', screenY= '+ popupY);
+        window.open('/minRegNote?userId='+userId+'&nickname='+nickname, 'ot', 'height=500, width=400, screenX='+ popupX + ', screenY= '+ popupY);
     }
 	
 	function getAlarmRealCount(userId, callback, error) {
 		$.ajax({
 			type : 'get',
-			url : '/dokky/alarmRealCount/'+ userId,
+			url : '/alarmRealCount/'+ userId,
 			success : function(result, status, xhr) {
 				if (callback) {
 					callback(result,xhr);
@@ -153,7 +153,7 @@
 	function getNoteCount(userId, callback, error) {
 		$.ajax({
 			type : 'get',
-			url : '/dokky/noteCount/'+ userId,
+			url : '/noteCount/'+ userId,
 			success : function(result, status, xhr) {
 				if (callback) {
 					callback(result,xhr);
