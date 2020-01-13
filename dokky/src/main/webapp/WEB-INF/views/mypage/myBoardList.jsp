@@ -8,7 +8,7 @@
 <head>
 <meta charset="UTF-8">
 <title>Dokky - 나의 게시글</title> 
-<link href="/dokky/resources/css/myBoardList.css" rel="stylesheet" type="text/css"/>
+<link href="/resources/css/myBoardList.css" rel="stylesheet" type="text/css"/>
 </head>
 <%@include file="../includes/left.jsp"%> 
 <body>
@@ -94,7 +94,7 @@
 				</ul>
 			</div>
 			
-		<form id='actionForm' action="/dokky/mypage/myBoardList" method='get'>  
+		<form id='actionForm' action="/mypage/myBoardList" method='get'>  
 			<input type='hidden' name='pageNum' value='${pageMaker.cri.pageNum}'>
 			<input type='hidden' name='amount' value='${pageMaker.cri.amount}'>
 			<input type='hidden' name='userId' value='${pageMaker.cri.userId}'>
@@ -108,7 +108,7 @@
 	   
 	$("#regBtn").on("click", function() { 
 	
-		self.location = "/dokky/board/register?category="+${pageMaker.cri.category};
+		self.location = "/board/register?category="+${pageMaker.cri.category};
 	}); 
 	
 	$("#deleteBtn").on("click", function() { 
@@ -130,7 +130,7 @@
 			
 			e.preventDefault(); 
 			actionForm.append("<input type='hidden' name='board_num' value='"+ $(this).attr("href")+ "'>");
-			actionForm.attr("action","/dokky/board/get");
+			actionForm.attr("action","/board/get");
 			
 			actionForm.submit();   
 		});
@@ -164,7 +164,7 @@
 		  //console.log(checkRow);
 		  
 		  if(confirm("정말 삭제 하시겠습니까?")){
-			  actionForm.attr("action","/dokky/board/removeAll").attr("method","post");
+			  actionForm.attr("action","/board/removeAll").attr("method","post");
 			  actionForm.append("<input type='hidden' name='checkRow' value='"+checkRow+"'>");
 			  actionForm.append("<input type='hidden' id='csrf' name='${_csrf.parameterName}' value='${_csrf.token}'/>");
 			  actionForm.submit();

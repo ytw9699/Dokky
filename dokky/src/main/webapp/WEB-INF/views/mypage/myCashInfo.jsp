@@ -9,7 +9,7 @@
 <head>
 <meta charset="UTF-8"> 
 	<title>Dokky - 캐시</title>
-	<link href="/dokky/resources/css/myCashInfo.css" rel="stylesheet" type="text/css"/> 
+	<link href="/resources/css/myCashInfo.css" rel="stylesheet" type="text/css"/> 
 </head>
 <body>
 	<sec:authentication property="principal" var="userInfo"/>
@@ -81,7 +81,7 @@
 		function chargeCash(chargeData, callback, error) {//충전 요청
 			$.ajax({
 				type : 'post',
-				url : '/dokky/mypage/chargeData',
+				url : '/mypage/chargeData',
 				data : JSON.stringify(chargeData),
 				contentType : "application/json; charset=utf-8",
 				success : function(result, status, xhr) {
@@ -100,7 +100,7 @@
 		function reChargeCash(reChargeData, callback, error) {//환전 요청
 			$.ajax({
 				type : 'post',
-				url : '/dokky/mypage/reChargeData',
+				url : '/mypage/reChargeData',
 				data : JSON.stringify(reChargeData),
 				contentType : "application/json; charset=utf-8",
 				success : function(result, status, xhr) {

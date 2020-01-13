@@ -9,7 +9,7 @@
 <head>
 <meta charset="UTF-8"> 
 <title>Dokky - 알림</title>
-<link href="/dokky/resources/css/alarmList.css" rel="stylesheet" type="text/css"/>
+<link href="/resources/css/alarmList.css" rel="stylesheet" type="text/css"/>
 </head>
 <%@include file="../includes/left.jsp"%>
 
@@ -35,14 +35,14 @@
 	                    
 	                    <td class="td"> 
 							<a href="#" class="userMenu" data-alarm_num="${alarm.alarmNum}">
-								<img src="/dokky/resources/img/profile_img/<c:out value="${alarm.writerId}" />.png"  class="memberImage hideUsermenu" onerror="this.src='/dokky/resources/img/basicProfile.png'" />
+								<img src="/resources/img/profile_img/<c:out value="${alarm.writerId}" />.png"  class="memberImage hideUsermenu" onerror="this.src='/resources/img/basicProfile.png'" />
 								<c:out value="${alarm.writerNick}" /> 
 							</a>
 							 
 							<div id="userMenubar_${alarm.alarmNum}" class="userMenubar">
 								<ul class="hideUsermenu"> 
 									<li class="hideUsermenu">
-										<a href="/dokky/userBoardList?userId=${alarm.writerId}" class="hideUsermenu">
+										<a href="/userBoardList?userId=${alarm.writerId}" class="hideUsermenu">
 											<span class="hideUsermenu">게시글보기</span>
 										</a>  
 									</li>   
@@ -203,14 +203,14 @@
 				    </tr>
 			</table>
 			
-			<form id='actionForm' action="/dokky/alarmList" method='get'>  
+			<form id='actionForm' action="/alarmList" method='get'>  
 				<input type='hidden' name='pageNum' value='${pageMaker.cri.pageNum}'>
 				<input type='hidden' name='order' value='${pageMaker.cri.order}'>
 				<input type='hidden' name='amount' value='${pageMaker.cri.amount}'>
 				<input type='hidden' name='userId' value='${pageMaker.cri.userId}'>
 			</form> 
 			
-			<form id='commonForm' action="/dokky/board/get" method='get'>  
+			<form id='commonForm' action="/board/get" method='get'>  
 			</form>
 	</div>
 	
@@ -270,7 +270,7 @@
 		function updateAlarmCheck(alarmNum, callback, error) {
 			$.ajax({
 				type : 'put',
-				url : '/dokky/updateAlarmCheck/'+ alarmNum,
+				url : '/updateAlarmCheck/'+ alarmNum,
 				success : function(result, status, xhr) {
 					if (callback) {
 						callback(result,xhr);
@@ -299,7 +299,7 @@
 			
 			e.preventDefault(); 
 			actionForm.append("<input type='hidden' name='board_num' value='"+ $(this).attr("href")+ "'>");
-			actionForm.attr("action","/dokky/board/get");
+			actionForm.attr("action","/board/get");
 			
 			actionForm.submit();   
 		}); */
@@ -337,7 +337,7 @@
 				
 					if(result == "success"){
 						checkAlarm.html("");//알림 숫자 1 없애주기   
-						commonForm.attr("action", "/dokky/mypage/myCashHistory");
+						commonForm.attr("action", "/mypage/myCashHistory");
 						commonForm.append("<input type='hidden' name='userId' value='"+userId+"'/>");
 						commonForm.submit();//글 상세보기 
 						}
@@ -352,7 +352,7 @@
 				
 					if(result == "success"){
 						checkAlarm.html(""); 
-						commonForm.attr("action", "/dokky/admin/userReportList");
+						commonForm.attr("action", "/admin/userReportList");
 						commonForm.submit(); 
 						}
 		   	  });
@@ -385,7 +385,7 @@
 		  //console.log(checkRow);
 		  
 		  if(confirm("정말 삭제 하시겠습니까?")){
-			  actionForm.attr("action","/dokky/removeAllAlarm").attr("method","post");
+			  actionForm.attr("action","/removeAllAlarm").attr("method","post");
 			  actionForm.append("<input type='hidden' name='checkRow' value='"+checkRow+"'>");
 			  actionForm.append("<input type='hidden' id='csrf' name='${_csrf.parameterName}' value='${_csrf.token}'/>");
 			  actionForm.submit();

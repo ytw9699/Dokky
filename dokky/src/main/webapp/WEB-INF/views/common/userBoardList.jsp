@@ -8,7 +8,7 @@
 <head>
 <meta charset="UTF-8"> 
 <title>Dokky - 회원 등록 게시글</title>
-<link href="/dokky/resources/css/userBoardList.css" rel="stylesheet" type="text/css"/>
+<link href="/resources/css/userBoardList.css" rel="stylesheet" type="text/css"/>
 </head>
 <%@include file="../includes/left.jsp"%>
 <body>
@@ -62,7 +62,7 @@
 				</c:forEach>
 			</table>
 				
-			<form id='actionForm' action="/dokky/userBoardList" method='get'>  
+			<form id='actionForm' action="/userBoardList" method='get'>  
 				<input type='hidden' name='pageNum' value='${pageMaker.cri.pageNum}'>
 				<input type='hidden' name='amount' value='${pageMaker.cri.amount}'>
 				<input type='hidden' name='userId' value='${pageMaker.cri.userId}'>
@@ -111,7 +111,7 @@
 			
 			e.preventDefault(); 
 			actionForm.append("<input type='hidden' name='board_num' value='"+ $(this).attr("href")+ "'>");
-			actionForm.attr("action","/dokky/board/get");
+			actionForm.attr("action","/board/get");
 			
 			actionForm.submit();   
 		});

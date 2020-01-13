@@ -10,7 +10,7 @@
 	<meta charset="UTF-8">
 	<script src="//code.jquery.com/jquery-1.11.3.min.js"></script>
 	<title>Dokky - 쪽지 상세페이지</title>  
-	<link href="/dokky/resources/css/detailNotepage.css" rel="stylesheet" type="text/css">
+	<link href="/resources/css/detailNotepage.css" rel="stylesheet" type="text/css">
 </head>
 <body> 
 
@@ -31,12 +31,12 @@
 					        <c:when test="${note_kind == 'fromNote' || note_kind == 'myNote'}">
 		     					<div class="topData">보낸사람 -
 			          				<a href="#" class="userMenu" data-note_num="${note.note_num}">
-										<img src="/dokky/resources/img/profile_img/<c:out value="${note.from_id}"/>.png"  class="memberImage hideUsermenu" onerror="this.src='/dokky/resources/img/basicProfile.png'" />
+										<img src="/resources/img/profile_img/<c:out value="${note.from_id}"/>.png"  class="memberImage hideUsermenu" onerror="this.src='/resources/img/basicProfile.png'" />
 										<c:out value="${note.from_nickname}" /> 
 									</a>   
 									<div id="userMenubar_${note.note_num}" class="userMenubar">
 										<ul class="hideUsermenu">
-											<li class="hideUsermenu"><a href="/dokky/userBoardList?userId=${note.from_id}" class="hideUsermenu"><span class="hideUsermenu">게시글보기</span></a></li>
+											<li class="hideUsermenu"><a href="/userBoardList?userId=${note.from_id}" class="hideUsermenu"><span class="hideUsermenu">게시글보기</span></a></li>
 											<li class="hideUsermenu"><a href="#" class="hideUsermenu"><span class="hideUsermenu">쪽지보내기</span></a></li>
 										</ul>      
 								    </div> 
@@ -49,12 +49,12 @@
 							<c:when test="${note_kind == 'toNote'}">
 								<div class="topData">받는사람 -
 			          				<a href="#" class="userMenu" data-note_num="${note.note_num}">
-										<img src="/dokky/resources/img/profile_img/<c:out value="${note.to_id}"/>.png"  class="memberImage hideUsermenu" onerror="this.src='/dokky/resources/img/basicProfile.png'" />
+										<img src="/resources/img/profile_img/<c:out value="${note.to_id}"/>.png"  class="memberImage hideUsermenu" onerror="this.src='/resources/img/basicProfile.png'" />
 										<c:out value="${note.to_nickname}" /> 
 									</a>   
 									<div id="userMenubar_${note.note_num}" class="userMenubar">
 										<ul class="hideUsermenu">
-											<li class="hideUsermenu"><a href="/dokky/userBoardList?userId=${note.to_id}" class="hideUsermenu"><span class="hideUsermenu">게시글보기</span></a></li>
+											<li class="hideUsermenu"><a href="/userBoardList?userId=${note.to_id}" class="hideUsermenu"><span class="hideUsermenu">게시글보기</span></a></li>
 											<li class="hideUsermenu"><a href="#" class="hideUsermenu"><span class="hideUsermenu">쪽지보내기</span></a></li>
 										</ul>      
 								    </div> 
@@ -73,7 +73,7 @@
 		  </div>
 </div>
 
-<form id='actionForm' action="/dokky/deleteNote" method='post'>  
+<form id='actionForm' action="/deleteNote" method='post'>  
 		<input type='hidden' name='pageNum' value='${cri.pageNum}'>
 		<input type='hidden' name='amount' value='${cri.amount}'>
 		<input type='hidden' name='userId' value='${cri.userId}'>
@@ -101,7 +101,7 @@
 
 		var popupY= (window.screen.height /2) - (500 / 2);
 	         
-        window.open('/dokky/minRegNote?userId='+userId+'&nickname='+nickname, 'ot', 'height=500, width=400, left='+ popupX + ', top='+ popupY + ', screenX='+ popupX + ', screenY= '+ popupY);
+        window.open('/minRegNote?userId='+userId+'&nickname='+nickname, 'ot', 'height=500, width=400, left='+ popupX + ', top='+ popupY + ', screenX='+ popupX + ', screenY= '+ popupY);
     } 
 
 	
@@ -110,7 +110,7 @@
 	function insertNote(noteData, callback, error) {
 			$.ajax({
 				type : 'post',
-				url : '/dokky/Note',
+				url : '/Note',
 				data : JSON.stringify(noteData),
 				contentType : "application/json; charset=utf-8",
 				success : function(result, status, xhr) {
