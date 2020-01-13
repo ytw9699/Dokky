@@ -114,7 +114,7 @@
 						</td>
 						<td class="td">
 							<a href="#" class="userMenu" data-board_num="${board.board_num}" data-menu_kind="like">
-								<img width="25px" src="/resources/img/profile_img/<c:out value="${board.userId}" />.png"  class="memberImage hideUsermenu" onerror="this.src='/resources/img/basicProfile.png'" />
+								<img width="25px" src="/resources/img/profile_img/<c:out value="${board.userId}" />.png"  class="memberImage hideUsermenu" onerror="this.src='/resources/img/profile_img/basicProfile.png'" />
 								<c:out value="${board.nickName}" />
 							</a> 
 							 <div id="userMenubar_like_${board.board_num}" class="userMenubar">
@@ -180,7 +180,7 @@
 						</td>
 						<td class="td">
 							<a href="#" class="userMenu" data-board_num="${board.board_num}" data-menu_kind="donate"> 
-								<img width="25px" src="/resources/img/profile_img/<c:out value="${board.userId}" />.png"  class="memberImage hideUsermenu" onerror="this.src='/resources/img/basicProfile.png'" />
+								<img width="25px" src="/resources/img/profile_img/<c:out value="${board.userId}" />.png"  class="memberImage hideUsermenu" onerror="this.src='/resources/img/profile_img/basicProfile.png'" />
 								<c:out value="${board.nickName}" />
 							</a> 
 							 <div id="userMenubar_donate_${board.board_num}" class="userMenubar">
