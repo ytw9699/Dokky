@@ -1,16 +1,22 @@
 package org.my.controller;
 	import java.io.UnsupportedEncodingException;
 	import java.util.ArrayList;
-	import java.util.List;
+import java.util.Iterator;
+import java.util.List;
 	import java.util.Locale;
-	import javax.servlet.http.HttpSession;
+import java.util.Random;
+
+import javax.servlet.http.HttpSession;
 	import org.my.auth.SNSLogin;
 	import org.my.auth.SnsValue;
-	import org.my.domain.Criteria;
+import org.my.domain.AuthVO;
+import org.my.domain.Criteria;
 	import org.my.domain.MemberVO;
 	import org.my.domain.PageDTO;
 	import org.my.domain.cashVO;
 	import org.my.domain.noteVO;
+	import org.my.mapper.MemberMapper;
+	import org.my.security.domain.CustomUser;
 	import org.my.service.CommonService;
 	import org.my.service.MemberService;
 	import org.my.service.MypageService;
@@ -23,7 +29,6 @@ package org.my.controller;
 	import org.springframework.security.core.authority.SimpleGrantedAuthority;
 	import org.springframework.security.core.context.SecurityContextHolder;
 	import org.springframework.security.core.userdetails.User;
-	import org.my.domain.myUser;
 	import org.springframework.security.crypto.password.PasswordEncoder;
 	import org.springframework.stereotype.Controller;
 	import org.springframework.ui.Model;
@@ -37,9 +42,8 @@ package org.my.controller;
 	import org.springframework.web.bind.annotation.RequestMethod;
 	import org.springframework.web.bind.annotation.RequestParam;
 	import org.springframework.web.bind.annotation.ResponseBody;
-import org.springframework.web.servlet.mvc.support.RedirectAttributes;
-
-import lombok.Setter;
+	import org.springframework.web.servlet.mvc.support.RedirectAttributes;
+	import lombok.Setter;
 	import lombok.extern.log4j.Log4j;
 	import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 	
@@ -64,6 +68,9 @@ public class CommonController {
 	
 	@Setter(onMethod_ = @Autowired)
 	private SnsValue googleSns;
+	
+	@Setter(onMethod_ = { @Autowired })
+	private MemberMapper memberMapper;
 	
 	@GetMapping("/customLogin")//커스톰 로그인 페이지는 반드시 get방식 이여야한다.시큐리티의 특성임
 	public String loginInput(String error, String logout, String check, Model model) throws UnsupportedEncodingException {
@@ -121,8 +128,6 @@ public class CommonController {
 	@RequestMapping(value = "/auth/{snsService}/callback", method = { RequestMethod.GET, RequestMethod.POST})
 	public String snsLoginCallback(@PathVariable String snsService, Model model, @RequestParam String code,RedirectAttributes rttr) throws Exception {
 		
-		log.info("snsLoginCallback: service={}" + snsService);
-		
 		SnsValue sns = null; 
 		
 		if ("naver".equals(snsService))
@@ -130,52 +135,40 @@ public class CommonController {
 		else
 			sns = googleSns;
 		
-		// 1. code를 이용해서 access_token 받기
-		// 2. access_token을 이용해서 사용자 profile 정보 가져오기
-		
 		SNSLogin snsLogin = new SNSLogin(sns);
 		
-		myUser snsUser = snsLogin.getUserProfile(code); // 1,2번 동시
+		MemberVO profile = snsLogin.getUserProfile(code);//사용자 profile 정보 가져오기
 		
-		System.out.println("result" + snsUser);
+		if(!memberService.getIdCheckedVal(profile.getUserId())){//회원가입되어있지 않다면 , DB 해당 유저가 존재하는 체크
+			
+			profile.setUserPw(pwencoder.encode("22"));//임시 패스워드 암호화
+			profile.setEmail("@"+Math.random());//임시 이메일 난수 생성
+			profile.setPhoneNum("");
+			profile.setBankName("");
+			profile.setAccount("");
+			memberService.registerMembers(profile);//회원가입
+		}
 		
-		model.addAttribute("result", snsUser);
+		//model.addAttribute("result", profile);
+		
+		MemberVO vo = memberMapper.read(profile.getUserId());
+		
+		List<AuthVO> AuthList = vo.getAuthList();
 		
 		List<GrantedAuthority> roles = new ArrayList<>(1);
 		
-		roles.add(new SimpleGrantedAuthority("ROLE_USER"));
-		  
-		User user = new User(snsUser.getId(), "22", roles);
-		  
-		Authentication auth = new UsernamePasswordAuthenticationToken(user, "22", roles);
+		Iterator<AuthVO> it = AuthList.iterator();
+		
+		while (it.hasNext()) {
+			AuthVO authVO = it.next(); 
+			roles.add(new SimpleGrantedAuthority(authVO.getAuth()));
+        }
+		
+		Authentication auth = new UsernamePasswordAuthenticationToken(new CustomUser(vo), null, roles);
 		
 		SecurityContextHolder.getContext().setAuthentication(auth);//Authentication 인증객체를 SecurityContext에 보관
-		  
-		//model.addAttribute("result", snsUser.getEmail()+snsUser.getNaverid()+snsUser.getNickname() + "님 반갑습니다.");
 		
-		// 3. DB 해당 유저가 존재하는 체크 (googleid, naverid 컬럼 추가)
-		/*User user = service.getBySns(snsUser);
-		
-		if (user == null) {
-			model.addAttribute("result", "존재하지 않는 사용자입니다. 가입해 주세요.");
-			
-			//미존재시 가입페이지로!!
-			
-		} else {
-			model.addAttribute("result", user.getUname() + "님 반갑습니다.");
-			
-			// 4. 존재시 강제로그인
-			session.setAttribute(SessionNames.LOGIN, user);
-		}*/
-		
-		//return "common/loginResult";
-		
-		rttr.addFlashAttribute("username", "12830731"); 
-		rttr.addFlashAttribute("password", "22"); 
-	     
-		return "redirect:/dokky/login";
-	      
-		//return "common/loginResult";
+		return "redirect:/main";
 	}
 	
 	@RequestMapping(value = "/main", method = RequestMethod.GET)

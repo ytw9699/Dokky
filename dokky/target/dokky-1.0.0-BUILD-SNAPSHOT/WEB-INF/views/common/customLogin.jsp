@@ -8,7 +8,7 @@
 <head>
 	<meta charset="utf-8"> 
 	<title>Dokky - 로그인</title>
-	<link href="/dokky/resources/css/customLogin.css" rel="stylesheet" type="text/css"/>
+	<link href="/resources/css/customLogin.css" rel="stylesheet" type="text/css"/>
 	<!-- <script src="https://apis.google.com/js/platform.js" async defer></script> -->
 		 <script src="https://apis.google.com/js/platform.js?onload=init" async defer></script>
 		 <!-- onload는 호출이끝났을때 init함수를 호출 --> 
@@ -21,7 +21,7 @@
 			Login 
 	</div>
 	<div class="container"> 
-		<form role="form" method='post' action="/dokky/login">
+		<form role="form" method='post' action="/login">
 				<div class="form-group">
 					<input id="userId" class="form-control" placeholder="아이디를 입력하세요." name="username" type="text" oninput="checkLength(this,20);" autofocus/>
 				</div>
@@ -52,18 +52,15 @@
 					      });
 					    }
 					  "> -->
+					<a href="${ google_url }"><button class="btn" id="google">구글 로그인</button></a>
+					<a href="${ naver_url }"><button class="btn" id="naver">네이버 로그인</button></a>
 					<button class="btn" id="login" >로그인</button>
 					<button class="btn" id="join">회원가입</button>
+					
 				</div>
 			<input type="hidden" name="${_csrf.parameterName}" value="${_csrf.token}" />
 		</form> 
-		
 	</div>
-	<div class="text-center">
-	   <a href="${ naver_url }">Naver Login</a>
-	   <a href="${ google_url }">Google Login</a>
-	</div>
-	
 </div>
 <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
 <script>
@@ -198,7 +195,19 @@
 	  $("#join").on("click", function(e){
 		    e.preventDefault();
 		    
-		    location.href='/dokky/memberForm';
+		    location.href='/memberForm';
+	  });
+	  
+	  $("#naver").on("click", function(e){
+		    e.preventDefault();
+		    
+		    location.href='${naver_url}';
+	  });
+	  
+	  $("#google").on("click", function(e){
+		    e.preventDefault();
+		    
+		    location.href='${google_url}';
 	  });
 	  
 </script>

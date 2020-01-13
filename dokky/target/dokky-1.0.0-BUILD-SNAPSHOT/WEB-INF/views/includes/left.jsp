@@ -6,7 +6,7 @@
 <html>
 <head>
 <meta charset="UTF-8"> 
-<link href="/dokky/resources/css/left.css" rel="stylesheet" type="text/css"/>
+<link href="/resources/css/left.css" rel="stylesheet" type="text/css"/>
 </head>  
 <body>
 		<sec:authentication property="principal" var="userInfo"/>
@@ -23,7 +23,7 @@
 		<div class="mypage topMypage">  
 					<a href="#" class="leftUsermenu">
 					  	  <%-- <img id="leftProfile" src="/dokky/display?fileName=<c:out value="${userInfo.username}"/>.png" class="memberImage leftHideusermenu" onerror="this.src='/dokky/resources/img/basicProfile.png'"/> --%>
-					  	  <img id="leftProfile" src="/dokky/resources/img/profile_img/<c:out value="${userInfo.username}"/>.png" class="memberImage leftHideusermenu" onerror="this.src='/dokky/resources/img/profile_img/basicProfile.png'" />
+					  	  <img id="leftProfile" src="/resources/img/profile_img/<c:out value="${userInfo.username}"/>.png" class="memberImage leftHideusermenu" onerror="this.src='/resources/img/profile_img/basicProfile.png'" />
 					  	  <c:out value="${userInfo.member.nickName}"/>     
 			  	    </a> 
 			  	    <div id="leftUsermenuBar">
@@ -130,13 +130,13 @@
 
 		var popupY= (window.screen.height /2) - (500 / 2);
 	         
-        window.open('/dokky/minRegNote?userId='+userId+'&nickname='+nickname, 'ot', 'height=500, width=400, screenX='+ popupX + ', screenY= '+ popupY);
+        window.open('/minRegNote?userId='+userId+'&nickname='+nickname, 'ot', 'height=500, width=400, screenX='+ popupX + ', screenY= '+ popupY);
     }
 	
 	function getAlarmRealCount(userId, callback, error) {
 		$.ajax({
 			type : 'get',
-			url : '/dokky/alarmRealCount/'+ userId,
+			url : '/alarmRealCount/'+ userId,
 			success : function(result, status, xhr) {
 				if (callback) {
 					callback(result,xhr);
@@ -153,7 +153,7 @@
 	function getNoteCount(userId, callback, error) {
 		$.ajax({
 			type : 'get',
-			url : '/dokky/noteCount/'+ userId,
+			url : '/noteCount/'+ userId,
 			success : function(result, status, xhr) {
 				if (callback) {
 					callback(result,xhr);

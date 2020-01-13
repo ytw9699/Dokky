@@ -21,15 +21,17 @@
 		
 		<security:form-login login-page="/customLogin" authentication-failure-handler-ref="loginFailHandler"/>
 	 	<!-- form-login: 1. 인증된 사용자만 허용되는 자원(경로)에 접근할 때，로그인 폼(커스톰 로그인 페이지 지정)을 보여준다(스프링 시큐리티의 시작 지점이 필요)
-	 	2. 로그인 폼에서 아이디/암호를 전송하면，로그인(인증) 처리를 한다.3. 기본적으로 사용자가 원래 보려고 했던 페이지의 정보를 유지해서 로그인 후에 다시 원했던 페이지로 이동하는 방식-->
-	 
+	 	2. 로그인 폼에서 아이디/암호를 전송하면，로그인(인증) 처리를 한다.3. 기본적으로 사용자가 원래 보려고 했던 페이지의 정보를 유지해서 로그인 후에 다시 원했던 페이지로 이동하는 방식
+	 	4.UsernamePasswordAuthenticationFilter생성
+	 	-->
+	 	
 	 	<security:remember-me data-source-ref="dataSource" token-validity-seconds="604800" />
 		<!-- 자동 로그인에서 데이터베이스를 이용하는 설정은 별도의 설정 없이 data—source-ref만을 지정 , 쿠키의 유효시간 604800 지정-->
 		
 		<security:logout logout-url="/customLogout" invalidate-session="true" delete-cookies="remember-me,JSESSION_ID" />
-		<!-- 로그아웃을 하면 세션무효화, 자동 로그인 에 사용하는 쿠키도 삭제,로그아웃시 자동으로 로그인페이지 이동됨 -->
+		<!-- 로그아웃을 하면 세션무효화, 자동 로그인 에 사용하는 쿠키도 삭제,로그아웃시 자동으로 로그인페이지 이동됨 ,LogoutFilter 필터를 생성-->
 		
-		<security:csrf disabled="true"/>
+		<!-- <security:csrf disabled="true"/> -->
 		
 		<!-- <security:headers>
 		         <security:frame-options disabled="true"></security:frame-options>
@@ -39,8 +41,7 @@
 	</security:http>
 	
 	<security:authentication-manager>
-	<!-- 스프링 시큐리티가 동작하기 위해서는 Authentication Manager라는 존재 필요 -->
-	
+	<!-- 스프링 시큐리티는 AuthenticationManager를 사용해서 인증을 처 리하는데, 이 AuthenticationManager가 입력으로 받는 값의 타입이 Authentication이다 -->
 		<security:authentication-provider user-service-ref="customUserDetailsService">
 		<!-- authentication-provider는 인증제공자,실제 인증 작업 진행, customUserDetailsService는 권한에 대한 정보같이 전달,인증과 권한에 대한 실제처리도함 -->
 			<security:password-encoder ref="bcryptPasswordEncoder" />

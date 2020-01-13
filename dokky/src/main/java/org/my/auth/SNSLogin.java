@@ -1,6 +1,5 @@
 package org.my.auth;
-	import java.util.Iterator;
-	import org.my.domain.myUser;
+	import org.my.domain.MemberVO;
 	import com.fasterxml.jackson.databind.JsonNode;
 	import com.fasterxml.jackson.databind.ObjectMapper;
 	import com.github.scribejava.core.builder.ServiceBuilder;
@@ -30,24 +29,22 @@ public class SNSLogin {
 		return this.oauthService.getAuthorizationUrl();
 	}
 
-	public myUser getUserProfile(String code) throws Exception {
+	public MemberVO getUserProfile(String code) throws Exception {
 		
-		OAuth2AccessToken accessToken = oauthService.getAccessToken(code);
+		OAuth2AccessToken accessToken = oauthService.getAccessToken(code);// 1. code를 이용해서 access_token 받기
 		
 		OAuthRequest request = new OAuthRequest(Verb.GET, this.sns.getProfileUrl());
 		
-		oauthService.signRequest(accessToken, request);
+		oauthService.signRequest(accessToken, request);//2. access_token을 이용해서 사용자 profile 정보 가져오기
 		
 		Response response = oauthService.execute(request);
 		
 		return parseJson(response.getBody());
 	}
 	
-	private myUser parseJson(String body) throws Exception {
+	private MemberVO parseJson(String body) throws Exception {
 		
-		System.out.println("============================\n" + body + "\n==================");
-		
-		myUser user = new myUser();
+		MemberVO user = new MemberVO();
 		
 		ObjectMapper mapper = new ObjectMapper();
 		
@@ -55,45 +52,21 @@ public class SNSLogin {
 		
 		if (this.sns.isGoogle()) {
 			
-			String id = rootNode.get("id").asText();
+			String id = rootNode.get("sub").asText();
 			
-			if (sns.isGoogle()){
-				user.setId(id);
-			}
+			user.setUserId(id);
 			
-			user.setNickname(rootNode.get("displayName").asText());
-			
-			JsonNode nameNode = rootNode.path("name");
-			
-			String uname = nameNode.get("familyName").asText() + nameNode.get("givenName").asText();
-			
-			//user.setUname(uname);
-
-			Iterator<JsonNode> iterEmails = rootNode.path("emails").elements();
-			
-			while(iterEmails.hasNext()) {
-				
-				JsonNode emailNode = iterEmails.next();
-				
-				String type = emailNode.get("type").asText();
-				
-				if (type.equals("account")) {
-					
-					user.setEmail(emailNode.get("value").asText());
-					break;
-				}
-			}
-			
+			user.setNickName(rootNode.get("name").asText());
 			
 		}else if (this.sns.isNaver()) {
 				
-			JsonNode resNode = rootNode.get("response");
+			JsonNode node = rootNode.get("response");
 			
-			user.setId(resNode.get("id").asText());
+			user.setUserId(node.get("id").asText());
 			
-			user.setNickname(resNode.get("nickname").asText());
+			user.setNickName(node.get("nickname").asText());
 			
-			user.setEmail(resNode.get("email").asText());
+			//user.setEmail(node.get("email").asText());
 		}
 	
 		return user;
