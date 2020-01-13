@@ -16,7 +16,7 @@
 <div class="userBoardWrap">	
 
 		<div id="userId">
-		      	${pageMaker.cri.userId} 회원님의 게시글
+		      	${pageMaker.cri.nickName} 회원님의 게시글
 		</div>
 		
 		<div id="menuWrap"> 
