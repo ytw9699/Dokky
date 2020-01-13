@@ -200,7 +200,7 @@
 		    location.href='/memberForm';
 	  });
 	  
-	  /* $("#naver").on("click", function(e){
+	  $("#naver").on("click", function(e){
 		    e.preventDefault();
 		    
 		    location.href='${naver_url}';
@@ -210,7 +210,7 @@
 		    e.preventDefault();
 		    
 		    location.href='${google_url}';
-	  }); */
+	  });
 	  
 </script>
   <!-- customLogout’에서 POST 방식으로 로그아웃을 하게 되면  내부적으로
