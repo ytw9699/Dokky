@@ -9,7 +9,7 @@
 <head>
 	<meta charset="UTF-8">
 	<title>Dokky - 수정하기</title>    
-	<link href="/dokky/resources/css/modify.css" rel="stylesheet" type="text/css">
+	<link href="/resources/css/modify.css" rel="stylesheet" type="text/css">
 </head>  
 <body> 
 
@@ -42,7 +42,7 @@
             </span>  
       	 </div> 
       
-      <form role="form" action="/dokky/board/modify" method="post"> 
+      <form role="form" action="/board/modify" method="post"> 
 				
 		  <div class="row">
 			<select id="selectId" name="category" class="">
@@ -121,7 +121,7 @@
 		    
 		    var board_num = '<c:out value="${board.board_num}"/>';
 		    
-		    $.getJSON("/dokky/board/getAttachList", {board_num: board_num}, function(arr){
+		    $.getJSON("/board/getAttachList", {board_num: board_num}, function(arr){
 		    
 			      var fileStr ="";
 			      var photoStr ="";
@@ -133,7 +133,7 @@
 					            photoStr += "<li id='"+attach.uuid+"' data-path='"+attach.uploadPath+"'";
 					            photoStr +=" data-uuid='"+attach.uuid+"' data-filename='"+attach.fileName+"' data-type='"+attach.fileType+"'"
 					            photoStr +" >";                
-					            photoStr += "<br><img src='/dokky/displayS3?path="+attach.uploadPath+"&filename=s_"+attach.uuid+"_"+attach.fileName+"' data-path='"+attach.uploadPath+"' data-filename='"+attach.uuid+"_"+attach.fileName+"'>";
+					            photoStr += "<br><img src='/displayS3?path="+attach.uploadPath+"&filename=s_"+attach.uuid+"_"+attach.fileName+"' data-path='"+attach.uploadPath+"' data-filename='"+attach.uuid+"_"+attach.fileName+"'>";
 					            photoStr += "<button type='button' data-uuid='"+attach.uuid+"'"
 					            photoStr += "data-type='image' class='btn btn-warning btn-circle'><span class='css-cancel'></span></button>"; 
 					            photoStr +"</li>";
@@ -268,12 +268,12 @@
 				str += "<li id='"+obj.uuid+"' data-path='"+obj.uploadPath+"'";
 				str +=" data-uuid='"+obj.uuid+"' data-filename='"+obj.fileName+"' data-type='"+obj.image+"'"
 				str +" >";            
-				str += "<br><img src='/dokky/displayS3?path="+obj.uploadPath+"&filename=s_"+obj.uuid+"_"+obj.fileName+"' data-path='"+obj.uploadPath+"' data-filename='"+obj.uuid+"_"+obj.fileName+"'>";
+				str += "<br><img src='/displayS3?path="+obj.uploadPath+"&filename=s_"+obj.uuid+"_"+obj.fileName+"' data-path='"+obj.uploadPath+"' data-filename='"+obj.uuid+"_"+obj.fileName+"'>";
 				str += "<button type='button' data-uuid='"+obj.uuid+"'"
 				str += "data-type='image' class='btn btn-warning btn-circle'><span class='css-cancel'></span></button>"; 
 				str +"</li>";
 				
-				contentVal += "<img src='/dokky/displayS3?path="+obj.uploadPath+"&filename=s_"+obj.uuid+"_"+obj.fileName+"' data-type='image' data-uuid='"+obj.uuid+"' data-path='"+obj.uploadPath+"' data-filename='"+obj.uuid+"_"+obj.fileName+"'>";
+				contentVal += "<img src='/displayS3?path="+obj.uploadPath+"&filename=s_"+obj.uuid+"_"+obj.fileName+"' data-type='image' data-uuid='"+obj.uuid+"' data-path='"+obj.uploadPath+"' data-filename='"+obj.uuid+"_"+obj.fileName+"'>";
 				divContent.html(contentVal);//본문 삽입  
 				
 			}else{//일반파일이라면
@@ -367,7 +367,7 @@
 		  		  inputFile.val("");  
 		  
 		  $.ajax({
-		      url: '/dokky/s3upload',
+		      url: '/s3upload',
 		      type: 'POST',
 		      processData: false, 
 		      contentType: false,
@@ -463,7 +463,7 @@
     	    
 			$(".bigPictureWrapper").css("display","flex").show(); 
     	    
-    	    $(".bigPicture").html("<img src='/dokky/displayS3?path="+path+"&filename="+filename+"'>");
+    	    $(".bigPicture").html("<img src='/displayS3?path="+path+"&filename="+filename+"'>");
     	    
     	    $("#profileGray").css("display","block");
       }

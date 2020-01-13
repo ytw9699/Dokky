@@ -9,7 +9,7 @@
 <head>
 <meta charset="UTF-8">
 	<title>Dokky - 회원 개인정보 </title>   
-	<link href="/dokky/resources/css/userForm.css" rel="stylesheet" type="text/css"/>
+	<link href="/resources/css/userForm.css" rel="stylesheet" type="text/css"/>
 </head>
 <body>
 <sec:authentication property="principal" var="userInfo"/>
@@ -18,9 +18,9 @@
 
 		<div id="menuWrap"> 
 			<div class="tab">  
-				<button onclick="location.href='/dokky/admin/userForm?userId=${user.userId}'">회원 개인정보</button> 
-		        <button onclick="location.href='/dokky/admin/userCashHistory?userId=${user.userId}'">회원 캐시내역</button>
-		        <button onclick="location.href='/dokky/userBoardList?userId=${user.userId}&pageLocation=admin'">회원 활동</button>
+				<button onclick="location.href='/admin/userForm?userId=${user.userId}'">회원 개인정보</button> 
+		        <button onclick="location.href='/admin/userCashHistory?userId=${user.userId}'">회원 캐시내역</button>
+		        <button onclick="location.href='/userBoardList?userId=${user.userId}&pageLocation=admin'">회원 활동</button>
 		    </div>   	 
 		</div> 
 		 
@@ -136,7 +136,7 @@
 	function limitRegistering(userId, callback, error) {
 		$.ajax({
 			type : 'put',
-			url : '/dokky/admin/roleStop/'+ userId,
+			url : '/admin/roleStop/'+ userId,
 			success : function(result, status, xhr) {
 				if (callback) {
 					callback(result,xhr);
@@ -152,7 +152,7 @@
 	function limitLogin(userId, callback, error) {
 		$.ajax({
 			type : 'put',
-			url : '/dokky/admin/roleLimit/'+ userId,
+			url : '/admin/roleLimit/'+ userId,
 			success : function(result, status, xhr) {
 				if (callback) {
 					callback(result,xhr);
@@ -168,7 +168,7 @@
 	function recovery(userId, callback, error) {
 		$.ajax({
 			type : 'put',
-			url : '/dokky/admin/roleUser/'+ userId,
+			url : '/admin/roleUser/'+ userId,
 			success : function(result, status, xhr) {
 				if (callback) {
 					callback(result,xhr);

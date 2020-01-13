@@ -9,9 +9,9 @@
 	<head>
 		<meta charset="UTF-8">
 		<script src="//code.jquery.com/jquery-1.11.3.min.js"></script>
-		<!-- <script type="text/javascript" src="/dokky/resources/SmartEditor/js/HuskyEZCreator.js" charset="utf-8" ></script> -->
+		<!-- <script type="text/javascript" src="/resources/SmartEditor/js/HuskyEZCreator.js" charset="utf-8" ></script> -->
 		<title>Dokky - 새 글쓰기</title>  
-		<link href="/dokky/resources/css/register.css" rel="stylesheet" type="text/css">
+		<link href="/resources/css/register.css" rel="stylesheet" type="text/css">
 	</head>
 <body> 
 
@@ -26,7 +26,7 @@
 			     	 	<span id="category">새 글쓰기</span>   
 			      </div> 
 			  
-	          <form role="form" action="/dokky/board/register" method="post">
+	          <form role="form" action="/board/register" method="post">
 			      <div class="row">
 					<select id="selectId" name="category" class="">
 						   <option value=0>게시판을 선택해 주세요.</option>
@@ -91,7 +91,7 @@
 		nhn.husky.EZCreator.createInIFrame({  
 		 oAppRef: oEditors, // 전역변수 명과 동일해야 함
 		 elPlaceHolder: "ir1",// 에디터가 그려질 textarea ID 값과 동일 해야 함
-		 sSkinURI: "/dokky/resources/SmartEditor/SmartEditor2Skin.html",
+		 sSkinURI: "/resources/SmartEditor/SmartEditor2Skin.html",
 		 fCreator: "createSEditor2", // SE2BasicCreator.js 메소드명이니 변경 금지
 		 htParams : {
 	        bUseToolbar : true,        // 툴바 사용 여부 (true:사용/ false:사용하지 않음)
@@ -204,12 +204,12 @@
 				str += "<li id='"+obj.uuid+"' data-path='"+obj.uploadPath+"'";
 				str +=" data-uuid='"+obj.uuid+"' data-filename='"+obj.fileName+"' data-type='"+obj.image+"'"
 				str +" >";            
-				str += "<br><img src='/dokky/displayS3?path="+obj.uploadPath+"&filename=s_"+obj.uuid+"_"+obj.fileName+"' data-path='"+obj.uploadPath+"' data-filename='"+obj.uuid+"_"+obj.fileName+"'>";
+				str += "<br><img src='/displayS3?path="+obj.uploadPath+"&filename=s_"+obj.uuid+"_"+obj.fileName+"' data-path='"+obj.uploadPath+"' data-filename='"+obj.uuid+"_"+obj.fileName+"'>";
 				str += "<button type='button' data-uuid='"+obj.uuid+"' data-filename='"+obj.uuid+"_"+obj.fileName+"' data-path='"+obj.uploadPath+"'"
 				str += "data-type='image' class='btn btn-warning btn-circle'><span class='css-cancel'></span></button>"; 
 				str +"</li>";
 				
-				contentVal += "<img src='/dokky/displayS3?path="+obj.uploadPath+"&filename=s_"+obj.uuid+"_"+obj.fileName+"' data-type='image' data-uuid='"+obj.uuid+"' data-path='"+obj.uploadPath+"' data-filename='"+obj.uuid+"_"+obj.fileName+"'>";
+				contentVal += "<img src='/displayS3?path="+obj.uploadPath+"&filename=s_"+obj.uuid+"_"+obj.fileName+"' data-type='image' data-uuid='"+obj.uuid+"' data-path='"+obj.uploadPath+"' data-filename='"+obj.uuid+"_"+obj.fileName+"'>";
 				divContent.html(contentVal);//본문 삽입  
 				
 			}else{//일반파일이라면
@@ -307,7 +307,7 @@
 		  		  inputFile.val("");  
 		  
 		  $.ajax({
-			      url: '/dokky/s3upload',
+			      url: '/s3upload',
 			      type: 'POST',
 			      processData: false, 
 			      contentType: false,
@@ -357,7 +357,7 @@
 						 var type = removeTarget.getAttribute('data-type');
 						 
 						 $.ajax({
-						      url: '/dokky/deleteS3File',
+						      url: '/deleteS3File',
 						      type: 'POST',
 						      dataType:'text',
 						      data: {	
@@ -404,7 +404,7 @@
 		    var imgTags = $('#divContent img');
 		    
 		    $.ajax({
-			      url: '/dokky/deleteS3File',
+			      url: '/deleteS3File',
 			      type: 'POST',
 			      dataType:'text',
 			      data: {	
@@ -454,7 +454,7 @@
     	    
 			$(".bigPictureWrapper").css("display","flex").show(); 
     	    
-    	    $(".bigPicture").html("<img src='/dokky/displayS3?path="+path+"&filename="+filename+"'>");
+    	    $(".bigPicture").html("<img src='/displayS3?path="+path+"&filename="+filename+"'>");
     	    
     	    $("#profileGray").css("display","block");
     }

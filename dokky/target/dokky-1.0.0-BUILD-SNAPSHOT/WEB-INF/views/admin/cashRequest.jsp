@@ -8,7 +8,7 @@
 <head>
 <meta charset="UTF-8">
 	<title>Dokky - 결제관리</title>  
-<link href="/dokky/resources/css/cashRequest.css" rel="stylesheet" type="text/css"/>
+<link href="/resources/css/cashRequest.css" rel="stylesheet" type="text/css"/>
 </head> 
 <%@include file="../includes/left.jsp"%>
 
@@ -17,9 +17,9 @@
 	 
 	 <div id="menuWrap"> 
 		<div class="tab">      
-			<button onclick="location.href='/dokky/admin/userList'">계정관리</button>
-			<button class="active" onclick="location.href='/dokky/admin/cashRequest'">결제관리</button> 
-			<button onclick="location.href='/dokky/admin/userReportList'">신고관리</button>
+			<button onclick="location.href='/admin/userList'">계정관리</button>
+			<button class="active" onclick="location.href='/admin/cashRequest'">결제관리</button> 
+			<button onclick="location.href='/admin/userReportList'">신고관리</button>
 	    </div>
 	 </div> 
 	 
@@ -38,7 +38,7 @@
 			
 				<td class="td">
 					<a href='userForm?userId=<c:out value="${cash.userId}"/>'> 
-					  <img src="/dokky/resources/img/profile_img/<c:out value="${cash.userId}"/>.png"  class="memberImage" onerror="this.src='/dokky/resources/img/basicProfile.png'" />
+					  <img src="/resources/img/profile_img/<c:out value="${cash.userId}"/>.png"  class="memberImage" onerror="this.src='/resources/img/basicProfile.png'" />
 					  <c:out value="${cash.userId}" />
 					</a> 
 				</td> 
@@ -64,7 +64,7 @@
 		 </table>
 	 </div>
 		
-	<form id='actionForm' action="/dokky/admin/cashRequest" method='get'>  
+	<form id='actionForm' action="/admin/cashRequest" method='get'>  
 		<input type='hidden' name='pageNum' value='${pageMaker.cri.pageNum}'><!--  $(this).attr("href") -->
 		<input type='hidden' name='amount' value='${pageMaker.cri.amount}'>
 	</form>  
@@ -108,7 +108,7 @@
 				 
 					$.ajax({
 						type : 'put',
-						url : '/dokky/admin/approve/',
+						url : '/admin/approve/',
 						data : JSON.stringify(commonData),
 						contentType : "application/json; charset=utf-8",
 						success : function(result, status, xhr) {
@@ -129,7 +129,7 @@
 					
 					$.ajax({
 						type : 'post',
-						url : '/dokky/alarm',
+						url : '/alarm',
 						//data : JSON.stringify(alarmData1),
 						data : JSON.stringify(approveData),
 						/* data : {

@@ -8,7 +8,7 @@
 	<head>
 		<meta charset="UTF-8">
 		<title>Dokky - 상세페이지</title> 
-		<link href="/dokky/resources/css/get.css" rel="stylesheet" type="text/css">
+		<link href="/resources/css/get.css" rel="stylesheet" type="text/css">
 		<%@include file="../includes/left.jsp"%> 
 	</head>
 <body> 
@@ -41,7 +41,7 @@
 			
 			<div class="nickName">
 				<a href="#" id="board_userMenu" class="userMenu">
-					<img src="/dokky/resources/img/profile_img/<c:out value="${board.userId}" />.png"  class="memberImage hideUsermenu" onerror="this.src='/dokky/resources/img/profile_img/basicProfile.png'" />
+					<img src="/resources/img/profile_img/<c:out value="${board.userId}" />.png"  class="memberImage hideUsermenu" onerror="this.src='/resources/img/profile_img/basicProfile.png'" />
 					<c:out value="${board.nickName}" /> 
 				</a>
 			</div>
@@ -66,7 +66,7 @@
 			<div id="UserMenubar_board" class="userMenubar topUserMenubar">
 				<ul class="hideUsermenu">  
 					<li class="hideUsermenu">
-						<a href="/dokky/userBoardList?userId=${board.userId}" class="hideUsermenu">
+						<a href="/userBoardList?userId=${board.userId}" class="hideUsermenu">
 							<span class="hideUsermenu">게시글보기</span>
 						</a>
 					</li>
@@ -203,7 +203,7 @@
 </div>
 
 <div> 
-	<form id='operForm' action="/dokky/board/modify" method="get">
+	<form id='operForm' action="/board/modify" method="get">
 		  <input type="hidden" id='csrf' name="${_csrf.parameterName}" value="${_csrf.token}"/>
 		  <input type='hidden' id='userId' name='userId' value='<c:out value="${board.userId}"/>'>    
 		  <input type='hidden' id='board_num' name='board_num' value='<c:out value="${board.board_num}"/>'>
@@ -265,7 +265,7 @@
 <!-- END 숨겨진 DIV들  -->
 
 <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
-<script type="text/javascript" src="/dokky/resources/js/reply.js"></script> <!--댓글 AJAX통신 -->
+<script type="text/javascript" src="/resources/js/reply.js"></script> <!--댓글 AJAX통신 -->
 <script>
 	//공통 변수 모음 
 	var board_num = '${board.board_num}'; 
@@ -476,7 +476,7 @@
 		    	  str += "<div class='reply' data-reply_num='"+reply_nums+"'>" 
 			    	  		   + "<span>"
 								   + "<a href='#' class='userMenu' data-reply_num='"+reply_nums+"' data-menu_kind='from'>"   
-									   + "<img src='/dokky/resources/img/profile_img/"+userId+".png' class='memberImage hideUsermenu' onerror='this.src=\"/dokky/resources/img/basicProfile.png\"'/>&nbsp"
+									   + "<img src='/resources/img/profile_img/"+userId+".png' class='memberImage hideUsermenu' onerror='this.src=\"/resources/img/basicProfile.png\"'/>&nbsp"
 									   + nickName
 								   + "</a>"
 							   + "</span>" 
@@ -484,7 +484,7 @@
 							   + "<div id='userMenubar_reply_from_"+reply_nums+"' class='userMenubar'>" 
 								   + "<ul class='hideUsermenu'>" 
 									   + "<li class='hideUsermenu'>"
-								   		   + "<a href='/dokky/userBoardList?userId="+userId+"' class='hideUsermenu'>"
+								   		   + "<a href='/userBoardList?userId="+userId+"' class='hideUsermenu'>"
 								   				+ "<span class='hideUsermenu'>게시글보기</span>"
 								   		   + "</a>"
 								   	   + "</li>"
@@ -571,7 +571,7 @@
     	   			     str += "<span class='depthLine'>└ </span>"
 	    	   			  	   +"<span>"
 							       + "<a href='#' class='userMenu' data-reply_num='"+reply_nums+"' data-menu_kind='from'>"   
-									   + "<img src='/dokky/resources/img/profile_img/"+userId+".png' class='memberImage hideUsermenu' onerror='this.src=\"/dokky/resources/img/basicProfile.png\"'/>&nbsp"
+									   + "<img src='/resources/img/profile_img/"+userId+".png' class='memberImage hideUsermenu' onerror='this.src=\"/resources/img/basicProfile.png\"'/>&nbsp"
 									   + nickName
 							       + "</a>"
 						   	   + "</span>"
@@ -579,7 +579,7 @@
 						   	   + "<div id='userMenubar_reply_from_"+reply_nums+"' class='userMenubar'>" 
 								   + "<ul class='hideUsermenu'>" 
 									   + "<li class='hideUsermenu'>"
-								   		   + "<a href='/dokky/userBoardList?userId="+userId+"' class='hideUsermenu'>"
+								   		   + "<a href='/userBoardList?userId="+userId+"' class='hideUsermenu'>"
 								   				+ "<span class='hideUsermenu'>게시글보기</span>"
 								   		   + "</a>"
 								   	   + "</li>"
@@ -596,7 +596,7 @@
 							   
 							   + "<span>"
 							       + "<a href='#' class='userMenu' data-reply_num='"+reply_nums+"' data-menu_kind='to'>"
-									   + "<img src='/dokky/resources/img/profile_img/"+toUserId+".png' class='memberImage hideUsermenu' onerror='this.src=\"/dokky/resources/img/basicProfile.png\"'/>&nbsp"
+									   + "<img src='/resources/img/profile_img/"+toUserId+".png' class='memberImage hideUsermenu' onerror='this.src=\"/resources/img/basicProfile.png\"'/>&nbsp"
 									   + toNickName
 							       + "</a>"
 				   	   		   + "</span>"
@@ -604,7 +604,7 @@
 				   	   		   + "<div id='userMenubar_reply_to_"+reply_nums+"' class='userMenubar to'>" 
 								   + "<ul class='hideUsermenu'>" 
 									   + "<li class='hideUsermenu'>"
-								   		   + "<a href='/dokky/userBoardList?userId="+toUserId+"' class='hideUsermenu'>"
+								   		   + "<a href='/userBoardList?userId="+toUserId+"' class='hideUsermenu'>"
 								   				+ "<span class='hideUsermenu'>게시글보기</span>"
 								   		   + "</a>"
 								   	   + "</li>"
@@ -777,7 +777,7 @@
 	    operForm.find("#board_num").remove();
 	    operForm.find("#userId").remove();
 	    operForm.find("#csrf").remove();
-	    operForm.attr("action","/dokky/board/list")
+	    operForm.attr("action","/board/list")
 	    operForm.submit();
 	}); 
 	
@@ -789,7 +789,7 @@
 	$("#remove_button").on("click", function(e){//게시글 삭제
 		
 		if(func_confirm('정말 삭제 하시겠습니까?')){
-			operForm.attr("action","/dokky/board/remove").attr("method","post");
+			operForm.attr("action","/board/remove").attr("method","post");
 		    operForm.submit();
 		}
 	}); 
@@ -1443,7 +1443,7 @@
     	  
 	  	 (function(){//즉시실행함수 
 	   	  
-		   	    $.getJSON("/dokky/board/getAttachList", {board_num: board_num}, function(arr){
+		   	    $.getJSON("/board/getAttachList", {board_num: board_num}, function(arr){
 		   	        	
 		    	       var fileStr = "";
 		    	       var hasFile = false;
@@ -1475,7 +1475,7 @@
 		    var uuid = liObj.data("uuid");
 		    
 		    if(!liObj.data("type")){//파일이라면  
-		    	self.location ="/dokky/download?uuid="+uuid+"&filename="+filename+"&path="+path
+		    	self.location ="/download?uuid="+uuid+"&filename="+filename+"&path="+path
 		    }
 	});
    
@@ -1485,7 +1485,7 @@
     	    
 			$(".bigPictureWrapper").css("display","flex").show(); 
     	    
-    	    $(".bigPicture").html("<img src='/dokky/displayS3?path="+path+"&filename="+filename+"'>");
+    	    $(".bigPicture").html("<img src='/displayS3?path="+path+"&filename="+filename+"'>");
     	    
     	    $("#profileGray").css("display","block");
    }

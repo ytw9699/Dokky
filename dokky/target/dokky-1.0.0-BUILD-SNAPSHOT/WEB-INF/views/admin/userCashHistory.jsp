@@ -8,7 +8,7 @@
 <head>
 <meta charset="UTF-8">
 <title>Dokky - 회원 캐시내역</title>
-<link href="/dokky/resources/css/userCashHistory.css" rel="stylesheet" type="text/css"/>
+<link href="/resources/css/userCashHistory.css" rel="stylesheet" type="text/css"/>
 </head>
 <%@include file="../includes/left.jsp"%>
 <body>
@@ -18,9 +18,9 @@
 
 	<div id="menuWrap"> 
 		<div class="tab">    
-			<button onclick="location.href='/dokky/admin/userForm?userId=${pageMaker.cri.userId}'">회원 개인정보</button> 
-	        <button class="active" onclick="location.href='/dokky/admin/userCashHistory?userId=${pageMaker.cri.userId}'">회원 캐시내역</button>
-	        <button onclick="location.href='/dokky/userBoardList?userId=${pageMaker.cri.userId}&pageLocation=admin'">회원 활동</button>
+			<button onclick="location.href='/admin/userForm?userId=${pageMaker.cri.userId}'">회원 개인정보</button> 
+	        <button class="active" onclick="location.href='/admin/userCashHistory?userId=${pageMaker.cri.userId}'">회원 캐시내역</button>
+	        <button onclick="location.href='/userBoardList?userId=${pageMaker.cri.userId}&pageLocation=admin'">회원 활동</button>
 	    </div>  	    
 	</div>    
 		 
@@ -74,7 +74,7 @@
 				       			  		</td>
 				       			  		<td class="td">
 				       			  			<div class="tdData">  
-												<a href="/dokky/board/get?board_num=${History.board_num}"><c:out value="${History.title}" /></a>
+												<a href="/board/get?board_num=${History.board_num}"><c:out value="${History.title}" /></a>
 											</div>
 				       			  		</td>
 				       			  </c:if>
@@ -86,7 +86,7 @@
 				       			  		</td>
 				       					<<td class="td">
 				       						<div class="tdData">  
-												<a href="/dokky/board/get?board_num=${History.board_num}"><c:out value="${History.reply_content}" /></a>
+												<a href="/board/get?board_num=${History.board_num}"><c:out value="${History.reply_content}" /></a>
 											</div>
 				       					</td>
 				       			  </c:if>
@@ -101,7 +101,7 @@
 				</c:forEach> 
 			</table>
 		
-			<form id='actionForm' action="/dokky/admin/userCashHistory" method='get'>  
+			<form id='actionForm' action="/admin/userCashHistory" method='get'>  
 				<input type='hidden' name='pageNum' value='${pageMaker.cri.pageNum}'><!--  $(this).attr("href") -->
 				<input type='hidden' name='amount' value='${pageMaker.cri.amount}'>
 				<input type='hidden' name='userId' value='${pageMaker.cri.userId}'>
@@ -149,7 +149,7 @@
 			
 			e.preventDefault(); 
 			actionForm.append("<input type='hidden' name='board_num' value='"+ $(this).attr("href")+ "'>");
-			actionForm.attr("action","/dokky/board/get");
+			actionForm.attr("action","/board/get");
 			actionForm.submit();   
 		});
 	 

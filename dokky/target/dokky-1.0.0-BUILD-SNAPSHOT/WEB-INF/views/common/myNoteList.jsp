@@ -9,7 +9,7 @@
 <head>
 <meta charset="UTF-8">  
 <title>Dokky - 내게쓴쪽지함</title>
-<link href="/dokky/resources/css/noteList.css" rel="stylesheet" type="text/css"/>
+<link href="/resources/css/noteList.css" rel="stylesheet" type="text/css"/>
 </head>
 <%@include file="../includes/left.jsp"%>
 <body>
@@ -19,10 +19,10 @@
 
 		<div id="menuWrap">
 			<div class="tab"> 
-				<button onclick="location.href='/dokky/registerNote?userId=${userInfo.username}'">쪽지쓰기</button>
-				<button onclick="location.href='/dokky/fromNoteList?userId=${userInfo.username}'">받은쪽지함 - ${fromNotetotal}</button>
-				<button onclick="location.href='/dokky/toNoteList?userId=${userInfo.username}'">보낸쪽지함  - ${toNotetotal}</button>
-				<button class="active" onclick="location.href='/dokky/myNoteList?userId=${userInfo.username}'">내게쓴쪽지함  - ${myNotetotal}</button>
+				<button onclick="location.href='/registerNote?userId=${userInfo.username}'">쪽지쓰기</button>
+				<button onclick="location.href='/fromNoteList?userId=${userInfo.username}'">받은쪽지함 - ${fromNotetotal}</button>
+				<button onclick="location.href='/toNoteList?userId=${userInfo.username}'">보낸쪽지함  - ${toNotetotal}</button>
+				<button class="active" onclick="location.href='/myNoteList?userId=${userInfo.username}'">내게쓴쪽지함  - ${myNotetotal}</button>
 		    </div> 
 		</div>
 		
@@ -50,13 +50,13 @@
 	                    
 		     			<td class="td"> 
 							<a href="#" class="userMenu" data-note_num="${note.note_num}">
-								<img src="/dokky/resources/img/profile_img/<c:out value="${note.from_id}"/>.png"  class="memberImage hideUsermenu" onerror="this.src='/dokky/resources/img/basicProfile.png'" />
+								<img src="/resources/img/profile_img/<c:out value="${note.from_id}"/>.png"  class="memberImage hideUsermenu" onerror="this.src='/resources/img/basicProfile.png'" />
 								<c:out value="${note.from_nickname}" /> 
 							</a>   
 							 <div id="userMenubar_${note.note_num}" class="userMenubar">
 								<ul class="hideUsermenu">
 									<li class="hideUsermenu">
-										<a href="/dokky/userBoardList?userId=${note.from_id}" class="hideUsermenu">
+										<a href="/userBoardList?userId=${note.from_id}" class="hideUsermenu">
 											<span class="hideUsermenu">게시글보기</span>
 										</a>
 									</li>
@@ -92,7 +92,7 @@
 				    </tr>
 			</table>
 		
-			<form id='actionForm' action="/dokky/myNoteList" method='get'>  
+			<form id='actionForm' action="/myNoteList" method='get'>  
 				<input type='hidden' name='pageNum' value='${pageMaker.cri.pageNum}'>
 				<input type='hidden' name='amount' value='${pageMaker.cri.amount}'>
 				<input type='hidden' name='userId' value='${pageMaker.cri.userId}'>
@@ -142,7 +142,7 @@
 
 			var popupY= (window.screen.height /2) - (500 / 2);
 		         
-	        window.open('/dokky/minRegNote?userId='+userId+'&nickname='+nickname, 'ot', 'height=500, width=400, left='+ popupX + ', top='+ popupY + ', screenX='+ popupX + ', screenY= '+ popupY);
+	        window.open('/minRegNote?userId='+userId+'&nickname='+nickname, 'ot', 'height=500, width=400, left='+ popupX + ', top='+ popupY + ', screenX='+ popupX + ', screenY= '+ popupY);
 	    } 
 		
 		function checkAll(){
@@ -169,7 +169,7 @@
 			  }
 			  
 			  if(confirm("정말 삭제 하시겠습니까?")){
-				  actionForm.attr("action","/dokky/deleteAllNote").attr("method","post");
+				  actionForm.attr("action","/deleteAllNote").attr("method","post");
 				  actionForm.append("<input type='hidden' name='checkRow' value='"+checkRow+"'>");
 				  actionForm.append("<input type='hidden' name='note_kind' value='myNote'>");
 				  actionForm.append("<input type='hidden' id='csrf' name='${_csrf.parameterName}' value='${_csrf.token}'/>");
@@ -217,7 +217,7 @@
 
 			var note_num = $(this).data("note_num");  
 			
-			actionForm.attr("action", "/dokky/detailNotepage");
+			actionForm.attr("action", "/detailNotepage");
 			actionForm.append("<input type='hidden' name='note_num' value='"+note_num+"'/>");
 			actionForm.append("<input type='hidden' name='note_kind' value='myNote'/>");
 			actionForm.submit();

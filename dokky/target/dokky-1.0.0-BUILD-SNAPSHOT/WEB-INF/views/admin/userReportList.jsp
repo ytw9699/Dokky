@@ -8,7 +8,7 @@
 <head>
 <meta charset="UTF-8">
 	<title>Dokky - 신고관리</title> 
-	<link href="/dokky/resources/css/userReportList.css" rel="stylesheet" type="text/css"/>
+	<link href="/resources/css/userReportList.css" rel="stylesheet" type="text/css"/>
 </head> 
 
 <%@include file="../includes/left.jsp"%>
@@ -41,18 +41,18 @@
 						</td>   
 						<td class="td">
 							<a href='userForm?userId=<c:out value="${report.reportingId}"/>'> 
-							  <img src="/dokky/resources/img/profile_img/<c:out value="${report.reportingId}" />.png"  class="memberImage" onerror="this.src='/dokky/resources/img/basicProfile.png'" />
+							  <img src="/resources/img/profile_img/<c:out value="${report.reportingId}" />.png"  class="memberImage" onerror="this.src='/resources/img/basicProfile.png'" />
 							  <c:out value="${report.reportingNick}" />(<c:out value="${report.reportingId}" />)
 							</a> 
 						</td>
 						<td class="td">
 							<a href='userForm?userId=<c:out value="${report.reportedId}"/>'> 
-							  <img src="/dokky/resources/img/profile_img/<c:out value="${report.reportedId}" />.png"  class="memberImage" onerror="this.src='/dokky/resources/img/basicProfile.png'" />
+							  <img src="/resources/img/profile_img/<c:out value="${report.reportedId}" />.png"  class="memberImage" onerror="this.src='/resources/img/basicProfile.png'" />
 							  <c:out value="${report.reportedNick}" />(<c:out value="${report.reportedId}" />)
 							</a> 
 						</td> 
 						<td class="td" id="reasonData">
-							<a href='/dokky/board/get?board_num=<c:out value="${report.board_num}"/>'> 
+							<a href='/board/get?board_num=<c:out value="${report.board_num}"/>'> 
 							  <c:out value="${report.reason}" />
 							</a>  
 						</td> 
@@ -65,7 +65,7 @@
 			</table>
 		 </div>
 		
-		<form id='actionForm' action="/dokky/admin/userReportList" method='get'>  
+		<form id='actionForm' action="/admin/userReportList" method='get'>  
 			<input type='hidden' name='pageNum' value='${pageMaker.cri.pageNum}'>
 			<input type='hidden' name='amount' value='${pageMaker.cri.amount}'>
 		</form> 
