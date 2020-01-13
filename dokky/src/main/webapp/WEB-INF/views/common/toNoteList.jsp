@@ -228,7 +228,7 @@
 		
 					var note_num = $(this).data("note_num");  
 					
-					actionForm.attr("action", "/dokky/detailNotepage");
+					actionForm.attr("action", "/detailNotepage");
 					actionForm.append("<input type='hidden' name='note_num' value='"+note_num+"'/>");
 					actionForm.append("<input type='hidden' name='note_kind' value='toNote'/>");
 					actionForm.submit();
