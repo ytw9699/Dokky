@@ -94,9 +94,13 @@
 		    margin: 2px;
 		}
 		
-		/* .logo{
+		.logo{
 			width: 292px;
 		    height: 54px;
-		    border-radius: 9px;
-		} */
+		    cursor: pointer;
+		}
+		
+		#google{
+			border-radius: 9px;
+		}
 		
