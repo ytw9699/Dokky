@@ -70,6 +70,18 @@
  	
  	<!-- oauth2 login -->
 	
+	<!-- <bean id="naverClientID" class="java.lang.String">
+	   <constructor-arg value="15QBonnYF5rFHRp1TNAQ" />
+    </bean>
+    
+    <bean id="naverClientSecret" class="java.lang.String">
+		<constructor-arg value="ElYOoc7Kb9" />
+	</bean>
+	
+	<bean id="naverRedirectUrl" class="java.lang.String">
+		<constructor-arg value="http://localhost:8080/auth/naver/callback" />
+	</bean> -->
+    
 	<bean id="naverClientID" class="java.lang.String">
 	   <constructor-arg value="vmV7HxEjedT067PqFzSV" />
     </bean>

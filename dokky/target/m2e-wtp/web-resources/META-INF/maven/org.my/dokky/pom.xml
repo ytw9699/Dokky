@@ -16,7 +16,7 @@
 	<dependencies>
 	
 	 <!-- oauth2 login -->
-	    <dependency>
+	   <dependency>
               <groupId>com.github.scribejava</groupId>
               <artifactId>scribejava-apis</artifactId>
               <version>5.6.0</version>
@@ -28,6 +28,18 @@
               <version>5.6.0</version>
         </dependency>
         
+        <!-- <dependency>
+		    <groupId>com.github.scribejava</groupId>
+		    <artifactId>scribejava-apis</artifactId>
+		    <version>6.9.0</version>
+		</dependency>
+
+		<dependency>
+		    <groupId>com.github.scribejava</groupId>
+		    <artifactId>scribejava-core</artifactId>
+		    <version>6.9.0</version>
+		</dependency> -->
+        
 		<!-- <dependency>
 		    <groupId>org.springframework.security.oauth</groupId>
 		    <artifactId>spring-security-oauth2</artifactId>
@@ -38,18 +50,6 @@
 		    <groupId>org.springframework.security</groupId>
 		    <artifactId>spring-security-oauth2-core</artifactId>
 		    <version>5.1.7.RELEASE</version>
-		</dependency> -->
-        
-      <!-- <dependency>
-		    <groupId>com.github.scribejava</groupId>
-		    <artifactId>scribejava-apis</artifactId>
-		    <version>6.9.0</version>
-		</dependency>
-
-		<dependency>
-		    <groupId>com.github.scribejava</groupId>
-		    <artifactId>scribejava-core</artifactId>
-		    <version>6.9.0</version>
 		</dependency> -->
         
 	<!-- <dependency>

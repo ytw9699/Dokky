@@ -81,14 +81,13 @@ public class CommonController {
 		log.info("check: " + check);
 		
 		//소셜로그인
-			SNSLogin naverLogin = new SNSLogin(naverSns);
-			
-			model.addAttribute("naver_url", naverLogin.getAuthURL());
-			
-			SNSLogin googleLogin = new SNSLogin(googleSns);
-			
-			model.addAttribute("google_url", googleLogin.getAuthURL());
-		//소셜로그인
+		SNSLogin naverLogin = new SNSLogin(naverSns);
+		
+		model.addAttribute("naver_url", naverLogin.getAuthURL());//네이버 로그인 url가져오기
+		
+		SNSLogin googleLogin = new SNSLogin(googleSns);
+		
+		model.addAttribute("google_url", googleLogin.getAuthURL());//구글 로그인 url가져오기
 		
 		if (error != null) {
 			model.addAttribute("error", "Login Error Check Your Account");
@@ -111,22 +110,8 @@ public class CommonController {
 		return "common/customLogin";  
 	}
 	
-	/*@RequestMapping("/loginWithoutForm/{username}")
-	public String loginWithoutForm(@PathVariable(value="username") String username) {
-	  
-	  List<GrantedAuthority> roles = new ArrayList<>(1);
-	  //String roleStr = username.equals("admin") ? "ROLE_ADMIN" : "ROLE_GUEST";
-	  roles.add(new SimpleGrantedAuthority("ROLE_USER"));
-	  
-	  User user = new User(username, "", roles);
-	  
-	  Authentication auth = new UsernamePasswordAuthenticationToken(user, null, roles);
-	  SecurityContextHolder.getContext().setAuthentication(auth);
-	  return "redirect:/";
-	}*/
-	
 	@RequestMapping(value = "/auth/{snsService}/callback", method = { RequestMethod.GET, RequestMethod.POST})
-	public String snsLoginCallback(@PathVariable String snsService, Model model, @RequestParam String code,RedirectAttributes rttr) throws Exception {
+	public String snsLoginCallback(@PathVariable String snsService, Model model, @RequestParam String code) throws Exception {
 		
 		SnsValue sns = null; 
 		
@@ -141,30 +126,33 @@ public class CommonController {
 		
 		if(!memberService.getIdCheckedVal(profile.getUserId())){//회원가입되어있지 않다면 , DB 해당 유저가 존재하는 체크
 			
-			profile.setUserPw(pwencoder.encode("22"));//임시 패스워드 암호화
-			profile.setEmail("@"+Math.random());//임시 이메일 난수 생성
+			profile.setUserPw(pwencoder.encode(""+Math.random()*10));//임시 패스워드 암호화
+			profile.setEmail("@"+Math.random()*10);//임시 이메일 난수 생성
 			profile.setPhoneNum("");
 			profile.setBankName("");
 			profile.setAccount("");
+			
+			if(profile.getNickName() == null) {
+				profile.setNickName("임시");
+			}
+			
 			memberService.registerMembers(profile);//회원가입
 		}
 		
-		//model.addAttribute("result", profile);
+		MemberVO vo = memberMapper.read(profile.getUserId());//소셜에서 가져온 프로필에 해당하는 개인정보를 db에서 불러온다
 		
-		MemberVO vo = memberMapper.read(profile.getUserId());
+		List<AuthVO> AuthList = vo.getAuthList();//사용자의 권한 정보만 list로 가져온다
 		
-		List<AuthVO> AuthList = vo.getAuthList();
-		
-		List<GrantedAuthority> roles = new ArrayList<>(1);
+		List<GrantedAuthority> roles = new ArrayList<>(1);// 인증해줄 권한 리스트를 만든다
 		
 		Iterator<AuthVO> it = AuthList.iterator();
 		
 		while (it.hasNext()) {
 			AuthVO authVO = it.next(); 
-			roles.add(new SimpleGrantedAuthority(authVO.getAuth()));
+			roles.add(new SimpleGrantedAuthority(authVO.getAuth()));// 가져온 사용자의 권한을 리스트에 담아준다
         }
 		
-		Authentication auth = new UsernamePasswordAuthenticationToken(new CustomUser(vo), null, roles);
+		Authentication auth = new UsernamePasswordAuthenticationToken(new CustomUser(vo), null, roles);//사용자의 인증객체를 만든다
 		
 		SecurityContextHolder.getContext().setAuthentication(auth);//Authentication 인증객체를 SecurityContext에 보관
 		

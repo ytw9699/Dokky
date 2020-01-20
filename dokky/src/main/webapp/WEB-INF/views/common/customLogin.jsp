@@ -52,11 +52,10 @@
 					      });
 					    }
 					  "> -->
-					<!-- <img src="/resources/img/naverLogo.png" id="naver" class="logo"/>
-					<img src="/resources/img/googleLogo.png" id="google" class="logo"/> -->
+					
+					<img src="/resources/img/googleLogo.png" id="google" class="logo"/>
+					<img src="/resources/img/naverLogo.png" id="naver" class="logo"/>
 					<button class="btn" id="login" >로그인</button>
-					<button class="btn" id="google">구글 로그인</button>
-					<button class="btn" id="naver">네이버 로그인</button>
 					<button class="btn" id="join">회원가입</button>
 					
 				</div>

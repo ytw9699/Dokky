@@ -25,6 +25,17 @@ public class SNSLogin {
 		this.sns = sns;
 	}
 	
+	/*public SNSLogin(SnsValue sns) {
+		
+		this.oauthService = new ServiceBuilder(sns.getClientId())
+				.apiSecret(sns.getClientSecret())
+				.callback(sns.getRedirectUrl())
+				.defaultScope("profile")
+				.build(sns.getApi20Instance());
+		
+		this.sns = sns;
+	}*/
+
 	public String getAuthURL() {
 		return this.oauthService.getAuthorizationUrl();
 	}
@@ -52,7 +63,7 @@ public class SNSLogin {
 		
 		if (this.sns.isGoogle()) {
 			
-			String id = rootNode.get("sub").asText();
+			String id = "google"+rootNode.get("sub").asText();
 			
 			user.setUserId(id);
 			
@@ -62,13 +73,13 @@ public class SNSLogin {
 				
 			JsonNode node = rootNode.get("response");
 			
-			user.setUserId(node.get("id").asText());
+			user.setUserId("naver"+node.get("id").asText());
 			
-			user.setNickName(node.get("nickname").asText());
-			
-			//user.setEmail(node.get("email").asText());
+			if(node.get("nickname") != null) {
+				user.setNickName(node.get("nickname").asText());
+				//user.setEmail(node.get("email").asText());
+			}
 		}
-	
 		return user;
 	}
 	
