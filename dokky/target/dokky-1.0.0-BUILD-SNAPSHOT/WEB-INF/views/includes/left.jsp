@@ -49,11 +49,11 @@
 		
 	  <sec:authorize access="isAnonymous()">  
 		  <a href="/customLogin">
-		  	<span class="mypage topMypage">로그인 </span>
+		  	<span class="mypage topMypage">로그인/회원가입</span>
 	  	  </a> 
-	  	  <a href="/memberForm">
+	  	  <!-- <a href="/memberForm">
 		  	<span class="mypage">회원가입</span>
-	  	  </a>
+	  	  </a> -->
 	  </sec:authorize>
 			
 		  <a href="/board/allList?category=0">
@@ -89,13 +89,15 @@
 			<a href="/mypage/myInfoForm?userId=${userInfo.username}">
 				<span class="mypage">내 정보</span>
 			</a>
-			<c:if test= "${userInfo.username == 'admin'}">
+			<%-- <c:if test= "${userInfo.username == 'admin'}">
 				<a href="/admin/userList">
 			    	<span class="mypage">관리자</span>
 				</a>
-			</c:if>
-		</sec:authorize> 
-		
+			</c:if> --%>
+		</sec:authorize>
+		<a href="/adminLogin">
+	    	<span class="mypage">관리자</span>
+		</a>
 		<div class="visitCount">
 			<div>
 				Today : ${sessionScope.todayCount} 
