@@ -27,6 +27,17 @@ public class MemberServiceImpl implements MemberService {
 		return mapper.registerMembers(vo) == 1 && mapper.registerMember_auth(vo) == 1;
 	}
 	
+	@Transactional
+	@Override 
+	public boolean registerAdminMembers(MemberVO vo) {
+
+		log.info("registerAdminMembers..." + vo);
+		
+		log.info("registerAdminMembers_auth..." + vo);
+		
+		return mapper.registerMembers(vo) == 1 && mapper.registerMember_auth(vo) == 1;
+	}
+	
 	@Override 
 	public boolean getIdCheckedVal(String inputId) {
 

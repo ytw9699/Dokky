@@ -6,6 +6,7 @@ import java.util.List;
 	import java.util.Locale;
 import java.util.Random;
 
+import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
 	import org.my.auth.SNSLogin;
 	import org.my.auth.SnsValue;
@@ -71,14 +72,44 @@ public class CommonController {
 	
 	@Setter(onMethod_ = { @Autowired })
 	private MemberMapper memberMapper;
+
+	@GetMapping("/adminLogin")
+	public String adminLogin(Model model, HttpServletRequest request, String error, String logout, String check){
+		
+		log.info("/adminLogin");
+		log.info("error: " + error);
+		log.info("logout: " + logout);
+		log.info("check: " + check);
+		
+		if(!request.isUserInRole("ROLE_ADMIN")) {//관리자가 아니라면 관리자 로그인 페이지로
+			
+			if (error != null) {
+				model.addAttribute("error", "Login Error Check Your Account");
+			}
+			if (logout != null) {
+				model.addAttribute("logout", "Logout!!");
+			}
+			if (check != null) {
+				if(check.equals("notId") ) {
+					model.addAttribute("check", "아이디가 없습니다.");
+				}else if(check.equals("notPassword") ) {
+					model.addAttribute("check", "비밀번호가 틀립니다.");
+				}
+				else if(check.equals("limit") ) {
+					model.addAttribute("check", "차단된 아이디입니다. 관리자에게 문의해주세요.");
+				}
+			}
+			
+			return "common/adminLogin";  
+		}
+
+		return "redirect:/admin/userList";//관리자라면 관리자 페이지로
+	}
 	
 	@GetMapping("/customLogin")//커스톰 로그인 페이지는 반드시 get방식 이여야한다.시큐리티의 특성임
 	public String loginInput(String error, String logout, String check, Model model) throws UnsupportedEncodingException {
 		
 		log.info("/customLogin");
-		log.info("error: " + error);
-		log.info("logout: " + logout);
-		log.info("check: " + check);
 		
 		//소셜로그인
 		SNSLogin naverLogin = new SNSLogin(naverSns);
@@ -89,29 +120,53 @@ public class CommonController {
 		
 		model.addAttribute("google_url", googleLogin.getAuthURL());//구글 로그인 url가져오기
 		
-		if (error != null) {
-			model.addAttribute("error", "Login Error Check Your Account");
-		}
-
-		if (logout != null) {
-			model.addAttribute("logout", "Logout!!");
-		}
-		
-		if (check != null) {
-			if(check.equals("notId") ) {
-				model.addAttribute("check", "아이디가 없습니다.");
-			}else if(check.equals("notPassword") ) {
-				model.addAttribute("check", "비밀번호가 틀립니다.");
-			}
-			else if(check.equals("limit") ) {
-				model.addAttribute("check", "차단된 아이디입니다. 관리자에게 문의해주세요.");
-			}
-		}
 		return "common/customLogin";  
 	}
 	
+	@PostMapping("/members") 
+	public String postMembers(MemberVO vo, Model model, RedirectAttributes rttr) {//회원가입
+		
+		log.info("/members: vo" + vo); 
+		
+		vo.setUserPw(pwencoder.encode(""+Math.random()*10));//패스워드 암호화
+		
+		if(memberService.registerMembers(vo)){
+			
+			rttr.addFlashAttribute("check", "가입완료 되었습니다.");
+			
+			MemberVO profile = memberMapper.read(vo.getUserId());//소셜에서 가져온 프로필에 해당하는 개인정보를 db에서 불러온다
+			
+			List<AuthVO> AuthList = profile.getAuthList();//사용자의 권한 정보만 list로 가져온다
+			
+			List<GrantedAuthority> roles = new ArrayList<>(1);// 인증해줄 권한 리스트를 만든다
+			
+			Iterator<AuthVO> it = AuthList.iterator();
+			
+			while (it.hasNext()) {
+				AuthVO authVO = it.next(); 
+				roles.add(new SimpleGrantedAuthority(authVO.getAuth()));// 가져온 사용자의 권한을 리스트에 담아준다
+	        }
+			
+			Authentication auth = new UsernamePasswordAuthenticationToken(new CustomUser(profile), null, roles);//사용자의 인증객체를 만든다
+			
+			SecurityContextHolder.getContext().setAuthentication(auth);//Authentication 인증객체를 SecurityContext에 보관
+			
+			return "redirect:/main";
+		}
+		
+			rttr.addFlashAttribute("check", "가입실패 하였습니다 관리자에게 문의주세요.");
+			return "redirect:/customLogin"; 
+	}
+	
 	@RequestMapping(value = "/auth/{snsService}/callback", method = { RequestMethod.GET, RequestMethod.POST})
-	public String snsLoginCallback(@PathVariable String snsService, Model model, @RequestParam String code) throws Exception {
+	public String snsLoginCallback(@PathVariable String snsService, Model model, 
+			@RequestParam(value="code", required=false) String code,
+			 RedirectAttributes rttr, @RequestParam(value = "error", defaultValue = "noterror") String error) throws Exception {
+		//https://dokky.ga/auth/naver/callback?error=access_denied&error_description=Canceled+By+User&state=
+		
+		if(error.equals("access_denied")) {//정보동의 수락안하고 취소눌를시
+			return "redirect:/customLogin";
+		}
 		
 		SnsValue sns = null; 
 		
@@ -124,22 +179,17 @@ public class CommonController {
 		
 		MemberVO profile = snsLogin.getUserProfile(code);//사용자 profile 정보 가져오기
 		
-		if(!memberService.getIdCheckedVal(profile.getUserId())){//회원가입되어있지 않다면 , DB 해당 유저가 존재하는 체크
+		String profileId = profile.getUserId();
+		
+		if(!memberService.getIdCheckedVal(profileId)){//회원가입되어있지 않다면 , DB 해당 유저가 존재하는 체크
 			
-			profile.setUserPw(pwencoder.encode(""+Math.random()*10));//임시 패스워드 암호화
-			profile.setEmail("@"+Math.random()*10);//임시 이메일 난수 생성
-			profile.setPhoneNum("");
-			profile.setBankName("");
-			profile.setAccount("");
+			model.addAttribute("id", profileId);
+			model.addAttribute("nickName", profile.getNickName());
 			
-			if(profile.getNickName() == null) {
-				profile.setNickName("임시");
-			}
-			
-			memberService.registerMembers(profile);//회원가입
+			return "common/memberForm";
 		}
 		
-		MemberVO vo = memberMapper.read(profile.getUserId());//소셜에서 가져온 프로필에 해당하는 개인정보를 db에서 불러온다
+		MemberVO vo = memberMapper.read(profileId);//소셜에서 가져온 프로필에 해당하는 개인정보를 db에서 불러온다
 		
 		List<AuthVO> AuthList = vo.getAuthList();//사용자의 권한 정보만 list로 가져온다
 		
@@ -148,15 +198,53 @@ public class CommonController {
 		Iterator<AuthVO> it = AuthList.iterator();
 		
 		while (it.hasNext()) {
+			
 			AuthVO authVO = it.next(); 
-			roles.add(new SimpleGrantedAuthority(authVO.getAuth()));// 가져온 사용자의 권한을 리스트에 담아준다
+			
+			String auth = authVO.getAuth();
+			
+			if(auth.equals("ROLE_LIMIT")) {
+				rttr.addFlashAttribute("check", "차단된 아이디입니다. 관리자에게 문의해주세요.");
+				return "redirect:/customLogin";
+			}
+			
+			roles.add(new SimpleGrantedAuthority(auth));// 가져온 사용자의 권한을 리스트에 담아준다
         }
 		
 		Authentication auth = new UsernamePasswordAuthenticationToken(new CustomUser(vo), null, roles);//사용자의 인증객체를 만든다
 		
 		SecurityContextHolder.getContext().setAuthentication(auth);//Authentication 인증객체를 SecurityContext에 보관
 		
+		memberMapper.updateLoginDate(profileId);//로긴날짜찍기
+		
 		return "redirect:/main";
+	}
+	
+	@GetMapping("/adminMemberForm")
+	public String adminMemberForm() {
+
+		log.info("admin/adminMemberForm");
+		
+		return "common/adminMemberForm";
+	}
+	
+	@PostMapping("/adminMembers") 
+	public String postAdminMembers(MemberVO vo, Model model) {//회원가입
+		
+		log.info("/members: vo" + vo); 
+		
+		vo.setUserPw(pwencoder.encode(vo.getUserPw()));//패스워드 암호화
+		
+		if(memberService.registerMembers(vo)){
+			
+			model.addAttribute("check", "가입완료 되었습니다 로그인해주세요.");
+			
+			return "common/adminLogin";
+		}
+		
+			model.addAttribute("check", "가입실패 하였습니다 관리자에게 문의주세요.");
+			
+			return "common/adminLogin"; 
 	}
 	
 	@RequestMapping(value = "/main", method = RequestMethod.GET)
@@ -219,25 +307,6 @@ public class CommonController {
 		log.info("/memberForm");
 		
 		return "common/memberForm";
-	}
-	
-	@PostMapping("/members") 
-	public String postMembers(MemberVO vo, Model model) {//회원가입
-		
-		log.info("/members: vo" + vo); 
-		
-		vo.setUserPw(pwencoder.encode(vo.getUserPw()));//패스워드 암호화
-		
-		if(memberService.registerMembers(vo)){
-			
-			model.addAttribute("check", "가입완료 되었습니다 로그인해주세요.");
-			
-			return "common/customLogin";
-		}
-		
-			model.addAttribute("check", "가입실패 하였습니다 관리자에게 문의주세요.");
-			
-			return "common/customLogin"; 
 	}
 	
 	@GetMapping(value = "/idCheckedVal", produces = "text/plain; charset=UTF-8")

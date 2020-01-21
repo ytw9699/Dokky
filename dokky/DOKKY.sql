@@ -1,4 +1,5 @@
 	1.-----------------------------------------------------
+	
 	create table DK_BOARD (--게시판 테이블
 		  CATEGORY number(10,0) not null,-- 0~5번 게시판
 		  BOARD_NUM number(10,0),--PK --글번호
@@ -74,6 +75,20 @@
 	(select seq_dk_reply.nextval, board_num, reply_content, nickName from DK_REPLY);
 	
 	3.------------------------------------------------------------------------------------------
+	create table dk_member(--회원 테이블
+	
+		  member_num number(10,0) unique,
+	      userId varchar2(50) primary key,
+	      userPw varchar2(100) not null,
+	      nickName varchar2(100) not null unique,
+	      cash number(10,0) default 0,
+	      bankName varchar2(50),
+	      account varchar2(50),
+	      regDate date default sysdate, 
+	      loginDate date default sysdate,
+	      enabled char(1) default '1'--enabled는 스프링 시큐리티에서 사용하는 값. 현재 사용자 계정이 유효한가를 의미
+	);
+	
 	create table dk_member(--회원 테이블
 	
 		  member_num number(10,0) unique,

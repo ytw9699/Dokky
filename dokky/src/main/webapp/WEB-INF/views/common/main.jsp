@@ -292,6 +292,12 @@
 	});
 	 
 	</script>
+	<c:if test="${check != null}"> 
+	      <script>
+		      $(document).ready(function(){
+		      	alert('${check}'); 
+		      });
+	      </script>
+	</c:if>  
 </body>
-
 </html>
