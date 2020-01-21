@@ -8,7 +8,7 @@
 <head>
 <meta charset="UTF-8">
 	<title>Dokky - 계정관리</title>
-<link href="/dokky/resources/css/userList.css" rel="stylesheet" type="text/css"/>
+<link href="/resources/css/userList.css" rel="stylesheet" type="text/css"/>
 </head> 
 <%@include file="../includes/left.jsp"%>
 
@@ -17,14 +17,14 @@
 	 
 		 <div id="menuWrap"> 
 				<div class="tab">      
-					<button class="active" onclick="location.href='/dokky/admin/userList'">계정관리</button>
-					<button onclick="location.href='/dokky/admin/cashRequest'">결제관리</button> 
-					<button onclick="location.href='/dokky/admin/userReportList'">신고관리</button>
+					<button class="active" onclick="location.href='/admin/userList'">계정관리</button>
+					<button onclick="location.href='/admin/cashRequest'">결제관리</button> 
+					<button onclick="location.href='/admin/userReportList'">신고관리</button>
 			    </div>
 		 </div>    
 		  
 		 <div class="searchWrapper">  
-			<form id='searchForm' action="/dokky/admin/userList" method='get'>
+			<form id='searchForm' action="/admin/userList" method='get'>
 				<select id="option" name='type'> 
 					<option value="I" 
 						<c:out value="${pageMaker.cri.type eq 'I'?'selected':''}"/>>아이디</option>
@@ -46,7 +46,7 @@
 			<c:forEach items="${userList}" var="user">
 				<div class="memberInfoWrap" onclick="location.href='userForm?userId=<c:out value="${user.userId}" />'" >
 					<div class="memberProfile">
-						<img src="/dokky/resources/img/profile_img/<c:out value="${user.userId}"/>.png" id="memberProfile" onerror="this.src='/dokky/resources/img/basicProfile.png'" />
+						<img src="/resources/img/profile_img/<c:out value="${user.userId}"/>.png" id="memberProfile" onerror="this.src='/resources/img/basicProfile.png'" />
 					</div>		 		 												 									
 					<div class="memberInfo">
 						<span class="nickName"><c:out value="${user.nickName}" /></span><br/>
@@ -78,7 +78,7 @@
 				</ul>
 		 </div>
 		 
-		 <form id='actionForm' action="/dokky/admin/userList" method='get'>  
+		 <form id='actionForm' action="/admin/userList" method='get'>  
 			<input type='hidden' name='pageNum' value='${pageMaker.cri.pageNum}'>
 			<input type='hidden' name='amount' value='${pageMaker.cri.amount}'>
 			<input type='hidden' name='type' value='<c:out value="${ pageMaker.cri.type }"/>'> 

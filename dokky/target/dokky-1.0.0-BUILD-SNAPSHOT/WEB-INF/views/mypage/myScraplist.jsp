@@ -8,7 +8,7 @@
 <head>
 <meta charset="UTF-8">
 <title>Dokky - 스크랩</title>     
-<link href="/dokky/resources/css/myScraplist.css" rel="stylesheet" type="text/css">
+<link href="/resources/css/myScraplist.css" rel="stylesheet" type="text/css">
 </head>
 <%@include file="../includes/left.jsp"%>
 <body>
@@ -62,13 +62,13 @@
 						 
 							<td class="td">
 								<a href="#" class="userMenu" data-scrap_num="${scrap.scrap_num}"> 
-									<img src="/dokky/resources/img/profile_img/<c:out value="${scrap.userId}"  />.png"  class="memberImage hideUsermenu" onerror="this.src='/dokky/resources/img/basicProfile.png'" />
+									<img src="/resources/img/profile_img/<c:out value="${scrap.userId}"  />.png"  class="memberImage hideUsermenu" onerror="this.src='/resources/img/basicProfile.png'" />
 									<c:out value="${scrap.nickName}" /> 
 								</a>   
 								<div id="userMenubar_${scrap.scrap_num}" class="userMenubar">
 									<ul class="hideUsermenu"> 
 										<li class="hideUsermenu">
-											<a href="/dokky/userBoardList?userId=${scrap.userId}" class="hideUsermenu">
+											<a href="/userBoardList?userId=${scrap.userId}" class="hideUsermenu">
 												<span class="hideUsermenu">게시글보기</span>
 											</a>
 										</li> 
@@ -120,7 +120,7 @@
 			</ul>
 		</div>
 		
-		<form id='actionForm' action="/dokky/mypage/myScraplist" method='get'>  
+		<form id='actionForm' action="/mypage/myScraplist" method='get'>  
 			<input type='hidden' name='pageNum' value='${pageMaker.cri.pageNum}'><!--  $(this).attr("href") -->
 			<input type='hidden' name='amount' value='${pageMaker.cri.amount}'>
 			<input type='hidden' name='userId' value='${pageMaker.cri.userId}'>
@@ -170,7 +170,7 @@
 			e.preventDefault(); 
 		
 			actionForm.append("<input type='hidden' name='board_num' value='"+ $(this).attr("href")+ "'>");
-			actionForm.attr("action","/dokky/board/get");
+			actionForm.attr("action","/board/get");
 			actionForm.submit();   
 		});
 		
@@ -198,7 +198,7 @@
 			  }
 			   
 			  if(confirm("정말 삭제 하시겠습니까?")){
-				  actionForm.attr("action","/dokky/mypage/removeAllScrap").attr("method","post");
+				  actionForm.attr("action","/mypage/removeAllScrap").attr("method","post");
 				  actionForm.append("<input type='hidden' name='checkRow' value='"+checkRow+"'>");
 				  actionForm.append("<input type='hidden' id='csrf' name='${_csrf.parameterName}' value='${_csrf.token}'/>");
 				  actionForm.submit();

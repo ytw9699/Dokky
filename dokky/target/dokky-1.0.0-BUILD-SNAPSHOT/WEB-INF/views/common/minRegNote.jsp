@@ -9,7 +9,7 @@
 	<meta charset="UTF-8">
 	<script src="//code.jquery.com/jquery-1.11.3.min.js"></script>
 	<title>Dokky - 쪽지쓰기</title>  
-	<link href="/dokky/resources/css/minRegNote.css" rel="stylesheet" type="text/css">
+	<link href="/resources/css/minRegNote.css" rel="stylesheet" type="text/css">
 	<sec:authentication property="principal" var="userInfo"/>
 </head>
 <body> 
@@ -19,7 +19,7 @@
 		          		받는사람 -
 		          	</span>
 		          	<span>
-		          		<img src="/dokky/resources/img/profile_img/<c:out value="${to_id}" />.png" class="memberImage" onerror="this.src='/dokky/resources/img/basicProfile.png'" />
+		          		<img src="/resources/img/profile_img/<c:out value="${to_id}" />.png" class="memberImage" onerror="this.src='/resources/img/basicProfile.png'" />
 		          		${to_nickname} 
 		          	</span>
 		          	(<span id="to_id">
@@ -98,7 +98,7 @@
 	function insertNote(noteData, callback, error) {
 			$.ajax({
 				type : 'post',
-				url : '/dokky/Note',
+				url : '/Note',
 				data : JSON.stringify(noteData),
 				contentType : "application/json; charset=utf-8",
 				success : function(result, status, xhr) {

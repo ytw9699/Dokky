@@ -9,7 +9,7 @@
 <head>
 <meta charset="UTF-8">
 	<title>Dokky - 개인정보 변경</title>   
-	<link href="/dokky/resources/css/myInfoForm.css" rel="stylesheet" type="text/css">
+	<link href="/resources/css/myInfoForm.css" rel="stylesheet" type="text/css">
 </head>
 <body>
 <sec:authentication property="principal" var="userInfo"/>
@@ -28,9 +28,9 @@
 		<div id="profileGray"></div>
 		<div id="modprofile">
 			<span class="modprofileText">이미지를 선택해주세요</span>
-			<form action="/dokky/mypage/profileFile" id="profileForm" name="profileForm" method="post" enctype="multipart/form-data">
+			<form action="/mypage/profileFile" id="profileForm" name="profileForm" method="post" enctype="multipart/form-data">
 				<div class="mainImgWrap">  
-					<img class="mainImgtag" id="mainImg" src="/dokky/resources/img/profile_img/<c:out value="${userInfo.username}" />.png" onerror="this.src='/dokky/resources/img/basicProfile.png'" />
+					<img class="mainImgtag" id="mainImg" src="/resources/img/profile_img/<c:out value="${userInfo.username}" />.png" onerror="this.src='/resources/img/basicProfile.png'" />
 				</div>   
 		        <label for="profile" id="profileSearch">프로필 이미지 찾기</label>    
 				<input type="file" name="profileFile" id="profile" /><br>
@@ -44,7 +44,7 @@
 		<!-- 프로필 이미지 관련  끝-->
 		
 		<div id="infomation" class="tabcontent">
-	       <form method='post' action="/dokky/mypage/myInfo" id="operForm">	
+	       <form method='post' action="/mypage/myInfo" id="operForm">	
 	     	  <input type="hidden" name="${_csrf.parameterName}" value="${_csrf.token}" />
 	     	<table id="inforTable">   
 	     		<tr>
@@ -53,7 +53,7 @@
 	     			</td>
 	     			<td class="tableValue">
 	     				<div class="memberProfile">
-							<img src="/dokky/resources/img/profile_img/<c:out value="${userInfo.username}" />.png" id="myImage" onerror="this.src='/dokky/resources/img/basicProfile.png'" />
+							<img src="/resources/img/profile_img/<c:out value="${userInfo.username}" />.png" id="myImage" onerror="this.src='/resources/img/basicProfile.png'" />
 						</div> 
 	     			</td>
 	     		</tr>
@@ -259,7 +259,7 @@
 		
 		$("#defaultImage").on("click",function(event){
 			var profileForm = $("#profileForm");
-			profileForm.attr("action","/dokky/mypage/deleteProfile");
+			profileForm.attr("action","/mypage/deleteProfile");
 	    	profileForm.submit(); 
 		});
 		
@@ -268,7 +268,7 @@
 		function checkPassword(checkData, callback, error) {
 			$.ajax({
 				type : 'post',
-				url : '/dokky/mypage/checkPassword',
+				url : '/mypage/checkPassword',
 				data : JSON.stringify(checkData),
 				contentType : "application/json; charset=utf-8",
 				success : function(result, status, xhr) {

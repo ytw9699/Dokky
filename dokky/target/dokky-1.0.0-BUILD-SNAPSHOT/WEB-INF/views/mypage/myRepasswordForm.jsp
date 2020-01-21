@@ -8,7 +8,7 @@
 <head>
 <meta charset="UTF-8">
 	<title>Dokky - 비밀번호 변경</title>
-	<link href="/dokky/resources/css/myRepasswordForm.css" rel="stylesheet" type="text/css">
+	<link href="/resources/css/myRepasswordForm.css" rel="stylesheet" type="text/css">
 </head>
 <body>
 	<sec:authentication property="principal" var="userInfo"/>
@@ -26,7 +26,7 @@
 		</div>
 		
 		<div id="infomation" class="tabcontent">
-	       <form method='post' action="/dokky/mypage/MyPassword" id="operForm">	
+	       <form method='post' action="/mypage/MyPassword" id="operForm">	
 	     	  <input type="hidden" name="${_csrf.parameterName}" value="${_csrf.token}" />
 	     	  <input type="hidden" name="userId" value="${userInfo.username}" />
 	     	<table id="inforTable">
@@ -116,7 +116,7 @@
 		function checkPassword(checkData, callback, error) {
 			$.ajax({
 				type : 'post',
-				url : '/dokky/mypage/checkPassword',
+				url : '/mypage/checkPassword',
 				data : JSON.stringify(checkData),
 				contentType : "application/json; charset=utf-8",
 				success : function(result, status, xhr) {

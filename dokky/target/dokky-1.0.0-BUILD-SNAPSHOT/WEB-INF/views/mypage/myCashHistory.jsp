@@ -8,7 +8,7 @@
 <head>
 <meta charset="UTF-8">
 	<title>Dokky - 캐시내역보기</title> 
-	<link href="/dokky/resources/css/myCashHistory.css" rel="stylesheet" type="text/css"/>
+	<link href="/resources/css/myCashHistory.css" rel="stylesheet" type="text/css"/>
 </head>
 <%@include file="../includes/left.jsp"%>
 <body>
@@ -76,7 +76,7 @@
 				       			  		</td>
 				       			  		<td class="td">
 				       			  			<div class="tdData">  
-												<a href="/dokky/board/get?board_num=${History.board_num}"><c:out value="${History.title}" /></a>
+												<a href="/board/get?board_num=${History.board_num}"><c:out value="${History.title}" /></a>
 											</div>
 				       			  		</td>
 				       			  </c:if>
@@ -88,7 +88,7 @@
 				       			  		</td>
 				       					<<td class="td">
 				       						<div class="tdData">  
-												<a href="/dokky/board/get?board_num=${History.board_num}"><c:out value="${History.reply_content}" /></a>
+												<a href="/board/get?board_num=${History.board_num}"><c:out value="${History.reply_content}" /></a>
 											</div>
 				       					</td>
 				       			  </c:if>
@@ -103,7 +103,7 @@
 				</c:forEach>
 			</table>
 		
-			<form id='actionForm' action="/dokky/mypage/myCashHistory" method='get'>  
+			<form id='actionForm' action="/mypage/myCashHistory" method='get'>  
 				<input type='hidden' name='pageNum' value='${pageMaker.cri.pageNum}'><!--  $(this).attr("href") -->
 				<input type='hidden' name='amount' value='${pageMaker.cri.amount}'>
 				<input type='hidden' name='userId' value='${pageMaker.cri.userId}'>
@@ -152,7 +152,7 @@
 			
 			e.preventDefault(); 
 			actionForm.append("<input type='hidden' name='board_num' value='"+ $(this).attr("href")+ "'>");
-			actionForm.attr("action","/dokky/board/get");
+			actionForm.attr("action","/board/get");
 			actionForm.submit();   
 		});
 	 

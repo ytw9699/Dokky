@@ -48,8 +48,6 @@
 		 					   userid,
 		 					   userpw,
 		 					   nickName,
-		 					   email,
-		 					   phoneNum,
 		 					   bankname, 
 		 					   account
 		 					   ) values(
@@ -57,8 +55,6 @@
 		 					   			#{userId},
  					   				    #{userPw},
  					   				    #{nickName},
- 					   				    #{email},
- 					   				    #{phoneNum},
  					   				    #{bankName},
  					   				    #{account}
 					   				   )

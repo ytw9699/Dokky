@@ -8,7 +8,7 @@
 <head>
 <meta charset="UTF-8">
 	<title>Dokky - Developer community</title> 
-	<link href="/dokky/resources/css/main.css" rel="stylesheet" type="text/css"/>
+	<link href="/resources/css/main.css" rel="stylesheet" type="text/css"/>
 </head>
 
 <%@include file="../includes/left.jsp"%>
@@ -23,7 +23,7 @@
 				<c:forEach items="${realtimeList}" var="board">
 					<tr>
 						<td class="title">   
-							<a class='move' href='/dokky/board/get?board_num=<c:out value="${board.board_num}"/>'> 
+							<a class='move' href='/board/get?board_num=<c:out value="${board.board_num}"/>'> 
 								<c:out value="${board.title}" /> 
 								<span class="replyCnt">[<c:out value="${board.replyCnt}" />]</span>
 							</a>
@@ -48,13 +48,13 @@
 						</td>
 						<td class="td"> 
 							<a href="#" class="userMenu" data-board_num="${board.board_num}" data-menu_kind="realtime">
-								<img src="/dokky/resources/img/profile_img/<c:out value="${board.userId}" />.png"  class="memberImage hideUsermenu" onerror="this.src='/dokky/resources/img/basicProfile.png'" />
+								<img src="/resources/img/profile_img/<c:out value="${board.userId}" />.png"  class="memberImage hideUsermenu" onerror="this.src='/resources/img/profile_img/basicProfile.png'" />
 								<c:out value="${board.nickName}" /> 
 							</a> 
 							 <div id="userMenubar_realtime_${board.board_num}" class="userMenubar">
 								<ul class="hideUsermenu"> 
 									<li class="hideUsermenu">
-										<a href="/dokky/userBoardList?userId=${board.userId}" class="hideUsermenu">
+										<a href="/userBoardList?userId=${board.userId}" class="hideUsermenu">
 											<span class="hideUsermenu">게시글보기</span>
 										</a>
 									</li>
@@ -89,7 +89,7 @@
 				<c:forEach items="${monthlyList}" var="board">
 					<tr>
 						<td class="title">  
-							<a class='move' href='/dokky/board/get?board_num=<c:out value="${board.board_num}"/>'> 
+							<a class='move' href='/board/get?board_num=<c:out value="${board.board_num}"/>'> 
 								<c:out value="${board.title}" /> 
 								<span class="replyCnt">[<c:out value="${board.replyCnt}" />]</span>
 							</a>
@@ -114,13 +114,13 @@
 						</td>
 						<td class="td">
 							<a href="#" class="userMenu" data-board_num="${board.board_num}" data-menu_kind="like">
-								<img width="25px" src="/dokky/resources/img/profile_img/<c:out value="${board.userId}" />.png"  class="memberImage hideUsermenu" onerror="this.src='/dokky/resources/img/basicProfile.png'" />
+								<img width="25px" src="/resources/img/profile_img/<c:out value="${board.userId}" />.png"  class="memberImage hideUsermenu" onerror="this.src='/resources/img/profile_img/basicProfile.png'" />
 								<c:out value="${board.nickName}" />
 							</a> 
 							 <div id="userMenubar_like_${board.board_num}" class="userMenubar">
 								<ul class="hideUsermenu"> 
 									<li class="hideUsermenu">
-										<a href="/dokky/userBoardList?userId=${board.userId}" class="hideUsermenu">
+										<a href="/userBoardList?userId=${board.userId}" class="hideUsermenu">
 											<span class="hideUsermenu">게시글보기</span>
 										</a>
 									</li>
@@ -155,7 +155,7 @@
 				<c:forEach items="${donationList}" var="board">
 					<tr>
 						<td class="title">  
-							<a class='move' href='/dokky/board/get?board_num=<c:out value="${board.board_num}"/>'> 
+							<a class='move' href='/board/get?board_num=<c:out value="${board.board_num}"/>'> 
 								<c:out value="${board.title}" /> 
 								<span class="replyCnt">[<c:out value="${board.replyCnt}" />]</span>
 							</a>    
@@ -180,13 +180,13 @@
 						</td>
 						<td class="td">
 							<a href="#" class="userMenu" data-board_num="${board.board_num}" data-menu_kind="donate"> 
-								<img width="25px" src="/dokky/resources/img/profile_img/<c:out value="${board.userId}" />.png"  class="memberImage hideUsermenu" onerror="this.src='/dokky/resources/img/basicProfile.png'" />
+								<img width="25px" src="/resources/img/profile_img/<c:out value="${board.userId}" />.png"  class="memberImage hideUsermenu" onerror="this.src='/resources/img/profile_img/basicProfile.png'" />
 								<c:out value="${board.nickName}" />
 							</a> 
 							 <div id="userMenubar_donate_${board.board_num}" class="userMenubar">
 								<ul class="hideUsermenu"> 
 									<li class="hideUsermenu">
-										<a href="/dokky/userBoardList?userId=${board.userId}" class="hideUsermenu">
+										<a href="/userBoardList?userId=${board.userId}" class="hideUsermenu">
 											<span class="hideUsermenu">게시글보기</span>
 										</a>
 									</li>
@@ -292,6 +292,12 @@
 	});
 	 
 	</script>
+	<c:if test="${check != null}"> 
+	      <script>
+		      $(document).ready(function(){
+		      	alert('${check}'); 
+		      });
+	      </script>
+	</c:if>  
 </body>
-
 </html>

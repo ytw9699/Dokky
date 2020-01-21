@@ -15,6 +15,43 @@
 	</properties>
 	<dependencies>
 	
+	 <!-- oauth2 login -->
+	   <dependency>
+              <groupId>com.github.scribejava</groupId>
+              <artifactId>scribejava-apis</artifactId>
+              <version>5.6.0</version>
+        </dependency>
+        
+        <dependency>
+              <groupId>com.github.scribejava</groupId>
+              <artifactId>scribejava-core</artifactId>
+              <version>5.6.0</version>
+        </dependency>
+        
+        <!-- <dependency>
+		    <groupId>com.github.scribejava</groupId>
+		    <artifactId>scribejava-apis</artifactId>
+		    <version>6.9.0</version>
+		</dependency>
+
+		<dependency>
+		    <groupId>com.github.scribejava</groupId>
+		    <artifactId>scribejava-core</artifactId>
+		    <version>6.9.0</version>
+		</dependency> -->
+        
+		<!-- <dependency>
+		    <groupId>org.springframework.security.oauth</groupId>
+		    <artifactId>spring-security-oauth2</artifactId>
+		    <version>2.3.8.RELEASE</version>
+		</dependency>
+		
+		<dependency>
+		    <groupId>org.springframework.security</groupId>
+		    <artifactId>spring-security-oauth2-core</artifactId>
+		    <version>5.1.7.RELEASE</version>
+		</dependency> -->
+        
 	<!-- <dependency>
 	    <groupId>org.springframework.security.oauth</groupId>
 	    <artifactId>spring-security-oauth2</artifactId>
@@ -307,7 +344,6 @@
                     <mainClass>org.test.int1.Main</mainClass>
                 </configuration>
             </plugin>
-            
             
              <!-- 메이븐을 통한 서버 배포 -->    
 		    <plugin>

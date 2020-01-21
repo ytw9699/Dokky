@@ -54,12 +54,13 @@
 	        width: 50%;
 		    display: inline-block;
 		    margin-left: 17%;
-		    margin-top: 1%;
+		    margin-top: 4%;
 		    min-height: 278px;
 		}
 		.loginGroup{
 		  	margin-top:-10px !important;
 		  }
+		  
 		.form-group {
 		        margin-top: 1%;
 			    margin-left: 23%;
@@ -67,6 +68,15 @@
 			    height: 50px;
 			    font-size: 20px;
 	    }
+	    
+	    .cutom-group {
+	   		color: #7151fc;
+		    margin-top: 3%;
+		    margin-left: 27%;
+		    width: 38%;
+		    height: 50px;
+		    font-size: 20px;
+		}
 	    
 	    .form-control {
 	       width: 100%;
@@ -93,5 +103,14 @@
 		    height: 45px;
 		    margin: 2px;
 		}
-    
+		
+		.logo{
+			width: 292px;
+		    height: 54px;
+		    cursor: pointer;
+		}
+		
+		#google{
+			border-radius: 9px;
+		}
 		

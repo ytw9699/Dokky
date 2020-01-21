@@ -9,7 +9,7 @@
 <head>	
 <meta charset="UTF-8">
 <title>Dokky - 나의 댓글</title> 
-<link href="/dokky/resources/css/myReplylist.css" rel="stylesheet" type="text/css"/>
+<link href="/resources/css/myReplylist.css" rel="stylesheet" type="text/css"/>
 </head>
 <%@include file="../includes/left.jsp"%>
 <body>
@@ -80,7 +80,7 @@
 				</ul>
 			</div>
 			
-			 <form id='actionForm' action="/dokky/mypage/myReplylist" method='get'>  
+			 <form id='actionForm' action="/mypage/myReplylist" method='get'>  
 				<input type='hidden' name='pageNum' value='${pageMaker.cri.pageNum}'><!--  $(this).attr("href") -->
 				<input type='hidden' name='amount' value='${pageMaker.cri.amount}'>
 				<input type='hidden' name='userId' value='${pageMaker.cri.userId}'> 
@@ -115,7 +115,7 @@
 			actionForm.find("input[name='amount']").remove();
 			actionForm.find("input[name='userId']").remove(); 
 			 
-			actionForm.attr("action","/dokky/board/get");
+			actionForm.attr("action","/board/get");
 			actionForm.submit();   
 		});
 	 
@@ -143,7 +143,7 @@
 			  }
 			   
 			  if(confirm("정말 삭제 하시겠습니까?")){
-				  actionForm.attr("action","/dokky/replies/removeAll").attr("method","post");
+				  actionForm.attr("action","/replies/removeAll").attr("method","post");
 				  actionForm.append("<input type='hidden' name='checkRow' value='"+checkRow+"'>");
 				  actionForm.append("<input type='hidden' id='csrf' name='${_csrf.parameterName}' value='${_csrf.token}'/>");
 				  actionForm.submit();

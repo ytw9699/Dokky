@@ -10,7 +10,7 @@
 	<meta charset="UTF-8">
 	<script src="//code.jquery.com/jquery-1.11.3.min.js"></script>
 	<title>Dokky - test</title>  
-	<link href="/dokky/resources/css/register.css" rel="stylesheet" type="text/css"> 
+	<link href="/resources/css/register.css" rel="stylesheet" type="text/css"> 
 </head>
 <body> 
 
@@ -26,7 +26,7 @@
 			     	 	<span id="category">새 글쓰기</span>   
 			      </div> 
 			  
-	          <form role="form" action="/dokky/board/register" method="post">
+	          <form role="form" action="/board/register" method="post">
 			      <div class="row">
 					<select id="selectId" name="category" class="">
 						   <option value=0>게시판을 선택해 주세요.</option>
@@ -118,7 +118,7 @@ $("input[type='file']").change(function(e){//업로드하기
 		  inputFile.val("");  
 		  
 		  $.ajax({
-		      url: '/dokky/s3uploadFile',
+		      url: '/s3uploadFile',
 		      type: 'POST',
 		      processData: false, 
 		      contentType: false,

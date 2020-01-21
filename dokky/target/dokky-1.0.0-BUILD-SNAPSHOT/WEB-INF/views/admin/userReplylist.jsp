@@ -9,7 +9,7 @@
 <head> 
 <meta charset="UTF-8">
 	<title>Dokky - 회원 등록 댓글</title>   
-	<link href="/dokky/resources/css/adminUserReplylist.css" rel="stylesheet" type="text/css"/>
+	<link href="/resources/css/adminUserReplylist.css" rel="stylesheet" type="text/css"/>
 </head>
 <%@include file="../includes/left.jsp"%> 
 <body>
@@ -19,17 +19,17 @@
 
 		<div id="menuWrap">
 			<div class="tab">  
-				<button onclick="location.href='/dokky/admin/userForm?userId=${pageMaker.cri.userId}'">회원 개인정보</button> 
-		        <button onclick="location.href='/dokky/admin/userCashHistory?userId=${pageMaker.cri.userId}'">회원 캐시내역</button>
-		        <button class="active" onclick="location.href='/dokky/userBoardList?userId=${pageMaker.cri.userId}&pageLocation=admin'">회원 활동</button>
+				<button onclick="location.href='/admin/userForm?userId=${pageMaker.cri.userId}'">회원 개인정보</button> 
+		        <button onclick="location.href='/admin/userCashHistory?userId=${pageMaker.cri.userId}'">회원 캐시내역</button>
+		        <button class="active" onclick="location.href='/userBoardList?userId=${pageMaker.cri.userId}&pageLocation=admin'">회원 활동</button>
 		    </div>
 		</div> 
 		
 		<div class="listWrapper">
 			<div id="secondMenuWrap">
 				<div class="tab"> 
-			        <button onclick="location.href='/dokky/userBoardList?userId=${pageMaker.cri.userId}&pageLocation=admin'">등록 게시글 ${boardTotal}개</button>
-				    <button class="active" onclick="location.href='/dokky/userReplylist?userId=${pageMaker.cri.userId}&pageLocation=admin'">등록 댓글  ${replyTotal}개 </button>  
+			        <button onclick="location.href='/userBoardList?userId=${pageMaker.cri.userId}&pageLocation=admin'">등록 게시글 ${boardTotal}개</button>
+				    <button class="active" onclick="location.href='/userReplylist?userId=${pageMaker.cri.userId}&pageLocation=admin'">등록 댓글  ${replyTotal}개 </button>  
 			    </div>  
 			</div>
 			
@@ -58,7 +58,7 @@
 			</table>
 		</div>
 				
-		<form id='actionForm' action="/dokky/userReplylist" method='get'>  
+		<form id='actionForm' action="/userReplylist" method='get'>  
 			<input type='hidden' name='pageNum' value='${pageMaker.cri.pageNum}'>
 			<input type='hidden' name='amount' value='${pageMaker.cri.amount}'>
 			<input type='hidden' name='userId' value='${pageMaker.cri.userId}'>
@@ -105,7 +105,7 @@
 			
 			e.preventDefault(); 
 			actionForm.append("<input type='hidden' name='board_num' value='"+ $(this).attr("href")+ "'>");
-			actionForm.attr("action","/dokky/board/get");
+			actionForm.attr("action","/board/get");
 			
 			actionForm.submit();   
 		});

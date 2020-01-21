@@ -4,7 +4,7 @@ var replyService = (function() {
 		
 			$.ajax({
 				type : 'post',
-				url : '/dokky/replies/new',
+				url : '/replies/new',
 				data : JSON.stringify(commonData),
 				contentType : "application/json; charset=utf-8",
 				success : function(result, status, xhr) {
@@ -25,7 +25,7 @@ var replyService = (function() {
 		var board_num = param.board_num;
 		var page = param.page || 1;
 
-		  $.getJSON("/dokky/replies/pages/" + board_num + "/" + page + ".json",
+		  $.getJSON("/replies/pages/" + board_num + "/" + page + ".json",
 				function(data) {
 					if (callback) {
 						callback(data);
@@ -42,7 +42,7 @@ var replyService = (function() {
 	    var num = param.num;
 	    var page = param.page || 1;
 	    
-	    $.getJSON("/dokky/replies/pages/" + num + "/" + page + ".json",
+	    $.getJSON("/replies/pages/" + num + "/" + page + ".json",
 	        function(data) {
 	    	
 	          if (callback) {
@@ -62,7 +62,7 @@ var replyService = (function() {
 		$.ajax({
 			
 				type : 'delete',
-				url : '/dokky/replies/' + reply_num,
+				url : '/replies/' + reply_num,
 				data:  JSON.stringify({reply_num:reply_num, userId:reply_id, board_num:board_num}),
 			    contentType: "application/json; charset=utf-8",
 				success : function(deleteResult, status, xhr) {
@@ -82,7 +82,7 @@ var replyService = (function() {
 
 		$.ajax({
 				type : 'put',
-				url : '/dokky/replies/reply',
+				url : '/replies/reply',
 				data : JSON.stringify(reply),
 				contentType : "application/json; charset=utf-8",
 				success : function(result, status, xhr) {
@@ -100,7 +100,7 @@ var replyService = (function() {
 
 	function get(reply_num, callback, error) {
 
-		$.get("/dokky/replies/" + reply_num + ".json", function(result) {
+		$.get("/replies/" + reply_num + ".json", function(result) {
 
 			if (callback) {
 				callback(result);
@@ -131,7 +131,7 @@ var replyService = (function() {
 
 		$.ajax({
 				type : 'put', 
-				url : '/dokky/board/likeCount', 
+				url : '/board/likeCount', 
 				data : JSON.stringify(commonData), 
 				contentType : "application/json; charset=utf-8",
 				success : function(result, status, xhr) {
@@ -151,7 +151,7 @@ var replyService = (function() {
 
 		$.ajax({
 				type : 'put', 
-				url : '/dokky/board/dislikeCount',  
+				url : '/board/dislikeCount',  
 				data : JSON.stringify(commonData), 
 				contentType : "application/json; charset=utf-8",
 				success : function(result, status, xhr) {
@@ -171,7 +171,7 @@ var replyService = (function() {
 
 		$.ajax({
 				type : 'put', 
-				url : '/dokky/replies/likeCount', 
+				url : '/replies/likeCount', 
 				data : JSON.stringify(commonData), 
 				contentType : "application/json; charset=utf-8",
 				success : function(result, status, xhr) {
@@ -191,7 +191,7 @@ var replyService = (function() {
 
 		$.ajax({
 				type : 'put', 
-				url : '/dokky/replies/dislikeCount',  
+				url : '/replies/dislikeCount',  
 				data : JSON.stringify(commonData), 
 				contentType : "application/json; charset=utf-8",
 				success : function(result, status, xhr) {
@@ -209,7 +209,7 @@ var replyService = (function() {
 	
 	function getUserCash(userId, callback, error) {
 
-		$.get("/dokky/board/usercash/" + userId, function(result) {
+		$.get("/board/usercash/" + userId, function(result) {
 
 			if (callback) {
 				callback(result);
@@ -226,7 +226,7 @@ var replyService = (function() {
 		
 		$.ajax({
 			type : 'put', 
-			url : '/dokky/board/donateMoney',  
+			url : '/board/donateMoney',  
 			data : JSON.stringify(commonData), 
 			contentType : "application/json; charset=utf-8",
 			success : function(result, status, xhr) {
@@ -246,7 +246,7 @@ var replyService = (function() {
 	
 			$.ajax({
 				type : 'put', 
-				url : '/dokky/replies/replyDonateMoney',  
+				url : '/replies/replyDonateMoney',  
 				data : JSON.stringify(commonData), 
 				contentType : "application/json; charset=utf-8",
 				success : function(result, status, xhr) {
@@ -266,7 +266,7 @@ var replyService = (function() {
 		
 		$.ajax({
 				type : 'post',
-				url : '/dokky/mypage/scrapData/' + scrapData.board_num + '/' + scrapData.userId,
+				url : '/mypage/scrapData/' + scrapData.board_num + '/' + scrapData.userId,
 				success : function(result, status, xhr) {
 					if (callback) {
 						callback(result,xhr);
@@ -284,7 +284,7 @@ var replyService = (function() {
 		
 			$.ajax({
 				type : 'post',
-				url : '/dokky/board/report',
+				url : '/board/report',
 				data : JSON.stringify(commonData),
 				contentType : "application/json; charset=utf-8",
 				success : function(result, status, xhr) {
@@ -305,7 +305,7 @@ var replyService = (function() {
 		
 		$.ajax({
 			type : 'post',
-			url : '/dokky/alarm',
+			url : '/alarm',
 			data : JSON.stringify(alarmData),
 			contentType : "application/json; charset=utf-8",
 			success : function(result, status, xhr) {
@@ -325,7 +325,7 @@ var replyService = (function() {
 		 
 		$.ajax({
 			type : 'get',
-			url : '/dokky/download?fileName='+path,
+			url : '/download?fileName='+path,
 			success : function(result, status, xhr) {
 				if (callback) { 
 					callback(result);
