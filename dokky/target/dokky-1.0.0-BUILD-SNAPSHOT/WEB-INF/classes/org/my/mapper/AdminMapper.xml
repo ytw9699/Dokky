@@ -161,10 +161,7 @@
 	<!-- 나의 정보 한줄 가져오기 -->
   <select id="getUserForm" resultMap="memberMap">
 		 SELECT mem.userid
-			  , userpw
 			  , nickname
-			  , email
-			  , phoneNum
 			  , bankName
 			  , account
 			  , regdate

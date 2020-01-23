@@ -28,34 +28,10 @@
 			<table id="inforTable">
 	     		<tr>
 	     			<td class="tableText">
-	     				아이디
-	     			</td>
-	     			<td class="tableValue">
-	     				${user.userId}
-	     			</td>
-	     		</tr>
-	     		<tr>
-	     			<td class="tableText">
 	     				닉네임
 	     			</td>
 	     			<td class="tableValue">
 	     				${user.nickName}
-	     			</td>
-	     		</tr>
-	     		<tr> 
-	     			<td class="tableText">
-	     				이메일 
-	     			</td>
-	     			<td class="tableValue">
-	     				${user.email}
-	     			</td>
-	     		</tr>
-	     		<tr>
-	     			<td class="tableText">
-	     				연락처
-	     			</td>
-	     			<td class="tableValue">
-	     				${user.phoneNum}	
 	     			</td>
 	     		</tr>
 	     		<tr>

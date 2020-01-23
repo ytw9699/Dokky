@@ -13,8 +13,6 @@
 	<update id="updateMyInfo">
 		update DK_MEMBER set 
 			nickName = #{nickName},
-			email 	 = #{email},
-			phoneNum = #{phoneNum},
 			bankName = #{bankName},
 			account  = #{account}
 	  where userId   = #{userId}

@@ -53,7 +53,7 @@
 	     			</td>
 	     			<td class="tableValue">
 	     				<div class="memberProfile">
-							<img src="/resources/img/profile_img/<c:out value="${userInfo.username}" />.png" id="myImage" onerror="this.src='/resources/img/basicProfile.png'" />
+							<img src="/resources/img/profile_img/<c:out value="${userInfo.username}" />.png" id="myImage" onerror="this.src='/resources/img/profile_img/basicProfile.png'" />
 						</div> 
 	     			</td>
 	     		</tr>
@@ -79,22 +79,6 @@
 	     			</td>
 	     			<td class="tableValue">
 	     				<input type="password" name="userPw" value="" class="inputInfo" oninput="checkLength(this,20);"/> 
-	     			</td>
-	     		</tr>
-	     		<tr> 
-	     			<td class="tableText">
-	     				이메일 
-	     			</td>
-	     			<td class="tableValue">
-	     				<input type="text" name="email" value="${myInfo.email}" class="inputInfo" oninput="checkLength(this,20);"/> 
-	     			</td>
-	     		</tr>
-	     		<tr>
-	     			<td class="tableText">
-	     				연락처
-	     			</td>
-	     			<td class="tableValue">
-	     				<input type="text" name="phoneNum"  value="${myInfo.phoneNum}" class="inputInfo" oninput="checkLength(this,20);"/> 
 	     			</td>
 	     		</tr>
 	     		<tr>
