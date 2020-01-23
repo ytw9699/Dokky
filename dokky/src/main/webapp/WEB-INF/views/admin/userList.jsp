@@ -46,7 +46,7 @@
 			<c:forEach items="${userList}" var="user">
 				<div class="memberInfoWrap" onclick="location.href='userForm?userId=<c:out value="${user.userId}" />'" >
 					<div class="memberProfile">
-						<img src="/resources/img/profile_img/<c:out value="${user.userId}"/>.png" id="memberProfile" onerror="this.src='/resources/img/basicProfile.png'" />
+						<img src="/resources/img/profile_img/<c:out value="${user.userId}"/>.png" id="memberProfile" onerror="this.src='/resources/img/profile_img/basicProfile.png'" />
 					</div>		 		 												 									
 					<div class="memberInfo">
 						<span class="nickName"><c:out value="${user.nickName}" /></span><br/>

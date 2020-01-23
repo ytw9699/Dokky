@@ -38,7 +38,7 @@
 			
 				<td class="td">
 					<a href='userForm?userId=<c:out value="${cash.userId}"/>'> 
-					  <img src="/resources/img/profile_img/<c:out value="${cash.userId}"/>.png"  class="memberImage" onerror="this.src='/resources/img/basicProfile.png'" />
+					  <img src="/resources/img/profile_img/<c:out value="${cash.userId}"/>.png"  class="memberImage" onerror="this.src='/resources/img/profile_img/basicProfile.png'" />
 					  <c:out value="${cash.userId}" />
 					</a> 
 				</td> 

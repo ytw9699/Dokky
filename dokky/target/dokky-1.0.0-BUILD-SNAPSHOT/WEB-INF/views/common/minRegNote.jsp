@@ -19,7 +19,7 @@
 		          		받는사람 -
 		          	</span>
 		          	<span>
-		          		<img src="/resources/img/profile_img/<c:out value="${to_id}" />.png" class="memberImage" onerror="this.src='/resources/img/basicProfile.png'" />
+		          		<img src="/resources/img/profile_img/<c:out value="${to_id}" />.png" class="memberImage" onerror="this.src='/resources/img/profile_img/basicProfile.png'" />
 		          		${to_nickname} 
 		          	</span>
 		          	(<span id="to_id">
