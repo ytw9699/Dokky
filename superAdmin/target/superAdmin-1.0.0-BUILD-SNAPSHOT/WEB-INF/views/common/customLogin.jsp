@@ -8,7 +8,7 @@
 <head>
 	<meta charset="utf-8"> 
 	<title>Dokky - 로그인</title>
-	<link href="/resources/css/customLogin.css" rel="stylesheet" type="text/css"/>
+	<link href="/superAdmin/resources/css/customLogin.css" rel="stylesheet" type="text/css"/>
 </head>
 <body> 
 <div class="loginWrap">
@@ -17,7 +17,7 @@
 			SuperAdmin Login 
 	</div>
 	<div class="container"> 
-		<form role="form" method='post' action="/login">
+		<form role="form" method='post' action="/superAdmin/login">
 				<div class="form-group">
 					<input id="userId" class="form-control" placeholder="아이디를 입력하세요." name="username" type="text" oninput="checkLength(this,20);" autofocus/>
 				</div>

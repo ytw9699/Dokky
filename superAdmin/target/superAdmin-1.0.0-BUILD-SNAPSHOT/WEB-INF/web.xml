@@ -30,10 +30,10 @@
 		<!-- 404 에러 처리를 위해 404에러 페이지로 넘기지 않고,익셉션을 발생 시키는 설정
 		이렇게 설정을 추가해주면 이제 @ControllerAdvice에서 에러 핸들링을 해줄수 있다.
 		-->
-		<init-param>
+		<!-- <init-param>
 	      <param-name>throwExceptionIfNoHandlerFound</param-name>
 	      <param-value>true</param-value>
-	    </init-param>
+	    </init-param> -->
 	    
 		<load-on-startup>1</load-on-startup>
 		
@@ -80,7 +80,7 @@
 	</filter-mapping>
 	<!--  필터의 순서는 바뀌면 안됨 -->
 		
-	<!-- <error-page>
+	<error-page>
 	    <error-code>404</error-code>
 	    <location>/WEB-INF/views/error/404errorPage.jsp</location>
 	</error-page>
@@ -93,6 +93,6 @@
 	<error-page>
 	    <error-code>500</error-code>
 	    <location>/WEB-INF/views/error/500errorPage.jsp</location>
-	</error-page> -->
+	</error-page>
 
 </web-app>

@@ -1,6 +1,7 @@
 package org.my.controller;
 	import java.io.UnsupportedEncodingException;
 	import java.util.ArrayList;
+import java.util.Enumeration;
 import java.util.Iterator;
 import java.util.List;
 	import java.util.Locale;
@@ -73,7 +74,7 @@ public class CommonController {
 	@Setter(onMethod_ = { @Autowired })
 	private MemberMapper memberMapper;
 
-	@GetMapping("/adminLogin")
+	/*@GetMapping("/adminLogin")
 	public String adminLogin(Model model, HttpServletRequest request, String error, String logout, String check){
 		
 		log.info("/adminLogin");
@@ -104,12 +105,16 @@ public class CommonController {
 		}
 
 		return "redirect:/admin/userList";//관리자라면 관리자 페이지로
-	}
+	}*/
 	
 	@GetMapping("/customLogin")//커스톰 로그인 페이지는 반드시 get방식 이여야한다.시큐리티의 특성임
-	public String loginInput(String error, String logout, String check, Model model) throws UnsupportedEncodingException {
+	public String loginInput(String error, String logout, String check, Model model,HttpServletRequest request) throws UnsupportedEncodingException {
+		
+		String referer = request.getHeader("referer");
 		
 		log.info("/customLogin");
+		
+		log.info(referer);
 		
 		//소셜로그인
 		SNSLogin naverLogin = new SNSLogin(naverSns);
@@ -160,9 +165,11 @@ public class CommonController {
 	
 	@RequestMapping(value = "/auth/{snsService}/callback", method = { RequestMethod.GET, RequestMethod.POST})
 	public String snsLoginCallback(@PathVariable String snsService, Model model, 
-			@RequestParam(value="code", required=false) String code,
+			@RequestParam(value="code", required=false) String code,HttpServletRequest request,
 			 RedirectAttributes rttr, @RequestParam(value = "error", defaultValue = "noterror") String error) throws Exception {
 		//https://dokky.ga/auth/naver/callback?error=access_denied&error_description=Canceled+By+User&state=
+		
+		log.info("snsLoginCallback");
 		
 		if(error.equals("access_denied")) {//정보동의 수락안하고 취소눌를시
 			return "redirect:/customLogin";
@@ -217,6 +224,30 @@ public class CommonController {
 		
 		memberMapper.updateLoginDate(profileId);//로긴날짜찍기
 		
+		HttpSession session = request.getSession();
+		
+		log.info("snsLoginCallback2");
+		
+		if (session != null) {
+			
+            String redirectUrl = (String) session.getAttribute("SPRING_SECURITY_SAVED_REQUEST");
+            
+            log.info("redirectUrl="+redirectUrl);
+            
+           /* Enumeration<String> e = session.getAttributeNames();
+            
+            while(e.hasMoreElements()){
+            	log.info("Enumeration"+e.nextElement());
+            }*/
+            
+            if (redirectUrl != null) {
+            	 log.info(redirectUrl);
+            	 
+                session.removeAttribute("prevPage");
+                
+                return "redirect:/main";
+            }
+        }
 		return "redirect:/main";
 	}
 	
