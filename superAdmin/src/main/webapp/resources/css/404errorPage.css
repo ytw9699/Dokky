@@ -1,0 +1,47 @@
+@charset "utf-8";
+/* CSS Document */
+
+	    @media screen and (max-width:500px){ 
+       		.bodyWrap { 
+			    width: 85%;
+			    display: inline-block;
+			    margin-left: 15%;
+			    margin-top: 1%;
+			    min-height: 500px;
+			    border-color: #dbdbdb;
+			    border-width: 2px;
+			    border-style: solid;
+			    color: #333333;
+			    border-radius:5px;
+			}
+        }
+        
+        @media screen and (min-width: 501px) and (max-width:1600px){
+          	.bodyWrap {
+			    width: 81%;
+			    display: inline-block;
+			    margin-left: 17%;
+			    margin-top: 1%;
+			    min-height: 500px;
+			    border-color: #dbdbdb;
+			    border-style: solid;
+			    border-width: 2px;
+			    color: #333333;
+			    border-radius:5px;
+			}
+        }
+        
+        @media screen and (min-width: 1601px){    
+            .bodyWrap {
+			    width: 51%;
+			    display: inline-block; 
+			    margin-left: 29%;
+			    margin-top: 1%;
+			    min-height: 500px;
+			    border-color: #dbdbdb;
+			    border-style: solid;
+			    border-width: 2px;
+			    color: #333333;
+			    border-radius:5px;
+			}
+        }

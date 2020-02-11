@@ -1,0 +1,161 @@
+@charset "utf-8";
+/* CSS Document */
+
+	    @media screen and (max-width:500px){ 
+       		.bodyWrap { 
+			    width: 85%;
+			    display: inline-block;
+			    margin-left: 15%;
+			    margin-top: 1%;
+			    min-height: 500px;
+			    border-color: #dbdbdb;
+			    border-width: 2px;
+			    border-style: solid;
+			    color: #333333;
+			    border-radius:5px;
+			}
+        }
+        
+        @media screen and (min-width: 501px) and (max-width:1600px){
+          	.bodyWrap {
+			    width: 81%;
+			    display: inline-block;
+			    margin-left: 17%;
+			    margin-top: 1%;
+			    min-height: 500px;
+			    border-color: #dbdbdb;
+			    border-style: solid;
+			    border-width: 2px;
+			    color: #333333;
+			    border-radius:5px;
+			}
+        }
+        
+        @media screen and (min-width: 1601px){    
+            .bodyWrap {
+			    width: 51%;
+			    display: inline-block; 
+			    margin-left: 29%;
+			    margin-top: 1%;
+			    min-height: 500px;
+			    border-color: #dbdbdb;
+			    border-style: solid;
+			    border-width: 2px;
+			    color: #333333;
+			    border-radius:5px;
+			}
+        }
+        
+        .mainLists {
+		    /* border-color: #dbdbdb;
+		    border-style: solid;
+		    border-width: 1px; */ 
+		    margin-left: 1%;
+		    margin-top: 1%;
+		    width: 98%;
+		}
+		
+		.move:hover{
+		    color: #7151fc;
+		}
+		.userMenu:hover{
+			color: #7151fc; 
+		}
+		.category{
+		    border-bottom:3px solid #7151fc;
+		    color: #7151fc;
+		    font-size: 19px;
+			font-weight: 600; 
+			padding: 15px;
+			display: block;
+    		width: 94%;
+    		margin-left: 1%;
+		}
+		.table{
+		    border-color: #dbdbdb;
+		    border-style: solid;
+		    border-width: 2px;
+		    border-radius:5px;
+		    margin: 1%; 
+		    padding: 15px;
+		    width: 98%;
+		}
+		td{
+			height: 37px;
+		}
+		.title{
+			width: 50%;
+		}
+		.title a{
+			color:#333333; 
+			text-decoration: none;
+		}
+		.userMenu{
+			color:#333333; 
+			text-decoration: none;
+		}		
+		.td {
+		    color: #7151fc;
+		    font-weight: 600;
+		    font-size: 15px;
+		}
+		.tdData{
+			display: inline-block;
+			color: #333333;
+		}
+		#dateTd{
+			color: #333333;
+		}
+		.replyCnt{
+			color: #7151fc;
+		}
+		
+		
+		.userMenubar{
+			    display: none; 
+		        border-style: solid;
+			    border-width: 1px;
+			    border-color: #7151fc; 
+			    width: 88px;
+			    height: 53px;
+			    position: fixed;
+			    background-color: white;
+			    margin-left: 30px;
+			    border-radius: 5px;
+			    position: absolute;
+		}
+		.userMenubar ul {
+		    margin: auto;
+		}
+		 
+		.userMenubar ul li{
+		    list-style: none;
+		    width: 86px;
+		    margin-left: -83%; 
+		    margin-bottom: 3px;
+		    height: 25px; 
+		}
+		.userMenubar ul li a{
+	        text-decoration: none;
+		    color: #7151fc;
+		    margin-left: 3px;
+		    font-size: 16px;
+		}
+		 
+		.userMenubar ul li:hover{ 
+			background-color: #7151fc;
+			border-radius: 2px;     
+			border:1px solid #7151fc;  
+		}
+		.userMenubar ul li a:hover{
+			text-decoration: none;
+			background-color: #7151fc;
+		    color: white;
+		}
+		
+		.memberImage{
+			border-radius: 50px;
+			width: 25px; 
+			height: 25px;  
+		}
+
