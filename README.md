@@ -14,7 +14,7 @@ Super 관리자 주소 : https://dokky.ga/superAdmin/customLogin
 관리자 아이디: admin 비밀번호 : admin
 
 ## 4. 프로젝트 환경
-  ### 1) 클라우드 : AWS(EC2, RDS, S3)
+  ### 1) 인프라 : 클라우드-AWS(EC2, RDS, S3)
   ### 2) LANGUAGE : JAVA(JDK 1.8), JSP, JAVASCRIPT, HTML/CSS, jQuery, ajax
   ### 3) DATABASE : ORACLE 12
   ### 4) FRAMEWORK : SpringFramework 5.0
