@@ -9,8 +9,8 @@ Dokky는 기존의 okky 커뮤니티(https://okky.kr)를 벤치마킹하여 만�
 
 ## 3. 프로젝트 URL
 
-https://dokky.ga/
-관리자 아이디: admin 비밀번호 : admin
+사용자 주소 : https://dokky.ga/
+Super 관리자 주소 : https://dokky.ga/superAdmin/customLogin   관리자 아이디: admin 비밀번호 : admin
 
 ## 4. 프로젝트 환경
   ### 1) 클라우드 : AWS(EC2, RDS, S3)
