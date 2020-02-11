@@ -95,8 +95,11 @@
 				</a>
 			</c:if> --%>
 		</sec:authorize>
-		<a href="/adminLogin">
-	    	<span class="mypage">관리자</span>
+		<a href="/admin/userList">
+	    	<span class="mypage">Admin</span>
+		</a>
+		<a href="/superAdmin/superLogin">
+	    	<span class="mypage">SuperAdmin</span>
 		</a>
 		<div class="visitCount">
 			<div>

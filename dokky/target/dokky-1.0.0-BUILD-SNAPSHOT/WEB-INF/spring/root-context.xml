@@ -12,7 +12,16 @@
 		http://www.springframework.org/schema/tx http://www.springframework.org/schema/tx/spring-tx-4.3.xsd">
 	
 	<!-- Root Context: defines shared resources visible to all other web components -->
-		
+	
+	<!-- <bean id="hikariConfig" class="com.zaxxer.hikari.HikariConfig">
+		<property name="driverClassName"
+			value="net.sf.log4jdbc.sql.jdbcapi.DriverSpy"></property>
+		<property name="jdbcUrl"
+			value="jdbc:log4jdbc:oracle:thin:@localhost:1521:XE"></property>
+		<property name="username" value="dokky_ex"></property>
+		<property name="password" value="cgdeveloper9865"></property>
+	</bean> -->
+	
 	<!--  <bean id="hikariConfig" class="com.zaxxer.hikari.HikariConfig">
 		<property name="driverClassName"
 			value="net.sf.log4jdbc.sql.jdbcapi.DriverSpy"></property>
@@ -31,20 +40,13 @@
 		<property name="password" value="dpwm9865cgdeveloper568954"></property>
 	</bean>
 	
-	<!-- <bean id="hikariConfig" class="com.zaxxer.hikari.HikariConfig">
-		<property name="driverClassName"
-			value="net.sf.log4jdbc.sql.jdbcapi.DriverSpy"></property>
-		<property name="jdbcUrl"
-			value="jdbc:log4jdbc:oracle:thin:@localhost:1521:XE"></property>
-		<property name="username" value="dokky_ex"></property>
-		<property name="password" value="cgdeveloper9865"></property>
-	</bean> -->
-   
 	<!-- HikariCP configuration 커넥션풀 설정 -->
 	<bean id="dataSource" class="com.zaxxer.hikari.HikariDataSource" destroy-method="close">
 		<constructor-arg ref="hikariConfig" />
 	</bean>  
-
+	
+	<!-- 스프링과 연동 작업을 처리하는 mybatis-spring 라이브러리 
+	sqlSessionFactory는 SQLSession을 만들어냄,SQLSession을 통해서 Connection을 생성하거나 원하는 SQL을 전달하고，결과를 리턴 받는 구조로 개발할것-->
 	<bean id="sqlSessionFactory" class="org.mybatis.spring.SqlSessionFactoryBean">
 		<property name="dataSource" ref="dataSource"></property>
 	</bean>
@@ -57,6 +59,9 @@
 	<tx:annotation-driven />
 		
 	<mybatis-spring:scan base-package="org.my.mapper" />
+	<!-- Mapper인터페이스+Mapper.xml을 작성해 주었다면 MyBatis가 동작할 때 Mapper를 인식할 수 있도록 스캔설정
+	MyBatis-Spring은 Mapper 인터페이스를 이용해서 실제 SQL 처리가 되는 클래스를 자동으로 생성
+	-->
 	
 	<context:component-scan base-package="org.my.service"></context:component-scan>
 	
