@@ -1,0 +1,270 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+  PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+  "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="org.my.mapper.MypageMapper">
+	
+	<!-- 나의 정보 한줄 가져오기 -->
+	 <select id="getMyInfo" resultType="org.my.domain.MemberVO">
+		select * from DK_MEMBER where userId = #{userId}
+	</select>
+	
+	<!-- 나의 정보 변경하기 -->
+	<update id="updateMyInfo">
+		update DK_MEMBER set 
+			nickName = #{nickName},
+			bankName = #{bankName},
+			account  = #{account}
+	  where userId   = #{userId}
+	</update>
+	
+	<!-- 비밀번호 가져오기 --> 
+	 <select id="getMemberPW" resultType="String">
+		select userpw from DK_MEMBER where userId = #{userId}
+	</select>
+	
+	<!-- 비밀번호 변경 -->
+	<update id="updateMyPassword">
+		update DK_MEMBER set userpw = #{userPw} where userId = #{userId}
+	</update>
+	
+	<select id="getMyBoardList" resultType="org.my.domain.BoardVO"> 
+	select board_num,
+		   title,
+		   replyCnt,
+		   hitCnt,
+		   category,
+		   likeCnt,
+		   money,
+		   regdate from 
+			 ( select /*+INDEX_DESC(DK_BOARD PK_DK_BOARD) */ rownum rn,
+			 														board_num,
+			 														title,
+			 														replyCnt, 
+			 														hitCnt,
+			 														category,
+			 														likeCnt,
+		 															money,
+			 														regdate
+			from DK_BOARD where userId = #{userId} and <![CDATA[ rownum <= #{pageNum} * #{amount} )
+				  where rn > (#{pageNum} -1) * #{amount}  
+				  ]]>
+	</select>
+	
+	<select id="getMyBoardCount" resultType="int">
+		select count(*) from DK_BOARD where userId = #{userId} and board_num > 0
+	</select>
+	
+	<select id="getMyReplylist" resultType="org.my.domain.ReplyVO">
+	  <![CDATA[
+		 select reply_num
+			  , board_num
+			  , reply_content
+			  , userId
+			  , replydate
+		 from 
+		   (
+		    select /*+INDEX_DESC(DK_REPLY pk_reply) */ rownum rn
+												     , reply_num
+												     , board_num
+												     , reply_content
+												     , userId
+												     , replydate
+		   		from DK_REPLY
+		    		where userId = #{userId}
+				    and reply_num > 0
+				    and rownum <= #{pageNum} * #{amount}
+			) where rn > (#{pageNum} -1) * #{amount}
+	  ]]>
+	</select>
+	
+	<select id="getMyReplyCount" resultType="int">
+		<![CDATA[
+		select count(reply_num) from DK_REPLY where userId = #{userId} and reply_num > 0
+		]]>
+	</select>
+	
+	<!-- 하위 스크랩 관련 -->
+	<select id="getScrapCnt" resultType="int">
+		<![CDATA[
+			select count(*) from dk_scrap where userId = #{userId} and board_num = #{board_num}
+		]]>
+	</select>
+	
+	<insert id="insertScrapData">
+		insert into dk_scrap (scrap_num, userId, board_num) values (seq_dk_scrap.nextval, #{userId}, #{board_num})
+	</insert>
+	
+	<delete id="deleteScrap">
+		delete dk_scrap where userId = #{userId} and board_num = #{board_num}
+	</delete>
+	
+	<select id="getMyScrapCount" resultType="int">
+		<![CDATA[
+			select count(*) from dk_scrap where userId = #{userId}
+		]]>
+	</select>
+	
+	<!--  select reply_num, num, reply_content, userId, replydate
+		 from 
+		   (
+		    select /*+INDEX_DESC(DK_REPLY pk_reply) */ 
+		      rownum rn, reply_num, num, reply_content, userId, replydate
+		    from DK_REPLY
+		    where userId = #{userId}
+		    and reply_num > 0
+		    and rownum <= #{pageNum} * #{amount}
+		   ) where rn > (#{pageNum} -1) * #{amount}  -->
+		
+		
+		<select id="getMyScraplist" resultType="org.my.domain.scrapVO"> 
+		<![CDATA[
+		   select 	 
+		   		  board_num, 
+		   		  userId,
+		   		  nickName,
+		   		  title,
+		   		  replyCnt,
+		   		  hitCnt,
+		   		  category ,
+		   		  likeCnt,
+				  money,  
+		   		  regdate,
+		   		  scrap_num
+		   		  
+			 from 
+			   ( SELECT
+			   	  ROW_NUMBER() OVER(ORDER BY scrap.scrap_num desc) AS rn,
+				  BOARD.board_num,
+				  BOARD.userId,
+				  nickName, 
+				  title,
+				  replyCnt,
+				  hitCnt,
+				  likeCnt,
+				  money,
+				  category,
+				  scrap.regdate,
+				  scrap.scrap_num
+			FROM 
+				  DK_BOARD BOARD inner JOIN dk_scrap scrap on BOARD.board_num = scrap.board_num 
+				  
+			WHERE scrap.userid = #{userId})
+			
+			where rn > (#{pageNum} -1) * #{amount} and rn <= #{pageNum} * #{amount}
+		]]>
+	</select>   
+	
+	<!-- 상위 스크랩 관련 -->
+		   
+	<insert id="insertChargeData">
+		insert into dk_cash (
+							cash_num,
+							cashKind,
+							cashAmount,
+							userId,
+							specification
+							) values 
+										(
+										seq_dk_cash.nextval,
+										#{cashKind},
+										#{cashAmount},
+										#{userId},
+										#{specification} 
+										)
+	</insert>
+	
+	<insert id="insertReChargeData">
+		insert into dk_cash (
+							cash_num,
+							cashKind,
+							cashAmount,
+							userId,
+							specification
+							) values 
+										(
+										seq_dk_cash.nextval,
+										#{cashKind},
+										#{cashAmount},
+										#{userId},
+										#{specification} 
+										)
+	</insert>
+	
+	<select id="getMyCashHistoryCount" resultType="int">
+		<![CDATA[
+		select count(*) from dk_cash where userId = #{userId}
+		]]>
+	</select>
+	
+	<!-- <select id="getMyCashHistory" resultType="org.my.domain.cashVO"> 
+		<![CDATA[
+		   select 
+		   		  cashKind,
+		   		  cashAmount,
+		   		  specification,
+		   		  regDate,
+		   		  board_num,
+		   		  reply_content,
+		   		  title,
+		   		  cash_num
+			 from 
+			   ( SELECT
+				  rownum rn,
+				  cash.cashKind,
+				  cash.cashAmount,
+				  cash.specification,
+				  cash.regDate,
+				  cash.board_num, 
+				  reply.reply_content,
+				  board.title,
+				  cash.cash_num
+			FROM 
+				  dk_cash cash inner JOIN dk_board board on board.num = cash.board_num 
+				  
+				  inner JOIN dk_reply reply on reply.reply_num = cash.reply_num 
+				  
+			WHERE cash.userid = #{userId} and rownum <= #{pageNum} * #{amount} order by cash.cash_num desc)
+			
+			where rn > (#{pageNum} -1) * #{amount}
+		]]>
+	</select> -->
+	
+	<select id="getMyCashHistory" resultType="org.my.domain.cashVO"> 
+		<![CDATA[
+		   select 
+				  cashKind,
+				  cashAmount,
+		   		  specification,
+		   		  regDate,
+		   		  board_num,
+		   		  reply_content,
+		   		  title,
+		   		  cash_num
+			 from 
+			   ( SELECT
+				   ROW_NUMBER() OVER(ORDER BY cash.cash_num desc) AS rn,
+				  cash.cashKind,
+				  cash.cashAmount,
+				  cash.specification,
+				  cash.regDate,
+				  cash.board_num, 
+				  reply.reply_content,
+				  board.title,
+				  cash.cash_num
+			FROM 
+				  dk_cash cash inner JOIN dk_board board on board.board_num = cash.board_num 
+				  
+				  inner JOIN dk_reply reply on reply.reply_num = cash.reply_num 
+				  
+			WHERE cash.userid = #{userId})
+			
+			where rn > (#{pageNum} -1) * #{amount} and rn <= #{pageNum} * #{amount} 
+		]]>
+	</select>
+	
+	<delete id="removeScrap">
+		delete from dk_scrap where scrap_num = #{scrap_num}
+	</delete>
+	
+</mapper>

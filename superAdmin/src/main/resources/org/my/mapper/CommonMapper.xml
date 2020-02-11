@@ -1,0 +1,295 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+  PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+  "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="org.my.mapper.CommonMapper">
+
+	  <insert id="insertVisitor">
+          insert into dk_visitor
+            (
+                visitor_num,
+                ip,
+	               <if test="refer != null and refer !=''">
+	              	  refer,
+	                </if>
+                agent
+            )
+            VALUES
+            (
+                seq_dk_visitor.NEXTVAL,
+                #{ip},
+	                <if test="refer != null and refer !=''">
+	               		 #{refer},
+	                </if>
+                #{agent}
+            )
+       </insert>
+       
+       <select id="getVisitTotalCount" resultType="int">
+			select count(*) from dk_visitor     
+       </select>
+       
+        <select id="getVisitTodayCount" resultType="int">
+			select count(*) from dk_visitor where substr(to_char(visit_time), 1, 9) = to_date(sysdate, 'yy/MM/dd')
+       </select>
+       
+        <select id="getAlarmCount" resultType="int">
+			select count(*) from dk_alarm where target = #{userId}
+       </select>
+	  
+	  <select id="getAlarmRealCount" resultType="String">
+			select count(*) from dk_alarm where target = #{userId} and checking = 'NO'
+       </select>
+       
+       <select id="getAlarmReadCount" resultType="int">
+       		select count(*) from dk_alarm where target = #{userId} and checking = 'YES' 
+       </select>
+       
+       <select id="getNoteCount" resultType="String">
+			select count(*) from dk_note where TO_ID = #{userId} and FROM_ID != #{userId} and from_check = 'NO' and read_check = 'NO'
+       </select>
+	  
+       <select id="getAllAlarmList" resultType="org.my.domain.alarmVO"> 
+			select alarmNum,
+				   checking,
+				   target,
+				   writerNick,
+				   writerId,
+				   kind,
+				   commonVar1,
+				   commonVar2,
+				   regdate from 
+					 ( select /*+INDEX_DESC(dk_alarm pk_alarm) */ rownum rn,
+					 														alarmNum,
+					 														checking,
+					 														target,
+					 														writerNick,
+					 														writerId,
+					 														kind,
+					 														commonVar1,
+																			commonVar2,
+					 														regdate
+					from dk_alarm where target = #{userId} and <![CDATA[ rownum <= #{pageNum} * #{amount} )
+						  where rn > (#{pageNum} -1) * #{amount}  
+						  ]]>
+	   </select>
+	   
+	    <select id="getReadedAlarmList" resultType="org.my.domain.alarmVO"> 
+			select alarmNum,
+				   checking,
+				   target,
+				   writerNick,
+				   writerId,
+				   kind,
+				   commonVar1,
+				   commonVar2,
+				   regdate from 
+					 ( select /*+INDEX_DESC(dk_alarm pk_alarm) */ rownum rn,
+					 														alarmNum,
+					 														checking,
+					 														target,
+					 														writerNick,
+					 														writerId,
+					 														kind,
+					 														commonVar1,
+																			commonVar2,
+					 														regdate
+					from dk_alarm where target = #{userId} and checking = 'YES' and <![CDATA[ rownum <= #{pageNum} * #{amount} )
+						  where rn > (#{pageNum} -1) * #{amount}  
+						  ]]>
+	   </select>
+	   
+	    <select id="getNotReadedAlarmList" resultType="org.my.domain.alarmVO"> 
+			select alarmNum,
+				   checking,
+				   target,
+				   writerNick,
+				   writerId,
+				   kind,
+				   commonVar1,
+				   commonVar2,
+				   regdate from 
+					 ( select /*+INDEX_DESC(dk_alarm pk_alarm) */ rownum rn,
+					 														alarmNum,
+					 														checking,
+					 														target,
+					 														writerNick,
+					 														writerId,
+					 														kind,
+					 														commonVar1,
+																			commonVar2,
+					 														regdate
+					from dk_alarm where target = #{userId} and checking = 'NO' and <![CDATA[ rownum <= #{pageNum} * #{amount} )
+						  where rn > (#{pageNum} -1) * #{amount}  
+						  ]]>
+	   </select>
+	   
+	   <insert id="insertAlarm">
+          insert into dk_alarm(
+				               alarmNum,
+				               target,
+				               writerNick,
+				  			   writerId,
+				  			   <if test="commonVar1 != null and commonVar1 !=''">
+				              	    commonVar1,
+				                </if>
+				                <if test="commonVar2 != null and commonVar2 !=''">
+				              	    commonVar2,
+				                </if>
+				               kind
+					          )
+					            VALUES
+						            (
+						                seq_dk_alarm.nextval,
+						                #{target},
+						                #{writerNick},
+						                #{writerId},
+						                 <if test="commonVar1 != null and commonVar1 !=''">
+						               		 #{commonVar1},
+						                </if>
+						                <if test="commonVar2 != null and commonVar2 !=''">
+						               		  #{commonVar2},
+						                </if>
+						                #{kind}
+						            )
+       </insert>
+       
+       <delete id="deleteAlarm">
+       		delete from dk_alarm where target = #{target} 
+       							and commonVar1 = #{commonVar1} 
+       							and commonVar2 = #{commonVar2} 
+       							and kind = #{kind}
+       							and writerNick = #{writerNick}
+       							and writerId = #{writerId}
+       </delete>
+       
+       <delete id="deleteMyNote">
+       		delete from dk_note where note_num = #{note_num} 
+       </delete>
+       
+       <update id="updateFromNote">
+       		update dk_note set from_check = 'YES' where note_num = #{note_num}
+       </update>
+       
+       <update id="updateToNote">
+       		update dk_note set to_check = 'YES' where note_num = #{note_num}
+       </update>
+       
+       <delete id="deleteAllAlarm">
+       		delete from dk_alarm where alarmNum = #{alarmNum} 
+       </delete>
+       
+       	<!-- 알림 읽기, 알림 체크 값 바꿔주기 -->
+       <update id="updateAlarmCheck"> 
+       		update dk_alarm set checking = 'YES' where alarmNum = #{alarmNum}
+       </update>
+       
+       <select id="getDetailNotepage" resultType="org.my.domain.noteVO">
+       		   select NOTE_NUM
+		       		, CONTENT
+		       		, FROM_NICKNAME
+		       		, FROM_ID
+		       		, TO_NICKNAME
+					, TO_ID
+		       		, REGDATE from dk_note where NOTE_NUM = #{note_num}
+       </select>
+						  
+       <update id="updateNoteCheck">
+			update dk_note set read_check = 'YES' where note_num = #{note_num}       
+       </update>
+	  
+       <insert id="insertNote">
+	 			insert into dk_note(	  NOTE_NUM
+							 			, CONTENT
+							 			, FROM_NICKNAME
+							 			, FROM_ID
+							 			, TO_NICKNAME
+							 			, TO_ID 
+							 			, read_check
+					 			   ) 
+					 		values(
+						 				seq_dk_note.nextval
+						 				,#{content}
+										,#{from_nickname}
+										,#{from_id}
+										,#{to_nickname}				 		
+								 		,#{to_id}
+								 		,#{read_check}
+					 				) 
+       </insert>
+		 
+       <select id="getFromNoteCount" resultType="int">
+			select count(*) from dk_note where TO_ID = #{userId} and FROM_ID != #{userId} and from_check = 'NO'
+       </select>
+       
+       <select id="getToNoteCount" resultType="int">
+			select count(*) from dk_note where FROM_ID = #{userId} and TO_ID != #{userId} and to_check = 'NO'
+       </select>
+       
+       <select id="getMyNoteCount" resultType="int">
+			select count(*) from dk_note where TO_ID = #{userId} and FROM_ID = #{userId}
+       </select>
+       
+       
+       <select id="getToNoteList" resultType="org.my.domain.noteVO">
+       
+       		  select NOTE_NUM
+				   , CONTENT
+				   , TO_NICKNAME
+				   , TO_ID
+				   , read_check
+				   , regdate 
+				   
+				   from (select /*+INDEX_DESC(DK_NOTE PK_DK_NOTE) */  rownum rn
+			       												 	, NOTE_NUM
+															   	    , CONTENT
+																    , TO_NICKNAME
+																    , TO_ID
+																    , read_check
+																    , regdate 
+																    
+				   from dk_note where from_id = #{userId} and to_id != #{userId} and to_check = 'NO' <![CDATA[ and rownum <= #{pageNum} * #{amount} )
+					 where rn > (#{pageNum} -1) * #{amount}  
+						  ]]>
+       </select>
+       
+       <select id="getFromNoteList" resultType="org.my.domain.noteVO"> 
+			select NOTE_NUM,
+				   CONTENT,
+				   FROM_NICKNAME,
+				   FROM_ID,
+				   read_check,
+				   regdate from 
+					 ( select /*+INDEX_DESC(DK_NOTE PK_DK_NOTE) */ rownum rn,
+		 														   NOTE_NUM,
+															   	   CONTENT,
+																   FROM_NICKNAME,
+																   FROM_ID,
+																   read_check,
+																   regdate
+					from DK_NOTE where TO_ID = #{userId} and FROM_ID != #{userId} and from_check = 'NO'<![CDATA[ and rownum <= #{pageNum} * #{amount} )
+						  where rn > (#{pageNum} -1) * #{amount}  
+						  ]]>
+	   </select>
+	   
+	   <select id="getMyNoteList" resultType="org.my.domain.noteVO">
+		    select NOTE_NUM,
+				   CONTENT,
+				   FROM_NICKNAME,
+				   FROM_ID,
+				   regdate from 
+					 ( select /*+INDEX_DESC(DK_NOTE PK_DK_NOTE) */ rownum rn,
+		 														   NOTE_NUM,
+															   	   CONTENT,
+																   FROM_NICKNAME,
+																   FROM_ID,
+																   regdate
+					from DK_NOTE where TO_ID = #{userId} and FROM_ID = #{userId} <![CDATA[ and rownum <= #{pageNum} * #{amount} )
+						  where rn > (#{pageNum} -1) * #{amount}  
+						  ]]>
+	   </select>
+	   
+	   <select id="getNickname" resultType="String">
+	   		select NICKNAME from dk_member WHERE userid = #{to_id}
+	   </select>	   
+</mapper>

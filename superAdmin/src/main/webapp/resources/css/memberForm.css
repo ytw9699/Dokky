@@ -1,0 +1,93 @@
+@charset "utf-8";
+/* CSS Document */
+		@media screen and (max-width:500px){ 
+	   			.memberFormWrap {
+				    width: 80%; 
+				    display: inline-block;
+				    margin-left: 15%;
+				    margin-top: 1%;
+				    min-height: 500px; 
+					display: inline-block;
+					border: 2px solid #dbdbdb;
+					border-radius: 10px;
+				}     
+        }
+        @media screen and (min-width: 501px) and (max-width:1600px){
+	        .memberFormWrap {
+				    width: 80%; 
+				    display: inline-block;
+				    margin-left: 17%;
+				    margin-top: 1%;
+				    min-height: 500px; 
+					display: inline-block;
+					border: 2px solid #dbdbdb;
+					border-radius: 10px;
+			}
+        }
+        @media screen and (min-width: 1601px){    
+	          .memberFormWrap {
+				    width: 51%; 
+				    display: inline-block;
+				    margin-left: 29%;
+				    margin-top: 1%;
+				    min-height: 500px; 
+					display: inline-block;
+					border: 2px solid #dbdbdb;
+					border-radius: 10px;
+				}
+        }
+	
+		.title{
+		    width: 92%;
+	    	font-size: 35px;
+		    margin-top: 20px;
+		    margin-left: 20px;
+		    padding: 10px;
+		    min-height: 50px;
+		    color: #7151fc;
+		    font-weight: 500; 
+		}
+		.tabcontent{
+			width: 91%;
+		    padding: 16px;
+		    border: 2px solid #dbdbdb;
+		    border-radius: 5px;
+		    margin-left: 25px;
+		    margin-bottom: 30px;
+		} 
+ 	
+		.tableText{
+			width: 6%;  
+			font-size: 18px;  
+			color: #333333;
+	    }
+	    
+		.tableValue{    
+			width: 24%;
+			height: 50px;
+			font-size: 18px; 
+		    color: #333333;
+		 }
+		 
+	 .inputInfo{
+	 	margin-top: 3px;
+	    font-size: 20px;
+	    color: #555; 
+	    padding: 8px;
+	    width: 40%;
+	    border-radius: 8px;
+	    border: 1px solid #b5b5b5;
+	    height: 30px;
+	 }
+	 .submitInfo{  
+		 	font-size: 20px;
+		    background-color: #7151fc;
+		    border: 1px solid #7151fc; 
+		    color: white;
+		    padding: 8px;
+		    cursor:pointer;
+		    border-radius: 8px;
+		    width: 25%;
+		    margin-top: 20px;
+	    	margin-bottom: 20px;
+	    }

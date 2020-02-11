@@ -37,5 +37,4 @@
 		<priority value="info" />
 		<appender-ref ref="console" />
 	</root>
-	<!-- info보다 높은 warn으로 조정하면 더높은 로그 레벨만 출력된다 -->
 </log4j:configuration>
