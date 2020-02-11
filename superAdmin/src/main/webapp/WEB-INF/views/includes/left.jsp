@@ -6,7 +6,7 @@
 <html>
 <head>
 <meta charset="UTF-8"> 
-<link href="/resources/css/left.css" rel="stylesheet" type="text/css"/>
+<link href="/superAdmin/resources/css/left.css" rel="stylesheet" type="text/css"/>
 </head>  
 <body>
 		<sec:authentication property="principal" var="userInfo"/>
@@ -48,7 +48,7 @@
 	  </sec:authorize>
 		
 	  <sec:authorize access="isAnonymous()">  
-		  <a href="/superAdmin/superLogin">
+		  <a href="/superAdmin/customLogin">
 		  	<span class="mypage topMypage">로그인</span>
 	  	  </a> 
 	  	  <!-- <a href="/memberForm">
@@ -60,7 +60,7 @@
 		  </a>
 	    	<div class="visitCount">
 		    	<div>
-		    		<a href="/superAdmin/superLogin">
+		    		<a href="/superAdmin/customLogin">
 						SuperAdmin
 					</a>
 				</div>

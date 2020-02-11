@@ -19,7 +19,7 @@
 		<security:access-denied-handler ref="customAccessDenied" />
 		<!-- 접근제한이 된경우 AccessDeniedHandler 인터페이스를 구현하여 처리 --> 
 		
-		<security:form-login login-page="/superLogin" authentication-failure-handler-ref="loginFailHandler"/>
+		<security:form-login login-page="/customLogin" authentication-failure-handler-ref="loginFailHandler"/>
 	 	<!-- form-login: 
 		 	1. 인증된 사용자만 허용되는 자원(경로)에 접근할 때，로그인 폼(커스톰 로그인 페이지 지정)을 보여준다(스프링 시큐리티의 시작 지점이 필요)
 		 	2. 로그인 폼에서 아이디/암호를 전송하면，로그인(인증) 처리를 한다.

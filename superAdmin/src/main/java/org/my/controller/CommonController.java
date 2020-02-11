@@ -42,10 +42,10 @@ public class CommonController {
 	@Setter(onMethod_ = { @Autowired })
 	private MemberMapper memberMapper;
 
-	@GetMapping("/superLogin")//커스톰 로그인 페이지는 반드시 get방식 이여야한다.시큐리티의 특성임
+	@GetMapping("/customLogin")//커스톰 로그인 페이지는 반드시 get방식 이여야한다.시큐리티의 특성임
 	public String loginInput(Model model, HttpServletRequest request, String error, String logout, String check)throws UnsupportedEncodingException {
 		
-		log.info("/superLogin");
+		log.info("/customLogin");
 		log.info("error: " + error);
 		log.info("logout: " + logout);
 		log.info("check: " + check);
@@ -70,7 +70,7 @@ public class CommonController {
 				}
 			}
 			
-			return "common/superLogin"; 
+			return "common/customLogin"; 
 		}
 
 		return "redirect:/admin/userList";//관리자라면 관리자 페이지로

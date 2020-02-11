@@ -8,7 +8,7 @@
 <head>
 	<meta charset="utf-8"> 
 	<title>Dokky - 로그인</title>
-	<link href="/resources/css/customLogin.css" rel="stylesheet" type="text/css"/>
+	<link href="/superAdmin/resources/css/customLogin.css" rel="stylesheet" type="text/css"/>
 </head>
 <body> 
 <div class="loginWrap">
