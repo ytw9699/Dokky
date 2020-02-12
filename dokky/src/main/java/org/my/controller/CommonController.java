@@ -243,9 +243,9 @@ public class CommonController {
             if (redirectUrl != null) {
             	 log.info(redirectUrl);
             	 
-                session.removeAttribute("prevPage");
+                session.removeAttribute("SPRING_SECURITY_SAVED_REQUEST");
                 
-                return "redirect:/main";
+                return "redirect:/"+redirectUrl;
             }
         }
 		return "redirect:/main";
