@@ -19,7 +19,7 @@
   #### 3) DATABASE : ORACLE 12
   #### 4) FRAMEWORK : SpringFramework 5.0
   #### 5) WAS : TOMCAT 9.0
-  #### 6) 실행: Chrome
+  #### 6) 실행: C
 
 ## 5. 프로젝트 기능
 
