@@ -133,7 +133,8 @@ public class CommonController {
 		
 		log.info("/members: vo" + vo); 
 		
-		vo.setUserPw(pwencoder.encode(""+Math.random()*10));//패스워드 암호화
+		//vo.setUserPw(pwencoder.encode(""+Math.random()*10));//패스워드 암호화
+		vo.setUserPw(pwencoder.encode("222"));//패스워드 암호화
 		
 		if(memberService.registerMembers(vo)){
 			
