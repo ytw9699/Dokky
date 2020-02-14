@@ -63,7 +63,7 @@ public class SNSLogin {
 		
 		if (this.sns.isGoogle()) {
 			
-			String id = "google"+rootNode.get("sub").asText();
+			String id = rootNode.get("sub").asText();
 			
 			user.setUserId(id);
 			
@@ -73,7 +73,7 @@ public class SNSLogin {
 				
 			JsonNode node = rootNode.get("response");
 			
-			user.setUserId("naver"+node.get("id").asText());
+			user.setUserId(node.get("id").asText());
 			
 			if(node.get("nickname") != null) {
 				user.setNickName(node.get("nickname").asText());
