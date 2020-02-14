@@ -98,7 +98,7 @@
 		<a href="/admin/userList">
 	    	<span class="mypage">Admin</span>
 		</a>
-		<a href="/superAdmin/customLogin">
+		<a href="/superAdmin/admin/userList">
 	    	<span class="mypage">SuperAdmin</span>
 		</a>
 		<div class="visitCount">
