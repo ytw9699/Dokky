@@ -50,30 +50,24 @@ public class CommonController {
 		log.info("logout: " + logout);
 		log.info("check: " + check);
 		
-		//if(!request.isUserInRole("ROLE_SUPERADMIN")) {//관리자가 아니라면 커스텀 로그인 페이지로
-		if(!request.isUserInRole("ROLE_ADMIN")) {//관리자가 아니라면 커스텀 로그인 페이지로
-			
-			if (error != null) {
-				model.addAttribute("error", "Login Error Check Your Account");
-			}
-			if (logout != null) {
-				model.addAttribute("logout", "Logout!!");
-			}
-			if (check != null) {
-				if(check.equals("notId") ) {
-					model.addAttribute("check", "아이디가 없습니다.");
-				}else if(check.equals("notPassword") ) {
-					model.addAttribute("check", "비밀번호가 틀립니다.");
-				}
-				else if(check.equals("limit") ) {
-					model.addAttribute("check", "차단된 아이디입니다. 관리자에게 문의해주세요.");
-				}
-			}
-			
-			return "common/customLogin"; 
+		if (error != null) {
+			model.addAttribute("error", "Login Error Check Your Account");
 		}
-
-		return "redirect:/admin/userList";//관리자라면 관리자 페이지로
+		if (logout != null) {
+			model.addAttribute("logout", "Logout!!");
+		}
+		if (check != null) {
+			if(check.equals("notId") ) {
+				model.addAttribute("check", "아이디가 없습니다.");
+			}else if(check.equals("notPassword") ) {
+				model.addAttribute("check", "비밀번호가 틀립니다.");
+			}
+			else if(check.equals("limit") ) {
+				model.addAttribute("check", "차단된 아이디입니다. 관리자에게 문의해주세요.");
+			}
+		}
+			
+		return "common/customLogin"; 
 	}
 	
 	@RequestMapping(value = "/", method = RequestMethod.GET)
