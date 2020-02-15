@@ -18,23 +18,22 @@
 
 		  <div id="menuWrap">
 				<div class="tab">  
-					<button class="active" onclick="location.href='/registerNote?userId=${userInfo.username}'">쪽지쓰기</button>
 					<button onclick="location.href='/fromNoteList?userId=${userInfo.username}'">받은쪽지함 - ${fromNotetotal}</button>
 					<button onclick="location.href='/toNoteList?userId=${userInfo.username}'">보낸쪽지함  - ${toNotetotal}</button>
+					<button class="active" onclick="location.href='/registerNote?userId=${userInfo.username}'">내게쓰기</button>
 					<button onclick="location.href='/myNoteList?userId=${userInfo.username}'">내게쓴쪽지함  - ${myNotetotal}</button>
 			    </div> 
 		  </div>
 		  
           <div class="formWrapper">
-		          <div class="row">
+		          <!-- <div class="row">
 			          	<div class="topbody">
 			          		<input id="to_id" class="" placeholder="받는사람 아이디를 입력하세요." oninput="checkLength(this,20);" autofocus/>
 			          	</div> 
 			          	<div class="topbody">
 			          		<input id="checkbox" type="checkbox" value="" />내게쓰기
 			          	</div>
-		          </div>
-		          
+		          </div> -->
 		          <div class="row">
 		          		<textarea id="content" placeholder="내용을 입력해 주세요." oninput="checkLength(this,1300);"></textarea>
 		          </div>
@@ -123,7 +122,7 @@
 			})
 	}
 	
-	$("#checkbox").on("change", function(e){
+	/* $("#checkbox").on("change", function(e){
 			
 			if($("#checkbox").is(":checked")){
 				
@@ -132,20 +131,20 @@
 	        	
 	        	$("#to_id").val("");
 	        }
-	});
+	}); */
 	  
 	$("#submitBtn").on("click", function(e){//쪽지 보내기 버튼
     
 		    e.preventDefault();
 				
-			var to_id = $("#to_id").val();
+			/* var to_id = $("#to_id").val();
 	   			to_id = $.trim(to_id);
 			
 			if(to_id == ""){ 
 				
 				alert("받는사람 아이디를 입력하세요."); 
 				return false;
-			}
+			} */
 			
 			var content = $("#content").val();
 			
@@ -161,15 +160,17 @@
 		    					content    		: content, 	  //쪽지 내용
 		    					from_nickname   : myNickName, //쪽지 보내는 닉네임
 		    					from_id      	: myId, 	  //쪽지 보내는 아이디
-		    					to_id 	    	: to_id,	  //쪽지 받는 아이디
+		    					to_id 	    	: myId,	  //쪽지 받는 아이디
+		    					//to_id 	    	: to_id,	  //쪽지 받는 아이디
+		    					to_nickname		: myNickName,
 		    					read_check 	    : 'NO' 		  //쪽지 읽음 체크
 				 		  };
 		    
 		    insertNote(noteData, function(result){
 				
 			    	$("#content").val("");
-			    	$("#to_id").val(""); 
-					$("#checkbox").prop("checked", false);
+			    	//$("#to_id").val(""); 
+					//$("#checkbox").prop("checked", false);
 					
 					alert(result); 
 	   	    });

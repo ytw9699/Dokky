@@ -19,9 +19,9 @@
 
 		<div id="menuWrap">
 			<div class="tab">
-				<button onclick="location.href='/registerNote?userId=${userInfo.username}'">쪽지쓰기</button>
 				<button onclick="location.href='/fromNoteList?userId=${userInfo.username}'">받은쪽지함 - ${fromNotetotal}</button>
 				<button class="active" onclick="location.href='/toNoteList?userId=${userInfo.username}'">보낸쪽지함  - ${toNotetotal}</button>
+				<button onclick="location.href='/registerNote?userId=${userInfo.username}'">내게쓰기</button>
 				<button onclick="location.href='/myNoteList?userId=${userInfo.username}'">내게쓴쪽지함  - ${myNotetotal}</button>
 		    </div> 
 		</div>
