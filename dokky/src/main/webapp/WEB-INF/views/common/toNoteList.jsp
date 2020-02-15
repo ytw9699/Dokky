@@ -53,7 +53,7 @@
 		                    
 			     			<td class="td">  
 								<a href="#" class="userMenu" data-note_num="${note.note_num}">
-									<img src="/resources/img/profile_img/<c:out value="${note.to_id}"/>.png"  class="memberImage hideUsermenu" onerror="this.src='/resources/img/basicProfile.png'" />
+									<img src="/resources/img/profile_img/<c:out value="${note.to_id}"/>.png"  class="memberImage hideUsermenu" onerror="this.src='/resources/img/profile_img/basicProfile.png'" />
 									<c:out value="${note.to_nickname}" /> 
 								</a>   
 								<div id="userMenubar_${note.note_num}" class="userMenubar">

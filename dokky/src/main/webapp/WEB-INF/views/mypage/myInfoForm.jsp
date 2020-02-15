@@ -30,7 +30,7 @@
 			<span class="modprofileText">이미지를 선택해주세요</span>
 			<form action="/mypage/profileFile" id="profileForm" name="profileForm" method="post" enctype="multipart/form-data">
 				<div class="mainImgWrap">  
-					<img class="mainImgtag" id="mainImg" src="/resources/img/profile_img/<c:out value="${userInfo.username}" />.png" onerror="this.src='/resources/img/basicProfile.png'" />
+					<img class="mainImgtag" id="mainImg" src="/resources/img/profile_img/<c:out value="${userInfo.username}" />.png" onerror="this.src='/resources/img/profile_img/basicProfile.png'" />
 				</div>   
 		        <label for="profile" id="profileSearch">프로필 이미지 찾기</label>    
 				<input type="file" name="profileFile" id="profile" /><br>
