@@ -7,7 +7,9 @@ import java.util.List;
 	import java.util.Locale;
 import java.util.Random;
 
+import javax.servlet.http.Cookie;
 import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 	import org.my.auth.SNSLogin;
 	import org.my.auth.SnsValue;
@@ -74,6 +76,34 @@ public class CommonController {
 	@Setter(onMethod_ = { @Autowired })
 	private MemberMapper memberMapper;
 
+	@GetMapping("/superAdminLogin")
+	public String superAdminLogin(Model model, HttpServletRequest request, String error, String logout, String check){
+		
+		log.info("/superAdminLogin");
+		log.info("error: " + error);
+		log.info("logout: " + logout);
+		log.info("check: " + check);
+		
+		if (error != null) {
+			model.addAttribute("error", "Login Error Check Your Account");
+		}
+		if (logout != null) {
+			model.addAttribute("logout", "Logout!!");
+		}
+		if (check != null) {
+			if(check.equals("notId") ) {
+				model.addAttribute("check", "아이디가 없습니다.");
+			}else if(check.equals("notPassword") ) {
+				model.addAttribute("check", "비밀번호가 틀립니다.");
+			}
+			else if(check.equals("limit") ) {
+				model.addAttribute("check", "차단된 아이디입니다. 관리자에게 문의해주세요.");
+			}
+		}
+		
+		return "common/adminLogin";  
+	}
+	
 	/*@GetMapping("/adminLogin")
 	public String adminLogin(Model model, HttpServletRequest request, String error, String logout, String check){
 		
@@ -326,12 +356,34 @@ public class CommonController {
 		return "error/accessError";
 	}   
 
-
-	@PostMapping("/customLogout")
+	/*@PostMapping("/customLogout")
 	public void logoutPost() {
 		
-		log.info("/customLogout");
+		log.info("/customLogout22");
+	}*/
+		
+	@PostMapping("/logout")
+	public String logout(HttpServletRequest request, HttpServletResponse response, Authentication authentication) {
+		
+		log.info("/logout22");
+		
+		request.getSession().invalidate();
+
+		Cookie JSESSIONID = new Cookie("JSESSIONID", null);
+
+		JSESSIONID.setMaxAge(0);
+		JSESSIONID.setPath("/");
+
+		response.addCookie(JSESSIONID);// 쿠키 삭제
+		
+		if(authentication != null) {
+			SecurityContextHolder.getContext().setAuthentication(null);
+			log.info("3 logout --------------------------------------"); 
+		}
+		
+		return "redirect:/customLogin";
 	}
+
 	
 	@GetMapping("/memberForm")
 	public String memberForm() {

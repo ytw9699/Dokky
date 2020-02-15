@@ -30,7 +30,7 @@
 	 	<security:remember-me data-source-ref="dataSource" token-validity-seconds="604800" />
 		<!-- 자동 로그인에서 데이터베이스를 이용하는 설정은 별도의 설정 없이 data—source-ref만을 지정 , 쿠키의 유효시간 604800 지정-->
 		
-		<security:logout logout-url="/customLogout" invalidate-session="true" delete-cookies="remember-me,JSESSION_ID" />
+		<security:logout logout-url="/customLogout" invalidate-session="true" delete-cookies="remember-me,JSESSIONID" />
 		<!-- 로그아웃을 하면 세션무효화, 자동 로그인 에 사용하는 쿠키도 삭제,로그아웃시 자동으로 로그인페이지 이동됨 ,LogoutFilter 필터를 생성-->
 		
 		<!-- <security:csrf disabled="true"/> -->

@@ -39,11 +39,8 @@
 									</a>
 								</li>
 							</ul> 
-				    </div>
-				    
-					<form id="logoutForm" method='post' action="/customLogout">
-					    <input id="logoutBtn" type="submit" value="로그아웃">  
-					</form>  
+				    </div> 
+					<!-- <form id="logoutForm" method='post' action="/customLogout"> -->
 		</div>
 	  </sec:authorize>
 		
@@ -55,6 +52,21 @@
 		  	<span class="mypage">회원가입</span>
 	  	  </a> -->
 	  </sec:authorize>
+	  
+   	  <sec:authorize access="hasAnyRole('ROLE_ADMIN','ROLE_USER')">
+	  		<span class="mypage">
+		  		<form class="logoutForm" method='post' action="/logout">
+				    <input class="logoutBtn" type="submit" value="로그아웃1">  
+				</form> 
+			</span>
+	   </sec:authorize>
+	   <sec:authorize access="hasRole('ROLE_SUPER')">
+	  		<span class="mypage">
+		  		<form class="logoutForm" method='post' action="/customLogout">
+				    <input class="logoutBtn" type="submit" value="로그아웃2">
+				</form> 
+			</span>
+	   </sec:authorize>
 			
 		  <a href="/board/allList?category=0">
 			<span class="mypage">전체글보기</span>
@@ -98,7 +110,7 @@
 		<a href="/admin/userList">
 	    	<span class="mypage">Admin</span>
 		</a>
-		<a href="/superAdmin/admin/userList">
+		<a href="/superAdminLogin">
 	    	<span class="mypage">SuperAdmin</span>
 		</a>
 		<div class="visitCount">
@@ -196,9 +208,9 @@
 		
 		 var parameterName = '${_csrf.parameterName}';
 		 var token = '${_csrf.token}';
-		 var logoutForm = $("#logoutForm");
+		 var logoutForm = $(".logoutForm");
 		  
-		  $("#logoutBtn").on("click", function(e){
+		  $(".logoutBtn").on("click", function(e){
 			  
 			  var str = "<input type='hidden' name='"+parameterName+"' value='"+token+"'>";
 			  
