@@ -75,11 +75,11 @@ public class CommonController {
 	
 	@Setter(onMethod_ = { @Autowired })
 	private MemberMapper memberMapper;
-
-	@GetMapping("/superAdminLogin")
-	public String superAdminLogin(Model model, HttpServletRequest request, String error, String logout, String check){
 		
-		log.info("/superAdminLogin");
+	@GetMapping("/customLogin")//커스톰 로그인 페이지는 반드시 get방식 이여야한다.시큐리티의 특성임
+	public String customLogin(Model model, HttpServletRequest request, String error, String logout, String check) throws UnsupportedEncodingException {
+	
+		log.info("/customLogin");
 		log.info("error: " + error);
 		log.info("logout: " + logout);
 		log.info("check: " + check);
@@ -101,7 +101,7 @@ public class CommonController {
 			}
 		}
 		
-		return "common/adminLogin";  
+		return "common/customLogin";  
 	}
 	
 	/*@GetMapping("/adminLogin")
@@ -137,12 +137,12 @@ public class CommonController {
 		return "redirect:/admin/userList";//관리자라면 관리자 페이지로
 	}*/
 	
-	@GetMapping("/customLogin")//커스톰 로그인 페이지는 반드시 get방식 이여야한다.시큐리티의 특성임
+	@GetMapping("/socialLogin")
 	public String loginInput(String error, String logout, String check, Model model,HttpServletRequest request) throws UnsupportedEncodingException {
 		
-		String referer = request.getHeader("referer");
+		log.info("/socialLogin");
 		
-		log.info("/customLogin");
+		String referer = request.getHeader("referer");
 		
 		log.info(referer);
 		
@@ -155,7 +155,7 @@ public class CommonController {
 		
 		model.addAttribute("google_url", googleLogin.getAuthURL());//구글 로그인 url가져오기
 		
-		return "common/customLogin";  
+		return "common/socialLogin";  
 	}
 	
 	@PostMapping("/members") 
@@ -356,32 +356,24 @@ public class CommonController {
 		return "error/accessError";
 	}   
 
-	/*@PostMapping("/customLogout")
-	public void logoutPost() {
-		
-		log.info("/customLogout22");
-	}*/
-		
-	@PostMapping("/logout")
+	@PostMapping("/logout")//직접구현 로그아웃
 	public String logout(HttpServletRequest request, HttpServletResponse response, Authentication authentication) {
 		
-		log.info("/logout22");
+		log.info("/logout");
 		
 		request.getSession().invalidate();
 
 		Cookie JSESSIONID = new Cookie("JSESSIONID", null);
 
 		JSESSIONID.setMaxAge(0);
-		JSESSIONID.setPath("/");
 
 		response.addCookie(JSESSIONID);// 쿠키 삭제
 		
 		if(authentication != null) {
-			SecurityContextHolder.getContext().setAuthentication(null);
-			log.info("3 logout --------------------------------------"); 
+			SecurityContextHolder.getContext().setAuthentication(null);//인증 풀기
 		}
 		
-		return "redirect:/customLogin";
+		return "redirect:/socialLogin";
 	}
 
 	

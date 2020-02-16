@@ -24,7 +24,7 @@ package org.my.controller;
 @Controller
 @Log4j
 @RequestMapping("/admin/*")
-@PreAuthorize("hasRole('ROLE_ADMIN')") //관리자권한이있어야함 @Secured({"ROLE_ADMIN"}) 같은거
+@PreAuthorize("hasAnyRole('ROLE_ADMIN','ROLE_SUPER')") //관리자권한이있어야함 @Secured({"ROLE_ADMIN"}) 같은거
 public class AdminController {
 	
 	@Setter(onMethod_ = @Autowired)
@@ -33,6 +33,7 @@ public class AdminController {
 	@Setter(onMethod_ = @Autowired)
 	private MypageService MypageService;
 	
+	@PreAuthorize("hasRole('ROLE_SUPER')")
 	@GetMapping("authorizationList")//일반 관리자 권한부여 리스트
 	public String authorizationList(Criteria cri, Model model) {
 		
