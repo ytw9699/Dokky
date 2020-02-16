@@ -1,5 +1,7 @@
 package org.my.controller;
-	import org.my.domain.Criteria;
+	import javax.servlet.http.HttpServletRequest;
+
+import org.my.domain.Criteria;
 	import org.my.domain.PageDTO;
 	import org.my.domain.commonVO;
 	import org.my.service.AdminService;
@@ -51,7 +53,7 @@ public class AdminController {
 	
 	@GetMapping("userList")//계정관리 회원리스트 가져오기
 	public String admin(Criteria cri, Model model) {
-		
+	    
 		log.info("/admin/userList");
 		log.info("cri"+cri);
 		
