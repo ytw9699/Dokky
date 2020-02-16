@@ -48,7 +48,7 @@
 				<trim prefix="OR">
 					<choose>
 						<when test="type == 'I'.toString()">
-							userId like '%'||#{keyword}||'%'
+							mem.userId like '%'||#{keyword}||'%'
 						</when>
 						<when test="type == 'N'.toString()">
 						 	nickName like '%'||#{keyword}||'%'
@@ -59,7 +59,7 @@
 		</trim>
 	</sql>
 	
-	 <select id="getMemberList" resultType="org.my.domain.MemberVO">
+	 <!-- <select id="getMemberList" resultType="org.my.domain.MemberVO">
 		 <![CDATA[  		
 		select userId
 			 , nickName 
@@ -74,6 +74,28 @@
 		    )
 		  where rn > (#{pageNum} -1) * #{amount}   
 		  ]]>
+	</select> -->
+	
+	<select id="getMemberList" resultMap="memberMap">
+		 <![CDATA[  
+				select userId
+					 , nickName 
+					 , auth
+				 from 
+					( 
+						SELECT /*+INDEX_DESC(dk_member seq_dk_member) */ rownum rn
+																	   , mem.userid
+																	   , nickname
+																	   , auth
+				 FROM dk_member mem LEFT OUTER JOIN dk_member_auth auth on mem.userid = auth.userid  
+					
+					where ]]> <include refid ="criteria"></include> 
+					
+				  <![CDATA[  
+				      rownum <= #{pageNum} * #{amount}
+				    )
+				  where rn > (#{pageNum} -1) * #{amount}   
+				  ]]>
 	</select>
 	
 	<select id="getMemberTotalCount" resultType="int">
