@@ -82,7 +82,7 @@
 		}
 	     
 	    .form-control {
-	       width: 100%;
+	        width: 100%;
 		    border-radius: 9px;
 		    font-size: 15px;
 		    height: 49px;
@@ -116,4 +116,35 @@
 		#google{
 			border-radius: 9px;
 		}
+		.footer{
+		    width: 96%;
+		    padding: 1%;
+		    margin: 1%;
+		}
+		.info{
+			font-size: 11px;
+		    width: 100%;
+		    padding: 1%;
+		    margin: 1%;
+		    text-align: center;
+		    font-weight: 600;
+		}
+		.superAdmin{
+		    text-align: right;
+		    font-weight: 600;
+		    padding: 0%;
+		    margin: 0%;
+		    margin-top: -4%;
+		    font-size: 16px;
+		    width: 98%;
+		    color: #7151fc;
+    		cursor: pointer;
+		}
+		
+		.superAdmin a{
+			text-decoration: none;
+			color: #7151fc;
+		}
+		
+		
 		
