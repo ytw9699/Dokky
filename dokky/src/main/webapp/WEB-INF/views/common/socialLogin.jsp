@@ -8,7 +8,7 @@
 <head>
 	<meta charset="utf-8"> 
 	<title>Dokky - 로그인</title>
-	<link href="/resources/css/customLogin.css" rel="stylesheet" type="text/css"/>
+	<link href="/resources/css/socialLogin.css" rel="stylesheet" type="text/css"/>
 </head>
 <body> 
 <div class="loginWrap">
@@ -18,7 +18,8 @@
 	</div>
 	
 	<div class="cutom-group">
-		DOKKY는 구글 또는 네이버 계정으로만 회원 가입 및 로그인 할 수 있습니다.
+		구글 또는 네이버 계정으로만 <br/><br/>
+		회원 가입 및 로그인 할 수 있습니다.
 	</div>
 				
 	<div class="container"> 
