@@ -21,7 +21,8 @@ import org.my.domain.Criteria;
 	import org.my.domain.noteVO;
 	import org.my.mapper.MemberMapper;
 	import org.my.security.domain.CustomUser;
-	import org.my.service.CommonService;
+import org.my.service.AdminService;
+import org.my.service.CommonService;
 	import org.my.service.MemberService;
 	import org.my.service.MypageService;
 	import org.springframework.beans.factory.annotation.Autowired;
@@ -75,11 +76,14 @@ public class CommonController {
 	
 	@Setter(onMethod_ = { @Autowired })
 	private MemberMapper memberMapper;
-		
-	@GetMapping("/customLogin")//커스톰 로그인 페이지는 반드시 get방식 이여야한다.시큐리티의 특성임
-	public String customLogin(Model model, HttpServletRequest request, String error, String logout, String check) throws UnsupportedEncodingException {
 	
-		log.info("/customLogin");
+	@Setter(onMethod_ = @Autowired)
+	private AdminService adminService;
+		
+	@GetMapping("/superAdminLogin")
+	public String superAdminLogin(Model model, HttpServletRequest request, String error, String logout, String check) throws UnsupportedEncodingException {
+	
+		log.info("/superAdminLogin");
 		log.info("error: " + error);
 		log.info("logout: " + logout);
 		log.info("check: " + check);
@@ -101,7 +105,7 @@ public class CommonController {
 			}
 		}
 		
-		return "common/customLogin";  
+		return "common/superAdminLogin";  
 	}
 	
 	/*@GetMapping("/adminLogin")
@@ -137,7 +141,7 @@ public class CommonController {
 		return "redirect:/admin/userList";//관리자라면 관리자 페이지로
 	}*/
 	
-	@GetMapping("/socialLogin")
+	@GetMapping("/socialLogin")//커스톰 로그인 페이지는 반드시 get방식 이여야한다.시큐리티의 특성임
 	public String loginInput(String error, String logout, String check, Model model,HttpServletRequest request) throws UnsupportedEncodingException {
 		
 		log.info("/socialLogin");
@@ -191,7 +195,7 @@ public class CommonController {
 		}
 		
 			rttr.addFlashAttribute("check", "가입실패 하였습니다 관리자에게 문의주세요.");
-			return "redirect:/customLogin"; 
+			return "redirect:/socialLogin"; 
 	}
 	
 	@RequestMapping(value = "/auth/{snsService}/callback", method = { RequestMethod.GET, RequestMethod.POST})
@@ -203,7 +207,7 @@ public class CommonController {
 		log.info("snsLoginCallback");
 		
 		if(error.equals("access_denied")) {//정보동의 수락안하고 취소눌를시
-			return "redirect:/customLogin";
+			return "redirect:/socialLogin";
 		}
 		
 		SnsValue sns = null; 
@@ -243,7 +247,7 @@ public class CommonController {
 			
 			if(auth.equals("ROLE_LIMIT")) {
 				rttr.addFlashAttribute("check", "차단된 아이디입니다. 관리자에게 문의해주세요.");
-				return "redirect:/customLogin";
+				return "redirect:/socialLogin";
 			}
 			
 			roles.add(new SimpleGrantedAuthority(auth));// 가져온 사용자의 권한을 리스트에 담아준다
@@ -261,22 +265,32 @@ public class CommonController {
 		
 		if (session != null) {
 			
-            String redirectUrl = (String) session.getAttribute("SPRING_SECURITY_SAVED_REQUEST");
+            Object saveUrl = session.getAttribute("SPRING_SECURITY_SAVED_REQUEST");
             
-            log.info("redirectUrl="+redirectUrl);
-            
-           /* Enumeration<String> e = session.getAttributeNames();
+			/*
+           Enumeration<String> e = session.getAttributeNames();
             
             while(e.hasMoreElements()){
-            	log.info("Enumeration"+e.nextElement());
+            	log.info("Enumeration="+e.nextElement());
             }*/
             
-            if (redirectUrl != null) {
-            	 log.info(redirectUrl);
+           if (saveUrl != null) {
+        	   	
+        	   String redirectUrl = saveUrl.toString();
+        	   
+        	   //[http://localhost:8080/board/register?category=0]
+        		   
+        	   int firstIdx = redirectUrl.indexOf("[");
+        	   
+               int secondIdx = redirectUrl.indexOf("]");
+               
+               redirectUrl = redirectUrl.substring(firstIdx+1, secondIdx);
+        	   
+        	   log.info("redirectUrl="+redirectUrl);
             	 
-                session.removeAttribute("SPRING_SECURITY_SAVED_REQUEST");
+               session.removeAttribute("SPRING_SECURITY_SAVED_REQUEST");
                 
-                return "redirect:/"+redirectUrl;
+               return "redirect:"+redirectUrl;
             }
         }
 		return "redirect:/main";
@@ -339,9 +353,19 @@ public class CommonController {
 
 		log.info("/adminError");
 		
-		model.addAttribute("msg", "관리자만 접근 가능합니다.");
+		model.addAttribute("message", "관리자만 접근 가능합니다.");
 		
-		return "error/accessError";  
+		return "error/commonError";  
+	}
+	
+	@GetMapping("/superAdminError")
+	public String superAdminError(Model model) {//관리자 리스트 접근 제한 에러페이지
+
+		log.info("/superAdminError");
+		
+		model.addAttribute("message", "Super-관리자만 접근 가능합니다.");
+		
+		return "error/commonError";  
 	}
 
 	@GetMapping("/accessError")//공통 접근제한 에러페이지
@@ -351,12 +375,54 @@ public class CommonController {
 		
 		log.info("access Denied : " + auth); 
  
-		model.addAttribute("msg", "접근 권한이 없습니다. 관리자에게 문의해주세요.");
+		model.addAttribute("message", "접근 권한이 없습니다. 관리자에게 문의해주세요.");
 		
-		return "error/accessError";
+		return "error/commonError";
 	}   
 
-	@PostMapping("/logout")//직접구현 로그아웃
+	@GetMapping("/admin/authorizationList")//일반 관리자 권한부여 리스트
+	public String authorizationList(Criteria cri, Model model, Authentication authentication) {
+		
+		log.info("/admin/authorizationList");
+		log.info("cri"+cri);
+		
+		if(authentication == null) {//인증이 안됬다면
+			
+			return "redirect:/superAdminLogin";
+		}
+		
+		CustomUser user = (CustomUser)authentication.getPrincipal();
+		
+		MemberVO vo = user.getMember();
+		
+		List<AuthVO> AuthList = vo.getAuthList();//사용자의 권한 정보만 list로 가져온다
+		
+		Iterator<AuthVO> it = AuthList.iterator();
+		
+		while (it.hasNext()) {
+			
+			AuthVO authVO = it.next(); 
+			
+			String auth = authVO.getAuth();
+			
+			if(!auth.equals("ROLE_SUPER")) {
+				
+				return "redirect:/superAdminError";
+				//return "redirect:/superAdminLogin";
+			}
+			
+        }
+		
+		model.addAttribute("authorizationList", adminService.getMemberList(cri));
+		
+		int total = adminService.getMemberTotalCount(cri);
+		
+		model.addAttribute("pageMaker", new PageDTO(cri, total));
+		
+		return "admin/authorizationList"; 
+	}
+	
+	@PostMapping("/logout")//사용자 직접구현 로그아웃
 	public String logout(HttpServletRequest request, HttpServletResponse response, Authentication authentication) {
 		
 		log.info("/logout");

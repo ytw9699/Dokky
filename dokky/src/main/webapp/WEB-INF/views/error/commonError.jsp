@@ -57,7 +57,7 @@
 	<div class="accessWrap">
 		<div class="content">
 			<h2><c:out value="${SPRING_SECURITY_403_EXCEPTION.getMessage()}"/></h2>
-			<h2><c:out value="${msg}"/></h2> 
+			<h2><c:out value="${message}"/></h2> 
 		</div>  
 	</div>
 </body>	

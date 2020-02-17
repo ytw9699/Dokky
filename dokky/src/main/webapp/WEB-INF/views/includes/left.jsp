@@ -104,20 +104,24 @@
 			
 		</sec:authorize>
 		
-		<sec:authorize access="hasAnyRole('ROLE_ADMIN','ROLE_SUPER')">
 			<a href="/admin/userList">
 		    	<span class="mypage">Admin</span>
 			</a>
-		</sec:authorize>
 		
-		<sec:authorize access="!hasAnyRole('ROLE_ADMIN','ROLE_SUPER')">
+		<%-- <sec:authorize access="hasAnyRole('ROLE_ADMIN','ROLE_SUPER')">
+			<a href="/admin/userList">
+		    	<span class="mypage">Admin</span>
+			</a>
+		</sec:authorize> --%>
+		
+		<%-- <sec:authorize access="!hasAnyRole('ROLE_ADMIN','ROLE_SUPER')">
 			<a href="/socialLogin">
 		    	<span class="mypage">Admin</span>
 			</a>
-		</sec:authorize>
+		</sec:authorize> --%>
 		
 		<sec:authorize access="!hasRole('ROLE_SUPER')">
-			<a href="/customLogin">
+			<a href="/superAdminLogin">
 	    		<span class="mypage">SuperAdmin</span>
 			</a>
 		</sec:authorize>

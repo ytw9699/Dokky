@@ -35,7 +35,7 @@ public class AdminController {
 	@Setter(onMethod_ = @Autowired)
 	private MypageService MypageService;
 	
-	@PreAuthorize("hasRole('ROLE_SUPER')")
+	/*@PreAuthorize("hasRole('ROLE_SUPER')")
 	@GetMapping("authorizationList")//일반 관리자 권한부여 리스트
 	public String authorizationList(Criteria cri, Model model) {
 		
@@ -49,7 +49,7 @@ public class AdminController {
 		model.addAttribute("pageMaker", new PageDTO(cri, total));
 		
 		return "admin/authorizationList"; 
-	}
+	}*/
 	
 	@GetMapping("userList")//계정관리 회원리스트 가져오기
 	public String admin(Criteria cri, Model model) {
