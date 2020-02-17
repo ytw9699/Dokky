@@ -191,5 +191,17 @@ public class AdminController {
 				: new ResponseEntity<>("fail",HttpStatus.INTERNAL_SERVER_ERROR);
 		}
 	
+	@RequestMapping(method = { RequestMethod.PUT,RequestMethod.PATCH },
+			value = "roleAdmin/{userId}", produces = "text/plain; charset=UTF-8")
+		@ResponseBody
+		public ResponseEntity<String> updateRoleAdmin(@PathVariable("userId") String userId) {
+		
+		log.info("admin/roleAdmin");
+		log.info("userId...="+userId);
+		
+		return service.updateRoleAdmin(userId) == 1 ? new ResponseEntity<>("success", HttpStatus.OK)
+				: new ResponseEntity<>("fail",HttpStatus.INTERNAL_SERVER_ERROR);
+		}
+	
 }
 	

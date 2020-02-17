@@ -161,6 +161,10 @@
 			update dk_member_auth set auth = 'ROLE_USER' WHERE USERID = #{userId}  
 	</update>
 	
+	<update id="updateRoleAdmin"> 
+			update dk_member_auth set auth = 'ROLE_ADMIN' WHERE USERID = #{userId}  
+	</update>
+	
   <resultMap id="authMap" type="org.my.domain.AuthVO" >
 	   	<result property="userId" column="userid"/>
 	   	<result property="auth" column="auth"/>

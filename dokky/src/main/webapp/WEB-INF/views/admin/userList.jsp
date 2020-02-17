@@ -26,10 +26,10 @@
 		 <div class="searchWrapper">  
 			<form id='searchForm' action="/admin/userList" method='get'>
 				<select id="option" name='type'> 
-					<option value="I" 
-						<c:out value="${pageMaker.cri.type eq 'I'?'selected':''}"/>>아이디</option>
 					<option value="N"
 						<c:out value="${pageMaker.cri.type eq 'N'?'selected':''}"/>>닉네임</option>
+					<option value="I" 
+						<c:out value="${pageMaker.cri.type eq 'I'?'selected':''}"/>>아이디</option>
 					<option value="IN"
 						<c:out value="${pageMaker.cri.type eq 'IN'?'selected':''}"/>>아이디+닉네임</option>
 				</select> 

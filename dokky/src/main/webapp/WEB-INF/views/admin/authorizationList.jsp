@@ -7,8 +7,8 @@
 <html>
 <head>
 <meta charset="UTF-8">
-	<title>Dokky - 계정관리</title>
-<link href="/resources/css/userList.css" rel="stylesheet" type="text/css"/>
+	<title>Dokky - 권한부여관리</title>
+<link href="/resources/css/authorizationList.css" rel="stylesheet" type="text/css"/>
 </head> 
 <%@include file="../includes/left.jsp"%>
 
@@ -17,17 +17,17 @@
 	 
 		 <div id="menuWrap"> 
 				<div class="tab">      
-					<button class="active" onclick="location.href='/admin/authorizationList'">권한부여관리</button> 
+					<button class="active" onclick="location.href='/admin/authorizationList'">관리자 권한관리</button> 
 			    </div>
 		 </div>    
 		  
 		 <div class="searchWrapper">  
 			<form id='searchForm' action="/admin/authorizationList" method='get'>
-				<select id="option" name='type'> 
-					<option value="I" 
-						<c:out value="${pageMaker.cri.type eq 'I'?'selected':''}"/>>아이디</option>
+				<select id="option" name='type'>
 					<option value="N"
 						<c:out value="${pageMaker.cri.type eq 'N'?'selected':''}"/>>닉네임</option>
+					<option value="I" 
+						<c:out value="${pageMaker.cri.type eq 'I'?'selected':''}"/>>아이디</option>
 					<option value="IN"
 						<c:out value="${pageMaker.cri.type eq 'IN'?'selected':''}"/>>아이디+닉네임</option>
 				</select> 
@@ -42,18 +42,28 @@
 		 
 		 <div class="infoWrap"> 
 			<c:forEach items="${authorizationList}" var="user">
-				<div class="memberInfoWrap" onclick="location.href='userForm?userId=<c:out value="${user.userId}" />'" >
+				<%-- <div class="memberInfoWrap" onclick="location.href='userForm?userId=<c:out value="${user.userId}" />'" > --%>
+				<div class="memberInfoWrap">
 					<div class="memberProfile">
 						<img src="/resources/img/profile_img/<c:out value="${user.userId}"/>.png" id="memberProfile" onerror="this.src='/resources/img/profile_img/basicProfile.png'" />
 					</div>		 		 												 									
 					<div class="memberInfo">
-						<span class="nickName"><c:out value="${user.nickName}" /></span><br/>
+						<span class="nickName"><c:out value="${user.nickName}" /></span>
+						<c:choose>
+		     				<c:when test="${user.authList[0].auth == 'ROLE_USER'}"> 
+								<button class="authorization" data-user_id="${user.userId}">사용자</button>
+							</c:when>
+							<c:when test="${user.authList[0].auth == 'ROLE_ADMIN'}">
+								<button class="authorization" data-user_id="${user.userId}">관리자</button>
+							</c:when>
+		     			</c:choose>
+						<br/>  
 						<span class="userId"><c:out value="${user.userId}" /></span>
 					</div>
 				</div>
 			</c:forEach>
 		 </div>
-	 
+		 
 		 <div class='pull-right'>
 				<ul class="pagination">
 					<c:if test="${pageMaker.prev}">
@@ -87,9 +97,81 @@
 	
 	<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script> 
 	<script>
-		   		
-	   		var actionForm = $("#actionForm");
-
+			
+			var csrfHeaderName ="${_csrf.headerName}"; 
+			var csrfTokenValue="${_csrf.token}";
+			
+			$(document).ajaxSend(function(e, xhr, options) { 
+			    xhr.setRequestHeader(csrfHeaderName, csrfTokenValue);
+			  });
+	
+			function updateRoleUser(userId, callback, error) {//권한 ROLE_USER로 변경
+	   			$.ajax({
+	   				type : 'put',
+	   				url : '/admin/roleUser/'+ userId,
+	   				success : function(result, status, xhr) {
+	   					if (callback) {
+	   						callback(result,xhr);
+	   					}
+	   				},
+	   				error : function(xhr, status, er) {
+	   					if (error) {
+	   						error(xhr,er);
+	   					}
+	   				}
+	   			});
+	   		}
+			
+			function updateRoleAdmin(userId, callback, error) {//권한 ROLE_ADMIN로 변경
+	   			$.ajax({
+	   				type : 'put',
+	   				url : '/admin/roleAdmin/'+ userId,
+	   				success : function(result, status, xhr) {
+	   					if (callback) {
+	   						callback(result,xhr);
+	   					}
+	   				},
+	   				error : function(xhr, status, er) {
+	   					if (error) {
+	   						error(xhr,er);
+	   					}
+	   				}
+	   			});
+	   		}
+			
+			$(".authorization").on("click",function(e){ 
+				
+				e.preventDefault();
+			
+				var authButton = $(this);
+				
+				var userId = authButton.data("user_id");
+				
+				var auth = authButton.html();
+				
+				if(auth == '관리자'){
+					
+					updateRoleUser(userId, function(result){
+						
+						authButton.html("사용자");
+						
+						alert("사용자 계정으로 변경 완료");			   	
+				   	  }); 
+					
+				}else if((auth == '사용자')){
+					
+					updateRoleAdmin(userId, function(result){ 
+						
+						authButton.html("관리자");
+						
+						alert("관리자 계정으로 변경 완료");				   	
+			   	  	})
+				}
+				
+		   	});
+			
+			var actionForm = $("#actionForm");  
+	   		
 			$(".paginate_button a").on("click", function(e) {//페이징관련
 		
 						e.preventDefault();
@@ -98,6 +180,7 @@
 						
 						actionForm.submit();
 					});
+	   		
 
 	</script>
 </body>

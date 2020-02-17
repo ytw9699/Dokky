@@ -30,4 +30,6 @@ public interface AdminService {
 
 	public int updateRoleUser(String userId);
 
+	public int updateRoleAdmin(String userId);
+
 }
