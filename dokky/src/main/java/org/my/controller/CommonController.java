@@ -35,7 +35,8 @@ import org.my.service.CommonService;
 	import org.springframework.security.core.context.SecurityContextHolder;
 	import org.springframework.security.core.userdetails.User;
 	import org.springframework.security.crypto.password.PasswordEncoder;
-	import org.springframework.stereotype.Controller;
+import org.springframework.security.web.savedrequest.SavedRequest;
+import org.springframework.stereotype.Controller;
 	import org.springframework.ui.Model;
 	import org.springframework.web.bind.annotation.GetMapping;
 	import org.springframework.web.bind.annotation.ModelAttribute;
@@ -141,27 +142,6 @@ public class CommonController {
 		return "redirect:/admin/userList";//관리자라면 관리자 페이지로
 	}*/
 	
-	@GetMapping("/socialLogin")//커스톰 로그인 페이지는 반드시 get방식 이여야한다.시큐리티의 특성임
-	public String loginInput(String error, String logout, String check, Model model,HttpServletRequest request) throws UnsupportedEncodingException {
-		
-		log.info("/socialLogin");
-		
-		String referer = request.getHeader("referer");
-		
-		log.info(referer);
-		
-		//소셜로그인
-		SNSLogin naverLogin = new SNSLogin(naverSns);
-		
-		model.addAttribute("naver_url", naverLogin.getAuthURL());//네이버 로그인 url가져오기
-		
-		SNSLogin googleLogin = new SNSLogin(googleSns);
-		
-		model.addAttribute("google_url", googleLogin.getAuthURL());//구글 로그인 url가져오기
-		
-		return "common/socialLogin";  
-	}
-	
 	@PostMapping("/members") 
 	public String postMembers(MemberVO vo, Model model, RedirectAttributes rttr) {//회원가입
 		
@@ -197,6 +177,36 @@ public class CommonController {
 			rttr.addFlashAttribute("check", "가입실패 하였습니다 관리자에게 문의주세요.");
 			return "redirect:/socialLogin"; 
 	}
+	
+	@GetMapping("/socialLogin")//커스톰 로그인 페이지는 반드시 get방식 이여야한다.시큐리티의 특성임
+	public String loginInput(String error, String logout, String check, Model model,HttpServletRequest request,HttpSession session) throws UnsupportedEncodingException {
+		
+		log.info("/socialLogin");
+		
+		//String referer = request.getHeader("referer");
+		
+		//log.info(referer);
+		
+		//DefaultSavedRequest savedRuest = new DefaultSavedRequest(request, null);
+		
+		//SavedRequest savedRuest = new CustomSavedRequest(referer); 
+		//session.setAttribute("SPRING_SECURITY_SAVED_REQUEST", savedRuest);
+		
+		/*if(!referer.equals("http://localhost:8080/socialLogin)")){
+			session.setAttribute("preUrl", referer);
+		}*/
+		//소셜로그인
+		SNSLogin naverLogin = new SNSLogin(naverSns);
+		
+		model.addAttribute("naver_url", naverLogin.getAuthURL());//네이버 로그인 url가져오기
+		
+		SNSLogin googleLogin = new SNSLogin(googleSns);
+		
+		model.addAttribute("google_url", googleLogin.getAuthURL());//구글 로그인 url가져오기
+		
+		return "common/socialLogin";  
+	}
+	
 	
 	@RequestMapping(value = "/auth/{snsService}/callback", method = { RequestMethod.GET, RequestMethod.POST})
 	public String snsLoginCallback(@PathVariable String snsService, Model model, 
@@ -265,14 +275,45 @@ public class CommonController {
 		
 		if (session != null) {
 			
-            Object saveUrl = session.getAttribute("SPRING_SECURITY_SAVED_REQUEST");
+            /*SavedRequest saveRequest = (SavedRequest)session.getAttribute("SPRING_SECURITY_SAVED_REQUEST");
+            
+            String redirectUrl = saveRequest.getRedirectUrl();
+            
+            if (redirectUrl != null) {
+         	   
+         	   log.info("redirectUrl="+redirectUrl);
+             	 
+                session.removeAttribute("SPRING_SECURITY_SAVED_REQUEST");
+                 
+                return "redirect:"+redirectUrl;
+            }*/
+
+            String redirectUrl = (String)session.getAttribute("preUrl");
+            
+            if (redirectUrl != null) {
+          	   
+            	 log.info("redirectUrl="+redirectUrl);
+              	 
+                 session.removeAttribute("preUrl");
+                  
+                 return "redirect:"+redirectUrl;
+            }
+            
+            //log.info(saveRequest.getRedirectUrl());
+            //log.info(saveRequest.getCookies()); 
+            //log.info(saveRequest.getMethod());
+            //log.info(saveRequest.getLocales());
             
 			/*
-           Enumeration<String> e = session.getAttributeNames();
-            
-            while(e.hasMoreElements()){
-            	log.info("Enumeration="+e.nextElement());
+	           Enumeration<String> e = session.getAttributeNames();
+	            
+	            while(e.hasMoreElements()){
+	            	log.info("Enumeration="+e.nextElement());
             }*/
+            
+            /*	Object saveUrl = session.getAttribute("SPRING_SECURITY_SAVED_REQUEST");
+            
+            SavedRequest saveRequest = (SavedRequest)session.getAttribute("SPRING_SECURITY_SAVED_REQUEST");
             
            if (saveUrl != null) {
         	   	
@@ -285,13 +326,7 @@ public class CommonController {
                int secondIdx = redirectUrl.indexOf("]");
                
                redirectUrl = redirectUrl.substring(firstIdx+1, secondIdx);
-        	   
-        	   log.info("redirectUrl="+redirectUrl);
-            	 
-               session.removeAttribute("SPRING_SECURITY_SAVED_REQUEST");
-                
-               return "redirect:"+redirectUrl;
-            }
+        	   */
         }
 		return "redirect:/main";
 	}
@@ -379,14 +414,20 @@ public class CommonController {
 		
 		return "error/commonError";
 	}   
-
+	
 	@GetMapping("/admin/authorizationList")//일반 관리자 권한부여 리스트
-	public String authorizationList(Criteria cri, Model model, Authentication authentication) {
+	public String authorizationList(Criteria cri, Model model, Authentication authentication, HttpSession session) {
 		
 		log.info("/admin/authorizationList");
 		log.info("cri"+cri);
 		
 		if(authentication == null) {//인증이 안됬다면
+			//request.getRequestURL();
+			//SavedRequest aa = new SavedRequest();
+			
+			//SavedRequest saveRequest = new SavedRequest();
+			//(Object)"DefaultSavedRequest[http://localhost:8080/admin/authorizationList]";
+			//session.setAttribute("SPRING_SECURITY_SAVED_REQUEST", saveRequest);
 			
 			return "redirect:/superAdminLogin";
 		}
@@ -837,3 +878,5 @@ public class CommonController {
 			}
 	}
 }
+		
+		 	
