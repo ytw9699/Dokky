@@ -37,6 +37,11 @@
 		<mvc:interceptor>
 				<mvc:mapping path="/board/**"/>
 				<mvc:mapping path="/admin/**"/>
+				<mvc:mapping path="/superAdminLogin/**"/>
+				<mvc:mapping path="/main/**"/>
+				<mvc:mapping path="/userBoardList/**"/>
+				<mvc:mapping path="/userReplylist/**"/>
+				<mvc:mapping path="/alarmList/**"/>
 			<beans:bean id ="preUrlInterceptor" class="org.my.utils.preUrlInterceptor"/>
 		</mvc:interceptor>
 		<!-- 지정경로 설정 -->
