@@ -35,13 +35,13 @@
 	<mvc:interceptors>
 		<!-- 몇개의 지정경로만도 설정가능-->
 		<mvc:interceptor>
-				<mvc:mapping path="/board/**"/>
-				<mvc:mapping path="/admin/**"/>
-				<mvc:mapping path="/superAdminLogin/**"/>
-				<mvc:mapping path="/main/**"/>
+				<mvc:mapping path="/board/get/**"/>
+				<mvc:mapping path="/board/list/**"/>
+				<mvc:mapping path="/board/allList/**"/>
+				<mvc:mapping path="/board/register/**"/>
 				<mvc:mapping path="/userBoardList/**"/>
-				<mvc:mapping path="/userReplylist/**"/>
-				<mvc:mapping path="/alarmList/**"/>
+				<mvc:mapping path="/main"/>
+				<mvc:mapping path="/admin/**"/>
 			<beans:bean id ="preUrlInterceptor" class="org.my.utils.preUrlInterceptor"/>
 		</mvc:interceptor>
 		<!-- 지정경로 설정 -->
