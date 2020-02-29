@@ -61,7 +61,7 @@
 						 
 							<td class="td">
 								<a href="#" class="userMenu" data-scrap_num="${scrap.scrap_num}"> 
-									<img src="/resources/img/profile_img/<c:out value="${scrap.userId}"  />.png"  class="memberImage hideUsermenu" onerror="this.src='/resources/img/basicProfile.png'" />
+									<img src="/resources/img/profile_img/<c:out value="${scrap.userId}"  />.png"  class="memberImage hideUsermenu" onerror="this.src='/resources/img/profile_img/basicProfile.png'" />
 									<c:out value="${scrap.nickName}" /> 
 								</a>   
 								<div id="userMenubar_${scrap.scrap_num}" class="userMenubar">

@@ -476,7 +476,7 @@
 		    	  str += "<div class='reply' data-reply_num='"+reply_nums+"'>" 
 			    	  		   + "<span>"
 								   + "<a href='#' class='userMenu' data-reply_num='"+reply_nums+"' data-menu_kind='from'>"   
-									   + "<img src='/resources/img/profile_img/"+userId+".png' class='memberImage hideUsermenu' onerror='this.src=\"/resources/img/basicProfile.png\"'/>&nbsp"
+									   + "<img src='/resources/img/profile_img/"+userId+".png' class='memberImage hideUsermenu' onerror='this.src=\"/resources/img/profile_img/basicProfile.png\"'/>&nbsp"
 									   + nickName
 								   + "</a>"
 							   + "</span>" 
@@ -571,7 +571,7 @@
     	   			     str += "<span class='depthLine'>└ </span>"
 	    	   			  	   +"<span>"
 							       + "<a href='#' class='userMenu' data-reply_num='"+reply_nums+"' data-menu_kind='from'>"   
-									   + "<img src='/resources/img/profile_img/"+userId+".png' class='memberImage hideUsermenu' onerror='this.src=\"/resources/img/basicProfile.png\"'/>&nbsp"
+									   + "<img src='/resources/img/profile_img/"+userId+".png' class='memberImage hideUsermenu' onerror='this.src=\"/resources/img/profile_img/basicProfile.png\"'/>&nbsp"
 									   + nickName
 							       + "</a>"
 						   	   + "</span>"
@@ -596,7 +596,7 @@
 							   
 							   + "<span>"
 							       + "<a href='#' class='userMenu' data-reply_num='"+reply_nums+"' data-menu_kind='to'>"
-									   + "<img src='/resources/img/profile_img/"+toUserId+".png' class='memberImage hideUsermenu' onerror='this.src=\"/resources/img/basicProfile.png\"'/>&nbsp"
+									   + "<img src='/resources/img/profile_img/"+toUserId+".png' class='memberImage hideUsermenu' onerror='this.src=\"/resources/img/profile_img/basicProfile.png\"'/>&nbsp"
 									   + toNickName
 							       + "</a>"
 				   	   		   + "</span>"
