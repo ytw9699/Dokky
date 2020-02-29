@@ -21,6 +21,8 @@ public class CustomLoginSuccessHandler implements AuthenticationSuccessHandler {
 
 		 String redirectUrl = (String)session.getAttribute("preUrl");
          
+		 log.info("redirectUrl="+redirectUrl);
+		 
          if (redirectUrl != null) {
        	   
          	  log.info("redirectUrl="+redirectUrl);
@@ -28,6 +30,8 @@ public class CustomLoginSuccessHandler implements AuthenticationSuccessHandler {
               session.removeAttribute("preUrl");
                
               response.sendRedirect(redirectUrl);
+         }else {
+        	 response.sendRedirect("/admin/authorizationList");
          }
 	}
 }

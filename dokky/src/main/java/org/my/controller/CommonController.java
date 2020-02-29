@@ -81,33 +81,7 @@ public class CommonController {
 	@Setter(onMethod_ = @Autowired)
 	private AdminService adminService;
 		
-	@GetMapping("/superAdminLogin")
-	public String superAdminLogin(Model model, HttpServletRequest request, String error, String logout, String check) throws UnsupportedEncodingException {
 	
-		log.info("/superAdminLogin");
-		log.info("error: " + error);
-		log.info("logout: " + logout);
-		log.info("check: " + check);
-		
-		if (error != null) {
-			model.addAttribute("error", "Login Error Check Your Account");
-		}
-		if (logout != null) {
-			model.addAttribute("logout", "Logout!!");
-		}
-		if (check != null) {
-			if(check.equals("notId") ) {
-				model.addAttribute("check", "아이디가 없습니다.");
-			}else if(check.equals("notPassword") ) {
-				model.addAttribute("check", "비밀번호가 틀립니다.");
-			}
-			else if(check.equals("limit") ) {
-				model.addAttribute("check", "차단된 아이디입니다. 관리자에게 문의해주세요.");
-			}
-		}
-		
-		return "common/superAdminLogin";  
-	}
 	
 	/*@GetMapping("/adminLogin")
 	public String adminLogin(Model model, HttpServletRequest request, String error, String logout, String check){
@@ -176,35 +150,6 @@ public class CommonController {
 		
 			rttr.addFlashAttribute("check", "가입실패 하였습니다 관리자에게 문의주세요.");
 			return "redirect:/socialLogin"; 
-	}
-	
-	@GetMapping("/socialLogin")//커스톰 로그인 페이지는 반드시 get방식 이여야한다.시큐리티의 특성임
-	public String loginInput(String error, String logout, String check, Model model,HttpServletRequest request,HttpSession session) throws UnsupportedEncodingException {
-		
-		log.info("/socialLogin");
-		
-		//String referer = request.getHeader("referer");
-		
-		//log.info(referer);
-		
-		//DefaultSavedRequest savedRuest = new DefaultSavedRequest(request, null);
-		
-		//SavedRequest savedRuest = new CustomSavedRequest(referer); 
-		//session.setAttribute("SPRING_SECURITY_SAVED_REQUEST", savedRuest);
-		
-		/*if(!referer.equals("http://localhost:8080/socialLogin)")){
-			session.setAttribute("preUrl", referer);
-		}*/
-		//소셜로그인
-		SNSLogin naverLogin = new SNSLogin(naverSns);
-		
-		model.addAttribute("naver_url", naverLogin.getAuthURL());//네이버 로그인 url가져오기
-		
-		SNSLogin googleLogin = new SNSLogin(googleSns);
-		
-		model.addAttribute("google_url", googleLogin.getAuthURL());//구글 로그인 url가져오기
-		
-		return "common/socialLogin";  
 	}
 	
 	
@@ -421,7 +366,7 @@ public class CommonController {
 		log.info("/admin/authorizationList");
 		log.info("cri"+cri);
 		
-		if(authentication == null) {//인증이 안됬다면
+		/*if(authentication == null) {//인증이 안됬다면
 			//request.getRequestURL();
 			//SavedRequest aa = new SavedRequest();
 			
@@ -430,7 +375,7 @@ public class CommonController {
 			//session.setAttribute("SPRING_SECURITY_SAVED_REQUEST", saveRequest);
 			
 			return "redirect:/superAdminLogin";
-		}
+		}*/
 		
 		CustomUser user = (CustomUser)authentication.getPrincipal();
 		
@@ -463,12 +408,62 @@ public class CommonController {
 		return "admin/authorizationList"; 
 	}
 	
+	@GetMapping("/superAdminLogin")
+	public String superAdminLogin(Model model, HttpServletRequest request, String error, String logout, String check) throws UnsupportedEncodingException {
+	
+		log.info("/superAdminLogin");
+		log.info("error: " + error);
+		log.info("logout: " + logout);
+		log.info("check: " + check);
+		
+		if (error != null) {
+			model.addAttribute("error", "Login Error Check Your Account");
+		}
+		if (logout != null) {
+			model.addAttribute("logout", "Logout!!");
+		}
+		if (check != null) {
+			if(check.equals("notId") ) {
+				model.addAttribute("check", "아이디가 없습니다.");
+			}else if(check.equals("notPassword") ) {
+				model.addAttribute("check", "비밀번호가 틀립니다.");
+			}
+			else if(check.equals("limit") ) {
+				model.addAttribute("check", "차단된 아이디입니다. 관리자에게 문의해주세요.");
+			}
+		}
+		
+		return "common/superAdminLogin";  
+	}
+	
+	@GetMapping("/socialLogin")//커스톰 로그인 페이지는 반드시 get방식 이여야한다.시큐리티의 특성임
+	public String loginInput(String error, String logout, String check, Model model) throws UnsupportedEncodingException {
+		
+		log.info("/socialLogin");
+		 
+		//소셜로그인
+		SNSLogin naverLogin = new SNSLogin(naverSns);
+		
+		model.addAttribute("naver_url", naverLogin.getAuthURL());//네이버 로그인 url가져오기
+		
+		SNSLogin googleLogin = new SNSLogin(googleSns);
+		
+		model.addAttribute("google_url", googleLogin.getAuthURL());//구글 로그인 url가져오기
+		
+		return "common/socialLogin";  
+	}
+	
 	@PostMapping("/logout")//사용자 직접구현 로그아웃
 	public String logout(HttpServletRequest request, HttpServletResponse response, Authentication authentication) {
 		
 		log.info("/logout");
 		
-		request.getSession().invalidate();
+		if(authentication != null) {
+			log.info(SecurityContextHolder.getContext().getAuthentication().getPrincipal());
+			SecurityContextHolder.getContext().setAuthentication(null);//인증 풀기
+		}
+		
+		request.getSession().invalidate();//세션무효화
 
 		Cookie JSESSIONID = new Cookie("JSESSIONID", null);
 
@@ -476,13 +471,102 @@ public class CommonController {
 
 		response.addCookie(JSESSIONID);// 쿠키 삭제
 		
-		if(authentication != null) {
-			SecurityContextHolder.getContext().setAuthentication(null);//인증 풀기
-		}
-		
 		return "redirect:/socialLogin";
 	}
+	
+	/*@PostMapping("/logout")//사용자 직접구현 로그아웃
+	public String logout(HttpServletRequest request, HttpServletResponse response, Authentication authentication, HttpSession session) {
+		
+		log.info("/logout1");
+		log.info(SecurityContextHolder.getContext().getAuthentication().getPrincipal());
+		
+		Enumeration<String> e = session.getAttributeNames();
+        
+        while(e.hasMoreElements()){
+        	log.info("Enumeration1="+e.nextElement());
+        }
+        
+        e = request.getSession().getAttributeNames();
+        
+        while(e.hasMoreElements()){
+        	log.info("Enumeration2="+e.nextElement());
+        }
+        
+        Object SPRING_SECURITY_CONTEXT = request.getSession().getAttribute("SPRING_SECURITY_CONTEXT");
+        
+        log.info("SPRING_SECURITY_CONTEXT" +SPRING_SECURITY_CONTEXT);
+		
+		//request.getSession().invalidate();
+        log.info("getId1"+request.getSession().getId());
+        
+        //session.setMaxInactiveInterval(0);
 
+		//session.invalidate();
+		
+		e = request.getSession().getAttributeNames();
+        
+        while(e.hasMoreElements()){
+        	log.info("Enumeration3="+e.nextElement());
+        }
+        
+        
+		log.info("/logout2");
+
+		Cookie JSESSIONID = new Cookie("JSESSIONID", null);
+
+		JSESSIONID.setMaxAge(0);
+
+		response.addCookie(JSESSIONID);
+		
+		// 쿠키 삭제
+		
+		
+		if(authentication != null) { 
+			SecurityContextHolder.getContext().setAuthentication(null);//인증 풀기
+			
+		}
+		
+		log.info("/logout3");
+		
+		if(authentication != null) {
+			log.info("/logout4");
+			//SecurityContextHolder.getContext().setAuthentication(null);//인증 풀기
+			log.info("/logout5");
+			if(SecurityContextHolder.getContext().getAuthentication() != null) {
+				log.info("/logout6");
+				log.info(SecurityContextHolder.getContext().getAuthentication().getPrincipal());
+			}else {
+			log.info("/logout7");
+			log.info(SecurityContextHolder.getContext().getAuthentication());
+			}
+		}
+		SPRING_SECURITY_CONTEXT = request.getSession().getAttribute("SPRING_SECURITY_CONTEXT");
+        
+        log.info("SPRING_SECURITY_CONTEXT" +SPRING_SECURITY_CONTEXT);
+		log.info("/logout8");
+		
+		e = session.getAttributeNames();
+        
+        while(e.hasMoreElements()){
+        	log.info("Enumeration3="+e.nextElement());
+        }
+        
+        e = request.getSession().getAttributeNames();
+        
+        while(e.hasMoreElements()){
+        	log.info("Enumeration4="+e.nextElement());
+        }
+         
+         SPRING_SECURITY_CONTEXT = request.getSession().getAttribute("SPRING_SECURITY_CONTEXT");
+         
+         log.info("SPRING_SECURITY_CONTEXT" +SPRING_SECURITY_CONTEXT);
+         log.info("/logout9");
+         
+         //log.info(SecurityContextHolder.getContext().getAuthentication().getPrincipal());
+         
+		return "redirect:/socialLogin";
+	}*/
+	
 	
 	@GetMapping("/memberForm")
 	public String memberForm() {
