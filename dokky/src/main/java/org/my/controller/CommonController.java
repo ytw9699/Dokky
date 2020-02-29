@@ -754,7 +754,7 @@ public class CommonController {
 			return new ResponseEntity<>("fail", HttpStatus.OK) ;
 	}
 	
-	@PreAuthorize("hasAnyRole('ROLE_ADMIN','ROLE_USER')")
+	@PreAuthorize("hasAnyRole('ROLE_ADMIN','ROLE_USER','ROLE_SUPER')")
 	@GetMapping("/registerNote")
 	public String registerNote(Criteria cri, Model model) {//쪽지 폼 열기
 		
@@ -769,7 +769,7 @@ public class CommonController {
 		return "common/registerNote";
 	}
 	
-	@PreAuthorize("hasAnyRole('ROLE_ADMIN','ROLE_USER')")
+	@PreAuthorize("hasAnyRole('ROLE_ADMIN','ROLE_USER','ROLE_SUPER')")
 	@GetMapping("/minRegNote")
 	public String minRegNote(@RequestParam("userId")String userId, @RequestParam("nickname")String nickname, Model model) {
 			

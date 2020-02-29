@@ -42,7 +42,7 @@ public class BoardController {//
 
 	private BoardService service;
 	
-	@PreAuthorize("hasAnyRole('ROLE_ADMIN','ROLE_USER')")
+	@PreAuthorize("hasAnyRole('ROLE_ADMIN','ROLE_USER','ROLE_SUPER')")
 	@GetMapping("/test")
 	public String test() {
 
