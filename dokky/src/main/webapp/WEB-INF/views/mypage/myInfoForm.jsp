@@ -57,7 +57,7 @@
 						</div> 
 	     			</td>
 	     		</tr>
-	     		<%-- <tr> 
+	     		<%-- <tr>
 	     			<td class="tableText">
 	     				아이디
 	     			</td>
@@ -73,14 +73,14 @@
 	     				<input type="text" name="nickName" value="${myInfo.nickName}" class="inputInfo" oninput="checkLength(this,20);"/> 
 	     			</td>
 	     		</tr>
-	     		<tr>
+	     		<!-- <tr>
 	     			<td class="tableText">
 	     			비밀번호
 	     			</td>
 	     			<td class="tableValue">
 	     				<input type="password" name="userPw" value="" class="inputInfo" oninput="checkLength(this,20);"/> 
 	     			</td>
-	     		</tr>
+	     		</tr> -->
 	     		<tr>
 	     			<td class="tableText">
 	     				은행명
@@ -114,7 +114,9 @@
 	     			</td>
 	     		</tr>
 	     	</table> 
-	     		<input type="button" id="SumbitMyInfo" value="변경하기" class="submitInfo" /> 
+	     		<input type="hidden" name="userId" value="${myInfo.userId}" />
+				<input type="submit" value="변경하기" class="submitInfo" /> 
+	     		<!-- <input type="button" id="SumbitMyInfo" value="변경하기" class="submitInfo" /> --> 
 	      </form>
      	</div>
 </div> 
@@ -249,7 +251,7 @@
 		
 		/* 프로필 이미지 관련 끝 */
 		
-		function checkPassword(checkData, callback, error) {
+		/* function checkPassword(checkData, callback, error) {
 			$.ajax({
 				type : 'post',
 				url : '/mypage/checkPassword',
@@ -266,9 +268,10 @@
 					}
 				}
 			});
-		}
+		} */
 
-	$("#SumbitMyInfo").on("click",function(event){
+	/* $("#SumbitMyInfo").on("click",function(event){
+		
 		var operForm = $("#operForm");
 		
 		var userPw = operForm.find("input[name='userPw']").val();
@@ -284,9 +287,11 @@
 						};
 		
 		checkPassword(checkData, function(result,xhr){
-			 if(xhr.status == '200'){
+			 
+			if(xhr.status == '200'){
 				 operForm.submit(); 
 	    	}
+			
 		    }
 		,function(xhr,er){
 			if(xhr.status == '404'){
@@ -294,7 +299,7 @@
 			}
 		}
 		);
-		});
+	}); */
 </script>
  		<c:choose>
 		       <c:when test="${update eq 'complete'}">

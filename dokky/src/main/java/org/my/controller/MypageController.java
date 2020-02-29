@@ -47,7 +47,7 @@ public class MypageController {
 	@Setter(onMethod_ = @Autowired)
 	private PasswordEncoder pwencoder;
 	
-	@PreAuthorize("isAuthenticated()")
+	@PreAuthorize("principal.username == #userId") 
  	@GetMapping("/myInfoForm")  
 	public String myInfoForm(@RequestParam("userId") String userId, Model model) { //내 개인정보 변경폼
 
@@ -75,7 +75,7 @@ public class MypageController {
 			return "mypage/myInfoForm";
 	}
 	
-	@PreAuthorize("isAuthenticated()") 
+	/*@PreAuthorize("isAuthenticated()") 
 	@PostMapping(value = "/checkPassword", consumes = "application/json", produces = "text/plain; charset=UTF-8")
 	@ResponseBody
 	public ResponseEntity<String> checkPassword(@RequestBody checkVO vo) {//나의 패스워드 체크
@@ -93,7 +93,7 @@ public class MypageController {
 			
 	    	return new ResponseEntity<>("success",HttpStatus.OK);//200
 	    }
-	}
+	}*/
 	
 	@PreAuthorize("isAuthenticated()") 
  	@GetMapping("/rePasswordForm")  
@@ -121,7 +121,7 @@ public class MypageController {
 			return "mypage/myRepasswordForm";
 	}
 	
-	@PreAuthorize("isAuthenticated()")
+	@PreAuthorize("principal.username == #cri.userId")
  	@GetMapping("/myBoardList") 
 	public String myBoardList(Criteria cri, Model model) { //내 게시글 가져오기
 		
@@ -137,7 +137,7 @@ public class MypageController {
 		return "mypage/myBoardList";
 	} 
 	
-	@PreAuthorize("isAuthenticated()")
+	@PreAuthorize("principal.username == #cri.userId")
  	@GetMapping("/myReplylist")  
 	public String myReplylist(Criteria cri, Model model) {
 		
@@ -177,7 +177,7 @@ public class MypageController {
 		return new ResponseEntity<>("fail",HttpStatus.OK);
 	}
 	
-	@PreAuthorize("isAuthenticated()")
+	@PreAuthorize("principal.username == #cri.userId")
  	@GetMapping("/myScraplist")  
 	public String myScraplist(Criteria cri, Model model) { //내 스크랩 글 가져오기
 		
@@ -213,7 +213,7 @@ public class MypageController {
 	 return "redirect:/mypage/myScraplist?userId="+userId+"&pageNum="+cri.getPageNum()+"&amount="+cri.getAmount();
 	}
 	
-	@PreAuthorize("isAuthenticated()") 
+	@PreAuthorize("principal.username == #userId")  
  	@GetMapping("/myCashInfo")  
 	public String myCashInfo(@RequestParam("userId") String userId, Model model) { //내 캐시정보
 		
@@ -262,7 +262,7 @@ public class MypageController {
 			return new ResponseEntity<>("fail", HttpStatus.OK);
 	}
 	
-	@PreAuthorize("isAuthenticated()") 
+	@PreAuthorize("principal.username == #cri.userId")
  	@GetMapping("/myCashHistory")  
 	public String myCashHistory(Criteria cri, Model model) { //내 캐시 내역
 		
