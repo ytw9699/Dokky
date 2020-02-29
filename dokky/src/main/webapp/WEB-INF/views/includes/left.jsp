@@ -132,7 +132,6 @@
 			</a>
 		</sec:authorize>
 		
-		
 		<div class="visitCount">
 			<div>
 				Today : ${sessionScope.todayCount} 

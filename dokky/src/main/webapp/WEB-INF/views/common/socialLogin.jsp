@@ -34,7 +34,7 @@
 			이용약관 | 개인정보처리방침 | 책임의 한계와 법적고지 | 회원정보 고객센터
 		</div>
 		<div class="superAdmin">
-			<a href="/superAdminLogin">SuperAdmin</a>  
+			<a href="/superAdminLogin">SuperAdmin 로그인</a>  
 		</div>
 	</div>
 </div>
