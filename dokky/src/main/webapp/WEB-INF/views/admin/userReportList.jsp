@@ -41,13 +41,13 @@
 						</td>   
 						<td class="td">
 							<a href='userForm?userId=<c:out value="${report.reportingId}"/>'> 
-							  <img src="/resources/img/profile_img/<c:out value="${report.reportingId}" />.png"  class="memberImage" onerror="this.src='/resources/img/basicProfile.png'" />
+							  <img src="/resources/img/profile_img/<c:out value="${report.reportingId}" />.png"  class="memberImage" onerror="this.src='/resources/img/profile_img/basicProfile.png'" />
 							  <c:out value="${report.reportingNick}" />(<c:out value="${report.reportingId}" />)
 							</a> 
 						</td>
 						<td class="td">
 							<a href='userForm?userId=<c:out value="${report.reportedId}"/>'> 
-							  <img src="/resources/img/profile_img/<c:out value="${report.reportedId}" />.png"  class="memberImage" onerror="this.src='/resources/img/basicProfile.png'" />
+							  <img src="/resources/img/profile_img/<c:out value="${report.reportedId}" />.png"  class="memberImage" onerror="this.src='/resources/img/profile_img/basicProfile.png'" />
 							  <c:out value="${report.reportedNick}" />(<c:out value="${report.reportedId}" />)
 							</a> 
 						</td> 
