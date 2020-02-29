@@ -26,6 +26,14 @@
 		 
      	<div class="listWrapper">
 			<table id="inforTable">
+				<tr>
+	     			<td class="tableText">
+	     				아이디
+	     			</td>
+	     			<td class="tableValue">
+	     				${user.userId}
+	     			</td>
+	     		</tr>
 	     		<tr>
 	     			<td class="tableText">
 	     				닉네임
