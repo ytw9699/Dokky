@@ -196,11 +196,7 @@ public class CommonServiceImpl implements CommonService {
 	@Override 
 	public int insertNote(noteVO vo) {  
 
-		String to_nickname = mapper.getNickname(vo.getTo_id());
-		
-		vo.setTo_nickname(to_nickname);
-		
-		log.info("insertNote..." + vo); 
+		log.info("insertNote : " + vo); 
 		
 		return mapper.insertNote(vo) ;
 	}

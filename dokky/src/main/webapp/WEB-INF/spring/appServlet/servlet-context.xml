@@ -1,11 +1,10 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<beans:beans
-	xmlns="http://www.springframework.org/schema/mvc"
-	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+<beans:beans xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
 	xmlns:p="http://www.springframework.org/schema/p"
 	xmlns:beans="http://www.springframework.org/schema/beans"
 	xmlns:context="http://www.springframework.org/schema/context"
 	xmlns:security="http://www.springframework.org/schema/security"
+	xmlns:mvc="http://www.springframework.org/schema/mvc"
 	xsi:schemaLocation="http://www.springframework.org/schema/security http://www.springframework.org/schema/security/spring-security.xsd
 		http://www.springframework.org/schema/mvc http://www.springframework.org/schema/mvc/spring-mvc.xsd
 		http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd
@@ -14,10 +13,10 @@
 	<!-- DispatcherServlet Context: defines this servlet's request-processing infrastructure -->
 	
 	<!-- Enables the Spring MVC @Controller programming model -->
-	<annotation-driven />
+	<mvc:annotation-driven />
 
 	<!-- Handles HTTP GET requests for /resources/** by efficiently serving up static resources in the ${webappRoot}/resources directory -->
-	<resources mapping="/resources/**" location="/resources/" />
+	<mvc:resources mapping="/resources/**" location="/resources/" />
 
 	<!-- Resolves views selected for rendering by @Controllers to .jsp resources in the /WEB-INF/views directory -->
 	<beans:bean class="org.springframework.web.servlet.view.InternalResourceViewResolver" p:order="1">
@@ -32,6 +31,22 @@
 	<beans:bean id="multipartResolver"
 		class="org.springframework.web.multipart.support.StandardServletMultipartResolver">
 	</beans:bean>
+	
+	<mvc:interceptors>
+		<!-- 몇개의 지정경로만도 설정가능-->
+		<mvc:interceptor>
+				<mvc:mapping path="/board/get/**"/>
+				<mvc:mapping path="/board/list/**"/>
+				<mvc:mapping path="/board/allList/**"/>
+				<mvc:mapping path="/board/register/**"/>
+				<mvc:mapping path="/userBoardList/**"/>
+				<mvc:mapping path="/main"/>
+				<mvc:mapping path="/admin/**"/>
+			<beans:bean id ="preUrlInterceptor" class="org.my.utils.preUrlInterceptor"/>
+		</mvc:interceptor>
+		<!-- 지정경로 설정 -->
+	</mvc:interceptors>
+	
 	
 	<context:component-scan base-package="org.my.controller" />
 	<!-- <context:component-scan base-package="org.my.exception" /> -->

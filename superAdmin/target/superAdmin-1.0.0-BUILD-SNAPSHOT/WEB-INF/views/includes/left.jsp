@@ -60,7 +60,7 @@
 		  </a>
 	    	<div class="visitCount">
 		    	<div>
-		    		<a href="/superAdmin/customLogin">
+		    		<a href="/superAdmin/admin/userList">
 						SuperAdmin
 					</a>
 				</div>

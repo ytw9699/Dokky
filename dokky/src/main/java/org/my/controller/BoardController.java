@@ -4,7 +4,9 @@ package org.my.controller;
 	import java.nio.file.Paths;
 	import java.util.List;
 
-	import org.my.domain.BoardAttachVO;
+import javax.servlet.http.HttpServletRequest;
+
+import org.my.domain.BoardAttachVO;
 	import org.my.domain.BoardDisLikeVO;
 	import org.my.domain.BoardLikeVO;
 	import org.my.domain.BoardVO;
@@ -40,7 +42,7 @@ public class BoardController {//
 
 	private BoardService service;
 	
-	@PreAuthorize("hasAnyRole('ROLE_ADMIN','ROLE_USER')")
+	@PreAuthorize("hasAnyRole('ROLE_ADMIN','ROLE_USER','ROLE_SUPER')")
 	@GetMapping("/test")
 	public String test() {
 
@@ -83,14 +85,16 @@ public class BoardController {//
 		return "board/list";
 	}
 	
-	@PreAuthorize("hasAnyRole('ROLE_ADMIN','ROLE_USER')")//관리자이거나, 일반 회원일경우 권한 가짐
+	@PreAuthorize("hasAnyRole('ROLE_ADMIN','ROLE_USER','ROLE_SUPER')")//관리자이거나, 일반 회원일경우 권한 가짐
 	@GetMapping("/register")
-	public String register(@ModelAttribute("category") int category) {//게시글 등록 폼
+	public String register(@ModelAttribute("category") int category, HttpServletRequest request) {//게시글 등록 폼
+
+		log.info("/register:");
 		
 		return "board/register";
 	}
 	
-	@PreAuthorize("hasAnyRole('ROLE_ADMIN','ROLE_USER')")
+	@PreAuthorize("hasAnyRole('ROLE_ADMIN','ROLE_USER','ROLE_SUPER')")
 	@PostMapping("/register")
 	public String register(BoardVO board, RedirectAttributes rttr) {//게시글 등록
 

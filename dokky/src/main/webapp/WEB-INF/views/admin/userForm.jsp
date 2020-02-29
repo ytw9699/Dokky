@@ -18,7 +18,7 @@
 
 		<div id="menuWrap"> 
 			<div class="tab">  
-				<button onclick="location.href='/admin/userForm?userId=${user.userId}'">회원 개인정보</button> 
+				<button class="active" onclick="location.href='/admin/userForm?userId=${user.userId}'">회원 개인정보</button>  
 		        <button onclick="location.href='/admin/userCashHistory?userId=${user.userId}'">회원 캐시내역</button>
 		        <button onclick="location.href='/userBoardList?userId=${user.userId}&pageLocation=admin'">회원 활동</button>
 		    </div>   	 
@@ -26,6 +26,14 @@
 		 
      	<div class="listWrapper">
 			<table id="inforTable">
+				<tr>
+	     			<td class="tableText">
+	     				아이디
+	     			</td>
+	     			<td class="tableValue">
+	     				${user.userId}
+	     			</td>
+	     		</tr>
 	     		<tr>
 	     			<td class="tableText">
 	     				닉네임

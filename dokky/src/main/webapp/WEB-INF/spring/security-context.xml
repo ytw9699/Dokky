@@ -13,13 +13,16 @@
 	
 	<bean id="loginFailHandler" class="org.my.security.CustomLoginFailHandler"></bean>
 															<!-- 로그인 실패시 -->
+	<bean id="customLoginSuccess" class="org.my.security.CustomLoginSuccessHandler"></bean>
+		<!-- 로그인 성공시 --> 
 
 	<security:http>
 	
 		<security:access-denied-handler ref="customAccessDenied" />
 		<!-- 접근제한이 된경우 AccessDeniedHandler 인터페이스를 구현하여 처리 --> 
 		
-		<security:form-login login-page="/customLogin" authentication-failure-handler-ref="loginFailHandler"/>
+		<!-- <security:form-login login-page="/customLogin" authentication-failure-handler-ref="loginFailHandler"/> -->
+		<security:form-login login-page="/socialLogin" authentication-failure-handler-ref="loginFailHandler" authentication-success-handler-ref="customLoginSuccess"/>
 	 	<!-- form-login: 
 		 	1. 인증된 사용자만 허용되는 자원(경로)에 접근할 때，로그인 폼(커스톰 로그인 페이지 지정)을 보여준다(스프링 시큐리티의 시작 지점이 필요)
 		 	2. 로그인 폼에서 아이디/암호를 전송하면，로그인(인증) 처리를 한다.
@@ -30,8 +33,8 @@
 	 	<security:remember-me data-source-ref="dataSource" token-validity-seconds="604800" />
 		<!-- 자동 로그인에서 데이터베이스를 이용하는 설정은 별도의 설정 없이 data—source-ref만을 지정 , 쿠키의 유효시간 604800 지정-->
 		
-		<security:logout logout-url="/customLogout" invalidate-session="true" delete-cookies="remember-me,JSESSION_ID" />
-		<!-- 로그아웃을 하면 세션무효화, 자동 로그인 에 사용하는 쿠키도 삭제,로그아웃시 자동으로 로그인페이지 이동됨 ,LogoutFilter 필터를 생성-->
+		<security:logout logout-url="/customLogout" invalidate-session="true" delete-cookies="remember-me,JSESSIONID" logout-success-url="/superAdminLogin"/>
+		<!-- 로그아웃을 하면 세션무효화, 자동 로그인 에 사용하는 쿠키도 삭제,로그아웃시 자동으로 로그인페이지 이동됨 ,LogoutFilter 필터를 생성,로그아웃시 이동 url-->
 		
 		<!-- <security:csrf disabled="true"/> -->
 		

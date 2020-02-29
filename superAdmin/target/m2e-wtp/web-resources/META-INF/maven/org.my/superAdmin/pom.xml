@@ -70,26 +70,26 @@
 			<dependency>
 			    <groupId>org.springframework.security</groupId>
 			    <artifactId>spring-security-web</artifactId>
-			    <version>5.0.7.RELEASE</version>
+			    <version>5.0.13.RELEASE</version>
 			</dependency>
 			
 			<dependency>
 			    <groupId>org.springframework.security</groupId>
 			    <artifactId>spring-security-config</artifactId>
-			    <version>5.0.7.RELEASE</version>
+			    <version>5.0.13.RELEASE</version>
 			</dependency>
 			
 			<dependency>
 			    <groupId>org.springframework.security</groupId>
 			    <artifactId>spring-security-core</artifactId>
-			    <version>5.0.7.RELEASE</version>
+			    <version>5.0.13.RELEASE</version>
 			</dependency>
 			
 			<!-- JSP에서는 스프링 시큐리티 관련된 태그 라이브러리를 활용할 수 있도록 springsecurity-taglib 을 추가 -->
 			<dependency>
 			    <groupId>org.springframework.security</groupId>
 			    <artifactId>spring-security-taglibs</artifactId>
-			    <version>5.0.7.RELEASE</version>
+			    <version>5.0.13.RELEASE</version>
 			</dependency>
 		<!-- 시큐리티  -->
 	
@@ -120,7 +120,7 @@
 		<dependency>
 			<groupId>com.fasterxml.jackson.core</groupId>
 			<artifactId>jackson-databind</artifactId>
-			<version>2.9.6</version>
+			<version>2.9.10.1</version>
 		</dependency>
 
 		<!-- https://mvnrepository.com/artifact/com.fasterxml.jackson.dataformat/jackson-dataformat-xml -->
@@ -361,6 +361,7 @@
 		        <artifactId>tomcat-maven-plugin</artifactId>
 		        <version>1.1</version>
 		        <configuration>
+		            <!-- <url>http://13.209.67.208:8080/manager/text</url> -->
 		            <url>http://52.79.82.204:8080/manager/text</url>
 		            <path>/superAdmin</path>
 		            <username>admin</username>
@@ -371,4 +372,3 @@
         </plugins>
     </build>
 </project>
-

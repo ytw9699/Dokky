@@ -1,5 +1,7 @@
 package org.my.controller;
-	import org.my.domain.Criteria;
+	import javax.servlet.http.HttpServletRequest;
+
+import org.my.domain.Criteria;
 	import org.my.domain.PageDTO;
 	import org.my.domain.commonVO;
 	import org.my.service.AdminService;
@@ -24,7 +26,7 @@ package org.my.controller;
 @Controller
 @Log4j
 @RequestMapping("/admin/*")
-@PreAuthorize("hasRole('ROLE_ADMIN')") //관리자권한이있어야함 @Secured({"ROLE_ADMIN"}) 같은거
+@PreAuthorize("hasAnyRole('ROLE_ADMIN','ROLE_SUPER')") //관리자권한이있어야함 @Secured({"ROLE_ADMIN"}) 같은거
 public class AdminController {
 	
 	@Setter(onMethod_ = @Autowired)
@@ -33,9 +35,25 @@ public class AdminController {
 	@Setter(onMethod_ = @Autowired)
 	private MypageService MypageService;
 	
+	/*@PreAuthorize("hasRole('ROLE_SUPER')")
+	@GetMapping("authorizationList")//일반 관리자 권한부여 리스트
+	public String authorizationList(Criteria cri, Model model) {
+		
+		log.info("/admin/authorizationList");
+		log.info("cri"+cri);
+		
+		model.addAttribute("authorizationList", service.getMemberList(cri));
+		
+		int total = service.getMemberTotalCount(cri);
+		
+		model.addAttribute("pageMaker", new PageDTO(cri, total));
+		
+		return "admin/authorizationList"; 
+	}*/
+	
 	@GetMapping("userList")//계정관리 회원리스트 가져오기
 	public String admin(Criteria cri, Model model) {
-		
+	    
 		log.info("/admin/userList");
 		log.info("cri"+cri);
 		
@@ -170,6 +188,18 @@ public class AdminController {
 		log.info("userId...="+userId);
 		
 		return service.updateRoleUser(userId) == 1 ? new ResponseEntity<>("success", HttpStatus.OK)
+				: new ResponseEntity<>("fail",HttpStatus.INTERNAL_SERVER_ERROR);
+		}
+	
+	@RequestMapping(method = { RequestMethod.PUT,RequestMethod.PATCH },
+			value = "roleAdmin/{userId}", produces = "text/plain; charset=UTF-8")
+		@ResponseBody
+		public ResponseEntity<String> updateRoleAdmin(@PathVariable("userId") String userId) {
+		
+		log.info("admin/roleAdmin");
+		log.info("userId...="+userId);
+		
+		return service.updateRoleAdmin(userId) == 1 ? new ResponseEntity<>("success", HttpStatus.OK)
 				: new ResponseEntity<>("fail",HttpStatus.INTERNAL_SERVER_ERROR);
 		}
 	

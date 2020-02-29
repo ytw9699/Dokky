@@ -44,7 +44,7 @@
 		<!-- 프로필 이미지 관련  끝-->
 		
 		<div id="infomation" class="tabcontent">
-	       <form method='post' action="/mypage/myInfo" id="operForm">	
+	       <form method='post' action="/superAdmin/mypage/myInfo" id="operForm">	
 	     	  <input type="hidden" name="${_csrf.parameterName}" value="${_csrf.token}" />
 	     	<table id="inforTable">   
 	     		<tr>
@@ -252,7 +252,7 @@
 		function checkPassword(checkData, callback, error) {
 			$.ajax({
 				type : 'post',
-				url : '/mypage/checkPassword',
+				url : '/superAdmin/mypage/checkPassword',  
 				data : JSON.stringify(checkData),
 				contentType : "application/json; charset=utf-8",
 				success : function(result, status, xhr) {

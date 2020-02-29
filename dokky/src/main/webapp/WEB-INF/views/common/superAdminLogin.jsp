@@ -14,7 +14,7 @@
 <div class="loginWrap">
 
 	<div class="title">
-			Admin Login 
+			SuperAdmin Login 
 	</div>
 	<div class="container"> 
 		<form role="form" method='post' action="/login">

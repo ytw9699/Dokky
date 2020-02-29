@@ -34,5 +34,7 @@ public interface AdminMapper {
 	public int updateRoleLimit(String userId);
 
 	public int updateRoleUser(String userId);
+
+	public int updateRoleAdmin(String userId);
 	
 }

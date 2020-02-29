@@ -39,8 +39,6 @@ public interface CommonMapper {
 
 	public int insertNote(noteVO vo);
 
-	public String getNickname(String to_id);
-
 	public int updateNoteCheck(String note_num);
 
 	public noteVO getDetailNotepage(Long note_num);

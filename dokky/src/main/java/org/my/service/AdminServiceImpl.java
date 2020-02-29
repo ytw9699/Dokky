@@ -125,4 +125,12 @@ public class AdminServiceImpl implements AdminService {
 		return mapper.updateRoleUser(userId);
 	}
 	
+	@Override
+	public int updateRoleAdmin(String userId) {
+		
+		log.info("updateRoleAdmin.."+userId);
+		
+		return mapper.updateRoleAdmin(userId);
+	}
+	
 }

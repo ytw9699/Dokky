@@ -8,7 +8,7 @@
 <head>
 	<meta charset="utf-8"> 
 	<title>Dokky - 로그인</title>
-	<link href="/resources/css/customLogin.css" rel="stylesheet" type="text/css"/>
+	<link href="/resources/css/socialLogin.css" rel="stylesheet" type="text/css"/>
 </head>
 <body> 
 <div class="loginWrap">
@@ -18,7 +18,8 @@
 	</div>
 	
 	<div class="cutom-group">
-		DOKKY는 구글 또는 네이버 계정으로만 회원 가입 및 로그인 할 수 있습니다.
+		구글 또는 네이버 계정으로만 <br/><br/>
+		로그인 및 회원가입을 할 수 있습니다.
 	</div>
 				
 	<div class="container"> 
@@ -28,6 +29,14 @@
 			</div>
 	</div>
 	
+	<div class="footer"> 
+		<div class="info">
+			이용약관 | 개인정보처리방침 | 책임의 한계와 법적고지 | 회원정보 고객센터
+		</div>
+		<div class="superAdmin">
+			<a href="/superAdminLogin">SuperAdmin 로그인</a>  
+		</div>
+	</div>
 </div>
 <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
 <script>

@@ -7,7 +7,9 @@ import java.util.List;
 	import java.util.Locale;
 import java.util.Random;
 
+import javax.servlet.http.Cookie;
 import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 	import org.my.auth.SNSLogin;
 	import org.my.auth.SnsValue;
@@ -19,7 +21,8 @@ import org.my.domain.Criteria;
 	import org.my.domain.noteVO;
 	import org.my.mapper.MemberMapper;
 	import org.my.security.domain.CustomUser;
-	import org.my.service.CommonService;
+import org.my.service.AdminService;
+import org.my.service.CommonService;
 	import org.my.service.MemberService;
 	import org.my.service.MypageService;
 	import org.springframework.beans.factory.annotation.Autowired;
@@ -32,7 +35,8 @@ import org.my.domain.Criteria;
 	import org.springframework.security.core.context.SecurityContextHolder;
 	import org.springframework.security.core.userdetails.User;
 	import org.springframework.security.crypto.password.PasswordEncoder;
-	import org.springframework.stereotype.Controller;
+import org.springframework.security.web.savedrequest.SavedRequest;
+import org.springframework.stereotype.Controller;
 	import org.springframework.ui.Model;
 	import org.springframework.web.bind.annotation.GetMapping;
 	import org.springframework.web.bind.annotation.ModelAttribute;
@@ -73,7 +77,12 @@ public class CommonController {
 	
 	@Setter(onMethod_ = { @Autowired })
 	private MemberMapper memberMapper;
-
+	
+	@Setter(onMethod_ = @Autowired)
+	private AdminService adminService;
+		
+	
+	
 	/*@GetMapping("/adminLogin")
 	public String adminLogin(Model model, HttpServletRequest request, String error, String logout, String check){
 		
@@ -107,33 +116,13 @@ public class CommonController {
 		return "redirect:/admin/userList";//관리자라면 관리자 페이지로
 	}*/
 	
-	@GetMapping("/customLogin")//커스톰 로그인 페이지는 반드시 get방식 이여야한다.시큐리티의 특성임
-	public String loginInput(String error, String logout, String check, Model model,HttpServletRequest request) throws UnsupportedEncodingException {
-		
-		String referer = request.getHeader("referer");
-		
-		log.info("/customLogin");
-		
-		log.info(referer);
-		
-		//소셜로그인
-		SNSLogin naverLogin = new SNSLogin(naverSns);
-		
-		model.addAttribute("naver_url", naverLogin.getAuthURL());//네이버 로그인 url가져오기
-		
-		SNSLogin googleLogin = new SNSLogin(googleSns);
-		
-		model.addAttribute("google_url", googleLogin.getAuthURL());//구글 로그인 url가져오기
-		
-		return "common/customLogin";  
-	}
-	
 	@PostMapping("/members") 
 	public String postMembers(MemberVO vo, Model model, RedirectAttributes rttr) {//회원가입
 		
 		log.info("/members: vo" + vo); 
 		
-		vo.setUserPw(pwencoder.encode(""+Math.random()*10));//패스워드 암호화
+		//vo.setUserPw(pwencoder.encode(""+Math.random()*10));//패스워드 암호화
+		vo.setUserPw(pwencoder.encode("222"));//패스워드 암호화
 		
 		if(memberService.registerMembers(vo)){
 			
@@ -160,8 +149,9 @@ public class CommonController {
 		}
 		
 			rttr.addFlashAttribute("check", "가입실패 하였습니다 관리자에게 문의주세요.");
-			return "redirect:/customLogin"; 
+			return "redirect:/socialLogin"; 
 	}
+	
 	
 	@RequestMapping(value = "/auth/{snsService}/callback", method = { RequestMethod.GET, RequestMethod.POST})
 	public String snsLoginCallback(@PathVariable String snsService, Model model, 
@@ -172,7 +162,7 @@ public class CommonController {
 		log.info("snsLoginCallback");
 		
 		if(error.equals("access_denied")) {//정보동의 수락안하고 취소눌를시
-			return "redirect:/customLogin";
+			return "redirect:/socialLogin";
 		}
 		
 		SnsValue sns = null; 
@@ -212,7 +202,7 @@ public class CommonController {
 			
 			if(auth.equals("ROLE_LIMIT")) {
 				rttr.addFlashAttribute("check", "차단된 아이디입니다. 관리자에게 문의해주세요.");
-				return "redirect:/customLogin";
+				return "redirect:/socialLogin";
 			}
 			
 			roles.add(new SimpleGrantedAuthority(auth));// 가져온 사용자의 권한을 리스트에 담아준다
@@ -230,23 +220,58 @@ public class CommonController {
 		
 		if (session != null) {
 			
-            String redirectUrl = (String) session.getAttribute("SPRING_SECURITY_SAVED_REQUEST");
+            /*SavedRequest saveRequest = (SavedRequest)session.getAttribute("SPRING_SECURITY_SAVED_REQUEST");
             
-            log.info("redirectUrl="+redirectUrl);
-            
-           /* Enumeration<String> e = session.getAttributeNames();
-            
-            while(e.hasMoreElements()){
-            	log.info("Enumeration"+e.nextElement());
-            }*/
+            String redirectUrl = saveRequest.getRedirectUrl();
             
             if (redirectUrl != null) {
-            	 log.info(redirectUrl);
-            	 
+         	   
+         	   log.info("redirectUrl="+redirectUrl);
+             	 
                 session.removeAttribute("SPRING_SECURITY_SAVED_REQUEST");
-                
-                return "redirect:/"+redirectUrl;
+                 
+                return "redirect:"+redirectUrl;
+            }*/
+
+            String redirectUrl = (String)session.getAttribute("preUrl");
+            
+            if (redirectUrl != null) {
+          	   
+            	 log.info("redirectUrl="+redirectUrl);
+              	 
+                 session.removeAttribute("preUrl");
+                  
+                 return "redirect:"+redirectUrl;
             }
+            
+            //log.info(saveRequest.getRedirectUrl());
+            //log.info(saveRequest.getCookies()); 
+            //log.info(saveRequest.getMethod());
+            //log.info(saveRequest.getLocales());
+            
+			/*
+	           Enumeration<String> e = session.getAttributeNames();
+	            
+	            while(e.hasMoreElements()){
+	            	log.info("Enumeration="+e.nextElement());
+            }*/
+            
+            /*	Object saveUrl = session.getAttribute("SPRING_SECURITY_SAVED_REQUEST");
+            
+            SavedRequest saveRequest = (SavedRequest)session.getAttribute("SPRING_SECURITY_SAVED_REQUEST");
+            
+           if (saveUrl != null) {
+        	   	
+        	   String redirectUrl = saveUrl.toString();
+        	   
+        	   //[http://localhost:8080/board/register?category=0]
+        		   
+        	   int firstIdx = redirectUrl.indexOf("[");
+        	   
+               int secondIdx = redirectUrl.indexOf("]");
+               
+               redirectUrl = redirectUrl.substring(firstIdx+1, secondIdx);
+        	   */
         }
 		return "redirect:/main";
 	}
@@ -308,9 +333,19 @@ public class CommonController {
 
 		log.info("/adminError");
 		
-		model.addAttribute("msg", "관리자만 접근 가능합니다.");
+		model.addAttribute("message", "관리자만 접근 가능합니다.");
 		
-		return "error/accessError";  
+		return "error/commonError";  
+	}
+	
+	@GetMapping("/superAdminError")
+	public String superAdminError(Model model) {//관리자 리스트 접근 제한 에러페이지
+
+		log.info("/superAdminError");
+		
+		model.addAttribute("message", "Super-관리자만 접근 가능합니다.");
+		
+		return "error/commonError";  
 	}
 
 	@GetMapping("/accessError")//공통 접근제한 에러페이지
@@ -320,17 +355,218 @@ public class CommonController {
 		
 		log.info("access Denied : " + auth); 
  
-		model.addAttribute("msg", "접근 권한이 없습니다. 관리자에게 문의해주세요.");
+		model.addAttribute("message", "접근 권한이 없습니다. 관리자에게 문의해주세요.");
 		
-		return "error/accessError";
+		return "error/commonError";
 	}   
-
-
-	@PostMapping("/customLogout")
-	public void logoutPost() {
+	
+	@GetMapping("/admin/authorizationList")//일반 관리자 권한부여 리스트
+	public String authorizationList(Criteria cri, Model model, Authentication authentication, HttpSession session) {
 		
-		log.info("/customLogout");
+		log.info("/admin/authorizationList");
+		log.info("cri"+cri);
+		
+		/*if(authentication == null) {//인증이 안됬다면
+			//request.getRequestURL();
+			//SavedRequest aa = new SavedRequest();
+			
+			//SavedRequest saveRequest = new SavedRequest();
+			//(Object)"DefaultSavedRequest[http://localhost:8080/admin/authorizationList]";
+			//session.setAttribute("SPRING_SECURITY_SAVED_REQUEST", saveRequest);
+			
+			return "redirect:/superAdminLogin";
+		}*/
+		
+		CustomUser user = (CustomUser)authentication.getPrincipal();
+		
+		MemberVO vo = user.getMember();
+		
+		List<AuthVO> AuthList = vo.getAuthList();//사용자의 권한 정보만 list로 가져온다
+		
+		Iterator<AuthVO> it = AuthList.iterator();
+		
+		while (it.hasNext()) {
+			
+			AuthVO authVO = it.next(); 
+			
+			String auth = authVO.getAuth();
+			
+			if(!auth.equals("ROLE_SUPER")) {
+				
+				return "redirect:/superAdminError";
+				//return "redirect:/superAdminLogin";
+			}
+			
+        }
+		
+		model.addAttribute("authorizationList", adminService.getMemberList(cri));
+		
+		int total = adminService.getMemberTotalCount(cri);
+		
+		model.addAttribute("pageMaker", new PageDTO(cri, total));
+		
+		return "admin/authorizationList"; 
 	}
+	
+	@GetMapping("/superAdminLogin")
+	public String superAdminLogin(Model model, HttpServletRequest request, String error, String logout, String check) throws UnsupportedEncodingException {
+	
+		log.info("/superAdminLogin");
+		log.info("error: " + error);
+		log.info("logout: " + logout);
+		log.info("check: " + check);
+		
+		if (error != null) {
+			model.addAttribute("error", "Login Error Check Your Account");
+		}
+		if (logout != null) {
+			model.addAttribute("logout", "Logout!!");
+		}
+		if (check != null) {
+			if(check.equals("notId") ) {
+				model.addAttribute("check", "아이디가 없습니다.");
+			}else if(check.equals("notPassword") ) {
+				model.addAttribute("check", "비밀번호가 틀립니다.");
+			}
+			else if(check.equals("limit") ) {
+				model.addAttribute("check", "차단된 아이디입니다. 관리자에게 문의해주세요.");
+			}
+		}
+		
+		return "common/superAdminLogin";  
+	}
+	
+	@GetMapping("/socialLogin")//커스톰 로그인 페이지는 반드시 get방식 이여야한다.시큐리티의 특성임
+	public String loginInput(String error, String logout, String check, Model model) throws UnsupportedEncodingException {
+		
+		log.info("/socialLogin");
+		 
+		//소셜로그인
+		SNSLogin naverLogin = new SNSLogin(naverSns);
+		
+		model.addAttribute("naver_url", naverLogin.getAuthURL());//네이버 로그인 url가져오기
+		
+		SNSLogin googleLogin = new SNSLogin(googleSns);
+		
+		model.addAttribute("google_url", googleLogin.getAuthURL());//구글 로그인 url가져오기
+		
+		return "common/socialLogin";  
+	}
+	
+	@PostMapping("/logout")//사용자 직접구현 로그아웃
+	public String logout(HttpServletRequest request, HttpServletResponse response, Authentication authentication) {
+		
+		log.info("/logout");
+		
+		if(authentication != null) {
+			log.info(SecurityContextHolder.getContext().getAuthentication().getPrincipal());
+			SecurityContextHolder.getContext().setAuthentication(null);//인증 풀기
+		}
+		
+		request.getSession().invalidate();//세션무효화
+
+		Cookie JSESSIONID = new Cookie("JSESSIONID", null);
+
+		JSESSIONID.setMaxAge(0);
+
+		response.addCookie(JSESSIONID);// 쿠키 삭제
+		
+		return "redirect:/socialLogin";
+	}
+	
+	/*@PostMapping("/logout")//사용자 직접구현 로그아웃
+	public String logout(HttpServletRequest request, HttpServletResponse response, Authentication authentication, HttpSession session) {
+		
+		log.info("/logout1");
+		log.info(SecurityContextHolder.getContext().getAuthentication().getPrincipal());
+		
+		Enumeration<String> e = session.getAttributeNames();
+        
+        while(e.hasMoreElements()){
+        	log.info("Enumeration1="+e.nextElement());
+        }
+        
+        e = request.getSession().getAttributeNames();
+        
+        while(e.hasMoreElements()){
+        	log.info("Enumeration2="+e.nextElement());
+        }
+        
+        Object SPRING_SECURITY_CONTEXT = request.getSession().getAttribute("SPRING_SECURITY_CONTEXT");
+        
+        log.info("SPRING_SECURITY_CONTEXT" +SPRING_SECURITY_CONTEXT);
+		
+		//request.getSession().invalidate();
+        log.info("getId1"+request.getSession().getId());
+        
+        //session.setMaxInactiveInterval(0);
+
+		//session.invalidate();
+		
+		e = request.getSession().getAttributeNames();
+        
+        while(e.hasMoreElements()){
+        	log.info("Enumeration3="+e.nextElement());
+        }
+        
+        
+		log.info("/logout2");
+
+		Cookie JSESSIONID = new Cookie("JSESSIONID", null);
+
+		JSESSIONID.setMaxAge(0);
+
+		response.addCookie(JSESSIONID);
+		
+		// 쿠키 삭제
+		
+		
+		if(authentication != null) { 
+			SecurityContextHolder.getContext().setAuthentication(null);//인증 풀기
+			
+		}
+		
+		log.info("/logout3");
+		
+		if(authentication != null) {
+			log.info("/logout4");
+			//SecurityContextHolder.getContext().setAuthentication(null);//인증 풀기
+			log.info("/logout5");
+			if(SecurityContextHolder.getContext().getAuthentication() != null) {
+				log.info("/logout6");
+				log.info(SecurityContextHolder.getContext().getAuthentication().getPrincipal());
+			}else {
+			log.info("/logout7");
+			log.info(SecurityContextHolder.getContext().getAuthentication());
+			}
+		}
+		SPRING_SECURITY_CONTEXT = request.getSession().getAttribute("SPRING_SECURITY_CONTEXT");
+        
+        log.info("SPRING_SECURITY_CONTEXT" +SPRING_SECURITY_CONTEXT);
+		log.info("/logout8");
+		
+		e = session.getAttributeNames();
+        
+        while(e.hasMoreElements()){
+        	log.info("Enumeration3="+e.nextElement());
+        }
+        
+        e = request.getSession().getAttributeNames();
+        
+        while(e.hasMoreElements()){
+        	log.info("Enumeration4="+e.nextElement());
+        }
+         
+         SPRING_SECURITY_CONTEXT = request.getSession().getAttribute("SPRING_SECURITY_CONTEXT");
+         
+         log.info("SPRING_SECURITY_CONTEXT" +SPRING_SECURITY_CONTEXT);
+         log.info("/logout9");
+         
+         //log.info(SecurityContextHolder.getContext().getAuthentication().getPrincipal());
+         
+		return "redirect:/socialLogin";
+	}*/
+	
 	
 	@GetMapping("/memberForm")
 	public String memberForm() {
@@ -518,7 +754,7 @@ public class CommonController {
 			return new ResponseEntity<>("fail", HttpStatus.OK) ;
 	}
 	
-	@PreAuthorize("hasAnyRole('ROLE_ADMIN','ROLE_USER')")
+	@PreAuthorize("hasAnyRole('ROLE_ADMIN','ROLE_USER','ROLE_SUPER')")
 	@GetMapping("/registerNote")
 	public String registerNote(Criteria cri, Model model) {//쪽지 폼 열기
 		
@@ -533,7 +769,7 @@ public class CommonController {
 		return "common/registerNote";
 	}
 	
-	@PreAuthorize("hasAnyRole('ROLE_ADMIN','ROLE_USER')")
+	@PreAuthorize("hasAnyRole('ROLE_ADMIN','ROLE_USER','ROLE_SUPER')")
 	@GetMapping("/minRegNote")
 	public String minRegNote(@RequestParam("userId")String userId, @RequestParam("nickname")String nickname, Model model) {
 			
@@ -726,3 +962,5 @@ public class CommonController {
 			}
 	}
 }
+		
+		 	

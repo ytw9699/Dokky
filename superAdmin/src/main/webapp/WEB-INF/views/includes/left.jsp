@@ -13,10 +13,10 @@
 		
 	<div class="leftWrap">
 		
-		<a class="name" href="https://dokky.ga/">
+		<a class="name" href="/main">
 			<span class="leftTitle">
 				Dokky
-			</span>
+			</span> 
 		</a>
 		
 	  <sec:authorize access="isAuthenticated()">
@@ -49,22 +49,67 @@
 		
 	  <sec:authorize access="isAnonymous()">  
 		  <a href="/superAdmin/customLogin">
-		  	<span class="mypage topMypage">로그인</span>
+		  	<span class="mypage topMypage">로그인/회원가입</span>
 	  	  </a> 
 	  	  <!-- <a href="/memberForm">
 		  	<span class="mypage">회원가입</span>
 	  	  </a> -->
 	  </sec:authorize>
+			
 		  <a href="/superAdmin/board/allList?category=0">
 			<span class="mypage">전체글보기</span>
 		  </a>
-	    	<div class="visitCount">
-		    	<div>
-		    		<a href="/superAdmin/customLogin">
-						SuperAdmin
-					</a>
-				</div>
-	    	</div>
+		  <a href="/superAdmin/board/list?category=1">
+			<span class="mypage">공지사항</span>
+		  </a>
+		  <a href="/superAdmin/board/list?category=2">
+			<span class="mypage">자유게시판</span>
+		  </a>
+		  <a href="/superAdmin/board/list?category=3">
+			<span class="mypage">묻고답하기</span>
+		  </a>
+		  <a href="/superAdmin/board/list?category=4">
+			<span class="mypage">칼럼/Tech</span>
+		  </a>
+		  <a href="/superAdmin/board/list?category=5">
+			<span class="mypage">정기모임/스터디</span>
+		  </a>
+			
+		<sec:authorize access="isAuthenticated()">
+			<a href="/superAdmin/alarmList?userId=${userInfo.username}">
+				<span class="mypage">
+						알림 <span class="alarmCount"></span>
+				</span>
+			</a>
+			<a href="/superAdmin/fromNoteList?userId=${userInfo.username}"> 
+				<span class="mypage">
+						쪽지 <span class="noteCount"></span>
+				</span>
+			</a> 
+			<a href="/superAdmin/mypage/myInfoForm?userId=${userInfo.username}">
+				<span class="mypage">내 정보</span>
+			</a>
+			<%-- <c:if test= "${userInfo.username == 'admin'}">
+				<a href="/admin/userList">
+			    	<span class="mypage">관리자</span>
+				</a>
+			</c:if> --%>
+		</sec:authorize>
+		<a href="/superAdmin/admin/userList">
+	    	<span class="mypage">Admin</span>
+		</a>
+		<a href="/superAdmin/admin/userList">
+	    	<span class="mypage">SuperAdmin</span>
+		</a>
+		<div class="visitCount">
+			<div>
+				Today : ${sessionScope.todayCount} 
+			</div> 
+			<div>  
+				Total : ${sessionScope.totalCount}  
+			</div> 
+		</div>
+		
 	</div>
 	<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
 	<script>
