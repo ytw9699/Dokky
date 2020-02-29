@@ -57,14 +57,14 @@
 						</div> 
 	     			</td>
 	     		</tr>
-	     		<tr>
+	     		<%-- <tr> 
 	     			<td class="tableText">
 	     				아이디
 	     			</td>
 	     			<td class="tableValue">
 	     				<input type="text" name="userId" value="${myInfo.userId}" class="inputInfo" readonly="readonly">
 	     			</td>
-	     		</tr>
+	     		</tr> --%>
 	     		<tr>
 	     			<td class="tableText">
 	     				닉네임
