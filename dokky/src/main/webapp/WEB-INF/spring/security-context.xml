@@ -34,8 +34,7 @@
 		<!-- 자동 로그인에서 데이터베이스를 이용하는 설정은 별도의 설정 없이 data—source-ref만을 지정 , 쿠키의 유효시간 604800 지정-->
 		
 		<security:logout logout-url="/customLogout" invalidate-session="true" delete-cookies="remember-me,JSESSIONID" logout-success-url="/superAdminLogin"/>
-		<!-- 로그아웃을 하면 세션무효화, 자동 로그인 에 사용하는 쿠키도 삭제,로그아웃시 자동으로 로그인페이지 이동됨 ,LogoutFilter 필터를 생성,로그아웃시 이동 url
-		세션의 SPRING_SECURITY_SAVED_REQUEST의 이름으로 저장된 객체를 삭제함-->
+		<!-- 로그아웃을 하면 세션무효화, 자동 로그인 에 사용하는 쿠키도 삭제,로그아웃시 자동으로 로그인페이지 이동됨 ,LogoutFilter 필터를 생성,로그아웃시 이동 url-->
 		
 		<!-- <security:csrf disabled="true"/> -->
 		
