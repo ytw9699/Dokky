@@ -39,9 +39,19 @@
 			       </c:choose>
 		     </span>   
 		     
-		     <span class="regBtn"> 
-		      	<button id='regBtn' type="button">새 글쓰기</button>
-		     </span>
+		     <c:if test="${pageMaker.cri.category == 1 }">
+		     		<span class="regBtn"> 
+		     			<sec:authorize access="hasAnyRole('ROLE_ADMIN','ROLE_SUPER')">
+	   		 				<button id='regBtn' type="button">새 글쓰기</button>
+	   		 			</sec:authorize>
+		     		</span>
+		      </c:if>
+		      
+		     <c:if test="${pageMaker.cri.category != 1 }">
+		     		<span class="regBtn"> 
+		      			<button id='regBtn' type="button">새 글쓰기</button>
+		     		</span>
+		     </c:if>
 	    </div> 
 	     
 		<div class="orderMethodWrap">
