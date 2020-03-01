@@ -32,7 +32,7 @@
 				
 				<div class="form-group loginGroup">
 					<button class="btn" id="login" >로그인</button>
-					<button class="btn" id="join">관리자 회원가입</button>
+					<!-- <button class="btn" id="join">관리자 회원가입</button> -->
 				</div>
 				
 			<input type="hidden" name="${_csrf.parameterName}" value="${_csrf.token}" />
@@ -117,11 +117,11 @@
 		    $("form").submit();
 	  });
 	  
-	  $("#join").on("click", function(e){
+	  /* $("#join").on("click", function(e){
 		    e.preventDefault();
 		    
 		    location.href='/adminMemberForm';
-	  });
+	  }); */
 	  
 </script>
 
