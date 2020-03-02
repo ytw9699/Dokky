@@ -22,9 +22,9 @@
 		          		<img src="/resources/img/profile_img/<c:out value="${to_id}" />.png" class="memberImage" onerror="this.src='/resources/img/profile_img/basicProfile.png'" />
 		          		${to_nickname} 
 		          	</span>
-		          	(<span id="to_id">
+		          	<%-- (<span id="to_id">
 		          		 ${to_id}
-		          	</span>)
+		          	</span>) --%>
 	          </div>
 	          
 	          <div class="row">
@@ -118,14 +118,14 @@
     
 		    e.preventDefault();
 				
-			var to_id = $("#to_id").html();
+			/* var to_id = $("#to_id").html();
 	   			to_id = $.trim(to_id);
 			
 			if(to_id == ""){ 
 				
 				alert("받는사람 아이디를 입력하세요."); 
 				return false;
-			}
+			} */
 			
 			var content = $("#content").val();
 			
@@ -136,12 +136,13 @@
 			   alert("내용을 입력하세요."); 
 			   return false;
 			}
-	
+			
 		    var noteData = {	  	
 		    					content    		: content, 	  //쪽지 내용
 		    					from_nickname   : myNickName, //쪽지 보내는 닉네임
 		    					from_id      	: myId, 	  //쪽지 보내는 아이디
-		    					to_id 	    	: to_id,	  //쪽지 받는 아이디
+		    					to_id 	    	: "${to_id}", //쪽지 받는 아이디
+		    					to_nickname		: "${to_nickname}",//쪽지 받는 닉네임
 		    					read_check 	    : 'NO' 		  //쪽지 읽음 체크
 				 		  };
 		    

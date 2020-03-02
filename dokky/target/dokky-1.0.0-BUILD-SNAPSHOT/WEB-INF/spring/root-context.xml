@@ -5,8 +5,10 @@
 	xmlns:context="http://www.springframework.org/schema/context"
 	xmlns:tx="http://www.springframework.org/schema/tx"
 	xmlns:task="http://www.springframework.org/schema/task"
+	xmlns:mvc="http://www.springframework.org/schema/mvc"
 	xsi:schemaLocation="http://mybatis.org/schema/mybatis-spring http://mybatis.org/schema/mybatis-spring-1.2.xsd
 		http://www.springframework.org/schema/task http://www.springframework.org/schema/task/spring-task-4.3.xsd
+		http://www.springframework.org/schema/mvc http://www.springframework.org/schema/mvc/spring-mvc-4.3.xsd
 		http://www.springframework.org/schema/beans https://www.springframework.org/schema/beans/spring-beans.xsd
 		http://www.springframework.org/schema/context http://www.springframework.org/schema/context/spring-context-4.3.xsd
 		http://www.springframework.org/schema/tx http://www.springframework.org/schema/tx/spring-tx-4.3.xsd">
@@ -75,7 +77,7 @@
  	
  	<!-- oauth2 login -->
 	
-	<!-- <bean id="naverClientID" class="java.lang.String">
+	<bean id="naverClientID" class="java.lang.String">
 	   <constructor-arg value="15QBonnYF5rFHRp1TNAQ" />
     </bean>
     
@@ -85,9 +87,9 @@
 	
 	<bean id="naverRedirectUrl" class="java.lang.String">
 		<constructor-arg value="http://localhost:8080/auth/naver/callback" />
-	</bean> -->
+	</bean>
     
-	<bean id="naverClientID" class="java.lang.String">
+	<!-- <bean id="naverClientID" class="java.lang.String">
 	   <constructor-arg value="vmV7HxEjedT067PqFzSV" />
     </bean>
     
@@ -96,7 +98,7 @@
 	</bean>
 	<bean id="naverRedirectUrl" class="java.lang.String">
 		<constructor-arg value="https://dokky.ga/auth/naver/callback" />
-	</bean>
+	</bean> -->
 
 	<bean id="naverSns" class="org.my.auth.SnsValue">
 		<constructor-arg value="naver" />
@@ -104,16 +106,28 @@
 		<constructor-arg ref="naverClientSecret" />
 		<constructor-arg ref="naverRedirectUrl" />
 	</bean>
+    
+    <bean id="googleClientID" class="java.lang.String">
+	   <constructor-arg value="123548667758-a8l1055mkvte3f4fr3592hrt4jhaapgn.apps.googleusercontent.com" />
+    </bean>
+    
+	<bean id="googleClientSecret" class="java.lang.String">
+		<constructor-arg value="fu1A6USqVOoZOhIxLYRj6eD5" />
+	</bean>
+	<bean id="googleRedirectUrl" class="java.lang.String">
+		<constructor-arg value="http://localhost:8080/auth/google/callback" />
+	</bean>
 	
-	<bean id="googleClientID" class="java.lang.String">
+	<!-- <bean id="googleClientID" class="java.lang.String">
 	   <constructor-arg value="749898735018-a2kvi2854s1v85pfel1097as260uivu2.apps.googleusercontent.com" />
     </bean>
+    
 	<bean id="googleClientSecret" class="java.lang.String">
 		<constructor-arg value="vj6QvX2mlwTT6i8Jcut4mh0M" />
 	</bean>
 	<bean id="googleRedirectUrl" class="java.lang.String">
 		<constructor-arg value="https://dokky.ga/auth/google/callback" />
-	</bean>
+	</bean> -->
 
 	<bean id="googleSns" class="org.my.auth.SnsValue">
 		<constructor-arg value="google" />

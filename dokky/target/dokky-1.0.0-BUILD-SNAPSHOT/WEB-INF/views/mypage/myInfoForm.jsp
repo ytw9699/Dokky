@@ -17,7 +17,7 @@
 		<div id="menuWrap">
 			<div class="tab">  
 				<button class="active" onclick="location.href='myInfoForm?userId=${userInfo.username}'">개인정보 변경</button>
-		        <button onclick="location.href='rePasswordForm?userId=${userInfo.username}'">비밀번호 변경</button> 
+		        <%-- <button onclick="location.href='rePasswordForm?userId=${userInfo.username}'">비밀번호 변경</button> --%> 
 		        <button onclick="location.href='myBoardList?userId=${userInfo.username}'">나의 게시글</button> 
 		        <button onclick="location.href='myReplylist?userId=${userInfo.username}'">나의 댓글</button> 
 		        <button onclick="location.href='myScraplist?userId=${userInfo.username}'">스크랩</button>
@@ -30,7 +30,7 @@
 			<span class="modprofileText">이미지를 선택해주세요</span>
 			<form action="/mypage/profileFile" id="profileForm" name="profileForm" method="post" enctype="multipart/form-data">
 				<div class="mainImgWrap">  
-					<img class="mainImgtag" id="mainImg" src="/resources/img/profile_img/<c:out value="${userInfo.username}" />.png" onerror="this.src='/resources/img/basicProfile.png'" />
+					<img class="mainImgtag" id="mainImg" src="/resources/img/profile_img/<c:out value="${userInfo.username}" />.png" onerror="this.src='/resources/img/profile_img/basicProfile.png'" />
 				</div>   
 		        <label for="profile" id="profileSearch">프로필 이미지 찾기</label>    
 				<input type="file" name="profileFile" id="profile" /><br>
@@ -57,14 +57,14 @@
 						</div> 
 	     			</td>
 	     		</tr>
-	     		<tr>
+	     		<%-- <tr>
 	     			<td class="tableText">
 	     				아이디
 	     			</td>
 	     			<td class="tableValue">
 	     				<input type="text" name="userId" value="${myInfo.userId}" class="inputInfo" readonly="readonly">
 	     			</td>
-	     		</tr>
+	     		</tr> --%>
 	     		<tr>
 	     			<td class="tableText">
 	     				닉네임
@@ -73,14 +73,14 @@
 	     				<input type="text" name="nickName" value="${myInfo.nickName}" class="inputInfo" oninput="checkLength(this,20);"/> 
 	     			</td>
 	     		</tr>
-	     		<tr>
+	     		<!-- <tr>
 	     			<td class="tableText">
 	     			비밀번호
 	     			</td>
 	     			<td class="tableValue">
 	     				<input type="password" name="userPw" value="" class="inputInfo" oninput="checkLength(this,20);"/> 
 	     			</td>
-	     		</tr>
+	     		</tr> -->
 	     		<tr>
 	     			<td class="tableText">
 	     				은행명
@@ -114,7 +114,9 @@
 	     			</td>
 	     		</tr>
 	     	</table> 
-	     		<input type="button" id="SumbitMyInfo" value="변경하기" class="submitInfo" /> 
+	     		<input type="hidden" name="userId" value="${myInfo.userId}" />
+				<input type="submit" value="변경하기" class="submitInfo" /> 
+	     		<!-- <input type="button" id="SumbitMyInfo" value="변경하기" class="submitInfo" /> --> 
 	      </form>
      	</div>
 </div> 
@@ -249,7 +251,7 @@
 		
 		/* 프로필 이미지 관련 끝 */
 		
-		function checkPassword(checkData, callback, error) {
+		/* function checkPassword(checkData, callback, error) {
 			$.ajax({
 				type : 'post',
 				url : '/mypage/checkPassword',
@@ -266,9 +268,10 @@
 					}
 				}
 			});
-		}
+		} */
 
-	$("#SumbitMyInfo").on("click",function(event){
+	/* $("#SumbitMyInfo").on("click",function(event){
+		
 		var operForm = $("#operForm");
 		
 		var userPw = operForm.find("input[name='userPw']").val();
@@ -284,9 +287,11 @@
 						};
 		
 		checkPassword(checkData, function(result,xhr){
-			 if(xhr.status == '200'){
+			 
+			if(xhr.status == '200'){
 				 operForm.submit(); 
 	    	}
+			
 		    }
 		,function(xhr,er){
 			if(xhr.status == '404'){
@@ -294,7 +299,7 @@
 			}
 		}
 		);
-		});
+	}); */
 </script>
  		<c:choose>
 		       <c:when test="${update eq 'complete'}">
