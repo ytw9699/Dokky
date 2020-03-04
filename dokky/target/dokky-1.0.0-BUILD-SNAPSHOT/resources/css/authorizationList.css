@@ -80,7 +80,7 @@
 		    width: 31%;
 		    margin-top: 20px;
 		    margin-right: 16px;
-		    cursor: pointer; 
+		    /* cursor: pointer; */ 
 		    box-sizing: border-box;
 		}
 		.memberInfoWrap:hover {
@@ -216,5 +216,19 @@
 		.active{
 			background-color: #7151fc !important;
 			color: white !important;   
+		}
+		
+		.authorization{
+		    background-color: #7151fc;
+		    color: white;
+		    border-radius: 17px;
+		    padding: 3%;
+		    width: 42%; 
+		    cursor: pointer;
+		}
+		.authorization:hover {
+			background-color: white;
+			color: #7151fc;  
+			border: 1px solid #7151fc;
 		}
 

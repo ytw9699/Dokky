@@ -65,6 +65,11 @@
 			background-color: #7151fc;
 			color: white;  
 		} 
+		
+		.active{
+			background-color: #7151fc !important;
+			color: white !important;   
+		} 
         
         #inforTable{
 		    margin: 10px;

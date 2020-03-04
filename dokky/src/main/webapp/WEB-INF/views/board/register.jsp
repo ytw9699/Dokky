@@ -30,7 +30,9 @@
 			      <div class="row">
 					<select id="selectId" name="category" class="">
 						   <option value=0>게시판을 선택해 주세요.</option>
-	                       <option value=1>공지사항</option>
+							   <sec:authorize access="hasAnyRole('ROLE_ADMIN','ROLE_SUPER')">
+		   		 					<option value=1>공지사항</option>
+			   		 		   </sec:authorize>
 	                       <option value=2>자유게시판</option>
 	                       <option value=3>묻고답하기</option> 
 	                       <option value=4>칼럼/Tech</option>

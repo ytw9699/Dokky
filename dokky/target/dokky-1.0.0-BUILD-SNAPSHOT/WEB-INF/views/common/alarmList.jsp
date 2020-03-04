@@ -35,7 +35,7 @@
 	                    
 	                    <td class="td"> 
 							<a href="#" class="userMenu" data-alarm_num="${alarm.alarmNum}">
-								<img src="/resources/img/profile_img/<c:out value="${alarm.writerId}" />.png"  class="memberImage hideUsermenu" onerror="this.src='/resources/img/basicProfile.png'" />
+								<img src="/resources/img/profile_img/<c:out value="${alarm.writerId}" />.png"  class="memberImage hideUsermenu" onerror="this.src='/resources/img/profile_img/basicProfile.png'" />
 								<c:out value="${alarm.writerNick}" /> 
 							</a>
 							 

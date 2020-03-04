@@ -31,14 +31,18 @@
 					        <c:when test="${note_kind == 'fromNote' || note_kind == 'myNote'}">
 		     					<div class="topData">보낸사람 -
 			          				<a href="#" class="userMenu" data-note_num="${note.note_num}">
-										<img src="/resources/img/profile_img/<c:out value="${note.from_id}"/>.png"  class="memberImage hideUsermenu" onerror="this.src='/resources/img/basicProfile.png'" />
-										<c:out value="${note.from_nickname}" /> 
+										<img src="/resources/img/profile_img/<c:out value="${note.from_id}"/>.png"  class="memberImage hideUsermenu" onerror="this.src='/resources/img/profile_img/basicProfile.png'" />
+										<c:out value="${note.from_nickname}" />
 									</a>   
 									<div id="userMenubar_${note.note_num}" class="userMenubar">
 										<ul class="hideUsermenu">
 											<li class="hideUsermenu"><a href="/userBoardList?userId=${note.from_id}" class="hideUsermenu"><span class="hideUsermenu">게시글보기</span></a></li>
-											<li class="hideUsermenu"><a href="#" class="hideUsermenu"><span class="hideUsermenu">쪽지보내기</span></a></li>
-										</ul>      
+											<li class="hideUsermenu">
+												<a href="#" class="hideUsermenu" onclick="noteOpen('${note.from_id}','${note.from_nickname}')">
+													<span class="hideUsermenu">쪽지보내기</span>
+												</a>
+											</li>
+										</ul>   
 								    </div> 
 					          	</div>
 					          	<div class="topData"> 
@@ -49,7 +53,7 @@
 							<c:when test="${note_kind == 'toNote'}">
 								<div class="topData">받는사람 -
 			          				<a href="#" class="userMenu" data-note_num="${note.note_num}">
-										<img src="/resources/img/profile_img/<c:out value="${note.to_id}"/>.png"  class="memberImage hideUsermenu" onerror="this.src='/resources/img/basicProfile.png'" />
+										<img src="/resources/img/profile_img/<c:out value="${note.to_id}"/>.png"  class="memberImage hideUsermenu" onerror="this.src='/resources/img/profile_img/basicProfile.png'" />
 										<c:out value="${note.to_nickname}" /> 
 									</a>   
 									<div id="userMenubar_${note.note_num}" class="userMenubar">

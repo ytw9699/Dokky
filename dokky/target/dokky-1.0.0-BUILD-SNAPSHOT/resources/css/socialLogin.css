@@ -1,0 +1,150 @@
+@charset "utf-8";
+/* CSS Document */
+		@media screen and (max-width:500px){ 
+		     .loginWrap {
+				    width: 80%; 
+				    display: inline-block;
+				    margin-left: 15%;
+				    margin-top: 1%;
+				    min-height: 535px; 
+					display: inline-block;
+					border: 2px solid #dbdbdb;
+					border-radius: 10px;
+				}
+        }
+        
+        @media screen and (min-width: 501px) and (max-width:1600px){
+	          .loginWrap {
+				    	width: 80%; 
+					    display: inline-block;
+					    margin-left: 17%;
+					    margin-top: 1%;
+					    min-height: 535px; 
+						display: inline-block;
+						border: 2px solid #dbdbdb;
+						border-radius: 10px;
+				}
+        }
+        
+        @media screen and (min-width: 1601px){    
+		      .loginWrap {
+			   		width: 51%; 
+				    display: inline-block;
+				    margin-left: 29%;
+				    margin-top: 1%;
+				    min-height: 535px; 
+					display: inline-block;
+					border: 2px solid #dbdbdb;
+					border-radius: 10px;
+			}
+        }
+
+		.title{
+			width: 50%;
+		    background-color: white;
+		    font-size: 45px;
+		    font-weight: 900;
+		    margin-left: 21%;
+		    margin-top: 8%;
+		    text-align: center;
+		    color: #7151fc;
+		}
+		
+		.container {
+	        width: 50%;
+		    display: inline-block;
+		    margin-left: 17%;
+		    margin-top: 4%;
+		    min-height: 278px;
+		}
+		.loginGroup{
+		  	margin-top:-10px !important;
+		  }
+		  
+		.form-group {
+		        margin-top: 1%;
+			    margin-left: 23%;
+			    width: 60%;
+			    height: 50px;
+			    font-size: 20px;
+	    }
+	    
+	    .cutom-group {
+	   		color: #7151fc;
+		    margin-top: 3%;
+		    margin-left: 27%;
+		    margin-bottom: 3%;
+		    width: 38%;
+		    height: 50px;
+		    font-size: 20px;
+		    text-align: center;
+		    font-weight: 600;
+		}
+	     
+	    .form-control {
+	        width: 100%;
+		    border-radius: 9px;
+		    font-size: 15px;
+		    height: 49px;
+		    border: 2px solid #dbdbdb;
+		    box-sizing: border-box;
+		    text-align: center;
+		}
+		#loginLabel{
+			font-size: 15px;
+	        margin-left: 75px;
+		} 
+		.btn {
+		    font-size: 15px;
+		    background-color: #7151fc;
+		    border: 1px solid #7151fc;
+		    color: white;
+		    cursor: pointer;
+		    padding: 4px;
+		    border-radius: 9px;
+		    width: 100%;
+		    height: 45px;
+		    margin: 2px;
+		}
+		
+		.logo{
+			width: 292px;
+		    height: 54px;
+		    cursor: pointer;
+		}
+		
+		#google{
+			border-radius: 9px;
+		}
+		.footer{
+		    width: 96%;
+		    padding: 1%;
+		    margin: 1%;
+		}
+		.info{
+			font-size: 11px;
+		    width: 100%;
+		    padding: 1%;
+		    margin: 1%;
+		    text-align: center;
+		    font-weight: 600;
+		}
+		.superAdmin{
+		    text-align: right;
+		    font-weight: 600;
+		    padding: 0%;
+		    margin: 0%;
+		    margin-top: -4%;
+		    font-size: 16px;
+		    width: 98%;
+		    color: #7151fc;
+    		cursor: pointer;
+		}
+		
+		.superAdmin a{
+			text-decoration: none;
+			color: #7151fc;
+		}
+		
+		
+		
