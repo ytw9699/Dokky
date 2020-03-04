@@ -289,7 +289,4 @@
 						  ]]>
 	   </select>
 	   
-	   <select id="getNickname" resultType="String">
-	   		select NICKNAME from dk_member WHERE userid = #{to_id}
-	   </select>	   
 </mapper>

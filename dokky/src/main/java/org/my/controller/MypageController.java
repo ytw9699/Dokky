@@ -3,19 +3,30 @@ package org.my.controller;
 import java.io.File;
 import java.io.FileWriter;
 import java.io.IOException;
+import java.util.ArrayList;
+import java.util.Iterator;
+import java.util.List;
 
+import org.my.domain.AuthVO;
 import org.my.domain.Criteria;
 	import org.my.domain.MemberVO;
 	import org.my.domain.PageDTO;
 	import org.my.domain.cashVO;
 	import org.my.domain.checkVO;
-	import org.my.service.BoardService;
+import org.my.mapper.MemberMapper;
+import org.my.security.domain.CustomUser;
+import org.my.service.BoardService;
 	import org.my.service.MypageService;
 	import org.springframework.beans.factory.annotation.Autowired;
 	import org.springframework.http.HttpStatus;
 	import org.springframework.http.ResponseEntity;
 	import org.springframework.security.access.prepost.PreAuthorize;
-	import org.springframework.security.crypto.password.PasswordEncoder;
+import org.springframework.security.core.Authentication;
+import org.springframework.security.core.GrantedAuthority;
+import org.springframework.security.core.authority.SimpleGrantedAuthority;
+import org.springframework.security.core.context.SecurityContextHolder;
+import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
+import org.springframework.security.crypto.password.PasswordEncoder;
 	import org.springframework.stereotype.Controller;
 	import org.springframework.ui.Model;
 	import org.springframework.web.bind.annotation.GetMapping;
@@ -27,8 +38,9 @@ import org.my.domain.Criteria;
 	import org.springframework.web.bind.annotation.ResponseBody;
 	import org.springframework.web.multipart.MultipartFile;
 	import org.springframework.web.multipart.MultipartHttpServletRequest;
-	
-	import lombok.AllArgsConstructor;
+import org.springframework.web.servlet.mvc.support.RedirectAttributes;
+
+import lombok.AllArgsConstructor;
 	import lombok.Setter;
 	import lombok.extern.log4j.Log4j;
 	
@@ -47,6 +59,9 @@ public class MypageController {
 	@Setter(onMethod_ = @Autowired)
 	private PasswordEncoder pwencoder;
 	
+	@Setter(onMethod_ = { @Autowired })
+	private MemberMapper memberMapper;
+	
 	@PreAuthorize("principal.username == #userId") 
  	@GetMapping("/myInfoForm")  
 	public String myInfoForm(@RequestParam("userId") String userId, Model model) { //내 개인정보 변경폼
@@ -58,7 +73,7 @@ public class MypageController {
 		return "mypage/myInfoForm";
 	} 
 	
-	@PreAuthorize("principal.username == #vo.userId")
+	/*@PreAuthorize("principal.username == #vo.userId")
 	@PostMapping("/myInfo")
 	public String updateMyInfo(MemberVO vo, Model model) {//개인정보 변경하기
 		
@@ -73,6 +88,55 @@ public class MypageController {
 			model.addAttribute("update", "notComplete");
 		}
 			return "mypage/myInfoForm";
+	}*/
+	
+	@PreAuthorize("principal.username == #memberVO.userId")
+	@PostMapping("/myInfo")
+	public String updateMyInfo(MemberVO memberVO, Model model, RedirectAttributes rttr) {//개인정보 변경하기
+		
+		log.info("/mypage/myInfo");
+		
+		String userId = memberVO.getUserId();
+		
+		if(service.updateMyInfo(memberVO)) {
+			
+			//model.addAttribute("myInfo", service.getMyInfo(userId));
+			
+			rttr.addFlashAttribute("myInfo", service.getMyInfo(userId));
+			
+			MemberVO vo = memberMapper.read(userId);//소셜에서 가져온 프로필에 해당하는 개인정보를 db에서 불러온다
+			
+			List<AuthVO> AuthList = vo.getAuthList();//사용자의 권한 정보만 list로 가져온다
+			
+			List<GrantedAuthority> roles = new ArrayList<>(1);// 인증해줄 권한 리스트를 만든다
+			
+			Iterator<AuthVO> it = AuthList.iterator();
+			
+			while (it.hasNext()) {
+				
+				AuthVO authVO = it.next(); 
+				
+				String auth = authVO.getAuth();
+				
+				if(auth.equals("ROLE_LIMIT")) {
+					rttr.addFlashAttribute("check", "차단된 아이디입니다. 관리자에게 문의해주세요.");
+					return "redirect:/socialLogin";
+				}
+				
+				roles.add(new SimpleGrantedAuthority(auth));// 가져온 사용자의 권한을 리스트에 담아준다
+	        }
+			
+			Authentication auth = new UsernamePasswordAuthenticationToken(new CustomUser(vo), null, roles);//사용자의 인증객체를 만든다
+			
+			SecurityContextHolder.getContext().setAuthentication(auth);//Authentication 인증객체를 SecurityContext에 보관
+			
+			rttr.addFlashAttribute("update", "complete");
+			
+		}else {
+			rttr.addFlashAttribute("update", "notComplete");
+		}
+		    
+			return "redirect:/mypage/myInfoForm?userId="+userId;
 	}
 	
 	/*@PreAuthorize("isAuthenticated()") 

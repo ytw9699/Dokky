@@ -39,22 +39,34 @@
 									</a>
 								</li>
 							</ul> 
-				    </div>
-				    
-					<form id="logoutForm" method='post' action="/customLogout">
-					    <input id="logoutBtn" type="submit" value="로그아웃">  
-					</form>  
+				    </div> 
+					<!-- <form id="logoutForm" method='post' action="/customLogout"> -->
 		</div>
 	  </sec:authorize>
 		
 	  <sec:authorize access="isAnonymous()">  
-		  <a href="/customLogin">
+		  <a href="/socialLogin">
 		  	<span class="mypage topMypage">로그인/회원가입</span>
 	  	  </a> 
 	  	  <!-- <a href="/memberForm">
 		  	<span class="mypage">회원가입</span>
 	  	  </a> -->
 	  </sec:authorize>
+	  
+   	  <sec:authorize access="hasAnyRole('ROLE_ADMIN','ROLE_USER')">
+	  		<span class="mypage">
+		  		<form class="logoutForm" method='post' action="/logout">
+				    <input class="logoutBtn" type="submit" value="로그아웃(사용자)">  
+				</form> 
+			</span>
+	   </sec:authorize>
+	   <sec:authorize access="hasRole('ROLE_SUPER')">
+	  		<span class="mypage">
+		  		<form class="logoutForm" method='post' action="/customLogout">
+				    <input class="logoutBtn" type="submit" value="로그아웃(관리자)">
+				</form> 
+			</span>
+	   </sec:authorize>
 			
 		  <a href="/board/allList?category=0">
 			<span class="mypage">전체글보기</span>
@@ -89,18 +101,37 @@
 			<a href="/mypage/myInfoForm?userId=${userInfo.username}">
 				<span class="mypage">내 정보</span>
 			</a>
-			<%-- <c:if test= "${userInfo.username == 'admin'}">
-				<a href="/admin/userList">
-			    	<span class="mypage">관리자</span>
-				</a>
-			</c:if> --%>
+			
 		</sec:authorize>
-		<a href="/admin/userList">
-	    	<span class="mypage">Admin</span>
-		</a>
-		<a href="/superAdmin/admin/userList">
-	    	<span class="mypage">SuperAdmin</span>
-		</a>
+		
+			<a href="/admin/userList">
+		    	<span class="mypage">Admin</span>
+			</a>
+		
+		<%-- <sec:authorize access="hasAnyRole('ROLE_ADMIN','ROLE_SUPER')">
+			<a href="/admin/userList">
+		    	<span class="mypage">Admin</span>
+			</a>
+		</sec:authorize> --%>
+		
+		<%-- <sec:authorize access="!hasAnyRole('ROLE_ADMIN','ROLE_SUPER')">
+			<a href="/socialLogin">
+		    	<span class="mypage">Admin</span>
+			</a>
+		</sec:authorize> --%>
+		
+		<sec:authorize access="!hasRole('ROLE_SUPER')">
+			<a href="/superAdminLogin">
+	    		<span class="mypage">SuperAdmin</span>
+			</a>
+		</sec:authorize>
+    
+		<sec:authorize access="hasRole('ROLE_SUPER')">
+			<a href="/admin/authorizationList">
+	    		<span class="mypage">SuperAdmin</span>
+			</a>
+		</sec:authorize>
+		
 		<div class="visitCount">
 			<div>
 				Today : ${sessionScope.todayCount} 
@@ -196,9 +227,9 @@
 		
 		 var parameterName = '${_csrf.parameterName}';
 		 var token = '${_csrf.token}';
-		 var logoutForm = $("#logoutForm");
+		 var logoutForm = $(".logoutForm");
 		  
-		  $("#logoutBtn").on("click", function(e){
+		  $(".logoutBtn").on("click", function(e){
 			  
 			  var str = "<input type='hidden' name='"+parameterName+"' value='"+token+"'>";
 			  

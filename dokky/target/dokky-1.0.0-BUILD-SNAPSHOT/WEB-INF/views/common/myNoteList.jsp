@@ -17,12 +17,12 @@
 
 <div class="noteWrap">	
 
-		<div id="menuWrap">
+		<div id="menuWrap"> 
 			<div class="tab"> 
-				<button onclick="location.href='/registerNote?userId=${userInfo.username}'">쪽지쓰기</button>
 				<button onclick="location.href='/fromNoteList?userId=${userInfo.username}'">받은쪽지함 - ${fromNotetotal}</button>
 				<button onclick="location.href='/toNoteList?userId=${userInfo.username}'">보낸쪽지함  - ${toNotetotal}</button>
 				<button class="active" onclick="location.href='/myNoteList?userId=${userInfo.username}'">내게쓴쪽지함  - ${myNotetotal}</button>
+				<button onclick="location.href='/registerNote?userId=${userInfo.username}'">내게쓰기</button>
 		    </div> 
 		</div>
 		
@@ -50,7 +50,7 @@
 	                    
 		     			<td class="td"> 
 							<a href="#" class="userMenu" data-note_num="${note.note_num}">
-								<img src="/resources/img/profile_img/<c:out value="${note.from_id}"/>.png"  class="memberImage hideUsermenu" onerror="this.src='/resources/img/basicProfile.png'" />
+								<img src="/resources/img/profile_img/<c:out value="${note.from_id}"/>.png"  class="memberImage hideUsermenu" onerror="this.src='/resources/img/profile_img/basicProfile.png'" />
 								<c:out value="${note.from_nickname}" /> 
 							</a>   
 							 <div id="userMenubar_${note.note_num}" class="userMenubar">

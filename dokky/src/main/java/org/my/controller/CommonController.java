@@ -216,22 +216,7 @@ public class CommonController {
 		
 		HttpSession session = request.getSession();
 		
-		log.info("snsLoginCallback2");
-		
 		if (session != null) {
-			
-            /*SavedRequest saveRequest = (SavedRequest)session.getAttribute("SPRING_SECURITY_SAVED_REQUEST");
-            
-            String redirectUrl = saveRequest.getRedirectUrl();
-            
-            if (redirectUrl != null) {
-         	   
-         	   log.info("redirectUrl="+redirectUrl);
-             	 
-                session.removeAttribute("SPRING_SECURITY_SAVED_REQUEST");
-                 
-                return "redirect:"+redirectUrl;
-            }*/
 
             String redirectUrl = (String)session.getAttribute("preUrl");
             
@@ -244,34 +229,6 @@ public class CommonController {
                  return "redirect:"+redirectUrl;
             }
             
-            //log.info(saveRequest.getRedirectUrl());
-            //log.info(saveRequest.getCookies()); 
-            //log.info(saveRequest.getMethod());
-            //log.info(saveRequest.getLocales());
-            
-			/*
-	           Enumeration<String> e = session.getAttributeNames();
-	            
-	            while(e.hasMoreElements()){
-	            	log.info("Enumeration="+e.nextElement());
-            }*/
-            
-            /*	Object saveUrl = session.getAttribute("SPRING_SECURITY_SAVED_REQUEST");
-            
-            SavedRequest saveRequest = (SavedRequest)session.getAttribute("SPRING_SECURITY_SAVED_REQUEST");
-            
-           if (saveUrl != null) {
-        	   	
-        	   String redirectUrl = saveUrl.toString();
-        	   
-        	   //[http://localhost:8080/board/register?category=0]
-        		   
-        	   int firstIdx = redirectUrl.indexOf("[");
-        	   
-               int secondIdx = redirectUrl.indexOf("]");
-               
-               redirectUrl = redirectUrl.substring(firstIdx+1, secondIdx);
-        	   */
         }
 		return "redirect:/main";
 	}

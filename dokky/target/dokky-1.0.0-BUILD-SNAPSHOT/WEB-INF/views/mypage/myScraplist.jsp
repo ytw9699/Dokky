@@ -18,7 +18,6 @@
 		<div id="menuWrap">
 			<div class="tab"> 
 				<button onclick="location.href='myInfoForm?userId=${userInfo.username}'">개인정보 변경</button>
-		        <button onclick="location.href='rePasswordForm?userId=${userInfo.username}'">비밀번호 변경</button> 
 		        <button onclick="location.href='myBoardList?userId=${userInfo.username}'">나의 게시글</button> 
 		        <button onclick="location.href='myReplylist?userId=${userInfo.username}'">나의 댓글</button> 
 		        <button class="active" onclick="location.href='myScraplist?userId=${userInfo.username}'">스크랩</button>
@@ -62,7 +61,7 @@
 						 
 							<td class="td">
 								<a href="#" class="userMenu" data-scrap_num="${scrap.scrap_num}"> 
-									<img src="/resources/img/profile_img/<c:out value="${scrap.userId}"  />.png"  class="memberImage hideUsermenu" onerror="this.src='/resources/img/basicProfile.png'" />
+									<img src="/resources/img/profile_img/<c:out value="${scrap.userId}"  />.png"  class="memberImage hideUsermenu" onerror="this.src='/resources/img/profile_img/basicProfile.png'" />
 									<c:out value="${scrap.nickName}" /> 
 								</a>   
 								<div id="userMenubar_${scrap.scrap_num}" class="userMenubar">
