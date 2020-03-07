@@ -95,6 +95,5 @@
 	    <location>/WEB-INF/views/error/500errorPage.jsp</location>
 	</error-page>
 	
-	<!-- <absolute-ordering\> -->
 	
 </web-app>
