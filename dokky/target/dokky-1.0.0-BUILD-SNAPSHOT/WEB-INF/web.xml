@@ -53,7 +53,6 @@
 		<servlet-name>appServlet</servlet-name>
 		<url-pattern>/</url-pattern>
 	</servlet-mapping>
-	<absolute-ordering\>
 	<!-- 한글처리때매 아래 필터의 순서는 바뀌면 안됨 -->
   <filter>
     <filter-name>encodingFilter</filter-name>
