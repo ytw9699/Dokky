@@ -3,6 +3,8 @@
 
 root-context.xml
 
+*/target/*
+
 ### Eclipse ###
 .metadata
 bin/
