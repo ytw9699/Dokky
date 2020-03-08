@@ -364,7 +364,7 @@
 		            <path>/</path>
 		            <!-- <path>/dokky</path> -->
 		            <username>admin</username>
-		            <password></password>
+		            <password>testdokky</password>
 		        </configuration>	
 		        
 		    </plugin>
