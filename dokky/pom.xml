@@ -344,7 +344,6 @@
                     <mainClass>org.test.int1.Main</mainClass>
                 </configuration>
             </plugin>
-             <!-- 메이븐을 통한 서버 배포 -->    
 		    <plugin>
 		        <groupId>org.apache.maven.plugins</groupId>
 		        <artifactId>maven-war-plugin</artifactId>
@@ -359,16 +358,14 @@
 		        <artifactId>tomcat-maven-plugin</artifactId>
 		        <version>1.1</version>
 		        <configuration>
-		            <!-- <url>http://13.209.67.208:8080/manager/text</url> -->
-		            <url>http://52.79.82.204:8080/manager/text</url>
+		            <url>http://13.209.67.208:8080/manager/text</url>
+		            <!-- <url>http://52.79.82.204:8080/manager/text</url> -->
 		            <path>/</path>
 		            <!-- <path>/dokky</path> -->
 		            <username>admin</username>
-		            <password></password>
+		            <password>testdokky</password>
 		        </configuration>	
-		        
 		    </plugin>
-		    <!-- 메이븐을 통한 서버 배포  -->
         </plugins>
     </build>
 </project>
