@@ -452,6 +452,7 @@
 			   toUserId		 = data.list[i].toUserId;   
 			   reply_content = data.list[i].reply_content; 
 			   replyDate 	 = data.list[i].replyDate;
+			   /* replyDate 	 = data.list[i].replyDate - 32400000; */
 			   likeCnt 	     = data.list[i].likeCnt;
 			   dislikeCnt 	 = data.list[i].dislikeCnt;
 			   depth   		 = data.list[i].depth;
