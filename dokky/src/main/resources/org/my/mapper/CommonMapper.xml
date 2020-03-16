@@ -30,7 +30,8 @@
        </select>
        
         <select id="getVisitTodayCount" resultType="int">
-			select count(*) from dk_visitor where substr(to_char(visit_time), 1, 9) = to_date(sysdate, 'yy/MM/dd')
+			<!-- select count(*) from dk_visitor where substr(to_char(visit_time), 1, 9) = to_date(sysdate, 'yy/MM/dd') -->
+			select count(*) from dk_visitor where substr(to_char(visit_time), 1, 9) = to_char(sysdate, 'yy/MM/dd')
        </select>
        
         <select id="getAlarmCount" resultType="int">
