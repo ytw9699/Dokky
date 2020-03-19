@@ -31,7 +31,37 @@
        
         <select id="getVisitTodayCount" resultType="int">
 			<!-- select count(*) from dk_visitor where substr(to_char(visit_time), 1, 9) = to_date(sysdate, 'yy/MM/dd') -->
-			select count(*) from dk_visitor where substr(to_char(visit_time), 1, 9) = to_char(sysdate, 'yy/MM/dd')
+			select count(*) from dk_visitor where substr(to_char(visit_time,'yy/MM/dd'), 1, 9) = to_char(sysdate, 'yy/MM/dd')
+       </select>
+       
+        <select id="tests1" resultType="String">
+			select sysdate from dual
+			<!-- 2020-03-18 19:43:47.0 -->
+       </select>
+       
+        <select id="tests2" resultType="String">
+			select sessiontimezone from dual
+			<!-- Asia/Seoul -->
+       </select>
+       
+       <select id="tests3" resultType="String">
+       		select dbtimezone from dual
+       		<!-- +00:00 -->
+       </select>
+       
+       <select id="tests4" resultType="String">
+			select substr(to_date(visit_time), 1, 9) from dk_visitor where visitor_num = 14667
+			<!-- 18-MAR-20 -->
+       </select>
+       
+     	<select id="tests5" resultType="String">
+       		select visit_time from dk_visitor where visitor_num = 14667
+       		<!-- 2020-03-18 13:16:06.0 -->
+       </select>
+       
+       <select id="tests6" resultType="String">
+			select to_char(sysdate, 'yy/MM/dd') from dual
+			<!-- 20/03/18 -->
        </select>
        
         <select id="getAlarmCount" resultType="int">

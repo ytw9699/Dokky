@@ -116,23 +116,10 @@ public class ReplyServiceImpl implements ReplyService {
 	  @Override
 	  public ReplyPageDTO getListPage(Criteria cri, Long board_num) {
 	       
-		  log.info("getListPage");
-		  
-		  //String fileName = "/home/ubuntu/upload/log2.txt" ;//로그파일
-			/*  String fileName = "C:\\upload\\temp\\log2.txt" ;//로그파일
-			  BufferedWriter fw;
-			  
-			try {
-				fw = new BufferedWriter(new FileWriter(fileName, true));
-				fw.write(mapper.getListWithPaging(cri, board_num).get(0).getReplyDate().toString());
-				fw.flush();
-		        fw.close();
-			} catch (IOException e1) {
-				// TODO Auto-generated catch block
-				e1.printStackTrace();
-			}
-			  
-			  log.info(mapper.getListWithPaging(cri, board_num));*/
+		  log.info("getListPage111111111111111111111111111111111111");
+		  //log.info(mapper.getListWithPaging(cri, board_num));
+		  //log.info(mapper.getListWithPaging(cri, board_num).get(0).getReplyDate().toString());
+		  log.info("getListPage22222222222222222222222222222222");
 		  
 	    return new ReplyPageDTO(
 	        mapper.getCountBynum(board_num), 
