@@ -29,26 +29,28 @@
 	</update>
 	
 	<select id="getMyBoardList" resultType="org.my.domain.BoardVO"> 
-	select board_num,
-		   title,
-		   replyCnt,
-		   hitCnt,
-		   category,
-		   likeCnt,
-		   money,
-		   regdate from 
-			 ( select /*+INDEX_DESC(DK_BOARD PK_DK_BOARD) */ rownum rn,
-			 														board_num,
-			 														title,
-			 														replyCnt, 
-			 														hitCnt,
-			 														category,
-			 														likeCnt,
-		 															money,
-			 														regdate
-			from DK_BOARD where userId = #{userId} and <![CDATA[ rownum <= #{pageNum} * #{amount} )
-				  where rn > (#{pageNum} -1) * #{amount}  
-				  ]]>
+		select board_num,
+			   title,
+			   NICKNAME,
+			   replyCnt,
+			   hitCnt,
+			   category,
+			   likeCnt,
+			   money,
+			   regdate from 
+				 ( select /*+INDEX_DESC(DK_BOARD PK_DK_BOARD) */ rownum rn,
+				 														board_num,
+				 														NICKNAME,
+				 														title,
+				 														replyCnt, 
+				 														hitCnt,
+				 														category,
+				 														likeCnt,
+			 															money,
+				 														regdate
+				from DK_BOARD where userId = #{userId} and <![CDATA[ rownum <= #{pageNum} * #{amount} )
+					  where rn > (#{pageNum} -1) * #{amount}  
+					  ]]>
 	</select>
 	
 	<select id="getMyBoardCount" resultType="int">
@@ -61,6 +63,7 @@
 			  , board_num
 			  , reply_content
 			  , userId
+			  , nickName
 			  , replydate
 		 from 
 		   (
@@ -69,6 +72,7 @@
 												     , board_num
 												     , reply_content
 												     , userId
+												     , nickName
 												     , replydate
 		   		from DK_REPLY
 		    		where userId = #{userId}
@@ -163,6 +167,7 @@
 							cashKind,
 							cashAmount,
 							userId,
+							nickName,
 							specification
 							) values 
 										(
@@ -170,6 +175,7 @@
 										#{cashKind},
 										#{cashAmount},
 										#{userId},
+										#{nickName},
 										#{specification} 
 										)
 	</insert>
@@ -180,13 +186,15 @@
 							cashKind,
 							cashAmount,
 							userId,
+							nickName,
 							specification
-							) values 
+							) values
 										(
 										seq_dk_cash.nextval,
 										#{cashKind},
 										#{cashAmount},
 										#{userId},
+										#{nickName},
 										#{specification} 
 										)
 	</insert>

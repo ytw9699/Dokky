@@ -20,8 +20,8 @@
 		        <%-- <button onclick="location.href='rePasswordForm?userId=${userInfo.username}'">비밀번호 변경</button> --%> 
 		        <button onclick="location.href='myBoardList?userId=${userInfo.username}'">나의 게시글</button> 
 		        <button onclick="location.href='myReplylist?userId=${userInfo.username}'">나의 댓글</button> 
-		        <button onclick="location.href='myScraplist?userId=${userInfo.username}'">스크랩</button>
-		        <button onclick="location.href='myCashInfo?userId=${userInfo.username}'">캐시</button>
+		        <button onclick="location.href='myScraplist?userId=${userInfo.username}'">나의 스크랩</button>
+		        <button onclick="location.href='myCashInfo?userId=${userInfo.username}'">나의 캐시</button>
 		    </div> 
 		</div>
 		<!-- 프로필 이미지 관련 -->

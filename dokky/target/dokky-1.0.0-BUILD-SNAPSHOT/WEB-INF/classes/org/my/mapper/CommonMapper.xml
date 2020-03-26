@@ -50,8 +50,7 @@
        </select>
        
        <select id="tests4" resultType="String">
-			select substr(visit_time, 1, 9) from dk_visitor where visitor_num = 14667
-			<!-- select substr(to_date(visit_time), 1, 9) from dk_visitor where visitor_num = 14667 -->
+			select substr(to_date(visit_time), 1, 9) from dk_visitor where visitor_num = 14667
 			<!-- 18-MAR-20 -->
        </select>
        

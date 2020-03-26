@@ -41,8 +41,8 @@
 				<button onclick="location.href='myInfoForm?userId=${userInfo.username}'">개인정보 변경</button>
 		        <button onclick="location.href='myBoardList?userId=${userInfo.username}'">나의 게시글</button> 
 		        <button onclick="location.href='myReplylist?userId=${userInfo.username}'">나의 댓글</button> 
-		        <button onclick="location.href='myScraplist?userId=${userInfo.username}'">스크랩</button>
-		        <button class="active" onclick="location.href='myCashInfo?userId=${userInfo.username}'">캐시</button>
+		        <button onclick="location.href='myScraplist?userId=${userInfo.username}'">나의 스크랩</button>
+		        <button class="active" onclick="location.href='myCashInfo?userId=${userInfo.username}'">나의 캐시</button>
 		    </div>  
 		</div>
 		
@@ -171,6 +171,7 @@
 					cashAmount:cash,  
 					cashKind: '충전',
 					userId:'${userInfo.username}',
+					nickName : '${userInfo.member.nickName}',
 					specification:'미승인'
 		          };
 		
@@ -213,8 +214,10 @@
 					cashAmount:cash,
 					cashKind: '환전',
 					userId:'${userInfo.username}',
+					nickName : '${userInfo.member.nickName}',
 					specification:'미승인'
 		          };
+			
 			if(reChargeData.cashAmount > parseInt('${userCash}') ){
 				alert("보유 캐시가 부족합니다.");
 				closeRecharge();

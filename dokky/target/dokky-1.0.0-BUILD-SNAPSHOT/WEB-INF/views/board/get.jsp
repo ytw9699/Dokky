@@ -1074,16 +1074,16 @@
 		}
 		
 		if(option === 'board'){//게시글 기부시
-			
 			var donateData = {	 board_num 	: board_num, //글번호
 							 	 userId     : myId, //기부하는 아이디
+							 	 nickName   : myNickName, //기부하는 닉네임 
 							  	 donatedId  : board_id, //기부받는 아이디
+							  	 donatedNickName  : board_nickName, //기부받는 닉네임
 							  	 money      : inputMoney, //기부금액
 							  	 cash 	    : myCash //기부자의 잔여 캐시
 							 };
 		
-		
-			var alarmData = { 
+			var alarmData = {  
 								target:board_id,
 								commonVar1:board_title,
 								commonVar2:board_num,
