@@ -18,6 +18,26 @@
 	  where userId   = #{userId}
 	</update>
 	
+	<select id="getMyNickName" resultType="String">
+		select nickName from DK_MEMBER where userId = #{userId}
+	</select>
+	
+	<update id="updateBoardNickName">
+		update dk_board set nickName = #{nickName} where userId = #{userId}	
+	</update>
+	
+	<update id="updateReplyNickName">
+		update dk_reply set nickName = #{nickName} where userId = #{userId}
+	</update>
+	
+	<update id="updateNoteFromNickName">
+		update dk_note set FROM_NICKNAME = #{nickName} where FROM_ID = #{userId}
+	</update>
+
+	<update id="updateNoteToNickName">
+		update dk_note set TO_NICKNAME = #{nickName} where TO_ID = #{userId}
+	</update>
+
 	<!-- 비밀번호 가져오기 --> 
 	 <select id="getMemberPW" resultType="String">
 		select userpw from DK_MEMBER where userId = #{userId}
