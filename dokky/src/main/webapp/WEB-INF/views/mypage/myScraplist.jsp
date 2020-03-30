@@ -1,6 +1,7 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c"%>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/fmt" prefix="fmt"%>
+<%@ taglib prefix="fn" uri="http://java.sun.com/jsp/jstl/functions"%>
 <%@ taglib uri="http://www.springframework.org/security/tags" prefix="sec" %> 
 
 <!DOCTYPE html>
@@ -34,10 +35,20 @@
 	                    	</td>
 	                    	
 							<td class="boardTitle">
-								<a class='move' href='<c:out value="${scrap.board_num}"/>'>  
-									<c:out value="${scrap.title}" />
-									<span class="replyCnt">[<c:out value="${scrap.replyCnt}" />]</span>
-								</a>
+								<c:choose>
+								        <c:when test="${fn:length(scrap.title) gt 9}">
+									        <a class='move' href='<c:out value="${scrap.board_num}"/>'>  
+												<c:out value="${fn:substring(scrap.title, 0, 9)}"/>... 
+												<span class="replyCnt">[<c:out value="${scrap.replyCnt}" />]</span>
+											</a>
+								        </c:when>
+								        <c:otherwise>
+									        <a class='move' href='<c:out value="${scrap.board_num}"/>'>  
+												<c:out value="${scrap.title}" />
+												<span class="replyCnt">[<c:out value="${scrap.replyCnt}" />]</span>
+											</a>
+								        </c:otherwise>
+								</c:choose> 
 							</td>  
 							
 							<td class="td">
