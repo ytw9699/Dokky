@@ -58,5 +58,11 @@ public interface MypageMapper {
 
 	public void updateAlarmNickName(@Param("userId") String userId, @Param("nickName") String nickName);
 
+	public void updateCashlistNickName(@Param("userId") String userId, @Param("nickName") String nickName);
+	
+	public void updateReportedNickName(@Param("userId") String userId, @Param("nickName") String nickName);
+
+	public void updateReportingNickName(@Param("userId") String userId, @Param("nickName") String nickName);
+
 	
 }

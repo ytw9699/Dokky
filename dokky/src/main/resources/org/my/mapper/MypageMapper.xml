@@ -46,7 +46,22 @@
 	<update id="updateAlarmNickName">
 		update dk_alarm set writerNick = #{nickName} where writerId = #{userId}
 	</update>
+	
+	<!-- 캐시 내역 닉네임 변경처리 -->
+	<update id="updateCashlistNickName">
+		update dk_cash set nickName = #{nickName} where userId = #{userId}
+	</update>
 
+	<!-- 신고 당한자 닉네임 변경처리 -->
+	<update id="updateReportedNickName">
+		update dk_report set reportedNick = #{nickName} where reportedId = #{userId}
+	</update>
+	
+	<!--  신고 하는자 닉네임 변경처리 -->
+	<update id="updateReportingNickName">
+		update dk_report set reportingNick = #{nickName} where reportingId = #{userId}
+	</update>
+	
 	<!-- 비밀번호 가져오기 --> 
 	 <select id="getMemberPW" resultType="String">
 		select userpw from DK_MEMBER where userId = #{userId}

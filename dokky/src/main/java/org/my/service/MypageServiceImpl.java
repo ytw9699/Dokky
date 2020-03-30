@@ -54,7 +54,14 @@ public class MypageServiceImpl implements MypageService {
 			
 			mapper.updateNoteToNickName(userId, nickName);//쪽지 보낸이 닉네임 변경처리
 			
+			mapper.updateReportedNickName(userId, nickName);//신고 당한자 닉네임 변경처리 
+			
+			mapper.updateReportingNickName(userId, nickName);//신고 하는자 닉네임 변경처리
+			
 			mapper.updateAlarmNickName(userId, nickName);//알림 닉네임 변경처리
+			
+			mapper.updateCashlistNickName(userId, nickName);//캐시 내역 닉네임 변경처리
+			
 		}
 		
 		boolean updateResult = mapper.updateMyInfo(board) == 1; //회원테이블 변경처리
