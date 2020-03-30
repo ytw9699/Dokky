@@ -80,6 +80,7 @@
 		}
 		.content{
 			width: 40%; 
+			padding-left: 5px; 
 		}
 		.content a{
 			color:#333333; 

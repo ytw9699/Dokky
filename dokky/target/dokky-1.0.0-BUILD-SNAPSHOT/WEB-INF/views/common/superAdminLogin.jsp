@@ -7,8 +7,8 @@
 <html>
 <head>
 	<meta charset="utf-8"> 
-	<title>Dokky - 로그인</title>
-	<link href="/resources/css/customLogin.css" rel="stylesheet" type="text/css"/>
+	<title>Dokky - 로그인</title> 
+	<link href="/resources/css/superAdminLogin.css" rel="stylesheet" type="text/css"/>
 </head>
 <body> 
 <div class="loginWrap">
@@ -37,6 +37,15 @@
 				
 			<input type="hidden" name="${_csrf.parameterName}" value="${_csrf.token}" />
 		</form> 
+	</div>
+	
+	<div class="footer"> 
+		<div class="info"> 
+			이용약관 | 개인정보처리방침 | 책임의 한계와 법적고지 | 회원정보 고객센터 
+		</div>
+		<div class="socialLogin">
+			<a href="/socialLogin">사용자 로그인</a>  
+		</div>
 	</div>
 </div>
 <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>

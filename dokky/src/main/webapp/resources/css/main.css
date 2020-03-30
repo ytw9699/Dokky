@@ -158,4 +158,18 @@
 			width: 25px; 
 			height: 25px;  
 		}
+		
+		.footer{
+		    width: 96%;
+		    padding: 1%;
+		    margin: 1%;
+		}
+		.info{ 
+			font-size: 11px;
+		    width: 105.5%;
+		    padding: 1%;
+		    margin: 1%;
+		    text-align: center;
+		    font-weight: 600;
+		}
 

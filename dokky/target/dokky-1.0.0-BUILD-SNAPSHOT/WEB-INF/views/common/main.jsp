@@ -213,7 +213,12 @@
 			</table>
 		</div>
 		
-		
+	</div>
+	
+	<div class="footer"> 
+		<div class="info"> 
+			이용약관 | 개인정보처리방침 | 책임의 한계와 법적고지 | 회원정보 고객센터 
+		</div>
 	</div>
 	<script>
 	 

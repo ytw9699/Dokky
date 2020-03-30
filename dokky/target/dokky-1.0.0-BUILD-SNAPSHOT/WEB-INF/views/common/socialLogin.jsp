@@ -29,14 +29,14 @@
 			</div>
 	</div>
 	
-	<div class="footer"> 
+	<div class="footer">  
 		<div class="info">
 			이용약관 | 개인정보처리방침 | 책임의 한계와 법적고지 | 회원정보 고객센터
 		</div>
 		<div class="superAdmin">
 			<a href="/superAdminLogin">SuperAdmin 로그인</a>  
 		</div>
-	</div>
+	</div> 
 </div>
 <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
 <script>
