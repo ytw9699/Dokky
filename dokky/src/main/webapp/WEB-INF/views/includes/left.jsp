@@ -56,14 +56,14 @@
    	  <sec:authorize access="hasAnyRole('ROLE_ADMIN','ROLE_USER')">
 	  		<span class="mypage">
 		  		<form class="logoutForm" method='post' action="/logout">
-				    <input class="logoutBtn" type="submit" value="로그아웃(사용자)">  
+				    <input class="logoutBtn" type="submit" value="로그아웃">  
 				</form> 
 			</span>
 	   </sec:authorize>
 	   <sec:authorize access="hasRole('ROLE_SUPER')">
 	  		<span class="mypage">
 		  		<form class="logoutForm" method='post' action="/customLogout">
-				    <input class="logoutBtn" type="submit" value="로그아웃(관리자)">
+				    <input class="logoutBtn" type="submit" value="로그아웃">
 				</form> 
 			</span>
 	   </sec:authorize>

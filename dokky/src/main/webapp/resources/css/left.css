@@ -133,8 +133,8 @@
 	  }
 		
 	  .leftUsermenu{
-  		display: inline-block;
-	  	width: 55%;
+  		display: inline-block; 
+	  	width: 90%;
 	  }
 		#leftUsermenuBar{
 			    display: none; 
