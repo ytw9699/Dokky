@@ -41,7 +41,7 @@
 				  </div>
 				 
 		          <div class="row">
-		            <input id="title" placeholder="제목을 입력해 주세요." name='title' oninput="checkLength(this,50);" autofocus/>   
+		            <input id="title" placeholder="제목을 입력해 주세요." name='title' oninput="checkLength(this,46);" autofocus/>   
 		          </div>
 		          
 		          <div>
@@ -119,9 +119,11 @@
 			
 		    for(b=i=0; c=s.charCodeAt(i++);){
 		    
-			    b+=c>>11?3:c>>7?2:1;
-			    //3은 한글인 경우 한글자당 3바이트를 의미,영어는 1바이트 의미 3을2로바꾸면 한글은 2바이트 영어는 1바이트 의미
+			    b+=c>>11?2:c>>7?2:1;
+			    //3은 한글인 경우 한글자당 3바이트를 의미,영어는 1바이트 의미 
+			    //3을2로바꾸면 한글은 2바이트 영어는 1바이트 의미
 			    //현재 나의 오라클 셋팅 같은경우 한글을 한자당 3바이트로 처리
+			    //3에서 2로 바꿈
 			    if (b > maxByte) { 
 			    	break;
 			    }
