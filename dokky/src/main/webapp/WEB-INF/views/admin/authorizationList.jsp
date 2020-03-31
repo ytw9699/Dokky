@@ -54,8 +54,8 @@
 								<button class="authorization" data-user_id="${user.userId}">사용자</button>
 							</c:when>
 							<c:when test="${user.authList[0].auth == 'ROLE_ADMIN'}">
-								<button class="authorization" data-user_id="${user.userId}">관리자</button>
-							</c:when>
+								<button class="authorization admin" data-user_id="${user.userId}">관리자</button>
+							</c:when> 
 		     			</c:choose>
 						<br/>  
 						<span class="userId"><c:out value="${user.userId}" /></span>
@@ -155,7 +155,10 @@
 						
 						authButton.html("사용자");
 						
-						alert("사용자 계정으로 변경 완료");			   	
+						authButton.attr('class','authorization'); 
+
+						alert("사용자 계정으로 변경 완료");	
+						
 				   	  }); 
 					
 				}else if((auth == '사용자')){
@@ -163,6 +166,8 @@
 					updateRoleAdmin(userId, function(result){ 
 						
 						authButton.html("관리자");
+						
+						authButton.attr('class','authorization admin'); 
 						
 						alert("관리자 계정으로 변경 완료");				   	
 			   	  	})

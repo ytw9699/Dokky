@@ -58,9 +58,9 @@
 			                    <c:choose>
 							       <c:when test="${alarm.kind == 0 }"> 
 								        <c:choose>
-										        <c:when test="${fn:length(alarm.commonVar1) gt 15}">
+										        <c:when test="${fn:length(alarm.commonVar1) gt 13}">
 											        <a href="#" class="getBoard" data-alarm_num="${alarm.alarmNum}" data-board_num="${alarm.commonVar2}">
-											        	댓글이 달렸습니다. "<c:out value="${fn:substring(alarm.commonVar1, 0, 15)}"/>....."
+											        	댓글이 달렸습니다. "<c:out value="${fn:substring(alarm.commonVar1, 0, 13)}"/>....."
 										        	</a>
 										        </c:when>
 										        <c:otherwise>

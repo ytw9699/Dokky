@@ -96,6 +96,13 @@ public class MypageController {
 		
 		String userId = memberVO.getUserId();
 		
+		if(service.checkNickname(memberVO.getNickName())) {//닉네임이 중복된다면
+			 
+			rttr.addFlashAttribute("update", "overlapped");
+			
+			return "redirect:/mypage/myInfoForm?userId="+userId;
+		}
+		
 		if(service.updateMyInfo(memberVO)) {
 			
 			rttr.addFlashAttribute("myInfo", service.getMyInfo(userId));

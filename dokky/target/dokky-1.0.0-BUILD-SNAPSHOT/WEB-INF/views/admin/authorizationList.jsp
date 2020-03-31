@@ -54,7 +54,7 @@
 								<button class="authorization" data-user_id="${user.userId}">사용자</button>
 							</c:when>
 							<c:when test="${user.authList[0].auth == 'ROLE_ADMIN'}">
-								<button class="authorization" data-user_id="${user.userId}">관리자</button>
+								<button class="authorization admin" data-user_id="${user.userId}">관리자</button>
 							</c:when>
 		     			</c:choose>
 						<br/>  

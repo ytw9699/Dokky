@@ -309,6 +309,13 @@
 					      });
 				      	</script>
 		       </c:when>
+		       <c:when test="${update eq 'overlapped'}">
+		          		<script>
+					      $(document).ready(function(){
+					      	alert("중복된 닉네임입니다.");
+					      });
+				      	</script>
+		       </c:when>
 		       <c:when test="${update eq 'notComplete'}">
 		       			<script>
 					      $(document).ready(function(){

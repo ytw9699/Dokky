@@ -2,6 +2,7 @@
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c"%>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/fmt" prefix="fmt"%>
 <%@ taglib uri="http://www.springframework.org/security/tags" prefix="sec" %> 
+<%@ taglib prefix="fn" uri="http://java.sun.com/jsp/jstl/functions"%>
 
 <!DOCTYPE html>
 <html>
@@ -31,11 +32,21 @@
 							<input type="checkbox" name="checkRow" value="${board.board_num}" />
 	                    </td>
 						<td class="title">
-							<a class='move' href='<c:out value="${board.board_num}"/>'> 
-								<c:out value="${board.title}" />
-								<span class="replyCnt">[<c:out value="${board.replyCnt}" />]</span>
-							</a>
-						</td>  
+							<c:choose>
+							        <c:when test="${fn:length(board.title) gt 12}">
+								        <a class='move' href='<c:out value="${board.board_num}"/>'>  
+											<c:out value="${fn:substring(board.title, 0, 12)}"/>... 
+											<span class="replyCnt">[<c:out value="${board.replyCnt}" />]</span>
+										</a>
+							        </c:when>
+							        <c:otherwise>
+								        <a class='move' href='<c:out value="${board.board_num}"/>'>  
+											<c:out value="${board.title}" />
+											<span class="replyCnt">[<c:out value="${board.replyCnt}" />]</span>
+										</a>
+							        </c:otherwise>
+							</c:choose>  
+						</td> 
 						<td class="td">
 							<div class="tdData">  
 								조회수
