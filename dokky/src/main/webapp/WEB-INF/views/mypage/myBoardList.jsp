@@ -175,7 +175,7 @@
 		  checkRow = checkRow.substring(0,checkRow.lastIndexOf( ","));
 		 
 		  if(checkRow == ""){
-		   	 alert("삭제할 글을 선택하세요.");
+		   	 openAlert("삭제할 글을 선택하세요.");
 		    return false;
 		  }
 		  

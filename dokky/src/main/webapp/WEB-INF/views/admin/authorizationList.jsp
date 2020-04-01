@@ -157,7 +157,7 @@
 						
 						authButton.attr('class','authorization'); 
 
-						alert("사용자 계정으로 변경 완료");	
+						openAlert("사용자 계정으로 변경 완료");
 						
 				   	  }); 
 					
@@ -169,7 +169,7 @@
 						
 						authButton.attr('class','authorization admin'); 
 						
-						alert("관리자 계정으로 변경 완료");				   	
+						openAlert("관리자 계정으로 변경 완료");				   	
 			   	  	})
 				}
 				

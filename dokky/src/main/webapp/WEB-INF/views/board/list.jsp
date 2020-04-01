@@ -232,12 +232,12 @@
 		
 		if(obj.tagName === "INPUT" || obj.tagName === "TEXTAREA"){ 
 			if (stringByteLength > maxByte) {// 전체길이를 초과하면          
-				alert(maxByte + " Byte 이상 입력할 수 없습니다.");         
+				openAlert(maxByte + " Byte 이상 입력할 수 없습니다.");         
 				obj.value = reStr;       
 			}   
 		}else if(obj.tagName === "DIV"){
 			if (stringByteLength > maxByte) {// 전체길이를 초과하면          
-				alert(maxByte + " Byte 이상 입력할 수 없습니다.");         
+				openAlert(maxByte + " Byte 이상 입력할 수 없습니다.");         
 				obj.innerHTML = reStr;    
 			}   
 		} 
@@ -357,7 +357,7 @@
 
 					if (!searchForm.find(
 							"input[name='keyword']").val()) {
-						alert("키워드를 입력해주세요.");
+						openAlert("키워드를 입력해주세요.");
 						return false;
 					}
 

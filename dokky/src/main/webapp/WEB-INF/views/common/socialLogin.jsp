@@ -62,7 +62,7 @@
 	<c:if test="${param.error != null}">
 	      <script>
 		      $(document).ready(function(){
-		      	alert("관리자에게 문의해주세요");
+		      	openAlert("관리자에게 문의해주세요");
 		      });
 	      </script>
 	</c:if>  
@@ -70,7 +70,7 @@
 	<c:if test="${check != null}"> 
 	      <script>
 		      $(document).ready(function(){
-		      	alert('${check}'); 
+		      	openAlert('${check}'); 
 		      });
 	      </script>
 	</c:if>  

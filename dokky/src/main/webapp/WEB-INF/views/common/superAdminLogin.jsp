@@ -82,12 +82,12 @@
 		
 		if(obj.tagName === "INPUT" || obj.tagName === "TEXTAREA"){ 
 			if (stringByteLength > maxByte) {// 전체길이를 초과하면          
-				alert(maxByte + " Byte 이상 입력할 수 없습니다.");         
+				openAlert(maxByte + " Byte 이상 입력할 수 없습니다.");         
 				obj.value = reStr;       
 			}   
 		}else if(obj.tagName === "DIV"){
 			if (stringByteLength > maxByte) {// 전체길이를 초과하면          
-				alert(maxByte + " Byte 이상 입력할 수 없습니다.");         
+				openAlert(maxByte + " Byte 이상 입력할 수 없습니다.");         
 				obj.innerHTML = reStr;    
 			}   
 		} 
@@ -101,7 +101,7 @@
 	     userId = $.trim(userId);//공백제거
 	     
 			if(userId == ""){ 
-				alert("아이디를 입력하세요."); 
+				openAlert("아이디를 입력하세요."); 
 				   return true;
 			}
 	     
@@ -109,7 +109,7 @@
 		 password = $.trim(password);//공백제거
 	     
 			if(password == ""){ 
-				alert("비밀번호를 입력하세요."); 
+				openAlert("비밀번호를 입력하세요."); 
 				  return true;
 			}
 		
@@ -137,7 +137,7 @@
 	<c:if test="${param.error != null}">
 	      <script>
 		      $(document).ready(function(){
-		      	alert("관리자에게 문의해주세요");
+		      	openAlert("관리자에게 문의해주세요");
 		      });
 	      </script>
 	</c:if>  
@@ -145,7 +145,7 @@
 	<c:if test="${check != null}"> 
 	      <script>
 		      $(document).ready(function(){
-		      	alert('${check}'); 
+		      	openAlert('${check}'); 
 		      });
 	      </script>
 	</c:if>  

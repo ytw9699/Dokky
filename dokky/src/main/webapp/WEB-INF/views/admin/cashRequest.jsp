@@ -159,7 +159,7 @@
 				 	var kind;
 					
 				 	if($.trim(specification.html()) === "승인완료"){
-				 		alert("이미 승인완료가 되었습니다.");
+				 		openAlert("이미 승인완료가 되었습니다.");
 				 		return;
 				 	} 
 				 	 
@@ -193,7 +193,7 @@
 							
 					 		specification.html("승인완료"); 
 					 		
-					 		alert("승인완료 되었습니다");
+					 		openAlert("승인완료 되었습니다");
 						}
 			   	    });
 		   		});//이벤트 끝

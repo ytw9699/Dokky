@@ -312,7 +312,7 @@
 	<c:if test="${check != null}"> 
 	      <script>
 		      $(document).ready(function(){
-		      	alert('${check}'); 
+		      	openAlert('${check}'); 
 		      });
 	      </script>
 	</c:if>  
