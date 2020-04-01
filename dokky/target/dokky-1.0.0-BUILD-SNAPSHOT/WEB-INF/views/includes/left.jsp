@@ -145,6 +145,13 @@
 	<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
 	<script>
 	
+	var username = null;
+	
+	<sec:authorize access="isAuthenticated()"> 
+		username = '${userInfo.username}';
+	</sec:authorize>
+
+	 
 	$(".leftUsermenu").on("click",function(event){//메뉴바 보이기 이벤트 
 			 
 			event.preventDefault();
@@ -162,6 +169,13 @@
 
 	function noteOpen(userId,nickname){
 			
+		if(username == null){ 
+			
+			alert("로그인 해주세요."); 
+			
+			return;
+		}
+		
 		var popupX = (window.screen.width / 2) - (400 / 2); 
 
 		var popupY= (window.screen.height /2) - (500 / 2);

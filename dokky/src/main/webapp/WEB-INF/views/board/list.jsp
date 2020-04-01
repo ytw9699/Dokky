@@ -114,8 +114,8 @@
 							        </c:if>
 								</span>
 							</a> 
-						</td>  
-						<td class="td"> 
+						</td> 
+						<td class="td">
 							<div class="tdData">  
 								조회수
 							</div>

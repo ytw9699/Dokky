@@ -25,7 +25,11 @@
 						<td class="title">   
 							<a class='move' href='/board/get?board_num=<c:out value="${board.board_num}"/>'> 
 								<c:out value="${board.title}" /> 
-								<span class="replyCnt">[<c:out value="${board.replyCnt}" />]</span>
+								<span class="replyCnt">
+									<c:if test="${board.replyCnt > 0}">
+										[<c:out value="${board.replyCnt}" />]
+							        </c:if>
+								</span> 
 							</a>
 						</td> 
 						<td class="td">
@@ -91,7 +95,11 @@
 						<td class="title">  
 							<a class='move' href='/board/get?board_num=<c:out value="${board.board_num}"/>'> 
 								<c:out value="${board.title}" /> 
-								<span class="replyCnt">[<c:out value="${board.replyCnt}" />]</span>
+								<span class="replyCnt">
+									<c:if test="${board.replyCnt > 0}">
+										[<c:out value="${board.replyCnt}" />]
+							        </c:if>
+								</span> 
 							</a>
 						</td> 
 						<td class="td">
@@ -157,7 +165,11 @@
 						<td class="title">  
 							<a class='move' href='/board/get?board_num=<c:out value="${board.board_num}"/>'> 
 								<c:out value="${board.title}" /> 
-								<span class="replyCnt">[<c:out value="${board.replyCnt}" />]</span>
+								<span class="replyCnt">
+									<c:if test="${board.replyCnt > 0}">
+										[<c:out value="${board.replyCnt}" />]
+							        </c:if>
+								</span>  
 							</a>    
 						</td> 
 						<td class="td">
