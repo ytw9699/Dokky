@@ -39,13 +39,21 @@
 								        <c:when test="${fn:length(scrap.title) gt 9}">
 									        <a class='move' href='<c:out value="${scrap.board_num}"/>'>  
 												<c:out value="${fn:substring(scrap.title, 0, 9)}"/>... 
-												<span class="replyCnt">[<c:out value="${scrap.replyCnt}" />]</span>
+												<span class="replyCnt">
+													<c:if test="${scrap.replyCnt > 0}">
+														[<c:out value="${scrap.replyCnt}" />]
+											        </c:if>
+												</span> 
 											</a>
 								        </c:when>
 								        <c:otherwise>
 									        <a class='move' href='<c:out value="${scrap.board_num}"/>'>  
 												<c:out value="${scrap.title}" />
-												<span class="replyCnt">[<c:out value="${scrap.replyCnt}" />]</span>
+												<span class="replyCnt">
+													<c:if test="${scrap.replyCnt > 0}">
+														[<c:out value="${scrap.replyCnt}" />]
+											        </c:if>
+												</span>   
 											</a>
 								        </c:otherwise>
 								</c:choose> 

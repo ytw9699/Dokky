@@ -36,13 +36,21 @@
 							        <c:when test="${fn:length(board.title) gt 12}">
 								        <a class='move' href='<c:out value="${board.board_num}"/>'>  
 											<c:out value="${fn:substring(board.title, 0, 12)}"/>... 
-											<span class="replyCnt">[<c:out value="${board.replyCnt}" />]</span>
+											<span class="replyCnt">
+												<c:if test="${board.replyCnt > 0}">
+													[<c:out value="${board.replyCnt}" />]
+										        </c:if>
+											</span> 
 										</a>
 							        </c:when>
 							        <c:otherwise>
 								        <a class='move' href='<c:out value="${board.board_num}"/>'>  
 											<c:out value="${board.title}" />
-											<span class="replyCnt">[<c:out value="${board.replyCnt}" />]</span>
+											<span class="replyCnt">
+												<c:if test="${board.replyCnt > 0}">
+													[<c:out value="${board.replyCnt}" />]
+										        </c:if>
+											</span>  
 										</a>
 							        </c:otherwise>
 							</c:choose>  
