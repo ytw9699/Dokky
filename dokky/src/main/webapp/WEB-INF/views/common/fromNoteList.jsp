@@ -171,7 +171,7 @@
 			  checkRow = checkRow.substring(0,checkRow.lastIndexOf( ","));
 			 
 			  if(checkRow == ''){
-			   	 openAlert("삭제할 쪽지를 선택하세요.");
+			   	 openAlert("삭제할 쪽지를 선택하세요");
 			    return false;
 			  }
 			  

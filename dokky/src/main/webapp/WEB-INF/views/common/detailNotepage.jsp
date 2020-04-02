@@ -150,7 +150,7 @@
 			
 			if(to_id == ""){ 
 				
-				openAlert("받는사람 아이디를 입력하세요."); 
+				openAlert("받는사람 아이디를 입력하세요"); 
 				return false;
 			}
 			
@@ -160,7 +160,7 @@
 			
 			if(content == ""){ 
 				
-			   openAlert("내용을 입력하세요."); 
+			   openAlert("내용을 입력하세요"); 
 			   return false;
 			}
 	

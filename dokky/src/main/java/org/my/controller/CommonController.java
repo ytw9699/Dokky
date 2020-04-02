@@ -425,16 +425,16 @@ public class CommonController {
 		}
 		if (check != null) {
 			if(check.equals("notId") ) {
-				model.addAttribute("check", "아이디가 없습니다.");
+				model.addAttribute("check", "아이디가 없습니다");
 			}else if(check.equals("notPassword") ) {
-				model.addAttribute("check", "비밀번호가 틀립니다.");
+				model.addAttribute("check", "비밀번호가 틀립니다");
 			}
 			else if(check.equals("limit") ) {
-				model.addAttribute("check", "차단된 아이디입니다. 관리자에게 문의해주세요.");
+				model.addAttribute("check", "차단된 아이디입니다. 관리자에게 문의해주세요");
 			}
 		}
 		
-		return "common/superAdminLogin";  
+		return "common/superAdminLogin";   
 	}
 	
     

@@ -92,12 +92,12 @@
 		
 		if(obj.tagName === "INPUT" || obj.tagName === "TEXTAREA"){ 
 			if (stringByteLength > maxByte) {// 전체길이를 초과하면          
-				openAlert(maxByte + " Byte 이상 입력할 수 없습니다.");         
+				openAlert(maxByte + " Byte 이상 입력할 수 없습니다");         
 				obj.value = reStr;       
 			}   
 		}else if(obj.tagName === "DIV"){
 			if (stringByteLength > maxByte) {// 전체길이를 초과하면          
-				openAlert(maxByte + " Byte 이상 입력할 수 없습니다.");         
+				openAlert(maxByte + " Byte 이상 입력할 수 없습니다");         
 				obj.innerHTML = reStr;    
 			}   
 		} 
@@ -139,15 +139,15 @@
 		var checkPw = operForm.find("input[name='checkPw']").val();
 		
 	    if(userPw == ""){
-	    	openAlert("현재 비밀번호를 입력해주세요.");
+	    	openAlert("현재 비밀번호를 입력해주세요");
 	    	return;
 	    }
 	    if(newPw == ""){
-	    	openAlert("새 비밀번호를 입력해주세요.");
+	    	openAlert("새 비밀번호를 입력해주세요");
 	    	return;
 	    }
 	    if(checkPw == ""){
-	    	openAlert("새 비밀번호를 다시 입력해주세요."); 
+	    	openAlert("새 비밀번호를 다시 입력해주세요"); 
 	    	return;
 	    }
 	    
@@ -159,7 +159,7 @@
 			 if(xhr.status == '200'){
 				
 				if(newPw !== checkPw){
-					openAlert("새 비밀번호가 서로 일치 하지 않습니다.");
+					openAlert("새 비밀번호가 서로 일치 하지 않습니다");
 				}else{
 					operForm.submit();
 				}
@@ -167,7 +167,7 @@
 		    }
 		,function(xhr,er){
 			if(xhr.status == '404'){
-			 openAlert("현재 비밀번호가 맞지 않습니다.");
+			 openAlert("현재 비밀번호가 맞지 않습니다");
 			}
 		}
 		);
@@ -177,14 +177,14 @@
 		       <c:when test="${update eq 'complete'}">
 		          		<script>
 					      $(document).ready(function(){
-					      	openAlert("비밀번호가 변경되었습니다.");
+					      	openAlert("비밀번호가 변경되었습니다");
 					      });
 				      	</script>
 		       </c:when>
 		       <c:when test="${update eq 'notComplete'}">
 		       			<script>
 					      $(document).ready(function(){
-					      	openAlert("재시도해주세요.");
+					      	openAlert("재시도해주세요");
 					      });
 				    	</script>
 		       </c:when>

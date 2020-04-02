@@ -159,7 +159,7 @@
 				 	var kind;
 					
 				 	if($.trim(specification.html()) === "승인완료"){
-				 		openAlert("이미 승인완료가 되었습니다.");
+				 		openAlert("이미 승인완료가 되었습니다");
 				 		return;
 				 	} 
 				 	 

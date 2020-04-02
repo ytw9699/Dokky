@@ -171,14 +171,14 @@
 		var userId = $(this).data("user_id"); 
 		
 		if(userId === 'admin'){
-			openAlert("슈퍼관리자의 계정상태를 변경할 수 없습니다.");
+			openAlert("슈퍼관리자의 계정상태를 변경할 수 없습니다");
 			return;
 		}
 		
 		limitRegistering(userId, function(result){
 		   	var currentState = $("#currentState");
 		   	currentState.html("모든 글쓰기 제한");
-		   	openAlert("모든 글쓰기를 제한 하였습니다.");
+		   	openAlert("모든 글쓰기를 제한 하였습니다");
 	   	  });
    	});
 	
@@ -186,14 +186,14 @@
 		var userId = $(this).data("user_id");
 	
 		if(userId === 'admin'){
-			openAlert("슈퍼관리자의 계정상태를 변경할 수 없습니다.");
+			openAlert("슈퍼관리자의 계정상태를 변경할 수 없습니다");
 			return;
 		}
 		
 		limitLogin(userId, function(result){
 		   	var currentState = $("#currentState");
 		   	currentState.html("접속 제한");
-		   	openAlert("접속을 제한 하였습니다.");
+		   	openAlert("접속을 제한 하였습니다");
 	   	  });
    	});
 	
@@ -201,14 +201,14 @@
 		var userId = $(this).data("user_id");
 	
 		if(userId === 'admin'){
-			openAlert("슈퍼관리자의 계정상태를 변경할 수 없습니다.");
+			openAlert("슈퍼관리자의 계정상태를 변경할 수 없습니다");
 			return;
 		}
 		
 		recovery(userId, function(result){
 		   	var currentState = $("#currentState");
 		   	currentState.html("정상");
-		   	openAlert("계정을 정상으로 복구 하였습니다.");
+		   	openAlert("계정을 정상으로 복구 하였습니다");
 	   	  });
 	   	});
 	

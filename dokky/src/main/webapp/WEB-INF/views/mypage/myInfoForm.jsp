@@ -153,12 +153,12 @@
 		
 		if(obj.tagName === "INPUT" || obj.tagName === "TEXTAREA"){ 
 			if (stringByteLength > maxByte) {// 전체길이를 초과하면          
-				openAlert(maxByte + " Byte 이상 입력할 수 없습니다.");         
+				openAlert(maxByte + " Byte 이상 입력할 수 없습니다");         
 				obj.value = reStr;       
 			}   
 		}else if(obj.tagName === "DIV"){
 			if (stringByteLength > maxByte) {// 전체길이를 초과하면          
-				openAlert(maxByte + " Byte 이상 입력할 수 없습니다.");         
+				openAlert(maxByte + " Byte 이상 입력할 수 없습니다");         
 				obj.innerHTML = reStr;    
 			}   
 		} 
@@ -221,13 +221,13 @@
 			var type = fileName.substring(fileName.lastIndexOf('.')+1, fileName.length);
 			
 			if (fileSize >= maxSize) {
-				openAlert("파일 사이즈가 5MB를 초과하였습니다.");
+				openAlert("파일 사이즈가 5MB를 초과하였습니다");
 				return false;
 			}
 			if(type.toUpperCase() == 'JPG' || type.toUpperCase() == 'GIF' || type.toUpperCase() == 'PNG' || type.toUpperCase() == 'BMP'){
 				return true; 
 			}else{
-				openAlert("해당 확장자 파일은 업로드할 수 없습니다.");
+				openAlert("해당 확장자 파일은 업로드할 수 없습니다");
 				return false;
 			}
 			return true;
@@ -295,7 +295,7 @@
 		    }
 		,function(xhr,er){
 			if(xhr.status == '404'){
-			 alert("비밀번호가 맞지 않습니다.");
+			 alert("비밀번호가 맞지 않습니다");
 			}
 		}
 		);
@@ -305,21 +305,21 @@
 		       <c:when test="${update eq 'complete'}">
 		          		<script>
 					      $(document).ready(function(){
-					      	openAlert("변경되었습니다.");
+					      	openAlert("변경되었습니다");
 					      });
 				      	</script>
 		       </c:when>
 		       <c:when test="${update eq 'overlapped'}">
 		          		<script>
 					      $(document).ready(function(){
-					      	openAlert("중복된 닉네임입니다.");
+					      	openAlert("중복된 닉네임입니다");
 					      });
 				      	</script>
 		       </c:when>
 		       <c:when test="${update eq 'notComplete'}">
 		       			<script>
 					      $(document).ready(function(){
-					      	openAlert("재시도해주세요.");
+					      	openAlert("재시도해주세요");
 					      });
 				    	</script>
 		       </c:when>

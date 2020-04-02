@@ -203,7 +203,7 @@
 		if(username == null){ 
 			
 			//$("#UserMenubar_board").css("display","block").addClass('addBlockClass');
-			openAlert("로그인 해주세요.");
+			openAlert("로그인 해주세요");
 			//alert("로그인 해주세요."); 
 			
 			return;

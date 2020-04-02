@@ -163,7 +163,7 @@
 			var cash = $("#realCommonWon").val();
 			
 			if(cash === 0 || cash === ""){   
-				openAlert("금액을 1원이상 입력해주세요."); 
+				openAlert("금액을 1원이상 입력해주세요"); 
 				return;
 			}
 			
@@ -177,7 +177,7 @@
 		
 			chargeCash(chargeData, function(result){
 			        if(result == "success"){
-			        	openAlert("계좌 입금이 확인되면 캐시가 충전됩니다.");
+			        	openAlert("계좌 입금이 확인되면 캐시가 충전됩니다");
 			        }
 			        else if(result == "fail"){
 			        	openAlert("잠시후 재시도 해주세요");
@@ -219,14 +219,14 @@
 		          };
 			
 			if(reChargeData.cashAmount > parseInt('${userCash}') ){
-				openAlert("보유 캐시가 부족합니다.");
+				openAlert("보유 캐시가 부족합니다");
 				closeRecharge();
 				return;
 			}
 			
 			reChargeCash(reChargeData, function(result){
 			        if(result == "success"){
-			        	openAlert("관리자 승인후 환전됩니다.");
+			        	openAlert("관리자 승인후 환전됩니다");
 			        }
 			        else if(result == "fail"){
 			        	openAlert("잠시후 재시도 해주세요");
