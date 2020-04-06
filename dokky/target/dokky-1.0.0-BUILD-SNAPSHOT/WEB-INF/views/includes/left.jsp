@@ -141,7 +141,14 @@
 			</div> 
 		</div>
 		
-	</div>
+	</div> 
+	
+	<div id="alertFakeDiv"></div> 
+	<div id="alertDiv">
+			<div id="alertContent"></div>  
+			<input type="button" id="alertConfirm" value="확인" onclick="closeAlert();" /> 
+	</div> 
+	
 	<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
 	<script>
 	
@@ -166,15 +173,43 @@
 				$("#leftUsermenuBar").css("display","none");  	
 			} 
 	});   
+	
+	function openAlert(content){
+		
+		$(".userMenubar").css("display","none");
+		
+		var alertFakeDiv = $("#alertFakeDiv");
+		var alertDiv = $("#alertDiv");
+		var alertContent = $("#alertContent");
+		
+		alertContent.html(content); 
+		 
+		alertFakeDiv.css("display","block");
+		alertDiv.css("display","block"); 
+	}
+	
+	function closeAlert(content){  
+		
+		var alertFakeDiv = $("#alertFakeDiv");
+		var alertDiv = $("#alertDiv");
+		
+		alertFakeDiv.css("display","none");
+		alertDiv.css("display","none"); 
+		alertContent.html(""); 
+	}
 
 	function noteOpen(userId,nickname){
 			
 		if(username == null){ 
 			
-			alert("로그인 해주세요."); 
+			//$("#UserMenubar_board").css("display","block").addClass('addBlockClass');
+			openAlert("로그인 해주세요");
+			//alert("로그인 해주세요."); 
 			
 			return;
 		}
+		
+		$(".userMenubar").css("display","none");
 		
 		var popupX = (window.screen.width / 2) - (400 / 2); 
 
@@ -220,7 +255,7 @@
 	<sec:authorize access="isAuthenticated()"> 
 		var alarmCount = $(".alarmCount");
 		var noteCount = $(".noteCount");
-		var userId = '${userInfo.username}';
+		var userId = '${userInfo.username}'; 
 	</sec:authorize>
 	
 	function schedule(){

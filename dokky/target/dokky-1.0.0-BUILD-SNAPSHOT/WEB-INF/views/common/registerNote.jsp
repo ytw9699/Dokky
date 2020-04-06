@@ -88,12 +88,12 @@
 		
 		if(obj.tagName === "INPUT" || obj.tagName === "TEXTAREA"){ 
 			if (stringByteLength > maxByte) {// 전체길이를 초과하면          
-				alert(maxByte + " Byte 이상 입력할 수 없습니다.");         
+				openAlert(maxByte + " Byte 이상 입력할 수 없습니다");         
 				obj.value = reStr;       
 			}   
 		}else if(obj.tagName === "DIV"){
 			if (stringByteLength > maxByte) {// 전체길이를 초과하면          
-				alert(maxByte + " Byte 이상 입력할 수 없습니다.");         
+				openAlert(maxByte + " Byte 이상 입력할 수 없습니다");         
 				obj.innerHTML = reStr;    
 			}   
 		} 
@@ -152,7 +152,7 @@
 			
 			if(content == ""){ 
 				
-			   alert("내용을 입력하세요."); 
+			   openAlert("내용을 입력하세요"); 
 			   return false;
 			}
 	
@@ -172,7 +172,7 @@
 			    	//$("#to_id").val(""); 
 					//$("#checkbox").prop("checked", false);
 					
-					alert(result); 
+					openAlert(result); 
 	   	    });
     });
 	

@@ -32,7 +32,7 @@
 				
 				<div class="form-group loginGroup">
 					<button class="btn" id="login" >로그인</button>
-					<!-- <button class="btn" id="join">관리자 회원가입</button> -->
+					<button class="btn" id="join">관리자 회원가입</button> 
 				</div>
 				
 			<input type="hidden" name="${_csrf.parameterName}" value="${_csrf.token}" />
@@ -122,15 +122,24 @@
 		    if(memberCheck()){
 		    	return; 
 		    }
+		  
+		    if($('#userId').val() != 'admin'){ 
+		    	openAlert("관리자 아이디로만 로그인 할 수 있습니다"); 
+		    	return; 
+		    }
 		    
 		    $("form").submit();
 	  });
 	  
-	  /* $("#join").on("click", function(e){
-		    e.preventDefault();
+	  $("#join").on("click", function(e){
+
+		  	e.preventDefault();
 		    
-		    location.href='/adminMemberForm';
-	  }); */
+	    	openAlert("슈퍼관리자로 현재 가입 할 수 없습니다"); 
+	    	return; 
+		    
+		    location.href='/adminMemberForm'; 
+	  });
 	  
 </script>
 

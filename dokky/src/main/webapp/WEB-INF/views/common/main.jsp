@@ -51,7 +51,7 @@
 							    \<fmt:formatNumber type="number" maxFractionDigits="3" value="${board.money}"/>
 						</td>
 						<td class="td"> 
-							<a href="#" class="userMenu" data-board_num="${board.board_num}" data-menu_kind="realtime">
+							<a href="" class="userMenu" data-board_num="${board.board_num}" data-menu_kind="realtime">
 								<img src="/resources/img/profile_img/<c:out value="${board.userId}" />.png"  class="memberImage hideUsermenu" onerror="this.src='/resources/img/profile_img/basicProfile.png'" />
 								<c:out value="${board.nickName}" /> 
 							</a> 
@@ -121,7 +121,7 @@
 							    \<fmt:formatNumber type="number" maxFractionDigits="3" value="${board.money}"/>
 						</td>
 						<td class="td">
-							<a href="#" class="userMenu" data-board_num="${board.board_num}" data-menu_kind="like">
+							<a href="" class="userMenu" data-board_num="${board.board_num}" data-menu_kind="like">
 								<img width="25px" src="/resources/img/profile_img/<c:out value="${board.userId}" />.png"  class="memberImage hideUsermenu" onerror="this.src='/resources/img/profile_img/basicProfile.png'" />
 								<c:out value="${board.nickName}" />
 							</a> 
@@ -191,7 +191,7 @@
 							    \<fmt:formatNumber type="number" maxFractionDigits="3" value="${board.money}"/>
 						</td>
 						<td class="td">
-							<a href="#" class="userMenu" data-board_num="${board.board_num}" data-menu_kind="donate"> 
+							<a href="" class="userMenu" data-board_num="${board.board_num}" data-menu_kind="donate"> 
 								<img width="25px" src="/resources/img/profile_img/<c:out value="${board.userId}" />.png"  class="memberImage hideUsermenu" onerror="this.src='/resources/img/profile_img/basicProfile.png'" />
 								<c:out value="${board.nickName}" />
 							</a> 
@@ -282,6 +282,8 @@
 	 
 	$(".userMenu").on("click",function(event){//해당 메뉴바 보이기 이벤트
 		
+		event.preventDefault();//화면움직임 막기
+			
 		var	board_num = $(this).data("board_num");
 		var	menu_kind = $(this).data("menu_kind");
 		
