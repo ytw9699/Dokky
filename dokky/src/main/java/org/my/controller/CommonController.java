@@ -121,8 +121,7 @@ public class CommonController {
 		
 		log.info("/members: vo" + vo); 
 		
-		//vo.setUserPw(pwencoder.encode(""+Math.random()*10));//패스워드 암호화
-		vo.setUserPw(pwencoder.encode("222"));//패스워드 암호화
+		vo.setUserPw(pwencoder.encode(""+Math.random()*10));//패스워드 랜덤 하게 만들어 암호화,이 암호가 없으면 시큐리티인증객체를 못만듬
 		
 		if(memberService.registerMembers(vo)){
 			
@@ -252,12 +251,12 @@ public class CommonController {
 			
 			model.addAttribute("check", "가입완료 되었습니다 로그인해주세요.");
 			
-			return "common/adminLogin";
+			return "common/superAdminLogin";
 		}
 		
 			model.addAttribute("check", "가입실패 하였습니다 관리자에게 문의주세요.");
 			
-			return "common/adminLogin"; 
+			return "common/superAdminLogin"; 
 	}
 	
 	@RequestMapping(value = "/main", method = RequestMethod.GET)
