@@ -75,7 +75,7 @@
 	(select seq_dk_reply.nextval, board_num, reply_content, nickName from DK_REPLY);
 	
 	3.------------------------------------------------------------------------------------------
-	create table dk_member(--회원 테이블
+	create table dk_member(--뉴 회원 테이블
 	
 		  member_num number(10,0) unique,
 	      userId varchar2(50) primary key,
@@ -89,7 +89,13 @@
 	      enabled char(1) default '1'--enabled는 스프링 시큐리티에서 사용하는 값. 현재 사용자 계정이 유효한가를 의미
 	);
 	
-	create table dk_member(--회원 테이블
+	create sequence seq_dk_member
+	
+	drop table dk_member purge 
+	
+	insert into dk_member(member_num, userId, userPw, nickName) values (seq_dk_member.nextval, 'admin', 'admin', '슈퍼관리자')
+	
+	create table dk_member(--구 회원 테이블
 	
 		  member_num number(10,0) unique,
 	      userId varchar2(50) primary key,
@@ -105,9 +111,17 @@
 	      enabled char(1) default '1'--enabled는 스프링 시큐리티에서 사용하는 값. 현재 사용자 계정이 유효한가를 의미
 	);
 	
-	create sequence seq_dk_member
+	5.------------------------------------------------------------------------------------------
+	create table dk_member_auth (--권한 테이블
 	
-	drop table dk_member purge 
+	     userId varchar2(50) not null,
+	     auth varchar2(50) default 'ROLE_USER',
+	     constraint fk_member_auth foreign key(userId) references dk_member(userId)
+	);
+	
+	insert into dk_member_auth(userId, auth) values ('admin','ROLE_SUPER');
+	
+	drop table dk_member_auth purge 
 	
 	4.---------------------------------------------------------------------------------------
 	create table DK_NOTE (--쪽지 테이블
@@ -148,15 +162,7 @@
 	
 	DROP TABLE dk_attach PURGE;
 	
-	5.------------------------------------------------------------------------------------------
-	create table dk_member_auth (--권한 테이블
 	
-	     userId varchar2(50) not null,
-	     auth varchar2(50) default 'ROLE_USER',
-	     constraint fk_member_auth foreign key(userId) references dk_member(userId)
-	);
-	
-	drop table dk_member_auth purge 
 	
 	6.------------------------------------------------------------------------------------------
 	create table persistent_logins ( --인증 테이블
