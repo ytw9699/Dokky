@@ -1,32 +1,31 @@
 package org.my.controller;
 	import java.io.BufferedWriter;
-import java.io.File;
-import java.io.FileWriter;
-import java.io.IOException;
-import java.util.ArrayList;
-import java.util.Iterator;
-import java.util.List;
-
-import org.my.domain.AuthVO;
-import org.my.domain.Criteria;
+	import java.io.File;
+	import java.io.FileWriter;
+	import java.io.IOException;
+	import java.util.ArrayList;
+	import java.util.Iterator;
+	import java.util.List;
+	import org.my.domain.AuthVO;
+	import org.my.domain.Criteria;
 	import org.my.domain.MemberVO;
 	import org.my.domain.PageDTO;
 	import org.my.domain.cashVO;
 	import org.my.domain.checkVO;
-import org.my.mapper.MemberMapper;
-import org.my.security.domain.CustomUser;
-import org.my.service.BoardService;
+	import org.my.mapper.MemberMapper;
+	import org.my.security.domain.CustomUser;
+	import org.my.service.BoardService;
 	import org.my.service.MypageService;
 	import org.springframework.beans.factory.annotation.Autowired;
 	import org.springframework.http.HttpStatus;
 	import org.springframework.http.ResponseEntity;
 	import org.springframework.security.access.prepost.PreAuthorize;
-import org.springframework.security.core.Authentication;
-import org.springframework.security.core.GrantedAuthority;
-import org.springframework.security.core.authority.SimpleGrantedAuthority;
-import org.springframework.security.core.context.SecurityContextHolder;
-import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
-import org.springframework.security.crypto.password.PasswordEncoder;
+	import org.springframework.security.core.Authentication;
+	import org.springframework.security.core.GrantedAuthority;
+	import org.springframework.security.core.authority.SimpleGrantedAuthority;
+	import org.springframework.security.core.context.SecurityContextHolder;
+	import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
+	import org.springframework.security.crypto.password.PasswordEncoder;
 	import org.springframework.stereotype.Controller;
 	import org.springframework.ui.Model;
 	import org.springframework.web.bind.annotation.GetMapping;
@@ -38,9 +37,8 @@ import org.springframework.security.crypto.password.PasswordEncoder;
 	import org.springframework.web.bind.annotation.ResponseBody;
 	import org.springframework.web.multipart.MultipartFile;
 	import org.springframework.web.multipart.MultipartHttpServletRequest;
-import org.springframework.web.servlet.mvc.support.RedirectAttributes;
-
-import lombok.AllArgsConstructor;
+	import org.springframework.web.servlet.mvc.support.RedirectAttributes;
+	import lombok.AllArgsConstructor;
 	import lombok.Setter;
 	import lombok.extern.log4j.Log4j;
 	
@@ -98,9 +96,14 @@ public class MypageController {
 		
 		String userId = memberVO.getUserId();
 		
-		if(service.updateMyInfo(memberVO)) {
+		if(service.checkNickname(memberVO.getNickName())) {//닉네임이 중복된다면
+			 
+			rttr.addFlashAttribute("update", "overlapped");
 			
-			//model.addAttribute("myInfo", service.getMyInfo(userId));
+			return "redirect:/mypage/myInfoForm?userId="+userId;
+		}
+		
+		if(service.updateMyInfo(memberVO)) {
 			
 			rttr.addFlashAttribute("myInfo", service.getMyInfo(userId));
 			

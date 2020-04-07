@@ -18,7 +18,8 @@
 <div class="userReplyWrap">	
 
 		<div id="userId">
-			   ${pageMaker.cri.userId} 회원님의 댓글   
+			   ${userReply[0].nickName} 회원님의 댓글   
+			   <%-- ${pageMaker.cri.userId} --%> 
 		</div>
 		
 		<div id="menuWrap">

@@ -309,6 +309,7 @@
 
 	</dependencies>
     <build>
+    <!-- <finalName>dokky</finalName> -->
         <plugins>
             <plugin>
                 <artifactId>maven-eclipse-plugin</artifactId>
@@ -358,12 +359,12 @@
 		        <artifactId>tomcat-maven-plugin</artifactId>
 		        <version>1.1</version>
 		        <configuration>
-		            <url>http://13.209.67.208:8080/manager/text</url>
+    				<url>http://13.125.253.147:8080/manager/text</url>
 		            <!-- <url>http://52.79.82.204:8080/manager/text</url> -->
 		            <path>/</path>
 		            <!-- <path>/dokky</path> -->
 		            <username>admin</username>
-		            <password>testdokky</password>
+		            <password>dokky</password>
 		        </configuration>	
 		    </plugin>
         </plugins>

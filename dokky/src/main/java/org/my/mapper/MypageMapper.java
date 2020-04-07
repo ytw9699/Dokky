@@ -45,5 +45,26 @@ public interface MypageMapper {
 	public int getMyCashHistoryCount(String userId);
 
 	public void removeScrap(Long scrap_num);
+
+	public String getMyNickName(String userId);
+
+	public void updateBoardNickName(@Param("userId") String userId, @Param("nickName") String nickName);
+	
+	public void updateReplyNickName(@Param("userId") String userId, @Param("nickName") String nickName);
+
+	public void updateNoteFromNickName(@Param("userId") String userId, @Param("nickName") String nickName);
+	
+	public void updateNoteToNickName(@Param("userId") String userId, @Param("nickName") String nickName);
+
+	public void updateAlarmNickName(@Param("userId") String userId, @Param("nickName") String nickName);
+
+	public void updateCashlistNickName(@Param("userId") String userId, @Param("nickName") String nickName);
+	
+	public void updateReportedNickName(@Param("userId") String userId, @Param("nickName") String nickName);
+
+	public void updateReportingNickName(@Param("userId") String userId, @Param("nickName") String nickName);
+
+	public int checkNickname(@Param("nickName") String nickName);
+
 	
 }

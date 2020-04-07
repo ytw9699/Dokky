@@ -20,8 +20,8 @@
 		        <%-- <button onclick="location.href='rePasswordForm?userId=${userInfo.username}'">비밀번호 변경</button> --%> 
 		        <button onclick="location.href='myBoardList?userId=${userInfo.username}'">나의 게시글</button> 
 		        <button onclick="location.href='myReplylist?userId=${userInfo.username}'">나의 댓글</button> 
-		        <button onclick="location.href='myScraplist?userId=${userInfo.username}'">스크랩</button>
-		        <button onclick="location.href='myCashInfo?userId=${userInfo.username}'">캐시</button>
+		        <button onclick="location.href='myScraplist?userId=${userInfo.username}'">나의 스크랩</button>
+		        <button onclick="location.href='myCashInfo?userId=${userInfo.username}'">나의 캐시</button>
 		    </div> 
 		</div>
 		<!-- 프로필 이미지 관련 -->
@@ -153,12 +153,12 @@
 		
 		if(obj.tagName === "INPUT" || obj.tagName === "TEXTAREA"){ 
 			if (stringByteLength > maxByte) {// 전체길이를 초과하면          
-				alert(maxByte + " Byte 이상 입력할 수 없습니다.");         
+				openAlert(maxByte + " Byte 이상 입력할 수 없습니다");         
 				obj.value = reStr;       
 			}   
 		}else if(obj.tagName === "DIV"){
 			if (stringByteLength > maxByte) {// 전체길이를 초과하면          
-				alert(maxByte + " Byte 이상 입력할 수 없습니다.");         
+				openAlert(maxByte + " Byte 이상 입력할 수 없습니다");         
 				obj.innerHTML = reStr;    
 			}   
 		} 
@@ -193,7 +193,7 @@
 			var fileSize = profileForm.find("input[name='profileFile']")[0].files[0].size; 
 			
 			 if(fileName == ""){    
-				 alert("이미지를 선택해주세요");
+				 openAlert("이미지를 선택해주세요");
 				 return; 
 			 }else if(!checkImage(fileName,fileSize)){ 
 				 return; 
@@ -221,13 +221,13 @@
 			var type = fileName.substring(fileName.lastIndexOf('.')+1, fileName.length);
 			
 			if (fileSize >= maxSize) {
-				alert("파일 사이즈가 5MB를 초과하였습니다.");
+				openAlert("파일 사이즈가 5MB를 초과하였습니다");
 				return false;
 			}
 			if(type.toUpperCase() == 'JPG' || type.toUpperCase() == 'GIF' || type.toUpperCase() == 'PNG' || type.toUpperCase() == 'BMP'){
 				return true; 
 			}else{
-				alert("해당 확장자 파일은 업로드할 수 없습니다.");
+				openAlert("해당 확장자 파일은 업로드할 수 없습니다");
 				return false;
 			}
 			return true;
@@ -295,7 +295,7 @@
 		    }
 		,function(xhr,er){
 			if(xhr.status == '404'){
-			 alert("비밀번호가 맞지 않습니다.");
+			 alert("비밀번호가 맞지 않습니다");
 			}
 		}
 		);
@@ -305,14 +305,21 @@
 		       <c:when test="${update eq 'complete'}">
 		          		<script>
 					      $(document).ready(function(){
-					      	alert("변경되었습니다.");
+					      	openAlert("변경되었습니다");
+					      });
+				      	</script>
+		       </c:when>
+		       <c:when test="${update eq 'overlapped'}">
+		          		<script>
+					      $(document).ready(function(){
+					      	openAlert("중복된 닉네임입니다");
 					      });
 				      	</script>
 		       </c:when>
 		       <c:when test="${update eq 'notComplete'}">
 		       			<script>
 					      $(document).ready(function(){
-					      	alert("재시도해주세요.");
+					      	openAlert("재시도해주세요");
 					      });
 				    	</script>
 		       </c:when>

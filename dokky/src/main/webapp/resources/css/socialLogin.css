@@ -6,7 +6,7 @@
 				    display: inline-block;
 				    margin-left: 15%;
 				    margin-top: 1%;
-				    min-height: 535px; 
+				    height: 538px;
 					display: inline-block;
 					border: 2px solid #dbdbdb;
 					border-radius: 10px;
@@ -19,7 +19,7 @@
 					    display: inline-block;
 					    margin-left: 17%;
 					    margin-top: 1%;
-					    min-height: 535px; 
+					    height: 538px;
 						display: inline-block;
 						border: 2px solid #dbdbdb;
 						border-radius: 10px;
@@ -32,7 +32,7 @@
 				    display: inline-block;
 				    margin-left: 29%;
 				    margin-top: 1%;
-				    min-height: 535px; 
+				    height: 538px; 
 					display: inline-block;
 					border: 2px solid #dbdbdb;
 					border-radius: 10px;
@@ -55,7 +55,7 @@
 		    display: inline-block;
 		    margin-left: 17%;
 		    margin-top: 4%;
-		    min-height: 278px;
+		    min-height: 175px;
 		}
 		.loginGroup{
 		  	margin-top:-10px !important;
@@ -123,7 +123,7 @@
 		}
 		.info{
 			font-size: 11px;
-		    width: 100%;
+		    width: 88.5%; 
 		    padding: 1%;
 		    margin: 1%;
 		    text-align: center;

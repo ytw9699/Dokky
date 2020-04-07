@@ -19,8 +19,8 @@
 				<button onclick="location.href='myInfoForm?userId=${userInfo.username}'">개인정보 변경</button>
 		        <button onclick="location.href='myBoardList?userId=${userInfo.username}'">나의 게시글</button> 
 		        <button onclick="location.href='myReplylist?userId=${userInfo.username}'">나의 댓글</button> 
-		        <button onclick="location.href='myScraplist?userId=${userInfo.username}'">스크랩</button>
-		        <button onclick="location.href='myCashInfo?userId=${userInfo.username}'">캐시</button>
+		        <button onclick="location.href='myScraplist?userId=${userInfo.username}'">나의 스크랩</button>
+		        <button onclick="location.href='myCashInfo?userId=${userInfo.username}'">나의 캐시</button>
 		    </div> 
 		</div>
 		
@@ -92,12 +92,12 @@
 		
 		if(obj.tagName === "INPUT" || obj.tagName === "TEXTAREA"){ 
 			if (stringByteLength > maxByte) {// 전체길이를 초과하면          
-				alert(maxByte + " Byte 이상 입력할 수 없습니다.");         
+				openAlert(maxByte + " Byte 이상 입력할 수 없습니다");         
 				obj.value = reStr;       
 			}   
 		}else if(obj.tagName === "DIV"){
 			if (stringByteLength > maxByte) {// 전체길이를 초과하면          
-				alert(maxByte + " Byte 이상 입력할 수 없습니다.");         
+				openAlert(maxByte + " Byte 이상 입력할 수 없습니다");         
 				obj.innerHTML = reStr;    
 			}   
 		} 
@@ -139,15 +139,15 @@
 		var checkPw = operForm.find("input[name='checkPw']").val();
 		
 	    if(userPw == ""){
-	    	alert("현재 비밀번호를 입력해주세요.");
+	    	openAlert("현재 비밀번호를 입력해주세요");
 	    	return;
 	    }
 	    if(newPw == ""){
-	    	alert("새 비밀번호를 입력해주세요.");
+	    	openAlert("새 비밀번호를 입력해주세요");
 	    	return;
 	    }
 	    if(checkPw == ""){
-	    	alert("새 비밀번호를 다시 입력해주세요."); 
+	    	openAlert("새 비밀번호를 다시 입력해주세요"); 
 	    	return;
 	    }
 	    
@@ -159,7 +159,7 @@
 			 if(xhr.status == '200'){
 				
 				if(newPw !== checkPw){
-					alert("새 비밀번호가 서로 일치 하지 않습니다.");
+					openAlert("새 비밀번호가 서로 일치 하지 않습니다");
 				}else{
 					operForm.submit();
 				}
@@ -167,7 +167,7 @@
 		    }
 		,function(xhr,er){
 			if(xhr.status == '404'){
-			 alert("현재 비밀번호가 맞지 않습니다.");
+			 openAlert("현재 비밀번호가 맞지 않습니다");
 			}
 		}
 		);
@@ -177,14 +177,14 @@
 		       <c:when test="${update eq 'complete'}">
 		          		<script>
 					      $(document).ready(function(){
-					      	alert("비밀번호가 변경되었습니다.");
+					      	openAlert("비밀번호가 변경되었습니다");
 					      });
 				      	</script>
 		       </c:when>
 		       <c:when test="${update eq 'notComplete'}">
 		       			<script>
 					      $(document).ready(function(){
-					      	alert("재시도해주세요.");
+					      	openAlert("재시도해주세요");
 					      });
 				    	</script>
 		       </c:when>

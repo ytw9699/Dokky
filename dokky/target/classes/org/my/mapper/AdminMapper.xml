@@ -10,6 +10,7 @@
 			 , cashAmount
 			 , specification
 			 , userId
+			 , nickName
 			 , cashKind
 	 	 from ( 
 	 	 		select /*+INDEX_DESC(dk_cash pk_cash) */ rownum rn
@@ -18,6 +19,7 @@
 				 									   , cashAmount
 				 									   , specification
 				 									   , userId
+				 									   , nickName
 				 									   , cashKind
 				 from dk_cash 
 				  where (specification = '미승인' or specification = '승인완료') and <![CDATA[ rownum <= #{pageNum} * #{amount} 

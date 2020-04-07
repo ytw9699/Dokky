@@ -41,7 +41,7 @@
 				  </div>
 				 
 		          <div class="row">
-		            <input id="title" placeholder="제목을 입력해 주세요." name='title' oninput="checkLength(this,50);" autofocus/>   
+		            <input id="title" placeholder="제목을 입력해 주세요." name='title' oninput="checkLength(this,46);" autofocus/>   
 		          </div>
 		          
 		          <div>
@@ -119,9 +119,11 @@
 			
 		    for(b=i=0; c=s.charCodeAt(i++);){
 		    
-			    b+=c>>11?3:c>>7?2:1;
-			    //3은 한글인 경우 한글자당 3바이트를 의미,영어는 1바이트 의미 3을2로바꾸면 한글은 2바이트 영어는 1바이트 의미
+			    b+=c>>11?2:c>>7?2:1;
+			    //3은 한글인 경우 한글자당 3바이트를 의미,영어는 1바이트 의미 
+			    //3을2로바꾸면 한글은 2바이트 영어는 1바이트 의미
 			    //현재 나의 오라클 셋팅 같은경우 한글을 한자당 3바이트로 처리
+			    //3에서 2로 바꿈
 			    if (b > maxByte) { 
 			    	break;
 			    }
@@ -135,12 +137,12 @@
 		
 		if(obj.tagName === "INPUT" || obj.tagName === "TEXTAREA"){ 
 			if (stringByteLength > maxByte) {// 전체길이를 초과하면          
-				alert(maxByte + " Byte 이상 입력할 수 없습니다.");         
+				openAlert(maxByte + " Byte 이상 입력할 수 없습니다");         
 				obj.value = reStr;       
 			}   
 		}else if(obj.tagName === "DIV"){
 			if (stringByteLength > maxByte) {// 전체길이를 초과하면          
-				alert(maxByte + " Byte 이상 입력할 수 없습니다.");         
+				openAlert(maxByte + " Byte 이상 입력할 수 없습니다");         
 				obj.innerHTML = reStr;    
 			}   
 		} 
@@ -155,12 +157,12 @@
 		    var maxSize = 5242880; //5MB
 		  
 		    if(fileSize >= maxSize){
-		      alert("파일 사이즈가 5MB를 초과하였습니다.");
+		      openAlert("파일 사이즈가 5MB를 초과하였습니다");
 		      return false;
 		    }
 		    
 		    if(regex.test(fileName)){
-		      alert("해당 확장자 파일은 업로드할 수 없습니다.");
+		      openAlert("해당 확장자 파일은 업로드할 수 없습니다");
 		      return false;
 		    }
 		    return true;
@@ -173,13 +175,13 @@
 			var type = fileName.substring(fileName.lastIndexOf('.')+1, fileName.length);
 			
 			if (fileSize >= maxSize) {
-				alert("파일 사이즈가 5MB를 초과하였습니다.");
+				openAlert("파일 사이즈가 5MB를 초과하였습니다");
 				return false; 
 			}
 			if(type.toUpperCase() == 'JPG' || type.toUpperCase() == 'GIF' || type.toUpperCase() == 'PNG' || type.toUpperCase() == 'BMP'){
 				return true; 
 			}else{
-				alert("해당 확장자 파일은 업로드할 수 없습니다.");
+				openAlert("해당 확장자 파일은 업로드할 수 없습니다");
 				return false;
 			}
 			return true;
@@ -262,7 +264,7 @@
 			  var uploadPhotoLi = $(".photoUploadResult ul li");
 			  
 		  	  if(uploadPhotoLi.length + files.length > 6){
-		  		  alert("사진은 6장을 초과할 수 없습니다.")
+		  		  openAlert("사진은 6장을 초과할 수 없습니다")
 		  	      return false;       
 		  	  }    
 			   
@@ -289,7 +291,7 @@
 			  var uploadFileLi = $(".fileUploadResult ul li");
 			  	
 			  if(uploadFileLi.length + files.length > 3){  
-		  		  alert("첨부파일은 3개를 초과할 수 없습니다.")
+		  		  openAlert("첨부파일은 3개를 초과할 수 없습니다")
 		  	      return false;  
 		  	  }
 			  
@@ -352,7 +354,7 @@
 						 var removeid = removeTarget.getAttribute('data-uuid');
 						 var removeLi = $("#"+removeid);
 						  
-						 removeLi.remove();//photoUploadResult ul li의 이미지도 삭제한다.
+						 removeLi.remove();//photoUploadResult ul li의 이미지도 삭제한다
 						 
 						 var path = removeTarget.getAttribute('data-path');
 						 var filename = removeTarget.getAttribute('data-filename');
@@ -490,7 +492,7 @@
 	    	$("#areaContent").html(contentVal);
 		    
 		    if(selectedValue == 0){
-		    	alert("게시판을 선택 해주세요."); 
+		    	openAlert("게시판을 선택 해주세요"); 
 		    	return false;
 		    }
 		    
@@ -498,7 +500,7 @@
 				 title = $.trim(title);//공백제거
 				
 			if(title == ""){ 
-				alert("제목을 입력하세요."); 
+				openAlert("제목을 입력하세요"); 
 				   return false;
 			}
 				 
@@ -506,7 +508,7 @@
 			content = $.trim(content);
 			
 			if(content == ""){ 
-				alert("내용을 입력하세요."); 
+				openAlert("내용을 입력하세요"); 
 				   return false;
 			}
 		    

@@ -58,9 +58,9 @@
 			                    <c:choose>
 							       <c:when test="${alarm.kind == 0 }"> 
 								        <c:choose>
-										        <c:when test="${fn:length(alarm.commonVar1) gt 17}">
+										        <c:when test="${fn:length(alarm.commonVar1) gt 13}">
 											        <a href="#" class="getBoard" data-alarm_num="${alarm.alarmNum}" data-board_num="${alarm.commonVar2}">
-											        	댓글이 달렸습니다. "<c:out value="${fn:substring(alarm.commonVar1, 0, 17)}"/>....."
+											        	댓글이 달렸습니다. "<c:out value="${fn:substring(alarm.commonVar1, 0, 13)}"/>....."
 										        	</a>
 										        </c:when>
 										        <c:otherwise>
@@ -175,14 +175,14 @@
 							       
 						           <c:when test="${alarm.kind == 9 }">
 						          			<c:choose>
-										        <c:when test="${fn:length(alarm.commonVar1) gt 13}">
+										        <c:when test="${fn:length(alarm.commonVar1) gt 15}">
 										        	<a href="#" class="getUserReportList" data-alarm_num="${alarm.alarmNum}">
-										        		다음 사유로 신고가 접수되었습니다. "<c:out value="${fn:substring(alarm.commonVar1, 0, 13)}"/>....."
+										        		신고 접수 : "<c:out value="${fn:substring(alarm.commonVar1, 0, 15)}"/>....."
 										        	</a>
 										        </c:when>
 										        <c:otherwise>
 										        	<a href="#" class="getUserReportList" data-alarm_num="${alarm.alarmNum}">
-										        		다음 사유로 신고가 접수되었습니다. "<c:out value="${alarm.commonVar1}"/>"
+										        		신고 접수 : "<c:out value="${alarm.commonVar1}"/>"
 										        	</a> 
 										        </c:otherwise>
 											</c:choose>
@@ -378,7 +378,7 @@
 		  checkRow = checkRow.substring(0,checkRow.lastIndexOf( ","));
 		 
 		  if(checkRow == ''){
-		   	 alert("삭제할 알림을 선택하세요.");
+		   	 openAlert("삭제할 알림을 선택하세요");
 		    return false;
 		  }
 		  

@@ -250,7 +250,7 @@
 			신고사유를 입력해주세요.
 		 </div>
 		 <div class="reportText">	 
-		 	<textarea id="reportInput" rows="3" oninput="checkLength(this,60);"></textarea>
+		 	<textarea id="reportInput" rows="3" oninput="checkLength(this,100);"></textarea> 
 		 </div>  
 	 
          <div class="">
@@ -322,12 +322,12 @@
 			
 			if(obj.tagName === "INPUT" || obj.tagName === "TEXTAREA"){ 
 				if (stringByteLength > maxByte) {// 전체길이를 초과하면          
-					alert(maxByte + " Byte 이상 입력할 수 없습니다.");         
+					openAlert(maxByte + " Byte 이상 입력할 수 없습니다");
 					obj.value = reStr;       
 				}   
 			}else if(obj.tagName === "DIV"){
 				if (stringByteLength > maxByte) {// 전체길이를 초과하면          
-					alert(maxByte + " Byte 이상 입력할 수 없습니다.");         
+					openAlert(maxByte + " Byte 이상 입력할 수 없습니다");  
 					obj.innerHTML = reStr;    
 				}   
 			} 
@@ -352,7 +352,8 @@
  		
  		if(!myId){//로그인 여부 확인
  			 
-	  		  alert(loginCheck);
+ 			  openAlert(loginCheck);
+	  		  //alert(loginCheck);
 	  		  return true; 
 	  	 } 
 		
@@ -367,8 +368,9 @@
 		if(commonCheck){//좋아요,싫어요,기부금 체크
 			
 			if(input_id == myId){
-				
-		 		  alert(commonCheck);
+					
+				  openAlert(commonCheck);
+		 		  //alert(commonCheck);
 		 		  return true; 
 		 	 }
 		}
@@ -452,6 +454,7 @@
 			   toUserId		 = data.list[i].toUserId;   
 			   reply_content = data.list[i].reply_content; 
 			   replyDate 	 = data.list[i].replyDate;
+			   /* replyDate 	 = data.list[i].replyDate - 32400000; */
 			   likeCnt 	     = data.list[i].likeCnt;
 			   dislikeCnt 	 = data.list[i].dislikeCnt;
 			   depth   		 = data.list[i].depth;
@@ -806,13 +809,13 @@
 			replyService.ScrapBoard(scrapData, function(result){
 				
 					 if(result == 'success'){
-						 alert("스크랩 하였습니다."); 
+						 openAlert("스크랩 하였습니다");
 			 	 
 					 }else if(result == 'cancel'){
-						 alert("스크랩을 취소하였습니다.");
+						 openAlert("스크랩을 취소하였습니다");
 						 
 					 }else if(result == 'fail'){
-						 alert("스크랩에 실패하였습니다. 관리자에게 문의주세요.");
+						 openAlert("스크랩에 실패하였습니다. 관리자에게 문의주세요");
 					 }
 			});
 	});  
@@ -821,8 +824,8 @@
 
 	$("#like").on("click",function(event){//게시글 좋아요
 		
-		var loginCheck = "로그인후 좋아요를 눌러주세요.";
-		var likeCheck = "자신의 글에는 좋아요를 할 수 없습니다.";
+		var loginCheck = "로그인 후 좋아요를 눌러주세요";
+		var likeCheck = "자신의 글에는 할 수 없습니다";
 		 
 		if(checkUser(board_id, loginCheck, null, likeCheck)){ 
 			return;
@@ -859,8 +862,8 @@
 
 	$("#dislike").on("click",function(event){//게시글 싫어요
 		  
-		var loginCheck = "로그인후 싫어요를 눌러주세요.";
-		var dislikeCheck = "자신의 글에는 싫어요를 할 수 없습니다.";
+		var loginCheck = "로그인 후 싫어요를 눌러주세요";
+		var dislikeCheck = "자신의 글에는 할 수 없습니다";
 		 
 		if(checkUser(board_id, loginCheck, null, dislikeCheck)){ 
 			return;
@@ -900,8 +903,8 @@
 			var reply_id = $(this).data("reply_id");
 			var reply_num = $(this).data("reply_num");
 			var reply_content = $(this).data("reply_content");
-			var loginCheck = "로그인후 좋아요를 눌러주세요.";
-			var likeCheck = "자신의 댓글에는 좋아요를 할 수 없습니다.";
+			var loginCheck = "로그인 후 좋아요를 눌러주세요";
+			var likeCheck = "자신의 댓글에는 할 수 없습니다"; 
 			 
 			if(checkUser(reply_id, loginCheck, null, likeCheck)){ 
 				return;
@@ -940,8 +943,8 @@
 			var reply_id = $(this).data("reply_id");
 			var reply_num = $(this).data("reply_num");
 			var reply_content = $(this).data("reply_content");
-			var loginCheck = "로그인후 싫어요를 눌러주세요.";
-			var dislikeCheck = "자신의 댓글에는 싫어요를 할 수 없습니다.";
+			var loginCheck = "로그인 후 싫어요를 눌러주세요";
+			var dislikeCheck = "자신의 댓글에는 할 수 없습니다";
 			 
 			if(checkUser(reply_id, loginCheck, null, dislikeCheck)){ 
 				return;
@@ -1008,8 +1011,8 @@
 	
 	$("#donateMoney").on("click",function(event){//게시글 기부 모달폼 열기
 		
-		var loginCheck = "로그인후 기부를 해주세요.";
-		var giveCheck = "자신의 글에는 기부를 할 수 없습니다.";
+		var loginCheck = "로그인 후 기부를 해주세요";
+		var giveCheck = "자신의 글에는 할 수 없습니다";
 	
 		if(checkUser(board_id, loginCheck, null, giveCheck)){ 
 			return;  
@@ -1035,8 +1038,8 @@
 		donate_reply_id 	  =  $(this).data("reply_id"); 
 		donate_reply_num 	  =  $(this).data("reply_num");
 		donate_reply_content  =  $(this).data("reply_content");
-		var loginCheck 		  =  "로그인후 기부를 해주세요.";
-		var giveCheck 		  =  "자신의 댓글에는 기부를 할 수 없습니다.";
+		var loginCheck 		  =  "로그인 후 기부를 해주세요";
+		var giveCheck 		  =  "자신의 댓글에는 할 수 없습니다"; 
 		 
 		if(checkUser(donate_reply_id, loginCheck, null, giveCheck)){ 
 			return;
@@ -1062,27 +1065,28 @@
 		inputMoney = parseInt(donateModal.find("input[name='realGiveCash']").val());  
 	
 		if(myCash < inputMoney){
-			alert("보유 캐시가 부족합니다.");
+			openAlert("보유 캐시가 부족합니다");
 			closeDonateModal();
 			return; 
 		} 
 		 
 		if(inputMoney === 0 || inputMoney === ""){   
-			alert("금액을 1원이상 입력해주세요."); 
+			openAlert("금액을 1원이상 입력해주세요");
+			//"금액을 1원이상 입력해주세요."
 			return;
 		}
 		
 		if(option === 'board'){//게시글 기부시
-			
 			var donateData = {	 board_num 	: board_num, //글번호
 							 	 userId     : myId, //기부하는 아이디
+							 	 nickName   : myNickName, //기부하는 닉네임 
 							  	 donatedId  : board_id, //기부받는 아이디
+							  	 donatedNickName  : board_nickName, //기부받는 닉네임
 							  	 money      : inputMoney, //기부금액
 							  	 cash 	    : myCash //기부자의 잔여 캐시
 							 };
 		
-		
-			var alarmData = { 
+			var alarmData = {  
 								target:board_id,
 								commonVar1:board_title,
 								commonVar2:board_num,
@@ -1103,7 +1107,7 @@
 			   	
 				closeDonateModal(); 
 				
-				alert("기부 하였습니다."); 
+				openAlert("기부 하였습니다");
 				
 	   	    });
 			
@@ -1139,7 +1143,7 @@
 				   	
 					closeDonateModal();
 					
-					alert("기부 하였습니다.");  
+					openAlert("기부 하였습니다");
 		   	    });
 		}
 	});
@@ -1184,8 +1188,8 @@
 	$(".replyList").on("click",'button[data-oper="report"]', function(event){//댓글 신고폼 열기 버튼
 		
 		reportedId = $(this).data("reply_id");
-		var loginCheck = "로그인후 신고를 해주세요.";
-		var reportCheck = "자신의 댓글에는 신고를 할 수 없습니다.";
+		var loginCheck = "로그인 후 신고를 해주세요";
+		var reportCheck = "자신의 댓글에는 할 수 없습니다";
 		 
 		if(checkUser(reportedId, loginCheck, null, reportCheck)){ 
 			return;
@@ -1204,8 +1208,9 @@
     	 reason = $.trim(reason);
     	 
     	 if(reason === "") {
-    			alert("신고 사유 입력후 신고해주세요.");
-    			reportInput.focus();
+    			openAlert("신고 사유 입력후 신고해주세요");
+    			//alert("신고 사유 입력후 신고해주세요.");
+    			reportInput.focus();  
 	 			return;
     	 } 
     
@@ -1235,10 +1240,10 @@
 		 replyService.report(commonData, function(result){
 			 
 				 if(result == 'success'){
-					 alert("신고완료 되었습니다.");
+					 openAlert("신고완료 되었습니다");
 					 
-				 }else if(result == 'fail'){
-					 alert("신고되지 않았습니다. 관리자에게 문의주세요.");
+				 }else if(result == 'fail'){	
+					 openAlert("신고되지 않았습니다. 관리자에게 문의주세요");
 				 } 
 				 
 				 closeReportForm();  

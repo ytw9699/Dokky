@@ -80,7 +80,8 @@
 			height: 37px;
 		}
 		.title{
-			width: 60%;
+			width: 42%;
+    		padding-left: 20px;
 		}
 		.title a{
 			color:#333333; 

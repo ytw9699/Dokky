@@ -404,6 +404,7 @@
 								, cashKind
 								, cashAmount
 								, userId
+								, nickName
 								, specification
 								, board_num
 							) values 
@@ -412,6 +413,7 @@
 										, '기부하기'
 										, #{money}
 										, #{userId}
+										, #{nickName}
 										, '게시판'
 										, #{board_num}
 									)
@@ -423,6 +425,7 @@
 								, cashKind
 								, cashAmount
 								, userId
+								, nickName
 								, specification
 								, board_num
 								)   
@@ -432,6 +435,7 @@
 											, '기부받기'
 											, #{money}
 											, #{donatedId}
+											, #{donatedNickName}
 											, '게시판'
 											, #{board_num}
 										)

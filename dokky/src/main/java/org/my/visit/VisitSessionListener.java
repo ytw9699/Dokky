@@ -42,12 +42,25 @@ public class VisitSessionListener implements HttpSessionListener{
 		      vo.setRefer(request.getHeader("referer"));//접속 전 사이트 정보
 	      
 	      service.insertVisitor(vo);
-	      
-	      todayCount = service.getVisitTodayCount();
-          totalCount = service.getVisitTotalCount();
-
+	       
+	      todayCount = service.getVisitTodayCount();//0
+	      totalCount = service.getVisitTotalCount();
+          
 	      session.setAttribute("totalCount", totalCount); 
 	      session.setAttribute("todayCount", todayCount);
+	      
+	      String tests1 = service.tests1();//0
+	      String tests2 = service.tests2();//0
+	      String tests3 = service.tests3();//0
+	      String tests4 = service.tests4();//0
+	      String tests5 = service.tests5();//0
+	      String tests6 = service.tests6();//0
+	      log.info("tests11111"+tests1);
+	      log.info("tests22222"+tests2);
+	      log.info("tests33333"+tests3);
+	      log.info("tests44444"+tests4);
+	      log.info("tests55555"+tests5);
+	      log.info("tests66666"+tests6);
 		
 	 }
 	 @Override  //세션이 파괴될 때 호출

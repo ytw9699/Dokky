@@ -25,7 +25,11 @@
 						<td class="title">   
 							<a class='move' href='/board/get?board_num=<c:out value="${board.board_num}"/>'> 
 								<c:out value="${board.title}" /> 
-								<span class="replyCnt">[<c:out value="${board.replyCnt}" />]</span>
+								<span class="replyCnt">
+									<c:if test="${board.replyCnt > 0}">
+										[<c:out value="${board.replyCnt}" />]
+							        </c:if>
+								</span> 
 							</a>
 						</td> 
 						<td class="td">
@@ -47,7 +51,7 @@
 							    \<fmt:formatNumber type="number" maxFractionDigits="3" value="${board.money}"/>
 						</td>
 						<td class="td"> 
-							<a href="#" class="userMenu" data-board_num="${board.board_num}" data-menu_kind="realtime">
+							<a href="" class="userMenu" data-board_num="${board.board_num}" data-menu_kind="realtime">
 								<img src="/resources/img/profile_img/<c:out value="${board.userId}" />.png"  class="memberImage hideUsermenu" onerror="this.src='/resources/img/profile_img/basicProfile.png'" />
 								<c:out value="${board.nickName}" /> 
 							</a> 
@@ -91,7 +95,11 @@
 						<td class="title">  
 							<a class='move' href='/board/get?board_num=<c:out value="${board.board_num}"/>'> 
 								<c:out value="${board.title}" /> 
-								<span class="replyCnt">[<c:out value="${board.replyCnt}" />]</span>
+								<span class="replyCnt">
+									<c:if test="${board.replyCnt > 0}">
+										[<c:out value="${board.replyCnt}" />]
+							        </c:if>
+								</span> 
 							</a>
 						</td> 
 						<td class="td">
@@ -113,7 +121,7 @@
 							    \<fmt:formatNumber type="number" maxFractionDigits="3" value="${board.money}"/>
 						</td>
 						<td class="td">
-							<a href="#" class="userMenu" data-board_num="${board.board_num}" data-menu_kind="like">
+							<a href="" class="userMenu" data-board_num="${board.board_num}" data-menu_kind="like">
 								<img width="25px" src="/resources/img/profile_img/<c:out value="${board.userId}" />.png"  class="memberImage hideUsermenu" onerror="this.src='/resources/img/profile_img/basicProfile.png'" />
 								<c:out value="${board.nickName}" />
 							</a> 
@@ -157,7 +165,11 @@
 						<td class="title">  
 							<a class='move' href='/board/get?board_num=<c:out value="${board.board_num}"/>'> 
 								<c:out value="${board.title}" /> 
-								<span class="replyCnt">[<c:out value="${board.replyCnt}" />]</span>
+								<span class="replyCnt">
+									<c:if test="${board.replyCnt > 0}">
+										[<c:out value="${board.replyCnt}" />]
+							        </c:if>
+								</span>  
 							</a>    
 						</td> 
 						<td class="td">
@@ -179,7 +191,7 @@
 							    \<fmt:formatNumber type="number" maxFractionDigits="3" value="${board.money}"/>
 						</td>
 						<td class="td">
-							<a href="#" class="userMenu" data-board_num="${board.board_num}" data-menu_kind="donate"> 
+							<a href="" class="userMenu" data-board_num="${board.board_num}" data-menu_kind="donate"> 
 								<img width="25px" src="/resources/img/profile_img/<c:out value="${board.userId}" />.png"  class="memberImage hideUsermenu" onerror="this.src='/resources/img/profile_img/basicProfile.png'" />
 								<c:out value="${board.nickName}" />
 							</a> 
@@ -213,7 +225,12 @@
 			</table>
 		</div>
 		
-		
+	</div>
+	
+	<div class="footer"> 
+		<div class="info"> 
+			이용약관 | 개인정보처리방침 | 책임의 한계와 법적고지 | 회원정보 고객센터 
+		</div>
 	</div>
 	<script>
 	 
@@ -265,6 +282,8 @@
 	 
 	$(".userMenu").on("click",function(event){//해당 메뉴바 보이기 이벤트
 		
+		event.preventDefault();//화면움직임 막기
+			
 		var	board_num = $(this).data("board_num");
 		var	menu_kind = $(this).data("menu_kind");
 		
@@ -295,7 +314,7 @@
 	<c:if test="${check != null}"> 
 	      <script>
 		      $(document).ready(function(){
-		      	alert('${check}'); 
+		      	openAlert('${check}'); 
 		      });
 	      </script>
 	</c:if>  

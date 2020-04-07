@@ -9,6 +9,10 @@
 		select * from DK_MEMBER where userId = #{userId}
 	</select>
 	
+	<select id="checkNickname" resultType="int">
+		select count(*) from DK_MEMBER where nickName = #{nickName}
+	</select>
+	
 	<!-- 나의 정보 변경하기 -->
 	<update id="updateMyInfo">
 		update DK_MEMBER set 
@@ -16,6 +20,50 @@
 			bankName = #{bankName},
 			account  = #{account}
 	  where userId   = #{userId}
+	</update>
+	
+	<select id="getMyNickName" resultType="String">
+		select nickName from DK_MEMBER where userId = #{userId}
+	</select>
+	
+	<!-- 게시글 닉네임 변경처리 -->
+	<update id="updateBoardNickName">
+		update dk_board set nickName = #{nickName} where userId = #{userId}	
+	</update>
+	
+	<!-- 댓글 닉네임 변경처리 -->
+	<update id="updateReplyNickName">
+		update dk_reply set nickName = #{nickName} where userId = #{userId}
+	</update>
+	
+	<!-- 쪽지 받는이 닉네임 변경처리 -->
+	<update id="updateNoteFromNickName">
+		update dk_note set FROM_NICKNAME = #{nickName} where FROM_ID = #{userId}
+	</update>
+	
+	<!-- 쪽지 보낸이 닉네임 변경처리 -->
+	<update id="updateNoteToNickName">
+		update dk_note set TO_NICKNAME = #{nickName} where TO_ID = #{userId}
+	</update>
+	
+	<!-- 알림 닉네임 변경처리 -->
+	<update id="updateAlarmNickName">
+		update dk_alarm set writerNick = #{nickName} where writerId = #{userId}
+	</update>
+	
+	<!-- 캐시 내역 닉네임 변경처리 -->
+	<update id="updateCashlistNickName">
+		update dk_cash set nickName = #{nickName} where userId = #{userId}
+	</update>
+
+	<!-- 신고 당한자 닉네임 변경처리 -->
+	<update id="updateReportedNickName">
+		update dk_report set reportedNick = #{nickName} where reportedId = #{userId}
+	</update>
+	
+	<!--  신고 하는자 닉네임 변경처리 -->
+	<update id="updateReportingNickName">
+		update dk_report set reportingNick = #{nickName} where reportingId = #{userId}
 	</update>
 	
 	<!-- 비밀번호 가져오기 --> 
@@ -29,26 +77,28 @@
 	</update>
 	
 	<select id="getMyBoardList" resultType="org.my.domain.BoardVO"> 
-	select board_num,
-		   title,
-		   replyCnt,
-		   hitCnt,
-		   category,
-		   likeCnt,
-		   money,
-		   regdate from 
-			 ( select /*+INDEX_DESC(DK_BOARD PK_DK_BOARD) */ rownum rn,
-			 														board_num,
-			 														title,
-			 														replyCnt, 
-			 														hitCnt,
-			 														category,
-			 														likeCnt,
-		 															money,
-			 														regdate
-			from DK_BOARD where userId = #{userId} and <![CDATA[ rownum <= #{pageNum} * #{amount} )
-				  where rn > (#{pageNum} -1) * #{amount}  
-				  ]]>
+		select board_num,
+			   title,
+			   NICKNAME,
+			   replyCnt,
+			   hitCnt,
+			   category,
+			   likeCnt,
+			   money,
+			   regdate from 
+				 ( select /*+INDEX_DESC(DK_BOARD PK_DK_BOARD) */ rownum rn,
+				 														board_num,
+				 														NICKNAME,
+				 														title,
+				 														replyCnt, 
+				 														hitCnt,
+				 														category,
+				 														likeCnt,
+			 															money,
+				 														regdate
+				from DK_BOARD where userId = #{userId} and <![CDATA[ rownum <= #{pageNum} * #{amount} )
+					  where rn > (#{pageNum} -1) * #{amount}  
+					  ]]>
 	</select>
 	
 	<select id="getMyBoardCount" resultType="int">
@@ -61,6 +111,7 @@
 			  , board_num
 			  , reply_content
 			  , userId
+			  , nickName
 			  , replydate
 		 from 
 		   (
@@ -69,6 +120,7 @@
 												     , board_num
 												     , reply_content
 												     , userId
+												     , nickName
 												     , replydate
 		   		from DK_REPLY
 		    		where userId = #{userId}
@@ -163,6 +215,7 @@
 							cashKind,
 							cashAmount,
 							userId,
+							nickName,
 							specification
 							) values 
 										(
@@ -170,6 +223,7 @@
 										#{cashKind},
 										#{cashAmount},
 										#{userId},
+										#{nickName},
 										#{specification} 
 										)
 	</insert>
@@ -180,13 +234,15 @@
 							cashKind,
 							cashAmount,
 							userId,
+							nickName,
 							specification
-							) values 
+							) values
 										(
 										seq_dk_cash.nextval,
 										#{cashKind},
 										#{cashAmount},
 										#{userId},
+										#{nickName},
 										#{specification} 
 										)
 	</insert>

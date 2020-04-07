@@ -1,0 +1,58 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans:beans xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xmlns:p="http://www.springframework.org/schema/p"
+	xmlns:beans="http://www.springframework.org/schema/beans"
+	xmlns:context="http://www.springframework.org/schema/context"
+	xmlns:security="http://www.springframework.org/schema/security"
+	xmlns:mvc="http://www.springframework.org/schema/mvc"
+	xsi:schemaLocation="http://www.springframework.org/schema/security http://www.springframework.org/schema/security/spring-security.xsd
+		http://www.springframework.org/schema/mvc http://www.springframework.org/schema/mvc/spring-mvc.xsd
+		http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd
+		http://www.springframework.org/schema/context http://www.springframework.org/schema/context/spring-context.xsd">
+
+	<!-- DispatcherServlet Context: defines this servlet's request-processing infrastructure -->
+	
+	<!-- Enables the Spring MVC @Controller programming model -->
+	<mvc:annotation-driven />
+
+	<!-- Handles HTTP GET requests for /resources/** by efficiently serving up static resources in the ${webappRoot}/resources directory -->
+	<mvc:resources mapping="/resources/**" location="/resources/" />
+
+	<!-- Resolves views selected for rendering by @Controllers to .jsp resources in the /WEB-INF/views directory -->
+	<beans:bean class="org.springframework.web.servlet.view.InternalResourceViewResolver" p:order="1">
+		<beans:property name="prefix" value="/WEB-INF/views/" />
+		<beans:property name="suffix" value=".jsp" />
+	</beans:bean>
+	
+	<beans:bean class="org.springframework.web.servlet.view.BeanNameViewResolver" p:order="0" />
+	
+    <beans:bean id="DownloadView" class="org.my.utils.DownloadView"/>
+	
+	<beans:bean id="multipartResolver"
+		class="org.springframework.web.multipart.support.StandardServletMultipartResolver">
+	</beans:bean>
+	
+	<mvc:interceptors>
+		<!-- 몇개의 지정경로만도 설정가능-->
+		<mvc:interceptor>
+				<mvc:mapping path="/board/get/**"/>
+				<mvc:mapping path="/board/list/**"/>
+				<mvc:mapping path="/board/allList/**"/>
+				<mvc:mapping path="/board/register/**"/>
+				<mvc:mapping path="/userBoardList/**"/>
+				<mvc:mapping path="/main"/>
+				<mvc:mapping path="/admin/**"/>
+			<beans:bean id ="preUrlInterceptor" class="org.my.utils.preUrlInterceptor"/>
+		</mvc:interceptor>
+		<!-- 지정경로 설정 -->
+	</mvc:interceptors>
+	
+	
+	<context:component-scan base-package="org.my.controller" />
+	<!-- <context:component-scan base-package="org.my.exception" /> -->
+	
+	<security:global-method-security pre-post-annotations="enabled" secured-annotations="enabled" />
+		<!-- 어노테이션을 이용하는 스프링 시큐리티 설정 / 어노테이션은 기본으로 ’disabled’되어 있으므로 enabled'로 설정 -->
+		<!-- 어노테이션을 활성화하기 위해서는 스프링 MVC의 설정을 담당하는 servlet-context.xml에 관련 설정이 추가된다는 점 -->
+	
+</beans:beans>

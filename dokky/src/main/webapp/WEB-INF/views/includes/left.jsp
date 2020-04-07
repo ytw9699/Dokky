@@ -56,14 +56,14 @@
    	  <sec:authorize access="hasAnyRole('ROLE_ADMIN','ROLE_USER')">
 	  		<span class="mypage">
 		  		<form class="logoutForm" method='post' action="/logout">
-				    <input class="logoutBtn" type="submit" value="로그아웃(사용자)">  
+				    <input class="logoutBtn" type="submit" value="로그아웃">  
 				</form> 
 			</span>
 	   </sec:authorize>
 	   <sec:authorize access="hasRole('ROLE_SUPER')">
 	  		<span class="mypage">
 		  		<form class="logoutForm" method='post' action="/customLogout">
-				    <input class="logoutBtn" type="submit" value="로그아웃(관리자)">
+				    <input class="logoutBtn" type="submit" value="로그아웃">
 				</form> 
 			</span>
 	   </sec:authorize>
@@ -141,10 +141,24 @@
 			</div> 
 		</div>
 		
-	</div>
+	</div> 
+	
+	<div id="alertFakeDiv"></div> 
+	<div id="alertDiv">
+			<div id="alertContent"></div>  
+			<input type="button" id="alertConfirm" value="확인" onclick="closeAlert();" /> 
+	</div> 
+	
 	<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
 	<script>
 	
+	var username = null;
+	
+	<sec:authorize access="isAuthenticated()"> 
+		username = '${userInfo.username}';
+	</sec:authorize>
+
+	 
 	$(".leftUsermenu").on("click",function(event){//메뉴바 보이기 이벤트 
 			 
 			event.preventDefault();
@@ -159,9 +173,44 @@
 				$("#leftUsermenuBar").css("display","none");  	
 			} 
 	});   
+	
+	function openAlert(content){
+		
+		$(".userMenubar").css("display","none");
+		
+		var alertFakeDiv = $("#alertFakeDiv");
+		var alertDiv = $("#alertDiv");
+		var alertContent = $("#alertContent");
+		
+		alertContent.html(content); 
+		 
+		alertFakeDiv.css("display","block");
+		alertDiv.css("display","block"); 
+	}
+	
+	function closeAlert(content){  
+		
+		var alertFakeDiv = $("#alertFakeDiv");
+		var alertDiv = $("#alertDiv");
+		
+		alertFakeDiv.css("display","none");
+		alertDiv.css("display","none"); 
+		alertContent.html(""); 
+	}
 
 	function noteOpen(userId,nickname){
 			
+		if(username == null){ 
+			
+			//$("#UserMenubar_board").css("display","block").addClass('addBlockClass');
+			openAlert("로그인 해주세요");
+			//alert("로그인 해주세요."); 
+			
+			return;
+		}
+		
+		$(".userMenubar").css("display","none");
+		
 		var popupX = (window.screen.width / 2) - (400 / 2); 
 
 		var popupY= (window.screen.height /2) - (500 / 2);
@@ -206,7 +255,7 @@
 	<sec:authorize access="isAuthenticated()"> 
 		var alarmCount = $(".alarmCount");
 		var noteCount = $(".noteCount");
-		var userId = '${userInfo.username}';
+		var userId = '${userInfo.username}'; 
 	</sec:authorize>
 	
 	function schedule(){

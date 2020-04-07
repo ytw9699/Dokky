@@ -7,8 +7,8 @@
 <html>
 <head>
 	<meta charset="utf-8"> 
-	<title>Dokky - 로그인</title>
-	<link href="/resources/css/customLogin.css" rel="stylesheet" type="text/css"/>
+	<title>Dokky - 로그인</title> 
+	<link href="/resources/css/superAdminLogin.css" rel="stylesheet" type="text/css"/>
 </head>
 <body> 
 <div class="loginWrap">
@@ -32,11 +32,20 @@
 				
 				<div class="form-group loginGroup">
 					<button class="btn" id="login" >로그인</button>
-					<!-- <button class="btn" id="join">관리자 회원가입</button> -->
+					<button class="btn" id="join">관리자 회원가입</button> 
 				</div>
 				
 			<input type="hidden" name="${_csrf.parameterName}" value="${_csrf.token}" />
 		</form> 
+	</div>
+	
+	<div class="footer"> 
+		<div class="info"> 
+			이용약관 | 개인정보처리방침 | 책임의 한계와 법적고지 | 회원정보 고객센터 
+		</div>
+		<div class="socialLogin">
+			<a href="/socialLogin">사용자 로그인</a>  
+		</div>
 	</div>
 </div>
 <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
@@ -73,12 +82,12 @@
 		
 		if(obj.tagName === "INPUT" || obj.tagName === "TEXTAREA"){ 
 			if (stringByteLength > maxByte) {// 전체길이를 초과하면          
-				alert(maxByte + " Byte 이상 입력할 수 없습니다.");         
+				openAlert(maxByte + " Byte 이상 입력할 수 없습니다");         
 				obj.value = reStr;       
 			}   
 		}else if(obj.tagName === "DIV"){
 			if (stringByteLength > maxByte) {// 전체길이를 초과하면          
-				alert(maxByte + " Byte 이상 입력할 수 없습니다.");         
+				openAlert(maxByte + " Byte 이상 입력할 수 없습니다");         
 				obj.innerHTML = reStr;    
 			}   
 		} 
@@ -92,7 +101,7 @@
 	     userId = $.trim(userId);//공백제거
 	     
 			if(userId == ""){ 
-				alert("아이디를 입력하세요."); 
+				openAlert("아이디를 입력하세요"); 
 				   return true;
 			}
 	     
@@ -100,7 +109,7 @@
 		 password = $.trim(password);//공백제거
 	     
 			if(password == ""){ 
-				alert("비밀번호를 입력하세요."); 
+				openAlert("비밀번호를 입력하세요"); 
 				  return true;
 			}
 		
@@ -113,22 +122,31 @@
 		    if(memberCheck()){
 		    	return; 
 		    }
+		  
+		    if($('#userId').val() != 'admin'){ 
+		    	openAlert("관리자 아이디로만 로그인 할 수 있습니다"); 
+		    	return; 
+		    }
 		    
 		    $("form").submit();
 	  });
 	  
-	  /* $("#join").on("click", function(e){
-		    e.preventDefault();
+	  $("#join").on("click", function(e){
+
+		  	e.preventDefault();
 		    
-		    location.href='/adminMemberForm';
-	  }); */
+	    	openAlert("슈퍼관리자로 현재 가입 할 수 없습니다"); 
+	    	return; 
+		    
+		    location.href='/adminMemberForm'; 
+	  });
 	  
 </script>
 
 	<c:if test="${param.error != null}">
 	      <script>
 		      $(document).ready(function(){
-		      	alert("관리자에게 문의해주세요");
+		      	openAlert("관리자에게 문의해주세요");
 		      });
 	      </script>
 	</c:if>  
@@ -136,7 +154,7 @@
 	<c:if test="${check != null}"> 
 	      <script>
 		      $(document).ready(function(){
-		      	alert('${check}'); 
+		      	openAlert('${check}'); 
 		      });
 	      </script>
 	</c:if>  
