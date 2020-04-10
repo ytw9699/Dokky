@@ -251,8 +251,6 @@
 	  
 	  $("input[type='file']").change(function(e){//업로드하기 
 		  
-		  alert(1111);
-	  
 		  var formData = new FormData();
 		  
 		  var inputName = $(this).attr("name");
@@ -312,10 +310,6 @@
 		  }  
 		  		  inputFile.val("");  
 		  
-		  alert(222);
-		  alert(formData);
-		  console.log(formData);
-		  		
 		  $.ajax({
 			      url: '/s3upload',
 			      type: 'POST',
