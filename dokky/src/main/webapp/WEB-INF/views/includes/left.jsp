@@ -200,6 +200,8 @@
 
 	function noteOpen(userId,nickname){
 			
+		$(".userMenubar").css("display","none");
+		
 		if(username == null){ 
 			
 			//$("#UserMenubar_board").css("display","block").addClass('addBlockClass');
@@ -208,8 +210,6 @@
 			
 			return;
 		}
-		
-		$(".userMenubar").css("display","none");
 		
 		var popupX = (window.screen.width / 2) - (400 / 2); 
 

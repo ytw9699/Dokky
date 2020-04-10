@@ -124,7 +124,7 @@
 	}
 	
 	$("#submitBtn").on("click", function(e){//쪽지 보내기 버튼
-    
+    		
 		    e.preventDefault();
 				 
 			/* var to_id = $("#to_id").html();
@@ -157,13 +157,12 @@
 		    
 		    insertNote(noteData, function(result){
 					openAlert(result);  
-					window.close();
+					window.close(); 
+					opener.openAlert("쪽지를 보냈습니다"); 
 	   	    });
     });
 	
-	function openAlert(content){
-		
-		//$(".userMenubar").css("display","none"); 
+	function openAlert(content){ 
 		
 		var alertFakeDiv = $("#alertFakeDiv");
 		var alertDiv = $("#alertDiv"); 
