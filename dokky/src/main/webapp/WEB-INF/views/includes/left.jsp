@@ -195,8 +195,8 @@
 		
 		alertFakeDiv.css("display","none");
 		alertDiv.css("display","none"); 
-		alertContent.html(""); 
-	}
+		//alertContent.html(""); 
+	}  
 
 	function noteOpen(userId,nickname){
 			
