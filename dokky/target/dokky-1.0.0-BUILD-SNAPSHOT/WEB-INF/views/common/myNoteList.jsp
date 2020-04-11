@@ -136,6 +136,7 @@
 		    xhr.setRequestHeader(csrfHeaderName, csrfTokenValue);
 	    });
 		
+		/* 
 		function noteOpen(userId,nickname){
 			
 			var popupX = (window.screen.width / 2) - (400 / 2);
@@ -143,7 +144,8 @@
 			var popupY= (window.screen.height /2) - (500 / 2);
 		         
 	        window.open('/minRegNote?userId='+userId+'&nickname='+nickname, 'ot', 'height=500, width=400, left='+ popupX + ', top='+ popupY + ', screenX='+ popupX + ', screenY= '+ popupY);
-	    } 
+	    }  
+		*/
 		
 		function checkAll(){
 		      if( $("#checkAll").is(':checked') ){ 

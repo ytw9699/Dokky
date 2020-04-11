@@ -195,11 +195,15 @@
 		
 		alertFakeDiv.css("display","none");
 		alertDiv.css("display","none"); 
-		alertContent.html(""); 
-	}
+		//alertContent.html(""); 
+	}  
 
 	function noteOpen(userId,nickname){
 			
+		$(".userMenubar").css("display","none");
+		
+		$("#leftUsermenuBar").css("display","none"); 
+		
 		if(username == null){ 
 			
 			//$("#UserMenubar_board").css("display","block").addClass('addBlockClass');
@@ -208,8 +212,6 @@
 			
 			return;
 		}
-		
-		$(".userMenubar").css("display","none");
 		
 		var popupX = (window.screen.width / 2) - (400 / 2); 
 

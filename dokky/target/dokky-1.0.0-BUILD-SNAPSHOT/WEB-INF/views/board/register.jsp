@@ -41,7 +41,7 @@
 				  </div>
 				 
 		          <div class="row">
-		            <input id="title" placeholder="제목을 입력해 주세요." name='title' oninput="checkLength(this,46);" autofocus/>   
+		            <input id="title" placeholder="제목을 입력해 주세요." name='title' oninput="checkLength(this,40);" autofocus/>   
 		          </div>
 		          
 		          <div>
