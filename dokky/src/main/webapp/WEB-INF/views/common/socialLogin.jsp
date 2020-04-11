@@ -12,15 +12,15 @@
 </head>
 <body> 
 <div class="loginWrap">
-
-	<div class="title">
-			Login 
-	</div>
 	
-	<div class="cutom-group">
+	
+	<div class="title">
+			<a href="/socialLogin">Login</a>   
+	</div>
+<!--<div class="cutom-group">
 		구글 또는 네이버 계정으로만 <br/><br/>
 		로그인 및 회원가입을 할 수 있습니다.
-	</div>
+	</div> -->
 				
 	<div class="container"> 
 			<div class="cutom-group loginGroup">
