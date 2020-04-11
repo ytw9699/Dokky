@@ -202,6 +202,8 @@
 			
 		$(".userMenubar").css("display","none");
 		
+		$("#leftUsermenuBar").css("display","none"); 
+		
 		if(username == null){ 
 			
 			//$("#UserMenubar_board").css("display","block").addClass('addBlockClass');
