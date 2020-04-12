@@ -206,8 +206,9 @@
 		}
 
 		#alertContent{ 
-		    width: 100%;
+		    width: 110%;
 		    margin-bottom: 5%;
+		    margin-left: -3%;
 		    text-align: center;
 		    font-size: 17px;
 		    color: #555;
