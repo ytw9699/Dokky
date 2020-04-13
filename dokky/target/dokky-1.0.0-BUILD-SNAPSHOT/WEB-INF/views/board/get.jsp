@@ -791,10 +791,17 @@
 	   
 	$("#remove_button").on("click", function(e){//게시글 삭제
 		
-		if(func_confirm('정말 삭제 하시겠습니까?')){
+		deleting('정말 삭제 하시겠습니까?', function(result) {
+			  if(result){
+				  operForm.attr("action","/board/remove").attr("method","post");
+			      operForm.submit();
+			  }
+		});
+	
+		/* if(func_confirm('정말 삭제 하시겠습니까?')){
 			operForm.attr("action","/board/remove").attr("method","post");
 		    operForm.submit();
-		}
+		} */
 	}); 
 	
 	/////////////////////////////////////////////////////////
@@ -1430,8 +1437,7 @@
 	});
 	
 	///////////////////////////////////////////////////////
-	
-	$(".replyList").on("click",'button[data-oper="delete"]', function(event){//댓글 삭제
+	/* $(".replyList").on("click",'button[data-oper="delete"]', function(event){//댓글 삭제
 		
 		if(func_confirm('정말 삭제 하시겠습니까?')){
 			
@@ -1439,9 +1445,22 @@
 					
 				  	      showReplyList(pageNum);//삭제후 댓글 페이지 유지하면서 리스트 다시 호출 
 				}); 
-		}
+		}   
+	});  */
+	
+	$(".replyList").on("click",'button[data-oper="delete"]', function(event){//댓글 삭제
+		
+		var reply_num =  $(this).data("reply_num"); 
+		var reply_id = $(this).data("reply_id"); 
+		
+		deleting('정말 삭제 하시겠습니까?', function(result) {
+			if(result){  
+					replyService.remove( reply_num, reply_id, board_num, function(result){
+		  	        showReplyList(pageNum);//삭제후 댓글 페이지 유지하면서 리스트 다시 호출 
+				}); 
+			} 
+		});
 	}); 
-			
 	///////////////////////////////////////////////////////
 
    $(document).ready(function(){//첨부파일 즉시 함수
