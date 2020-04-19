@@ -9,7 +9,7 @@
 <head>
 <meta charset="UTF-8"> 
 <title>Dokky - 알림</title>
-<link href="/resources/css/alarmList.css" rel="stylesheet" type="text/css"/>
+<link href="/ROOT/resources/css/alarmList.css" rel="stylesheet" type="text/css"/>
 </head>
 <%@include file="../includes/left.jsp"%>
 
@@ -35,7 +35,7 @@
 	                    
 	                    <td class="td"> 
 							<a href="#" class="userMenu" data-alarm_num="${alarm.alarmNum}">
-								<img src="/resources/img/profile_img/<c:out value="${alarm.writerId}" />.png"  class="memberImage hideUsermenu" onerror="this.src='/resources/img/profile_img/basicProfile.png'" />
+								<img src="/upload/<c:out value="${alarm.writerId}" />.png"  class="memberImage hideUsermenu" onerror="this.src='/ROOT/resources/img/profile_img/basicProfile.png'" />
 								<c:out value="${alarm.writerNick}" /> 
 							</a>
 							 

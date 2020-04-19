@@ -9,7 +9,7 @@
 <head>
 	<meta charset="UTF-8">
 	<title>Dokky - 수정하기</title>    
-	<link href="/resources/css/modify.css" rel="stylesheet" type="text/css">
+	<link href="/ROOT/resources/css/modify.css" rel="stylesheet" type="text/css">
 </head>  
 <body> 
 

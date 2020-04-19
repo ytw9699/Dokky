@@ -8,7 +8,7 @@
 <head>
 	<meta charset="utf-8"> 
 	<title>Dokky - 로그인</title>
-	<link href="/resources/css/socialLogin.css" rel="stylesheet" type="text/css"/>
+	<link href="/ROOT/resources/css/socialLogin.css" rel="stylesheet" type="text/css"/>
 </head>
 <body> 
 <div class="loginWrap">
@@ -24,8 +24,8 @@
 				
 	<div class="container"> 
 			<div class="cutom-group loginGroup">
-				<img src="/resources/img/googleLogo.png" id="google" class="logo"/>
-				<img src="/resources/img/naverLogo.png" id="naver" class="logo"/>
+				<img src="/ROOT/resources/img/googleLogo.png" id="google" class="logo"/>
+				<img src="/ROOT/resources/img/naverLogo.png" id="naver" class="logo"/>
 			</div>
 	</div>
 	

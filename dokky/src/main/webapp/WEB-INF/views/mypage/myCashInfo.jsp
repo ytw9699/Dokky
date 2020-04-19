@@ -9,7 +9,7 @@
 <head>
 <meta charset="UTF-8"> 
 	<title>Dokky - 캐시</title>
-	<link href="/resources/css/myCashInfo.css" rel="stylesheet" type="text/css"/> 
+	<link href="/ROOT/resources/css/myCashInfo.css" rel="stylesheet" type="text/css"/> 
 </head>
 <body>
 	<sec:authentication property="principal" var="userInfo"/>

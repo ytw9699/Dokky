@@ -9,7 +9,7 @@
 <head>
 <meta charset="UTF-8">
 <title>Dokky - 나의 게시글</title> 
-<link href="/resources/css/myBoardList.css" rel="stylesheet" type="text/css"/>
+<link href="/ROOT/resources/css/myBoardList.css" rel="stylesheet" type="text/css"/>
 </head>
 <%@include file="../includes/left.jsp"%> 
 <body>

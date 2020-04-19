@@ -8,7 +8,7 @@
 	<head>
 		<meta charset="UTF-8">
 		<title>Dokky - 상세페이지</title> 
-		<link href="/resources/css/get.css" rel="stylesheet" type="text/css">
+		<link href="/ROOT/resources/css/get.css" rel="stylesheet" type="text/css">
 		<%@include file="../includes/left.jsp"%> 
 	</head>
 <body> 
@@ -41,7 +41,7 @@
 			
 			<div class="nickName">
 				<a href="#" id="board_userMenu" class="userMenu">
-					<img src="/resources/img/profile_img/<c:out value="${board.userId}" />.png"  class="memberImage hideUsermenu" onerror="this.src='/resources/img/profile_img/basicProfile.png'" />
+					<img src="/upload/<c:out value="${board.userId}" />.png"  class="memberImage hideUsermenu" onerror="this.src='/ROOT/resources/img/profile_img/basicProfile.png'" />
 					<c:out value="${board.nickName}" /> 
 				</a>
 			</div>
@@ -479,7 +479,7 @@
 		    	  str += "<div class='reply' data-reply_num='"+reply_nums+"'>" 
 			    	  		   + "<span>"
 								   + "<a href='#' class='userMenu' data-reply_num='"+reply_nums+"' data-menu_kind='from'>"   
-									   + "<img src='/resources/img/profile_img/"+userId+".png' class='memberImage hideUsermenu' onerror='this.src=\"/resources/img/profile_img/basicProfile.png\"'/>&nbsp"
+									   + "<img src='/upload/"+userId+".png' class='memberImage hideUsermenu' onerror='this.src=\"/ROOT/resources/img/profile_img/basicProfile.png\"'/>&nbsp"
 									   + nickName
 								   + "</a>"
 							   + "</span>" 
@@ -574,7 +574,7 @@
     	   			     str += "<span class='depthLine'>└ </span>"
 	    	   			  	   +"<span>"
 							       + "<a href='#' class='userMenu' data-reply_num='"+reply_nums+"' data-menu_kind='from'>"   
-									   + "<img src='/resources/img/profile_img/"+userId+".png' class='memberImage hideUsermenu' onerror='this.src=\"/resources/img/profile_img/basicProfile.png\"'/>&nbsp"
+									   + "<img src='/upload/"+userId+".png' class='memberImage hideUsermenu' onerror='this.src=\"/ROOT/resources/img/profile_img/basicProfile.png\"'/>&nbsp"
 									   + nickName
 							       + "</a>"
 						   	   + "</span>"
@@ -599,7 +599,7 @@
 							   
 							   + "<span>"
 							       + "<a href='#' class='userMenu' data-reply_num='"+reply_nums+"' data-menu_kind='to'>"
-									   + "<img src='/resources/img/profile_img/"+toUserId+".png' class='memberImage hideUsermenu' onerror='this.src=\"/resources/img/profile_img/basicProfile.png\"'/>&nbsp"
+									   + "<img src='/upload/"+toUserId+".png' class='memberImage hideUsermenu' onerror='this.src=\"/ROOT/resources/img/profile_img/basicProfile.png\"'/>&nbsp"
 									   + toNickName
 							       + "</a>"
 				   	   		   + "</span>"

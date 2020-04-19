@@ -9,7 +9,7 @@
 <head>
 <meta charset="UTF-8">
 	<title>Dokky - 회원가입</title> 
-<link href="/resources/css/memberForm.css" rel="stylesheet" type="text/css"/>
+<link href="/ROOT/resources/css/memberForm.css" rel="stylesheet" type="text/css"/>
 </head>
 <body>
 	<div class="memberFormWrap">	
