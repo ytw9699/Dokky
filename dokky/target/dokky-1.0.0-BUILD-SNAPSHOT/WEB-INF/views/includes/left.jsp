@@ -6,7 +6,7 @@
 <html>
 <head>
 <meta charset="UTF-8"> 
-<link href="/resources/css/left.css" rel="stylesheet" type="text/css"/>
+<link href="/ROOT/resources/css/left.css" rel="stylesheet" type="text/css"/>
 </head>  
 <body>
 		<sec:authentication property="principal" var="userInfo"/>
@@ -23,8 +23,9 @@
 		<div class="mypage topMypage">  
 					<a href="#" class="leftUsermenu">
 					  	  <%-- <img id="leftProfile" src="/display?fileName=<c:out value="${userInfo.username}"/>.png" class="memberImage leftHideusermenu" onerror="this.src='/resources/img/basicProfile.png'"/> --%>
-					  	  <img id="leftProfile" src="/resources/img/profile_img/<c:out value="${userInfo.username}"/>.png" class="memberImage leftHideusermenu" onerror="this.src='/resources/img/profile_img/basicProfile.png'" />
-					  	  <c:out value="${userInfo.member.nickName}"/>     
+					  	  <%-- <img id="leftProfile" src="/resources/img/profile_img/<c:out value="${userInfo.username}"/>.png" class="memberImage leftHideusermenu" onerror="this.src='/resources/img/profile_img/basicProfile.png'" /> --%>
+					  	  <img id="leftProfile" src="/upload/<c:out value="${userInfo.username}"/>.png" class="memberImage leftHideusermenu" onerror="this.src='/ROOT/resources/img/profile_img/basicProfile.png'" />
+					  	  <c:out value="${userInfo.member.nickName}"/>    
 			  	    </a> 
 			  	    <div id="leftUsermenuBar">
 							<ul class="leftHideusermenu"> 
@@ -149,6 +150,13 @@
 			<input type="button" id="alertConfirm" value="확인" onclick="closeAlert();" /> 
 	</div> 
 	
+	<div id="deleteFakeDiv"></div>
+	<div id="deleteDiv">
+			<div id="deleteContent"></div>  
+			<input type="button" id="deleteConfirm" value="삭제" /> 
+			<input type="button" id="cancleConfirm" value="취소" /> 
+	</div>
+	
 	<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
 	<script>
 	
@@ -157,8 +165,23 @@
 	<sec:authorize access="isAuthenticated()"> 
 		username = '${userInfo.username}';
 	</sec:authorize>
+	
+	function deleting(content, callback) {  
+		
+		  deleteAlert(content);
+		  
+		  //callback(sum); 
+		  $("#deleteConfirm").on("click",function(){
+			  closeDelete();
+			  callback(true); 
+		  });
+		  
+		  $("#cancleConfirm").on("click",function(){
+			  closeDelete();
+			  //callback(false); 
+		  });
+	}
 
-	 
 	$(".leftUsermenu").on("click",function(event){//메뉴바 보이기 이벤트 
 			 
 			event.preventDefault();
@@ -173,6 +196,20 @@
 				$("#leftUsermenuBar").css("display","none");  	
 			} 
 	});   
+	
+	function deleteAlert(content){
+		
+		$(".userMenubar").css("display","none");
+		
+		var deleteFakeDiv = $("#deleteFakeDiv");
+		var deleteDiv = $("#deleteDiv");
+		var deleteContent = $("#deleteContent");
+		
+		deleteContent.html(content); 
+		 
+		deleteFakeDiv.css("display","block");
+		deleteDiv.css("display","block"); 
+	}
 	
 	function openAlert(content){
 		
@@ -195,11 +232,24 @@
 		
 		alertFakeDiv.css("display","none");
 		alertDiv.css("display","none"); 
-		alertContent.html(""); 
-	}
+		//alertContent.html(""); 
+	}  
+	
+	function closeDelete(content){  
+		
+		var deleteFakeDiv = $("#deleteFakeDiv");
+		var deleteDiv = $("#deleteDiv");
+		
+		deleteFakeDiv.css("display","none");
+		deleteDiv.css("display","none");   
+	}  
 
 	function noteOpen(userId,nickname){
 			
+		$(".userMenubar").css("display","none");
+		
+		$("#leftUsermenuBar").css("display","none"); 
+		
 		if(username == null){ 
 			
 			//$("#UserMenubar_board").css("display","block").addClass('addBlockClass');
@@ -208,8 +258,6 @@
 			
 			return;
 		}
-		
-		$(".userMenubar").css("display","none");
 		
 		var popupX = (window.screen.width / 2) - (400 / 2); 
 

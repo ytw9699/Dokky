@@ -206,8 +206,9 @@
 		}
 
 		#alertContent{ 
-		    width: 100%;
+		    width: 110%;
 		    margin-bottom: 5%;
+		    margin-left: -3%;
 		    text-align: center;
 		    font-size: 17px;
 		    color: #555;
@@ -226,5 +227,65 @@
 		    color: white;
 		    background-color: #7151fc;
 		    cursor:pointer; 
-		 }
+		}
+		
+		#deleteFakeDiv{
+			display: none;
+		    position: fixed;
+		    width: 100%; 
+		    height: 100%;
+		    top: 0;
+		    left: 0;
+		    background-color: #000 !important; 	 
+		    opacity: 0.6;
+		}
+		
+		#deleteDiv{
+			display: none;   
+			width: 320px;
+		    border-radius: 8px; 
+		    position: fixed;
+		    top: 35%;
+		    left: 40%;
+		    padding: 50px;
+		    background-color: white;
+		}
+
+		#deleteContent{ 
+		    width: 110%;
+		    margin-bottom: 5%;
+		    margin-left: -3%;
+		    text-align: center;
+		    font-size: 17px;
+		    color: #555;
+		    font-weight: 600;
+		}
+		
+		#deleteConfirm{  
+			font-size: 17px;
+		    border: none;
+		    padding: 8px;
+		    width: 70%;
+		    margin: 0 auto;
+		    margin-top: 10px;
+		    display: block;
+		    border-radius: 8px;
+		    color: white;
+		    background-color: #7151fc;
+		    cursor:pointer; 
+		}
+		
+		#cancleConfirm{  
+			font-size: 17px;
+		    border: none;
+		    padding: 8px;
+		    width: 70%;
+		    margin: 0 auto;
+		    margin-top: 10px;
+		    display: block;
+		    border-radius: 8px;
+		    color: white;
+		    background-color: #7151fc;
+		    cursor:pointer; 
+		}
 	    

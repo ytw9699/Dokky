@@ -66,5 +66,5 @@ public interface MypageMapper {
 
 	public int checkNickname(@Param("nickName") String nickName);
 
-	
+	public String getNickname(@Param("userId") String userId);
 }

@@ -45,6 +45,6 @@ public interface MypageService {
 
 	public void removeAllScrap(Long scrap_num);
 
-	public boolean checkNickname(String nickName);
+	public boolean checkNickname(String nickName,String userId);
 	
 }

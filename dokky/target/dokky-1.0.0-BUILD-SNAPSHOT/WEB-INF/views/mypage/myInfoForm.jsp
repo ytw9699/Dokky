@@ -9,7 +9,7 @@
 <head>
 <meta charset="UTF-8">
 	<title>Dokky - 개인정보 변경</title>   
-	<link href="/resources/css/myInfoForm.css" rel="stylesheet" type="text/css">
+	<link href="/ROOT/resources/css/myInfoForm.css" rel="stylesheet" type="text/css">
 </head>
 <body>
 <sec:authentication property="principal" var="userInfo"/>
@@ -30,7 +30,7 @@
 			<span class="modprofileText">이미지를 선택해주세요</span>
 			<form action="/mypage/profileFile" id="profileForm" name="profileForm" method="post" enctype="multipart/form-data">
 				<div class="mainImgWrap">  
-					<img class="mainImgtag" id="mainImg" src="/resources/img/profile_img/<c:out value="${userInfo.username}" />.png" onerror="this.src='/resources/img/profile_img/basicProfile.png'" />
+					<img class="mainImgtag" id="mainImg" src="/upload/<c:out value="${userInfo.username}" />.png" onerror="this.src='/ROOT/resources/img/profile_img/basicProfile.png'" />
 				</div>   
 		        <label for="profile" id="profileSearch">프로필 이미지 찾기</label>    
 				<input type="file" name="profileFile" id="profile" /><br>
@@ -53,7 +53,7 @@
 	     			</td>
 	     			<td class="tableValue">
 	     				<div class="memberProfile">
-							<img src="/resources/img/profile_img/<c:out value="${userInfo.username}" />.png" id="myImage" onerror="this.src='/resources/img/profile_img/basicProfile.png'" />
+							<img src="/upload/<c:out value="${userInfo.username}" />.png" id="myImage" onerror="this.src='/ROOT/resources/img/profile_img/basicProfile.png'" />
 						</div> 
 	     			</td>
 	     		</tr>

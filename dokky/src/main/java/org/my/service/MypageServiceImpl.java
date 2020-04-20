@@ -33,9 +33,13 @@ public class MypageServiceImpl implements MypageService {
 	}
 	
 	@Override
-	public boolean checkNickname(String nickName) {
+	public boolean checkNickname(String nickName, String userId) {
 		
 		log.info("checkNickname");
+		
+		if(nickName.equals(mapper.getNickname(userId))) {
+			return false;
+		}
 		
 		return mapper.checkNickname(nickName) == 1;
 	}

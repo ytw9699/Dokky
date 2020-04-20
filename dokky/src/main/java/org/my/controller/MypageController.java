@@ -96,7 +96,7 @@ public class MypageController {
 		
 		String userId = memberVO.getUserId();
 		
-		if(service.checkNickname(memberVO.getNickName())) {//닉네임이 중복된다면
+		if(service.checkNickname(memberVO.getNickName(),userId)) {//닉네임이 중복된다면
 			 
 			rttr.addFlashAttribute("update", "overlapped");
 			
@@ -349,7 +349,8 @@ public class MypageController {
 		
 		log.info("/mypage/profileFile"); 
 		
-		String uploadPath =request.getSession().getServletContext().getRealPath("/")+File.separator+"resources/img/profile_img";
+		//String uploadPath =request.getSession().getServletContext().getRealPath("/")+File.separator+"resources/img/profile_img";
+		String uploadPath ="/var/lib/tomcat9/webapps/upload"; 
 		//String uploadPath ="/home/ubuntu/upload"; 
 		
 		log.info("uploadPath"+uploadPath);
@@ -360,11 +361,18 @@ public class MypageController {
 		 
 		File uploadFile = new File(uploadPath , userId+".png");  
 		
+		//uploadFile.setExecutable(true, true);
+		//uploadFile.setExecutable(true, true);
+		
 		try {
 			profileFile.transferTo(uploadFile);
 		} catch (Exception e) {
 			e.getStackTrace();
 		}
+		
+		//Runtime.getRuntime().exec("chmod -R 755 " + "/var/lib/tomcat9/webapps/ROOT/resources/img/profile_img");
+		Runtime.getRuntime().exec("chmod -R 755 " + "/var/lib/tomcat9/webapps/upload");
+		//Runtime.getRuntime().exec("chmod -R 777 " + "/home/ubuntu/upload/");
         
 		return "redirect:/mypage/myInfoForm?userId="+userId;
 	}
@@ -375,7 +383,8 @@ public class MypageController {
 		log.info("/mypage/deleteProfile"); 
 		
 		//String uploadPath =request.getSession().getServletContext().getRealPath("/")+File.separator+"resources/img/profile_img/";
-		String uploadPath ="/home/ubuntu/upload/";
+		String uploadPath ="/var/lib/tomcat9/webapps/upload/";
+		//String uploadPath ="/home/ubuntu/upload/";
 		String userId = request.getParameter("userId");
 		
 		try {

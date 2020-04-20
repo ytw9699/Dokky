@@ -46,16 +46,21 @@
 		    font-weight: 900;
 		    margin-left: 21%;
 		    margin-top: 8%;
+		    margin-bottom: 2%;
 		    text-align: center;
 		    color: #7151fc;
 		}
+		.title a{
+			text-decoration:none; 
+			color: #7151fc;
+		}    
 		
 		.container {
 	        width: 50%;
 		    display: inline-block;
 		    margin-left: 17%;
 		    margin-top: 4%;
-		    min-height: 175px;
+		    min-height: 270px;
 		}
 		.loginGroup{
 		  	margin-top:-10px !important;

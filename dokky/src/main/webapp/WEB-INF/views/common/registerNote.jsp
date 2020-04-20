@@ -10,7 +10,7 @@
 	<meta charset="UTF-8">
 	<script src="//code.jquery.com/jquery-1.11.3.min.js"></script>
 	<title>Dokky - 쪽지쓰기</title>  
-	<link href="/resources/css/registerNote.css" rel="stylesheet" type="text/css">
+	<link href="/ROOT/resources/css/registerNote.css" rel="stylesheet" type="text/css">
 </head>
 <body> 
 

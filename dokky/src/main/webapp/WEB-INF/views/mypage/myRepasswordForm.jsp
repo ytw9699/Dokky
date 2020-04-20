@@ -8,7 +8,7 @@
 <head>
 <meta charset="UTF-8">
 	<title>Dokky - 비밀번호 변경</title>
-	<link href="/resources/css/myRepasswordForm.css" rel="stylesheet" type="text/css">
+	<link href="/ROOT/resources/css/myRepasswordForm.css" rel="stylesheet" type="text/css">
 </head>
 <body>
 	<sec:authentication property="principal" var="userInfo"/>

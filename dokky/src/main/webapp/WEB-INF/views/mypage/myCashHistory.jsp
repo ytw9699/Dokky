@@ -8,7 +8,7 @@
 <head>
 <meta charset="UTF-8">
 	<title>Dokky - 캐시내역보기</title> 
-	<link href="/resources/css/myCashHistory.css" rel="stylesheet" type="text/css"/>
+	<link href="/ROOT/resources/css/myCashHistory.css" rel="stylesheet" type="text/css"/>
 </head>
 <%@include file="../includes/left.jsp"%>
 <body>

@@ -9,7 +9,7 @@
 <head>
 <meta charset="UTF-8"> 
 <title>Dokky - 받은쪽지함</title>
-<link href="/resources/css/noteList.css" rel="stylesheet" type="text/css"/>
+<link href="/ROOT/resources/css/noteList.css" rel="stylesheet" type="text/css"/>
 </head>
 <%@include file="../includes/left.jsp"%>
 <body>
@@ -51,7 +51,7 @@
 		                    
 			     			<td class="td"> 
 								<a href="#" class="userMenu" data-note_num="${note.note_num}">
-									<img src="/resources/img/profile_img/<c:out value="${note.from_id}"/>.png"  class="memberImage hideUsermenu" onerror="this.src='/resources/img/profile_img/basicProfile.png'" />
+									<img src="/upload/<c:out value="${note.from_id}"/>.png"  class="memberImage hideUsermenu" onerror="this.src='/ROOT/resources/img/profile_img/basicProfile.png'" />
 									<c:out value="${note.from_nickname}" /> 
 								</a>   
 								<div id="userMenubar_${note.note_num}" class="userMenubar">
@@ -143,14 +143,18 @@
 		    xhr.setRequestHeader(csrfHeaderName, csrfTokenValue);
 	    });
 		 
+		/*  
 		function noteOpen(userId,nickname){
+			
+			$(".userMenubar").css("display","none");
 			
 			var popupX = (window.screen.width / 2) - (400 / 2);
 
 			var popupY= (window.screen.height /2) - (500 / 2);
 		         
 	        window.open('/minRegNote?userId='+userId+'&nickname='+nickname, 'ot', 'height=500, width=400, left='+ popupX + ', top='+ popupY + ', screenX='+ popupX + ', screenY= '+ popupY);
-	    } 
+	    }  
+		*/ 
 		
 		function checkAll(){
 		      if( $("#checkAll").is(':checked') ){ 
@@ -175,13 +179,13 @@
 			    return false;
 			  }
 			  
-			  if(confirm("정말 삭제 하시겠습니까?")){
+			  deleting('정말 삭제 하시겠습니까?', function(result) {
 				  actionForm.attr("action","/deleteAllNote").attr("method","post");
 				  actionForm.append("<input type='hidden' name='checkRow' value='"+checkRow+"'>");
 				  actionForm.append("<input type='hidden' name='note_kind' value='fromNote'>");
 				  actionForm.append("<input type='hidden' id='csrf' name='${_csrf.parameterName}' value='${_csrf.token}'/>");
 				  actionForm.submit();
-			  }
+			  });
 		}
 		
 		$("#deleteBtn").on("click", function() { 

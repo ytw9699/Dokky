@@ -8,7 +8,7 @@
 <head>
 <meta charset="UTF-8">
 	<title>Dokky - 계정관리</title>
-<link href="/resources/css/userList.css" rel="stylesheet" type="text/css"/>
+<link href="/ROOT/resources/css/userList.css" rel="stylesheet" type="text/css"/>
 </head> 
 <%@include file="../includes/left.jsp"%>
 
@@ -46,7 +46,7 @@
 			<c:forEach items="${userList}" var="user">
 				<div class="memberInfoWrap" onclick="location.href='userForm?userId=<c:out value="${user.userId}" />'" >
 					<div class="memberProfile">
-						<img src="/resources/img/profile_img/<c:out value="${user.userId}"/>.png" id="memberProfile" onerror="this.src='/resources/img/profile_img/basicProfile.png'" />
+						<img src="/upload/<c:out value="${user.userId}"/>.png" id="memberProfile" onerror="this.src='/ROOT/resources/img/profile_img/basicProfile.png'" />
 					</div>		 		 												 									
 					<div class="memberInfo">
 						<span class="nickName"><c:out value="${user.nickName}" /></span><br/>

@@ -9,7 +9,7 @@
 <head>
 <meta charset="UTF-8">
 <title>Dokky - 스크랩</title>     
-<link href="/resources/css/myScraplist.css" rel="stylesheet" type="text/css">
+<link href="/ROOT/resources/css/myScraplist.css" rel="stylesheet" type="text/css">
 </head>
 <%@include file="../includes/left.jsp"%>
 <body>
@@ -80,7 +80,7 @@
 						 
 							<td class="td">
 								<a href="#" class="userMenu" data-scrap_num="${scrap.scrap_num}"> 
-									<img src="/resources/img/profile_img/<c:out value="${scrap.userId}"  />.png"  class="memberImage hideUsermenu" onerror="this.src='/resources/img/profile_img/basicProfile.png'" />
+									<img src="/upload/<c:out value="${scrap.userId}"  />.png"  class="memberImage hideUsermenu" onerror="this.src='/ROOT/resources/img/profile_img/basicProfile.png'" />
 									<c:out value="${scrap.nickName}" /> 
 								</a>   
 								<div id="userMenubar_${scrap.scrap_num}" class="userMenubar">
@@ -214,13 +214,13 @@
 			   	 openAlert("삭제할 스크랩을 선택하세요");
 			    return false;
 			  }
-			   
-			  if(confirm("정말 삭제 하시겠습니까?")){
+			    
+			  deleting('정말 삭제 하시겠습니까?', function(result) {
 				  actionForm.attr("action","/mypage/removeAllScrap").attr("method","post");
 				  actionForm.append("<input type='hidden' name='checkRow' value='"+checkRow+"'>");
 				  actionForm.append("<input type='hidden' id='csrf' name='${_csrf.parameterName}' value='${_csrf.token}'/>");
 				  actionForm.submit();
-			  }
+			  });
 		}
 		
 	 

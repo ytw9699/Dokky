@@ -11,7 +11,7 @@
 		<script src="//code.jquery.com/jquery-1.11.3.min.js"></script>
 		<!-- <script type="text/javascript" src="/resources/SmartEditor/js/HuskyEZCreator.js" charset="utf-8" ></script> -->
 		<title>Dokky - 새 글쓰기</title>  
-		<link href="/resources/css/register.css" rel="stylesheet" type="text/css">
+		<link href="/ROOT/resources/css/register.css" rel="stylesheet" type="text/css">
 	</head>
 <body> 
 
@@ -41,7 +41,7 @@
 				  </div>
 				 
 		          <div class="row">
-		            <input id="title" placeholder="제목을 입력해 주세요." name='title' oninput="checkLength(this,46);" autofocus/>   
+		            <input id="title" placeholder="제목을 입력해 주세요." name='title' oninput="checkLength(this,40);" autofocus/>   
 		          </div>
 		          
 		          <div>

@@ -9,7 +9,7 @@
 	<meta charset="UTF-8">
 	<script src="//code.jquery.com/jquery-1.11.3.min.js"></script>
 	<title>Dokky - 쪽지쓰기</title>  
-	<link href="/resources/css/minRegNote.css" rel="stylesheet" type="text/css">
+	<link href="/ROOT/resources/css/minRegNote.css" rel="stylesheet" type="text/css">
 	<sec:authentication property="principal" var="userInfo"/>
 </head>
 <body> 
@@ -19,7 +19,7 @@
 		          		받는사람 -
 		          	</span>
 		          	<span>
-		          		<img src="/resources/img/profile_img/<c:out value="${to_id}" />.png" class="memberImage" onerror="this.src='/resources/img/profile_img/basicProfile.png'" />
+		          		<img src="/upload/<c:out value="${to_id}" />.png" class="memberImage" onerror="this.src='/ROOT/resources/img/profile_img/basicProfile.png'" />
 		          		${to_nickname} 
 		          	</span>
 		          	<%-- (<span id="to_id">
@@ -36,7 +36,16 @@
 		          	<button type="button" class="btn" id="cancel" onclick="window.close()">취소</button>
 	          </div>
 	    </div> 
+	    
+ 	<div id="alertFakeDiv"></div> 
+	<div id="alertDiv">
+			<div id="alertContent"></div>  
+			<input type="button" id="alertConfirm" value="확인" onclick="closeAlert();" /> 
+	</div>
+	
 <script> 
+
+
 
 	var csrfHeaderName ="${_csrf.headerName}"; 
 	var csrfTokenValue="${_csrf.token}"; 
@@ -115,9 +124,9 @@
 	}
 	
 	$("#submitBtn").on("click", function(e){//쪽지 보내기 버튼
-    
+    		
 		    e.preventDefault();
-				
+				 
 			/* var to_id = $("#to_id").html();
 	   			to_id = $.trim(to_id);
 			
@@ -147,10 +156,32 @@
 				 		  };
 		    
 		    insertNote(noteData, function(result){
-					openAlert(result); 
-					window.close();
+					openAlert(result);  
+					window.close(); 
+					opener.openAlert("쪽지를 보냈습니다"); 
 	   	    });
     });
+	
+	function openAlert(content){ 
+		
+		var alertFakeDiv = $("#alertFakeDiv");
+		var alertDiv = $("#alertDiv"); 
+		var alertContent = $("#alertContent");
+		
+		alertContent.html(content); 
+		 
+		alertFakeDiv.css("display","block");
+		alertDiv.css("display","block"); 
+	}
+	  
+	function closeAlert(content){ 
+		
+		var alertFakeDiv = $("#alertFakeDiv"); 
+		var alertDiv = $("#alertDiv");
+		
+		alertFakeDiv.css("display","none");
+		alertDiv.css("display","none"); 
+	}
 	
 </script>
 </body>

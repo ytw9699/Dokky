@@ -9,7 +9,7 @@
 <head>
 <meta charset="UTF-8">
 	<title>Dokky - 회원 개인정보 </title>   
-	<link href="/resources/css/userForm.css" rel="stylesheet" type="text/css"/>
+	<link href="/ROOT/resources/css/userForm.css" rel="stylesheet" type="text/css"/>
 </head>
 <body>
 <sec:authentication property="principal" var="userInfo"/>
