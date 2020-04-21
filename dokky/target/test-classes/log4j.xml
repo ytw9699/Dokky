@@ -35,6 +35,7 @@
 	<!-- Root Logger -->
 	<root>
 		<priority value="info" />
+		<!-- info를 warn으로 바꾸면 좀더 높은레벨이라 로그가 덜찍힐것 -->
 		<appender-ref ref="console" />
 	</root>
 </log4j:configuration>
