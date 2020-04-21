@@ -12,6 +12,8 @@ public interface BoardMapper {
 
 	public List<BoardVO> getList(Criteria cri);
 	
+	public List<BoardVO> getAllList(Criteria cri);
+	
 	public List<BoardVO> getListWithOrder(Criteria cri);
 
 	public Integer insertSelectKey(BoardVO board);
@@ -73,8 +75,6 @@ public interface BoardMapper {
 	public void insertBoardUserCashHistory(donateVO vo);
 
 	public int insertReportdata(reportVO vo);
-
-	public List<BoardVO> getAllList(Criteria cri);
 
 	public int getAllTotalCount(Criteria cri);
 
