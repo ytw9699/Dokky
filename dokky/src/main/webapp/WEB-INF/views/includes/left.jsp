@@ -154,7 +154,7 @@
 	<div id="deleteDiv">
 			<div id="deleteContent"></div>  
 			<input type="button" id="deleteConfirm" value="삭제" /> 
-			<input type="button" id="cancleConfirm" value="취소" /> 
+			<input type="button" id="cancelConfirm" value="취소" /> 
 	</div>
 	
 	<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
@@ -170,15 +170,13 @@
 		
 		  deleteAlert(content);
 		  
-		  //callback(sum); 
 		  $("#deleteConfirm").on("click",function(){
 			  closeDelete();
-			  callback(true); 
+			  callback(); 
 		  });
 		  
-		  $("#cancleConfirm").on("click",function(){
+		  $("#cancelConfirm").on("click",function(){
 			  closeDelete();
-			  //callback(false); 
 		  });
 	}
 
@@ -196,20 +194,6 @@
 				$("#leftUsermenuBar").css("display","none");  	
 			} 
 	});   
-	
-	function deleteAlert(content){
-		
-		$(".userMenubar").css("display","none");
-		
-		var deleteFakeDiv = $("#deleteFakeDiv");
-		var deleteDiv = $("#deleteDiv");
-		var deleteContent = $("#deleteContent");
-		
-		deleteContent.html(content); 
-		 
-		deleteFakeDiv.css("display","block");
-		deleteDiv.css("display","block"); 
-	}
 	
 	function openAlert(content){
 		
@@ -235,7 +219,21 @@
 		//alertContent.html(""); 
 	}  
 	
-	function closeDelete(content){  
+	function deleteAlert(content){
+		
+		$(".userMenubar").css("display","none");
+		
+		var deleteFakeDiv = $("#deleteFakeDiv");
+		var deleteDiv = $("#deleteDiv");
+		var deleteContent = $("#deleteContent");
+		
+		deleteContent.html(content); 
+		 
+		deleteFakeDiv.css("display","block");
+		deleteDiv.css("display","block"); 
+	}
+	
+	function closeDelete(){  
 		
 		var deleteFakeDiv = $("#deleteFakeDiv");
 		var deleteDiv = $("#deleteDiv");
