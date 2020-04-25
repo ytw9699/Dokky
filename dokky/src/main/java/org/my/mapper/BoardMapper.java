@@ -10,14 +10,14 @@ package org.my.mapper;
 
 public interface BoardMapper {
 
-	public List<BoardVO> getList(Criteria cri);
+	public List<BoardVO> getList(Criteria cri); 
 	
 	public List<BoardVO> getAllList(Criteria cri);
 	
 	public List<BoardVO> getListWithOrder(Criteria cri);
 
 	public Integer insertSelectKey(BoardVO board);
-
+	
 	public BoardVO read(Long board_num);
 
 	public int delete(Long bno);

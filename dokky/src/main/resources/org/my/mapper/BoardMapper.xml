@@ -235,8 +235,9 @@
 			]]>	
 	</select>
 	
-	<!-- 입력+pk값을 알기 위한것 -->
+	<!-- insert문이 실행되고 생성된 PK board_num 값을 알아야 하는 경우 -->
 	<insert id="insertSelectKey">
+	
 		<selectKey keyProperty="board_num" order="BEFORE" resultType="long">
 				select seq_dk_board.nextval from dual
 		</selectKey>
