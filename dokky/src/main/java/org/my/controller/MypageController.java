@@ -371,7 +371,7 @@ public class MypageController {
 		}
 		
 		//Runtime.getRuntime().exec("chmod -R 755 " + "/var/lib/tomcat9/webapps/ROOT/resources/img/profile_img");
-		Runtime.getRuntime().exec("chmod -R 755 " + "/var/lib/tomcat9/webapps/upload");
+		Runtime.getRuntime().exec("chmod -R 777 " + "/var/lib/tomcat9/webapps/upload");
 		//Runtime.getRuntime().exec("chmod -R 777 " + "/home/ubuntu/upload/");
         
 		return "redirect:/mypage/myInfoForm?userId="+userId;
