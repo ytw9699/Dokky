@@ -53,7 +53,7 @@
 	     			</td>
 	     			<td class="tableValue">
 	     				<div class="memberProfile">
-							<img src="/upload/<c:out value="${userInfo.username}" />.png" id="myImage" onerror="this.src='/ROOT/resources/img/profile_img/basicProfile.png'" />
+							<img src="/upload/<c:out value="${userInfo.username}" />.png?a" id="myImage" onerror="this.src='/ROOT/resources/img/profile_img/basicProfile.png'" />
 						</div> 
 	     			</td>
 	     		</tr>
