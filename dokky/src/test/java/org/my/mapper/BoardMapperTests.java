@@ -1,11 +1,9 @@
 package org.my.mapper;
-	import java.util.List;
 	import org.junit.Test;
 	import org.junit.runner.RunWith;
 	import org.springframework.beans.factory.annotation.Autowired;
 	import org.springframework.test.context.ContextConfiguration;
 	import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
-	import org.my.domain.BoardVO;
 	import org.my.domain.Criteria;
 	import lombok.Setter;
 	import lombok.extern.log4j.Log4j;
@@ -19,7 +17,7 @@ package org.my.mapper;
 public class BoardMapperTests {
 
 	@Setter(onMethod_ = @Autowired)
-	private BoardMapper mapper;
+	private BoardMapper mapper;//BoardMapper 인터페이스의 구현체를 주입받아서 동작
 
 	@Test
 	public void testGetAllList() {
