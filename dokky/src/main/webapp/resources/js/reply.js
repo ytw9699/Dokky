@@ -21,7 +21,7 @@ var replyService = (function() {
 	}
 
 	function getList(param, callback, error) { 
-
+		
 		var board_num = param.board_num;
 		var page = param.page || 1;
 
@@ -221,6 +221,24 @@ var replyService = (function() {
 			}
 		});
 	}
+		
+	/*function getList(param, callback, error) { 
+		alert(3);
+		var board_num = param.board_num;
+		var page = param.page || 1;
+
+		  $.get("/replies/pages/" + board_num + "/" + page + ".json",
+				function(data) {
+					if (callback) {
+						callback(data);
+					}
+				}).fail(function(xhr, status, err) {
+			if (error) {
+				error();
+			}
+		});
+	}*/
+	
 	
 	function updateDonation(commonData, callback, error) {//게시글 기부하기
 		
