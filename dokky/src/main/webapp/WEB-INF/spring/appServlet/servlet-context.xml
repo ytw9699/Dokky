@@ -21,6 +21,7 @@
  	<!-- <mvc:resources mapping="/upload/**" location="/home/ubuntu/upload" /> -->
  
 	<!-- Resolves views selected for rendering by @Controllers to .jsp resources in the /WEB-INF/views directory -->
+	<!-- 스프링 MVC의 JSP를 처리하는 설정 -->
 	<beans:bean class="org.springframework.web.servlet.view.InternalResourceViewResolver" p:order="1">
 		<beans:property name="prefix" value="/WEB-INF/views/" />
 		<beans:property name="suffix" value=".jsp" />
