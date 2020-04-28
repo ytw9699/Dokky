@@ -99,6 +99,13 @@ public class BoardServiceImpl implements BoardService {
 		
 		return mapper.read(board_num);
 	}
+	
+	@Override
+	public Long getBoard_num() {
+		
+		return mapper.getBoard_num();
+	}
+	
 	@Override
 	public BoardVO getModifyForm(Long board_num) {
 
