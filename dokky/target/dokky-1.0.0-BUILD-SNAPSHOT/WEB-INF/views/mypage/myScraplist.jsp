@@ -215,7 +215,7 @@
 			    return false;
 			  }
 			    
-			  deleting('정말 삭제 하시겠습니까?', function(result) {
+			  deleting('정말 삭제 하시겠습니까?', function() {
 				  actionForm.attr("action","/mypage/removeAllScrap").attr("method","post");
 				  actionForm.append("<input type='hidden' name='checkRow' value='"+checkRow+"'>");
 				  actionForm.append("<input type='hidden' id='csrf' name='${_csrf.parameterName}' value='${_csrf.token}'/>");

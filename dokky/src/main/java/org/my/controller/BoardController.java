@@ -98,20 +98,21 @@ public class BoardController {//
 	@PostMapping("/register")
 	public String register(BoardVO board, RedirectAttributes rttr) {//게시글 등록
 
-		log.info("/register: " + board);
+		log.info("/board/register: " + board);
 		
 		if (board.getAttachList() != null) {
 			board.getAttachList().forEach(attach -> log.info(attach));
 		}
 		
 		service.register(board);
-		log.info("/register: " + board);
+		log.info("/board/register: " + board);
 
 	   //rttr.addFlashAttribute("result", board.getNum());
 		 rttr.addAttribute("board_num", board.getBoard_num());
+		 //<selectKey keyProperty="board_num" order="BEFORE" resultType="long">로부터 board_num값이 넘어옴
 		 rttr.addAttribute("category", board.getCategory());
 
-		return "redirect:/board/get";
+		return "redirect:/board/get";//response.sendRedirect()처리
 	}
 	
 	@GetMapping("/get")

@@ -325,6 +325,7 @@
                     <downloadJavadocs>true</downloadJavadocs>
                 </configuration>
             </plugin>
+           <!--  Maven의 컴파일 옵션은 1.8버전, 프로젝트의 Maven 메뉴에서 update project 실행 관련 -->
             <plugin>
                 <groupId>org.apache.maven.plugins</groupId>
                 <artifactId>maven-compiler-plugin</artifactId>

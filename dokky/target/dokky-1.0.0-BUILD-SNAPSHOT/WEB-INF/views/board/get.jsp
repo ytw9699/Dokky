@@ -397,7 +397,6 @@
 	function showReplyList(page){//댓글 리스트 가져오기
 		
 	    replyService.getList({board_num:board_num, page: page || 1 }, function(data) {
-	    	
 	    	var replyList = $(".replyList");//댓글리스트 ul  
 	    	var replyCntVal = $(".replyCntVal");//댓글 갯수 div
 			var str ="";
@@ -791,11 +790,9 @@
 	   
 	$("#remove_button").on("click", function(e){//게시글 삭제
 		
-		deleting('정말 삭제 하시겠습니까?', function(result) {
-			  if(result){
+		deleting('정말 삭제 하시겠습니까?', function() {
 				  operForm.attr("action","/board/remove").attr("method","post");
 			      operForm.submit();
-			  }
 		});
 	
 		/* if(func_confirm('정말 삭제 하시겠습니까?')){
@@ -1453,12 +1450,10 @@
 		var reply_num =  $(this).data("reply_num"); 
 		var reply_id = $(this).data("reply_id"); 
 		
-		deleting('정말 삭제 하시겠습니까?', function(result) {
-			if(result){  
-					replyService.remove( reply_num, reply_id, board_num, function(result){
-		  	        showReplyList(pageNum);//삭제후 댓글 페이지 유지하면서 리스트 다시 호출 
-				}); 
-			} 
+		deleting('정말 삭제 하시겠습니까?', function() {
+			replyService.remove( reply_num, reply_id, board_num, function(){
+	        showReplyList(pageNum);//삭제후 댓글 페이지 유지하면서 리스트 다시 호출 
+			}); 
 		});
 	}); 
 	///////////////////////////////////////////////////////

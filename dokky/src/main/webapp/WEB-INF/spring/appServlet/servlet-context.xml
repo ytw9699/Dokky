@@ -21,6 +21,7 @@
  	<!-- <mvc:resources mapping="/upload/**" location="/home/ubuntu/upload" /> -->
  
 	<!-- Resolves views selected for rendering by @Controllers to .jsp resources in the /WEB-INF/views directory -->
+	<!-- 스프링 MVC의 JSP를 처리하는 설정 -->
 	<beans:bean class="org.springframework.web.servlet.view.InternalResourceViewResolver" p:order="1">
 		<beans:property name="prefix" value="/WEB-INF/views/" />
 		<beans:property name="suffix" value=".jsp" />
@@ -51,7 +52,7 @@
 	
 	
 	<context:component-scan base-package="org.my.controller" />
-	<!-- <context:component-scan base-package="org.my.exception" /> -->
+	<!-- <context:component-scan base-package="org.my.exception" /> CommonExceptionAdvice 예외처리하려면 스캔해야함 -->
 	
 	<security:global-method-security pre-post-annotations="enabled" secured-annotations="enabled" />
 		<!-- 어노테이션을 이용하는 스프링 시큐리티 설정 / 어노테이션은 기본으로 ’disabled’되어 있으므로 enabled'로 설정 -->

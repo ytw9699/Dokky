@@ -79,7 +79,7 @@
 		          <input type='hidden' name='nickName' value='<sec:authentication property="principal.member.nickName"/>' /> 
 		          <input type='hidden' name='userId' value='<sec:authentication property="principal.username"/>' /> 
 				  <input type="hidden" name="${_csrf.parameterName}" value="${_csrf.token}"/>
-	        </form>
+	          </form>
 </div>
 
 <script> 
