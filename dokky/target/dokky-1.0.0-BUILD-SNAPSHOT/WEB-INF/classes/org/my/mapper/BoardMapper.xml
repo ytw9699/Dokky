@@ -235,25 +235,7 @@
 			]]>	
 	</select>
 	
-	<!-- insert만 처리되고 생성된 PK 값을 알 필요가 없는 경우-->
-	<insert id="insert">
-		insert into DK_BOARD ( board_num
-							 , category
-							 , title
-							 , content
-							 , nickName
-							 , userId
-							 )
-		               values (  seq_dk_board.nextval
-				               , #{category}
-				               , #{title}
-				               , #{content}
-				               , #{nickName}
-				               , #{userId}
-		               )
-	</insert>
-	
-	<!-- insert문이 실행되고 생성된 PK 값을 알아야 하는 경우 -->
+	<!-- insert문이 실행되고 생성된 PK board_num 값을 알아야 하는 경우 -->
 	<insert id="insertSelectKey">
 	
 		<selectKey keyProperty="board_num" order="BEFORE" resultType="long">
@@ -278,6 +260,12 @@
 	
 	<select id="read" resultType="org.my.domain.BoardVO">
 		select * from DK_BOARD where board_num = #{board_num}
+	</select>
+	
+	<select id="getBoard_num" resultType="long">
+		<![CDATA[
+			select BOARD_NUM from DK_BOARD WHERE ROWNUM <= 1 order by BOARD_NUM desc 
+		]]>	
 	</select>
 	
 	<update id="updateHitCnt">
