@@ -25,6 +25,7 @@
 			</foreach>
 		</trim>
 	</sql>
+	<!-- ( title like '%'||'keyword'||'%' OR content like '%'||'keyword'||'%' OR writer like '%'||'keyword'||'%' ) AND -->
 	
 	<sql id="criteriaWithOrder">
 		<trim prefix="and (" suffix=")" prefixOverrides="OR">
@@ -45,7 +46,8 @@
 			</foreach>
 		</trim>
 	</sql>
-	
+<!-- and ( title like '%'||'keyword'||'%' OR content like '%'||'keyword'||'%' OR writer like '%'||'keyword'||'%' ) -->
+
 	<sql id="criteriaAllWithOrder">
 		<trim prefix="where (" suffix=") " prefixOverrides="OR">
 			<foreach item='type' collection="typeArr">
@@ -65,7 +67,8 @@
 			</foreach>
 		</trim>
 	</sql>
-	
+<!-- where ( title like '%'||'keyword'||'%' OR content like '%'||'keyword'||'%' OR writer like '%'||'keyword'||'%' ) -->
+
 	<select id="getList" resultType="org.my.domain.BoardVO"> 
 	  <![CDATA[
 			   select category

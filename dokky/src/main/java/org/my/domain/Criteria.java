@@ -7,7 +7,7 @@ package org.my.domain;
 @ToString
 @Setter
 @Getter
-public class Criteria {//349페이지 나중에다시봐보자
+public class Criteria {
 
   private int category;
   private int order;
@@ -32,17 +32,18 @@ public class Criteria {//349페이지 나중에다시봐보자
   
   public String[] getTypeArr() {
     
-    return type == null? new String[] {}: type.split("");
+	  return type == null ? new String[] {} : type.split("");
   }
+  
   public String getListLink() {
 
 		UriComponentsBuilder builder = UriComponentsBuilder.fromPath("")
-				.queryParam("category", this.category)
-				.queryParam("pageNum", this.pageNum)
-				.queryParam("amount", this.getAmount())
-				.queryParam("type", this.getType())
-				.queryParam("keyword", this.getKeyword());
+							.queryParam("category", this.category)
+							.queryParam("pageNum", this.pageNum)
+							.queryParam("amount", this.getAmount())
+							.queryParam("type", this.getType())
+							.queryParam("keyword", this.getKeyword());
 
-		return builder.toUriString();
-	}
+		return builder.toUriString();//?pageNum=3&amount=20&type=TC&keyword=%EC%83%88%EB%Al%9C
+  }
 }

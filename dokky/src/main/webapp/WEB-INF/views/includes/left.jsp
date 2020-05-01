@@ -69,22 +69,22 @@
 			</span>
 	   </sec:authorize>
 			
-		  <a href="/board/allList?category=0">
+		  <a href="/board/allList?category=0&order=0">
 			<span class="mypage">전체글보기</span>
 		  </a>
-		  <a href="/board/list?category=1">
+		  <a href="/board/list?category=1&order=0">
 			<span class="mypage">공지사항</span>
 		  </a>
-		  <a href="/board/list?category=2">
+		  <a href="/board/list?category=2&order=0">
 			<span class="mypage">자유게시판</span>
 		  </a>
-		  <a href="/board/list?category=3">
+		  <a href="/board/list?category=3&order=0">
 			<span class="mypage">묻고답하기</span>
 		  </a>
-		  <a href="/board/list?category=4">
+		  <a href="/board/list?category=4&order=0">
 			<span class="mypage">칼럼/Tech</span>
 		  </a>
-		  <a href="/board/list?category=5">
+		  <a href="/board/list?category=5&order=0">
 			<span class="mypage">정기모임/스터디</span>
 		  </a>
 			
