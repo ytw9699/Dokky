@@ -13,6 +13,7 @@
 
 <%@include file="../includes/left.jsp"%>
 <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+<c:set var="random"><%= java.lang.Math.round(java.lang.Math.random() * 123456) %></c:set>
 <body>
 	<div class="bodyWrap">	 
 		<div class="mainLists">
@@ -52,7 +53,7 @@
 						</td>
 						<td class="td"> 
 							<a href="" class="userMenu" data-board_num="${board.board_num}" data-menu_kind="realtime">
-								<img src="/upload/<c:out value="${board.userId}" />.png"  class="memberImage hideUsermenu" onerror="this.src='/ROOT/resources/img/profile_img/basicProfile.png'" />
+								<img src="/upload/<c:out value="${board.userId}" />.png?${random}"  class="memberImage hideUsermenu" onerror="this.src='/ROOT/resources/img/profile_img/basicProfile.png'" />
 								<c:out value="${board.nickName}" /> 
 							</a> 
 							 <div id="userMenubar_realtime_${board.board_num}" class="userMenubar">
@@ -122,7 +123,7 @@
 						</td>
 						<td class="td">
 							<a href="" class="userMenu" data-board_num="${board.board_num}" data-menu_kind="like">
-								<img width="25px" src="/upload/<c:out value="${board.userId}" />.png"  class="memberImage hideUsermenu" onerror="this.src='/ROOT/resources/img/profile_img/basicProfile.png'" />
+								<img width="25px" src="/upload/<c:out value="${board.userId}" />.png?${random}"  class="memberImage hideUsermenu" onerror="this.src='/ROOT/resources/img/profile_img/basicProfile.png'" />
 								<c:out value="${board.nickName}" />
 							</a> 
 							 <div id="userMenubar_like_${board.board_num}" class="userMenubar">
@@ -192,7 +193,7 @@
 						</td>
 						<td class="td">
 							<a href="" class="userMenu" data-board_num="${board.board_num}" data-menu_kind="donate"> 
-								<img width="25px" src="/upload/<c:out value="${board.userId}" />.png"  class="memberImage hideUsermenu" onerror="this.src='/ROOT/resources/img/profile_img/basicProfile.png'" />
+								<img width="25px" src="/upload/<c:out value="${board.userId}" />.png?${random}"  class="memberImage hideUsermenu" onerror="this.src='/ROOT/resources/img/profile_img/basicProfile.png'" />
 								<c:out value="${board.nickName}" />
 							</a> 
 							 <div id="userMenubar_donate_${board.board_num}" class="userMenubar">

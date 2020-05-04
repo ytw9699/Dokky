@@ -14,6 +14,7 @@
 <%@include file="../includes/left.jsp"%>
 
 <body>
+<c:set var="random"><%= java.lang.Math.round(java.lang.Math.random() * 123456) %></c:set>
 <sec:authentication property="principal" var="userInfo"/>
 <div class="alarmWrap">	
 
@@ -35,7 +36,7 @@
 	                    
 	                    <td class="td"> 
 							<a href="#" class="userMenu" data-alarm_num="${alarm.alarmNum}">
-								<img src="/upload/<c:out value="${alarm.writerId}" />.png"  class="memberImage hideUsermenu" onerror="this.src='/ROOT/resources/img/profile_img/basicProfile.png'" />
+								<img src="/upload/<c:out value="${alarm.writerId}" />.png?${random}"  class="memberImage hideUsermenu" onerror="this.src='/ROOT/resources/img/profile_img/basicProfile.png'" />
 								<c:out value="${alarm.writerNick}" /> 
 							</a>
 							 

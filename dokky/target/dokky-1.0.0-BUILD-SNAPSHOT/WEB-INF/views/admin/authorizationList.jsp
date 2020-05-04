@@ -11,7 +11,7 @@
 <link href="/ROOT/resources/css/authorizationList.css" rel="stylesheet" type="text/css"/>
 </head> 
 <%@include file="../includes/left.jsp"%>
-
+<c:set var="random"><%= java.lang.Math.round(java.lang.Math.random() * 123456) %></c:set>
 <body> 
 	<div class="memberListWrap">	 
 	 
@@ -46,7 +46,7 @@
 				<div class="memberInfoWrap">
 					<div class="memberProfile">
 						<%-- <img src="/resources/img/profile_img/<c:out value="${user.userId}"/>.png" id="memberProfile" onerror="this.src='/resources/img/profile_img/basicProfile.png'" /> --%>
-						<img src="/upload/<c:out value="${user.userId}"/>.png" id="memberProfile" onerror="this.src='/ROOT/resources/img/profile_img/basicProfile.png'" />
+						<img src="/upload/<c:out value="${user.userId}"/>.png?${random}" id="memberProfile" onerror="this.src='/ROOT/resources/img/profile_img/basicProfile.png'" />
 					</div>		 		 												 									
 					<div class="memberInfo">
 						<span class="nickName"><c:out value="${user.nickName}" /></span>
