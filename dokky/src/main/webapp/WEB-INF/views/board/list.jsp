@@ -12,6 +12,7 @@
 <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
 <%@include file="../includes/left.jsp"%>
 <body>
+<c:set var="random"><%= java.lang.Math.round(java.lang.Math.random() * 123456) %></c:set>
 	<div class="listWrapper">
 		<div class="boardKind">
 			 <span class="category">
@@ -135,7 +136,7 @@
 						</td>
 						<td class="td"> 
 							<a href="#" class="userMenu" data-board_num="${board.board_num}">
-								<img src="/upload/<c:out value="${board.userId}"  />.png"  class="memberImage hideUsermenu" onerror="this.src='/ROOT/resources/img/profile_img/basicProfile.png'" />
+								<img src="/upload/<c:out value="${board.userId}"  />.png?${random}"  class="memberImage hideUsermenu" onerror="this.src='/ROOT/resources/img/profile_img/basicProfile.png'" />
 								<c:out value="${board.nickName}" /> 
 							</a> 
 							 <div id="userMenubar_${board.board_num}" class="userMenubar">
