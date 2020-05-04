@@ -61,7 +61,8 @@
 	
 	create sequence seq_dk_reply
 	
-	create index idx_reply on DK_REPLY(board_num desc, reply_num asc);
+	create index idx_reply on DK_REPLY(board_num desc, reply_num asc);--430p
+	--글번호 desc순 + 댓글 asc순으로 정렬되어야함 그래야 성능상 문제가 없음 , 즉 게시물의 번호에 맞게 댓글들을 모아서 빠르게 찾을수 있는 구조로 만든것, range scan사용
 	
 	--디폴트값입력해줘야 캐시충전됨
 	insert into dk_reply(reply_num, board_num, reply_content, nickName, userId, group_num, order_step, depth)

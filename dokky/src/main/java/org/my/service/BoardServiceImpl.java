@@ -101,9 +101,9 @@ public class BoardServiceImpl implements BoardService {
 	}
 	
 	@Override
-	public Long getBoard_num() {
+	public Long getRecentBoard_num() {
 		
-		return mapper.getBoard_num();
+		return mapper.getRecentBoard_num();
 	}
 	
 	@Override

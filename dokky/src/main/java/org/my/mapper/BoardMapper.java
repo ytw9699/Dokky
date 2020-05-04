@@ -80,6 +80,6 @@ public interface BoardMapper {
 
 	public List<BoardVO> getAllListWithOrder(Criteria cri);
 
-	public Long getBoard_num();
+	public Long getRecentBoard_num();
 
 }
