@@ -76,8 +76,8 @@
 					<select id="option" name='type'>
 						<option value="TC"
 							<c:out value="${pageMaker.cri.type == null || pageMaker.cri.type eq 'TC'?'selected':''}"/>>제목+내용</option>
-						<option value="TC"
-							<c:out value="${pageMaker.cri.type eq 'TC'?'selected':''}"/>>제목+내용</option>
+						<%-- <option value="TC"
+							<c:out value="${pageMaker.cri.type eq 'TC'?'selected':''}"/>>제목+내용</option> --%>
 						<option value="T"
 							<c:out value="${pageMaker.cri.type eq 'T'?'selected':''}"/>>제목</option>
 						<option value="C"
@@ -90,7 +90,7 @@
 							<c:out value="${pageMaker.cri.type eq 'TNC'?'selected':''}"/>>제목+내용+닉네임</option>
 					</select> 
 					
-					<input id="keyword" type='text' name='keyword' value='<c:out value="${pageMaker.cri.keyword}"/>' oninput="checkLength(this,30)" autofocus/> 
+					<input id="keyword" name='keyword' type='text' value='<c:out value="${pageMaker.cri.keyword}"/>' oninput="checkLength(this,30)" autofocus/> 
 					<input type='hidden' name='pageNum' value='<c:out value="${pageMaker.cri.pageNum}"/>' /> 
 					<input type='hidden' name='amount' value='<c:out value="${pageMaker.cri.amount}"/>' />
 					<input type='hidden' name='category' value='${pageMaker.cri.category}'>

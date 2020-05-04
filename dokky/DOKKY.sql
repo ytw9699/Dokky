@@ -389,3 +389,5 @@ EX) INSERT INTO TB_BOARD_TEMP (NUM, TITLE, CONTENTS) SELECT NUM, TITLE, CONTENTS
 
 출처: https://server-engineer.tistory.com/500 [HelloWorld]
 
+7. 카운트 구하기
+select count(*) from dk_board
