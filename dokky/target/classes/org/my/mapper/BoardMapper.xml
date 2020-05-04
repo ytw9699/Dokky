@@ -265,7 +265,7 @@
 		select * from DK_BOARD where board_num = #{board_num}
 	</select>
 	
-	<select id="getBoard_num" resultType="long">
+	<select id="getRecentBoard_num" resultType="long">
 		<![CDATA[
 			select BOARD_NUM from DK_BOARD WHERE ROWNUM <= 1 order by BOARD_NUM desc 
 		]]>	

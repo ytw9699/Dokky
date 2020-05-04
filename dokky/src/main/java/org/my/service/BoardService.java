@@ -18,7 +18,7 @@ public interface BoardService {
 	
 	public void register(BoardVO board);
 
-	public Long getBoard_num();
+	public Long getRecentBoard_num();
 	
 	public BoardVO get(Long board_num);
 
