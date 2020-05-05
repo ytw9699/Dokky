@@ -265,7 +265,7 @@
 <!-- END 숨겨진 DIV들  -->
 
 <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
-<script type="text/javascript" src="/resources/js/reply.js"></script> <!--댓글 AJAX통신 -->
+<script type="text/javascript" src="/ROOT/resources/js/reply.js"></script> <!--댓글 AJAX통신 -->
 <script>
 	//공통 변수 모음 
 	var board_num = '${board.board_num}'; 
