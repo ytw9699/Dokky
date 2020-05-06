@@ -269,7 +269,6 @@
 <script>
 	//공통 변수 모음 
 	
-	
 	var previousCategory  = '${previousCategory}';
 	var board_num = '${board.board_num}'; 
 	var board_id = '${board.userId}';
