@@ -20,7 +20,6 @@ package org.my.controller;
 	import org.springframework.web.bind.annotation.RequestMethod;
 	import org.springframework.web.bind.annotation.RequestParam;
 	import org.springframework.web.bind.annotation.ResponseBody;
-	
 	import lombok.AllArgsConstructor;
 	import lombok.extern.log4j.Log4j;
 			
@@ -30,12 +29,12 @@ package org.my.controller;
 @AllArgsConstructor
 public class ReplyController {
 	
-	private ReplyService service;//@AllArgsConstructor로 주입,스프링4.3이상
+	private ReplyService service;
 	
-	@PreAuthorize("isAuthenticated()")
+	//@PreAuthorize("isAuthenticated()")
 	@ResponseBody
 	@PostMapping(value = "/new", consumes = "application/json", produces = "text/plain; charset=UTF-8")
-	public ResponseEntity<String> create(@RequestBody commonVO vo) {
+	public ResponseEntity<String> createReply(@RequestBody commonVO vo) {
 
 		log.info("/replies/new");
 		log.info("ReplyVO: " + vo);
@@ -47,16 +46,24 @@ public class ReplyController {
 				: new ResponseEntity<>(HttpStatus.INTERNAL_SERVER_ERROR);
 	}
 	
-	@GetMapping(value = "/pages/{board_num}/{page}", produces = { MediaType.APPLICATION_XML_VALUE, MediaType.APPLICATION_JSON_UTF8_VALUE })
+	@GetMapping(value = "/{reply_num}",  produces = { MediaType.APPLICATION_XML_VALUE, 
+			  MediaType.APPLICATION_JSON_UTF8_VALUE })
 	@ResponseBody
-	public ResponseEntity<ReplyPageDTO> getList(@PathVariable("page") int page, @PathVariable("board_num") Long board_num) {//댓글 리스트
+	public ResponseEntity<ReplyVO> readReply(@PathVariable("reply_num") Long reply_num) {
+	
+	log.info("/replies/"+reply_num);
+	
+	return new ResponseEntity<>(service.get(reply_num), HttpStatus.OK);
+	}
+	
+	@GetMapping(value = "/pages/{board_num}/{page}", produces = { MediaType.APPLICATION_JSON_UTF8_VALUE })
+	@ResponseBody
+	public ResponseEntity<ReplyPageDTO> readReplyList(@PathVariable("page") int page, @PathVariable("board_num") Long board_num) {//댓글 리스트
 		
-		log.info("/replies/pages");
+		log.info("/replies/pages/"+board_num+"/"+page);
 		
 		Criteria cri = new Criteria(page, 10);//댓글을 10개씩 보여줌 
 		
-		log.info("get Reply List board_num: " + board_num);
-  
 		log.info("cri:" + cri);
 
 		return new ResponseEntity<>(service.getListPage(cri, board_num), HttpStatus.OK);
@@ -65,10 +72,9 @@ public class ReplyController {
 	@PreAuthorize("principal.username == #vo.userId")
 	@DeleteMapping(value = "/{reply_num}", produces = { MediaType.TEXT_PLAIN_VALUE })
 	@ResponseBody
-	public ResponseEntity<String> remove(@RequestBody ReplyVO vo, @PathVariable("reply_num") Long reply_num) {
+	public ResponseEntity<String> deleteReply(@RequestBody ReplyVO vo, @PathVariable("reply_num") Long reply_num) {
 		
-		log.info("/replies/remove");
-		log.info("remove: " + reply_num);
+		log.info("/replies/"+reply_num);
 		
 		return service.remove(reply_num) == 1 
 				? new ResponseEntity<>("success", HttpStatus.OK)
@@ -77,7 +83,7 @@ public class ReplyController {
 	
 	@PreAuthorize("principal.username == #userId")  
 	@PostMapping("/removeAll")//댓글 다중삭제
-		public String removeAll(@RequestParam("checkRow") String checkRow , @RequestParam("userId")String userId, Criteria cri) {
+		public String deleteReplies(@RequestParam("checkRow") String checkRow , @RequestParam("userId")String userId, Criteria cri) {
 
 		log.info("/replies/removeAll");
 		log.info("checkRow..." + checkRow);
@@ -100,50 +106,15 @@ public class ReplyController {
 	@RequestMapping(method = { RequestMethod.PUT,RequestMethod.PATCH }, 
 					value = "/reply", consumes = "application/json", produces = { MediaType.TEXT_PLAIN_VALUE }) 
 	@ResponseBody
-	public ResponseEntity<String> modify(@RequestBody ReplyVO vo) {
+	public ResponseEntity<String> updateReply(@RequestBody ReplyVO vo) {
 
-		log.info("/replies/reply/modify");
+		log.info("/replies/reply");
 		log.info("ReplyVO: " + vo);
 
 		return service.modify(vo) == 1 
 				? new ResponseEntity<>("success", HttpStatus.OK)
 				: new ResponseEntity<>(HttpStatus.INTERNAL_SERVER_ERROR);
 	}
-	
-	@GetMapping(value = "/{reply_num}",  produces = { MediaType.APPLICATION_XML_VALUE, 
-					     							  MediaType.APPLICATION_JSON_UTF8_VALUE })
-	@ResponseBody
-	public ResponseEntity<ReplyVO> get(@PathVariable("reply_num") Long reply_num) {
-		
-		log.info("/replies/get");
-		log.info("get: " + reply_num);
-
-		return new ResponseEntity<>(service.get(reply_num), HttpStatus.OK);
-	}
-	
-	/*@GetMapping(value = "/mytest/{reply_num}", //테스트..
-			produces = { MediaType.APPLICATION_JSON_UTF8_VALUE })
-	public ResponseEntity<ReplyVO> test(@PathVariable("reply_num") Long reply_num) {
-
-		return new ResponseEntity<>(service.get(reply_num), HttpStatus.OK);
-	}*/
-
-
-//	 @GetMapping(value = "/pages/{num}/{page}", 
-//			 produces = {
-//					 MediaType.APPLICATION_XML_VALUE,
-//					 MediaType.APPLICATION_JSON_UTF8_VALUE })
-//	 public ResponseEntity<List<ReplyVO>> getList(
-//			 @PathVariable("page") int page,
-//			 @PathVariable("num") Long num) {
-//	
-//		 
-//		 log.info("getList.................");
-//		 Criteria cri = new Criteria(page,10);
-//		 log.info(cri);
-//	
-//	 return new ResponseEntity<>(service.getList(cri, num), HttpStatus.OK);
-//	 }
 	
 	@RequestMapping(method = { RequestMethod.PUT,RequestMethod.PATCH },
 			value = "/likeCount", consumes = "application/json", produces = "text/plain; charset=UTF-8")
