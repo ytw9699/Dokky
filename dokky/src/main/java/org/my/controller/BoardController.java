@@ -122,6 +122,8 @@ public class BoardController {//
 		
 		BoardVO board = service.get(board_num);
 		
+		
+		
 		if(board == null) {
 			
 			log.info("/getBoardError");
@@ -132,6 +134,7 @@ public class BoardController {//
 		}   
 		
 		model.addAttribute("board", board); //조회수증가 + 한줄 글 상세 데이터 가져오기
+		model.addAttribute("previousCategory", cri.getCategory()); 
 		
 		return "board/get";
 	}
