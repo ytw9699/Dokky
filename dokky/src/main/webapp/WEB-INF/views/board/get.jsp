@@ -780,7 +780,7 @@
 	$("#list_button").on("click", function(e){//목록보기
 		
 		if(previousCategory == 0 ){
-			operForm.attr("action","/board/allList");
+			operForm.attr("action","/board/allList");//전체글보기 카테고리에서 넘어온거라면 전체글보기 목록으로 이동
 			operForm.find("input[name='category']").val(previousCategory);
 		}else{
 		    operForm.attr("action","/board/list");
