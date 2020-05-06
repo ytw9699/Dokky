@@ -268,6 +268,9 @@
 <script type="text/javascript" src="/ROOT/resources/js/reply.js"></script> <!--댓글 AJAX통신 -->
 <script>
 	//공통 변수 모음 
+	
+	
+	var previousCategory  = '${previousCategory}';
 	var board_num = '${board.board_num}'; 
 	var board_id = '${board.userId}';
 	var board_nickName = '${board.nickName}';
@@ -776,11 +779,16 @@
 	
 	$("#list_button").on("click", function(e){//목록보기
 		
-	    operForm.find("#board_num").remove();
-	    operForm.find("#userId").remove();
-	    operForm.find("#csrf").remove();
-	    operForm.attr("action","/board/list")
-	    operForm.submit();
+		if(previousCategory == 0 ){
+			operForm.attr("action","/board/allList");
+			operForm.find("input[name='category']").val(previousCategory);
+		}else{
+		    operForm.attr("action","/board/list");
+		}
+			operForm.find("#board_num").remove();
+		    operForm.find("#userId").remove();
+		    operForm.find("#csrf").remove();
+		    operForm.submit();
 	}); 
 	
 	$("#modify_button").on("click", function(e){//게시글 수정
