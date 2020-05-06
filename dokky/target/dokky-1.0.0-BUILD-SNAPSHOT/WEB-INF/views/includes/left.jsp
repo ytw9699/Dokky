@@ -25,7 +25,7 @@
 					<a href="#" class="leftUsermenu">
 					  	  <%-- <img id="leftProfile" src="/display?fileName=<c:out value="${userInfo.username}"/>.png" class="memberImage leftHideusermenu" onerror="this.src='/resources/img/basicProfile.png'"/> --%>
 					  	  <%-- <img id="leftProfile" src="/resources/img/profile_img/<c:out value="${userInfo.username}"/>.png" class="memberImage leftHideusermenu" onerror="this.src='/resources/img/profile_img/basicProfile.png'" /> --%>
-					  	  <img id="leftProfile" src="/upload/<c:out value="${userInfo.username}"/>.png" class="memberImage leftHideusermenu" onerror="this.src='/ROOT/resources/img/profile_img/basicProfile.png'" />
+					  	  <img id="leftProfile" src="/upload/<c:out value="${userInfo.username}"/>.png?${random}" class="memberImage leftHideusermenu" onerror="this.src='/ROOT/resources/img/profile_img/basicProfile.png'" />
 					  	  <c:out value="${userInfo.member.nickName}"/>    
 			  	    </a> 
 			  	    <div id="leftUsermenuBar">
