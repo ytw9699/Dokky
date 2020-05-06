@@ -1,8 +1,14 @@
 package org.my.controller;
+	import static org.junit.Assert.assertEquals;
+	import static org.junit.Assert.assertNotNull;
+	import static org.junit.Assert.assertNull;
+	import static org.junit.Assert.fail;
+	import java.util.Map;
 	import org.junit.Before;
 	import org.junit.FixMethodOrder;
 	import org.junit.Test;
 	import org.junit.runner.RunWith;
+	import org.junit.runners.MethodSorters;
 	import org.my.domain.BoardVO;
 	import org.my.mapper.BoardMapper;
 	import org.my.service.BoardService;
@@ -17,12 +23,6 @@ package org.my.controller;
 	import org.springframework.web.servlet.ModelAndView;
 	import lombok.Setter;
 	import lombok.extern.log4j.Log4j;
-	import static org.junit.Assert.assertEquals;
-	import static org.junit.Assert.assertNotNull;
-	import static org.junit.Assert.assertNull;
-	import static org.junit.Assert.fail;
-	import java.util.Map;
-	import org.junit.runners.MethodSorters;
 
 @RunWith(SpringJUnit4ClassRunner.class)
 @WebAppConfiguration//WebApplicationContext를 이용하기 위해서
@@ -218,7 +218,27 @@ public class BoardControllerTests {
 		}
 	}
 	
-	
+	/*@Test
+	public void testGetListPaging() throws Exception {//미완성 유닛테스트
+
+		log.info("공지사항 리스트 페이징 테스트 ");
+		
+		try {
+			
+			log.info(mockMvc.perform(
+					MockMvcRequestBuilders.get("/board/list")
+					.param("pageNum", "2")
+					.param("category", "1")
+					.param("amount", "10"))
+					.andReturn().getModelAndView().getModelMap());
+			
+		}catch(Exception e){
+			
+			log.info("testGetListPaging() 테스트 실패");
+			e.printStackTrace();
+			fail(e.getMessage());
+		}
+	}*/
 }
 
 
