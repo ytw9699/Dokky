@@ -56,7 +56,7 @@ public class BoardServiceTests {
 	    
 		log.info("글 상세페이지 가져오기 테스트");
 		
-		Long board_num = service.getBoard_num();//가장 최근에 작성한 게시물 번호 가져오기
+		Long board_num = service.getRecentBoard_num();//가장 최근에 작성한 게시물 번호 가져오기
 		//하지만 testRegister()를 통해 방금 생성한 게시물 번호를 못가져온다..커밋이 안되는듯
 		
 		log.info("가져온 게시물 번호"+board_num);
@@ -71,7 +71,7 @@ public class BoardServiceTests {
 		
 		log.info("첨부파일 없는 게시글 수정 테스트");
 		
-		Long board_num = service.getBoard_num();
+		Long board_num = service.getRecentBoard_num();
 		
 		BoardVO board = service.get(board_num);
 
@@ -96,7 +96,7 @@ public class BoardServiceTests {
 		
 		log.info("게시글 삭제 테스트");
 		
-		Long board_num = service.getBoard_num();
+		Long board_num = service.getRecentBoard_num();
 		
 		if(service.remove(board_num) == true) {
 			log.info("삭제 완료");
