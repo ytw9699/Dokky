@@ -121,18 +121,18 @@ public class BoardControllerTests {
 		
 		try {
 			
-			String board_num = service.getRecentBoard_num().toString();
-			
+			Long board_num = service.getRecentBoard_num();
+					
 			ModelAndView modelAndView = mockMvc
 					.perform(MockMvcRequestBuilders.post("/board/modify")
-							.param("board_num", board_num)
+							.param("board_num", board_num.toString())
 							.param("title", "수정된 테스트 새글 제목")
 							.param("content", "수정된 테스트 새글 내용")
 							.param("category", "1")
 							.param("userId", "admin"))
 					.andReturn().getModelAndView();
 
-			BoardVO board = mapper.read(service.getRecentBoard_num());
+			BoardVO board = mapper.read(board_num);
 			
 			String resultPage = modelAndView.getViewName();
 			
@@ -167,52 +167,6 @@ public class BoardControllerTests {
 			
 		}catch(Exception e){
 			log.info("test4_Remove() 테스트 실패");
-			e.printStackTrace();
-			fail(e.getMessage());
-		}
-	}
-	
-	
-	@Test
-	public void testGetAllList() throws Exception {
-			
-		log.info("전체글보기 리스트 테스트 ");
-		
-		try {
-			
-			log.info("https://dokky.ga/board/allList?category=0");
-			
-			log.info(									  //GET 방식의 호출
-					mockMvc.perform(MockMvcRequestBuilders.get("/board/allList?category=0"))
-					.andReturn()
-					.getModelAndView()
-					.getModelMap());//모델에 있는 데이터 확인
-			
-		}catch(Exception e) {
-			log.info("testGetAllList() 테스트 실패");
-			e.printStackTrace();
-			fail(e.getMessage());
-		}
-	}
-	
-	@Test
-	public void testGetLists() throws Exception {
-		
-		try {
-			String[] title = {"공지사항","자유게시판","묻고답하기","칼럼/tech","정기모임/스터디"};
-			
-			for(int i=1; i<6; i++) {
-				
-				log.info(title[i-1]+" 글 리스트 테스트");
-				
-				log.info(									  //GET 방식의 호출
-						mockMvc.perform(MockMvcRequestBuilders.get("/board/list?category="+i))
-						.andReturn()
-						.getModelAndView()
-						.getModelMap());//모델에 있는 데이터 확인
-			}
-		}catch(Exception e) {
-			log.info("testGetLists() 테스트 실패");
 			e.printStackTrace();
 			fail(e.getMessage());
 		}
