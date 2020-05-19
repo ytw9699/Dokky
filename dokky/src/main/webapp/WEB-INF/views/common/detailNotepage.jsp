@@ -13,7 +13,6 @@
 	<link href="/ROOT/resources/css/detailNotepage.css" rel="stylesheet" type="text/css">
 </head>
 <body> 
-<c:set var="random"><%= java.lang.Math.round(java.lang.Math.random() * 123456) %></c:set>
 <div class="noteWrap">	
 
 		  <div id="menuWrap">
