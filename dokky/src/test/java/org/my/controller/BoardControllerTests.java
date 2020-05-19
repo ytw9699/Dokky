@@ -1,7 +1,10 @@
 package org.my.controller;
 	import org.junit.Before;
+	import org.junit.FixMethodOrder;
 	import org.junit.Test;
 	import org.junit.runner.RunWith;
+	import org.my.domain.BoardVO;
+	import org.my.mapper.BoardMapper;
 	import org.my.service.BoardService;
 	import org.springframework.beans.factory.annotation.Autowired;
 	import org.springframework.test.context.ContextConfiguration;
@@ -11,9 +14,15 @@ package org.my.controller;
 	import org.springframework.test.web.servlet.request.MockMvcRequestBuilders;
 	import org.springframework.test.web.servlet.setup.MockMvcBuilders;
 	import org.springframework.web.context.WebApplicationContext;
+	import org.springframework.web.servlet.ModelAndView;
 	import lombok.Setter;
 	import lombok.extern.log4j.Log4j;
+	import static org.junit.Assert.assertEquals;
+	import static org.junit.Assert.assertNotNull;
+	import static org.junit.Assert.assertNull;
 	import static org.junit.Assert.fail;
+	import java.util.Map;
+	import org.junit.runners.MethodSorters;
 
 @RunWith(SpringJUnit4ClassRunner.class)
 @WebAppConfiguration//WebApplicationContext를 이용하기 위해서
@@ -22,6 +31,7 @@ package org.my.controller;
 	"file:src/main/webapp/WEB-INF/spring/security-context.xml"	
 })
 @Log4j
+@FixMethodOrder(MethodSorters.NAME_ASCENDING)
 public class BoardControllerTests {
 
 	@Setter(onMethod_ = { @Autowired })
@@ -30,8 +40,11 @@ public class BoardControllerTests {
 	@Setter(onMethod_ = { @Autowired })
 	private BoardService service;
 	
-	private MockMvc mockMvc; //가짜 mvc라고 생각
-							 //가짜로URL과 파라미터 등을 브라우저에서 사용하는 것처럼 만들어서 Controller를 실행
+	@Setter(onMethod_ = @Autowired)
+	private BoardMapper mapper;
+	
+	private MockMvc mockMvc; // 가짜 mvc라고 생각
+							 // 가짜로URL과 파라미터 등을 브라우저에서 사용하는 것처럼 만들어서 Controller를 실행
 
 	@Before//모든 테스트 전에 매번 실행되는 메서드
 	public void setup() {
@@ -39,146 +52,126 @@ public class BoardControllerTests {
 	}
 	
 	@Test
-	public void testRegister() throws Exception {//로그인처리후 동작 가능
+	public void test1_Register() throws Exception {//로그인처리후 동작 가능
 		
 		log.info("첨부파일 없는 단순 글 등록 테스트");
 		log.info("https://dokky.ga/board/register");
 		
 		try {
-			String resultPage = mockMvc
+			 ModelAndView modelAndView = mockMvc
 					.perform(MockMvcRequestBuilders.post("/board/register")//POST방식으로 데이터를 전달
 					.param("title", "테스트 새글 제목") //전달해야 하는 파라미터들을 지정
 					.param("content", "테스트 새글 내용")
 					.param("nickName", "슈퍼관리자")
 					.param("userId", "admin")
 					.param("category", "1"))
-					.andReturn().getModelAndView().getViewName();
+					.andReturn().getModelAndView();
+			 
+			Map<String, Object> map = modelAndView.getModel();
 			
-			log.info("resultPage="+resultPage);//resultPage=redirect:/board/get
+			Long board_num = Long.parseLong((String)map.get("board_num"));
+			
+			BoardVO board = mapper.read(board_num);
+			
+			String resultPage = modelAndView.getViewName();
+
+			assertEquals(board.getTitle(), "테스트 새글 제목");
+			assertEquals(board.getContent(), "테스트 새글 내용");
+			assertEquals(board.getNickName(), "슈퍼관리자");
+			assertEquals(board.getUserId(), "admin");
+			assertEquals(board.getCategory(), 1);
+			assertEquals(resultPage, "redirect:/board/get");
 			
 		} catch (Exception e) {
-			log.info("testRegister() 테스트 실패");
+			log.info("test1_Register() 테스트 실패");
 			e.printStackTrace();
 			fail(e.getMessage());
 		}
 	}
 	
 	@Test
-	public void testGet() throws Exception {
+	public void test2_Get() throws Exception {
 		
 		log.info("글 상세페이지 가져오기 테스트");
 		
 		try {
 			
-			String board_num = service.getBoard_num().toString();//가장 최근의 글번호 가져오기, 하지만 테스트에서 register한 번호를 못가져옴
+			String board_num = service.getRecentBoard_num().toString();//가장 최근의 글번호
 			
 			log.info("https://dokky.ga/board/get?board_num="+board_num);
 			
-			log.info(mockMvc.perform(MockMvcRequestBuilders.get("/board/get").param("board_num", board_num)).andReturn()
-					.getModelAndView().getModelMap());
+			BoardVO board = (BoardVO) mockMvc.perform(MockMvcRequestBuilders.get("/board/get").param("board_num", board_num)).andReturn()
+					.getModelAndView().getModel().get("board");
+			
+			log.info("board"+board);
+			
+			assertNotNull(board);
 			
 		}catch(Exception e) {
-			log.info("testGet() 테스트 실패");
+			log.info("test2_Get() 테스트 실패");
 			e.printStackTrace();
 			fail(e.getMessage());
 		}
 	}
 	
 	@Test
-	public void testModify() throws Exception {//로그인처리후 동작 가능
+	public void test3_Modify() throws Exception {//로그인처리후 동작 가능
 		
 		log.info("첨부파일 없는 게시글 수정 테스트");
 		
 		try {
 			
-			String board_num = service.getBoard_num().toString();
-			
-			String resultPage = mockMvc
+			Long board_num = service.getRecentBoard_num();
+					
+			ModelAndView modelAndView = mockMvc
 					.perform(MockMvcRequestBuilders.post("/board/modify")
-							.param("board_num", board_num)
+							.param("board_num", board_num.toString())
 							.param("title", "수정된 테스트 새글 제목")
 							.param("content", "수정된 테스트 새글 내용")
 							.param("category", "1")
 							.param("userId", "admin"))
-					.andReturn().getModelAndView().getViewName();
+					.andReturn().getModelAndView();
 
-			log.info("resultPage="+resultPage);
+			BoardVO board = mapper.read(board_num);
+			
+			String resultPage = modelAndView.getViewName();
+			
+			assertEquals(board.getTitle(), "수정된 테스트 새글 제목");
+			assertEquals(board.getContent(), "수정된 테스트 새글 내용");
+			assertEquals(board.getCategory(), 1);
+			assertEquals(resultPage, "redirect:/board/get");
 			
 		}catch(Exception e) {
-			log.info("testModify() 테스트 실패");
+			log.info("test3_Modify() 테스트 실패");
 			e.printStackTrace();
 			fail(e.getMessage());
 		}
 	}
 	
 	@Test
-	public void testRemove() throws Exception {
+	public void test4_Remove() throws Exception {
 		
 		log.info("게시글 삭제 테스트");
 		
 		try {
 			
-			String board_num = service.getBoard_num().toString();
+			String board_num = service.getRecentBoard_num().toString();
 			
-			String resultPage = mockMvc.perform(MockMvcRequestBuilders.post("/board/remove")
+			mockMvc.perform(MockMvcRequestBuilders.post("/board/remove")
 					.param("board_num", board_num)
-					.param("userId", "admin"))
-					.andReturn()
-					.getModelAndView().getViewName();
-
-			log.info("resultPage="+resultPage);
+					.param("userId", "admin"));
+			
+			BoardVO board = mapper.read(Long.parseLong(board_num));
+			
+			assertNull(board);
 			
 		}catch(Exception e){
-			log.info("testRemove() 테스트 실패");
+			log.info("test4_Remove() 테스트 실패");
 			e.printStackTrace();
 			fail(e.getMessage());
 		}
 	}
 	
-	@Test
-	public void testGetAllList() throws Exception {
-			
-		log.info("전체글보기 리스트 테스트 ");
-		
-		try {
-			
-			log.info("https://dokky.ga/board/allList?category=0");
-			
-			log.info(									  //GET 방식의 호출
-					mockMvc.perform(MockMvcRequestBuilders.get("/board/allList?category=0"))
-					.andReturn()
-					.getModelAndView()
-					.getModelMap());//모델에 있는 데이터 확인
-			
-		}catch(Exception e) {
-			log.info("testGetAllList() 테스트 실패");
-			e.printStackTrace();
-			fail(e.getMessage());
-		}
-	}
-	
-	@Test
-	public void testGetLists() throws Exception {
-		
-		try {
-			String[] title = {"공지사항","자유게시판","묻고답하기","칼럼/tech","정기모임/스터디"};
-			
-			for(int i=1; i<6; i++) {
-				
-				log.info(title[i-1]+" 글 리스트 테스트");
-				
-				log.info(									  //GET 방식의 호출
-						mockMvc.perform(MockMvcRequestBuilders.get("/board/list?category="+i))
-						.andReturn()
-						.getModelAndView()
-						.getModelMap());//모델에 있는 데이터 확인
-			}
-		}catch(Exception e) {
-			log.info("testGetLists() 테스트 실패");
-			e.printStackTrace();
-			fail(e.getMessage());
-		}
-	}
 	
 }
 

@@ -12,7 +12,6 @@
 		<%@include file="../includes/left.jsp"%> 
 	</head>
 <body> 
-
 <sec:authentication property="principal" var="userInfo"/>
 <!-- 다시보기 : 위 코드 없어도 left.jsp에있기 때문에 userInfo가 동작함 -->
 
@@ -41,7 +40,7 @@
 			
 			<div class="nickName">
 				<a href="#" id="board_userMenu" class="userMenu">
-					<img src="/upload/<c:out value="${board.userId}" />.png"  class="memberImage hideUsermenu" onerror="this.src='/ROOT/resources/img/profile_img/basicProfile.png'" />
+					<img src="/upload/<c:out value="${board.userId}" />.png?${random}"  class="memberImage hideUsermenu" onerror="this.src='/ROOT/resources/img/profile_img/basicProfile.png'" />
 					<c:out value="${board.nickName}" /> 
 				</a>
 			</div>
@@ -265,7 +264,7 @@
 <!-- END 숨겨진 DIV들  -->
 
 <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
-<script type="text/javascript" src="/resources/js/reply.js"></script> <!--댓글 AJAX통신 -->
+<script type="text/javascript" src="/ROOT/resources/js/reply.js"></script> <!--댓글 AJAX통신 -->
 <script>
 	//공통 변수 모음 
 	var board_num = '${board.board_num}'; 
@@ -415,7 +414,7 @@
 			var depth; 
 			var group_num; 
 			var order_step; 
-			
+			var random = Math.random();
 			
 			if(page == -1){
 			
@@ -478,7 +477,7 @@
 		    	  str += "<div class='reply' data-reply_num='"+reply_nums+"'>" 
 			    	  		   + "<span>"
 								   + "<a href='#' class='userMenu' data-reply_num='"+reply_nums+"' data-menu_kind='from'>"   
-									   + "<img src='/upload/"+userId+".png' class='memberImage hideUsermenu' onerror='this.src=\"/ROOT/resources/img/profile_img/basicProfile.png\"'/>&nbsp"
+									   + "<img src='/upload/"+userId+".png?"+random+"' class='memberImage hideUsermenu' onerror='this.src=\"/ROOT/resources/img/profile_img/basicProfile.png\"'/>&nbsp"
 									   + nickName
 								   + "</a>"
 							   + "</span>" 
@@ -573,7 +572,7 @@
     	   			     str += "<span class='depthLine'>└ </span>"
 	    	   			  	   +"<span>"
 							       + "<a href='#' class='userMenu' data-reply_num='"+reply_nums+"' data-menu_kind='from'>"   
-									   + "<img src='/upload/"+userId+".png' class='memberImage hideUsermenu' onerror='this.src=\"/ROOT/resources/img/profile_img/basicProfile.png\"'/>&nbsp"
+									   + "<img src='/upload/"+userId+".png?"+random+"' class='memberImage hideUsermenu' onerror='this.src=\"/ROOT/resources/img/profile_img/basicProfile.png\"'/>&nbsp"
 									   + nickName
 							       + "</a>"
 						   	   + "</span>"
@@ -598,7 +597,7 @@
 							   
 							   + "<span>"
 							       + "<a href='#' class='userMenu' data-reply_num='"+reply_nums+"' data-menu_kind='to'>"
-									   + "<img src='/upload/"+toUserId+".png' class='memberImage hideUsermenu' onerror='this.src=\"/ROOT/resources/img/profile_img/basicProfile.png\"'/>&nbsp"
+									   + "<img src='/upload/"+toUserId+".png?"+random+"' class='memberImage hideUsermenu' onerror='this.src=\"/ROOT/resources/img/profile_img/basicProfile.png\"'/>&nbsp"
 									   + toNickName
 							       + "</a>"
 				   	   		   + "</span>"

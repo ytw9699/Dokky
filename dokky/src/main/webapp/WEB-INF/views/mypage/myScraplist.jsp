@@ -80,7 +80,7 @@
 						 
 							<td class="td">
 								<a href="#" class="userMenu" data-scrap_num="${scrap.scrap_num}"> 
-									<img src="/upload/<c:out value="${scrap.userId}"  />.png"  class="memberImage hideUsermenu" onerror="this.src='/ROOT/resources/img/profile_img/basicProfile.png'" />
+									<img src="/upload/<c:out value="${scrap.userId}"  />.png?${random}"  class="memberImage hideUsermenu" onerror="this.src='/ROOT/resources/img/profile_img/basicProfile.png'" />
 									<c:out value="${scrap.nickName}" /> 
 								</a>   
 								<div id="userMenubar_${scrap.scrap_num}" class="userMenubar">

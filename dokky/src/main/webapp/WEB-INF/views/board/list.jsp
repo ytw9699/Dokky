@@ -135,7 +135,7 @@
 						</td>
 						<td class="td"> 
 							<a href="#" class="userMenu" data-board_num="${board.board_num}">
-								<img src="/upload/<c:out value="${board.userId}"  />.png"  class="memberImage hideUsermenu" onerror="this.src='/ROOT/resources/img/profile_img/basicProfile.png'" />
+								<img src="/upload/<c:out value="${board.userId}"  />.png?${random}"  class="memberImage hideUsermenu" onerror="this.src='/ROOT/resources/img/profile_img/basicProfile.png'" />
 								<c:out value="${board.nickName}" /> 
 							</a> 
 							 <div id="userMenubar_${board.board_num}" class="userMenubar">
