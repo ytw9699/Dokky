@@ -12,7 +12,6 @@
 <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
 <%@include file="../includes/left.jsp"%>
 <body>
-<c:set var="random"><%= java.lang.Math.round(java.lang.Math.random() * 123456) %></c:set>
 	<div class="listWrapper">
 		<div class="boardKind">
 			 <span class="category">

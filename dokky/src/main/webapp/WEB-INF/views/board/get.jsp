@@ -12,7 +12,6 @@
 		<%@include file="../includes/left.jsp"%> 
 	</head>
 <body> 
-<c:set var="random"><%= java.lang.Math.round(java.lang.Math.random() * 123456) %></c:set>
 <sec:authentication property="principal" var="userInfo"/>
 <!-- 다시보기 : 위 코드 없어도 left.jsp에있기 때문에 userInfo가 동작함 -->
 

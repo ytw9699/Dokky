@@ -11,7 +11,6 @@
 <link href="/ROOT/resources/css/authorizationList.css" rel="stylesheet" type="text/css"/>
 </head> 
 <%@include file="../includes/left.jsp"%>
-<c:set var="random"><%= java.lang.Math.round(java.lang.Math.random() * 123456) %></c:set>
 <body> 
 	<div class="memberListWrap">	 
 	 

@@ -1,14 +1,8 @@
 package org.my.controller;
-	import static org.junit.Assert.assertEquals;
-	import static org.junit.Assert.assertNotNull;
-	import static org.junit.Assert.assertNull;
-	import static org.junit.Assert.fail;
-	import java.util.Map;
 	import org.junit.Before;
 	import org.junit.FixMethodOrder;
 	import org.junit.Test;
 	import org.junit.runner.RunWith;
-	import org.junit.runners.MethodSorters;
 	import org.my.domain.BoardVO;
 	import org.my.mapper.BoardMapper;
 	import org.my.service.BoardService;
@@ -23,6 +17,12 @@ package org.my.controller;
 	import org.springframework.web.servlet.ModelAndView;
 	import lombok.Setter;
 	import lombok.extern.log4j.Log4j;
+	import static org.junit.Assert.assertEquals;
+	import static org.junit.Assert.assertNotNull;
+	import static org.junit.Assert.assertNull;
+	import static org.junit.Assert.fail;
+	import java.util.Map;
+	import org.junit.runners.MethodSorters;
 
 @RunWith(SpringJUnit4ClassRunner.class)
 @WebAppConfiguration//WebApplicationContext를 이용하기 위해서
@@ -121,18 +121,18 @@ public class BoardControllerTests {
 		
 		try {
 			
-			String board_num = service.getRecentBoard_num().toString();
-			
+			Long board_num = service.getRecentBoard_num();
+					
 			ModelAndView modelAndView = mockMvc
 					.perform(MockMvcRequestBuilders.post("/board/modify")
-							.param("board_num", board_num)
+							.param("board_num", board_num.toString())
 							.param("title", "수정된 테스트 새글 제목")
 							.param("content", "수정된 테스트 새글 내용")
 							.param("category", "1")
 							.param("userId", "admin"))
 					.andReturn().getModelAndView();
 
-			BoardVO board = mapper.read(service.getRecentBoard_num());
+			BoardVO board = mapper.read(board_num);
 			
 			String resultPage = modelAndView.getViewName();
 			
@@ -173,72 +173,6 @@ public class BoardControllerTests {
 	}
 	
 	
-	@Test
-	public void testGetAllList() throws Exception {
-			
-		log.info("전체글보기 리스트 테스트 ");
-		
-		try {
-			
-			log.info("https://dokky.ga/board/allList?category=0");
-			
-			log.info(									  //GET 방식의 호출
-					mockMvc.perform(MockMvcRequestBuilders.get("/board/allList?category=0"))
-					.andReturn()
-					.getModelAndView()
-					.getModelMap());//모델에 있는 데이터 확인
-			
-		}catch(Exception e) {
-			log.info("testGetAllList() 테스트 실패");
-			e.printStackTrace();
-			fail(e.getMessage());
-		}
-	}
-	
-	@Test
-	public void testGetLists() throws Exception {
-		
-		try {
-			String[] title = {"공지사항","자유게시판","묻고답하기","칼럼/tech","정기모임/스터디"};
-			
-			for(int i=1; i<6; i++) {
-				
-				log.info(title[i-1]+" 글 리스트 테스트");
-				
-				log.info(									  //GET 방식의 호출
-						mockMvc.perform(MockMvcRequestBuilders.get("/board/list?category="+i))
-						.andReturn()
-						.getModelAndView()
-						.getModelMap());//모델에 있는 데이터 확인
-			}
-		}catch(Exception e) {
-			log.info("testGetLists() 테스트 실패");
-			e.printStackTrace();
-			fail(e.getMessage());
-		}
-	}
-	
-	/*@Test
-	public void testGetListPaging() throws Exception {//미완성 유닛테스트
-
-		log.info("공지사항 리스트 페이징 테스트 ");
-		
-		try {
-			
-			log.info(mockMvc.perform(
-					MockMvcRequestBuilders.get("/board/list")
-					.param("pageNum", "2")
-					.param("category", "1")
-					.param("amount", "10"))
-					.andReturn().getModelAndView().getModelMap());
-			
-		}catch(Exception e){
-			
-			log.info("testGetListPaging() 테스트 실패");
-			e.printStackTrace();
-			fail(e.getMessage());
-		}
-	}*/
 }
 
 
