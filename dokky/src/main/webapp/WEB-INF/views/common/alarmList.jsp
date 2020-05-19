@@ -9,11 +9,12 @@
 <head>
 <meta charset="UTF-8"> 
 <title>Dokky - 알림</title>
-<link href="/resources/css/alarmList.css" rel="stylesheet" type="text/css"/>
+<link href="/ROOT/resources/css/alarmList.css" rel="stylesheet" type="text/css"/>
 </head>
 <%@include file="../includes/left.jsp"%>
 
 <body>
+<c:set var="random"><%= java.lang.Math.round(java.lang.Math.random() * 123456) %></c:set>
 <sec:authentication property="principal" var="userInfo"/>
 <div class="alarmWrap">	
 
@@ -35,7 +36,7 @@
 	                    
 	                    <td class="td"> 
 							<a href="#" class="userMenu" data-alarm_num="${alarm.alarmNum}">
-								<img src="/resources/img/profile_img/<c:out value="${alarm.writerId}" />.png"  class="memberImage hideUsermenu" onerror="this.src='/resources/img/profile_img/basicProfile.png'" />
+								<img src="/upload/<c:out value="${alarm.writerId}" />.png?${random}"  class="memberImage hideUsermenu" onerror="this.src='/ROOT/resources/img/profile_img/basicProfile.png'" />
 								<c:out value="${alarm.writerNick}" /> 
 							</a>
 							 
@@ -58,9 +59,9 @@
 			                    <c:choose>
 							       <c:when test="${alarm.kind == 0 }"> 
 								        <c:choose>
-										        <c:when test="${fn:length(alarm.commonVar1) gt 17}">
+										        <c:when test="${fn:length(alarm.commonVar1) gt 13}">
 											        <a href="#" class="getBoard" data-alarm_num="${alarm.alarmNum}" data-board_num="${alarm.commonVar2}">
-											        	댓글이 달렸습니다. "<c:out value="${fn:substring(alarm.commonVar1, 0, 17)}"/>....."
+											        	댓글이 달렸습니다. "<c:out value="${fn:substring(alarm.commonVar1, 0, 13)}"/>....."
 										        	</a>
 										        </c:when>
 										        <c:otherwise>
@@ -175,14 +176,14 @@
 							       
 						           <c:when test="${alarm.kind == 9 }">
 						          			<c:choose>
-										        <c:when test="${fn:length(alarm.commonVar1) gt 13}">
+										        <c:when test="${fn:length(alarm.commonVar1) gt 15}">
 										        	<a href="#" class="getUserReportList" data-alarm_num="${alarm.alarmNum}">
-										        		다음 사유로 신고가 접수되었습니다. "<c:out value="${fn:substring(alarm.commonVar1, 0, 13)}"/>....."
+										        		신고 접수 : "<c:out value="${fn:substring(alarm.commonVar1, 0, 15)}"/>....."
 										        	</a>
 										        </c:when>
 										        <c:otherwise>
 										        	<a href="#" class="getUserReportList" data-alarm_num="${alarm.alarmNum}">
-										        		다음 사유로 신고가 접수되었습니다. "<c:out value="${alarm.commonVar1}"/>"
+										        		신고 접수 : "<c:out value="${alarm.commonVar1}"/>"
 										        	</a> 
 										        </c:otherwise>
 											</c:choose>
@@ -378,18 +379,19 @@
 		  checkRow = checkRow.substring(0,checkRow.lastIndexOf( ","));
 		 
 		  if(checkRow == ''){
-		   	 alert("삭제할 알림을 선택하세요.");
+		   	 openAlert("삭제할 알림을 선택하세요");
 		    return false;
 		  }
 		  
-		  //console.log(checkRow);
+		  //console.log(checkRow); 
 		  
-		  if(confirm("정말 삭제 하시겠습니까?")){
+		  deleting('정말 삭제 하시겠습니까?', function() {
 			  actionForm.attr("action","/removeAllAlarm").attr("method","post");
 			  actionForm.append("<input type='hidden' name='checkRow' value='"+checkRow+"'>");
 			  actionForm.append("<input type='hidden' id='csrf' name='${_csrf.parameterName}' value='${_csrf.token}'/>");
 			  actionForm.submit();
-		  }
+		  });
+		  
 		}
 	
 </script>

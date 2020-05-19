@@ -9,6 +9,8 @@ package org.my.mapper;
 
 public interface ReplyMapper {
 
+	public Long getRecentReply_num();
+	
 	public int insert(ReplyVO vo);
 	
 	public int reInsert(ReplyVO replyVO);

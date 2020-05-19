@@ -8,10 +8,10 @@
 <head>
 <meta charset="UTF-8">
 	<title>Dokky - 권한부여관리</title>
-<link href="/resources/css/authorizationList.css" rel="stylesheet" type="text/css"/>
+<link href="/ROOT/resources/css/authorizationList.css" rel="stylesheet" type="text/css"/>
 </head> 
 <%@include file="../includes/left.jsp"%>
-
+<c:set var="random"><%= java.lang.Math.round(java.lang.Math.random() * 123456) %></c:set>
 <body> 
 	<div class="memberListWrap">	 
 	 
@@ -45,7 +45,8 @@
 				<%-- <div class="memberInfoWrap" onclick="location.href='userForm?userId=<c:out value="${user.userId}" />'" > --%>
 				<div class="memberInfoWrap">
 					<div class="memberProfile">
-						<img src="/resources/img/profile_img/<c:out value="${user.userId}"/>.png" id="memberProfile" onerror="this.src='/resources/img/profile_img/basicProfile.png'" />
+						<%-- <img src="/resources/img/profile_img/<c:out value="${user.userId}"/>.png" id="memberProfile" onerror="this.src='/resources/img/profile_img/basicProfile.png'" /> --%>
+						<img src="/upload/<c:out value="${user.userId}"/>.png?${random}" id="memberProfile" onerror="this.src='/ROOT/resources/img/profile_img/basicProfile.png'" />
 					</div>		 		 												 									
 					<div class="memberInfo">
 						<span class="nickName"><c:out value="${user.nickName}" /></span>
@@ -54,8 +55,8 @@
 								<button class="authorization" data-user_id="${user.userId}">사용자</button>
 							</c:when>
 							<c:when test="${user.authList[0].auth == 'ROLE_ADMIN'}">
-								<button class="authorization" data-user_id="${user.userId}">관리자</button>
-							</c:when>
+								<button class="authorization admin" data-user_id="${user.userId}">관리자</button>
+							</c:when> 
 		     			</c:choose>
 						<br/>  
 						<span class="userId"><c:out value="${user.userId}" /></span>
@@ -155,7 +156,10 @@
 						
 						authButton.html("사용자");
 						
-						alert("사용자 계정으로 변경 완료");			   	
+						authButton.attr('class','authorization'); 
+
+						openAlert("사용자 계정으로 변경 완료");
+						
 				   	  }); 
 					
 				}else if((auth == '사용자')){
@@ -164,7 +168,9 @@
 						
 						authButton.html("관리자");
 						
-						alert("관리자 계정으로 변경 완료");				   	
+						authButton.attr('class','authorization admin'); 
+						
+						openAlert("관리자 계정으로 변경 완료");				   	
 			   	  	})
 				}
 				

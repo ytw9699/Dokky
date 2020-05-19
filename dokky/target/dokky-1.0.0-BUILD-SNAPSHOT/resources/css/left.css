@@ -133,8 +133,8 @@
 	  }
 		
 	  .leftUsermenu{
-  		display: inline-block;
-	  	width: 55%;
+  		display: inline-block; 
+	  	width: 90%;
 	  }
 		#leftUsermenuBar{
 			    display: none; 
@@ -182,3 +182,110 @@
 			width: 25px; 
 			height: 25px;  
 		}
+		
+		#alertFakeDiv{
+			display: none;
+		    position: fixed;
+		    width: 100%;
+		    height: 100%;
+		    top: 0;
+		    left: 0;
+		    background-color: #000 !important; 	 
+		    opacity: 0.6;
+		}
+		
+		#alertDiv{
+			display: none;   
+			width: 320px;
+		    border-radius: 8px; 
+		    position: fixed;
+		    top: 35%;
+		    left: 40%;
+		    padding: 50px;
+		    background-color: white;
+		}
+
+		#alertContent{ 
+		    width: 110%;
+		    margin-bottom: 5%;
+		    margin-left: -3%;
+		    text-align: center;
+		    font-size: 17px;
+		    color: #555;
+		    font-weight: 600;
+		}
+		
+		#alertConfirm{  
+			font-size: 20px;
+		    border: none;
+		    padding: 8px;
+		    width: 80%;
+		    margin: 0 auto;
+		    margin-top: 10px;
+		    display: block;
+		    border-radius: 8px;
+		    color: white;
+		    background-color: #7151fc;
+		    cursor:pointer; 
+		}
+		
+		#deleteFakeDiv{
+			display: none;
+		    position: fixed;
+		    width: 100%; 
+		    height: 100%;
+		    top: 0;
+		    left: 0;
+		    background-color: #000 !important; 	 
+		    opacity: 0.6;
+		}
+		
+		#deleteDiv{
+			display: none;   
+			width: 320px;
+		    border-radius: 8px; 
+		    position: fixed;
+		    top: 35%;
+		    left: 40%;
+		    padding: 50px;
+		    background-color: white;
+		}
+
+		#deleteContent{ 
+		    width: 110%;
+		    margin-bottom: 5%;
+		    margin-left: -3%;
+		    text-align: center;
+		    font-size: 17px;
+		    color: #555;
+		    font-weight: 600;
+		}
+		
+		#deleteConfirm{  
+			font-size: 17px;
+		    border: none;
+		    padding: 8px;
+		    width: 70%;
+		    margin: 0 auto;
+		    margin-top: 10px;
+		    display: block;
+		    border-radius: 8px;
+		    color: white;
+		    background-color: #7151fc;
+		    cursor:pointer; 
+		}
+		
+		#cancelConfirm{  
+			font-size: 17px;
+		    border: none;
+		    padding: 8px;
+		    width: 70%;
+		    margin: 0 auto;
+		    margin-top: 10px;
+		    display: block;
+		    border-radius: 8px;
+		    color: white;
+		    background-color: #7151fc;
+		    cursor:pointer; 
+		}
+	    

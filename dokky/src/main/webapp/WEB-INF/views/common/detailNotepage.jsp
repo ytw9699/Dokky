@@ -10,10 +10,10 @@
 	<meta charset="UTF-8">
 	<script src="//code.jquery.com/jquery-1.11.3.min.js"></script>
 	<title>Dokky - 쪽지 상세페이지</title>  
-	<link href="/resources/css/detailNotepage.css" rel="stylesheet" type="text/css">
+	<link href="/ROOT/resources/css/detailNotepage.css" rel="stylesheet" type="text/css">
 </head>
 <body> 
-
+<c:set var="random"><%= java.lang.Math.round(java.lang.Math.random() * 123456) %></c:set>
 <div class="noteWrap">	
 
 		  <div id="menuWrap">
@@ -31,7 +31,7 @@
 					        <c:when test="${note_kind == 'fromNote' || note_kind == 'myNote'}">
 		     					<div class="topData">보낸사람 -
 			          				<a href="#" class="userMenu" data-note_num="${note.note_num}">
-										<img src="/resources/img/profile_img/<c:out value="${note.from_id}"/>.png"  class="memberImage hideUsermenu" onerror="this.src='/resources/img/profile_img/basicProfile.png'" />
+										<img src="/upload/<c:out value="${note.from_id}"/>.png?${random}"  class="memberImage hideUsermenu" onerror="this.src='/ROOT/resources/img/profile_img/basicProfile.png'" />
 										<c:out value="${note.from_nickname}" />
 									</a>   
 									<div id="userMenubar_${note.note_num}" class="userMenubar">
@@ -53,7 +53,7 @@
 							<c:when test="${note_kind == 'toNote'}">
 								<div class="topData">받는사람 -
 			          				<a href="#" class="userMenu" data-note_num="${note.note_num}">
-										<img src="/resources/img/profile_img/<c:out value="${note.to_id}"/>.png"  class="memberImage hideUsermenu" onerror="this.src='/resources/img/profile_img/basicProfile.png'" />
+										<img src="/upload/<c:out value="${note.to_id}"/>.png?${random}"  class="memberImage hideUsermenu" onerror="this.src='/ROOT/resources/img/profile_img/basicProfile.png'" />
 										<c:out value="${note.to_nickname}" /> 
 									</a>   
 									<div id="userMenubar_${note.note_num}" class="userMenubar">
@@ -150,7 +150,7 @@
 			
 			if(to_id == ""){ 
 				
-				alert("받는사람 아이디를 입력하세요."); 
+				openAlert("받는사람 아이디를 입력하세요"); 
 				return false;
 			}
 			
@@ -160,7 +160,7 @@
 			
 			if(content == ""){ 
 				
-			   alert("내용을 입력하세요."); 
+			   openAlert("내용을 입력하세요"); 
 			   return false;
 			}
 	
@@ -178,7 +178,7 @@
 			    	$("#to_id").val(""); 
 					$("#checkbox").prop("checked", false);
 					
-					alert(result); 
+					openAlert(result); 
 	   	    });
     });
 	

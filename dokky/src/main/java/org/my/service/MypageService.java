@@ -44,5 +44,7 @@ public interface MypageService {
 	public int getMyCashHistoryCount(String userId);
 
 	public void removeAllScrap(Long scrap_num);
+
+	public boolean checkNickname(String nickName,String userId);
 	
 }

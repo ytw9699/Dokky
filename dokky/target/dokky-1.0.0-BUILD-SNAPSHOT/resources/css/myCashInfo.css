@@ -171,9 +171,11 @@
 		    cursor:pointer;
     }
      
-    .chargeText{font-size: 20px;
-    color: #555;
-    font-weight: 600;}
+    .chargeText{
+	    font-size: 20px;
+	    color: #555;
+	    font-weight: 600;
+	}
     
      
     #realCommonWon{

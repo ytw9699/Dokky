@@ -2,13 +2,14 @@
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c"%>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/fmt" prefix="fmt"%>
 <%@ taglib uri="http://www.springframework.org/security/tags" prefix="sec" %> 
+<%@ taglib prefix="fn" uri="http://java.sun.com/jsp/jstl/functions"%> 
 
 <!DOCTYPE html>
 <html>
 <head>
 <meta charset="UTF-8">
 <title>Dokky - 회원 캐시내역</title>
-<link href="/resources/css/userCashHistory.css" rel="stylesheet" type="text/css"/>
+<link href="/ROOT/resources/css/userCashHistory.css" rel="stylesheet" type="text/css"/>
 </head>
 <%@include file="../includes/left.jsp"%>
 <body>
@@ -73,11 +74,22 @@
 											</div>
 				       			  		</td>
 				       			  		<td class="td">
-				       			  			<div class="tdData">  
-												<a href="/board/get?board_num=${History.board_num}"><c:out value="${History.title}" /></a>
+				       			  			<div class="tdData">   
+												<c:choose>
+												        <c:when test="${fn:length(History.title) gt 15}">
+													        <a href="/board/get?board_num=${History.board_num}">
+																<c:out value="${fn:substring(History.title, 0, 15)}"/>.....
+															</a> 
+												        </c:when>
+												        <c:otherwise>
+													        <a href="/board/get?board_num=${History.board_num}">
+																<c:out value="${History.title}"/>
+															</a> 
+												        </c:otherwise> 
+												</c:choose>
 											</div>
 				       			  		</td>
-				       			  </c:if>
+				       			  </c:if> 
 				       			  <c:if test="${History.specification == '댓글'}">
 				       			  		<td class="td">
 				       			  			<div class="tdData">  

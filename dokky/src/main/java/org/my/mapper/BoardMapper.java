@@ -10,12 +10,14 @@ package org.my.mapper;
 
 public interface BoardMapper {
 
-	public List<BoardVO> getList(Criteria cri);
+	public List<BoardVO> getList(Criteria cri); 
+	
+	public List<BoardVO> getAllList(Criteria cri);
 	
 	public List<BoardVO> getListWithOrder(Criteria cri);
 
 	public Integer insertSelectKey(BoardVO board);
-
+	
 	public BoardVO read(Long board_num);
 
 	public int delete(Long bno);
@@ -74,10 +76,10 @@ public interface BoardMapper {
 
 	public int insertReportdata(reportVO vo);
 
-	public List<BoardVO> getAllList(Criteria cri);
-
 	public int getAllTotalCount(Criteria cri);
 
 	public List<BoardVO> getAllListWithOrder(Criteria cri);
+
+	public Long getRecentBoard_num();
 
 }

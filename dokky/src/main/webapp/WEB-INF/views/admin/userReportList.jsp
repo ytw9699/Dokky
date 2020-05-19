@@ -8,11 +8,11 @@
 <head>
 <meta charset="UTF-8">
 	<title>Dokky - 신고관리</title> 
-	<link href="/resources/css/userReportList.css" rel="stylesheet" type="text/css"/>
+	<link href="/ROOT/resources/css/userReportList.css" rel="stylesheet" type="text/css"/>
 </head> 
 
 <%@include file="../includes/left.jsp"%>
-
+<c:set var="random"><%= java.lang.Math.round(java.lang.Math.random() * 123456) %></c:set>
 <body> 
 	<div class="userReporWrap">	 
 	 
@@ -41,14 +41,14 @@
 						</td>   
 						<td class="td">
 							<a href='userForm?userId=<c:out value="${report.reportingId}"/>'> 
-							  <img src="/resources/img/profile_img/<c:out value="${report.reportingId}" />.png"  class="memberImage" onerror="this.src='/resources/img/profile_img/basicProfile.png'" />
+							  <img src="/upload/<c:out value="${report.reportingId}" />.png?${random}"  class="memberImage" onerror="this.src='/ROOT/resources/img/profile_img/basicProfile.png'" />
 							  <c:out value="${report.reportingNick}" /> 
 							  <%-- (<c:out value="${report.reportingId}" />) --%>
 							</a> 
 						</td>
 						<td class="td">
 							<a href='userForm?userId=<c:out value="${report.reportedId}"/>'> 
-							  <img src="/resources/img/profile_img/<c:out value="${report.reportedId}" />.png"  class="memberImage" onerror="this.src='/resources/img/profile_img/basicProfile.png'" />
+							  <img src="/upload/<c:out value="${report.reportedId}" />.png?${random}"  class="memberImage" onerror="this.src='/ROOT/resources/img/profile_img/basicProfile.png'" />
 							  <c:out value="${report.reportedNick}" />
 							  <%-- (<c:out value="${report.reportedId}" />) --%>
 							</a> 

@@ -70,18 +70,21 @@ public class BoardServiceImpl implements BoardService {
 
 		log.info("register......" + board);
 
-		mapper.insertSelectKey(board); 
+		mapper.insertSelectKey(board);//글입력
 
-		if (board.getAttachList() == null || board.getAttachList().size() <= 0) {//첨부파일 여부확인
+		if (board.getAttachList() == null || board.getAttachList().size() <= 0) {//첨부파일이 없다면
+			
 			return;
-		}
-		
-		log.info("register......getAttachList");
+			
+		}else {//첨부파일이 있다면
+			
+			log.info("register......getAttachList");
 
-		board.getAttachList().forEach(boardAttachVO -> {// attach는 BoardAttachVO
-			boardAttachVO.setBoard_num(board.getBoard_num());
-			attachMapper.insert(boardAttachVO);
-		});
+			board.getAttachList().forEach(boardAttachVO -> {// attach는 BoardAttachVO
+				boardAttachVO.setBoard_num(board.getBoard_num());//board_num값을 여기서도 쓰고 컨트롤러 쪽으로도 넘긴다
+				attachMapper.insert(boardAttachVO);
+			});
+		}
 	}
 	 
 	@Transactional
@@ -96,6 +99,13 @@ public class BoardServiceImpl implements BoardService {
 		
 		return mapper.read(board_num);
 	}
+	
+	@Override
+	public Long getRecentBoard_num() {
+		
+		return mapper.getRecentBoard_num();
+	}
+	
 	@Override
 	public BoardVO getModifyForm(Long board_num) {
 

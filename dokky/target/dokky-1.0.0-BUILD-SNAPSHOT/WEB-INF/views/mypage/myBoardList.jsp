@@ -2,13 +2,14 @@
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c"%>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/fmt" prefix="fmt"%>
 <%@ taglib uri="http://www.springframework.org/security/tags" prefix="sec" %> 
+<%@ taglib prefix="fn" uri="http://java.sun.com/jsp/jstl/functions"%>
 
 <!DOCTYPE html>
 <html>
 <head>
 <meta charset="UTF-8">
 <title>Dokky - 나의 게시글</title> 
-<link href="/resources/css/myBoardList.css" rel="stylesheet" type="text/css"/>
+<link href="/ROOT/resources/css/myBoardList.css" rel="stylesheet" type="text/css"/>
 </head>
 <%@include file="../includes/left.jsp"%> 
 <body>
@@ -19,8 +20,8 @@
 			<button onclick="location.href='myInfoForm?userId=${userInfo.username}'">개인정보 변경</button>
 	        <button class="active" onclick="location.href='myBoardList?userId=${userInfo.username}'">나의 게시글</button> 
 	        <button onclick="location.href='myReplylist?userId=${userInfo.username}'">나의 댓글</button> 
-	        <button onclick="location.href='myScraplist?userId=${userInfo.username}'">스크랩</button>
-	        <button onclick="location.href='myCashInfo?userId=${userInfo.username}'">캐시</button>
+	        <button onclick="location.href='myScraplist?userId=${userInfo.username}'">나의 스크랩</button>
+	        <button onclick="location.href='myCashInfo?userId=${userInfo.username}'">나의 캐시</button>
 	    </div> 
 	</div>
 	<div class="listWrapper">
@@ -31,11 +32,29 @@
 							<input type="checkbox" name="checkRow" value="${board.board_num}" />
 	                    </td>
 						<td class="title">
-							<a class='move' href='<c:out value="${board.board_num}"/>'> 
-								<c:out value="${board.title}" />
-								<span class="replyCnt">[<c:out value="${board.replyCnt}" />]</span>
-							</a>
-						</td>  
+							<c:choose>
+							        <c:when test="${fn:length(board.title) gt 12}">
+								        <a class='move' href='<c:out value="${board.board_num}"/>'>  
+											<c:out value="${fn:substring(board.title, 0, 12)}"/>... 
+											<span class="replyCnt">
+												<c:if test="${board.replyCnt > 0}">
+													[<c:out value="${board.replyCnt}" />]
+										        </c:if>
+											</span> 
+										</a>
+							        </c:when>
+							        <c:otherwise>
+								        <a class='move' href='<c:out value="${board.board_num}"/>'>  
+											<c:out value="${board.title}" />
+											<span class="replyCnt">
+												<c:if test="${board.replyCnt > 0}">
+													[<c:out value="${board.replyCnt}" />]
+										        </c:if>
+											</span>  
+										</a>
+							        </c:otherwise>
+							</c:choose>  
+						</td> 
 						<td class="td">
 							<div class="tdData">  
 								조회수
@@ -156,18 +175,18 @@
 		  checkRow = checkRow.substring(0,checkRow.lastIndexOf( ","));
 		 
 		  if(checkRow == ""){
-		   	 alert("삭제할 글을 선택하세요.");
+		   	 openAlert("삭제할 글을 선택하세요");
 		    return false;
 		  }
 		  
-		  //console.log(checkRow);
+		  //console.log(checkRow);	
 		  
-		  if(confirm("정말 삭제 하시겠습니까?")){
+		  deleting('정말 삭제 하시겠습니까?', function() {
 			  actionForm.attr("action","/board/removeAll").attr("method","post");
 			  actionForm.append("<input type='hidden' name='checkRow' value='"+checkRow+"'>");
 			  actionForm.append("<input type='hidden' id='csrf' name='${_csrf.parameterName}' value='${_csrf.token}'/>");
 			  actionForm.submit();
-		  }
+		  });
 		}
 	
 </script>

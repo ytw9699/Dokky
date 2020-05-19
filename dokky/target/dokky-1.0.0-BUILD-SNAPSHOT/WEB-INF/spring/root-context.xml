@@ -1,74 +1,91 @@
-<?xml version="1.0" encoding="UTF-8"?>
-<beans xmlns="http://www.springframework.org/schema/beans"
-	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
-	xmlns:mybatis-spring="http://mybatis.org/schema/mybatis-spring"
-	xmlns:context="http://www.springframework.org/schema/context"
-	xmlns:tx="http://www.springframework.org/schema/tx"
-	xmlns:task="http://www.springframework.org/schema/task"
-	xsi:schemaLocation="http://mybatis.org/schema/mybatis-spring http://mybatis.org/schema/mybatis-spring-1.2.xsd
-		http://www.springframework.org/schema/task http://www.springframework.org/schema/task/spring-task-4.3.xsd
-		http://www.springframework.org/schema/beans https://www.springframework.org/schema/beans/spring-beans.xsd
-		http://www.springframework.org/schema/context http://www.springframework.org/schema/context/spring-context-4.3.xsd
-		http://www.springframework.org/schema/tx http://www.springframework.org/schema/tx/spring-tx-4.3.xsd">
-	
-	<!-- Root Context: defines shared resources visible to all other web components -->
-		
-	<!--  <bean id="hikariConfig" class="com.zaxxer.hikari.HikariConfig">
-		<property name="driverClassName"
-			value="net.sf.log4jdbc.sql.jdbcapi.DriverSpy"></property>
-		<property name="jdbcUrl"
-			value="jdbc:log4jdbc:oracle:thin:@dokky.cvqjmdzadv0t.ap-northeast-2.rds.amazonaws.com:1521:ORCL"></property>
-		<property name="username" value="dokky9699"></property>
-		<property name="password" value="cgdeveloper9865"></property>
-	</bean>-->
+<beans xmlns="http://www.springframework.org/schema/beans" 
+		xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" 
+		xmlns:mybatis-spring="http://mybatis.org/schema/mybatis-spring" 
+		xmlns:context="http://www.springframework.org/schema/context" 
+		xmlns:tx="http://www.springframework.org/schema/tx"
+		xmlns:task="http://www.springframework.org/schema/task"
+		xmlns:mvc="http://www.springframework.org/schema/mvc" 
+		xsi:schemaLocation="http://mybatis.org/schema/mybatis-spring http://mybatis.org/schema/mybatis-spring-1.2.xsd http://www.springframework.org/schema/task http://www.springframework.org/schema/task/spring-task-4.3.xsd http://www.springframework.org/schema/mvc http://www.springframework.org/schema/mvc/spring-mvc-4.3.xsd http://www.springframework.org/schema/beans https://www.springframework.org/schema/beans/spring-beans.xsd http://www.springframework.org/schema/context http://www.springframework.org/schema/context/spring-context-4.3.xsd http://www.springframework.org/schema/tx http://www.springframework.org/schema/tx/spring-tx-4.3.xsd">
+	<!--
+	 Root Context: defines shared resources visible to all other web components 
+	-->
+	<!--
+	 <bean id="hikariConfig" class="com.zaxxer.hikari.HikariConfig">
+			<property name="driverClassName"
+				value="net.sf.log4jdbc.sql.jdbcapi.DriverSpy"></property>
+			<property name="jdbcUrl"
+				value="jdbc:log4jdbc:oracle:thin:@localhost:1521:XE"></property>
+			<property name="username" value="dokky_ex"></property>
+			<property name="password" value="cgdeveloper9865"></property>
+		</bean> 
+	-->
 	
 	<bean id="hikariConfig" class="com.zaxxer.hikari.HikariConfig">
-		<property name="driverClassName"
-			value="net.sf.log4jdbc.sql.jdbcapi.DriverSpy"></property>
-		<property name="jdbcUrl"
-			value="jdbc:log4jdbc:oracle:thin:@shop.cndlt88yvvsy.ap-northeast-2.rds.amazonaws.com:1521:ORCL"></property>
-		<property name="username" value="shop9699"></property>
-		<property name="password" value="dpwm9865cgdeveloper568954"></property>
+		<property name="driverClassName" value="net.sf.log4jdbc.sql.jdbcapi.DriverSpy"/>
+		<property name="jdbcUrl" value="jdbc:log4jdbc:oracle:thin:@dokkyrds.ckzbvzytxsry.ap-northeast-2.rds.amazonaws.com:1521:ORCL"/>
+		<property name="username" value="DokkyRdsAdmin"/>
+		<property name="password" value="cgdeveloper9865"/>
 	</bean>
 	
 	<!-- <bean id="hikariConfig" class="com.zaxxer.hikari.HikariConfig">
-		<property name="driverClassName"
-			value="net.sf.log4jdbc.sql.jdbcapi.DriverSpy"></property>
-		<property name="jdbcUrl"
-			value="jdbc:log4jdbc:oracle:thin:@localhost:1521:XE"></property>
-		<property name="username" value="dokky_ex"></property>
-		<property name="password" value="cgdeveloper9865"></property>
+		<property name="driverClassName" value="net.sf.log4jdbc.sql.jdbcapi.DriverSpy"/>
+		<property name="jdbcUrl" value="jdbc:log4jdbc:oracle:thin:@shop.cndlt88yvvsy.ap-northeast-2.rds.amazonaws.com:1521:ORCL"/>
+		<property name="username" value="shop9699"/>
+		<property name="password" value="dpwm9865cgdeveloper568954"/>
 	</bean> -->
-   
-	<!-- HikariCP configuration 커넥션풀 설정 -->
+	<!--  HikariCP configuration 커넥션풀 설정  -->
 	<bean id="dataSource" class="com.zaxxer.hikari.HikariDataSource" destroy-method="close">
-		<constructor-arg ref="hikariConfig" />
-	</bean>  
-
+		<constructor-arg ref="hikariConfig"/>
+	</bean>
+	<!-- 일반적으로 여러 명의 사용자를 동시에 처리해야 하는 웹 애플리케이션의 경우 데이터베
+	이스 연결을 이용할 때는 커넥션 풀(Connection Pool)을 이용하므로，아예 스프링에 커
+	넥션 풀을 등록해서 사용하는 것이 좋음. Java에서는 DataSource라는 인터페이스
+	를 통해서 커넥션 풀을 사용 DataSource를 통해 매번 데이터베이스와 연결하는
+	방식이 아닌，미리 연결을 맺어주고 반환하는 구조를 이용하여 성능 향상을 꾀함
+	커넥션 풀은 여러 종류가 있고，spring-jdbc 라이브러리를 이용하는 방식도 있지만,프로젝트는 최근 유행하는 HikariCP이용 . -->
+	
+	<!--
+	 스프링과 연동 작업을 처리하는 mybatis-spring 라이브러리 
+		sqlSessionFactory는 SQLSession을 만들어냄,SQLSession을 통해서 Connection을 생성하거나 원하는 SQL을 전달하고，결과를 리턴 받는 구조로 개발할것
+	-->
 	<bean id="sqlSessionFactory" class="org.mybatis.spring.SqlSessionFactoryBean">
-		<property name="dataSource" ref="dataSource"></property>
+		<property name="dataSource" ref="dataSource"/>
 	</bean>
 	
-	<bean id="transactionManager"
-		class="org.springframework.jdbc.datasource.DataSourceTransactionManager">
-		<property name="dataSource" ref="dataSource"></property>
+	<bean id="transactionManager" class="org.springframework.jdbc.datasource.DataSourceTransactionManager">
+		<property name="dataSource" ref="dataSource"/>
 	</bean>
 	
-	<tx:annotation-driven />
-		
-	<mybatis-spring:scan base-package="org.my.mapper" />
+	<tx:annotation-driven/>
 	
-	<context:component-scan base-package="org.my.service"></context:component-scan>
+	<mybatis-spring:scan base-package="org.my.mapper"/>
+	<!--
+	 Mapper인터페이스+Mapper.xml을 작성해 주었다면 MyBatis가 동작할 때 Mapper를 인식할 수 있도록 스캔설정
+		MyBatis-Spring은 Mapper 인터페이스를 이용해서 실제 SQL 처리가 되는 클래스를 자동으로 생성
+		그래서 인터페이스와 SQL만을 작성하는 방식으로도 모든 JDBC 처리를 끝낼 수 있음.
+	-->
+	<context:component-scan base-package="org.my.service"/>
 	
-	<context:component-scan base-package="org.my.task"></context:component-scan>
-    <!-- 스케쥴러 task작업처리 빈 등록 -->
-    
-    <context:component-scan base-package="org.my.s3"></context:component-scan>
-    
- 	<task:annotation-driven />
- 	<!-- 스케쥴러 어노테이션 이용 위해 -->
- 	
- 	<!-- <bean id="naverClientID" class="java.lang.String">
+	<context:component-scan base-package="org.my.task"/>
+	<!--  스케쥴러 task작업처리 빈 등록  -->
+	<context:component-scan base-package="org.my.s3"/>
+	
+	<task:annotation-driven/>
+	<!--  스케쥴러 어노테이션 이용 위해  -->
+	
+	<!--  oauth2 login  -->
+	
+	<!-- <bean id="naverClientID" class="java.lang.String">
+		<constructor-arg value="15QBonnYF5rFHRp1TNAQ"/>
+	</bean>
+	<bean id="naverClientSecret" class="java.lang.String">
+		<constructor-arg value="ElYOoc7Kb9"/>
+	</bean>
+	<bean id="naverRedirectUrl" class="java.lang.String">
+		<constructor-arg value="http://localhost:8080/auth/naver/callback"/>
+	</bean> -->
+	
+ 	<bean id="naverClientID" class="java.lang.String">
 	   <constructor-arg value="vmV7HxEjedT067PqFzSV" />
     </bean>
     
@@ -76,52 +93,43 @@
 		<constructor-arg value="xTLq0lZlNA" />
 	</bean>
 	<bean id="naverRedirectUrl" class="java.lang.String">
-			<constructor-arg value="https://dokky.ga/auth/naver/callback" />
-	</bean> -->
-	
- 	<bean id="naverClientID" class="java.lang.String">
-	   <constructor-arg value="15QBonnYF5rFHRp1TNAQ" />
-    </bean>
-    
-	<bean id="naverClientSecret" class="java.lang.String">
-		<constructor-arg value="ElYOoc7Kb9" />
-	</bean>
-	<bean id="naverRedirectUrl" class="java.lang.String">
-		<constructor-arg value="http://localhost:8080/auth/naver/callback" />
-	</bean>
-	
+		<constructor-arg value="https://dokky.ga/auth/naver/callback" />
+	</bean> 
+	 
 	<bean id="naverSns" class="org.my.auth.SnsValue">
-		<constructor-arg value="naver" />
-		<constructor-arg ref="naverClientID" />
-		<constructor-arg ref="naverClientSecret" />
-		<constructor-arg ref="naverRedirectUrl" />
+		<constructor-arg value="naver"/>
+		<constructor-arg ref="naverClientID"/>
+		<constructor-arg ref="naverClientSecret"/>
+		<constructor-arg ref="naverRedirectUrl"/>
 	</bean>
 	
 	<!-- <bean id="googleClientID" class="java.lang.String">
-	   <constructor-arg value="749898735018-a2kvi2854s1v85pfel1097as260uivu2.apps.googleusercontent.com" />
-    </bean>
-	<bean id="googleClientSecret" class="java.lang.String">
-		<constructor-arg value="vj6QvX2mlwTT6i8Jcut4mh0M" />
+		<constructor-arg value="123548667758-a8l1055mkvte3f4fr3592hrt4jhaapgn.apps.googleusercontent.com"/>
 	</bean>
-	<bean id="googleRedirectUrl" class="java.lang.String">
-		<constructor-arg value="https://dokky.ga/auth/google/callback" />
-	</bean> -->
 	
-	<bean id="googleClientID" class="java.lang.String">
-	   <constructor-arg value="123548667758-a8l1055mkvte3f4fr3592hrt4jhaapgn.apps.googleusercontent.com" />
-    </bean>
 	<bean id="googleClientSecret" class="java.lang.String">
-		<constructor-arg value="fu1A6USqVOoZOhIxLYRj6eD5" />
+		<constructor-arg value="fu1A6USqVOoZOhIxLYRj6eD5"/>
 	</bean>
+	
 	<bean id="googleRedirectUrl" class="java.lang.String">
-		<constructor-arg value="http://localhost:8080/auth/google/callback" />
-	</bean>
-
+		<constructor-arg value="http://localhost:8080/auth/google/callback"/>
+	</bean> -->
+		
+	<bean id="googleClientID" class="java.lang.String">
+		   <constructor-arg value="749898735018-a2kvi2854s1v85pfel1097as260uivu2.apps.googleusercontent.com" />
+	    </bean>
+	    
+		<bean id="googleClientSecret" class="java.lang.String">
+			<constructor-arg value="vj6QvX2mlwTT6i8Jcut4mh0M" />
+		</bean>
+		<bean id="googleRedirectUrl" class="java.lang.String">
+			<constructor-arg value="https://dokky.ga/auth/google/callback" />
+		</bean>
+	
 	<bean id="googleSns" class="org.my.auth.SnsValue">
-		<constructor-arg value="google" />
-		<constructor-arg ref="googleClientID" />
-		<constructor-arg ref="googleClientSecret" />
-		<constructor-arg ref="googleRedirectUrl" />
+		<constructor-arg value="google"/>
+		<constructor-arg ref="googleClientID"/>
+		<constructor-arg ref="googleClientSecret"/>
+		<constructor-arg ref="googleRedirectUrl"/>
 	</bean>
- 			
 </beans>

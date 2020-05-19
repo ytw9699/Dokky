@@ -8,11 +8,12 @@
 <head>
 <meta charset="UTF-8">
 	<title>Dokky - Developer community</title> 
-	<link href="/resources/css/main.css" rel="stylesheet" type="text/css"/>
+	<link href="/ROOT/resources/css/main.css" rel="stylesheet" type="text/css"/>
 </head>
 
 <%@include file="../includes/left.jsp"%>
 <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+<c:set var="random"><%= java.lang.Math.round(java.lang.Math.random() * 123456) %></c:set>
 <body>
 	<div class="bodyWrap">	 
 		<div class="mainLists">
@@ -25,7 +26,11 @@
 						<td class="title">   
 							<a class='move' href='/board/get?board_num=<c:out value="${board.board_num}"/>'> 
 								<c:out value="${board.title}" /> 
-								<span class="replyCnt">[<c:out value="${board.replyCnt}" />]</span>
+								<span class="replyCnt">
+									<c:if test="${board.replyCnt > 0}">
+										[<c:out value="${board.replyCnt}" />]
+							        </c:if>
+								</span> 
 							</a>
 						</td> 
 						<td class="td">
@@ -47,8 +52,8 @@
 							    \<fmt:formatNumber type="number" maxFractionDigits="3" value="${board.money}"/>
 						</td>
 						<td class="td"> 
-							<a href="#" class="userMenu" data-board_num="${board.board_num}" data-menu_kind="realtime">
-								<img src="/resources/img/profile_img/<c:out value="${board.userId}" />.png"  class="memberImage hideUsermenu" onerror="this.src='/resources/img/profile_img/basicProfile.png'" />
+							<a href="" class="userMenu" data-board_num="${board.board_num}" data-menu_kind="realtime">
+								<img src="/upload/<c:out value="${board.userId}" />.png?${random}"  class="memberImage hideUsermenu" onerror="this.src='/ROOT/resources/img/profile_img/basicProfile.png'" />
 								<c:out value="${board.nickName}" /> 
 							</a> 
 							 <div id="userMenubar_realtime_${board.board_num}" class="userMenubar">
@@ -91,7 +96,11 @@
 						<td class="title">  
 							<a class='move' href='/board/get?board_num=<c:out value="${board.board_num}"/>'> 
 								<c:out value="${board.title}" /> 
-								<span class="replyCnt">[<c:out value="${board.replyCnt}" />]</span>
+								<span class="replyCnt">
+									<c:if test="${board.replyCnt > 0}">
+										[<c:out value="${board.replyCnt}" />]
+							        </c:if>
+								</span> 
 							</a>
 						</td> 
 						<td class="td">
@@ -113,8 +122,8 @@
 							    \<fmt:formatNumber type="number" maxFractionDigits="3" value="${board.money}"/>
 						</td>
 						<td class="td">
-							<a href="#" class="userMenu" data-board_num="${board.board_num}" data-menu_kind="like">
-								<img width="25px" src="/resources/img/profile_img/<c:out value="${board.userId}" />.png"  class="memberImage hideUsermenu" onerror="this.src='/resources/img/profile_img/basicProfile.png'" />
+							<a href="" class="userMenu" data-board_num="${board.board_num}" data-menu_kind="like">
+								<img width="25px" src="/upload/<c:out value="${board.userId}" />.png?${random}"  class="memberImage hideUsermenu" onerror="this.src='/ROOT/resources/img/profile_img/basicProfile.png'" />
 								<c:out value="${board.nickName}" />
 							</a> 
 							 <div id="userMenubar_like_${board.board_num}" class="userMenubar">
@@ -157,7 +166,11 @@
 						<td class="title">  
 							<a class='move' href='/board/get?board_num=<c:out value="${board.board_num}"/>'> 
 								<c:out value="${board.title}" /> 
-								<span class="replyCnt">[<c:out value="${board.replyCnt}" />]</span>
+								<span class="replyCnt">
+									<c:if test="${board.replyCnt > 0}">
+										[<c:out value="${board.replyCnt}" />]
+							        </c:if>
+								</span>  
 							</a>    
 						</td> 
 						<td class="td">
@@ -179,8 +192,8 @@
 							    \<fmt:formatNumber type="number" maxFractionDigits="3" value="${board.money}"/>
 						</td>
 						<td class="td">
-							<a href="#" class="userMenu" data-board_num="${board.board_num}" data-menu_kind="donate"> 
-								<img width="25px" src="/resources/img/profile_img/<c:out value="${board.userId}" />.png"  class="memberImage hideUsermenu" onerror="this.src='/resources/img/profile_img/basicProfile.png'" />
+							<a href="" class="userMenu" data-board_num="${board.board_num}" data-menu_kind="donate"> 
+								<img width="25px" src="/upload/<c:out value="${board.userId}" />.png?${random}"  class="memberImage hideUsermenu" onerror="this.src='/ROOT/resources/img/profile_img/basicProfile.png'" />
 								<c:out value="${board.nickName}" />
 							</a> 
 							 <div id="userMenubar_donate_${board.board_num}" class="userMenubar">
@@ -213,7 +226,12 @@
 			</table>
 		</div>
 		
-		
+	</div>
+	
+	<div class="footer"> 
+		<div class="info"> 
+			이용약관 | 개인정보처리방침 | 책임의 한계와 법적고지 | 회원정보 고객센터 
+		</div>
 	</div>
 	<script>
 	 
@@ -265,6 +283,8 @@
 	 
 	$(".userMenu").on("click",function(event){//해당 메뉴바 보이기 이벤트
 		
+		event.preventDefault();//화면움직임 막기
+			
 		var	board_num = $(this).data("board_num");
 		var	menu_kind = $(this).data("menu_kind");
 		
@@ -295,7 +315,7 @@
 	<c:if test="${check != null}"> 
 	      <script>
 		      $(document).ready(function(){
-		      	alert('${check}'); 
+		      	openAlert('${check}'); 
 		      });
 	      </script>
 	</c:if>  

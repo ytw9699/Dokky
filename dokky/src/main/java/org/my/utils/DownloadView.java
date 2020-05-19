@@ -44,7 +44,7 @@ public class DownloadView extends AbstractView {//AbstractView를 상속
 	                withCredentials(new AWSStaticCredentialsProvider(awsCredentials)).
 				    build();*/
 		
-		String bucket_name = "picksell-bucket";
+		String bucket_name = "dokky-bucket";
 		String path = request.getParameter("path");
 		String filename = request.getParameter("filename");
 		

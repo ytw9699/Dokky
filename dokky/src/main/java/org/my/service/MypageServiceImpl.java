@@ -10,6 +10,7 @@ package org.my.service;
 	import org.springframework.beans.factory.annotation.Autowired;
 	import org.springframework.security.crypto.password.PasswordEncoder;
 	import org.springframework.stereotype.Service;
+	import org.springframework.transaction.annotation.Transactional;
 	import lombok.Setter;
 	import lombok.extern.log4j.Log4j;
 
@@ -32,14 +33,54 @@ public class MypageServiceImpl implements MypageService {
 	}
 	
 	@Override
+	public boolean checkNickname(String nickName, String userId) {
+		
+		log.info("checkNickname");
+		
+		if(nickName.equals(mapper.getNickname(userId))) {
+			return false;
+		}
+		
+		return mapper.checkNickname(nickName) == 1;
+	}
+	
+	@Transactional
+	@Override
 	public boolean updateMyInfo(MemberVO board) {
 
-		log.info("updateMyInfo......" + board); 
-
-		boolean updateResult = mapper.updateMyInfo(board) == 1; 
+		log.info("updateMyInfo......" + board);
+		
+		String nickName = board.getNickName();
+		
+		String userId = board.getUserId();
+		
+		boolean nickNameResult = nickName.equals(mapper.getMyNickName(userId));
+		
+		if(!nickNameResult) {//닉네임을 변경한다면 
+			
+			mapper.updateBoardNickName(userId, nickName);//게시글 닉네임 변경처리
+			
+			mapper.updateReplyNickName(userId, nickName);//댓글 닉네임 변경처리
+			
+			mapper.updateNoteFromNickName(userId, nickName);//쪽지 받는이 닉네임 변경처리
+			
+			mapper.updateNoteToNickName(userId, nickName);//쪽지 보낸이 닉네임 변경처리
+			
+			mapper.updateReportedNickName(userId, nickName);//신고 당한자 닉네임 변경처리 
+			
+			mapper.updateReportingNickName(userId, nickName);//신고 하는자 닉네임 변경처리
+			
+			mapper.updateAlarmNickName(userId, nickName);//알림 닉네임 변경처리
+			
+			mapper.updateCashlistNickName(userId, nickName);//캐시 내역 닉네임 변경처리
+			
+		}
+		
+		boolean updateResult = mapper.updateMyInfo(board) == 1; //회원테이블 변경처리
 		
 		return updateResult;
 	}
+	
 	@Override
 	public String getMemberPW(String userId) {
 

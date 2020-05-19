@@ -9,7 +9,7 @@
 <head>
 <meta charset="UTF-8"> 
 	<title>Dokky - 캐시</title>
-	<link href="/resources/css/myCashInfo.css" rel="stylesheet" type="text/css"/> 
+	<link href="/ROOT/resources/css/myCashInfo.css" rel="stylesheet" type="text/css"/> 
 </head>
 <body>
 	<sec:authentication property="principal" var="userInfo"/>
@@ -41,8 +41,8 @@
 				<button onclick="location.href='myInfoForm?userId=${userInfo.username}'">개인정보 변경</button>
 		        <button onclick="location.href='myBoardList?userId=${userInfo.username}'">나의 게시글</button> 
 		        <button onclick="location.href='myReplylist?userId=${userInfo.username}'">나의 댓글</button> 
-		        <button onclick="location.href='myScraplist?userId=${userInfo.username}'">스크랩</button>
-		        <button class="active" onclick="location.href='myCashInfo?userId=${userInfo.username}'">캐시</button>
+		        <button onclick="location.href='myScraplist?userId=${userInfo.username}'">나의 스크랩</button>
+		        <button class="active" onclick="location.href='myCashInfo?userId=${userInfo.username}'">나의 캐시</button>
 		    </div>  
 		</div>
 		
@@ -163,7 +163,7 @@
 			var cash = $("#realCommonWon").val();
 			
 			if(cash === 0 || cash === ""){   
-				alert("금액을 1원이상 입력해주세요."); 
+				openAlert("금액을 1원이상 입력해주세요"); 
 				return;
 			}
 			
@@ -171,15 +171,16 @@
 					cashAmount:cash,  
 					cashKind: '충전',
 					userId:'${userInfo.username}',
+					nickName : '${userInfo.member.nickName}',
 					specification:'미승인'
 		          };
 		
 			chargeCash(chargeData, function(result){
 			        if(result == "success"){
-			        	alert("계좌 입금이 확인되면 캐시가 충전됩니다.");
+			        	openAlert("계좌 입금이 확인되면 캐시가 충전됩니다");
 			        }
 			        else if(result == "fail"){
-			        	alert("잠시후 재시도 해주세요");
+			        	openAlert("잠시후 재시도 해주세요");
 			        }
 		     }); 
 			
@@ -205,7 +206,7 @@
 			var cash = $("#realCommonWon").val();
 						
 			if(cash === 0 || cash === ""){   
-				alert("금액을 1원이상 입력해주세요"); 
+				openAlert("금액을 1원이상 입력해주세요"); 
 				return;
 			}
 			
@@ -213,20 +214,22 @@
 					cashAmount:cash,
 					cashKind: '환전',
 					userId:'${userInfo.username}',
+					nickName : '${userInfo.member.nickName}',
 					specification:'미승인'
 		          };
+			
 			if(reChargeData.cashAmount > parseInt('${userCash}') ){
-				alert("보유 캐시가 부족합니다.");
+				openAlert("보유 캐시가 부족합니다");
 				closeRecharge();
 				return;
 			}
 			
 			reChargeCash(reChargeData, function(result){
 			        if(result == "success"){
-			        	alert("관리자 승인후 환전됩니다.");
+			        	openAlert("관리자 승인후 환전됩니다");
 			        }
 			        else if(result == "fail"){
-			        	alert("잠시후 재시도 해주세요");
+			        	openAlert("잠시후 재시도 해주세요");
 			        }
 		     }); 
 			

@@ -8,10 +8,10 @@
 <head>
 <meta charset="UTF-8">
 	<title>Dokky - 결제관리</title>  
-<link href="/resources/css/cashRequest.css" rel="stylesheet" type="text/css"/>
+<link href="/ROOT/resources/css/cashRequest.css" rel="stylesheet" type="text/css"/>
 </head> 
 <%@include file="../includes/left.jsp"%>
-
+<c:set var="random"><%= java.lang.Math.round(java.lang.Math.random() * 123456) %></c:set>
 <body> 
  <div class="cashRequestWrap">	 
 	 
@@ -26,7 +26,7 @@
   	 <div class="listWrapper">
 		 <table id="inforTable">
 			 <tr>
-				<td class="topTd">요청아이디</td>
+				<td class="topTd">요청닉네임</td>
 				<td class="topTd">종류</td>
 				<td class="topTd">금액</td>
 				<td class="topTd">요청날짜</td>
@@ -38,8 +38,8 @@
 			
 				<td class="td">
 					<a href='userForm?userId=<c:out value="${cash.userId}"/>'> 
-					  <img src="/resources/img/profile_img/<c:out value="${cash.userId}"/>.png"  class="memberImage" onerror="this.src='/resources/img/profile_img/basicProfile.png'" />
-					  <c:out value="${cash.userId}" />
+					  <img src="/upload/<c:out value="${cash.userId}"/>.png?${random}"  class="memberImage" onerror="this.src='/ROOT/resources/img/profile_img/basicProfile.png'" />
+					  <c:out value="${cash.nickName}" />
 					</a> 
 				</td> 
 				<td class="td">
@@ -159,7 +159,7 @@
 				 	var kind;
 					
 				 	if($.trim(specification.html()) === "승인완료"){
-				 		alert("이미 승인완료가 되었습니다.");
+				 		openAlert("이미 승인완료가 되었습니다");
 				 		return;
 				 	} 
 				 	 
@@ -193,7 +193,7 @@
 							
 					 		specification.html("승인완료"); 
 					 		
-					 		alert("승인완료 되었습니다");
+					 		openAlert("승인완료 되었습니다");
 						}
 			   	    });
 		   		});//이벤트 끝

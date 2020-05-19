@@ -12,7 +12,6 @@ public class BoardVO {
 	  private String nickName;
 	  private String userId;
 	  private String content;
-	  private String blind;
 	  private Date regDate;
 	  private Date updateDate;
 	  private int likeCnt;
@@ -20,6 +19,5 @@ public class BoardVO {
 	  private int money;
 	  private Long hitCnt;
 	  private int replyCnt;
-	  private String delete_check;
 	  private List<BoardAttachVO> attachList;//첨부파일관련
 }

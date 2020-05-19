@@ -8,7 +8,7 @@
 <head>
 <meta charset="UTF-8"> 
 <title>Dokky - 회원 등록 게시글</title>
-<link href="/resources/css/userBoardList.css" rel="stylesheet" type="text/css"/>
+<link href="/ROOT/resources/css/userBoardList.css" rel="stylesheet" type="text/css"/>
 </head>
 <%@include file="../includes/left.jsp"%>
 <body>
@@ -16,7 +16,8 @@
 <div class="userBoardWrap">	
 
 		<div id="userId">
-		      	${pageMaker.cri.nickName} 회원님의 게시글
+		      	${userBoard[0].nickName} 회원님의 게시글
+		      	<%-- ${pageMaker.cri.nickName} --%>
 		</div>
 		
 		<div id="menuWrap"> 
@@ -33,7 +34,11 @@
 						<td class="title"> 
 							<a class='move' href='<c:out value="${board.board_num}"/>'> 
 								<c:out value="${board.title}" /> 
-								<span class="replyCnt">[<c:out value="${board.replyCnt}" />]</span>
+								<span class="replyCnt">
+									<c:if test="${board.replyCnt > 0}">
+										[<c:out value="${board.replyCnt}" />]
+							        </c:if>
+								</span> 
 							</a>
 						</td> 
 						<td class="td">
@@ -50,7 +55,7 @@
 						</td> 
 						<td class="td">
 							<div class="tdData">  
-								기부금
+								기부금 
 							</div>
 							    \<fmt:formatNumber type="number" maxFractionDigits="3" value="${board.money}"/>
 						</td>

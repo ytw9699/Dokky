@@ -9,7 +9,7 @@
 <head>
 <meta charset="UTF-8">
 	<title>Dokky - 회원 개인정보 </title>   
-	<link href="/resources/css/userForm.css" rel="stylesheet" type="text/css"/>
+	<link href="/ROOT/resources/css/userForm.css" rel="stylesheet" type="text/css"/>
 </head>
 <body>
 <sec:authentication property="principal" var="userInfo"/>
@@ -83,7 +83,7 @@
 		     				<c:when test="${user.authList[0].auth == 'ROLE_STOP'}">
 								모든 글쓰기 제한
 							</c:when>
-							<c:when test="${user.authList[0].auth == 'ROLE_ADMIN' || user.authList[0].auth == 'ROLE_USER'}">
+							<c:when test="${user.authList[0].auth == 'ROLE_ADMIN' || user.authList[0].auth == 'ROLE_USER' || user.authList[0].auth == 'ROLE_SUPER'}">
 								정상 
 							</c:when>
 							<c:when test="${user.authList[0].auth == 'ROLE_LIMIT'}">
@@ -167,32 +167,48 @@
 	}
 
 	$("#stop").on("click",function(event){//1. 게시글,댓글 제한 이벤트 설치
-		var userId = $(this).data("user_id");
+		
+		var userId = $(this).data("user_id"); 
+		
+		if(userId === 'admin'){
+			openAlert("슈퍼관리자의 계정상태를 변경할 수 없습니다");
+			return;
+		}
 		
 		limitRegistering(userId, function(result){
 		   	var currentState = $("#currentState");
 		   	currentState.html("모든 글쓰기 제한");
-		   	alert("모든 글쓰기를 제한 하였습니다.");
+		   	openAlert("모든 글쓰기를 제한 하였습니다");
 	   	  });
-	   	});
+   	});
 	
 	$("#limit").on("click",function(event){//2. 접속 제한 이벤트 설치
 		var userId = $(this).data("user_id");
+	
+		if(userId === 'admin'){
+			openAlert("슈퍼관리자의 계정상태를 변경할 수 없습니다");
+			return;
+		}
 		
 		limitLogin(userId, function(result){
 		   	var currentState = $("#currentState");
 		   	currentState.html("접속 제한");
-		   	alert("접속을 제한 하였습니다.");
+		   	openAlert("접속을 제한 하였습니다");
 	   	  });
-	   	});
+   	});
 	
 	$("#recovery").on("click",function(event){//3. 권한 정상 되돌리기 이벤트 설치
 		var userId = $(this).data("user_id");
+	
+		if(userId === 'admin'){
+			openAlert("슈퍼관리자의 계정상태를 변경할 수 없습니다");
+			return;
+		}
 		
 		recovery(userId, function(result){
 		   	var currentState = $("#currentState");
 		   	currentState.html("정상");
-		   	alert("계정을 정상으로 복구 하였습니다.");
+		   	openAlert("계정을 정상으로 복구 하였습니다");
 	   	  });
 	   	});
 	

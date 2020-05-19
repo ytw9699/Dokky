@@ -7,11 +7,12 @@
 <head>
 <meta charset="UTF-8">
 <title>Dokky - 글 리스트</title>
-<link href="/resources/css/list.css" rel="stylesheet" type="text/css">
+<link href="/ROOT/resources/css/list.css" rel="stylesheet" type="text/css">
 </head>
 <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
 <%@include file="../includes/left.jsp"%>
 <body>
+<c:set var="random"><%= java.lang.Math.round(java.lang.Math.random() * 123456) %></c:set>
 	<div class="listWrapper">
 		<div class="boardKind">
 			 <span class="category">
@@ -76,8 +77,8 @@
 					<select id="option" name='type'>
 						<option value="TC"
 							<c:out value="${pageMaker.cri.type == null || pageMaker.cri.type eq 'TC'?'selected':''}"/>>제목+내용</option>
-						<option value="TC"
-							<c:out value="${pageMaker.cri.type eq 'TC'?'selected':''}"/>>제목+내용</option>
+						<%-- <option value="TC"
+							<c:out value="${pageMaker.cri.type eq 'TC'?'selected':''}"/>>제목+내용</option> --%>
 						<option value="T"
 							<c:out value="${pageMaker.cri.type eq 'T'?'selected':''}"/>>제목</option>
 						<option value="C"
@@ -90,7 +91,7 @@
 							<c:out value="${pageMaker.cri.type eq 'TNC'?'selected':''}"/>>제목+내용+닉네임</option>
 					</select> 
 					
-					<input id="keyword" type='text' name='keyword' value='<c:out value="${pageMaker.cri.keyword}"/>' oninput="checkLength(this,30)" autofocus/> 
+					<input id="keyword" name='keyword' type='text' value='<c:out value="${pageMaker.cri.keyword}"/>' oninput="checkLength(this,30)" autofocus/> 
 					<input type='hidden' name='pageNum' value='<c:out value="${pageMaker.cri.pageNum}"/>' /> 
 					<input type='hidden' name='amount' value='<c:out value="${pageMaker.cri.amount}"/>' />
 					<input type='hidden' name='category' value='${pageMaker.cri.category}'>
@@ -108,7 +109,11 @@
 						<td class="title">  
 							<a class='move' href='<c:out value="${board.board_num}"/>'> 
 								<c:out value="${board.title}" />
-								<span class="replyCnt">[<c:out value="${board.replyCnt}" />]</span>
+								<span class="replyCnt">
+									<c:if test="${board.replyCnt > 0}">
+										[<c:out value="${board.replyCnt}" />]
+							        </c:if>
+								</span>
 							</a> 
 						</td> 
 						<td class="td">
@@ -131,7 +136,7 @@
 						</td>
 						<td class="td"> 
 							<a href="#" class="userMenu" data-board_num="${board.board_num}">
-								<img src="/resources/img/profile_img/<c:out value="${board.userId}"  />.png"  class="memberImage hideUsermenu" onerror="this.src='/resources/img/profile_img/basicProfile.png'" />
+								<img src="/upload/<c:out value="${board.userId}"  />.png?${random}"  class="memberImage hideUsermenu" onerror="this.src='/ROOT/resources/img/profile_img/basicProfile.png'" />
 								<c:out value="${board.nickName}" /> 
 							</a> 
 							 <div id="userMenubar_${board.board_num}" class="userMenubar">
@@ -228,12 +233,12 @@
 		
 		if(obj.tagName === "INPUT" || obj.tagName === "TEXTAREA"){ 
 			if (stringByteLength > maxByte) {// 전체길이를 초과하면          
-				alert(maxByte + " Byte 이상 입력할 수 없습니다.");         
+				openAlert(maxByte + " Byte 이상 입력할 수 없습니다");         
 				obj.value = reStr;       
 			}   
 		}else if(obj.tagName === "DIV"){
 			if (stringByteLength > maxByte) {// 전체길이를 초과하면          
-				alert(maxByte + " Byte 이상 입력할 수 없습니다.");         
+				openAlert(maxByte + " Byte 이상 입력할 수 없습니다");         
 				obj.innerHTML = reStr;    
 			}   
 		} 
@@ -353,7 +358,7 @@
 
 					if (!searchForm.find(
 							"input[name='keyword']").val()) {
-						alert("키워드를 입력해주세요.");
+						openAlert("키워드를 입력해주세요");
 						return false;
 					}
 

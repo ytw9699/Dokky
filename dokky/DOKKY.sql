@@ -1,6 +1,7 @@
 	1.-----------------------------------------------------
 	
 	create table DK_BOARD (--게시판 테이블
+	
 		  CATEGORY number(10,0) not null,-- 0~5번 게시판
 		  BOARD_NUM number(10,0),--PK --글번호
 		  TITLE varchar2(200) not null, --글제목
@@ -61,7 +62,8 @@
 	
 	create sequence seq_dk_reply
 	
-	create index idx_reply on DK_REPLY(board_num desc, reply_num asc);
+	create index idx_reply on DK_REPLY(board_num desc, reply_num asc);--430p
+	--글번호 desc순 + 댓글 asc순으로 정렬되어야함 그래야 성능상 문제가 없음 , 즉 게시물의 번호에 맞게 댓글들을 모아서 빠르게 찾을수 있는 구조로 만든것, range scan사용
 	
 	--디폴트값입력해줘야 캐시충전됨
 	insert into dk_reply(reply_num, board_num, reply_content, nickName, userId, group_num, order_step, depth)
@@ -75,7 +77,7 @@
 	(select seq_dk_reply.nextval, board_num, reply_content, nickName from DK_REPLY);
 	
 	3.------------------------------------------------------------------------------------------
-	create table dk_member(--회원 테이블
+	create table dk_member(--뉴 회원 테이블
 	
 		  member_num number(10,0) unique,
 	      userId varchar2(50) primary key,
@@ -89,7 +91,13 @@
 	      enabled char(1) default '1'--enabled는 스프링 시큐리티에서 사용하는 값. 현재 사용자 계정이 유효한가를 의미
 	);
 	
-	create table dk_member(--회원 테이블
+	create sequence seq_dk_member
+	
+	drop table dk_member purge 
+	
+	insert into dk_member(member_num, userId, userPw, nickName) values (seq_dk_member.nextval, 'admin', 'admin', '슈퍼관리자')
+	
+	create table dk_member(--구 회원 테이블
 	
 		  member_num number(10,0) unique,
 	      userId varchar2(50) primary key,
@@ -105,9 +113,17 @@
 	      enabled char(1) default '1'--enabled는 스프링 시큐리티에서 사용하는 값. 현재 사용자 계정이 유효한가를 의미
 	);
 	
-	create sequence seq_dk_member
+	5.------------------------------------------------------------------------------------------
+	create table dk_member_auth (--권한 테이블
 	
-	drop table dk_member purge 
+	     userId varchar2(50) not null,
+	     auth varchar2(50) default 'ROLE_USER',
+	     constraint fk_member_auth foreign key(userId) references dk_member(userId)
+	);
+	
+	insert into dk_member_auth(userId, auth) values ('admin','ROLE_SUPER');
+	
+	drop table dk_member_auth purge 
 	
 	4.---------------------------------------------------------------------------------------
 	create table DK_NOTE (--쪽지 테이블
@@ -148,15 +164,7 @@
 	
 	DROP TABLE dk_attach PURGE;
 	
-	5.------------------------------------------------------------------------------------------
-	create table dk_member_auth (--권한 테이블
 	
-	     userId varchar2(50) not null,
-	     auth varchar2(50) default 'ROLE_USER',
-	     constraint fk_member_auth foreign key(userId) references dk_member(userId)
-	);
-	
-	drop table dk_member_auth purge 
 	
 	6.------------------------------------------------------------------------------------------
 	create table persistent_logins ( --인증 테이블
@@ -240,6 +248,7 @@
 		 cashAmount number(10,0) not null,
 		 regDate date default sysdate, 
 		 userId varchar2(50) not null,
+		 nickName varchar2(50) not null,  --댓글 작성자 닉네임
 		 specification varchar2(50), --미승인/승인완료
 		 board_num number(10,0) default 0,
 		 reply_num number(10,0) default 0,
@@ -382,3 +391,5 @@ EX) INSERT INTO TB_BOARD_TEMP (NUM, TITLE, CONTENTS) SELECT NUM, TITLE, CONTENTS
 
 출처: https://server-engineer.tistory.com/500 [HelloWorld]
 
+7. 카운트 구하기
+select count(*) from dk_board

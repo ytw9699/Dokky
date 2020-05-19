@@ -179,10 +179,11 @@
 		}
 		
 		#title{ 
-			width: 50%;
-			margin-left: 1%;   
-			font-size: 27px;       
-		}
+			width: 85%;
+		    margin-left: 1%;
+		    font-size: 25px;
+		    margin-top: 20px;   
+		} 
 		
 		.content img{
 			max-width: 400px;

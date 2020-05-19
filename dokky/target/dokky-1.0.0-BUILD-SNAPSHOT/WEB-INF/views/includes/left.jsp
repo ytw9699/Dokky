@@ -6,9 +6,10 @@
 <html>
 <head>
 <meta charset="UTF-8"> 
-<link href="/resources/css/left.css" rel="stylesheet" type="text/css"/>
+<link href="/ROOT/resources/css/left.css" rel="stylesheet" type="text/css"/>
 </head>  
 <body>
+		<c:set var="random"><%= java.lang.Math.round(java.lang.Math.random() * 123456) %></c:set>
 		<sec:authentication property="principal" var="userInfo"/>
 		
 	<div class="leftWrap">
@@ -23,8 +24,9 @@
 		<div class="mypage topMypage">  
 					<a href="#" class="leftUsermenu">
 					  	  <%-- <img id="leftProfile" src="/display?fileName=<c:out value="${userInfo.username}"/>.png" class="memberImage leftHideusermenu" onerror="this.src='/resources/img/basicProfile.png'"/> --%>
-					  	  <img id="leftProfile" src="/resources/img/profile_img/<c:out value="${userInfo.username}"/>.png" class="memberImage leftHideusermenu" onerror="this.src='/resources/img/profile_img/basicProfile.png'" />
-					  	  <c:out value="${userInfo.member.nickName}"/>     
+					  	  <%-- <img id="leftProfile" src="/resources/img/profile_img/<c:out value="${userInfo.username}"/>.png" class="memberImage leftHideusermenu" onerror="this.src='/resources/img/profile_img/basicProfile.png'" /> --%>
+					  	  <img id="leftProfile" src="/upload/<c:out value="${userInfo.username}"/>.png?${random}" class="memberImage leftHideusermenu" onerror="this.src='/ROOT/resources/img/profile_img/basicProfile.png'" />
+					  	  <c:out value="${userInfo.member.nickName}"/>    
 			  	    </a> 
 			  	    <div id="leftUsermenuBar">
 							<ul class="leftHideusermenu"> 
@@ -56,34 +58,34 @@
    	  <sec:authorize access="hasAnyRole('ROLE_ADMIN','ROLE_USER')">
 	  		<span class="mypage">
 		  		<form class="logoutForm" method='post' action="/logout">
-				    <input class="logoutBtn" type="submit" value="로그아웃(사용자)">  
+				    <input class="logoutBtn" type="submit" value="로그아웃">  
 				</form> 
 			</span>
 	   </sec:authorize>
 	   <sec:authorize access="hasRole('ROLE_SUPER')">
 	  		<span class="mypage">
 		  		<form class="logoutForm" method='post' action="/customLogout">
-				    <input class="logoutBtn" type="submit" value="로그아웃(관리자)">
+				    <input class="logoutBtn" type="submit" value="로그아웃">
 				</form> 
 			</span>
 	   </sec:authorize>
 			
-		  <a href="/board/allList?category=0">
+		  <a href="/board/allList?category=0&order=0">
 			<span class="mypage">전체글보기</span>
 		  </a>
-		  <a href="/board/list?category=1">
+		  <a href="/board/list?category=1&order=0">
 			<span class="mypage">공지사항</span>
 		  </a>
-		  <a href="/board/list?category=2">
+		  <a href="/board/list?category=2&order=0">
 			<span class="mypage">자유게시판</span>
 		  </a>
-		  <a href="/board/list?category=3">
+		  <a href="/board/list?category=3&order=0">
 			<span class="mypage">묻고답하기</span>
 		  </a>
-		  <a href="/board/list?category=4">
+		  <a href="/board/list?category=4&order=0">
 			<span class="mypage">칼럼/Tech</span>
 		  </a>
-		  <a href="/board/list?category=5">
+		  <a href="/board/list?category=5&order=0">
 			<span class="mypage">정기모임/스터디</span>
 		  </a>
 			
@@ -141,10 +143,44 @@
 			</div> 
 		</div>
 		
+	</div> 
+	
+	<div id="alertFakeDiv"></div> 
+	<div id="alertDiv">
+			<div id="alertContent"></div>  
+			<input type="button" id="alertConfirm" value="확인" onclick="closeAlert();" /> 
+	</div> 
+	
+	<div id="deleteFakeDiv"></div>
+	<div id="deleteDiv">
+			<div id="deleteContent"></div>  
+			<input type="button" id="deleteConfirm" value="삭제" /> 
+			<input type="button" id="cancelConfirm" value="취소" /> 
 	</div>
+	
 	<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
 	<script>
 	
+	var username = null;
+	
+	<sec:authorize access="isAuthenticated()"> 
+		username = '${userInfo.username}';
+	</sec:authorize>
+	
+	function deleting(content, callback) {  
+		
+		  deleteAlert(content);
+		  
+		  $("#deleteConfirm").on("click",function(){
+			  closeDelete();
+			  callback(); 
+		  });
+		  
+		  $("#cancelConfirm").on("click",function(){
+			  closeDelete();
+		  });
+	}
+
 	$(".leftUsermenu").on("click",function(event){//메뉴바 보이기 이벤트 
 			 
 			event.preventDefault();
@@ -159,9 +195,69 @@
 				$("#leftUsermenuBar").css("display","none");  	
 			} 
 	});   
+	
+	function openAlert(content){
+		
+		$(".userMenubar").css("display","none");
+		
+		var alertFakeDiv = $("#alertFakeDiv");
+		var alertDiv = $("#alertDiv");
+		var alertContent = $("#alertContent");
+		
+		alertContent.html(content); 
+		 
+		alertFakeDiv.css("display","block");
+		alertDiv.css("display","block"); 
+	}
+	
+	function closeAlert(content){  
+		
+		var alertFakeDiv = $("#alertFakeDiv");
+		var alertDiv = $("#alertDiv");
+		
+		alertFakeDiv.css("display","none");
+		alertDiv.css("display","none"); 
+		//alertContent.html(""); 
+	}  
+	
+	function deleteAlert(content){
+		
+		$(".userMenubar").css("display","none");
+		
+		var deleteFakeDiv = $("#deleteFakeDiv");
+		var deleteDiv = $("#deleteDiv");
+		var deleteContent = $("#deleteContent");
+		
+		deleteContent.html(content); 
+		 
+		deleteFakeDiv.css("display","block");
+		deleteDiv.css("display","block"); 
+	}
+	
+	function closeDelete(){  
+		
+		var deleteFakeDiv = $("#deleteFakeDiv");
+		var deleteDiv = $("#deleteDiv");
+		
+		deleteFakeDiv.css("display","none");
+		deleteDiv.css("display","none");   
+	}  
 
 	function noteOpen(userId,nickname){
 			
+		$(".userMenubar").css("display","none");
+		
+		$("#leftUsermenuBar").css("display","none"); 
+		
+		if(username == null){ 
+			
+			//$("#UserMenubar_board").css("display","block").addClass('addBlockClass');
+			openAlert("로그인 해주세요");
+			//alert("로그인 해주세요."); 
+			
+			return;
+		}
+		
 		var popupX = (window.screen.width / 2) - (400 / 2); 
 
 		var popupY= (window.screen.height /2) - (500 / 2);
@@ -206,7 +302,7 @@
 	<sec:authorize access="isAuthenticated()"> 
 		var alarmCount = $(".alarmCount");
 		var noteCount = $(".noteCount");
-		var userId = '${userInfo.username}';
+		var userId = '${userInfo.username}'; 
 	</sec:authorize>
 	
 	function schedule(){

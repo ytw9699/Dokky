@@ -8,6 +8,7 @@ public class cashVO {
 	  private String cashKind;
 	  private Long cashAmount;
 	  private String userId;
+	  private String nickName;
 	  private String specification;
 	  private String title;
 	  private String reply_content;

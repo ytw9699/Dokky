@@ -10,7 +10,7 @@
 	<meta charset="UTF-8">
 	<script src="//code.jquery.com/jquery-1.11.3.min.js"></script>
 	<title>Dokky - 쪽지쓰기</title>  
-	<link href="/resources/css/registerNote.css" rel="stylesheet" type="text/css">
+	<link href="/ROOT/resources/css/registerNote.css" rel="stylesheet" type="text/css">
 </head>
 <body> 
 
@@ -88,12 +88,12 @@
 		
 		if(obj.tagName === "INPUT" || obj.tagName === "TEXTAREA"){ 
 			if (stringByteLength > maxByte) {// 전체길이를 초과하면          
-				alert(maxByte + " Byte 이상 입력할 수 없습니다.");         
+				openAlert(maxByte + " Byte 이상 입력할 수 없습니다");         
 				obj.value = reStr;       
 			}   
 		}else if(obj.tagName === "DIV"){
 			if (stringByteLength > maxByte) {// 전체길이를 초과하면          
-				alert(maxByte + " Byte 이상 입력할 수 없습니다.");         
+				openAlert(maxByte + " Byte 이상 입력할 수 없습니다");         
 				obj.innerHTML = reStr;    
 			}   
 		} 
@@ -152,7 +152,7 @@
 			
 			if(content == ""){ 
 				
-			   alert("내용을 입력하세요."); 
+			   openAlert("내용을 입력하세요"); 
 			   return false;
 			}
 	
@@ -172,7 +172,7 @@
 			    	//$("#to_id").val(""); 
 					//$("#checkbox").prop("checked", false);
 					
-					alert(result); 
+					openAlert(result); 
 	   	    });
     });
 	

@@ -50,7 +50,7 @@ import com.amazonaws.auth.AWSCredentials;
 @Component
 public class myS3Util {
 	
-	private static final String bucket_name = "picksell-bucket";
+	private static final String bucket_name = "dokky-bucket";
 	
 	//private static final String ACCESS_KEY = "";
     //private static final String SECRET_KEY = "";
@@ -95,7 +95,7 @@ public class myS3Util {
 	}
 
 	public AttachFileDTO upload(byte[] fileData, MultipartFile multipartFile, String fileName, String uploadKind) throws FileNotFoundException {
-		
+			
 			createFolder();
 			
 			AttachFileDTO attachDTO = new AttachFileDTO();

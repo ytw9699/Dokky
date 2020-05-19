@@ -9,7 +9,7 @@
 <head> 
 <meta charset="UTF-8">
 <title>Dokky - 유저 등록 댓글</title>   
-<link href="/resources/css/userReplylist.css" rel="stylesheet" type="text/css"/>
+<link href="/ROOT/resources/css/userReplylist.css" rel="stylesheet" type="text/css"/>
 </head>
 <%@include file="../includes/left.jsp"%>
 <body>
@@ -18,7 +18,8 @@
 <div class="userReplyWrap">	
 
 		<div id="userId">
-			   ${pageMaker.cri.userId} 회원님의 댓글   
+			   ${userReply[0].nickName} 회원님의 댓글   
+			   <%-- ${pageMaker.cri.userId} --%> 
 		</div>
 		
 		<div id="menuWrap">

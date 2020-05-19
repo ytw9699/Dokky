@@ -34,6 +34,55 @@ public class CommonServiceImpl implements CommonService {
 	}
 	
 	@Override 
+	public String tests1(){
+		
+		log.info("tests1..."); 
+		
+		return mapper.tests1();
+	}
+	
+	@Override 
+	public String tests2(){
+		
+		log.info("tests2..."); 
+		
+		return mapper.tests2();
+	}
+	
+	@Override 
+	public String tests3(){
+		
+		log.info("tests3..."); 
+		
+		return mapper.tests3();
+	}
+	
+	@Override 
+	public String tests4(){
+		
+		log.info("tests4..."); 
+		
+		return mapper.tests4();
+	}
+	
+	@Override 
+	public String tests5(){
+		
+		log.info("tests5..."); 
+		
+		return mapper.tests5();
+	}
+	
+	
+	@Override 
+	public String tests6(){
+		
+		log.info("tests6..."); 
+		
+		return mapper.tests6();
+	}
+	
+	@Override 
 	public int getVisitTotalCount() {
 		
 		log.info("getVisitTotalCount..."); 

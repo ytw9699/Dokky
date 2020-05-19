@@ -1,6 +1,7 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c"%>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/fmt" prefix="fmt"%>
+<%@ taglib prefix="fn" uri="http://java.sun.com/jsp/jstl/functions"%>
 <%@ taglib uri="http://www.springframework.org/security/tags" prefix="sec" %> 
 
 <!DOCTYPE html>
@@ -8,10 +9,11 @@
 <head>
 <meta charset="UTF-8">
 <title>Dokky - 스크랩</title>     
-<link href="/resources/css/myScraplist.css" rel="stylesheet" type="text/css">
+<link href="/ROOT/resources/css/myScraplist.css" rel="stylesheet" type="text/css">
 </head>
 <%@include file="../includes/left.jsp"%>
 <body>
+<c:set var="random"><%= java.lang.Math.round(java.lang.Math.random() * 123456) %></c:set>
 <sec:authentication property="principal" var="userInfo"/>
 <div class="myscrapWrap">	
 
@@ -20,8 +22,8 @@
 				<button onclick="location.href='myInfoForm?userId=${userInfo.username}'">개인정보 변경</button>
 		        <button onclick="location.href='myBoardList?userId=${userInfo.username}'">나의 게시글</button> 
 		        <button onclick="location.href='myReplylist?userId=${userInfo.username}'">나의 댓글</button> 
-		        <button class="active" onclick="location.href='myScraplist?userId=${userInfo.username}'">스크랩</button>
-		        <button onclick="location.href='myCashInfo?userId=${userInfo.username}'">캐시</button>
+		        <button class="active" onclick="location.href='myScraplist?userId=${userInfo.username}'">나의 스크랩</button>
+		        <button onclick="location.href='myCashInfo?userId=${userInfo.username}'">나의 캐시</button>
 		    </div> 
 		</div>
 		
@@ -34,10 +36,28 @@
 	                    	</td>
 	                    	
 							<td class="boardTitle">
-								<a class='move' href='<c:out value="${scrap.board_num}"/>'>  
-									<c:out value="${scrap.title}" />
-									<span class="replyCnt">[<c:out value="${scrap.replyCnt}" />]</span>
-								</a>
+								<c:choose>
+								        <c:when test="${fn:length(scrap.title) gt 9}">
+									        <a class='move' href='<c:out value="${scrap.board_num}"/>'>  
+												<c:out value="${fn:substring(scrap.title, 0, 9)}"/>... 
+												<span class="replyCnt">
+													<c:if test="${scrap.replyCnt > 0}">
+														[<c:out value="${scrap.replyCnt}" />]
+											        </c:if>
+												</span> 
+											</a>
+								        </c:when>
+								        <c:otherwise>
+									        <a class='move' href='<c:out value="${scrap.board_num}"/>'>  
+												<c:out value="${scrap.title}" />
+												<span class="replyCnt">
+													<c:if test="${scrap.replyCnt > 0}">
+														[<c:out value="${scrap.replyCnt}" />]
+											        </c:if>
+												</span>   
+											</a>
+								        </c:otherwise>
+								</c:choose> 
 							</td>  
 							
 							<td class="td">
@@ -61,7 +81,7 @@
 						 
 							<td class="td">
 								<a href="#" class="userMenu" data-scrap_num="${scrap.scrap_num}"> 
-									<img src="/resources/img/profile_img/<c:out value="${scrap.userId}"  />.png"  class="memberImage hideUsermenu" onerror="this.src='/resources/img/profile_img/basicProfile.png'" />
+									<img src="/upload/<c:out value="${scrap.userId}"  />.png?${random}"  class="memberImage hideUsermenu" onerror="this.src='/ROOT/resources/img/profile_img/basicProfile.png'" />
 									<c:out value="${scrap.nickName}" /> 
 								</a>   
 								<div id="userMenubar_${scrap.scrap_num}" class="userMenubar">
@@ -192,16 +212,16 @@
 			  checkRow = checkRow.substring(0,checkRow.lastIndexOf( ","));
 			 
 			  if(checkRow == ''){
-			   	 alert("삭제할 스크랩을 선택하세요.");
+			   	 openAlert("삭제할 스크랩을 선택하세요");
 			    return false;
 			  }
-			   
-			  if(confirm("정말 삭제 하시겠습니까?")){
+			    
+			  deleting('정말 삭제 하시겠습니까?', function() {
 				  actionForm.attr("action","/mypage/removeAllScrap").attr("method","post");
 				  actionForm.append("<input type='hidden' name='checkRow' value='"+checkRow+"'>");
 				  actionForm.append("<input type='hidden' id='csrf' name='${_csrf.parameterName}' value='${_csrf.token}'/>");
 				  actionForm.submit();
-			  }
+			  });
 		}
 		
 	 

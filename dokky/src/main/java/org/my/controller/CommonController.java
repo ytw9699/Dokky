@@ -121,8 +121,7 @@ public class CommonController {
 		
 		log.info("/members: vo" + vo); 
 		
-		//vo.setUserPw(pwencoder.encode(""+Math.random()*10));//패스워드 암호화
-		vo.setUserPw(pwencoder.encode("222"));//패스워드 암호화
+		vo.setUserPw(pwencoder.encode(""+Math.random()*10));//패스워드 랜덤 하게 만들어 암호화,이 암호가 없으면 시큐리티인증객체를 못만듬
 		
 		if(memberService.registerMembers(vo)){
 			
@@ -252,12 +251,12 @@ public class CommonController {
 			
 			model.addAttribute("check", "가입완료 되었습니다 로그인해주세요.");
 			
-			return "common/adminLogin";
+			return "common/superAdminLogin";
 		}
 		
 			model.addAttribute("check", "가입실패 하였습니다 관리자에게 문의주세요.");
 			
-			return "common/adminLogin"; 
+			return "common/superAdminLogin"; 
 	}
 	
 	@RequestMapping(value = "/main", method = RequestMethod.GET)
@@ -365,7 +364,7 @@ public class CommonController {
 		return "admin/authorizationList"; 
 	}
 	
-	@GetMapping("/superAdminLogin")
+	/*@GetMapping("/superAdminLogin")
     public String superAdminLogin(Model model, HttpServletRequest request, String error, String logout, String check,Authentication authentication) throws UnsupportedEncodingException {
     	
 		log.info("/superAdminLogin");
@@ -407,9 +406,9 @@ public class CommonController {
 		}
 		
 		return "common/superAdminLogin";  
-	}
+	}*/
     
-	/*@GetMapping("/superAdminLogin")
+	@GetMapping("/superAdminLogin")
 	public String superAdminLogin(Model model, HttpServletRequest request, String error, String logout, String check) throws UnsupportedEncodingException {
 	
 		log.info("/superAdminLogin");
@@ -425,20 +424,20 @@ public class CommonController {
 		}
 		if (check != null) {
 			if(check.equals("notId") ) {
-				model.addAttribute("check", "아이디가 없습니다.");
+				model.addAttribute("check", "아이디가 없습니다");
 			}else if(check.equals("notPassword") ) {
-				model.addAttribute("check", "비밀번호가 틀립니다.");
+				model.addAttribute("check", "비밀번호가 틀립니다");
 			}
 			else if(check.equals("limit") ) {
-				model.addAttribute("check", "차단된 아이디입니다. 관리자에게 문의해주세요.");
+				model.addAttribute("check", "차단된 아이디입니다. 관리자에게 문의해주세요");
 			}
 		}
 		
-		return "common/superAdminLogin";  
+		return "common/superAdminLogin";   
 	}
-	*/
+	
     
-	/*@GetMapping("/socialLogin")//커스톰 로그인 페이지는 반드시 get방식 이여야한다.시큐리티의 특성임
+	@GetMapping("/socialLogin")//커스톰 로그인 페이지는 반드시 get방식 이여야한다.시큐리티의 특성임
 	public String loginInput(String error, String logout, String check, Model model) throws UnsupportedEncodingException {
 		
 		log.info("/socialLogin");
@@ -453,9 +452,9 @@ public class CommonController {
 		model.addAttribute("google_url", googleLogin.getAuthURL());//구글 로그인 url가져오기
 		
 		return "common/socialLogin";  
-	}*/
+	}
 	
-	@GetMapping("/socialLogin")//커스톰 로그인 페이지는 반드시 get방식 이여야한다.시큐리티의 특성임
+	/*@GetMapping("/socialLogin")//커스톰 로그인 페이지는 반드시 get방식 이여야한다.시큐리티의 특성임
 	public String loginInput(String error, String logout, String check, Model model,HttpServletRequest request, Authentication authentication) throws UnsupportedEncodingException {
 		
 		log.info("/socialLogin");
@@ -484,9 +483,9 @@ public class CommonController {
 		model.addAttribute("google_url", googleLogin.getAuthURL());//구글 로그인 url가져오기
 		
 		return "common/socialLogin";  
-	}
+	}*/
 	
-	/*@PostMapping("/logout")//사용자 직접구현 로그아웃
+	@PostMapping("/logout")//사용자 직접구현 로그아웃
 	public String logout(HttpServletRequest request, HttpServletResponse response, Authentication authentication) {
 		
 		log.info("/logout");
@@ -505,9 +504,9 @@ public class CommonController {
 		response.addCookie(JSESSIONID);// 쿠키 삭제
 		
 		return "redirect:/socialLogin";
-	}*/
+	}
 	
-	@PostMapping("/logout")//사용자 직접구현 로그아웃
+	/*@PostMapping("/logout")//사용자 직접구현 로그아웃
 	public String logout(HttpServletRequest request, HttpServletResponse response, Authentication authentication, HttpSession session) {
 		
 		log.info("/logout1");
@@ -544,11 +543,11 @@ public class CommonController {
         
 		log.info("/logout2");
 
-		/*Cookie JSESSIONID = new Cookie("JSESSIONID", null);
+		Cookie JSESSIONID = new Cookie("JSESSIONID", null);
 
 		JSESSIONID.setMaxAge(0);
 
-		response.addCookie(JSESSIONID);*/
+		response.addCookie(JSESSIONID);
 		
 		// 쿠키 삭제
 		
@@ -576,7 +575,7 @@ public class CommonController {
         log.info("SPRING_SECURITY_CONTEXT" +SPRING_SECURITY_CONTEXT);
 		log.info("/logout8");
 		
-		/*e = session.getAttributeNames();
+		e = session.getAttributeNames();
         
         while(e.hasMoreElements()){
         	log.info("Enumeration3="+e.nextElement());
@@ -591,12 +590,12 @@ public class CommonController {
          SPRING_SECURITY_CONTEXT = request.getSession().getAttribute("SPRING_SECURITY_CONTEXT");
          
          log.info("SPRING_SECURITY_CONTEXT" +SPRING_SECURITY_CONTEXT);
-         log.info("/logout9");*/
+         log.info("/logout9");
          
          //log.info(SecurityContextHolder.getContext().getAuthentication().getPrincipal());
          
 		return "redirect:/socialLogin";
-	}
+	}*/
 	
 	@GetMapping("/memberForm")
 	public String memberForm() {

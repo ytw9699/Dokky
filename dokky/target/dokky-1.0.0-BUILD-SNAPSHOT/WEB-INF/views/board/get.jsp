@@ -8,11 +8,11 @@
 	<head>
 		<meta charset="UTF-8">
 		<title>Dokky - 상세페이지</title> 
-		<link href="/resources/css/get.css" rel="stylesheet" type="text/css">
+		<link href="/ROOT/resources/css/get.css" rel="stylesheet" type="text/css">
 		<%@include file="../includes/left.jsp"%> 
 	</head>
 <body> 
-
+<c:set var="random"><%= java.lang.Math.round(java.lang.Math.random() * 123456) %></c:set>
 <sec:authentication property="principal" var="userInfo"/>
 <!-- 다시보기 : 위 코드 없어도 left.jsp에있기 때문에 userInfo가 동작함 -->
 
@@ -41,7 +41,7 @@
 			
 			<div class="nickName">
 				<a href="#" id="board_userMenu" class="userMenu">
-					<img src="/resources/img/profile_img/<c:out value="${board.userId}" />.png"  class="memberImage hideUsermenu" onerror="this.src='/resources/img/profile_img/basicProfile.png'" />
+					<img src="/upload/<c:out value="${board.userId}" />.png?${random}"  class="memberImage hideUsermenu" onerror="this.src='/ROOT/resources/img/profile_img/basicProfile.png'" />
 					<c:out value="${board.nickName}" /> 
 				</a>
 			</div>
@@ -250,7 +250,7 @@
 			신고사유를 입력해주세요.
 		 </div>
 		 <div class="reportText">	 
-		 	<textarea id="reportInput" rows="3" oninput="checkLength(this,60);"></textarea>
+		 	<textarea id="reportInput" rows="3" oninput="checkLength(this,100);"></textarea> 
 		 </div>  
 	 
          <div class="">
@@ -265,9 +265,12 @@
 <!-- END 숨겨진 DIV들  -->
 
 <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
-<script type="text/javascript" src="/resources/js/reply.js"></script> <!--댓글 AJAX통신 -->
+<script type="text/javascript" src="/ROOT/resources/js/reply.js"></script> <!--댓글 AJAX통신 -->
 <script>
 	//공통 변수 모음 
+	
+	
+	var previousCategory  = '${previousCategory}';
 	var board_num = '${board.board_num}'; 
 	var board_id = '${board.userId}';
 	var board_nickName = '${board.nickName}';
@@ -322,12 +325,12 @@
 			
 			if(obj.tagName === "INPUT" || obj.tagName === "TEXTAREA"){ 
 				if (stringByteLength > maxByte) {// 전체길이를 초과하면          
-					alert(maxByte + " Byte 이상 입력할 수 없습니다.");         
+					openAlert(maxByte + " Byte 이상 입력할 수 없습니다");
 					obj.value = reStr;       
 				}   
 			}else if(obj.tagName === "DIV"){
 				if (stringByteLength > maxByte) {// 전체길이를 초과하면          
-					alert(maxByte + " Byte 이상 입력할 수 없습니다.");         
+					openAlert(maxByte + " Byte 이상 입력할 수 없습니다");  
 					obj.innerHTML = reStr;    
 				}   
 			} 
@@ -352,7 +355,8 @@
  		
  		if(!myId){//로그인 여부 확인
  			 
-	  		  alert(loginCheck);
+ 			  openAlert(loginCheck);
+	  		  //alert(loginCheck);
 	  		  return true; 
 	  	 } 
 		
@@ -367,8 +371,9 @@
 		if(commonCheck){//좋아요,싫어요,기부금 체크
 			
 			if(input_id == myId){
-				
-		 		  alert(commonCheck);
+					
+				  openAlert(commonCheck);
+		 		  //alert(commonCheck);
 		 		  return true; 
 		 	 }
 		}
@@ -395,7 +400,6 @@
 	function showReplyList(page){//댓글 리스트 가져오기
 		
 	    replyService.getList({board_num:board_num, page: page || 1 }, function(data) {
-	    	
 	    	var replyList = $(".replyList");//댓글리스트 ul  
 	    	var replyCntVal = $(".replyCntVal");//댓글 갯수 div
 			var str ="";
@@ -414,7 +418,7 @@
 			var depth; 
 			var group_num; 
 			var order_step; 
-			
+			var random = Math.random();
 			
 			if(page == -1){
 			
@@ -452,6 +456,7 @@
 			   toUserId		 = data.list[i].toUserId;   
 			   reply_content = data.list[i].reply_content; 
 			   replyDate 	 = data.list[i].replyDate;
+			   /* replyDate 	 = data.list[i].replyDate - 32400000; */
 			   likeCnt 	     = data.list[i].likeCnt;
 			   dislikeCnt 	 = data.list[i].dislikeCnt;
 			   depth   		 = data.list[i].depth;
@@ -476,7 +481,7 @@
 		    	  str += "<div class='reply' data-reply_num='"+reply_nums+"'>" 
 			    	  		   + "<span>"
 								   + "<a href='#' class='userMenu' data-reply_num='"+reply_nums+"' data-menu_kind='from'>"   
-									   + "<img src='/resources/img/profile_img/"+userId+".png' class='memberImage hideUsermenu' onerror='this.src=\"/resources/img/profile_img/basicProfile.png\"'/>&nbsp"
+									   + "<img src='/upload/"+userId+".png?"+random+"' class='memberImage hideUsermenu' onerror='this.src=\"/ROOT/resources/img/profile_img/basicProfile.png\"'/>&nbsp"
 									   + nickName
 								   + "</a>"
 							   + "</span>" 
@@ -571,7 +576,7 @@
     	   			     str += "<span class='depthLine'>└ </span>"
 	    	   			  	   +"<span>"
 							       + "<a href='#' class='userMenu' data-reply_num='"+reply_nums+"' data-menu_kind='from'>"   
-									   + "<img src='/resources/img/profile_img/"+userId+".png' class='memberImage hideUsermenu' onerror='this.src=\"/resources/img/profile_img/basicProfile.png\"'/>&nbsp"
+									   + "<img src='/upload/"+userId+".png?"+random+"' class='memberImage hideUsermenu' onerror='this.src=\"/ROOT/resources/img/profile_img/basicProfile.png\"'/>&nbsp"
 									   + nickName
 							       + "</a>"
 						   	   + "</span>"
@@ -596,7 +601,7 @@
 							   
 							   + "<span>"
 							       + "<a href='#' class='userMenu' data-reply_num='"+reply_nums+"' data-menu_kind='to'>"
-									   + "<img src='/resources/img/profile_img/"+toUserId+".png' class='memberImage hideUsermenu' onerror='this.src=\"/resources/img/profile_img/basicProfile.png\"'/>&nbsp"
+									   + "<img src='/upload/"+toUserId+".png?"+random+"' class='memberImage hideUsermenu' onerror='this.src=\"/ROOT/resources/img/profile_img/basicProfile.png\"'/>&nbsp"
 									   + toNickName
 							       + "</a>"
 				   	   		   + "</span>"
@@ -774,11 +779,16 @@
 	
 	$("#list_button").on("click", function(e){//목록보기
 		
-	    operForm.find("#board_num").remove();
-	    operForm.find("#userId").remove();
-	    operForm.find("#csrf").remove();
-	    operForm.attr("action","/board/list")
-	    operForm.submit();
+		if(previousCategory == 0 ){
+			operForm.attr("action","/board/allList");
+			operForm.find("input[name='category']").val(previousCategory);
+		}else{
+		    operForm.attr("action","/board/list");
+		}
+			operForm.find("#board_num").remove();
+		    operForm.find("#userId").remove();
+		    operForm.find("#csrf").remove();
+		    operForm.submit();
 	}); 
 	
 	$("#modify_button").on("click", function(e){//게시글 수정
@@ -788,10 +798,15 @@
 	   
 	$("#remove_button").on("click", function(e){//게시글 삭제
 		
-		if(func_confirm('정말 삭제 하시겠습니까?')){
+		deleting('정말 삭제 하시겠습니까?', function() {
+				  operForm.attr("action","/board/remove").attr("method","post");
+			      operForm.submit();
+		});
+	
+		/* if(func_confirm('정말 삭제 하시겠습니까?')){
 			operForm.attr("action","/board/remove").attr("method","post");
 		    operForm.submit();
-		}
+		} */
 	}); 
 	
 	/////////////////////////////////////////////////////////
@@ -806,13 +821,13 @@
 			replyService.ScrapBoard(scrapData, function(result){
 				
 					 if(result == 'success'){
-						 alert("스크랩 하였습니다."); 
+						 openAlert("스크랩 하였습니다");
 			 	 
 					 }else if(result == 'cancel'){
-						 alert("스크랩을 취소하였습니다.");
+						 openAlert("스크랩을 취소하였습니다");
 						 
 					 }else if(result == 'fail'){
-						 alert("스크랩에 실패하였습니다. 관리자에게 문의주세요.");
+						 openAlert("스크랩에 실패하였습니다. 관리자에게 문의주세요");
 					 }
 			});
 	});  
@@ -821,8 +836,8 @@
 
 	$("#like").on("click",function(event){//게시글 좋아요
 		
-		var loginCheck = "로그인후 좋아요를 눌러주세요.";
-		var likeCheck = "자신의 글에는 좋아요를 할 수 없습니다.";
+		var loginCheck = "로그인 후 좋아요를 눌러주세요";
+		var likeCheck = "자신의 글에는 할 수 없습니다";
 		 
 		if(checkUser(board_id, loginCheck, null, likeCheck)){ 
 			return;
@@ -859,8 +874,8 @@
 
 	$("#dislike").on("click",function(event){//게시글 싫어요
 		  
-		var loginCheck = "로그인후 싫어요를 눌러주세요.";
-		var dislikeCheck = "자신의 글에는 싫어요를 할 수 없습니다.";
+		var loginCheck = "로그인 후 싫어요를 눌러주세요";
+		var dislikeCheck = "자신의 글에는 할 수 없습니다";
 		 
 		if(checkUser(board_id, loginCheck, null, dislikeCheck)){ 
 			return;
@@ -900,8 +915,8 @@
 			var reply_id = $(this).data("reply_id");
 			var reply_num = $(this).data("reply_num");
 			var reply_content = $(this).data("reply_content");
-			var loginCheck = "로그인후 좋아요를 눌러주세요.";
-			var likeCheck = "자신의 댓글에는 좋아요를 할 수 없습니다.";
+			var loginCheck = "로그인 후 좋아요를 눌러주세요";
+			var likeCheck = "자신의 댓글에는 할 수 없습니다"; 
 			 
 			if(checkUser(reply_id, loginCheck, null, likeCheck)){ 
 				return;
@@ -940,8 +955,8 @@
 			var reply_id = $(this).data("reply_id");
 			var reply_num = $(this).data("reply_num");
 			var reply_content = $(this).data("reply_content");
-			var loginCheck = "로그인후 싫어요를 눌러주세요.";
-			var dislikeCheck = "자신의 댓글에는 싫어요를 할 수 없습니다.";
+			var loginCheck = "로그인 후 싫어요를 눌러주세요";
+			var dislikeCheck = "자신의 댓글에는 할 수 없습니다";
 			 
 			if(checkUser(reply_id, loginCheck, null, dislikeCheck)){ 
 				return;
@@ -1008,8 +1023,8 @@
 	
 	$("#donateMoney").on("click",function(event){//게시글 기부 모달폼 열기
 		
-		var loginCheck = "로그인후 기부를 해주세요.";
-		var giveCheck = "자신의 글에는 기부를 할 수 없습니다.";
+		var loginCheck = "로그인 후 기부를 해주세요";
+		var giveCheck = "자신의 글에는 할 수 없습니다";
 	
 		if(checkUser(board_id, loginCheck, null, giveCheck)){ 
 			return;  
@@ -1035,8 +1050,8 @@
 		donate_reply_id 	  =  $(this).data("reply_id"); 
 		donate_reply_num 	  =  $(this).data("reply_num");
 		donate_reply_content  =  $(this).data("reply_content");
-		var loginCheck 		  =  "로그인후 기부를 해주세요.";
-		var giveCheck 		  =  "자신의 댓글에는 기부를 할 수 없습니다.";
+		var loginCheck 		  =  "로그인 후 기부를 해주세요";
+		var giveCheck 		  =  "자신의 댓글에는 할 수 없습니다"; 
 		 
 		if(checkUser(donate_reply_id, loginCheck, null, giveCheck)){ 
 			return;
@@ -1062,27 +1077,28 @@
 		inputMoney = parseInt(donateModal.find("input[name='realGiveCash']").val());  
 	
 		if(myCash < inputMoney){
-			alert("보유 캐시가 부족합니다.");
+			openAlert("보유 캐시가 부족합니다");
 			closeDonateModal();
 			return; 
 		} 
 		 
 		if(inputMoney === 0 || inputMoney === ""){   
-			alert("금액을 1원이상 입력해주세요."); 
+			openAlert("금액을 1원이상 입력해주세요");
+			//"금액을 1원이상 입력해주세요."
 			return;
 		}
 		
 		if(option === 'board'){//게시글 기부시
-			
 			var donateData = {	 board_num 	: board_num, //글번호
 							 	 userId     : myId, //기부하는 아이디
+							 	 nickName   : myNickName, //기부하는 닉네임 
 							  	 donatedId  : board_id, //기부받는 아이디
+							  	 donatedNickName  : board_nickName, //기부받는 닉네임
 							  	 money      : inputMoney, //기부금액
 							  	 cash 	    : myCash //기부자의 잔여 캐시
 							 };
 		
-		
-			var alarmData = { 
+			var alarmData = {  
 								target:board_id,
 								commonVar1:board_title,
 								commonVar2:board_num,
@@ -1103,7 +1119,7 @@
 			   	
 				closeDonateModal(); 
 				
-				alert("기부 하였습니다."); 
+				openAlert("기부 하였습니다");
 				
 	   	    });
 			
@@ -1139,7 +1155,7 @@
 				   	
 					closeDonateModal();
 					
-					alert("기부 하였습니다.");  
+					openAlert("기부 하였습니다");
 		   	    });
 		}
 	});
@@ -1184,8 +1200,8 @@
 	$(".replyList").on("click",'button[data-oper="report"]', function(event){//댓글 신고폼 열기 버튼
 		
 		reportedId = $(this).data("reply_id");
-		var loginCheck = "로그인후 신고를 해주세요.";
-		var reportCheck = "자신의 댓글에는 신고를 할 수 없습니다.";
+		var loginCheck = "로그인 후 신고를 해주세요";
+		var reportCheck = "자신의 댓글에는 할 수 없습니다";
 		 
 		if(checkUser(reportedId, loginCheck, null, reportCheck)){ 
 			return;
@@ -1204,8 +1220,9 @@
     	 reason = $.trim(reason);
     	 
     	 if(reason === "") {
-    			alert("신고 사유 입력후 신고해주세요.");
-    			reportInput.focus();
+    			openAlert("신고 사유 입력후 신고해주세요");
+    			//alert("신고 사유 입력후 신고해주세요.");
+    			reportInput.focus();  
 	 			return;
     	 } 
     
@@ -1235,10 +1252,10 @@
 		 replyService.report(commonData, function(result){
 			 
 				 if(result == 'success'){
-					 alert("신고완료 되었습니다.");
+					 openAlert("신고완료 되었습니다");
 					 
-				 }else if(result == 'fail'){
-					 alert("신고되지 않았습니다. 관리자에게 문의주세요.");
+				 }else if(result == 'fail'){	
+					 openAlert("신고되지 않았습니다. 관리자에게 문의주세요");
 				 } 
 				 
 				 closeReportForm();  
@@ -1425,8 +1442,7 @@
 	});
 	
 	///////////////////////////////////////////////////////
-	
-	$(".replyList").on("click",'button[data-oper="delete"]', function(event){//댓글 삭제
+	/* $(".replyList").on("click",'button[data-oper="delete"]', function(event){//댓글 삭제
 		
 		if(func_confirm('정말 삭제 하시겠습니까?')){
 			
@@ -1434,9 +1450,20 @@
 					
 				  	      showReplyList(pageNum);//삭제후 댓글 페이지 유지하면서 리스트 다시 호출 
 				}); 
-		}
+		}   
+	});  */
+	
+	$(".replyList").on("click",'button[data-oper="delete"]', function(event){//댓글 삭제
+		
+		var reply_num =  $(this).data("reply_num"); 
+		var reply_id = $(this).data("reply_id"); 
+		
+		deleting('정말 삭제 하시겠습니까?', function() {
+			replyService.remove( reply_num, reply_id, board_num, function(){
+	        showReplyList(pageNum);//삭제후 댓글 페이지 유지하면서 리스트 다시 호출 
+			}); 
+		});
 	}); 
-			
 	///////////////////////////////////////////////////////
 
    $(document).ready(function(){//첨부파일 즉시 함수

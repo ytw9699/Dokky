@@ -174,7 +174,7 @@
 			margin-top: 2px;
 		}
 		#search{ 
-			background: url(/resources/img/main_searchcon.png) 50% 50% no-repeat;
+			background: url(/ROOT/resources/img/main_searchcon.png) 50% 50% no-repeat;
 		    width: 35px;
 		    height: 35px;
 		    border: none;
@@ -247,7 +247,7 @@
 			height: 37px;
 		}
 		.title{
-			width: 55%;
+			width: 50%; 
 		}
 		.title a{
 			color:#333333; 

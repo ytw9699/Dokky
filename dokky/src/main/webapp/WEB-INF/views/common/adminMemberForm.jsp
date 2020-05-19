@@ -9,7 +9,7 @@
 <head>
 <meta charset="UTF-8">
 	<title>Dokky - 회원가입</title> 
-<link href="/resources/css/memberForm.css" rel="stylesheet" type="text/css"/>
+<link href="/ROOT/resources/css/memberForm.css" rel="stylesheet" type="text/css"/>
 </head>
 <body>
 	<div class="memberFormWrap">	
@@ -154,12 +154,12 @@
 				
 				if(obj.tagName === "INPUT" || obj.tagName === "TEXTAREA"){ 
 					if (stringByteLength > maxByte) {// 전체길이를 초과하면          
-						alert(maxByte + " Byte 이상 입력할 수 없습니다.");         
+						openAlert(maxByte + " Byte 이상 입력할 수 없습니다");         
 						obj.value = reStr;       
 					}   
 				}else if(obj.tagName === "DIV"){
 					if (stringByteLength > maxByte) {// 전체길이를 초과하면          
-						alert(maxByte + " Byte 이상 입력할 수 없습니다.");         
+						openAlert(maxByte + " Byte 이상 입력할 수 없습니다");         
 						obj.innerHTML = reStr;    
 					}   
 				} 
@@ -245,7 +245,7 @@
 		    	 userIdVal = $.trim(userIdVal);
 		     
 				if(userIdVal == ""){ 
-					alert("아이디를 입력하세요.");
+					openAlert("아이디를 입력하세요");
 					userId.focus();  
 					   return true;
 				}
@@ -255,7 +255,7 @@
 				userpwVal = $.trim(userpwVal);
 		     
 				if(userpwVal == ""){ 
-					alert("비밀번호를 입력하세요.");
+					openAlert("비밀번호를 입력하세요");
 					userpw.focus();  
 					  return true;
 				}
@@ -265,12 +265,12 @@
 				userpwCheckVal = $.trim(userpwCheckVal);
 		     
 				if(userpwCheckVal == ""){ 
-					alert("비밀번호를 재입력하세요."); 
+					openAlert("비밀번호를 재입력하세요"); 
 					userpwCheck.focus();  
 					  return true;
 				}
 				if(userpwVal != userpwCheckVal ){ 
-					alert('비밀번호가 일치하지 않습니다');
+					openAlert('비밀번호가 일치하지 않습니다');
 					userpwCheck.focus();
 					return true;
 				}
@@ -281,7 +281,7 @@
 	     
 				if(nickNameVal == ""){ 
 					nickName.focus();  
-					alert("닉네임을 입력하세요."); 
+					openAlert("닉네임을 입력하세요"); 
 					  return true;
 				}
 			
@@ -291,13 +291,13 @@
 	       
 				if(emailVal == ""){ 
 					email.focus(); 
-					alert("이메일을 입력하세요.");  
+					alert("이메일을 입력하세요");  
 					  return true;
 				} */
 			
 			    if(checkDuplicatedId(userIdVal, function(result){ //아이디 중복체크
 						if(result == 'success'){ 
-					 		alert("아이디가 중복됩니다."); 
+					 		openAlert("아이디가 중복됩니다"); 
 					 		userId.focus(); 
 					 		return true; 
 						}
@@ -308,7 +308,7 @@
 	      
 			    if(checkDuplicatedNickname(nickNameVal, function(result){ //닉네임 중복체크
 						if(result == 'success'){ 
-					 		alert("닉네임이 중복됩니다."); 
+					 		openAlert("닉네임이 중복됩니다"); 
 					 		nickName.focus(); 
 					 		return true; 
 						}
@@ -319,7 +319,7 @@
 	    
 			    /* if(checkDuplicatedEmail(emailVal, function(result){ //이메일 중복체크
 						if(result == 'success'){ 
-					 		alert("이메일이 중복됩니다."); 
+					 		alert("이메일이 중복됩니다"); 
 					 		email.focus(); 
 					 		return true; 
 						}

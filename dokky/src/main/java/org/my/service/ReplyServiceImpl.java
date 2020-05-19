@@ -116,6 +116,11 @@ public class ReplyServiceImpl implements ReplyService {
 	  @Override
 	  public ReplyPageDTO getListPage(Criteria cri, Long board_num) {
 	       
+		  log.info("getListPage111111111111111111111111111111111111");
+		  //log.info(mapper.getListWithPaging(cri, board_num));
+		  //log.info(mapper.getListWithPaging(cri, board_num).get(0).getReplyDate().toString());
+		  log.info("getListPage22222222222222222222222222222222");
+		  
 	    return new ReplyPageDTO(
 	        mapper.getCountBynum(board_num), 
 	        mapper.getListWithPaging(cri, board_num));

@@ -8,35 +8,35 @@
 <head>
 	<meta charset="utf-8"> 
 	<title>Dokky - 로그인</title>
-	<link href="/resources/css/socialLogin.css" rel="stylesheet" type="text/css"/>
+	<link href="/ROOT/resources/css/socialLogin.css" rel="stylesheet" type="text/css"/>
 </head>
 <body> 
 <div class="loginWrap">
-
-	<div class="title">
-			Login 
-	</div>
 	
-	<div class="cutom-group">
+	
+	<div class="title">
+			<a href="/socialLogin">Login</a>   
+	</div>
+<!--<div class="cutom-group">
 		구글 또는 네이버 계정으로만 <br/><br/>
 		로그인 및 회원가입을 할 수 있습니다.
-	</div>
+	</div> -->
 				
 	<div class="container"> 
 			<div class="cutom-group loginGroup">
-				<img src="/resources/img/googleLogo.png" id="google" class="logo"/>
-				<img src="/resources/img/naverLogo.png" id="naver" class="logo"/>
+				<img src="/ROOT/resources/img/googleLogo.png" id="google" class="logo"/>
+				<img src="/ROOT/resources/img/naverLogo.png" id="naver" class="logo"/>
 			</div>
 	</div>
 	
-	<div class="footer"> 
+	<div class="footer">  
 		<div class="info">
 			이용약관 | 개인정보처리방침 | 책임의 한계와 법적고지 | 회원정보 고객센터
 		</div>
 		<div class="superAdmin">
 			<a href="/superAdminLogin">SuperAdmin 로그인</a>  
 		</div>
-	</div>
+	</div> 
 </div>
 <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
 <script>
@@ -62,7 +62,7 @@
 	<c:if test="${param.error != null}">
 	      <script>
 		      $(document).ready(function(){
-		      	alert("관리자에게 문의해주세요");
+		      	openAlert("관리자에게 문의해주세요");
 		      });
 	      </script>
 	</c:if>  
@@ -70,7 +70,7 @@
 	<c:if test="${check != null}"> 
 	      <script>
 		      $(document).ready(function(){
-		      	alert('${check}'); 
+		      	openAlert('${check}'); 
 		      });
 	      </script>
 	</c:if>  
