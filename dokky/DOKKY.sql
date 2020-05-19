@@ -1,6 +1,7 @@
 	1.-----------------------------------------------------
 	
 	create table DK_BOARD (--게시판 테이블
+	
 		  CATEGORY number(10,0) not null,-- 0~5번 게시판
 		  BOARD_NUM number(10,0),--PK --글번호
 		  TITLE varchar2(200) not null, --글제목
