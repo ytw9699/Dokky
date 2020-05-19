@@ -1,8 +1,14 @@
 package org.my.controller;
+	import static org.junit.Assert.assertEquals;
+	import static org.junit.Assert.assertNotNull;
+	import static org.junit.Assert.assertNull;
+	import static org.junit.Assert.fail;
+	import java.util.Map;
 	import org.junit.Before;
 	import org.junit.FixMethodOrder;
 	import org.junit.Test;
 	import org.junit.runner.RunWith;
+	import org.junit.runners.MethodSorters;
 	import org.my.domain.BoardVO;
 	import org.my.mapper.BoardMapper;
 	import org.my.service.BoardService;
@@ -17,12 +23,6 @@ package org.my.controller;
 	import org.springframework.web.servlet.ModelAndView;
 	import lombok.Setter;
 	import lombok.extern.log4j.Log4j;
-	import static org.junit.Assert.assertEquals;
-	import static org.junit.Assert.assertNotNull;
-	import static org.junit.Assert.assertNull;
-	import static org.junit.Assert.fail;
-	import java.util.Map;
-	import org.junit.runners.MethodSorters;
 
 @RunWith(SpringJUnit4ClassRunner.class)
 @WebAppConfiguration//WebApplicationContext를 이용하기 위해서
@@ -122,7 +122,7 @@ public class BoardControllerTests {
 		try {
 			
 			Long board_num = service.getRecentBoard_num();
-					
+			
 			ModelAndView modelAndView = mockMvc
 					.perform(MockMvcRequestBuilders.post("/board/modify")
 							.param("board_num", board_num.toString())
@@ -171,8 +171,6 @@ public class BoardControllerTests {
 			fail(e.getMessage());
 		}
 	}
-	
-	
 }
 
 
