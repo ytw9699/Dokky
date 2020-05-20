@@ -100,7 +100,7 @@ var replyService = (function() {
 
 	function get(reply_num, callback, error) {
 
-		$.get("/replies/" + reply_num + ".json", function(result) {
+		$.get("/replies/" + reply_num, function(result) {
 
 			if (callback) {
 				callback(result);
