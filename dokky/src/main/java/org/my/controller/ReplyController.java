@@ -46,8 +46,7 @@ public class ReplyController {
 				: new ResponseEntity<>(HttpStatus.INTERNAL_SERVER_ERROR);
 	}
 	
-	@GetMapping(value = "/{reply_num}",  produces = { MediaType.APPLICATION_XML_VALUE, 
-			  MediaType.APPLICATION_JSON_UTF8_VALUE })
+	@GetMapping(value = "/{reply_num}",  produces = { MediaType.APPLICATION_JSON_UTF8_VALUE })
 	@ResponseBody
 	public ResponseEntity<ReplyVO> readReply(@PathVariable("reply_num") Long reply_num) {
 	
