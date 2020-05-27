@@ -124,7 +124,7 @@
 		    }
 		  
 		    if($('#userId').val() != 'admin'){ 
-		    	openAlert("관리자 아이디로만 로그인 할 수 있습니다"); 
+		    	openAlert("아이디를 다시 확인해주세요"); 
 		    	return; 
 		    }
 		    

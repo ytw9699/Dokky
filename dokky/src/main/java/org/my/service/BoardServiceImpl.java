@@ -348,8 +348,8 @@ public class BoardServiceImpl implements BoardService {
 
 		log.info("insertReportdata");
 		
-		log.info("insertAlarm: ");
-		commonMapper.insertAlarm(vo.getAlarmVO());
+		//log.info("insertAlarm: ");
+		//commonMapper.insertAlarm(vo.getAlarmVO());
 		
 		return mapper.insertReportdata(vo.getReportVO()) == 1;
 	}

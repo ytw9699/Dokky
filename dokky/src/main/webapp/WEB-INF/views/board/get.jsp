@@ -542,13 +542,15 @@
 	   							    +"<button class='replyButton' data-oper='delete' type='button' data-reply_id='"+userId+"' data-reply_num='"+reply_nums+"'>삭제</button>"
 	  	   				      + "</span>"
 		             }    
-		        
-		          	 if(myId != userId){   
-		          		 
-		        	     str += "<span class='replyMenu'>" 
-			        		 	  	+ "<button class='replyButton' data-oper='report' type='button' data-reply_id='"+userId+"' data-reply_nickname='"+nickName+"'>신고</button>"
-				  	          + "</span>"
-		          	 } 
+					 
+	       			 if(myId != null){
+	       				if(myId != userId){   
+			          		 
+			        	     str += "<span class='replyMenu'>" 
+				        		 	  	+ "<button class='replyButton' data-oper='report' type='button' data-reply_id='"+userId+"' data-reply_nickname='"+nickName+"'>신고</button>"
+					  	          + "</span>"
+			          	 } 
+	       			 }
 		    	  
 		       }else if(depth == 1){    
 		    	   
@@ -663,13 +665,15 @@
 								   		+ "<button class='replyButton' data-oper='delete' type='button' data-reply_id='"+userId+"' data-reply_num='"+reply_nums+"'>삭제</button>"
 							        + "</span>"
 					  }  
-					    
-					  if(myId != userId){  
-					       	  
-				   	   	       str += "<span class='replyMenu'>"
-					   		 	 		  + "<button class='replyButton' data-oper='report' type='button' data-reply_id='"+userId+"' data-reply_nickname='"+nickName+"'>신고</button>"
-						  	        + "</span>" 
-					  } 
+					  
+					  if(myId != null){					       			
+						  if(myId != userId){  
+						       	  
+					   	   	       str += "<span class='replyMenu'>"
+						   		 	 		  + "<button class='replyButton' data-oper='report' type='button' data-reply_id='"+userId+"' data-reply_nickname='"+nickName+"'>신고</button>"
+							  	        + "</span>" 
+						  } 
+					  }	  
 			   }//end if
 	   	    			  str +="</span>"
 			   				   +"<div class='reply_contentWrapper'>"; 
@@ -1198,7 +1202,8 @@
 	$(".replyList").on("click",'button[data-oper="report"]', function(event){//댓글 신고폼 열기 버튼
 		
 		reportedId = $(this).data("reply_id");
-		var loginCheck = "로그인 후 신고를 해주세요";
+		//var loginCheck = "로그인 후 신고를 해주세요";
+		var loginCheck = "";
 		var reportCheck = "자신의 댓글에는 할 수 없습니다";
 		 
 		if(checkUser(reportedId, loginCheck, null, reportCheck)){ 
@@ -1234,17 +1239,17 @@
 			 				reason        : reason
 		 				  };
 		 
-		 var alarmData = { 
+		 /* var alarmData = { 
 							target		: 'admin',  
 							kind		: 9,
 							commonVar1:reason, 
 							writerNick	: myNickName,
 							writerId	: myId
-	            		 };
+	            		 }; */
 			
 		 var commonData ={ 
 			 				reportVO  : reportData,
-			 				alarmVO   : alarmData
+			 				//alarmVO   : alarmData
 						 };	
 
 		 replyService.report(commonData, function(result){

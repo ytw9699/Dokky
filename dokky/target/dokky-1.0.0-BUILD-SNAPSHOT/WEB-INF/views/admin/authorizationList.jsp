@@ -52,7 +52,7 @@
 						<span class="nickName"><c:out value="${user.nickName}" /></span>
 						<c:choose>
 		     				<c:when test="${user.authList[0].auth == 'ROLE_USER'}"> 
-								<button class="authorization" data-user_id="${user.userId}">사용자</button>
+								<button class="authorization" data-user_id="${user.userId}">회원</button>
 							</c:when>
 							<c:when test="${user.authList[0].auth == 'ROLE_ADMIN'}">
 								<button class="authorization admin" data-user_id="${user.userId}">관리자</button>
