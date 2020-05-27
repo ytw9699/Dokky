@@ -55,7 +55,7 @@
 	  	  </a> -->
 	  </sec:authorize>
 	  
-   	  <sec:authorize access="hasAnyRole('ROLE_ADMIN','ROLE_USER')">
+   	  <sec:authorize access="hasAnyRole('ROLE_ADMIN','ROLE_USER','ROLE_STOP')">
 	  		<span class="mypage">
 		  		<form class="logoutForm" method='post' action="/logout">
 				    <input class="logoutBtn" type="submit" value="로그아웃">  
