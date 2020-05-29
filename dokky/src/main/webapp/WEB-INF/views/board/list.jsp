@@ -201,6 +201,12 @@
 	
 <script> 
 
+	var isLimited ; // 쓰기 제한된 계정의 true,false 여부
+	
+	<sec:authorize access="hasRole('ROLE_STOP')">
+			isLimited = true;
+	</sec:authorize>
+
 	function checkLength(obj, maxByte) { 
 		 
 		if(obj.tagName === "INPUT" || obj.tagName === "TEXTAREA"){ 
@@ -312,7 +318,12 @@
 	});
 
 	$("#regBtn").on("click", function() { 
-	
+		
+		if(isLimited){
+	    	  openAlert("쓰기 기능이 제한되어있습니다.");
+	    	  return;
+	    }
+		
 		self.location = "/board/register?category="+${pageMaker.cri.category};
 	}); 
     
