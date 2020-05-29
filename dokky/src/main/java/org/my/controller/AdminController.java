@@ -1,8 +1,7 @@
 package org.my.controller;
-	import javax.servlet.http.HttpServletRequest;
-
-import org.my.domain.Criteria;
+	import org.my.domain.Criteria;
 	import org.my.domain.PageDTO;
+	import org.my.domain.alarmVO;
 	import org.my.domain.commonVO;
 	import org.my.service.AdminService;
 	import org.my.service.MypageService;
@@ -19,6 +18,7 @@ import org.my.domain.Criteria;
 	import org.springframework.web.bind.annotation.RequestMethod;
 	import org.springframework.web.bind.annotation.RequestParam;
 	import org.springframework.web.bind.annotation.ResponseBody;
+	
 	import lombok.Setter;
 	import lombok.extern.log4j.Log4j;
   //import org.springframework.security.access.annotation.Secured;
@@ -110,7 +110,6 @@ public class AdminController {
 		return new ResponseEntity<>("알림이 입력되었습니다.", HttpStatus.OK) ;
 		}*/
 	
-	@PreAuthorize("isAuthenticated()")
  	@GetMapping("/userForm")  
 	public String userForm(@RequestParam("userId") String userId, Model model) {//관리자가 회원정보가져오기
 		
@@ -157,15 +156,16 @@ public class AdminController {
 	
 	@RequestMapping(method = { RequestMethod.PUT,RequestMethod.PATCH },
 			value = "roleStop/{userId}", produces = "text/plain; charset=UTF-8")
-		@ResponseBody
-		public ResponseEntity<String> updateRoleStop(@PathVariable("userId") String userId) {
+	@ResponseBody
+	public ResponseEntity<String> updateRoleStop(@PathVariable("userId") String userId, @RequestBody alarmVO vo) {
 		
 		log.info("admin/roleStop");
+		log.info("vo"+vo);
 		log.info("userId...="+userId);
 		
-		return service.updateRoleStop(userId) == 1 ? new ResponseEntity<>("success", HttpStatus.OK)
+		return service.updateRoleStop(userId, vo) == 1 ? new ResponseEntity<>("success", HttpStatus.OK)
 				: new ResponseEntity<>("fail",HttpStatus.INTERNAL_SERVER_ERROR);
-		}
+	}
 	
 	@RequestMapping(method = { RequestMethod.PUT,RequestMethod.PATCH },
 			value = "roleLimit/{userId}", produces = "text/plain; charset=UTF-8")
