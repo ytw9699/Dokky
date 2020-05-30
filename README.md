@@ -33,17 +33,21 @@
 
 ## 8. Open API
 
-## 9. 이슈 관리
+## 9. 코드 리뷰 진행
+
+## 10. 유닛 테스트 작성
+
+## 11. 이슈 관리
 [이슈관리](https://github.com/ytw9699/Dokky/issues) : 프로젝트를 진행중 겪었던 이슈들을 관리하였습니다.  
 			
-## 10. 진행 관리 - kanban board(To do, in progress, Done) 
+## 12. 진행 관리 - kanban board(To do, in progress, Done) 
 
 [진행관리](https://github.com/ytw9699/Dokky/projects/3) : 프로젝트의 진행상황들을 kanban board에 기록하였습니다.  
 
-## 11. 리뷰 관리
+## 13. 리뷰 관리
 [리뷰관리](https://github.com/ytw9699/Dokky/wiki) : 프로젝트를 만들며 문제해결 과정과 느낀점들을 회고하였습니다.
 	
-## 12. 프로젝트를 통해 배운점들 
+## 14. 프로젝트를 통해 배운점들 
 
 			
 
