@@ -30,9 +30,20 @@
 [4. ](https://github.com/ytw9699/Dokky/wiki/%EC%9A%94%EA%B5%AC%EC%82%AC%ED%95%AD-%EB%B3%80%EA%B2%BD-%EA%B4%80%EB%A6%AC)     
 [5. ](https://github.com/ytw9699/Dokky/wiki/%EC%9A%94%EA%B5%AC%EC%82%AC%ED%95%AD-%EB%B3%80%EA%B2%BD-%EA%B4%80%EB%A6%AC)   
 
-
 ## 8. Open API
 
+## 9. 이슈 관리
+[이슈관리](https://github.com/ytw9699/Dokky/issues) : 프로젝트를 진행중 겪었던 이슈들을 관리하였습니다.  
+			
+## 10. 진행 관리 - kanban board(To do, in progress, Done) 
 
+[진행관리](https://github.com/ytw9699/Dokky/projects/3) : 프로젝트의 진행상황들을 kanban board에 기록하였습니다.  
+
+## 11. 리뷰 관리
+[리뷰관리](https://github.com/ytw9699/Dokky/wiki) : 프로젝트를 만들며 문제해결 과정과 느낀점들을 회고하였습니다.
+	
+## 12. 프로젝트를 통해 배운점들 
+
+			
 
 
