@@ -42,7 +42,7 @@
 [테스트 코드 리스트](https://github.com/ytw9699/Dokky/wiki/%ED%85%8C%EC%8A%A4%ED%8A%B8-%EC%BD%94%EB%93%9C-%EB%A6%AC%EC%8A%A4%ED%8A%B8) 
 
 ## 11. 이슈 관리
-[이슈관리](https://github.com/ytw9699/Dokky/issues) : 프로젝트를 진행중 겪었던 이슈들을 관리하였습니다.  
+[이슈관리](https://github.com/ytw9699/Dokky/issues) : 프로젝트를 진행중 겪었던 모든 이슈들을 기록하고 관리하였습니다.  
 			
 ## 12. 진행 관리 - kanban board(To do, in progress, Done) 
 
