@@ -16,7 +16,7 @@
 
 ## 5. 프로젝트 URL
 
-#### https://dokky.ga/  : 슈퍼 관리자 아이디 - admin , 비밀번호 - admin
+#### https://dokky.ga  : 슈퍼 관리자 아이디 - admin , 비밀번호 - admin
 
 ## 6. 기술 스택 및 개발 환경
 #### [기술 스택 및 개발 환경](https://github.com/ytw9699/Dokky/wiki/%EA%B8%B0%EC%88%A0-%EC%8A%A4%ED%83%9D-%EB%B0%8F-%EA%B0%9C%EB%B0%9C-%ED%99%98%EA%B2%BD)
@@ -25,7 +25,7 @@
 
 [1. 요구사항 명세서](https://github.com/ytw9699/Dokky/wiki/%EC%9A%94%EA%B5%AC%EC%82%AC%ED%95%AD-%EB%AA%85%EC%84%B8%EC%84%9C)  
 [2. 요구사항 변경 관리](https://github.com/ytw9699/Dokky/wiki/%EC%9A%94%EA%B5%AC%EC%82%AC%ED%95%AD-%EB%B3%80%EA%B2%BD-%EA%B4%80%EB%A6%AC)  
-[3. Database 설계](https://github.com/ytw9699/Dokky/wiki/%EC%9A%94%EA%B5%AC%EC%82%AC%ED%95%AD-%EB%B3%80%EA%B2%BD-%EA%B4%80%EB%A6%AC)     
+[3. Database 설계](https://github.com/ytw9699/Dokky/wiki/Database-Schema)     
 [4. Use Case Diagram](https://github.com/ytw9699/Dokky/wiki/%EC%9A%94%EA%B5%AC%EC%82%AC%ED%95%AD-%EB%B3%80%EA%B2%BD-%EA%B4%80%EB%A6%AC)   
 [5. Class Diagram](https://github.com/ytw9699/Dokky/wiki/%EC%9A%94%EA%B5%AC%EC%82%AC%ED%95%AD-%EB%B3%80%EA%B2%BD-%EA%B4%80%EB%A6%AC)  
 [6. Sequence Diagram](https://github.com/ytw9699/Dokky/wiki/%EC%9A%94%EA%B5%AC%EC%82%AC%ED%95%AD-%EB%B3%80%EA%B2%BD-%EA%B4%80%EB%A6%AC)   
