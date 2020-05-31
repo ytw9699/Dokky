@@ -39,7 +39,7 @@
 
 ## 10. 테스트 코드 작성
 
-[테스트 코드 리스트]() 
+[테스트 코드 리스트](https://github.com/ytw9699/Dokky/wiki/%ED%85%8C%EC%8A%A4%ED%8A%B8-%EC%BD%94%EB%93%9C-%EB%A6%AC%EC%8A%A4%ED%8A%B8) 
 
 ## 11. 이슈 관리
 [이슈관리](https://github.com/ytw9699/Dokky/issues) : 프로젝트를 진행중 겪었던 이슈들을 관리하였습니다.  
