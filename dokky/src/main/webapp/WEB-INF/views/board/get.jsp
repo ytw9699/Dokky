@@ -1278,11 +1278,19 @@
 			var alarmData;
 			var commonData;
 		 	var reply_contents = $("#reply_contents");//기본 댓글 textarea
+		 	var reply_contentsVal = $.trim(reply_contents.val()); 
 		 	
 		 	if(isLimited){
-		    	  openAlert("쓰기 기능이 제한되어있습니다.");
+		    	  openAlert("쓰기 기능이 제한되어있습니다");
 		    	  return;
 		    }
+		 	
+		 	if(reply_contentsVal == ""){
+		 		  
+		 		  openAlert("댓글 내용을 입력해주세요");
+		 		  reply_contents.focus();  
+		    	  return;
+		 	}
 		 
 			var reply = {
 				    		reply_content : reply_contents.val(), //댓글 내용
@@ -1348,6 +1356,7 @@
 	$("#reReplyRegisterBtn").on("click",function(e){//대댓글 등록 버튼
 		
 		      var reReply_contents = $("#reReply_contents");
+		      var reReply_contentsVal = $.trim(reReply_contents.val()); 
 		      var alarmData ;
 		      var commonData;
 		      
@@ -1355,6 +1364,13 @@
 		    	  openAlert("쓰기 기능이 제한되어있습니다.");
 		    	  return;
 		      }
+			 	
+			  if(reReply_contentsVal == ""){
+			 		
+			 		  openAlert("댓글 내용을 입력해주세요");
+			 		  reReply_contents.focus();  
+			    	  return;
+			  }
 		      
 	          var reply = { 
 				    		reply_content  :	reReply_contents.val(), //대댓글 내용
