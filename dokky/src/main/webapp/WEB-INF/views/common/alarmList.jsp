@@ -195,6 +195,12 @@
 						          		</a>
 							       </c:when>  
 							       
+							       <c:when test="${alarm.kind == 11 }">  
+						          		<a href="#" class="getMyPage" data-alarm_num="${alarm.alarmNum}">
+						          			계정의 권한이 관리자에 의해 복구되었습니다. 
+						          		</a>
+							       </c:when>  
+							       
 						        </c:choose>  
 					        <c:if test="${alarm.checking == 'NO'}">
 					        	<span class="readCheck checkAlarm${alarm.alarmNum}">1</span> 

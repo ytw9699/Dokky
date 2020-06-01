@@ -123,10 +123,14 @@ public class AdminServiceImpl implements AdminService {
 		return mapper.updateRoleLimit(userId);
 	}
 	
+	@Transactional
 	@Override
-	public int updateRoleUser(String userId) {
+	public int updateRoleUser(String userId,alarmVO vo) {
 		
 		log.info("updateRoleUser.."+userId);
+		
+		log.info("insertAlarm: ");
+		commonMapper.insertAlarm(vo);
 		
 		return mapper.updateRoleUser(userId);
 	}

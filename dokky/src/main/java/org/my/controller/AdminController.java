@@ -181,15 +181,16 @@ public class AdminController {
 	
 	@RequestMapping(method = { RequestMethod.PUT,RequestMethod.PATCH },
 			value = "roleUser/{userId}", produces = "text/plain; charset=UTF-8")
-		@ResponseBody
-		public ResponseEntity<String> updateRoleUser(@PathVariable("userId") String userId) {
+	@ResponseBody
+	public ResponseEntity<String> updateRoleUser(@PathVariable("userId") String userId , @RequestBody alarmVO vo) {
 		
 		log.info("admin/roleUser");
+		log.info("vo"+vo);
 		log.info("userId...="+userId);
 		
-		return service.updateRoleUser(userId) == 1 ? new ResponseEntity<>("success", HttpStatus.OK)
+		return service.updateRoleUser(userId, vo) == 1 ? new ResponseEntity<>("success", HttpStatus.OK)
 				: new ResponseEntity<>("fail",HttpStatus.INTERNAL_SERVER_ERROR);
-		}
+	}
 	
 	@RequestMapping(method = { RequestMethod.PUT,RequestMethod.PATCH },
 			value = "roleAdmin/{userId}", produces = "text/plain; charset=UTF-8")
