@@ -277,7 +277,7 @@
 	var myId;
 	var myNickName;
 	var pageNum = 1;//댓글의 페이지 번호
-	var isStop ; // 쓰기 제한된 계정의 true,false 여부
+	var isLimited ; // 쓰기 제한된 계정의 true,false 여부
 	
 	<sec:authorize access="isAuthenticated()">   
 				  myId = '${userInfo.username}';  
@@ -285,7 +285,7 @@
 	</sec:authorize>
 	
 	<sec:authorize access="hasRole('ROLE_STOP')">
-			isStop = true;
+			isLimited = true;
 	</sec:authorize>
 	
 	
@@ -1278,11 +1278,19 @@
 			var alarmData;
 			var commonData;
 		 	var reply_contents = $("#reply_contents");//기본 댓글 textarea
+		 	var reply_contentsVal = $.trim(reply_contents.val()); 
 		 	
-		 	if(isStop){
-		    	  openAlert("쓰기 기능이 제한되어있습니다.");
+		 	if(isLimited){
+		    	  openAlert("쓰기 기능이 제한되어있습니다");
 		    	  return;
 		    }
+		 	
+		 	if(reply_contentsVal == ""){
+		 		  
+		 		  openAlert("댓글 내용을 입력해주세요");
+		 		  reply_contents.focus();  
+		    	  return;
+		 	}
 		 
 			var reply = {
 				    		reply_content : reply_contents.val(), //댓글 내용
@@ -1348,13 +1356,21 @@
 	$("#reReplyRegisterBtn").on("click",function(e){//대댓글 등록 버튼
 		
 		      var reReply_contents = $("#reReply_contents");
+		      var reReply_contentsVal = $.trim(reReply_contents.val()); 
 		      var alarmData ;
 		      var commonData;
 		      
-		      if(isStop){
+		      if(isLimited){
 		    	  openAlert("쓰기 기능이 제한되어있습니다.");
 		    	  return;
 		      }
+			 	
+			  if(reReply_contentsVal == ""){
+			 		
+			 		  openAlert("댓글 내용을 입력해주세요");
+			 		  reReply_contents.focus();  
+			    	  return;
+			  }
 		      
 	          var reply = { 
 				    		reply_content  :	reReply_contents.val(), //대댓글 내용

@@ -188,6 +188,19 @@
 										        </c:otherwise>
 											</c:choose>
 							       </c:when>
+							       
+							       <c:when test="${alarm.kind == 10 }">  
+						          		<a href="#" class="getMyPage" data-alarm_num="${alarm.alarmNum}">
+						          			모든 쓰기 기능이 관리자에 의해 제한되었습니다. 
+						          		</a>
+							       </c:when>  
+							       
+							       <c:when test="${alarm.kind == 11 }">  
+						          		<a href="#" class="getMyPage" data-alarm_num="${alarm.alarmNum}">
+						          			계정의 권한이 관리자에 의해 복구되었습니다. 
+						          		</a>
+							       </c:when>  
+							       
 						        </c:choose>  
 					        <c:if test="${alarm.checking == 'NO'}">
 					        	<span class="readCheck checkAlarm${alarm.alarmNum}">1</span> 
@@ -327,7 +340,7 @@
 								commonForm.submit();//글 상세보기 
 								}
 				   	  });
-				});
+		});
 		
 		$(".getMyCashHistory").on("click",function(e) {//알람 읽기 체크+캐시 히스토리 가져오기
 			var alarmNum = $(this).data("alarm_num");   
@@ -357,6 +370,27 @@
 						commonForm.submit(); 
 						}
 		   	  });
+		});
+		
+		$(".getMyPage").on("click",function(e) {//마이페이지 이동+알람 읽기 체크
+			
+			e.preventDefault();
+		
+			var userId = '${userInfo.username}';
+			var alarmNum = $(this).data("alarm_num");  
+			
+			updateAlarmCheck(alarmNum, function(result){
+				
+				var checkAlarm = $(".checkAlarm+"+alarmNum);
+			
+				if(result == "success"){
+					
+					checkAlarm.html("");
+					commonForm.attr("action", "/mypage/myInfoForm");
+					commonForm.append("<input type='hidden' name='userId' value='"+userId+"'/>");
+					commonForm.submit();
+				}
+		   	});
 		});
 		
 	/* 체크박스 전체선택, 전체해제 */

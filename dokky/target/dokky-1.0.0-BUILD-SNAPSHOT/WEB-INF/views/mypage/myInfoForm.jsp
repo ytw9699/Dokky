@@ -100,6 +100,19 @@
 	     		</tr>
 	     		<tr>
 	     			<td class="tableText">
+	     				계정상태
+	     			</td> 
+	     			<td class="tableValue"> 
+					    <sec:authorize access="hasAnyRole('ROLE_ADMIN','ROLE_USER','ROLE_SUPER')">
+					  		정상 
+					    </sec:authorize>
+					    <sec:authorize access="hasRole('ROLE_STOP')">
+							모든 쓰기 제한
+					    </sec:authorize>	     		
+	     			</td>
+	     		</tr>
+	     		<tr>
+	     			<td class="tableText">
 	     				가입일
 	     			</td> 
 	     			<td class="tableValue"> 
