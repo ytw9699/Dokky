@@ -5,6 +5,7 @@ package org.my.service;
 	import org.my.domain.cashVO;
 	import org.my.domain.commonVO;
 	import org.my.domain.reportVO;
+	import org.my.domain.alarmVO;
 
 public interface AdminService {
 	
@@ -24,7 +25,7 @@ public interface AdminService {
 
 	public int getUserReportCount(Criteria cri);
 
-	public int updateRoleStop(String userId);
+	public int updateRoleStop(String userId, alarmVO vo);
 
 	public int updateRoleLimit(String userId);
 

@@ -2,7 +2,8 @@ package org.my.service;
 	import java.util.List;
 	import org.my.domain.Criteria;
 	import org.my.domain.MemberVO;
-	import org.my.domain.cashVO;
+import org.my.domain.alarmVO;
+import org.my.domain.cashVO;
 	import org.my.domain.commonVO;
 	import org.my.domain.reportVO;
 	import org.my.mapper.AdminMapper;
@@ -102,13 +103,18 @@ public class AdminServiceImpl implements AdminService {
 		return mapper.getUserReportCount(cri);
 	}
 	
+	@Transactional
 	@Override
-	public int updateRoleStop(String userId) {
+	public int updateRoleStop(String userId,alarmVO vo) {
 		
 		log.info("updateRoleStop.."+userId);
 		
+		log.info("insertAlarm: ");
+		commonMapper.insertAlarm(vo);
+		
 		return mapper.updateRoleStop(userId);
 	}
+	
 	@Override
 	public int updateRoleLimit(String userId) {
 		

@@ -112,27 +112,34 @@
 
 	var csrfHeaderName ="${_csrf.headerName}"; 
 	var csrfTokenValue="${_csrf.token}";
+	var myId = '${userInfo.username}'; 
+	var myNickName = '${userInfo.member.nickName}';
 	
 	$(document).ajaxSend(function(e, xhr, options) { 
 	    xhr.setRequestHeader(csrfHeaderName, csrfTokenValue); //모든 AJAX전송시 CSRF토큰을 같이 전송하도록 셋팅
 	  });
 	
-	function limitRegistering(userId, callback, error) {
+	function limitRegistering(userId, alarmData, callback, error) {
+
 		$.ajax({
-			type : 'put',
-			url : '/admin/roleStop/'+ userId,
-			success : function(result, status, xhr) {
-				if (callback) {
-					callback(result,xhr);
+				type : 'put', 
+				url : '/admin/roleStop/'+ userId,
+				data : JSON.stringify(alarmData), 
+				contentType : "application/json; charset=utf-8",
+				success : function(result, status, xhr) {
+					if (callback) {
+						callback(result);
+					}
+				},
+				error : function(xhr, status, er) {
+					if (error) {
+						error(er);
+					}
 				}
-			},
-			error : function(xhr, status, er) {
-				if (error) {
-					error(xhr,er);
-				}
-			}
 		});
 	}
+	
+	
 	function limitLogin(userId, callback, error) {
 		$.ajax({
 			type : 'put',
@@ -168,18 +175,28 @@
 
 	$("#stop").on("click",function(event){//1. 게시글,댓글 제한 이벤트 설치
 		
-		var userId = $(this).data("user_id"); 
-		
-		if(userId === 'admin'){
-			openAlert("슈퍼관리자의 계정상태를 변경할 수 없습니다");
-			return;
-		}
-		
-		limitRegistering(userId, function(result){
-		   	var currentState = $("#currentState");
-		   	currentState.html("모든 글쓰기 제한");
-		   	openAlert("모든 글쓰기를 제한 하였습니다");
-	   	  });
+			var userId = $(this).data("user_id"); 
+			
+			if(userId === 'admin'){
+				openAlert("슈퍼관리자의 계정상태를 변경할 수 없습니다");
+				return;
+			}
+			
+			var alarmData = { 
+									target:userId,  
+									  kind:10, 
+								writerNick:myNickName,
+								  writerId:myId
+			         		};
+			
+			limitRegistering(userId, alarmData, function(result){
+				
+					if(result == 'success'){
+						var currentState = $("#currentState");
+					   	currentState.html("모든 쓰기 기능 제한");
+					   	openAlert("모든 쓰기 기능을 제한 하였습니다");
+					}
+	   	    });
    	});
 	
 	$("#limit").on("click",function(event){//2. 접속 제한 이벤트 설치
