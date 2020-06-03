@@ -171,6 +171,75 @@ public class BoardControllerTests {
 			fail(e.getMessage());
 		}
 	}
+	
+	
+
+	@Test
+	public void testGetAllList() throws Exception {
+			
+		log.info("전체글보기 리스트 테스트 ");
+		
+		try {
+			
+			log.info("https://dokky.ga/board/allList?category=0");
+			
+			log.info(									  //GET 방식의 호출
+					mockMvc.perform(MockMvcRequestBuilders.get("/board/allList?category=0"))
+					.andReturn()
+					.getModelAndView()
+					.getModelMap());//모델에 있는 데이터 확인
+			
+		}catch(Exception e) {
+			log.info("testGetAllList() 테스트 실패");
+			e.printStackTrace();
+			fail(e.getMessage());
+		}
+	}
+	
+	@Test
+	public void testGetLists() throws Exception {
+		
+		try {
+			String[] title = {"공지사항","자유게시판","묻고답하기","칼럼/tech","정기모임/스터디"};
+			
+			for(int i=1; i<6; i++) {
+				
+				log.info(title[i-1]+" 글 리스트 테스트");
+				
+				log.info(									  //GET 방식의 호출
+						mockMvc.perform(MockMvcRequestBuilders.get("/board/list?category="+i))
+						.andReturn()
+						.getModelAndView()
+						.getModelMap());//모델에 있는 데이터 확인
+			}
+		}catch(Exception e) {
+			log.info("testGetLists() 테스트 실패");
+			e.printStackTrace();
+			fail(e.getMessage());
+		}
+	}
+	
+	/*@Test
+	public void testGetListPaging() throws Exception {//미완성 유닛테스트
+
+		log.info("공지사항 리스트 페이징 테스트 ");
+		
+		try {
+			
+			log.info(mockMvc.perform(
+					MockMvcRequestBuilders.get("/board/list")
+					.param("pageNum", "2")
+					.param("category", "1")
+					.param("amount", "10"))
+					.andReturn().getModelAndView().getModelMap());
+			
+		}catch(Exception e){
+			
+			log.info("testGetListPaging() 테스트 실패");
+			e.printStackTrace();
+			fail(e.getMessage());
+		}
+	}*/
 }
 
 

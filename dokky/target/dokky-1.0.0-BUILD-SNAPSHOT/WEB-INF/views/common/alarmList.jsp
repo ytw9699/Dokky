@@ -379,17 +379,21 @@
 			var userId = '${userInfo.username}';
 			var alarmNum = $(this).data("alarm_num");  
 			
-			updateAlarmCheck(alarmNum, function(result){
+			updateAlarmCheck(alarmNum, function(result,a,b){
+				
+				console.log(result);
+				console.log(a.status);
+				console.log(b);
 				
 				var checkAlarm = $(".checkAlarm+"+alarmNum);
 			
-				if(result == "success"){
+				/* if(result == "success"){
 					
 					checkAlarm.html("");
 					commonForm.attr("action", "/mypage/myInfoForm");
 					commonForm.append("<input type='hidden' name='userId' value='"+userId+"'/>");
 					commonForm.submit();
-				}
+				} */
 		   	});
 		});
 		
