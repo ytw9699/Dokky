@@ -13,6 +13,8 @@
 <%@include file="../includes/left.jsp"%>
 <c:set var="random"><%= java.lang.Math.round(java.lang.Math.random() * 123456) %></c:set>
 <body> 
+<sec:authentication property="principal" var="userInfo"/>
+
  <div class="cashRequestWrap">	 
 	 
 	 <div id="menuWrap"> 
@@ -98,7 +100,9 @@
 	
 			var csrfHeaderName ="${_csrf.headerName}"; 
 			var csrfTokenValue="${_csrf.token}";
-			    
+			var myId = '${userInfo.username}'; 
+			var myNickName = '${userInfo.member.nickName}';
+			
 			 $(document).ajaxSend(function(e, xhr, options) { 
 		       xhr.setRequestHeader(csrfHeaderName, csrfTokenValue); //모든 AJAX전송시 CSRF토큰을 같이 전송하도록 셋팅
 		     });
@@ -151,6 +155,7 @@
 				}
 			 
 			 $(".approveButton").on("click",function(event){// 이벤트  
+				 
 				 	var cash_num = $(this).data("cash_num");
 				 	var userId = $(this).data("user_id");
 				 	var cashAmount = $(this).data("cash_amount");
@@ -159,6 +164,7 @@
 				 	var kind;
 					
 				 	if($.trim(specification.html()) === "승인완료"){
+				 		
 				 		openAlert("이미 승인완료가 되었습니다");
 				 		return;
 				 	} 
@@ -166,37 +172,44 @@
 				 	 if(cashKind == '충전'){
 				 		kind = 7;
 				 	 }else if(cashKind == '환전'){
-				 		 kind = 8;
+				 		kind = 8;
 				 	 } 
 					  
 				 	var approveData = { //승인 데이타
+				 			
 				 			cash_num: cash_num,
 				 			userId:userId,
 				 			cashAmount:cashAmount,
 				 			cashKind:cashKind  
-				          };
+			        };
 				 	
 					var alarmData = { //알람 데이타
+							
 	   						target:userId,
 	   						kind:kind,
-	   						writerNick:'관리자',
-	   						writerId:'admin'
-	   			          };
+	   						writerNick:myNickName,
+							writerId:myId
+								  
+  			        };
 					
 					var commonData ={
+							
 							cashVO:approveData,
 							alarmVO:alarmData
 				 	}
 				 	
-				 	approve(commonData, function(result){
+				    approve(commonData, function(result){
+				 		
 						if(result == 'success'){ 
 							
 					 		specification.html("승인완료"); 
 					 		
 					 		openAlert("승인완료 되었습니다");
 						}
+						
 			   	    });
-		   		});//이벤트 끝
+					
+	   		});//이벤트 끝
 		   		
 		   		
 	   		var actionForm = $("#actionForm");

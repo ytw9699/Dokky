@@ -139,7 +139,6 @@
 		});
 	}
 	
-	
 	function limitLogin(userId, callback, error) {
 		$.ajax({
 			type : 'put',
@@ -156,21 +155,25 @@
 			}
 		});
 	}
-	function recovery(userId, callback, error) {
-		$.ajax({
-			type : 'put',
-			url : '/admin/roleUser/'+ userId,
-			success : function(result, status, xhr) {
-				if (callback) {
-					callback(result,xhr);
+	
+	function recovery(userId, alarmData, callback, error) {
+			
+			$.ajax({
+				type : 'put',
+				url : '/admin/roleUser/'+ userId,
+				data : JSON.stringify(alarmData), 
+				contentType : "application/json; charset=utf-8",
+				success : function(result, status, xhr) {
+					if (callback) {
+						callback(result,xhr);
+					}
+				},
+				error : function(xhr, status, er) {
+					if (error) {
+						error(xhr,er);
+					}
 				}
-			},
-			error : function(xhr, status, er) {
-				if (error) {
-					error(xhr,er);
-				}
-			}
-		});
+			});
 	}
 
 	$("#stop").on("click",function(event){//1. 게시글,댓글 제한 이벤트 설치
@@ -215,6 +218,7 @@
    	});
 	
 	$("#recovery").on("click",function(event){//3. 권한 정상 되돌리기 이벤트 설치
+		
 		var userId = $(this).data("user_id");
 	
 		if(userId === 'admin'){
@@ -222,12 +226,23 @@
 			return;
 		}
 		
-		recovery(userId, function(result){
-		   	var currentState = $("#currentState");
-		   	currentState.html("정상");
-		   	openAlert("계정을 정상으로 복구 하였습니다");
-	   	  });
-	   	});
+		var alarmData = { 
+								target:userId,  
+								  kind:11, 
+							writerNick:myNickName,
+							  writerId:myId
+				 		};
+		
+		recovery(userId, alarmData, function(result){
+			
+			if(result == 'success'){
+				
+				var currentState = $("#currentState");
+			   	currentState.html("정상");
+			   	openAlert("계정을 정상으로 복구 하였습니다");
+			}
+   	    });
+   	});
 	
    	
 </script>

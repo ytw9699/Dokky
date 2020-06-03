@@ -202,10 +202,10 @@
 	
 <script> 
 
-	var isStop ; // 쓰기 제한된 계정의 true,false 여부
+	var isLimited ; // 쓰기 제한된 계정의 true,false 여부
 	
 	<sec:authorize access="hasRole('ROLE_STOP')">
-			isStop = true;
+			isLimited = true;
 	</sec:authorize>
 
 	function checkLength(obj, maxByte) { 
@@ -320,7 +320,7 @@
 
 	$("#regBtn").on("click", function() { 
 		
-		if(isStop){
+		if(isLimited){
 	    	  openAlert("쓰기 기능이 제한되어있습니다.");
 	    	  return;
 	    }
