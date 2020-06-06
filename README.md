@@ -1,6 +1,6 @@
 ## 1. 프로젝트 주제
 
-#### Dokky는 개발자 커뮤니티로서 기존의 okky 커뮤니티(https://okky.kr) 를 벤치마킹하여 만들었습니다.
+#### Dokky는 개발자 커뮤니티 입니다. 기존의 okky 커뮤니티(https://okky.kr) 를 벤치마킹하여 만들었습니다.
 
 ## 2. 프로젝트의 목표 및 동기
 
@@ -16,7 +16,12 @@
 
 ## 5. 프로젝트 URL
 
-#### https://dokky.ga  : 슈퍼 관리자 아이디 - admin , 비밀번호 - admin
+#### https://dokky.ga
+#### http://localhost:8080/dokky
+
+## 6. 로그인 테스트 계정
+
+#### 슈퍼 관리자 아이디 - admin , 비밀번호 - admin
 
 ## 6. 기술 스택 및 개발 환경
 #### [기술 스택 및 개발 환경](https://github.com/ytw9699/Dokky/wiki/%EA%B8%B0%EC%88%A0-%EC%8A%A4%ED%83%9D-%EB%B0%8F-%EA%B0%9C%EB%B0%9C-%ED%99%98%EA%B2%BD)
@@ -33,13 +38,15 @@
 
 ## 8. Open API
 
+
+
 ## 9. 코드 리뷰 진행
 
-[코드 리뷰 리스트](https://github.com/ytw9699/Dokky/wiki/%EC%BD%94%EB%93%9C%EB%A6%AC%EB%B7%B0-%EB%A6%AC%EC%8A%A4%ED%8A%B8) : 프로젝트에 대해 멘토와  코드 리뷰를 진행해왔습니다.
+[코드 리뷰 리스트](https://github.com/ytw9699/Dokky/blob/master/dokky/documents/%EA%B8%B0%ED%83%80%EB%AC%B8%EC%84%9C%EB%93%A4/%EC%BD%94%EB%93%9C%EB%A6%AC%EB%B7%B0-%EB%A6%AC%EC%8A%A4%ED%8A%B8.md) : 프로젝트에 대해 멘토와 코드 리뷰를 진행해왔습니다.
 
 ## 10. 테스트 코드 작성
 
-[테스트 코드 리스트](https://github.com/ytw9699/Dokky/wiki/%ED%85%8C%EC%8A%A4%ED%8A%B8-%EC%BD%94%EB%93%9C-%EB%A6%AC%EC%8A%A4%ED%8A%B8) 
+[테스트 코드 리스트](https://github.com/ytw9699/Dokky/blob/master/dokky/documents/%EA%B8%B0%ED%83%80%EB%AC%B8%EC%84%9C%EB%93%A4/%ED%85%8C%EC%8A%A4%ED%8A%B8-%EC%BD%94%EB%93%9C-%EB%A6%AC%EC%8A%A4%ED%8A%B8.md) 
 
 ## 11. 이슈 관리
 [이슈관리](https://github.com/ytw9699/Dokky/issues) : 프로젝트를 진행중 겪었던 모든 이슈들을 기록하고 관리하였습니다.  
@@ -49,10 +56,11 @@
 [진행관리](https://github.com/ytw9699/Dokky/projects/3) : 프로젝트의 진행상황들을 kanban board에 기록하였습니다.  
 
 ## 13. 리뷰 관리
-[리뷰관리](https://github.com/ytw9699/Dokky/wiki) : 프로젝트를 만들며 겪은 문제해결 과정과 느낀점들을 회고하였습니다.
-	
-## 14. 프로젝트를 통해 느낀점, 배운점, 결과
 
+프로젝트를 만들며 겪은 문제해결 과정과 느낀점들을 회고 하였습니다.
+
+[멘티의 리뷰](https://github.com/ytw9699/Dokky/tree/master/dokky/documents/review_Of_mentee) 
+[멘토의 리뷰](https://github.com/ytw9699/Dokky/tree/master/dokky/documents/review_Of_mentor)
 			
 
 
