@@ -24,7 +24,7 @@
 #### 슈퍼 관리자 아이디 - admin , 비밀번호 - admin
 
 ## 6. 기술 스택 및 개발 환경
-#### [기술 스택 및 개발 환경](https://github.com/ytw9699/Dokky/wiki/%EA%B8%B0%EC%88%A0-%EC%8A%A4%ED%83%9D-%EB%B0%8F-%EA%B0%9C%EB%B0%9C-%ED%99%98%EA%B2%BD)
+#### [기술 스택 및 개발 환경](https://github.com/ytw9699/Dokky/blob/master/dokky/documents/%EA%B8%B0%ED%83%80%EB%AC%B8%EC%84%9C%EB%93%A4/%EA%B8%B0%EC%88%A0-%EC%8A%A4%ED%83%9D-%EB%B0%8F-%EA%B0%9C%EB%B0%9C-%ED%99%98%EA%B2%BD.md)
 
 ## 7. 프로젝트 주요 문서
 
