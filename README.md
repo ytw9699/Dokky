@@ -12,7 +12,7 @@
 
 ## 4. 팀 구성
 
-#### &emsp; 먼저 개인프로젝트로 진행중 19/10월부터 멘토링을 통해서 진행 해왔습니다.
+#### &emsp; 먼저 개인프로젝트로 진행중 19년 10월부터 멘토링을 통해서 진행 해왔습니다.
 
 ## 5. 프로젝트 URL
 
@@ -21,13 +21,13 @@
 
 ## 6. 로그인 테스트 계정
 
-#### &emsp; 아이디(슈퍼 관리자) - admin 
-#### &emsp; 비밀번호 - admin
+#### &emsp; 아이디(슈퍼 관리자) : admin 
+#### &emsp; 비밀번호 : admin
 
-## 6. 기술 스택 및 개발 환경
+## 7. 기술 스택 및 개발 환경
 #### &emsp; [기술 스택 및 개발 환경](https://github.com/ytw9699/Dokky/blob/master/dokky/documents/%EA%B8%B0%ED%83%80%EB%AC%B8%EC%84%9C%EB%93%A4/%EA%B8%B0%EC%88%A0-%EC%8A%A4%ED%83%9D-%EB%B0%8F-%EA%B0%9C%EB%B0%9C-%ED%99%98%EA%B2%BD.md)
 
-## 7. 프로젝트 주요 문서
+## 8. 프로젝트 주요 문서
 
 &emsp; [1. 요구사항 명세서](https://github.com/ytw9699/Dokky/blob/master/dokky/documents/%EA%B8%B0%ED%83%80%EB%AC%B8%EC%84%9C%EB%93%A4/%EC%9A%94%EA%B5%AC%EC%82%AC%ED%95%AD-%EB%AA%85%EC%84%B8%EC%84%9C.md)  
 &emsp; [2. 요구사항 변경 관리](https://github.com/ytw9699/Dokky/tree/master/dokky/documents/%EA%B8%B0%ED%83%80%EB%AC%B8%EC%84%9C%EB%93%A4/%EC%9A%94%EA%B5%AC%EC%82%AC%ED%95%AD_%EB%B3%80%EA%B2%BD%EA%B4%80%EB%A6%AC)  
@@ -37,11 +37,7 @@
 &emsp; [6. Class Diagram](https://github.com/ytw9699/Dokky/wiki/%EC%9A%94%EA%B5%AC%EC%82%AC%ED%95%AD-%EB%B3%80%EA%B2%BD-%EA%B4%80%EB%A6%AC)  
 &emsp; [7.](https://github.com/ytw9699/Dokky/wiki/%EC%9A%94%EA%B5%AC%EC%82%AC%ED%95%AD-%EB%B3%80%EA%B2%BD-%EA%B4%80%EB%A6%AC)   
 
-## 8. Open API
-
-
-
-## 9. 코드 리뷰 진행
+## 09. 코드 리뷰 진행
 
 &emsp; [코드 리뷰 리스트](https://github.com/ytw9699/Dokky/blob/master/dokky/documents/%EA%B8%B0%ED%83%80%EB%AC%B8%EC%84%9C%EB%93%A4/%EC%BD%94%EB%93%9C%EB%A6%AC%EB%B7%B0-%EB%A6%AC%EC%8A%A4%ED%8A%B8.md) : 프로젝트에 대해 멘토와 코드 리뷰를 진행해왔습니다.
 
@@ -58,7 +54,7 @@
 
 ## 13. 리뷰 관리
 
-&emsp; 프로젝트를 만들며 겪은 문제해결 과정과 느낀점들을 회고 하였습니다.
+&emsp; 프로젝트를 만들며 겪은 문제해결 과정과 느낀점들을 1~2주 간격으로 회고 하였습니다.
 
 &emsp; [멘티의 리뷰](https://github.com/ytw9699/Dokky/tree/master/dokky/documents/review_Of_mentee)   
 &emsp; [멘토의 리뷰](https://github.com/ytw9699/Dokky/tree/master/dokky/documents/review_Of_mentor)
