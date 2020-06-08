@@ -156,129 +156,129 @@ constraint `fk_board_like` foreign key(board_num) references `DK_BOARD`(board_nu
 
 ---
 
-### 9) 게시글 싫어요 
-create table `dk_board_dislike` ( 
+### 9) 게시글 싫어요  
+create table `dk_board_dislike` (   
 
-`userId` varchar2(50) not null,
-`board_num` number(10,0) not null,
-`dislikeValue` varchar2(50) not null,--싫어요 눌르면 push,다시 눌르면 pull
-constraint `fk_board_dislike` foreign key(board_num) references `DK_BOARD`(board_num) on delete cascade
+`userId` varchar2(50) not null,  
+`board_num` number(10,0) not null,  
+`dislikeValue` varchar2(50) not null,--싫어요 눌르면 push,다시 눌르면 pull  
+constraint `fk_board_dislike` foreign key(board_num) references `DK_BOARD`(board_num) on delete cascade  
 
-);
-
----
-
-### 10) 댓글 좋아요 
-create table `dk_reply_like` ( 
-
-`userId` varchar2(50) not null,
-`reply_num` number(10,0) not null,
-`likeValue` varchar2(50) not null,--좋아요 눌르면 push,다시 눌르면 pull
-constraint `fk_reply_like` foreign key(reply_num) references `DK_REPLY`(reply_num) on delete cascade
-
-);
+);  
 
 ---
 
-### 11) 댓글 싫어요 
-create table `dk_reply_dislike` ( 
+### 10) 댓글 좋아요   
+create table `dk_reply_like` (   
 
-`userId` varchar2(50) not null,
-`reply_num` number(10,0) not null,
-`dislikeValue` varchar2(50) not null,--싫어요 눌르면 push,다시 눌르면 pull
-constraint `fk_reply_dislike` foreign key(reply_num) references `DK_REPLY`(reply_num) on delete cascade
+`userId` varchar2(50) not null,  
+`reply_num` number(10,0) not null,  
+`likeValue` varchar2(50) not null,--좋아요 눌르면 push,다시 눌르면 pull  
+constraint `fk_reply_like` foreign key(reply_num) references `DK_REPLY`(reply_num) on delete cascade  
 
-);
+);  
 
 ---
 
-### 12) 스크랩 
-create table `dk_scrap` (
+### 11) 댓글 싫어요   
+create table `dk_reply_dislike` (   
 
-`scrap_num` number(10,0),
-`userId` varchar2(50) not null,
-`board_num` number(10,0) not null,
-`regDate` date default sysdate,
-constraint `pk_scrap` PRIMARY KEY (scrap_num),
-constraint `fk_scrap` foreign key(board_num) references `dk_board`(board_num) on delete cascade
+`userId` varchar2(50) not null,  
+`reply_num` number(10,0) not null,  
+`dislikeValue` varchar2(50) not null,--싫어요 눌르면 push,다시 눌르면 pull  
+constraint `fk_reply_dislike` foreign key(reply_num) references `DK_REPLY`(reply_num) on delete cascade  
+
+);  
+
+---
+
+### 12) 스크랩   
+create table `dk_scrap` (  
+
+`scrap_num` number(10,0),  
+`userId` varchar2(50) not null,  
+`board_num` number(10,0) not null,  
+`regDate` date default sysdate,  
+constraint `pk_scrap` PRIMARY KEY (scrap_num),  
+constraint `fk_scrap` foreign key(board_num) references `dk_board`(board_num) on delete cascade  
      
-);
+);  
 
-create sequence `seq_dk_scrap`
-
----
-
-### 13) 캐시내역 
-create table `dk_cash` (
-
-`cash_num` number(10,0),--pk
-`cashKind` varchar2(50) not null, --충전,환전,기부하기,기부받기
-`cashAmount` number(10,0) not null,
-`regDate` date default sysdate, 
-`userId` varchar2(50) not null,
-`nickName` varchar2(50) not null,  --댓글 작성자 닉네임
-`specification` varchar2(50), --미승인/승인완료
-`board_num` number(10,0) default 0,
-`reply_num` number(10,0) default 0,
-constraint `pk_cash` PRIMARY KEY (cash_num)
-
-);
-	
-create sequence `seq_dk_cash`
+create sequence `seq_dk_scrap`  
 
 ---
 
-### 14) 신고  
-create table `dk_report` (
+### 13) 캐시내역   
+create table `dk_cash` (  
+
+`cash_num` number(10,0),--pk  
+`cashKind` varchar2(50) not null, --충전,환전,기부하기,기부받기  
+`cashAmount` number(10,0) not null,  
+`regDate` date default sysdate,   
+`userId` varchar2(50) not null,  
+`nickName` varchar2(50) not null,  --댓글 작성자 닉네임  
+`specification` varchar2(50), --미승인/승인완료  
+`board_num` number(10,0) default 0,  
+`reply_num` number(10,0) default 0,  
+constraint `pk_cash` PRIMARY KEY (cash_num)  
+
+);  
 	
-`report_num` number(10,0), --pk
-`reportKind` varchar2(50) not null, --게시글,댓글
-`reportingId` varchar2(50) not null, --신고 하는자 아이디
-`reportingNick` varchar2(50) not null, --신고 하는자 닉네임
-`reportedId` varchar2(50) not null, --신고 받는자 아이디
-`reportedNick` varchar2(50) not null, --신고 받는자 닉네임
-`board_num` number(10,0) default 0, --글번호  
-`reason` varchar2(200) not null, --사유
-`regDate` date default sysdate, --신고날짜
-constraint `pk_report` PRIMARY KEY (report_num)
+create sequence `seq_dk_cash`  
 
-);
+---
 
-create sequence `seq_dk_report`
+### 14) 신고    
+create table `dk_report` (  
+	
+`report_num` number(10,0), --pk  
+`reportKind` varchar2(50) not null, --게시글,댓글  
+`reportingId` varchar2(50) not null, --신고 하는자 아이디  
+`reportingNick` varchar2(50) not null, --신고 하는자 닉네임  
+`reportedId` varchar2(50) not null, --신고 받는자 아이디  
+`reportedNick` varchar2(50) not null, --신고 받는자 닉네임  
+`board_num` number(10,0) default 0, --글번호    
+`reason` varchar2(200) not null, --사유  
+`regDate` date default sysdate, --신고날짜  
+constraint `pk_report` PRIMARY KEY (report_num)  
+
+);  
+
+create sequence `seq_dk_report`  
 	
 ---
 
-### 15) 방문자 
-CREATE TABLE `dk_visitor`(
+### 15) 방문자   
+CREATE TABLE `dk_visitor`(  
 	 
-`visitor_num` number(10,0), --기본키
-`ip` varchar(100) not null, --접속자 아이피
-`visit_time` date default sysdate,  --접속자 접속시간
-`refer` varchar(300), --접속자가 어느사이트를 타고 들어왔는지
-`agent` varchar(400) not null, --접속자 브라우저 정보
-constraint `pk_visitor` PRIMARY KEY (visitor_num)
+`visitor_num` number(10,0), --기본키  
+`ip` varchar(100) not null, --접속자 아이피  
+`visit_time` date default sysdate,  --접속자 접속시간  
+`refer` varchar(300), --접속자가 어느사이트를 타고 들어왔는지  
+`agent` varchar(400) not null, --접속자 브라우저 정보  
+constraint `pk_visitor` PRIMARY KEY (visitor_num)  
 
-)
+)  
 
-create sequence `seq_dk_visitor`
+create sequence `seq_dk_visitor`  
 	
 ---
 
-### 16) 알림 
-CREATE TABLE `dk_alarm`(
+### 16) 알림   
+CREATE TABLE `dk_alarm`(  
  
-`alarmNum` number(10,0), --기본키
-`checking` VARCHAR2(10) DEFAULT 'NO',
-`target` VARCHAR2(50) NOT NULL,
-`writerNick` VARCHAR2(50) NOT NULL,
-`writerId` VARCHAR2(50) NOT NULL,
-`kind` VARCHAR2(10) NOT NULL,--1~9
-`commonVar1` VARCHAR2(200),
-`commonVar2` VARCHAR2(200),
-`regdate` date default sysdate,
-constraint `pk_alarm` PRIMARY KEY (alarmNum)
+`alarmNum` number(10,0), --기본키  
+`checking` VARCHAR2(10) DEFAULT 'NO',  
+`target` VARCHAR2(50) NOT NULL,  
+`writerNick` VARCHAR2(50) NOT NULL,  
+`writerId` VARCHAR2(50) NOT NULL,  
+`kind` VARCHAR2(10) NOT NULL,--1~9  
+`commonVar1` VARCHAR2(200),  
+`commonVar2` VARCHAR2(200),  
+`regdate` date default sysdate,  
+constraint `pk_alarm` PRIMARY KEY (alarmNum)  
 
-)
+)  
 
-create sequence `seq_dk_alarm`
+create sequence `seq_dk_alarm`  
 
