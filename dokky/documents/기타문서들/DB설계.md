@@ -280,5 +280,5 @@ constraint `pk_alarm` PRIMARY KEY (alarmNum)
 
 )  
 
-create sequence `seq_dk_alarm`  
+create sequence `seq_dk_alarm`    
 
