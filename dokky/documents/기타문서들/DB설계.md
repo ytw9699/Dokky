@@ -267,6 +267,7 @@ create sequence `seq_dk_visitor`
 ### 16) 알림 
 CREATE TABLE `dk_alarm`(
  
+<<<<<<< HEAD
 `alarmNum` number(10,0), --기본키
 `checking` VARCHAR2(10) DEFAULT 'NO',
 `target` VARCHAR2(50) NOT NULL,
@@ -281,4 +282,20 @@ constraint `pk_alarm` PRIMARY KEY (alarmNum)
 )
 
 create sequence `seq_dk_alarm`
+=======
+`alarmNum` number(10,0), --기본키  
+`checking` VARCHAR2(10) DEFAULT 'NO',  
+`target` VARCHAR2(50) NOT NULL,  
+`writerNick` VARCHAR2(50) NOT NULL,  
+`writerId` VARCHAR2(50) NOT NULL,  
+`kind` VARCHAR2(10) NOT NULL,--1~9  
+`commonVar1` VARCHAR2(200),  
+`commonVar2` VARCHAR2(200),  
+`regdate` date default sysdate,  
+constraint `pk_alarm` PRIMARY KEY (alarmNum)  
+
+)  
+
+create sequence `seq_dk_alarm`    
+>>>>>>> test
 
