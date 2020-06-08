@@ -9,142 +9,142 @@
 
 ## 3. 물리적 설계 SQL
 
-### 1) 게시판
-create table `DK_BOARD` (
+### 1) 게시판  
+create table `DK_BOARD` (  
 	
-  `category` number(10,0) not null,  -- 0~5번 게시판
-  `board_num` number(10,0),	--PK --글번호
-  `title` varchar2(200) not null,	--글제목
-  `nickName` varchar2(50) not null,	--작성자 닉네임
-  `userId` varchar2(50) not null,	-- 작성자 아이디
-  `content` varchar2(4000) not null,	--글 내용
-  `regDate` date default sysdate,	--글 작성날짜
-  `updateDate` date default sysdate,	-- 글 수정 날짜
-  `likeCnt` number(10,0) default 0,	-- 좋아요 수
-  `dislikeCnt` number(10,0) default 0,	--싫어요 수
-  `money` number(10,0) default 0,	--기부금액
-  `hitCnt` number(10,0) default 0,	--조회수
-  `replyCnt` number(10,0) default 0,	--댓글수
-  constraint `PK_DK_BOARD` primary key(board_num)	--PK
+  `category` number(10,0) not null,  -- 0~5번 게시판  
+  `board_num` number(10,0),	--PK --글번호  
+  `title` varchar2(200) not null,	--글제목  
+  `nickName` varchar2(50) not null,	--작성자 닉네임  
+  `userId` varchar2(50) not null,	-- 작성자 아이디  
+  `content` varchar2(4000) not null,	--글 내용  
+  `regDate` date default sysdate,	--글 작성날짜  
+  `updateDate` date default sysdate,	-- 글 수정 날짜  
+  `likeCnt` number(10,0) default 0,	-- 좋아요 수  
+  `dislikeCnt` number(10,0) default 0,	--싫어요 수  
+  `money` number(10,0) default 0,	--기부금액  
+  `hitCnt` number(10,0) default 0,	--조회수  
+  `replyCnt` number(10,0) default 0,	--댓글수  
+  constraint `PK_DK_BOARD` primary key(board_num) --PK    
   
-);
+);  
 	
-create sequence `seq_dk_board`;
+create sequence `seq_dk_board`;    
 	
 ---
 
-### 2) 댓글
-create table `DK_REPLY` (
+### 2) 댓글  
+create table `DK_REPLY` (  
 	
-`reply_num` number(10,0), --pk
-`board_num` number(10,0) not null, --게시글 번호
-`reply_content` varchar2(4000) not null,--댓글 내용
-`nickName` varchar2(50) not null,  --댓글 작성자 닉네임
-`userId` varchar2(50) not null, --댓글 작성자 아이디
-`toUserId` varchar2(50), --댓글의 답글 보낼 아이디
-`toNickName` varchar2(50),--댓글의 답글 보낼 닉네임
-`replyDate` date default sysdate,--작성날짜
-`updateDate` date default sysdate, --수정날짜
-`likeCnt` number(10,0) default 0, --좋아요 수
-`dislikeCnt` number(10,0) default 0, --싫어요 수
-`money` number(10,0) default 0, --기부금
-`group_num` number(10,0) not null,--댓글 묶음 번호 , 그룹을 이루는 번호
-`order_step` number(10,0) not null,--댓글 출력 순서
-`depth` number(10,0) not null--댓글 깊이 depth = 루트글인지,답변글인지,답변에 답변글
+`reply_num` number(10,0), --pk  
+`board_num` number(10,0) not null, --게시글 번호    
+`reply_content` varchar2(4000) not null,--댓글 내용  
+`nickName` varchar2(50) not null,  --댓글 작성자 닉네임  
+`userId` varchar2(50) not null, --댓글 작성자 아이디  
+`toUserId` varchar2(50), --댓글의 답글 보낼 아이디  
+`toNickName` varchar2(50),--댓글의 답글 보낼 닉네임  
+`replyDate` date default sysdate,--작성날짜  
+`updateDate` date default sysdate, --수정날짜  
+`likeCnt` number(10,0) default 0, --좋아요 수  
+`dislikeCnt` number(10,0) default 0, --싫어요 수  
+`money` number(10,0) default 0, --기부금  
+`group_num` number(10,0) not null,--댓글 묶음 번호 , 그룹을 이루는 번호  
+`order_step` number(10,0) not null,--댓글 출력 순서  
+`depth` number(10,0) not null--댓글 깊이 depth = 루트글인지,답변글인지,답변에 답변글  
 
-);
+);  
 
-alter table `DK_REPLY` add constraint `pk_reply` primary key (reply_num);
+alter table `DK_REPLY` add constraint `pk_reply` primary key (reply_num);  
 
-alter table `DK_REPLY` add constraint `fk_reply_board` foreign key (board_num) references `DK_BOARD`(board_num) on delete cascade;
+alter table `DK_REPLY` add constraint `fk_reply_board` foreign key (board_num) references `DK_BOARD`(board_num) on delete cascade;  
 
-create sequence `seq_dk_reply`
+create sequence `seq_dk_reply`  
 
-create index `idx_reply` on `DK_REPLY`(board_num desc, reply_num asc);
+create index `idx_reply` on `DK_REPLY`(board_num desc, reply_num asc);  
 
 ---
 	
-### 3) 회원 
-create table `dk_member`(
+### 3) 회원   
+create table `dk_member`(  
 
-  `member_num` number(10,0) unique,
-  `userId` varchar2(50) primary key,
-  `userPw` varchar2(100) not null,
-  `nickName` varchar2(100) not null unique,
-  `cash` number(10,0) default 0,
-  `bankName` varchar2(50),
-  `account` varchar2(50),
-  `regDate` date default sysdate, 
-  `loginDate` date default sysdate,
-  `enabled` char(1) default '1'--enabled는 스프링 시큐리티에서 사용하는 값. 현재 사용자 계정이 유효한가를 의미
+  `member_num` number(10,0) unique,  
+  `userId` varchar2(50) primary key,  
+  `userPw` varchar2(100) not null,  
+  `nickName` varchar2(100) not null unique,  
+  `cash` number(10,0) default 0,  
+  `bankName` varchar2(50),  
+  `account` varchar2(50),  
+  `regDate` date default sysdate,   
+  `loginDate` date default sysdate,  
+  `enabled` char(1) default '1'--enabled는 스프링 시큐리티에서 사용하는 값. 현재 사용자 계정이 유효한가를 의미  
   
-);
+);  
 
-create sequence `seq_dk_member`
-
----
-
-### 4) 권한 
-create table `dk_member_auth` (
-
-`userId` varchar2(50) not null,
-`auth` varchar2(50) default 'ROLE_USER',
-constraint `fk_member_auth` foreign key(userId) references `dk_member`(userId)
-
-);
+create sequence `seq_dk_member`  
 
 ---
 
-### 5) 쪽지 
-create table `DK_NOTE` (
+### 4) 권한   
+create table `dk_member_auth` (  
 
-`note_num` number(10,0),--PK --쪽지 번호
-`content` varchar2(4000) not null, --쪽지 내용
-`from_nickname` varchar2(50) not null, --보낸 닉네임
-`from_id` varchar2(50) not null, --보낸 아이디
-`to_nickname` varchar2(50) not null, --받는 닉네임
-`to_id` varchar2(50) not null, --받는 아이디
-`regdate` date default sysdate, --쪽지 작성날짜
-`read_check` varchar2(10) DEFAULT 'NO',--쪽지 읽음 체크
-`from_check` varchar2(10) DEFAULT 'NO',--보낸쪽지함 삭제 체크
-`to_check` varchar2(10) DEFAULT 'NO',--받은쪽지함 삭제 체크
-constraint `PK_DK_NOTE` primary key(note_num) --PK
+`userId` varchar2(50) not null,  
+`auth` varchar2(50) default 'ROLE_USER',  
+constraint `fk_member_auth` foreign key(userId) references `dk_member`(userId)  
 
-);
-
-create sequence `seq_dk_note`;
+);  
 
 ---
 
-### 6) 업로드 
-create table `dk_attach`(
+### 5) 쪽지   
+create table `DK_NOTE` (  
 
-`uuid` varchar2(100) not null,
-`uploadPath` varchar2(200) not null,-- 실제 파일이 업로드된 경로
-`fileName` varchar2(100) not null, --파일 이름을 의미
-`fileType` char(1) default 'I', --이미지 파일 여부를판단
-`board_num` number(10,0) -- 해당 게시물 번호를 저장
+`note_num` number(10,0),--PK --쪽지 번호  
+`content` varchar2(4000) not null, --쪽지 내용  
+`from_nickname` varchar2(50) not null, --보낸 닉네임  
+`from_id` varchar2(50) not null, --보낸 아이디  
+`to_nickname` varchar2(50) not null, --받는 닉네임  
+`to_id` varchar2(50) not null, --받는 아이디  
+`regdate` date default sysdate, --쪽지 작성날짜  
+`read_check` varchar2(10) DEFAULT 'NO',--쪽지 읽음 체크  
+`from_check` varchar2(10) DEFAULT 'NO',--보낸쪽지함 삭제 체크  
+`to_check` varchar2(10) DEFAULT 'NO',--받은쪽지함 삭제 체크  
+constraint `PK_DK_NOTE` primary key(note_num) --PK  
 
-);
+);  
 
-alter table `dk_attach` add constraint `pk_attach` primary key (uuid);
-alter table `dk_attach` add constraint `fk_board_attach` foreign key (board_num) references `DK_BOARD`(board_num);
-
----
-
-### 7) 인증 
-create table `persistent_logins` ( 
-
-`username`varchar(64) not null,
-`series` varchar(64) primary key,
-`token` varchar(64) not null,
-`last_used` timestamp not null
-
-);
+create sequence `seq_dk_note`;  
 
 ---
 
-### 8) 게시글 좋아요 
+### 6) 업로드   
+create table `dk_attach`(  
+
+`uuid` varchar2(100) not null,  
+`uploadPath` varchar2(200) not null,-- 실제 파일이 업로드된 경로  
+`fileName` varchar2(100) not null, --파일 이름을 의미  
+`fileType` char(1) default 'I', --이미지 파일 여부를판단  
+`board_num` number(10,0) -- 해당 게시물 번호를 저장  
+
+);  
+
+alter table `dk_attach` add constraint `pk_attach` primary key (uuid);  
+alter table `dk_attach` add constraint `fk_board_attach` foreign key (board_num) references `DK_BOARD`(board_num);  
+ 
+---
+
+### 7) 인증  
+create table `persistent_logins` (   
+
+`username`varchar(64) not null,  
+`series` varchar(64) primary key,  
+`token` varchar(64) not null,  
+`last_used` timestamp not null  
+
+);  
+
+---
+
+### 8) 게시글 좋아요   
 create table `dk_board_like` (
 
 `userId` varchar2(50) not null,
