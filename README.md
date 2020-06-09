@@ -32,9 +32,11 @@
 &emsp; [1. 요구사항 명세서](https://github.com/ytw9699/Dokky/blob/master/dokky/documents/%EA%B8%B0%ED%83%80%EB%AC%B8%EC%84%9C%EB%93%A4/%EC%9A%94%EA%B5%AC%EC%82%AC%ED%95%AD-%EB%AA%85%EC%84%B8%EC%84%9C.md)  
 &emsp; [2. 요구사항 변경 관리](https://github.com/ytw9699/Dokky/tree/master/dokky/documents/%EA%B8%B0%ED%83%80%EB%AC%B8%EC%84%9C%EB%93%A4/%EC%9A%94%EA%B5%AC%EC%82%AC%ED%95%AD_%EB%B3%80%EA%B2%BD%EA%B4%80%EB%A6%AC)  
 &emsp; [3. Database 설계](https://github.com/ytw9699/Dokky/blob/master/dokky/documents/%EA%B8%B0%ED%83%80%EB%AC%B8%EC%84%9C%EB%93%A4/DB%EC%84%A4%EA%B3%84.md)     
-&emsp; [4. Use Case ](https://github.com/ytw9699/Dokky/blob/master/dokky/documents/%EA%B8%B0%ED%83%80%EB%AC%B8%EC%84%9C%EB%93%A4/Use-Case.md)   
-&emsp; [5. Sequence-Diagram ](https://github.com/ytw9699/Dokky/blob/master/dokky/documents/%EA%B8%B0%ED%83%80%EB%AC%B8%EC%84%9C%EB%93%A4/Sequence-Diagram.md)  
+&emsp; [4. Use Case Diagram ](https://github.com/ytw9699/Dokky/blob/master/dokky/documents/%EA%B8%B0%ED%83%80%EB%AC%B8%EC%84%9C%EB%93%A4/Use%20Case%20Diagram.md)   
+&emsp; [5. Sequence-Diagram-과-Use-Case-명세서 ](https://github.com/ytw9699/Dokky/blob/master/dokky/documents/%EA%B8%B0%ED%83%80%EB%AC%B8%EC%84%9C%EB%93%A4/Sequence-Diagram-%EA%B3%BC-Use-Case-%EB%AA%85%EC%84%B8%EC%84%9C.md)  
 &emsp; [6. Class Diagram](https://github.com/ytw9699/Dokky/wiki/%EC%9A%94%EA%B5%AC%EC%82%AC%ED%95%AD-%EB%B3%80%EA%B2%BD-%EA%B4%80%EB%A6%AC)  
+
+
 
 ## 09. 코드 리뷰 진행
 
