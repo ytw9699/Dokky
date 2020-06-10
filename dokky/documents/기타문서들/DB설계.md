@@ -216,7 +216,7 @@ create table `dk_cash` (
 `cashAmount` number(10,0) not null,  
 `regDate` date default sysdate,   
 `userId` varchar2(50) not null,  
-`nickName` varchar2(50) not null,  --댓글 작성자 닉네임  
+`nickName` varchar2(50) not null,
 `specification` varchar2(50), --미승인/승인완료  
 `board_num` number(10,0) default 0,  
 `reply_num` number(10,0) default 0,  
