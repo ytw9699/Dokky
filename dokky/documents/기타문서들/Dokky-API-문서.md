@@ -1,13 +1,3 @@
-## api 문서의 필요성
-- api를 만든것이기 때문에 당연히 기본적으로 필요
-- 앞으로 개발을 할때도 + 유지보수를 하기위해서라도 한눈에 볼 수 있는 문서가 필요
-- 이 프로젝트가 다른곳에서도 쓰여짐을 가정한다면, 다른사람이 쉽게 이해 할 수 있는 문서가 필요
-- 다른 개발자들과 협업을 한다고 하면 api 공유 문서가 필요
-
-## 고민사항
-내 프로젝트는 api + rest api 가 혼합..?되어 있다보니 api 문서 작성하는데 있어 혼동이옴..
-예를들어 댓글 조회 같은경우 순수한 데이터만 가져오기 때문에 response가 순수한 데이터만 json형태로 보여주지만
-글 조회 같은경우는 html에 데이터를 조합해 response 하기 때문에.. 핵심 데이터만 문서에 적을것인지..? 
 
 
 ## 1) 글 작성
@@ -156,9 +146,86 @@ type | null
 keyword | null
 
 
+## 5) 댓글 작성
 
+### HTTP Request Header
 
+HTTP Header| value 
+---- | ----
+Method | POST
+URI Path | /replies/new
 
+### HTTP Request Body
 
+key | comment | type | 필수
+---- | ---- | ---- | ----
+reply_content | 댓글 내용 | String | O
+userId | 댓글 작성자 아이디 | String | O
+nickName |댓글 작성자 닉네임 | String | O
+board_num | 해당 글번호 | Long | O
+
+### Request Body example
+
+{replyVO : {
+			reply_content : "754번글에 댓글을 달아봅니다.",
+				   userId : "admin",
+				 nickName : "슈퍼 관리자",
+				 board_num : "754" 
+			}
+}
+
+## 6) 댓글 수정
+
+### HTTP Request Header
+
+HTTP Header| value 
+---- | ----
+Method | PUT
+URI Path | /replies/new
+
+### HTTP Request Body
+
+key | comment | type | 필수
+---- | ---- | ---- | ----
+reply_num | 댓글 번호 | Long | O
+reply_content | 댓글 내용 | String | O
+userId |댓글 작성자 아이디 | String | O
+
+### Request Body example
+
+{replyVO : {
+			 reply_num : "222",
+		   	 reply_content : "222번 댓글내용을 수정해봅니다.",
+		 	 userId : "admin"
+			}
+}
+
+## 7) 댓글 삭제
+
+### HTTP Request Header
+
+HTTP Header| value 
+---- | ----
+Method | DELETE
+URI Path | /replies/{reply_num}
+
+### PathVariable of HTTP Request Header
+
+key | comment | type | 필수
+---- | ---- | ---- | ----
+reply_num | 댓글 번호 | Long | O
+
+### HTTP Request Body
+
+key | comment | type | 필수
+---- | ---- | ---- | ----
+userId |댓글 작성자 아이디 | String | O
+
+### Request Body example
+
+{replyVO : {
+		 	 userId : "admin",
+			}
+}
 
 
