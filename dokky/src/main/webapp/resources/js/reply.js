@@ -67,7 +67,7 @@ var replyService = (function() {
 			    contentType: "application/json; charset=utf-8",
 				success : function(deleteResult, status, xhr) {
 					if (callback) {
-						callback(deleteResult);
+						callback();
 					}
 				},
 				error : function(xhr, status, er) {
