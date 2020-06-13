@@ -166,13 +166,13 @@ board_num | 해당 글번호 | Long | O
 
 ### Request Body example
 
-{replyVO : {
+ 	{replyVO : {
 			reply_content : "754번글에 댓글을 달아봅니다.",
 				   userId : "admin",
 				 nickName : "슈퍼 관리자",
 				 board_num : "754" 
 			}
-}
+ 	}
 
 ## 6) 댓글 수정
 
@@ -193,12 +193,12 @@ userId |댓글 작성자 아이디 | String | O
 
 ### Request Body example
 
-{replyVO : {
+ 	{replyVO : {
 			 reply_num : "222",
 		   	 reply_content : "222번 댓글내용을 수정해봅니다.",
 		 	 userId : "admin"
 			}
-}
+ 	}
 
 ## 7) 댓글 삭제
 
@@ -223,9 +223,9 @@ userId |댓글 작성자 아이디 | String | O
 
 ### Request Body example
 
-{replyVO : {
+ 	{replyVO : {
 		 	 userId : "admin",
 			}
-}
+ 	}
 
 
