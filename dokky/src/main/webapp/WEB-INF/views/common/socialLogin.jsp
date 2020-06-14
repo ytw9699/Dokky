@@ -8,7 +8,14 @@
 <head>
 	<meta charset="utf-8"> 
 	<title>Dokky - 로그인</title>
-	<link href="/ROOT/resources/css/socialLogin.css" rel="stylesheet" type="text/css"/>
+	<c:choose>
+	   	  <c:when test="${pageContext.request.serverName == 'localhost'}">
+				<link href="/resources/css/socialLogin.css" rel="stylesheet" type="text/css"/>
+		  </c:when>
+	      <c:otherwise>
+	    		<link href="/ROOT/resources/css/socialLogin.css" rel="stylesheet" type="text/css"/>
+	      </c:otherwise>
+	</c:choose>
 </head>
 <body> 
 <div class="loginWrap">
@@ -24,11 +31,18 @@
 				
 	<div class="container"> 
 			<div class="cutom-group loginGroup">
-				<img src="/ROOT/resources/img/googleLogo.png" id="google" class="logo"/>
-				<img src="/ROOT/resources/img/naverLogo.png" id="naver" class="logo"/>
+				<c:choose>
+				   	  <c:when test="${pageContext.request.serverName == 'localhost'}">
+							<img src="/resources/img/googleLogo.png" id="google" class="logo"/>
+							<img src="/resources/img/naverLogo.png" id="naver" class="logo"/>
+					  </c:when>
+				      <c:otherwise>
+					    	<img src="/ROOT/resources/img/googleLogo.png" id="google" class="logo"/>
+							<img src="/ROOT/resources/img/naverLogo.png" id="naver" class="logo"/>
+				      </c:otherwise>
+				</c:choose>
 			</div>
 	</div>
-	
 	<div class="footer">  
 		<div class="info">
 			이용약관 | 개인정보처리방침 | 책임의 한계와 법적고지 | 회원정보 고객센터

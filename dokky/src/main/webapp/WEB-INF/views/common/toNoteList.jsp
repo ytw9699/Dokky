@@ -9,7 +9,14 @@
 <head>
 <meta charset="UTF-8"> 
 <title>Dokky - 보낸쪽지함</title>
-<link href="/ROOT/resources/css/noteList.css" rel="stylesheet" type="text/css"/>
+<c:choose>
+   	  <c:when test="${pageContext.request.serverName == 'localhost'}">
+			<link href="/resources/css/noteList.css" rel="stylesheet" type="text/css"/>
+	  </c:when>
+      <c:otherwise>
+    		<link href="/ROOT/resources/css/noteList.css" rel="stylesheet" type="text/css"/>
+      </c:otherwise>
+</c:choose>
 </head>
 <%@include file="../includes/left.jsp"%>
 <body>
@@ -54,7 +61,14 @@
 		                    
 			     			<td class="td">  
 								<a href="#" class="userMenu" data-note_num="${note.note_num}">
-									<img src="/upload/<c:out value="${note.to_id}"/>.png?${random}"  class="memberImage hideUsermenu" onerror="this.src='/ROOT/resources/img/profile_img/basicProfile.png'" />
+									<c:choose>
+									   	  <c:when test="${pageContext.request.serverName == 'localhost'}">
+												<img src="/upload/<c:out value="${note.to_id}"/>.png?${random}"  class="memberImage hideUsermenu" onerror="this.src='/resources/img/profile_img/basicProfile.png'" />
+										  </c:when>
+									      <c:otherwise>
+									    		<img src="/upload/<c:out value="${note.to_id}"/>.png?${random}"  class="memberImage hideUsermenu" onerror="this.src='/ROOT/resources/img/profile_img/basicProfile.png'" />
+									      </c:otherwise>
+									</c:choose>
 									<c:out value="${note.to_nickname}" /> 
 								</a>   
 								<div id="userMenubar_${note.note_num}" class="userMenubar">

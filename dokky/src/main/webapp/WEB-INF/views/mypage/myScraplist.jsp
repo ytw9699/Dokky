@@ -9,7 +9,14 @@
 <head>
 <meta charset="UTF-8">
 <title>Dokky - 스크랩</title>     
-<link href="/ROOT/resources/css/myScraplist.css" rel="stylesheet" type="text/css">
+<c:choose>
+   	  <c:when test="${pageContext.request.serverName == 'localhost'}">
+			<link href="/resources/css/myScraplist.css" rel="stylesheet" type="text/css">
+	  </c:when>
+      <c:otherwise>
+    		<link href="/ROOT/resources/css/myScraplist.css" rel="stylesheet" type="text/css">
+      </c:otherwise>
+</c:choose> 
 </head>
 <%@include file="../includes/left.jsp"%>
 <body>
@@ -80,7 +87,14 @@
 						 
 							<td class="td">
 								<a href="#" class="userMenu" data-scrap_num="${scrap.scrap_num}"> 
-									<img src="/upload/<c:out value="${scrap.userId}"  />.png?${random}"  class="memberImage hideUsermenu" onerror="this.src='/ROOT/resources/img/profile_img/basicProfile.png'" />
+									<c:choose>
+									   	  <c:when test="${pageContext.request.serverName == 'localhost'}">
+												<img src="/upload/<c:out value="${scrap.userId}"  />.png?${random}"  class="memberImage hideUsermenu" onerror="this.src='/resources/img/profile_img/basicProfile.png'" />
+										  </c:when>
+									      <c:otherwise>
+									    		<img src="/upload/<c:out value="${scrap.userId}"  />.png?${random}"  class="memberImage hideUsermenu" onerror="this.src='/ROOT/resources/img/profile_img/basicProfile.png'" />
+									      </c:otherwise>
+									</c:choose> 
 									<c:out value="${scrap.nickName}" /> 
 								</a>   
 								<div id="userMenubar_${scrap.scrap_num}" class="userMenubar">
