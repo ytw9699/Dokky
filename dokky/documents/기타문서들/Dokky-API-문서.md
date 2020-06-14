@@ -1,4 +1,16 @@
+## 1. 목록
 
+#### 1) 글 작성
+#### 2) 글 조회
+#### 3) 글 수정
+#### 4) 글 삭제
+#### 5) 댓글 작성
+#### 6) 댓글 수정
+#### 7) 댓글 삭제
+#### 8) 댓글 조회
+#### 9) 댓글 리스트 조회
+
+## 2. 상세 내용
 
 ## 1) 글 작성
 
@@ -228,4 +240,125 @@ userId |댓글 작성자 아이디 | String | O
 			}
  	}
 
+## 8) 댓글 조회
 
+### HTTP Request Header
+
+HTTP Header| value 
+---- | ----
+Method | GET
+URI Path | /replies/{reply_num}
+
+### PathVariable of HTTP Request Header
+
+key | comment | type | 필수
+---- | ---- | ---- | ----
+reply_num | 댓글 번호 | Long | O
+
+### HTTP Request Body
+
+Nothing
+
+### HTTP Response Body
+
+key | comment | type | 필수
+---- | ---- | ---- | ----
+reply_num | 댓글 번호 | Long | O
+board_num | 해당 글번호 | Long | O
+reply_content | 댓글 내용 | String | O
+nickName |댓글 작성자 닉네임 | String | O
+userId | 댓글 작성자 아이디 | String | O
+toUserId | 댓글의 답글 보낼 아이디 | String | X
+toNickName | 댓글의 답글 보낼 닉네임| String | X
+replyDate | 댓글 작성날짜 | Date | O
+updateDate | 댓글 수정날짜 | Date | X
+likeCnt | 좋아요 수 | Int | O
+dislikeCnt | 싫어요 수 | Int | O
+money | 기부금 | Int | O
+group_num | 댓글 묶음 번호 | Int | O
+order_step | 댓글 출력 순서 | Int | O
+depth | 댓글 깊이 | Int | O
+
+### HTTP Response Body example
+
+ 	{ 
+ 	 	"reply_num":424,
+ 	 	"board_num":785,
+ 	 	"reply_content":"댓글내용",
+ 	 	"nickName":"슈퍼관리자",
+	 	"userId":"admin",
+	 	"toNickName":null,
+	 	"toUserId":null,
+	 	"replyDate":1592053977000,
+	 	"updateDate":1592053977000,
+	 	"likeCnt":0,
+	 	"dislikeCnt":0,
+	 	"money":0,
+	 	"group_num":424,
+	 	"order_step":0,
+	 	"depth":0
+ 	}
+
+## 9) 댓글 리스트 조회
+
+### HTTP Request Header
+
+HTTP Header| value 
+---- | ----
+Method | GET
+URI Path | /replies/pages/{board_num}/{page}
+
+### PathVariable of HTTP Request Header
+
+key | comment | type | 필수
+---- | ---- | ---- | ----
+board_num | 해당 글번호 | Long | O
+page | 댓글의 페이지 | Int | O
+
+### HTTP Request Body
+
+Nothing
+
+### HTTP Response Body
+
+key | comment | type | 필수
+---- | ---- | ---- | ----
+replyCnt | 총 댓글 수 | Int | O
+reply_num | 댓글 번호 | Long | O
+board_num | 해당 글번호 | Long | O
+reply_content | 댓글 내용 | String | O
+nickName |댓글 작성자 닉네임 | String | O
+userId | 댓글 작성자 아이디 | String | O
+toUserId | 댓글의 답글 보낼 아이디 | String | X
+toNickName | 댓글의 답글 보낼 닉네임| String | X
+replyDate | 댓글 작성날짜 | Date | O
+updateDate | 댓글 수정날짜 | Date | X
+likeCnt | 좋아요 수 | Int | O
+dislikeCnt | 싫어요 수 | Int | O
+money | 기부금 | Int | O
+group_num | 댓글 묶음 번호 | Int | O
+order_step | 댓글 출력 순서 | Int | O
+depth | 댓글 깊이 | Int | O
+
+### HTTP Response Body example
+
+ 	{
+ 	 	"replyCnt":1,
+ 	 	"list":[{
+			 	 	"reply_num":424,
+			 	 	"board_num":785,
+			 	 	"reply_content":"댓글내용",
+			 	 	"nickName":"슈퍼관리자",
+				 	"userId":"admin",
+				 	"toNickName":null,
+				 	"toUserId":null,
+				 	"replyDate":1592053977000,
+				 	"updateDate":1592053977000,
+				 	"likeCnt":0,
+				 	"dislikeCnt":0,
+				 	"money":0,
+				 	"group_num":424,
+				 	"order_step":0,
+				 	"depth":0
+		 	   }]
+	}
