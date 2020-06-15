@@ -5,10 +5,22 @@
 
 <!DOCTYPE html>
 <html>
-<head>
+<!-- <head>
 <meta charset="UTF-8">
 	<title>Dokky - Developer community</title> 
 	<link href="/ROOT/resources/css/main.css" rel="stylesheet" type="text/css"/>
+</head> -->
+<head> 
+<meta charset="UTF-8">
+	<title>Dokky - Developer community</title> 
+	   <c:choose>
+		   	  <c:when test="${pageContext.request.serverName == 'localhost'}">
+				 <link href="/resources/css/main.css" rel="stylesheet" type="text/css"/>
+			  </c:when>
+	          <c:otherwise>
+	        	<link href="/ROOT/resources/css/main.css" rel="stylesheet" type="text/css"/>
+	          </c:otherwise>
+       </c:choose>
 </head>
 
 <%@include file="../includes/left.jsp"%>
@@ -52,7 +64,14 @@
 						</td>
 						<td class="td"> 
 							<a href="" class="userMenu" data-board_num="${board.board_num}" data-menu_kind="realtime">
-								<img src="/upload/<c:out value="${board.userId}" />.png?${random}"  class="memberImage hideUsermenu" onerror="this.src='/ROOT/resources/img/profile_img/basicProfile.png'" />
+								<c:choose>
+								   	  <c:when test="${pageContext.request.serverName == 'localhost'}">
+											<img src="/upload/<c:out value="${board.userId}" />.png?${random}"  class="memberImage hideUsermenu" onerror="this.src='/resources/img/profile_img/basicProfile.png'" />
+									  </c:when>
+							          <c:otherwise>
+							        		<img src="/upload/<c:out value="${board.userId}" />.png?${random}"  class="memberImage hideUsermenu" onerror="this.src='/ROOT/resources/img/profile_img/basicProfile.png'" />
+							          </c:otherwise>
+						        </c:choose>
 								<c:out value="${board.nickName}" /> 
 							</a> 
 							 <div id="userMenubar_realtime_${board.board_num}" class="userMenubar">
@@ -122,7 +141,14 @@
 						</td>
 						<td class="td">
 							<a href="" class="userMenu" data-board_num="${board.board_num}" data-menu_kind="like">
-								<img width="25px" src="/upload/<c:out value="${board.userId}" />.png?${random}"  class="memberImage hideUsermenu" onerror="this.src='/ROOT/resources/img/profile_img/basicProfile.png'" />
+								<c:choose>
+								   	  <c:when test="${pageContext.request.serverName == 'localhost'}">
+											<img width="25px" src="/upload/<c:out value="${board.userId}" />.png?${random}"  class="memberImage hideUsermenu" onerror="this.src='/resources/img/profile_img/basicProfile.png'" />
+									  </c:when>
+							          <c:otherwise>
+							        		<img width="25px" src="/upload/<c:out value="${board.userId}" />.png?${random}"  class="memberImage hideUsermenu" onerror="this.src='/ROOT/resources/img/profile_img/basicProfile.png'" />
+							          </c:otherwise>
+						        </c:choose>
 								<c:out value="${board.nickName}" />
 							</a> 
 							 <div id="userMenubar_like_${board.board_num}" class="userMenubar">
@@ -192,7 +218,14 @@
 						</td>
 						<td class="td">
 							<a href="" class="userMenu" data-board_num="${board.board_num}" data-menu_kind="donate"> 
-								<img width="25px" src="/upload/<c:out value="${board.userId}" />.png?${random}"  class="memberImage hideUsermenu" onerror="this.src='/ROOT/resources/img/profile_img/basicProfile.png'" />
+								<c:choose>
+								   	  <c:when test="${pageContext.request.serverName == 'localhost'}">
+											<img width="25px" src="/upload/<c:out value="${board.userId}" />.png?${random}"  class="memberImage hideUsermenu" onerror="this.src='/resources/img/profile_img/basicProfile.png'" />
+									  </c:when>
+							          <c:otherwise>
+							        		<img width="25px" src="/upload/<c:out value="${board.userId}" />.png?${random}"  class="memberImage hideUsermenu" onerror="this.src='/ROOT/resources/img/profile_img/basicProfile.png'" />
+							          </c:otherwise>
+						        </c:choose>
 								<c:out value="${board.nickName}" />
 							</a> 
 							 <div id="userMenubar_donate_${board.board_num}" class="userMenubar">

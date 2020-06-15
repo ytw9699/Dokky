@@ -11,7 +11,14 @@
 		<script src="//code.jquery.com/jquery-1.11.3.min.js"></script>
 		<!-- <script type="text/javascript" src="/resources/SmartEditor/js/HuskyEZCreator.js" charset="utf-8" ></script> -->
 		<title>Dokky - 새 글쓰기</title>  
-		<link href="/ROOT/resources/css/register.css" rel="stylesheet" type="text/css">
+		<c:choose>
+		   	  <c:when test="${pageContext.request.serverName == 'localhost'}">
+					<link href="/resources/css/register.css" rel="stylesheet" type="text/css">
+			  </c:when>
+		      <c:otherwise>
+		    		<link href="/ROOT/resources/css/register.css" rel="stylesheet" type="text/css">
+		      </c:otherwise>
+		</c:choose> 
 	</head>
 <body> 
 

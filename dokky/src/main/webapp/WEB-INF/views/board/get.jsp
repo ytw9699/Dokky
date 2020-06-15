@@ -8,7 +8,14 @@
 	<head>
 		<meta charset="UTF-8">
 		<title>Dokky - 상세페이지</title> 
-		<link href="/ROOT/resources/css/get.css" rel="stylesheet" type="text/css">
+		<c:choose>
+		   	  <c:when test="${pageContext.request.serverName == 'localhost'}">
+					<link href="/resources/css/get.css" rel="stylesheet" type="text/css">
+			  </c:when>
+		      <c:otherwise>
+		    		<link href="/ROOT/resources/css/get.css" rel="stylesheet" type="text/css">
+		      </c:otherwise>
+		</c:choose>
 		<%@include file="../includes/left.jsp"%> 
 	</head>
 <body> 
@@ -40,7 +47,14 @@
 			
 			<div class="nickName">
 				<a href="#" id="board_userMenu" class="userMenu">
-					<img src="/upload/<c:out value="${board.userId}" />.png?${random}"  class="memberImage hideUsermenu" onerror="this.src='/ROOT/resources/img/profile_img/basicProfile.png'" />
+					<c:choose>
+					   	  <c:when test="${pageContext.request.serverName == 'localhost'}">
+								<img src="/upload/<c:out value="${board.userId}" />.png?${random}"  class="memberImage hideUsermenu" onerror="this.src='/resources/img/profile_img/basicProfile.png'" />
+						  </c:when>
+					      <c:otherwise>
+					    		<img src="/upload/<c:out value="${board.userId}" />.png?${random}"  class="memberImage hideUsermenu" onerror="this.src='/ROOT/resources/img/profile_img/basicProfile.png'" />
+					      </c:otherwise>
+					</c:choose>
 					<c:out value="${board.nickName}" /> 
 				</a>
 			</div>
@@ -264,7 +278,14 @@
 <!-- END 숨겨진 DIV들  -->
 
 <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
-<script type="text/javascript" src="/ROOT/resources/js/reply.js"></script> <!--댓글 AJAX통신 -->
+<c:choose>
+   	  <c:when test="${pageContext.request.serverName == 'localhost'}">
+			<script type="text/javascript" src="/resources/js/reply.js"></script> <!--댓글 AJAX통신 -->
+	  </c:when>
+      <c:otherwise>
+    		<script type="text/javascript" src="/ROOT/resources/js/reply.js"></script> <!--댓글 AJAX통신 -->
+      </c:otherwise>
+</c:choose>
 <script>
 	//공통 변수 모음 
 	
@@ -277,7 +298,8 @@
 	var myNickName;
 	var pageNum = 1;//댓글의 페이지 번호
 	var isLimited ; // 쓰기 제한된 계정의 true,false 여부
-	
+	var serverName = '${pageContext.request.serverName}';
+
 	<sec:authorize access="isAuthenticated()">   
 				  myId = '${userInfo.username}';  
 		    myNickName = '${userInfo.member.nickName}';
@@ -484,9 +506,13 @@
 			    	    
 		    	  str += "<div class='reply' data-reply_num='"+reply_nums+"'>" 
 			    	  		   + "<span>"
-								   + "<a href='#' class='userMenu' data-reply_num='"+reply_nums+"' data-menu_kind='from'>"   
-									   + "<img src='/upload/"+userId+".png?"+random+"' class='memberImage hideUsermenu' onerror='this.src=\"/ROOT/resources/img/profile_img/basicProfile.png\"'/>&nbsp"
-									   + nickName
+								   + "<a href='#' class='userMenu' data-reply_num='"+reply_nums+"' data-menu_kind='from'>";
+								   if(serverName == 'localhost'){ 
+									   str += "<img src='/upload/"+userId+".png?"+random+"' class='memberImage hideUsermenu' onerror='this.src=\"/resources/img/profile_img/basicProfile.png\"'/>&nbsp"
+								   }else{
+									   str += "<img src='/upload/"+userId+".png?"+random+"' class='memberImage hideUsermenu' onerror='this.src=\"/ROOT/resources/img/profile_img/basicProfile.png\"'/>&nbsp"
+								   }
+								   	   str += nickName
 								   + "</a>"
 							   + "</span>" 
 							   
@@ -580,13 +606,18 @@
 		       if(depth != 0){   
 		    	   
     	   			     str += "<span class='depthLine'>└ </span>"
-	    	   			  	   +"<span>"
-							       + "<a href='#' class='userMenu' data-reply_num='"+reply_nums+"' data-menu_kind='from'>"   
-									   + "<img src='/upload/"+userId+".png?"+random+"' class='memberImage hideUsermenu' onerror='this.src=\"/ROOT/resources/img/profile_img/basicProfile.png\"'/>&nbsp"
-									   + nickName
-							       + "</a>"
-						   	   + "</span>"
-						   	   
+    	   			     
+	    	   			    	+ "<span>"
+								   + "<a href='#' class='userMenu' data-reply_num='"+reply_nums+"' data-menu_kind='from'>";
+								   if(serverName == 'localhost'){ 
+									   str += "<img src='/upload/"+userId+".png?"+random+"' class='memberImage hideUsermenu' onerror='this.src=\"/resources/img/profile_img/basicProfile.png\"'/>&nbsp"
+								   }else{
+									   str += "<img src='/upload/"+userId+".png?"+random+"' class='memberImage hideUsermenu' onerror='this.src=\"/ROOT/resources/img/profile_img/basicProfile.png\"'/>&nbsp"
+								   }
+								   	   str += nickName
+								   + "</a>"
+							   + "</span>" 
+							   
 						   	   + "<div id='userMenubar_reply_from_"+reply_nums+"' class='userMenubar'>" 
 								   + "<ul class='hideUsermenu'>" 
 									   + "<li class='hideUsermenu'>"
@@ -605,12 +636,16 @@
 							   
 							   + "<span class='toLine'>➜</span>"  
 							   
-							   + "<span>"
-							       + "<a href='#' class='userMenu' data-reply_num='"+reply_nums+"' data-menu_kind='to'>"
-									   + "<img src='/upload/"+toUserId+".png?"+random+"' class='memberImage hideUsermenu' onerror='this.src=\"/ROOT/resources/img/profile_img/basicProfile.png\"'/>&nbsp"
-									   + toNickName
-							       + "</a>"
-				   	   		   + "</span>"
+					   	   	   + "<span>"
+								   + "<a href='#' class='userMenu' data-reply_num='"+reply_nums+"' data-menu_kind='to'>";
+								   if(serverName == 'localhost'){ 
+									   str += "<img src='/upload/"+userId+".png?"+random+"' class='memberImage hideUsermenu' onerror='this.src=\"/resources/img/profile_img/basicProfile.png\"'/>&nbsp"
+								   }else{
+									   str += "<img src='/upload/"+userId+".png?"+random+"' class='memberImage hideUsermenu' onerror='this.src=\"/ROOT/resources/img/profile_img/basicProfile.png\"'/>&nbsp"
+								   }
+								   	   str += toNickName
+								   + "</a>"
+							   + "</span>" 
 				   	   		   
 				   	   		   + "<div id='userMenubar_reply_to_"+reply_nums+"' class='userMenubar to'>" 
 								   + "<ul class='hideUsermenu'>" 
