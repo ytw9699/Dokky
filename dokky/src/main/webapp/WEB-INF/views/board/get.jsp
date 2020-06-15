@@ -1494,7 +1494,7 @@
 		var reply_id = $(this).data("reply_id"); 
 		
 		deleting('정말 삭제 하시겠습니까?', function() {
-			replyService.remove( reply_num, reply_id, board_num, function(){
+			replyService.remove( reply_num, reply_id, function(){
 	        showReplyList(pageNum);//삭제후 댓글 페이지 유지하면서 리스트 다시 호출 
 			}); 
 		});

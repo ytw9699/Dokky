@@ -57,17 +57,17 @@ var replyService = (function() {
 	  }
 */
 	
-	function remove(reply_num, reply_id, board_num, callback, error) {
+	function remove(reply_num, reply_id, callback, error) {
 		
 		$.ajax({
 			
 				type : 'delete',
 				url : '/replies/' + reply_num,
-				data:  JSON.stringify({reply_num:reply_num, userId:reply_id, board_num:board_num}),
+				data:  JSON.stringify({ userId:reply_id }),
 			    contentType: "application/json; charset=utf-8",
 				success : function(deleteResult, status, xhr) {
 					if (callback) {
-						callback(deleteResult);
+						callback();
 					}
 				},
 				error : function(xhr, status, er) {
