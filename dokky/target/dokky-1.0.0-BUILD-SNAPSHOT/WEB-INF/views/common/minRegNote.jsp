@@ -9,7 +9,14 @@
 	<meta charset="UTF-8">
 	<script src="//code.jquery.com/jquery-1.11.3.min.js"></script>
 	<title>Dokky - 쪽지쓰기</title>  
-	<link href="/ROOT/resources/css/minRegNote.css" rel="stylesheet" type="text/css">
+	<c:choose>
+	   	  <c:when test="${pageContext.request.serverName == 'localhost'}">
+				<link href="/resources/css/minRegNote.css" rel="stylesheet" type="text/css">
+		  </c:when>
+	      <c:otherwise>
+	    		<link href="/ROOT/resources/css/minRegNote.css" rel="stylesheet" type="text/css">
+	      </c:otherwise>
+	</c:choose>
 	<sec:authentication property="principal" var="userInfo"/>
 </head>
 <body> 
@@ -19,7 +26,14 @@
 		          		받는사람 -
 		          	</span>
 		          	<span>
-		          		<img src="/upload/<c:out value="${to_id}" />.png?${random}" class="memberImage" onerror="this.src='/ROOT/resources/img/profile_img/basicProfile.png'" />
+		          		<c:choose>
+						   	  <c:when test="${pageContext.request.serverName == 'localhost'}">
+									<img src="/upload/<c:out value="${to_id}" />.png?${random}" class="memberImage" onerror="this.src='/resources/img/profile_img/basicProfile.png'" />
+							  </c:when>
+						      <c:otherwise>
+						    		<img src="/upload/<c:out value="${to_id}" />.png?${random}" class="memberImage" onerror="this.src='/ROOT/resources/img/profile_img/basicProfile.png'" />
+						      </c:otherwise>
+						</c:choose>
 		          		${to_nickname} 
 		          	</span>
 		          	<%-- (<span id="to_id">

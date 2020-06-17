@@ -9,7 +9,14 @@
 <head>
 <meta charset="UTF-8">
 	<title>Dokky - 개인정보 변경</title>   
-	<link href="/ROOT/resources/css/myInfoForm.css" rel="stylesheet" type="text/css">
+	<c:choose>
+	   	  <c:when test="${pageContext.request.serverName == 'localhost'}">
+				<link href="/resources/css/myInfoForm.css" rel="stylesheet" type="text/css">
+		  </c:when>
+	      <c:otherwise>
+	    		<link href="/ROOT/resources/css/myInfoForm.css" rel="stylesheet" type="text/css">
+	      </c:otherwise>
+	</c:choose> 
 </head>
 <body>
 <c:set var="random"><%= java.lang.Math.round(java.lang.Math.random() * 123456) %></c:set>
@@ -31,7 +38,14 @@
 			<span class="modprofileText">이미지를 선택해주세요</span>
 			<form action="/mypage/profileFile" id="profileForm" name="profileForm" method="post" enctype="multipart/form-data">
 				<div class="mainImgWrap">  
-					<img class="mainImgtag" id="mainImg" src="/upload/<c:out value="${userInfo.username}" />.png?${random}" onerror="this.src='/ROOT/resources/img/profile_img/basicProfile.png'" />
+					<c:choose>
+					   	  <c:when test="${pageContext.request.serverName == 'localhost'}">
+								<img class="mainImgtag" id="mainImg" src="/upload/<c:out value="${userInfo.username}" />.png?${random}" onerror="this.src='/resources/img/profile_img/basicProfile.png'" />
+						  </c:when>
+					      <c:otherwise>
+								<img class="mainImgtag" id="mainImg" src="/upload/<c:out value="${userInfo.username}" />.png?${random}" onerror="this.src='/ROOT/resources/img/profile_img/basicProfile.png'" />
+					      </c:otherwise>
+					</c:choose> 
 				</div>   
 		        <label for="profile" id="profileSearch">프로필 이미지 찾기</label>    
 				<input type="file" name="profileFile" id="profile" /><br>
@@ -54,7 +68,14 @@
 	     			</td>
 	     			<td class="tableValue">
 	     				<div class="memberProfile">
-							<img src="/upload/<c:out value="${userInfo.username}" />.png?${random}" id="myImage" onerror="this.src='/ROOT/resources/img/profile_img/basicProfile.png'" />
+     						<c:choose>
+							   	  <c:when test="${pageContext.request.serverName == 'localhost'}">
+										<img src="/upload/<c:out value="${userInfo.username}" />.png?${random}" id="myImage" onerror="this.src='/resources/img/profile_img/basicProfile.png'" />
+								  </c:when>
+							      <c:otherwise>
+										<img src="/upload/<c:out value="${userInfo.username}" />.png?${random}" id="myImage" onerror="this.src='/ROOT/resources/img/profile_img/basicProfile.png'" />
+							      </c:otherwise>
+							</c:choose>
 						</div> 
 	     			</td>
 	     		</tr>

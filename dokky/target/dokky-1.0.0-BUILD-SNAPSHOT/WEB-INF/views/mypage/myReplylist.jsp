@@ -9,7 +9,14 @@
 <head>	
 <meta charset="UTF-8">
 <title>Dokky - 나의 댓글</title> 
-<link href="/ROOT/resources/css/myReplylist.css" rel="stylesheet" type="text/css"/>
+<c:choose>
+   	  <c:when test="${pageContext.request.serverName == 'localhost'}">
+			<link href="/resources/css/myReplylist.css" rel="stylesheet" type="text/css"/>
+	  </c:when>
+      <c:otherwise>
+    		<link href="/ROOT/resources/css/myReplylist.css" rel="stylesheet" type="text/css"/>
+      </c:otherwise>
+</c:choose> 
 </head>
 <%@include file="../includes/left.jsp"%>
 <body>

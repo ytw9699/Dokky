@@ -7,7 +7,14 @@
 <head>
 <meta charset="UTF-8">
 <title>Dokky - 글 리스트</title>
-<link href="/ROOT/resources/css/list.css" rel="stylesheet" type="text/css">
+<c:choose>
+   	  <c:when test="${pageContext.request.serverName == 'localhost'}">
+			<link href="/resources/css/list.css" rel="stylesheet" type="text/css">
+	  </c:when>
+      <c:otherwise>
+    		<link href="/ROOT/resources/css/list.css" rel="stylesheet" type="text/css">
+      </c:otherwise>
+</c:choose>
 </head>
 <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
 <%@include file="../includes/left.jsp"%>
@@ -136,7 +143,14 @@
 						</td>
 						<td class="td"> 
 							<a href="#" class="userMenu" data-board_num="${board.board_num}">
-								<img src="/upload/<c:out value="${board.userId}"  />.png?${random}"  class="memberImage hideUsermenu" onerror="this.src='/ROOT/resources/img/profile_img/basicProfile.png'" />
+								<c:choose>
+								   	  <c:when test="${pageContext.request.serverName == 'localhost'}">
+											<img src="/upload/<c:out value="${board.userId}"  />.png?${random}"  class="memberImage hideUsermenu" onerror="this.src='/resources/img/profile_img/basicProfile.png'" />
+									  </c:when>
+								      <c:otherwise>
+								    		<img src="/upload/<c:out value="${board.userId}"  />.png?${random}"  class="memberImage hideUsermenu" onerror="this.src='/ROOT/resources/img/profile_img/basicProfile.png'" />
+								      </c:otherwise>
+								</c:choose>	
 								<c:out value="${board.nickName}" /> 
 							</a> 
 							 <div id="userMenubar_${board.board_num}" class="userMenubar">

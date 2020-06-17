@@ -10,7 +10,14 @@
 	<meta charset="UTF-8">
 	<script src="//code.jquery.com/jquery-1.11.3.min.js"></script>
 	<title>Dokky - 쪽지 상세페이지</title>  
-	<link href="/ROOT/resources/css/detailNotepage.css" rel="stylesheet" type="text/css">
+	<c:choose>
+	   	  <c:when test="${pageContext.request.serverName == 'localhost'}">
+				<link href="/resources/css/detailNotepage.css" rel="stylesheet" type="text/css">
+		  </c:when>
+	      <c:otherwise>
+	    		<link href="/ROOT/resources/css/detailNotepage.css" rel="stylesheet" type="text/css">
+	      </c:otherwise>
+	</c:choose>
 </head>
 <body> 
 <c:set var="random"><%= java.lang.Math.round(java.lang.Math.random() * 123456) %></c:set>
@@ -31,7 +38,14 @@
 					        <c:when test="${note_kind == 'fromNote' || note_kind == 'myNote'}">
 		     					<div class="topData">보낸사람 -
 			          				<a href="#" class="userMenu" data-note_num="${note.note_num}">
-										<img src="/upload/<c:out value="${note.from_id}"/>.png?${random}"  class="memberImage hideUsermenu" onerror="this.src='/ROOT/resources/img/profile_img/basicProfile.png'" />
+										<c:choose>
+										   	  <c:when test="${pageContext.request.serverName == 'localhost'}">
+													<img src="/upload/<c:out value="${note.from_id}"/>.png?${random}"  class="memberImage hideUsermenu" onerror="this.src='/resources/img/profile_img/basicProfile.png'" />
+											  </c:when>
+										      <c:otherwise>
+										    		<img src="/upload/<c:out value="${note.from_id}"/>.png?${random}"  class="memberImage hideUsermenu" onerror="this.src='/ROOT/resources/img/profile_img/basicProfile.png'" />
+										      </c:otherwise>
+										</c:choose>
 										<c:out value="${note.from_nickname}" />
 									</a>   
 									<div id="userMenubar_${note.note_num}" class="userMenubar">
@@ -53,7 +67,14 @@
 							<c:when test="${note_kind == 'toNote'}">
 								<div class="topData">받는사람 -
 			          				<a href="#" class="userMenu" data-note_num="${note.note_num}">
-										<img src="/upload/<c:out value="${note.to_id}"/>.png?${random}"  class="memberImage hideUsermenu" onerror="this.src='/ROOT/resources/img/profile_img/basicProfile.png'" />
+										<c:choose>
+										   	  <c:when test="${pageContext.request.serverName == 'localhost'}">
+													<img src="/upload/<c:out value="${note.to_id}"/>.png?${random}"  class="memberImage hideUsermenu" onerror="this.src='/resources/img/profile_img/basicProfile.png'" />
+											  </c:when>
+										      <c:otherwise>
+										    		<img src="/upload/<c:out value="${note.to_id}"/>.png?${random}"  class="memberImage hideUsermenu" onerror="this.src='/ROOT/resources/img/profile_img/basicProfile.png'" />
+										      </c:otherwise>
+										</c:choose>
 										<c:out value="${note.to_nickname}" /> 
 									</a>   
 									<div id="userMenubar_${note.note_num}" class="userMenubar">

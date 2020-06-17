@@ -9,7 +9,14 @@
 <head>
 <meta charset="UTF-8"> 
 <title>Dokky - 알림</title>
-<link href="/ROOT/resources/css/alarmList.css" rel="stylesheet" type="text/css"/>
+<c:choose>
+   	  <c:when test="${pageContext.request.serverName == 'localhost'}">
+			<link href="/resources/css/alarmList.css" rel="stylesheet" type="text/css"/>
+	  </c:when>
+      <c:otherwise>
+    		<link href="/ROOT/resources/css/alarmList.css" rel="stylesheet" type="text/css"/>
+      </c:otherwise>
+</c:choose>
 </head>
 <%@include file="../includes/left.jsp"%>
 
@@ -36,7 +43,14 @@
 	                    
 	                    <td class="td"> 
 							<a href="#" class="userMenu" data-alarm_num="${alarm.alarmNum}">
-								<img src="/upload/<c:out value="${alarm.writerId}" />.png?${random}"  class="memberImage hideUsermenu" onerror="this.src='/ROOT/resources/img/profile_img/basicProfile.png'" />
+								<c:choose>
+								   	  <c:when test="${pageContext.request.serverName == 'localhost'}">
+											<img src="/upload/<c:out value="${alarm.writerId}" />.png?${random}"  class="memberImage hideUsermenu" onerror="this.src='/resources/img/profile_img/basicProfile.png'" />
+									  </c:when>
+								      <c:otherwise>
+								    		<img src="/upload/<c:out value="${alarm.writerId}" />.png?${random}"  class="memberImage hideUsermenu" onerror="this.src='/ROOT/resources/img/profile_img/basicProfile.png'" />
+								      </c:otherwise>
+								</c:choose>
 								<c:out value="${alarm.writerNick}" /> 
 							</a>
 							 
