@@ -17,12 +17,14 @@ public interface MemberMapper {
 
 	public int emailCheckedCount(String inputEmail);
 
-	public void updateLoginDate(String userName);
-
 	public List<BoardVO> getRealtimeList();
 
 	public List<BoardVO> getMonthlyList();
 
 	public List<BoardVO> getDonationList();
+	
+	public int updatePreLoginDate(String userName);
+
+	public int updatelastLoginDate(String userName);
 	
 }

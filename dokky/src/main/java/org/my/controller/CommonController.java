@@ -211,7 +211,7 @@ public class CommonController {
 		
 		SecurityContextHolder.getContext().setAuthentication(auth);//Authentication 인증객체를 SecurityContext에 보관
 		
-		memberMapper.updateLoginDate(profileId);//로긴날짜찍기
+		memberService.updateLoginDate(profileId); //로긴날짜찍기
 		
 		HttpSession session = request.getSession();
 		

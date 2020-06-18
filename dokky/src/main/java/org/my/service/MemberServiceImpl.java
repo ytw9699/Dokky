@@ -82,4 +82,13 @@ public class MemberServiceImpl implements MemberService {
 
 		return mapper.getDonationList();
 	}
+	
+	@Transactional
+	@Override 
+	public boolean updateLoginDate(String userName) {
+		
+		log.info("updateLoginDate..."); 
+		
+		return mapper.updatePreLoginDate(userName) == 1 && mapper.updatelastLoginDate(userName) == 1;
+	}
 }

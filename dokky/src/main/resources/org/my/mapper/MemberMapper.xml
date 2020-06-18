@@ -22,7 +22,7 @@
 	    <result property="userPw" column="userpw"/>
 	    <result property="nickName" column="nickname"/>
 	    <result property="regDate" column="regdate"/>
-	    <result property="loginDate" column="logindate"/>
+	    <result property="preLoginDate" column="preLoginDate"/>
     <collection property="authList" resultMap="authMap"></collection> 
   </resultMap>
 	<!--    회원 정보는 MemberVO 하나이고，AuthVO는 2개가 되어야 하는
@@ -34,7 +34,7 @@
   
   <select id="read" resultMap="memberMap">
 	SELECT 
-	  mem.userid, userpw, nickname, enabled, regdate, logindate, auth
+	  mem.userid, userpw, nickname, enabled, regdate, preLoginDate, auth
 	FROM 
 	  dk_member mem LEFT OUTER JOIN dk_member_auth auth on mem.userid = auth.userid 
 	WHERE mem.userid = #{userId} 
@@ -80,9 +80,14 @@
 	 	select count(*) from dk_member where email= #{inputEmail}
 	 </select>
 	 
-	 <!-- 로긴 접속 날짜 업데이트 -->
-	 <update id="updateLoginDate">
-	 	update dk_member set loginDate = sysdate where userId = #{userId} 
+	 <!-- 가장 마지막 이전의 로그인 날짜 업데이트 -->
+	 <update id="updatePreLoginDate">
+	 	update dk_member set preLoginDate = lastLoginDate where userId = #{userId} 
+	 </update>
+	 
+	 <!-- 가장 마지막 로그인날짜 -->
+	 <update id="updatelastLoginDate">
+	 	update dk_member set lastLoginDate = sysdate where userId = #{userId} 
 	 </update>
 	 
 	 <select id="getRealtimeList" resultType="org.my.domain.BoardVO"> 

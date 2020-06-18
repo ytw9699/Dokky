@@ -87,7 +87,8 @@
 	      bankName varchar2(50),
 	      account varchar2(50),
 	      regDate date default sysdate, 
-	      loginDate date default sysdate,
+	      preLoginDate date default sysdate, --가장 마지막 이전의 로그인 날짜
+	      lastLoginDate date default sysdate, -- 가장 마지막 로그인날짜
 	      enabled char(1) default '1'--enabled는 스프링 시큐리티에서 사용하는 값. 현재 사용자 계정이 유효한가를 의미
 	);
 	

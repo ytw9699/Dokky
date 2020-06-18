@@ -21,4 +21,5 @@ public interface MemberService {
 
 	public List<BoardVO> getDonationList();
 	
+	public boolean updateLoginDate(String userName);
 }
