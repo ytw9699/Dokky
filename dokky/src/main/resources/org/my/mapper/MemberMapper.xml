@@ -21,8 +21,6 @@
 	    <result property="userId" column="userid"/>
 	    <result property="userPw" column="userpw"/>
 	    <result property="nickName" column="nickname"/>
-	    <result property="regDate" column="regdate"/>
-	    <result property="preLoginDate" column="preLoginDate"/>
     <collection property="authList" resultMap="authMap"></collection> 
   </resultMap>
 	<!--    회원 정보는 MemberVO 하나이고，AuthVO는 2개가 되어야 하는
@@ -32,12 +30,12 @@
 	여러 개의 데이터를 처리하는 경우 1:N의 결과를 처리할수 있는〈resultMap〉태그를 지
 	원. -->
   
-  <select id="read" resultMap="memberMap">
-	SELECT 
-	  mem.userid, userpw, nickname, enabled, regdate, preLoginDate, auth
-	FROM 
-	  dk_member mem LEFT OUTER JOIN dk_member_auth auth on mem.userid = auth.userid 
-	WHERE mem.userid = #{userId} 
+  <select id="readMembers" resultMap="memberMap">
+		SELECT 
+		  mem.userid, userpw, nickname, auth
+		FROM 
+		  dk_member mem LEFT OUTER JOIN dk_member_auth auth on mem.userid = auth.userid 
+		WHERE mem.userid = #{userId} 
   </select>
   	
   	 <!-- 회원가입 -->
