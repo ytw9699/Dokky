@@ -5,7 +5,7 @@ package org.my.mapper;
 
 public interface MemberMapper {
 
-	public MemberVO read(String userId);
+	public MemberVO readMembers(String userId);
 
 	public int registerMembers(MemberVO vo);
 

@@ -12,9 +12,9 @@ package org.my.controller;
 	import org.my.domain.PageDTO;
 	import org.my.domain.cashVO;
 	import org.my.domain.checkVO;
-	import org.my.mapper.MemberMapper;
 	import org.my.security.domain.CustomUser;
 	import org.my.service.BoardService;
+	import org.my.service.MemberService;
 	import org.my.service.MypageService;
 	import org.springframework.beans.factory.annotation.Autowired;
 	import org.springframework.http.HttpStatus;
@@ -57,8 +57,8 @@ public class MypageController {
 	@Setter(onMethod_ = @Autowired)
 	private PasswordEncoder pwencoder;
 	
-	@Setter(onMethod_ = { @Autowired })
-	private MemberMapper memberMapper;
+	@Setter(onMethod_ = @Autowired)
+	private MemberService memberService;
 	
 	@PreAuthorize("principal.username == #userId") 
  	@GetMapping("/myInfoForm")  
@@ -107,7 +107,7 @@ public class MypageController {
 			
 			rttr.addFlashAttribute("myInfo", service.getMyInfo(userId));
 			
-			MemberVO vo = memberMapper.read(userId);//소셜에서 가져온 프로필에 해당하는 개인정보를 db에서 불러온다
+			MemberVO vo = memberService.readMembers(userId);//소셜에서 가져온 프로필에 해당하는 개인정보를 db에서 불러온다
 			
 			List<AuthVO> AuthList = vo.getAuthList();//사용자의 권한 정보만 list로 가져온다
 			

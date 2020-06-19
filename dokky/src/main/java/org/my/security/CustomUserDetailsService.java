@@ -16,9 +16,6 @@ package org.my.security;
 @Log4j
 public class CustomUserDetailsService implements UserDetailsService {
 
-	@Setter(onMethod_ = { @Autowired })
-	private MemberMapper memberMapper;
-	
 	@Setter(onMethod_ = @Autowired)
 	private MemberService memberService;
 
@@ -27,8 +24,8 @@ public class CustomUserDetailsService implements UserDetailsService {
 		
 		log.warn("Load User By UserName(userId) : " + userName);// userName means userId
 		
-		MemberVO vo = memberMapper.read(userName);// userName means userId
-		
+		MemberVO vo = memberService.readMembers(userName);// userName means userId
+				
 		log.warn("queried by member mapper: " + vo);
 		
 		if(vo == null ) {

@@ -5,6 +5,8 @@ package org.my.service;
 
 public interface MemberService {
 	 
+	public MemberVO readMembers(String userId);
+	
 	public boolean registerMembers(MemberVO vo);
 	
 	public boolean registerAdminMembers(MemberVO vo);

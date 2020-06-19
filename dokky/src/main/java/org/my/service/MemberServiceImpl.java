@@ -16,6 +16,14 @@ public class MemberServiceImpl implements MemberService {
 	@Setter(onMethod_ = @Autowired)
 	private MemberMapper mapper;
 	
+	@Override 
+	public MemberVO readMembers(String userId){
+
+		log.info("readMembers..."+userId);
+		
+		return mapper.readMembers(userId);
+	}
+	
 	@Transactional
 	@Override 
 	public boolean registerMembers(MemberVO vo) {
