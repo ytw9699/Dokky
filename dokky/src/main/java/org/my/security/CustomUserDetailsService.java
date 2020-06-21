@@ -1,5 +1,6 @@
 package org.my.security;
 	import org.my.security.domain.CustomUser;
+	import org.my.service.MemberService;
 	import org.springframework.beans.factory.annotation.Autowired;
 	import org.springframework.security.authentication.BadCredentialsException;
 	import org.springframework.security.core.userdetails.UserDetails;
@@ -15,16 +16,16 @@ package org.my.security;
 @Log4j
 public class CustomUserDetailsService implements UserDetailsService {
 
-	@Setter(onMethod_ = { @Autowired })
-	private MemberMapper memberMapper;
+	@Setter(onMethod_ = @Autowired)
+	private MemberService memberService;
 
 	@Override
 	public UserDetails loadUserByUsername(String userName) throws UsernameNotFoundException {
 		
 		log.warn("Load User By UserName(userId) : " + userName);// userName means userId
 		
-		MemberVO vo = memberMapper.read(userName);// userName means userId
-		
+		MemberVO vo = memberService.readMembers(userName);// userName means userId
+				
 		log.warn("queried by member mapper: " + vo);
 		
 		if(vo == null ) {
@@ -40,7 +41,7 @@ public class CustomUserDetailsService implements UserDetailsService {
 			}
 		}
 		
-		memberMapper.updateLoginDate(userName);//로긴날짜찍기
+		memberService.updateLoginDate(userName); //로긴날짜찍기
 		
 		return new CustomUser(vo);
 	} 

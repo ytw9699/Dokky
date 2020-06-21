@@ -16,6 +16,14 @@ public class MemberServiceImpl implements MemberService {
 	@Setter(onMethod_ = @Autowired)
 	private MemberMapper mapper;
 	
+	@Override 
+	public MemberVO readMembers(String userId){
+
+		log.info("readMembers..."+userId);
+		
+		return mapper.readMembers(userId);
+	}
+	
 	@Transactional
 	@Override 
 	public boolean registerMembers(MemberVO vo) {
@@ -81,5 +89,14 @@ public class MemberServiceImpl implements MemberService {
 		log.info("getDonationList: ");
 
 		return mapper.getDonationList();
+	}
+	
+	@Transactional
+	@Override 
+	public boolean updateLoginDate(String userName) {
+		
+		log.info("updateLoginDate..."); 
+		
+		return mapper.updatePreLoginDate(userName) == 1 && mapper.updatelastLoginDate(userName) == 1;
 	}
 }

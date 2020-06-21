@@ -9,7 +9,14 @@
 <head>
 <meta charset="UTF-8"> 
 	<title>Dokky - 캐시</title>
-	<link href="/ROOT/resources/css/myCashInfo.css" rel="stylesheet" type="text/css"/> 
+	<c:choose>
+	   	  <c:when test="${pageContext.request.serverName == 'localhost'}">
+				<link href="/resources/css/myCashInfo.css" rel="stylesheet" type="text/css"/>
+		  </c:when>
+	      <c:otherwise>
+	    		<link href="/ROOT/resources/css/myCashInfo.css" rel="stylesheet" type="text/css"/>
+	      </c:otherwise>
+	</c:choose> 
 </head>
 <body>
 	<sec:authentication property="principal" var="userInfo"/>

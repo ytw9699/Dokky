@@ -22,10 +22,12 @@ public class CustomAccessDeniedHandler implements AccessDeniedHandler {
     
    if(request.getRequestURI().substring(0,6).equals("/admin")) {//관리자관련 접속시
 		//if(!request.isUserInRole("ROLE_ADMIN")) {//관리자가 아니라면
+	   	    log.error("Access Denied ROLE_ADMIN");
 			response.sendRedirect("/adminError");
 			return;
 		//}
 	}
+   
     //Principal userinfo = request.getUserPrincipal();//로그인 한 사용자 정보를 가지고 있는 객체를 반환. 기본은 UserDetails 타입의 객체
 	//log.error(userinfo); 
     //String request.getRemoteUser() :  사용자 아이디가 반환. UserDetails객체의 getUsername() 을 호출한 반환값.

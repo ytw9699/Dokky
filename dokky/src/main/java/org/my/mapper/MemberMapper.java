@@ -5,7 +5,7 @@ package org.my.mapper;
 
 public interface MemberMapper {
 
-	public MemberVO read(String userId);
+	public MemberVO readMembers(String userId);
 
 	public int registerMembers(MemberVO vo);
 
@@ -17,12 +17,14 @@ public interface MemberMapper {
 
 	public int emailCheckedCount(String inputEmail);
 
-	public void updateLoginDate(String userName);
-
 	public List<BoardVO> getRealtimeList();
 
 	public List<BoardVO> getMonthlyList();
 
 	public List<BoardVO> getDonationList();
+	
+	public int updatePreLoginDate(String userName);
+
+	public int updatelastLoginDate(String userName);
 	
 }

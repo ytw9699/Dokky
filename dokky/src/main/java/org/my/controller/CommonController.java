@@ -7,22 +7,21 @@ import java.util.List;
 	import java.util.Locale;
 import java.util.Random;
 
-import javax.servlet.http.Cookie;
-import javax.servlet.http.HttpServletRequest;
-import javax.servlet.http.HttpServletResponse;
-import javax.servlet.http.HttpSession;
+	import javax.servlet.http.Cookie;
+	import javax.servlet.http.HttpServletRequest;
+	import javax.servlet.http.HttpServletResponse;
+	import javax.servlet.http.HttpSession;
 	import org.my.auth.SNSLogin;
 	import org.my.auth.SnsValue;
-import org.my.domain.AuthVO;
-import org.my.domain.Criteria;
+	import org.my.domain.AuthVO;
+	import org.my.domain.Criteria;
 	import org.my.domain.MemberVO;
 	import org.my.domain.PageDTO;
 	import org.my.domain.cashVO;
 	import org.my.domain.noteVO;
-	import org.my.mapper.MemberMapper;
 	import org.my.security.domain.CustomUser;
-import org.my.service.AdminService;
-import org.my.service.CommonService;
+	import org.my.service.AdminService;
+	import org.my.service.CommonService;
 	import org.my.service.MemberService;
 	import org.my.service.MypageService;
 	import org.springframework.beans.factory.annotation.Autowired;
@@ -35,8 +34,8 @@ import org.my.service.CommonService;
 	import org.springframework.security.core.context.SecurityContextHolder;
 	import org.springframework.security.core.userdetails.User;
 	import org.springframework.security.crypto.password.PasswordEncoder;
-import org.springframework.security.web.savedrequest.SavedRequest;
-import org.springframework.stereotype.Controller;
+	import org.springframework.security.web.savedrequest.SavedRequest;
+	import org.springframework.stereotype.Controller;
 	import org.springframework.ui.Model;
 	import org.springframework.web.bind.annotation.GetMapping;
 	import org.springframework.web.bind.annotation.ModelAttribute;
@@ -74,9 +73,6 @@ public class CommonController {
 	
 	@Setter(onMethod_ = @Autowired)
 	private SnsValue googleSns;
-	
-	@Setter(onMethod_ = { @Autowired })
-	private MemberMapper memberMapper;
 	
 	@Setter(onMethod_ = @Autowired)
 	private AdminService adminService;
@@ -127,7 +123,7 @@ public class CommonController {
 			
 			rttr.addFlashAttribute("check", "가입완료 되었습니다.");
 			
-			MemberVO profile = memberMapper.read(vo.getUserId());//소셜에서 가져온 프로필에 해당하는 개인정보를 db에서 불러온다
+			MemberVO profile = memberService.readMembers(vo.getUserId());//소셜에서 가져온 프로필에 해당하는 개인정보를 db에서 불러온다
 			
 			List<AuthVO> AuthList = profile.getAuthList();//사용자의 권한 정보만 list로 가져온다
 			
@@ -185,7 +181,7 @@ public class CommonController {
 			return "common/memberForm";
 		}
 		
-		MemberVO vo = memberMapper.read(profileId);//소셜에서 가져온 프로필에 해당하는 개인정보를 db에서 불러온다
+		MemberVO vo = memberService.readMembers(profileId);//소셜에서 가져온 프로필에 해당하는 개인정보를 db에서 불러온다
 		
 		List<AuthVO> AuthList = vo.getAuthList();//사용자의 권한 정보만 list로 가져온다
 		
@@ -211,7 +207,7 @@ public class CommonController {
 		
 		SecurityContextHolder.getContext().setAuthentication(auth);//Authentication 인증객체를 SecurityContext에 보관
 		
-		memberMapper.updateLoginDate(profileId);//로긴날짜찍기
+		memberService.updateLoginDate(profileId); //로긴날짜찍기
 		
 		HttpSession session = request.getSession();
 		

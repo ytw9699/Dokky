@@ -8,7 +8,14 @@
 <head>
 <meta charset="UTF-8">
 	<title>Dokky - 권한부여관리</title>
-<link href="/ROOT/resources/css/authorizationList.css" rel="stylesheet" type="text/css"/>
+<c:choose>
+   	  <c:when test="${pageContext.request.serverName == 'localhost'}">
+			<link href="/resources/css/authorizationList.css" rel="stylesheet" type="text/css"/>
+	  </c:when>
+      <c:otherwise>
+    		<link href="/ROOT/resources/css/authorizationList.css" rel="stylesheet" type="text/css"/>
+      </c:otherwise>
+</c:choose>
 </head> 
 <%@include file="../includes/left.jsp"%>
 <c:set var="random"><%= java.lang.Math.round(java.lang.Math.random() * 123456) %></c:set>
@@ -46,7 +53,14 @@
 				<div class="memberInfoWrap">
 					<div class="memberProfile">
 						<%-- <img src="/resources/img/profile_img/<c:out value="${user.userId}"/>.png" id="memberProfile" onerror="this.src='/resources/img/profile_img/basicProfile.png'" /> --%>
-						<img src="/upload/<c:out value="${user.userId}"/>.png?${random}" id="memberProfile" onerror="this.src='/ROOT/resources/img/profile_img/basicProfile.png'" />
+						<c:choose>
+						   	  <c:when test="${pageContext.request.serverName == 'localhost'}">
+									<img src="/upload/<c:out value="${user.userId}"/>.png?${random}" id="memberProfile" onerror="this.src='/resources/img/profile_img/basicProfile.png'" />6
+							  </c:when>
+						      <c:otherwise>
+						    		<img src="/upload/<c:out value="${user.userId}"/>.png?${random}" id="memberProfile" onerror="this.src='/ROOT/resources/img/profile_img/basicProfile.png'" />
+						      </c:otherwise>
+						</c:choose>
 					</div>		 		 												 									
 					<div class="memberInfo">
 						<span class="nickName"><c:out value="${user.nickName}" /></span>

@@ -144,7 +144,7 @@
 	     				최근 로그인  
 	     			</td>
 	     			<td class="tableValue"> 
-	     				<fmt:formatDate value="${myInfo.loginDate}" pattern="yyyy-MM-dd HH:mm" />
+	     				<fmt:formatDate value="${myInfo.preLoginDate}" pattern="yyyy-MM-dd HH:mm" />
 	     			</td>
 	     		</tr>
 	     	</table> 
