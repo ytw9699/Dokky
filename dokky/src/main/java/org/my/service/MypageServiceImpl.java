@@ -224,7 +224,13 @@ public class MypageServiceImpl implements MypageService {
 		mapper.removeScrap(scrap_num);
 	}
 	
-	
+	@Override 
+	public boolean myWithdrawal(String userId){
+
+		log.info("myWithdrawal...");
+		
+		return mapper.updateEnabled(userId) == 1;
+	}
 	
 }
 
