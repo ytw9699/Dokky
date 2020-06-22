@@ -1,12 +1,19 @@
 package org.my.service;
 	import java.util.List;
-	import org.my.domain.Criteria;
+
+import javax.servlet.http.Cookie;
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
+
+import org.my.domain.Criteria;
 	import org.my.domain.VisitCountVO;
 	import org.my.domain.alarmVO;
 	import org.my.domain.noteVO;
 	import org.my.mapper.CommonMapper;
 	import org.springframework.beans.factory.annotation.Autowired;
-	import org.springframework.stereotype.Service;
+import org.springframework.security.core.Authentication;
+import org.springframework.security.core.context.SecurityContextHolder;
+import org.springframework.stereotype.Service;
 	import lombok.Setter;
 	import lombok.extern.log4j.Log4j;
 
@@ -248,6 +255,25 @@ public class CommonServiceImpl implements CommonService {
 		log.info("insertNote : " + vo); 
 		
 		return mapper.insertNote(vo) ;
+	}
+	
+	@Override 
+	public void logout(HttpServletRequest request, HttpServletResponse response, Authentication authentication) {  
+		
+		log.info("logout"); 
+		
+		if(authentication != null) {
+			log.info(SecurityContextHolder.getContext().getAuthentication().getPrincipal());
+			SecurityContextHolder.getContext().setAuthentication(null);//인증 풀기
+		}
+		
+		request.getSession().invalidate();//세션무효화
+
+		Cookie JSESSIONID = new Cookie("JSESSIONID", null);
+
+		JSESSIONID.setMaxAge(0);
+
+		response.addCookie(JSESSIONID);//쿠키 삭제
 	}
 	
 }

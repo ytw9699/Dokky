@@ -19,7 +19,8 @@ import org.my.domain.AuthVO;
 	import org.my.domain.checkVO;
 	import org.my.security.domain.CustomUser;
 	import org.my.service.BoardService;
-	import org.my.service.MemberService;
+import org.my.service.CommonService;
+import org.my.service.MemberService;
 	import org.my.service.MypageService;
 	import org.springframework.beans.factory.annotation.Autowired;
 	import org.springframework.http.HttpStatus;
@@ -64,6 +65,10 @@ public class MypageController {
 	
 	@Setter(onMethod_ = @Autowired)
 	private MemberService memberService;
+	
+	@Setter(onMethod_ = @Autowired)
+	private CommonService commonService;
+	
 	
 	@PreAuthorize("principal.username == #userId") 
  	@GetMapping("/myInfoForm")  
@@ -320,17 +325,7 @@ public class MypageController {
 			
 			log.info("/logout");
 			
-			if(authentication != null) {
-				SecurityContextHolder.getContext().setAuthentication(null);
-			}
-			
-			request.getSession().invalidate();
-
-			Cookie JSESSIONID = new Cookie("JSESSIONID", null);
-
-			JSESSIONID.setMaxAge(0);
-
-			response.addCookie(JSESSIONID);
+			commonService.logout(request, response, authentication);
 			
 			return "redirect:/socialLogin";
 			

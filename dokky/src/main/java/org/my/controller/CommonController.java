@@ -486,19 +486,8 @@ public class CommonController {
 		
 		log.info("/logout");
 		
-		if(authentication != null) {
-			log.info(SecurityContextHolder.getContext().getAuthentication().getPrincipal());
-			SecurityContextHolder.getContext().setAuthentication(null);//인증 풀기
-		}
-		
-		request.getSession().invalidate();//세션무효화
-
-		Cookie JSESSIONID = new Cookie("JSESSIONID", null);
-
-		JSESSIONID.setMaxAge(0);
-
-		response.addCookie(JSESSIONID);// 쿠키 삭제
-		
+		commonService.logout(request, response, authentication);
+			
 		return "redirect:/socialLogin";
 	}
 	
