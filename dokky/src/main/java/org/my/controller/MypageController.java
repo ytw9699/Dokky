@@ -69,7 +69,6 @@ public class MypageController {
 	@Setter(onMethod_ = @Autowired)
 	private CommonService commonService;
 	
-	
 	@PreAuthorize("principal.username == #userId") 
  	@GetMapping("/myInfoForm")  
 	public String myInfoForm(@RequestParam("userId") String userId, Model model) { //내 개인정보 변경폼
@@ -319,22 +318,22 @@ public class MypageController {
 	public String myWithdrawal(@RequestParam("userId") String userId, Model model,
 		HttpServletRequest request, HttpServletResponse response, Authentication authentication) {//탈퇴 하기 메소드
 		
-		log.info("/mypage/myWithdrawal");
-		
-		if(service.myWithdrawal(userId)) {//db에서 회원탈퇴 처리가 되었다면 로그아웃 처리 하기
+			log.info("/mypage/myWithdrawal");
 			
-			log.info("/logout");
-			
-			commonService.logout(request, response, authentication);
-			
-			return "redirect:/socialLogin";
-			
-		}else {
-			
-			model.addAttribute("message", "탈퇴 불가 합니다 관리자에게 문의해주세요");
-			
-			return "error/commonError";
-		}
+			if(service.myWithdrawal(userId)) {//db에서 회원탈퇴 처리가 되었다면 로그아웃 처리 하기
+				
+					log.info("/logout");
+					
+					commonService.logout(request, response, authentication);
+					
+					return "redirect:/socialLogin";
+				
+			}else {
+				
+					model.addAttribute("message", "탈퇴 불가 합니다 관리자에게 문의해주세요");
+					
+					return "error/commonError";
+			}
 	}
 	
 	@PostMapping(value = "/chargeData", produces = "text/plain; charset=UTF-8")

@@ -64,6 +64,8 @@ public interface CommonService {
 	
 	public void logout(HttpServletRequest request, HttpServletResponse response, Authentication authentication);
 
+	public int getEnabled(String userId);
+	
 	public String tests1();
 
 	public String tests2();

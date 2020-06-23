@@ -637,15 +637,17 @@ public class CommonController {
 		int total = mypageService.getMyBoardCount(cri);
 		
 		model.addAttribute("pageMaker", new PageDTO(cri, total));
-		model.addAttribute("boardTotal",total);  
+		model.addAttribute("boardTotal", total);  
 		model.addAttribute("replyTotal", mypageService.getMyReplyCount(cri));
+		model.addAttribute("enabled", commonService.getEnabled(cri.getUserId()));
 		
 		if(pageLocation == null) {
 			return "common/userBoardList"; 
 		}else if(pageLocation.equals("admin")) {
 			return "admin/userBoardList";
-		}  
-			return "common/userBoardList";    
+		}else { 
+			return "common/userBoardList";
+		}
 	} 
 	
 	@PreAuthorize("isAuthenticated()")
@@ -786,9 +788,10 @@ public class CommonController {
 	@PreAuthorize("hasAnyRole('ROLE_ADMIN','ROLE_USER','ROLE_SUPER')")
 	@GetMapping("/minRegNote")
 	public String minRegNote(@RequestParam("userId")String userId, @RequestParam("nickname")String nickname, Model model) {
-			
+		
 		model.addAttribute("to_id", userId);
 		model.addAttribute("to_nickname", nickname);
+		model.addAttribute("enabled", commonService.getEnabled(userId));
 		
 		return "common/minRegNote";
 	}

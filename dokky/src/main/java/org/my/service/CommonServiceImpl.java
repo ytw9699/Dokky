@@ -276,4 +276,12 @@ public class CommonServiceImpl implements CommonService {
 		response.addCookie(JSESSIONID);//쿠키 삭제
 	}
 	
+	@Override 
+	public int getEnabled(String userId){  
+
+		log.info("getEnabled : " + userId); 
+		
+		return mapper.getEnabled(userId);
+	}
+	
 }
