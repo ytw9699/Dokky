@@ -34,7 +34,14 @@
 						    		<img src="/upload/<c:out value="${to_id}" />.png?${random}" class="memberImage" onerror="this.src='/ROOT/resources/img/profile_img/basicProfile.png'" />
 						      </c:otherwise>
 						</c:choose>
-		          		${to_nickname} 
+						<c:choose>
+						   	  <c:when test="${enabled == 1}">
+									${to_nickname} 
+							  </c:when>
+						      <c:otherwise>
+						    		탈퇴회원
+						      </c:otherwise>
+						</c:choose>
 		          	</span>
 		          	<%-- (<span id="to_id">
 		          		 ${to_id}
@@ -42,12 +49,21 @@
 	          </div>
 	          
 	          <div class="row">
-	          		<textarea id="content" placeholder="내용을 입력해 주세요." oninput="checkLength(this,1300);" autofocus></textarea> 
+	          			<c:choose>
+						   	  <c:when test="${enabled == 1}">
+									<textarea id="content" placeholder="내용을 입력해 주세요." oninput="checkLength(this,1300);" autofocus></textarea> 
+							  </c:when>
+						      <c:otherwise>
+						    		<textarea id="content" placeholder="탈퇴회원에게는 쪽지를 보낼 수 없습니다." oninput="checkLength(this,1300);" autofocus></textarea>
+						      </c:otherwise>
+						</c:choose>
 	          </div>
 	         
-	          <div class="submitBtnWrap">  
-		          	<button type="submit" class="btn" id="submitBtn">보내기</button>    
-		          	<button type="button" class="btn" id="cancel" onclick="window.close()">취소</button>
+	          <div class="submitBtnWrap">
+				   	  <c:if test="${enabled == 1}">
+							<button type="submit" class="btn" id="submitBtn">보내기</button> 
+					  </c:if> 
+		          	  <button type="button" class="btn" id="cancel" onclick="window.close()">취소</button>
 	          </div>
 	    </div> 
 	    

@@ -30,6 +30,7 @@
 		        <button onclick="location.href='myReplylist?userId=${userInfo.username}'">나의 댓글</button> 
 		        <button onclick="location.href='myScraplist?userId=${userInfo.username}'">나의 스크랩</button>
 		        <button onclick="location.href='myCashInfo?userId=${userInfo.username}'">나의 캐시</button>
+		        <button onclick="location.href='myWithdrawalForm?userId=${userInfo.username}'">탈퇴 하기</button>
 		    </div> 
 		</div>
 		<!-- 프로필 이미지 관련 -->
@@ -145,7 +146,7 @@
 	     				최근 로그인  
 	     			</td>
 	     			<td class="tableValue"> 
-	     				<fmt:formatDate value="${myInfo.loginDate}" pattern="yyyy-MM-dd HH:mm" />
+	     				<fmt:formatDate value="${myInfo.preLoginDate}" pattern="yyyy-MM-dd HH:mm" />
 	     			</td>
 	     		</tr>
 	     	</table> 

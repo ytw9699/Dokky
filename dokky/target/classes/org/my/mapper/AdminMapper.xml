@@ -182,7 +182,7 @@
 	    <result property="bankName" column="bankName"/>
 	    <result property="account" column="account"/>
 	    <result property="regDate" column="regdate"/>
-	    <result property="loginDate" column="logindate"/>
+	    <result property="preLoginDate" column="preLoginDate"/>
     <collection property="authList" resultMap="authMap"></collection> 
   </resultMap>
 	
@@ -193,7 +193,7 @@
 			  , bankName
 			  , account
 			  , regdate
-			  , logindate
+			  , preLoginDate
 			  , auth
 		 FROM 
 		  	dk_member mem LEFT OUTER JOIN dk_member_auth auth on mem.userid = auth.userid 

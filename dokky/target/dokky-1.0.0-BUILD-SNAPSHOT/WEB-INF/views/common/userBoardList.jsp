@@ -23,8 +23,13 @@
 <div class="userBoardWrap">	
 
 		<div id="userId">
-		      	${userBoard[0].nickName} 회원님의 게시글
+				<c:if test="${enabled == 0}">
+						탈퇴회원 입니다.
+		        </c:if>
+		        <c:if test="${enabled == 1}">
+						${userBoard[0].nickName} 회원님의 게시글
 		      	<%-- ${pageMaker.cri.nickName} --%>
+		        </c:if>
 		</div>
 		
 		<div id="menuWrap"> 

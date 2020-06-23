@@ -320,4 +320,8 @@
 						  ]]>
 	   </select>
 	   
+	   <select id="getEnabled" resultType="int">
+			select enabled from dk_member where userId = #{userId}
+       </select>
+	   
 </mapper>
