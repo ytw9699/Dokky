@@ -64,6 +64,19 @@
 	 </insert>
 	 <!-- 회원가입 -->
 	 
+	 <!-- 재 회원가입 -->
+     <update id="reRegisterMembers">
+			update dk_member set nickName= #{nickName},
+								 bankname= #{bankName},
+								 account=#{account},
+								 regDate = sysdate,
+								 preLoginDate = sysdate,
+								 lastLoginDate = sysdate,
+								 enabled = 1
+						   where userid = #{userId}
+	 </update>
+	 <!-- 재 회원가입 -->
+	 
 	 <!-- 아이디 중복 체크 카운트 구하기 -->
 	 <select id="IdCheckedCount" resultType="int">
 	 	select count(*) from dk_member where userId= #{inputId}
