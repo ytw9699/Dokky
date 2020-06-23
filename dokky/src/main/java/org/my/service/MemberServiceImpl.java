@@ -37,6 +37,15 @@ public class MemberServiceImpl implements MemberService {
 	
 	@Transactional
 	@Override 
+	public boolean reRegisterMembers(MemberVO vo) {
+
+		log.info("reRegisterMembers..." + vo);
+		
+		return mapper.reRegisterMembers(vo) == 1;
+	}
+	
+	@Transactional
+	@Override 
 	public boolean registerAdminMembers(MemberVO vo) {
 
 		log.info("registerAdminMembers..." + vo);

@@ -147,6 +147,39 @@ public class CommonController {
 			return "redirect:/socialLogin"; 
 	}
 	
+	@PostMapping("/remembers") 
+	public String postReMembers(MemberVO vo, Model model, RedirectAttributes rttr) {//재 회원가입
+		
+		log.info("/remembers: vo" + vo); 
+		
+		if(memberService.reRegisterMembers(vo)){
+			
+			rttr.addFlashAttribute("check", "재가입완료 되었습니다.");
+			
+			MemberVO profile = memberService.readMembers(vo.getUserId());//소셜에서 가져온 프로필에 해당하는 개인정보를 db에서 불러온다
+			
+			List<AuthVO> AuthList = profile.getAuthList();//사용자의 권한 정보만 list로 가져온다
+			
+			List<GrantedAuthority> roles = new ArrayList<>(1);// 인증해줄 권한 리스트를 만든다
+			
+			Iterator<AuthVO> it = AuthList.iterator();
+			
+			while (it.hasNext()) {
+				AuthVO authVO = it.next(); 
+				roles.add(new SimpleGrantedAuthority(authVO.getAuth()));// 가져온 사용자의 권한을 리스트에 담아준다
+	        }
+			
+			Authentication auth = new UsernamePasswordAuthenticationToken(new CustomUser(profile), null, roles);//사용자의 인증객체를 만든다
+			
+			SecurityContextHolder.getContext().setAuthentication(auth);//Authentication 인증객체를 SecurityContext에 보관
+			
+			return "redirect:/main";
+		}
+		
+			rttr.addFlashAttribute("check", "가입실패 하였습니다 관리자에게 문의주세요.");
+			return "redirect:/socialLogin"; 
+	}
+	
 	
 	@RequestMapping(value = "/auth/{snsService}/callback", method = { RequestMethod.GET, RequestMethod.POST})
 	public String snsLoginCallback(@PathVariable String snsService, Model model, 
@@ -182,6 +215,16 @@ public class CommonController {
 		}
 		
 		MemberVO vo = memberService.readMembers(profileId);//소셜에서 가져온 프로필에 해당하는 개인정보를 db에서 불러온다
+		
+		if(!vo.isEnabled()){//탈퇴한 회원 이라면
+			
+			model.addAttribute("id", profileId);
+			model.addAttribute("nickName", profile.getNickName());
+			model.addAttribute("bankName", vo.getBankName());
+			model.addAttribute("account", vo.getAccount());
+			
+			return "common/reMemberForm";
+		}
 		
 		List<AuthVO> AuthList = vo.getAuthList();//사용자의 권한 정보만 list로 가져온다
 		
