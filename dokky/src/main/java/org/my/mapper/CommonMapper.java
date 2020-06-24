@@ -1,6 +1,8 @@
 package org.my.mapper;
 	import java.util.List;
-	import org.my.domain.Criteria;
+
+import org.apache.ibatis.annotations.Param;
+import org.my.domain.Criteria;
 	import org.my.domain.VisitCountVO;
 	import org.my.domain.alarmVO;
 	import org.my.domain.noteVO;
@@ -60,6 +62,10 @@ public interface CommonMapper {
 	public List<alarmVO> getNotReadedAlarmList(Criteria cri);
 
 	public int getEnabled(String userId);
+	
+	public int checkNickname(@Param("nickName") String nickName);
+
+	public String getNickname(@Param("userId") String userId);
 	
 	public String tests1();
 	public String tests2();

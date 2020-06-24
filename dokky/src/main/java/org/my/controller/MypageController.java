@@ -105,7 +105,7 @@ public class MypageController {
 		
 		String userId = memberVO.getUserId();
 		
-		if(service.checkNickname(memberVO.getNickName(),userId)) {//닉네임이 중복된다면
+		if(service.checkNickname(memberVO.getNickName(), userId)) {//닉네임이 중복된다면
 			 
 			rttr.addFlashAttribute("update", "overlapped");
 			

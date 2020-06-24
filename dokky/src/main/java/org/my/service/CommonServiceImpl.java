@@ -284,4 +284,20 @@ public class CommonServiceImpl implements CommonService {
 		return mapper.getEnabled(userId);
 	}
 	
+	@Override
+	public boolean checkNickname(String nickName, String userId) {
+		
+		log.info("checkNickname");
+		
+		if(userId != null) {
+			
+			if(nickName.equals(mapper.getNickname(userId))) {
+				return false;
+			}
+			
+		}
+		
+		return mapper.checkNickname(nickName) == 1;
+	}
+	
 }

@@ -75,6 +75,7 @@
   	
  		 var csrfHeaderName ="${_csrf.headerName}"; 
 		 var csrfTokenValue="${_csrf.token}";
+		 var userId = "${id}"; 
 		    
 		 $(document).ajaxSend(function(e, xhr, options) { 
 	       xhr.setRequestHeader(csrfHeaderName, csrfTokenValue);
@@ -125,12 +126,13 @@
 				obj.focus();  
 			}
 		 				 
-		 function checkDuplicatedNickname(nickname, callback, error) {
+		 function checkDuplicatedNickname(nickname, userId, callback, error) {
+			 
 			 	var checkReturn; 
 			 
 				$.ajax({
 					type : 'get',
-					url : '/nickCheckedVal?inputNickname='+nickname,
+					url : '/nickCheckedVal?inputNickname='+nickname+'&userId='+userId,
 					async: false,  
 					success : function(result, status, xhr) {
 						if (callback) {
@@ -161,7 +163,7 @@
 					  return true;
 				}
 					      
-			    if(checkDuplicatedNickname(nickNameVal, function(result){ //닉네임 중복체크
+			    if(checkDuplicatedNickname(nickNameVal, userId, function(result){ //닉네임 중복체크
 						if(result == 'success'){ 
 					 		openAlert("닉네임이 중복됩니다"); 
 					 		nickName.focus(); 

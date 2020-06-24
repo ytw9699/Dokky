@@ -15,8 +15,6 @@ public interface MemberMapper {
 
 	public int IdCheckedCount(String inputId);
 
-	public int nicknameCheckedCount(String inputNickname);
-
 	public int emailCheckedCount(String inputEmail);
 
 	public List<BoardVO> getRealtimeList();

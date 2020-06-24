@@ -15,8 +15,6 @@ public interface MemberService {
 
 	public boolean getIdCheckedVal(String inputId);
 
-	public boolean getNicknameCheckedVal(String inputNickname);
-
 	public boolean getEmailCheckedVal(String inputEmail);
 
 	public List<BoardVO> getRealtimeList();

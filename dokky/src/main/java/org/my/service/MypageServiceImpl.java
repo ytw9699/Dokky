@@ -37,8 +37,10 @@ public class MypageServiceImpl implements MypageService {
 		
 		log.info("checkNickname");
 		
-		if(nickName.equals(mapper.getNickname(userId))) {
-			return false;
+		if(userId != null) {
+			if(nickName.equals(mapper.getNickname(userId))) {
+				return false;
+			}
 		}
 		
 		return mapper.checkNickname(nickName) == 1;

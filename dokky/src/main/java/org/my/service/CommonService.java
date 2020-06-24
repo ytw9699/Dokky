@@ -66,6 +66,8 @@ public interface CommonService {
 
 	public int getEnabled(String userId);
 	
+	public boolean checkNickname(String nickName,String userId);
+	
 	public String tests1();
 
 	public String tests2();

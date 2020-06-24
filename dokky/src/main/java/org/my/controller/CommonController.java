@@ -647,14 +647,18 @@ public class CommonController {
 	 
 	@GetMapping(value = "/nickCheckedVal", produces = "text/plain; charset=UTF-8")
 	@ResponseBody
-	public ResponseEntity<String> getNicknameCheckedVal(String inputNickname) {
+	public ResponseEntity<String> getNicknameCheckedVal(String inputNickname, String userId) {
 		 
 		log.info("/nickCheckedVal"); 
 		
-		if(memberService.getNicknameCheckedVal(inputNickname)){
+		if(commonService.checkNickname(inputNickname, userId)) {//닉네임이 중복된다면
+		
 			return new ResponseEntity<>("success", HttpStatus.OK);
-		}
+			
+		}else {
+			
 			return new ResponseEntity<>("fail", HttpStatus.OK);
+		}
 	}
 	
 	@GetMapping(value = "/emailCheckedVal", produces = "text/plain; charset=UTF-8")

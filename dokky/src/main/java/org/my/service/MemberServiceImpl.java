@@ -64,13 +64,6 @@ public class MemberServiceImpl implements MemberService {
 	}
 	
 	@Override 
-	public boolean getNicknameCheckedVal(String inputNickname){
-
-		log.info("getNicknameCheckedVal...");
-		
-		return mapper.nicknameCheckedCount(inputNickname) == 1;
-	}
-	@Override 
 	public boolean getEmailCheckedVal(String inputEmail){
 
 		log.info("getEmailCheckedVal...");
