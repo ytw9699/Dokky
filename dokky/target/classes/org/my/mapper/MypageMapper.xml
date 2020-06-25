@@ -8,15 +8,7 @@
 	 <select id="getMyInfo" resultType="org.my.domain.MemberVO">
 		select * from DK_MEMBER where userId = #{userId}
 	</select>
-	
-	<select id="checkNickname" resultType="int">
-		select count(*) from DK_MEMBER where nickName = #{nickName}
-	</select>
-	
-	<select id="getNickname" resultType="String">
-		select nickName from DK_MEMBER where userId = #{userId}
-	</select>
-	
+
 	<!-- 나의 정보 변경하기 -->
 	<update id="updateMyInfo">
 		update DK_MEMBER set 
