@@ -1,17 +1,25 @@
 package org.my.service;
-	import java.util.List;
+	import java.util.ArrayList;
+import java.util.Iterator;
+import java.util.List;
 
 import javax.servlet.http.Cookie;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
+import org.my.domain.AuthVO;
 import org.my.domain.Criteria;
-	import org.my.domain.VisitCountVO;
+import org.my.domain.MemberVO;
+import org.my.domain.VisitCountVO;
 	import org.my.domain.alarmVO;
 	import org.my.domain.noteVO;
 	import org.my.mapper.CommonMapper;
-	import org.springframework.beans.factory.annotation.Autowired;
+import org.my.security.domain.CustomUser;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.Authentication;
+import org.springframework.security.core.GrantedAuthority;
+import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Service;
 	import lombok.Setter;
@@ -298,6 +306,47 @@ public class CommonServiceImpl implements CommonService {
 		}
 		
 		return mapper.checkNickname(nickName) == 1;
+	}
+	
+	@Override 
+	public boolean setAuthentication(MemberVO memberVO, boolean checkAuth){  
+		
+		log.info("setAuthentication");
+		
+		List<AuthVO> AuthList = memberVO.getAuthList();//사용자의 권한 정보만 list로 가져온다
+		
+		List<GrantedAuthority> roles = new ArrayList<>(1);// 인증해줄 권한 리스트를 만든다
+		
+		Iterator<AuthVO> it = AuthList.iterator();
+		
+		if(checkAuth == false) {//권한 체크를 안한다면
+			
+			while (it.hasNext()) {
+				AuthVO authVO = it.next(); 
+				roles.add(new SimpleGrantedAuthority(authVO.getAuth()));// 가져온 사용자의 권한을 리스트에 담아준다
+	        }
+			
+		}else{//권한 체크를 한다면
+			
+			while (it.hasNext()) {
+				
+				AuthVO authVO = it.next(); 
+				
+				String auth = authVO.getAuth();
+				
+				if(auth.equals("ROLE_LIMIT")) {
+					return false; 
+				}
+				
+				roles.add(new SimpleGrantedAuthority(auth));// 가져온 사용자의 권한을 리스트에 담아준다
+	        }
+		}
+
+		Authentication auth = new UsernamePasswordAuthenticationToken(new CustomUser(memberVO), null, roles);//사용자의 인증객체를 만든다
+		
+		SecurityContextHolder.getContext().setAuthentication(auth);//Authentication 인증객체를 SecurityContext에 보관
+		
+		return true;
 	}
 	
 }
