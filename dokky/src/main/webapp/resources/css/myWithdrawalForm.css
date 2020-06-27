@@ -64,7 +64,7 @@
 		    border-radius: 10px;
 		    padding: 15px;
 		    height: 360px;
-		    width: 62%;
+		    width: 93%;
 		}
 		
 		.myWithdrawalContent {
@@ -72,6 +72,12 @@
 		    margin: 7px;
    		}
    		
+   		.contentVal{
+   			color: #333333;
+	   		font-weight: 600;
+	    	font-size: 15px;
+   		}
+    
    		.myWithdrawalButtonWrap{
    			width: 27%;
    		} 
@@ -88,83 +94,8 @@
 		    width: 200px;
 		    cursor:pointer;
 	    }
-    	 
-    	#accountVal{
-    		color: #333333;
-    		font-size: 25px;
-    	}
-    
-    #profileGray{
-	    position: fixed; 
-	    width: 100%; 
-	    height: 100%; 
-	    top: 0; 
-	    left: 0; 
-	    background-color: #000;
-	    opacity: 0.6;
-	    display: none;
-    }
-	
-	#chargeCash{display: none;   width: 250px;
-    border-radius: 8px;
-    position: fixed;
-    top: 25%;
-    left: 35%;
-    padding: 50px;
-    background-color: white;}
-    
-    #reChargeCash{display: none;   width: 250px;
-    border-radius: 8px;
-    position: fixed;
-    top: 25%;
-    left: 35%;
-    padding: 50px;
-    background-color: white;}
-    
-    .chargeWon{
-	    font-size: 40px;
-	     color: #7151fc; 
-	     width: 53%; 
-     }
-    
-    .Submit{  font-size: 20px;
-	    border: none;
-	    padding: 8px;
-	    width: 80%;
-	    margin: 0 auto;
-	    margin-top: 10px;
-	    display: block;
-	    border-radius: 8px;
-	    color: white;
-	    background-color: #7151fc;
-	    cursor:pointer; 
-	 }
-    
-    .Cancel{    
-  			font-size: 20px;
-		    border: none;
-		    padding: 8px;
-		    width: 80%;
-		    margin: 0 auto; 
-		    margin-top: 10px;
-		    display: block;
-		    border-radius: 8px;
-		    color: white;
-		    background-color: #7151fc;
-		    cursor:pointer;
-    }
-     
-    .chargeText{
-	    font-size: 20px;
-	    color: #555;
-	    font-weight: 600;
-	}
-    
-     
-    #realCommonWon{
-    	display:none;
-    }
-    .active{
+	    
+    	.active{
 			background-color: #7151fc !important;
 			color: white !important;   
 		}
