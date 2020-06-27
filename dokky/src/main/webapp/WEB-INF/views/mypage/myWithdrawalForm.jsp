@@ -40,12 +40,33 @@
 	     	</div> 
 	     	<div class="myWithdrawalButtonWrap"> 
 		     	<form method='post' action="/mypage/myWithdrawal">
-					<input type="submit" id="withdrawal" class="withdrawalButton" value="바로 탈퇴하기"/>
+					<input type="button" id="withdrawal" class="withdrawalButton" value="바로 탈퇴하기"/>
 					<input type="hidden" name="userId" value="${userInfo.username}" />
 					<input type="hidden" name="${_csrf.parameterName}" value="${_csrf.token}" />
 				</form> 
 	     	</div>
     	</div>
 </div> 
+
+<script>
+
+	<sec:authorize access="isAuthenticated()"> 
+		var username = '${userInfo.username}';
+	</sec:authorize>
+	
+	$("#withdrawal").on("click", function(event){
+		
+		event.preventDefault();
+		
+		if(username == 'admin'){ 
+			
+				openAlert("슈퍼관리자는 탈퇴 할 수 없습니다");
+		}else{
+			
+				$("form").submit();	
+		}
+	}); 
+
+</script>
 </body>
 </html>
