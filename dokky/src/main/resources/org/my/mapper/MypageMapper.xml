@@ -327,4 +327,9 @@
 		delete from dk_scrap where scrap_num = #{scrap_num}
 	</delete>
 	
+	<!-- 나의 enabled 값 변경하기 -->
+	<update id="updateEnabled">
+		update DK_MEMBER set enabled = 0 where userId = #{userId}
+	</update>
+	
 </mapper>

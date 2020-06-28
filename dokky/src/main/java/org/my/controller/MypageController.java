@@ -6,7 +6,12 @@ package org.my.controller;
 	import java.util.ArrayList;
 	import java.util.Iterator;
 	import java.util.List;
-	import org.my.domain.AuthVO;
+
+import javax.servlet.http.Cookie;
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
+
+import org.my.domain.AuthVO;
 	import org.my.domain.Criteria;
 	import org.my.domain.MemberVO;
 	import org.my.domain.PageDTO;
@@ -14,7 +19,8 @@ package org.my.controller;
 	import org.my.domain.checkVO;
 	import org.my.security.domain.CustomUser;
 	import org.my.service.BoardService;
-	import org.my.service.MemberService;
+import org.my.service.CommonService;
+import org.my.service.MemberService;
 	import org.my.service.MypageService;
 	import org.springframework.beans.factory.annotation.Autowired;
 	import org.springframework.http.HttpStatus;
@@ -59,6 +65,10 @@ public class MypageController {
 	
 	@Setter(onMethod_ = @Autowired)
 	private MemberService memberService;
+	
+	@Setter(onMethod_ = @Autowired)
+	private CommonService commonService;
+	
 	
 	@PreAuthorize("principal.username == #userId") 
  	@GetMapping("/myInfoForm")  
@@ -293,6 +303,38 @@ public class MypageController {
 		model.addAttribute("userCash", userCash);
 		
 		return "mypage/myCashInfo";
+	}
+	
+	@PreAuthorize("principal.username == #userId")  
+ 	@GetMapping("/myWithdrawalForm")  
+	public String myWithdrawalForm(@RequestParam("userId") String userId) { //탈퇴 하기 폼 가져오기
+		
+		log.info("/mypage/myWithdrawalForm");
+		
+		return "mypage/myWithdrawalForm";
+	}
+	
+	@PreAuthorize("principal.username == #userId")  
+	@PostMapping("/myWithdrawal")  
+	public String myWithdrawal(@RequestParam("userId") String userId, Model model,
+		HttpServletRequest request, HttpServletResponse response, Authentication authentication) {//탈퇴 하기 메소드
+		
+		log.info("/mypage/myWithdrawal");
+		
+		if(service.myWithdrawal(userId)) {//db에서 회원탈퇴 처리가 되었다면 로그아웃 처리 하기
+			
+			log.info("/logout");
+			
+			commonService.logout(request, response, authentication);
+			
+			return "redirect:/socialLogin";
+			
+		}else {
+			
+			model.addAttribute("message", "탈퇴 불가 합니다 관리자에게 문의해주세요");
+			
+			return "error/commonError";
+		}
 	}
 	
 	@PostMapping(value = "/chargeData", produces = "text/plain; charset=UTF-8")

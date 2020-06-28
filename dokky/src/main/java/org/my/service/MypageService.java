@@ -16,7 +16,7 @@ public interface MypageService {
 	public String getMemberPW(String userId);
 
 	public boolean updateMyPassword(String userId, String userPw);
-
+	
 	public List<BoardVO> getMyBoardList(Criteria cri);
 
 	public int getMyBoardCount(Criteria cri);
@@ -46,5 +46,7 @@ public interface MypageService {
 	public void removeAllScrap(Long scrap_num);
 
 	public boolean checkNickname(String nickName,String userId);
+	
+	public boolean myWithdrawal(String userId);
 	
 }
