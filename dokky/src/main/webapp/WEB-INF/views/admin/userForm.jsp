@@ -218,9 +218,17 @@
 		}
 		
 		limitLogin(userId, function(result){
+			
 		   	var currentState = $("#currentState");
+		   	
 		   	currentState.html("접속 제한");
+		   	
 		   	openAlert("접속을 제한 하였습니다");
+		   	
+		   	if(webSocket != null){
+		   		webSocket.send("limit,"+userId);//웹소켓으로 사용자 로그아웃 시키기	
+		   	}		   	
+			
 	   	  });
    	});
 	

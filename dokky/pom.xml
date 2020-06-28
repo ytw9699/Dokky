@@ -15,6 +15,21 @@
 	</properties>
 	<dependencies>
 	
+	<!-- 웹소켓 -->
+	<dependency>
+		<groupId>javax.websocket</groupId>	      
+		<artifactId>javax.websocket-api</artifactId>
+		<version>1.1</version>
+	</dependency>
+	
+	<dependency>
+		<groupId>org.springframework</groupId>
+		<artifactId>spring-websocket</artifactId>
+		<version>5.0.7.RELEASE</version> 
+	</dependency>
+	<!-- 웹소켓 -->
+		
+	
 	 <!-- oauth2 login -->
 	   <dependency>
               <groupId>com.github.scribejava</groupId>
