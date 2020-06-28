@@ -34,18 +34,39 @@
 		
 		<div class="myWithdrawalContentWrap">
 	     	<div class="myWithdrawalContent"> 
-	     		<span id="accountVal">1. 탈퇴 후에도 게시물과 댓글은 삭제되지 않습니다. 원치 않으시면 게시글과 댓글을 삭제해주세요.</span>
-	     		<span id="accountVal">2. 캐시내역과 신고내역등 일부 정보는 보관됩니다.</span>  
-	     		<span id="accountVal">3. 탈퇴후 같은 계정으로 재가입 가능합니다.</span>  
+	     		<div class="contentVal">- 탈퇴 후에도 회원님의 활동내역을 삭제하지 않습니다. 원치 않으시면 삭제후 탈퇴 해주세요.</div>
+	     		<div class="contentVal">- 탈퇴 후에도 캐시내역과 신고내역등 일부 정보는 보관됩니다.</div>  
+	     		<div class="contentVal">- 탈퇴 후 같은 계정으로 재가입 가능합니다.</div>  
 	     	</div> 
 	     	<div class="myWithdrawalButtonWrap"> 
 		     	<form method='post' action="/mypage/myWithdrawal">
-					<input type="submit" id="withdrawal" class="withdrawalButton" value="탈퇴하기"/>
+					<input type="button" id="withdrawal" class="withdrawalButton" value="바로 탈퇴하기"/>
 					<input type="hidden" name="userId" value="${userInfo.username}" />
 					<input type="hidden" name="${_csrf.parameterName}" value="${_csrf.token}" />
 				</form> 
 	     	</div>
     	</div>
 </div> 
+
+<script>
+
+	<sec:authorize access="isAuthenticated()"> 
+		var username = '${userInfo.username}';
+	</sec:authorize>
+	
+	$("#withdrawal").on("click", function(event){
+		
+		event.preventDefault();
+		
+		if(username == 'admin'){ 
+			
+				openAlert("슈퍼관리자는 탈퇴 할 수 없습니다");
+		}else{
+			
+				$("form").submit();	
+		}
+	}); 
+
+</script>
 </body>
 </html>

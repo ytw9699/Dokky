@@ -176,6 +176,11 @@
 	<script>
 	
 	var username = null;
+	var isLimited ; // 쓰기 제한된 계정의 true,false 여부
+	
+	<sec:authorize access="hasRole('ROLE_STOP')">
+			isLimited = true;
+	</sec:authorize>
 	
 	<sec:authorize access="isAuthenticated()"> 
 		username = '${userInfo.username}';
@@ -262,6 +267,11 @@
 		$(".userMenubar").css("display","none");
 		
 		$("#leftUsermenuBar").css("display","none"); 
+		
+		if(isLimited){ 
+	    	  openAlert("쓰기 기능이 제한되어있습니다.");
+	    	  return;
+	    }
 		
 		if(username == null){ 
 			

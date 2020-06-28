@@ -21,8 +21,7 @@
 	    <result property="userId" column="userid"/>
 	    <result property="userPw" column="userpw"/>
 	    <result property="nickName" column="nickname"/>
-	    <result property="regDate" column="regdate"/>
-	    <result property="loginDate" column="logindate"/>
+	    <result property="enabled" column="enabled" />
     <collection property="authList" resultMap="authMap"></collection> 
   </resultMap>
 	<!--    회원 정보는 MemberVO 하나이고，AuthVO는 2개가 되어야 하는
@@ -32,12 +31,12 @@
 	여러 개의 데이터를 처리하는 경우 1:N의 결과를 처리할수 있는〈resultMap〉태그를 지
 	원. -->
   
-  <select id="read" resultMap="memberMap">
-	SELECT 
-	  mem.userid, userpw, nickname, enabled, regdate, logindate, auth
-	FROM 
-	  dk_member mem LEFT OUTER JOIN dk_member_auth auth on mem.userid = auth.userid 
-	WHERE mem.userid = #{userId} 
+  <select id="readMembers" resultMap="memberMap">
+		SELECT 
+		  mem.userid, userpw, nickname, enabled, auth
+		FROM 
+		  dk_member mem LEFT OUTER JOIN dk_member_auth auth on mem.userid = auth.userid 
+		WHERE mem.userid = #{userId} 
   </select>
   	
   	 <!-- 회원가입 -->
@@ -65,6 +64,19 @@
 	 </insert>
 	 <!-- 회원가입 -->
 	 
+	 <!-- 재 회원가입 -->
+     <update id="reRegisterMembers">
+			update dk_member set nickName= #{nickName},
+								 bankname= #{bankName},
+								 account=#{account},
+								 regDate = sysdate,
+								 preLoginDate = sysdate,
+								 lastLoginDate = sysdate,
+								 enabled = 1
+						   where userid = #{userId}
+	 </update>
+	 <!-- 재 회원가입 -->
+	 
 	 <!-- 아이디 중복 체크 카운트 구하기 -->
 	 <select id="IdCheckedCount" resultType="int">
 	 	select count(*) from dk_member where userId= #{inputId}
@@ -80,9 +92,14 @@
 	 	select count(*) from dk_member where email= #{inputEmail}
 	 </select>
 	 
-	 <!-- 로긴 접속 날짜 업데이트 -->
-	 <update id="updateLoginDate">
-	 	update dk_member set loginDate = sysdate where userId = #{userId} 
+	 <!-- 가장 마지막 이전의 로그인 날짜 업데이트 -->
+	 <update id="updatePreLoginDate">
+	 	update dk_member set preLoginDate = lastLoginDate where userId = #{userId} 
+	 </update>
+	 
+	 <!-- 가장 마지막 로그인날짜 -->
+	 <update id="updatelastLoginDate">
+	 	update dk_member set lastLoginDate = sysdate where userId = #{userId} 
 	 </update>
 	 
 	 <select id="getRealtimeList" resultType="org.my.domain.BoardVO"> 

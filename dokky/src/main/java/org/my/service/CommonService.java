@@ -5,7 +5,8 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
 import org.my.domain.Criteria;
-	import org.my.domain.VisitCountVO;
+import org.my.domain.MemberVO;
+import org.my.domain.VisitCountVO;
 	import org.my.domain.alarmVO;
 	import org.my.domain.noteVO;
 import org.springframework.security.core.Authentication;
@@ -64,6 +65,12 @@ public interface CommonService {
 	
 	public void logout(HttpServletRequest request, HttpServletResponse response, Authentication authentication);
 
+	public int getEnabled(String userId);
+	
+	public boolean checkNickname(String nickName,String userId);
+
+	public boolean setAuthentication(MemberVO memberVO, boolean checkAuth);  
+	
 	public String tests1();
 
 	public String tests2();

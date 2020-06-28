@@ -37,6 +37,15 @@ public class MemberServiceImpl implements MemberService {
 	
 	@Transactional
 	@Override 
+	public boolean reRegisterMembers(MemberVO vo) {
+
+		log.info("reRegisterMembers..." + vo);
+		
+		return mapper.reRegisterMembers(vo) == 1;
+	}
+	
+	@Transactional
+	@Override 
 	public boolean registerAdminMembers(MemberVO vo) {
 
 		log.info("registerAdminMembers..." + vo);
@@ -54,13 +63,6 @@ public class MemberServiceImpl implements MemberService {
 		return mapper.IdCheckedCount(inputId) == 1;
 	}
 	
-	@Override 
-	public boolean getNicknameCheckedVal(String inputNickname){
-
-		log.info("getNicknameCheckedVal...");
-		
-		return mapper.nicknameCheckedCount(inputNickname) == 1;
-	}
 	@Override 
 	public boolean getEmailCheckedVal(String inputEmail){
 

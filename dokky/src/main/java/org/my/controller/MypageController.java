@@ -69,7 +69,6 @@ public class MypageController {
 	@Setter(onMethod_ = @Autowired)
 	private CommonService commonService;
 	
-	
 	@PreAuthorize("principal.username == #userId") 
  	@GetMapping("/myInfoForm")  
 	public String myInfoForm(@RequestParam("userId") String userId, Model model) { //내 개인정보 변경폼
@@ -106,46 +105,18 @@ public class MypageController {
 		
 		String userId = memberVO.getUserId();
 		
-		if(service.checkNickname(memberVO.getNickName(),userId)) {//닉네임이 중복된다면
-			 
-			rttr.addFlashAttribute("update", "overlapped");
-			
-			return "redirect:/mypage/myInfoForm?userId="+userId;
-		}
-		
 		if(service.updateMyInfo(memberVO)) {
 			
 			rttr.addFlashAttribute("myInfo", service.getMyInfo(userId));
 			
-			MemberVO vo = memberService.readMembers(userId);//소셜에서 가져온 프로필에 해당하는 개인정보를 db에서 불러온다
+			MemberVO vo = memberService.readMembers(userId);
 			
-			List<AuthVO> AuthList = vo.getAuthList();//사용자의 권한 정보만 list로 가져온다
-			
-			List<GrantedAuthority> roles = new ArrayList<>(1);// 인증해줄 권한 리스트를 만든다
-			
-			Iterator<AuthVO> it = AuthList.iterator();
-			
-			while (it.hasNext()) {
-				
-				AuthVO authVO = it.next(); 
-				
-				String auth = authVO.getAuth();
-				
-				if(auth.equals("ROLE_LIMIT")) {
-					rttr.addFlashAttribute("check", "차단된 아이디입니다. 관리자에게 문의해주세요.");
-					return "redirect:/socialLogin";
-				}
-				
-				roles.add(new SimpleGrantedAuthority(auth));// 가져온 사용자의 권한을 리스트에 담아준다
-	        }
-			
-			Authentication auth = new UsernamePasswordAuthenticationToken(new CustomUser(vo), null, roles);//사용자의 인증객체를 만든다
-			
-			SecurityContextHolder.getContext().setAuthentication(auth);//Authentication 인증객체를 SecurityContext에 보관
+			commonService.setAuthentication(vo, false);
 			
 			rttr.addFlashAttribute("update", "complete");
 			
 		}else {
+			
 			rttr.addFlashAttribute("update", "notComplete");
 		}
 		    
@@ -319,22 +290,22 @@ public class MypageController {
 	public String myWithdrawal(@RequestParam("userId") String userId, Model model,
 		HttpServletRequest request, HttpServletResponse response, Authentication authentication) {//탈퇴 하기 메소드
 		
-		log.info("/mypage/myWithdrawal");
-		
-		if(service.myWithdrawal(userId)) {//db에서 회원탈퇴 처리가 되었다면 로그아웃 처리 하기
+			log.info("/mypage/myWithdrawal");
 			
-			log.info("/logout");
-			
-			commonService.logout(request, response, authentication);
-			
-			return "redirect:/socialLogin";
-			
-		}else {
-			
-			model.addAttribute("message", "탈퇴 불가 합니다 관리자에게 문의해주세요");
-			
-			return "error/commonError";
-		}
+			if(service.myWithdrawal(userId)) {//db에서 회원탈퇴 처리가 되었다면 로그아웃 처리 하기
+				
+					log.info("/logout");
+					
+					commonService.logout(request, response, authentication);
+					
+					return "redirect:/socialLogin";
+				
+			}else {
+				
+					model.addAttribute("message", "탈퇴 불가 합니다 관리자에게 문의해주세요");
+					
+					return "error/commonError";
+			}
 	}
 	
 	@PostMapping(value = "/chargeData", produces = "text/plain; charset=UTF-8")

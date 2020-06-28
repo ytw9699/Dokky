@@ -32,18 +32,6 @@ public class MypageServiceImpl implements MypageService {
 		return mapper.getMyInfo(userId);
 	}
 	
-	@Override
-	public boolean checkNickname(String nickName, String userId) {
-		
-		log.info("checkNickname");
-		
-		if(nickName.equals(mapper.getNickname(userId))) {
-			return false;
-		}
-		
-		return mapper.checkNickname(nickName) == 1;
-	}
-	
 	@Transactional
 	@Override
 	public boolean updateMyInfo(MemberVO board) {

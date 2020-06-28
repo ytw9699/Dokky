@@ -121,32 +121,44 @@ public class CommonController {
 		
 		if(memberService.registerMembers(vo)){
 			
+			MemberVO memberVO = memberService.readMembers(vo.getUserId());//소셜에서 가져온 프로필에 해당하는 개인정보를 db에서 불러온다
+			
+			commonService.setAuthentication(memberVO, false);//인증하면서 권한은 미체크 false
+			
 			rttr.addFlashAttribute("check", "가입완료 되었습니다.");
-			
-			MemberVO profile = memberService.readMembers(vo.getUserId());//소셜에서 가져온 프로필에 해당하는 개인정보를 db에서 불러온다
-			
-			List<AuthVO> AuthList = profile.getAuthList();//사용자의 권한 정보만 list로 가져온다
-			
-			List<GrantedAuthority> roles = new ArrayList<>(1);// 인증해줄 권한 리스트를 만든다
-			
-			Iterator<AuthVO> it = AuthList.iterator();
-			
-			while (it.hasNext()) {
-				AuthVO authVO = it.next(); 
-				roles.add(new SimpleGrantedAuthority(authVO.getAuth()));// 가져온 사용자의 권한을 리스트에 담아준다
-	        }
-			
-			Authentication auth = new UsernamePasswordAuthenticationToken(new CustomUser(profile), null, roles);//사용자의 인증객체를 만든다
-			
-			SecurityContextHolder.getContext().setAuthentication(auth);//Authentication 인증객체를 SecurityContext에 보관
-			
+				
 			return "redirect:/main";
-		}
+			
+		}else {
 		
 			rttr.addFlashAttribute("check", "가입실패 하였습니다 관리자에게 문의주세요.");
-			return "redirect:/socialLogin"; 
+			
+			return "redirect:/socialLogin";
+		}
 	}
 	
+	@PostMapping("/remembers") 
+	public String postReMembers(MemberVO vo, Model model, RedirectAttributes rttr) {//재 회원가입
+		
+		log.info("/remembers: vo" + vo); 
+		
+		if(memberService.reRegisterMembers(vo)){
+			
+			MemberVO memberVO = memberService.readMembers(vo.getUserId());//소셜에서 가져온 프로필에 해당하는 개인정보를 db에서 불러온다
+			
+			commonService.setAuthentication(memberVO, false);//인증하면서 권한은 미체크 false
+			
+			rttr.addFlashAttribute("check", "재가입완료 되었습니다.");
+			
+			return "redirect:/main";
+			
+		}else {
+		
+			rttr.addFlashAttribute("check", "가입실패 하였습니다 관리자에게 문의주세요.");
+			
+			return "redirect:/socialLogin";
+		}
+	}
 	
 	@RequestMapping(value = "/auth/{snsService}/callback", method = { RequestMethod.GET, RequestMethod.POST})
 	public String snsLoginCallback(@PathVariable String snsService, Model model, 
@@ -181,31 +193,25 @@ public class CommonController {
 			return "common/memberForm";
 		}
 		
-		MemberVO vo = memberService.readMembers(profileId);//소셜에서 가져온 프로필에 해당하는 개인정보를 db에서 불러온다
+		MemberVO memberVO = memberService.readMembers(profileId);//소셜에서 가져온 프로필에 해당하는 개인정보를 db에서 불러온다
 		
-		List<AuthVO> AuthList = vo.getAuthList();//사용자의 권한 정보만 list로 가져온다
-		
-		List<GrantedAuthority> roles = new ArrayList<>(1);// 인증해줄 권한 리스트를 만든다
-		
-		Iterator<AuthVO> it = AuthList.iterator();
-		
-		while (it.hasNext()) {
+		if(!memberVO.isEnabled()){//탈퇴한 회원 이라면
 			
-			AuthVO authVO = it.next(); 
+			model.addAttribute("id", profileId);
+			model.addAttribute("nickName", profile.getNickName());
+			model.addAttribute("bankName", memberVO.getBankName());
+			model.addAttribute("account", memberVO.getAccount());
 			
-			String auth = authVO.getAuth();
-			
-			if(auth.equals("ROLE_LIMIT")) {
-				rttr.addFlashAttribute("check", "차단된 아이디입니다. 관리자에게 문의해주세요.");
-				return "redirect:/socialLogin";
-			}
-			
-			roles.add(new SimpleGrantedAuthority(auth));// 가져온 사용자의 권한을 리스트에 담아준다
-        }
+			return "common/reMemberForm";//재가입 폼 이동
+		}
 		
-		Authentication auth = new UsernamePasswordAuthenticationToken(new CustomUser(vo), null, roles);//사용자의 인증객체를 만든다
+		Boolean result = commonService.setAuthentication(memberVO, true);//인증하면서 권한도 체크 true
 		
-		SecurityContextHolder.getContext().setAuthentication(auth);//Authentication 인증객체를 SecurityContext에 보관
+		if(!result){
+			
+			rttr.addFlashAttribute("check", "접속 제한된 아이디입니다."); 
+			return "redirect:/socialLogin";
+		}
 		
 		memberService.updateLoginDate(profileId); //로긴날짜찍기
 		
@@ -604,14 +610,18 @@ public class CommonController {
 	 
 	@GetMapping(value = "/nickCheckedVal", produces = "text/plain; charset=UTF-8")
 	@ResponseBody
-	public ResponseEntity<String> getNicknameCheckedVal(String inputNickname) {
+	public ResponseEntity<String> getNicknameCheckedVal(String inputNickname, String userId) {
 		 
 		log.info("/nickCheckedVal"); 
 		
-		if(memberService.getNicknameCheckedVal(inputNickname)){
+		if(commonService.checkNickname(inputNickname, userId)) {//닉네임이 중복된다면
+		
 			return new ResponseEntity<>("success", HttpStatus.OK);
-		}
+			
+		}else {
+			
 			return new ResponseEntity<>("fail", HttpStatus.OK);
+		}
 	}
 	
 	@GetMapping(value = "/emailCheckedVal", produces = "text/plain; charset=UTF-8")
@@ -637,15 +647,17 @@ public class CommonController {
 		int total = mypageService.getMyBoardCount(cri);
 		
 		model.addAttribute("pageMaker", new PageDTO(cri, total));
-		model.addAttribute("boardTotal",total);  
+		model.addAttribute("boardTotal", total);  
 		model.addAttribute("replyTotal", mypageService.getMyReplyCount(cri));
+		model.addAttribute("enabled", commonService.getEnabled(cri.getUserId()));
 		
 		if(pageLocation == null) {
 			return "common/userBoardList"; 
 		}else if(pageLocation.equals("admin")) {
 			return "admin/userBoardList";
-		}  
-			return "common/userBoardList";    
+		}else { 
+			return "common/userBoardList";
+		}
 	} 
 	
 	@PreAuthorize("isAuthenticated()")
@@ -786,9 +798,10 @@ public class CommonController {
 	@PreAuthorize("hasAnyRole('ROLE_ADMIN','ROLE_USER','ROLE_SUPER')")
 	@GetMapping("/minRegNote")
 	public String minRegNote(@RequestParam("userId")String userId, @RequestParam("nickname")String nickname, Model model) {
-			
+		
 		model.addAttribute("to_id", userId);
 		model.addAttribute("to_nickname", nickname);
+		model.addAttribute("enabled", commonService.getEnabled(userId));
 		
 		return "common/minRegNote";
 	}
