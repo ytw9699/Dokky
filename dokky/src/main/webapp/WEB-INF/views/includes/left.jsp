@@ -189,37 +189,54 @@
 			
 		}else{
 			
-			webSocket = new WebSocket("ws://dokky.ga/websocketHandler");
+			webSocket = new WebSocket("wss://dokky.ga/websocketHandler"); 
 		}
 		
 		webSocket.onopen = function (){ //소켓이 연결됬다면
+			
 			console.log("webSocket connect");
-		}
 		
-		webSocket.onmessage = function(event){//메시지가 왔다면
-			
-			console.log("webSocket message");
-			
-			if(event.data == 'logout'){
-				 
-					openAlert("곧 관리자에 의해 접속이 제한됩니다");
+			webSocket.onmessage = function(event){//소켓 연결됬는데 메시지가 왔다면
+				
+				console.log("webSocket message");
+				
+				if(event.data == 'limitAndLogoutSuccessMessageToUser'){
+					 
+						openAlert("곧 관리자에 의해 접속 제한 후 로그아웃 됩니다");
+						
+						setTimeout(function() {
+							
+							var logoutForm = $(".logoutForm");
+							
+							logoutForm.submit();;
+							
+						}, 5000); 
+						
+				}else if(event.data == 'limitAndLogoutSuccessMessageToAdmin'){
 					
-					setTimeout(function() {
+						openAlert("DB에서 접속 제한 후 사용자를 로그아웃 시켰습니다");
 						
-						var logoutForm = $(".logoutForm");
-						
-						logoutForm.submit();;
-						
-					}, 5000); 
-			} 
-		}
-		
-		webSocket.onclose = function(){ //소켓이 닫힌다면
-			console.log("webSocket close");
-		}
-		
-		webSocket.onerror = function(err){//에러가 있다면
-			console.log("webSocket error, "+err);
+				}else if(event.data == 'limitSuccessMessageToAdmin'){
+					
+						openAlert("DB에서 접속 제한을 하였습니다");//
+				}
+			}
+			
+			webSocket.onclose = function(){ //소켓 연결됬는데 소켓이 다시 닫힌다면
+				
+				console.log("webSocket close");
+				
+				setTimeout(function() {
+					<sec:authorize access="hasAnyRole('ROLE_ADMIN','ROLE_USER','ROLE_SUPER','ROLE_STOP')">
+						connect(); //1초마다 다시 재연결
+					</sec:authorize>
+				}, 1000); 
+			}
+			
+			webSocket.onerror = function(err){//소켓 연결됬는데 에러가 있다면
+				
+				console.log("webSocket error, "+err);
+			}
 		}
 	}
 	

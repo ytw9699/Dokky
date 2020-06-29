@@ -210,6 +210,7 @@
    	});
 	
 	$("#limit").on("click",function(event){//2. 접속 제한 이벤트 설치
+		
 		var userId = $(this).data("user_id");
 	
 		if(userId === 'admin'){
@@ -217,19 +218,19 @@
 			return;
 		}
 		
-		limitLogin(userId, function(result){
+		limitLogin(userId, function(result){//접속 제한 api 함수
 			
-		   	var currentState = $("#currentState");
-		   	
-		   	currentState.html("접속 제한");
-		   	
-		   	openAlert("접속을 제한 하였습니다");
-		   	
-		   	if(webSocket != null){
-		   		webSocket.send("limit,"+userId);//웹소켓으로 사용자 로그아웃 시키기	
-		   	}		   	
-			
-	   	  });
+			if(result == "success"){//db에서 접속제한 성공 했다면
+				
+				var currentState = $("#currentState");
+			   	
+			   	currentState.html("접속 제한");
+			   	
+			   	if(webSocket != null){
+			   		webSocket.send("limit,"+userId);//웹소켓으로 사용자 로그아웃 시키기
+			   	}		   	
+			}
+   	    });
    	});
 	
 	$("#recovery").on("click",function(event){//3. 권한 정상 되돌리기 이벤트 설치

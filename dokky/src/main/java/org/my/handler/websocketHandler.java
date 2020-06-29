@@ -13,7 +13,7 @@ package org.my.handler;
 @Log4j 
 public class websocketHandler extends TextWebSocketHandler {
 	
-	Map<String, WebSocketSession> userSessions = new HashMap<>();
+	Map<String, WebSocketSession> userSessionsMap = new HashMap<>();
 	
 	@Override
 	public void afterConnectionEstablished(WebSocketSession session) throws Exception{//클라이언트가 서버에 접속한후
@@ -22,7 +22,7 @@ public class websocketHandler extends TextWebSocketHandler {
 		
 		String userId = getUserId(session);
 		
-		userSessions.put(userId, session);//로그인한 유저들의 세션을 (키가 아이디의 값으로) 보관해둔다. 
+		userSessionsMap.put(userId, session);//로그인한 유저들의 세션을 (키가 아이디의 값으로) 보관해둔다. 
 	}
 	
 	@Override
@@ -34,23 +34,32 @@ public class websocketHandler extends TextWebSocketHandler {
 		
 		String[] strs = msg.split(",");
 			
-			if (strs != null) {
+		if (strs != null) {
+			
+			String kind = strs[0];//요청의 종류
+			String userId = strs[1];//유저의 아이디
+			
+			WebSocketSession userSession = userSessionsMap.get(userId);//유저 아이디에 해당하는 웹소켓 세션을 가져온다.
+			
+			if(kind.equals("limit") && userSession != null){//요청의 종류가 계정 제한 이고 해당 유저의 세션이 존재한다면
 				
-				String kind = strs[0];//요청의 종류
-				String userId = strs[1];//유저의 아이디
+				userSession.sendMessage(new TextMessage("limitAndLogoutSuccessMessageToUser"));//유저에게  메시지를 보낸다
 				
-				WebSocketSession userSession = userSessions.get(userId);//유저 아이디에 해당하는 웹소켓 세션을 가져온다.
+				session.sendMessage(new TextMessage("limitAndLogoutSuccessMessageToAdmin"));//관리자에게도 메시지를 보낸다
 				
-				if(kind.equals("limit") && userSession != null){//요청의 종류가 계정 제한 이고 해당 유저의 세션이 존재한다면
-					
-					userSession.sendMessage(new TextMessage("logout"));//유저에게 로그아웃 메시지를 보낸다
-				}
+			}else if(kind.equals("limit") && userSession == null) {//계정 제한은 하였지만 유저의 세션이 존재하지 않는다면 로그아웃 시키지 않는다.
+				
+				session.sendMessage(new TextMessage("limitSuccessMessageToAdmin"));//관리자에게만 메시지를 보낸다
 			}
+		}
 	}
 	
 	@Override
 	public void afterConnectionClosed(WebSocketSession session, CloseStatus status) throws Exception {//연결이 끊겼을때
+		
 		System.out.println("afterConnectionClosed:" + session + ":" + status);
+		
+		userSessionsMap.remove(getUserId(session));//연결이 끊긴 유저의 세션을 맵에서 삭제한다.
 	}
 
 	private String getUserId(WebSocketSession session) {
