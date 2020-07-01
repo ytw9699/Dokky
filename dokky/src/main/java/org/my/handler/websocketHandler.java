@@ -22,7 +22,12 @@ public class websocketHandler extends TextWebSocketHandler {
 		
 		String userId = getUserId(session);
 		
-		userSessionsMap.put(userId, session);//로그인한 유저들의 세션을 (키가 아이디의 값으로) 보관해둔다. 
+		userSessionsMap.put(userId, session);//로그인한 유저들의 세션을 (키가 아이디의 값으로) 보관해둔다.
+		
+		/*for (String key : userSessionsMap.keySet()) {
+			
+			log.info("value"+userSessionsMap.get(key));
+	    }*/
 	}
 	
 	@Override
@@ -60,6 +65,11 @@ public class websocketHandler extends TextWebSocketHandler {
 		System.out.println("afterConnectionClosed:" + session + ":" + status);
 		
 		userSessionsMap.remove(getUserId(session));//연결이 끊긴 유저의 세션을 맵에서 삭제한다.
+		
+		/*for (String key : userSessionsMap.keySet()) {
+			
+			log.info("value"+userSessionsMap.get(key));
+	    }*/
 	}
 
 	private String getUserId(WebSocketSession session) {
