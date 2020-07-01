@@ -323,5 +323,13 @@
 	   <select id="getEnabled" resultType="int">
 			select enabled from dk_member where userId = #{userId}
        </select>
-	   
+       
+       <select id="checkNickname" resultType="int">
+			select count(*) from DK_MEMBER where nickName = #{nickName}
+		</select>
+	
+		<select id="getNickname" resultType="String">
+			select nickName from DK_MEMBER where userId = #{userId}
+		</select>
+		   
 </mapper>

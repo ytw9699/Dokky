@@ -9,7 +9,7 @@
 <c:choose>
    	  <c:when test="${pageContext.request.serverName == 'localhost'}">
 			<link href="/resources/css/left.css" rel="stylesheet" type="text/css"/>
-	  </c:when>
+	  </c:when>  
       <c:otherwise>
     		<link href="/ROOT/resources/css/left.css" rel="stylesheet" type="text/css"/>
       </c:otherwise>
@@ -61,7 +61,7 @@
 	  </sec:authorize>
 		
 	  <sec:authorize access="isAnonymous()">  
-		  <a href="/socialLogin">
+		  <a href="/socialLogin"> 
 		  	<span class="mypage topMypage">로그인/회원가입</span>
 	  	  </a> 
 	  	  <!-- <a href="/memberForm">
@@ -73,6 +73,7 @@
 	  		<span class="mypage">
 		  		<form class="logoutForm" method='post' action="/logout">
 				    <input class="logoutBtn" type="submit" value="로그아웃">  
+				    <input type="hidden" name="${_csrf.parameterName}" value="${_csrf.token}"/>
 				</form> 
 			</span>
 	   </sec:authorize>
@@ -80,10 +81,11 @@
 	  		<span class="mypage">
 		  		<form class="logoutForm" method='post' action="/customLogout">
 				    <input class="logoutBtn" type="submit" value="로그아웃">
+				    <input type="hidden" name="${_csrf.parameterName}" value="${_csrf.token}"/>
 				</form> 
 			</span>
 	   </sec:authorize>
-			
+	   
 		  <a href="/board/allList?category=0&order=0">
 			<span class="mypage">전체글보기</span>
 		  </a>
@@ -175,7 +177,81 @@
 	<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
 	<script>
 	
+	var webSocket = null; //소켓 객체 전역변수
+	
+	function connect(){
+	
+		var serverName = '${pageContext.request.serverName}'; 
+		
+		if(serverName == 'localhost'){
+		
+			webSocket = new WebSocket("ws://localhost:8080/websocketHandler");
+			
+		}else{
+			
+			webSocket = new WebSocket("wss://dokky.ga:443/websocketHandler"); 
+		}
+		
+		webSocket.onopen = function (){ //소켓이 연결됬다면
+			
+			console.log("webSocket connect");
+		
+			webSocket.onmessage = function(event){//소켓 연결됬는데 메시지가 왔다면
+				
+				console.log("webSocket message");
+				
+				if(event.data == 'limitAndLogoutSuccessMessageToUser'){
+					 
+						openAlert("곧 관리자에 의해 접속 제한 후 로그아웃 됩니다");
+						
+						setTimeout(function() {
+							
+							var logoutForm = $(".logoutForm");
+							
+							logoutForm.submit();;
+							
+						}, 5000); 
+						
+				}else if(event.data == 'limitAndLogoutSuccessMessageToAdmin'){
+					
+						openAlert("DB에서 접속 제한 후 사용자를 로그아웃 시켰습니다");
+						
+				}else if(event.data == 'limitSuccessMessageToAdmin'){
+					
+						openAlert("DB에서 접속 제한을 하였습니다");//
+				}
+			}
+			
+			webSocket.onclose = function(){ //소켓 연결됬는데 소켓이 다시 닫힌다면
+				
+				console.log("webSocket close");
+				
+				setTimeout(function() {
+					<sec:authorize access="hasAnyRole('ROLE_ADMIN','ROLE_USER','ROLE_SUPER','ROLE_STOP')">
+						connect(); //1초마다 다시 재연결
+					</sec:authorize>
+				}, 1000); 
+			}
+			
+			webSocket.onerror = function(err){//소켓 연결됬는데 에러가 있다면
+				
+				console.log("webSocket error, "+err);
+			}
+		}
+	}
+	
+	<sec:authorize access="hasAnyRole('ROLE_ADMIN','ROLE_USER','ROLE_SUPER','ROLE_STOP')">
+		if(webSocket == null){
+			connect();
+		}
+	</sec:authorize>
+	
 	var username = null;
+	var isLimited ; // 쓰기 제한된 계정의 true,false 여부
+	
+	<sec:authorize access="hasRole('ROLE_STOP')">
+			isLimited = true;
+	</sec:authorize>
 	
 	<sec:authorize access="isAuthenticated()"> 
 		username = '${userInfo.username}';
@@ -263,6 +339,11 @@
 		
 		$("#leftUsermenuBar").css("display","none"); 
 		
+		if(isLimited){ 
+	    	  openAlert("쓰기 기능이 제한되어있습니다.");
+	    	  return;
+	    }
+		
 		if(username == null){ 
 			
 			//$("#UserMenubar_board").css("display","block").addClass('addBlockClass');
@@ -334,18 +415,6 @@
 			schedule();
 		 	setInterval(schedule, 60000);//60초마다 알람카운트 불러오기
 		</sec:authorize>
-		
-		 var parameterName = '${_csrf.parameterName}';
-		 var token = '${_csrf.token}';
-		 var logoutForm = $(".logoutForm");
-		  
-		  $(".logoutBtn").on("click", function(e){
-			  
-			  var str = "<input type='hidden' name='"+parameterName+"' value='"+token+"'>";
-			  
-			  logoutForm.append(str).submit();
-			  
-		  }); 
 	});
 	
 	</script>
