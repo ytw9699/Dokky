@@ -298,18 +298,13 @@
 	var myId;
 	var myNickName;
 	var pageNum = 1;//댓글의 페이지 번호
-	var isLimited ; // 쓰기 제한된 계정의 true,false 여부
+	
 	var serverName = '${pageContext.request.serverName}';
 
 	<sec:authorize access="isAuthenticated()">   
 				  myId = '${userInfo.username}';  
 		    myNickName = '${userInfo.member.nickName}';
 	</sec:authorize>
-	
-	<sec:authorize access="hasRole('ROLE_STOP')">
-			isLimited = true;
-	</sec:authorize>
-	
 	
 	var csrfHeaderName ="${_csrf.headerName}"; 
 	var csrfTokenValue="${_csrf.token}";

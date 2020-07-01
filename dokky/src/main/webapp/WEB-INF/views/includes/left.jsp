@@ -186,15 +186,17 @@
 		if(serverName == 'localhost'){
 		
 			webSocket = new WebSocket("ws://localhost:8080/websocketHandler");
-			
+			//최초 접속이 일반 http request를 통해 handshaking과정을 통해 이루어 진다는 점
+
 		}else{
 			
-			webSocket = new WebSocket("wss://dokky.ga/websocketHandler"); 
+			webSocket = new WebSocket("wss://dokky.ga:443/websocketHandler"); 
 		}
 		
+		//WebSocket API
 		webSocket.onopen = function (){ //소켓이 연결됬다면
 			
-			console.log("webSocket connect");
+			console.log("WebSocket is connected");
 		
 			webSocket.onmessage = function(event){//소켓 연결됬는데 메시지가 왔다면
 				
@@ -224,7 +226,7 @@
 			
 			webSocket.onclose = function(){ //소켓 연결됬는데 소켓이 다시 닫힌다면
 				
-				console.log("webSocket close");
+				console.log("WebSocket is closed");
 				
 				setTimeout(function() {
 					<sec:authorize access="hasAnyRole('ROLE_ADMIN','ROLE_USER','ROLE_SUPER','ROLE_STOP')">
@@ -240,7 +242,7 @@
 		}
 	}
 	
-	<sec:authorize access="hasAnyRole('ROLE_ADMIN','ROLE_USER','ROLE_SUPER','ROLE_STOP')">
+	<sec:authorize access="isAuthenticated()">
 		if(webSocket == null){
 			connect();
 		}

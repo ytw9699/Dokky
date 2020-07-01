@@ -93,7 +93,7 @@
 	     				닉네임
 	     			</td>
 	     			<td class="tableValue">
-	     				<input type="text" name="nickName" value="${myInfo.nickName}" class="inputInfo" oninput="checkLength(this,20);"/> 
+	     				<input type="text" name="nickName" id="nickName" value="${myInfo.nickName}" class="inputInfo" oninput="checkLength(this,20);"/> 
 	     			</td>
 	     		</tr>
 	     		<!-- <tr>
@@ -109,7 +109,7 @@
 	     				은행명
 	     			</td>
 	     			<td class="tableValue">
-	     				<input type="text" name="bankName"  value="${myInfo.bankName}" class="inputInfo" oninput="checkLength(this,20);"/>
+	     				<input type="text" name="bankName" value="${myInfo.bankName}" class="inputInfo" oninput="checkLength(this,20);"/>
 	     			</td>
 	     		</tr>
 	     		<tr>
@@ -151,8 +151,7 @@
 	     		</tr>
 	     	</table> 
 	     		<input type="hidden" name="userId" value="${myInfo.userId}" />
-				<input type="submit" value="변경하기" class="submitInfo" /> 
-	     		<!-- <input type="button" id="SumbitMyInfo" value="변경하기" class="submitInfo" /> --> 
+				<input type="button" value="변경하기" id="updateButton" class="submitInfo" /> 
 	      </form>
      	</div>
 </div> 
@@ -269,6 +268,58 @@
 			return true;
 		}
 		
+		 function memberCheck(){
+			
+			var nickName = $('#nickName');
+			var nickNameVal = nickName.val();
+			nickNameVal = $.trim(nickNameVal);
+	     
+				if(nickNameVal == ""){ 
+					nickName.focus();  
+					openAlert("닉네임을 입력하세요"); 
+					  return true;
+				}
+				
+				if(checkDuplicatedNickname(nickNameVal, userId, function(result){ //닉네임 중복체크
+					
+						if(result == 'success'){ 
+					 		openAlert("닉네임이 중복됩니다"); 
+					 		nickName.focus(); 
+					 		return true; 
+						}
+		   	    	}))
+			    {  
+		   			 return true;
+				}
+	    			        
+		   return false;
+	     }//END memberCheck
+		
+	     function checkDuplicatedNickname(nickname, userId, callback, error) {
+			 
+			 	var checkReturn; 
+			 
+				$.ajax({
+					type : 'get',
+					url : '/nickCheckedVal?inputNickname='+nickname+'&userId='+userId,
+					async: false,  
+					success : function(result, status, xhr) {
+						if (callback) {
+							if(callback(result,xhr)){
+								checkReturn = true; 
+							}
+						}
+					},
+					error : function(xhr, status, er) {
+						if (error) {
+							error(xhr,er);  
+						}
+					}
+				});
+				
+			 return checkReturn;  
+		 }
+	     
 		$("#profile").change(function(e){ 
 			
 			var fileSize = this.files[0].size; 
@@ -284,6 +335,18 @@
 			profileForm.attr("action","/mypage/deleteProfile");
 	    	profileForm.submit(); 
 		});
+		
+		$("#updateButton").on("click", function(e){
+			
+			   e.preventDefault();
+			   
+			   if(memberCheck()){
+			   	return; 
+			   } 
+			   
+			   $("#operForm").submit(); 
+		});
+		
 		
 		/* 프로필 이미지 관련 끝 */
 		
@@ -342,13 +405,6 @@
 		          		<script>
 					      $(document).ready(function(){
 					      	openAlert("변경되었습니다");
-					      });
-				      	</script>
-		       </c:when>
-		       <c:when test="${update eq 'overlapped'}">
-		          		<script>
-					      $(document).ready(function(){
-					      	openAlert("중복된 닉네임입니다");
 					      });
 				      	</script>
 		       </c:when>
