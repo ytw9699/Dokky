@@ -18,7 +18,6 @@ package org.my.controller;
 	import org.springframework.web.bind.annotation.RequestMethod;
 	import org.springframework.web.bind.annotation.RequestParam;
 	import org.springframework.web.bind.annotation.ResponseBody;
-	
 	import lombok.Setter;
 	import lombok.extern.log4j.Log4j;
   //import org.springframework.security.access.annotation.Secured;
@@ -34,22 +33,6 @@ public class AdminController {
 	
 	@Setter(onMethod_ = @Autowired)
 	private MypageService MypageService;
-	
-	/*@PreAuthorize("hasRole('ROLE_SUPER')")
-	@GetMapping("authorizationList")//일반 관리자 권한부여 리스트
-	public String authorizationList(Criteria cri, Model model) {
-		
-		log.info("/admin/authorizationList");
-		log.info("cri"+cri);
-		
-		model.addAttribute("authorizationList", service.getMemberList(cri));
-		
-		int total = service.getMemberTotalCount(cri);
-		
-		model.addAttribute("pageMaker", new PageDTO(cri, total));
-		
-		return "admin/authorizationList"; 
-	}*/
 	
 	@GetMapping("userList")//계정관리 회원리스트 가져오기
 	public String admin(Criteria cri, Model model) {

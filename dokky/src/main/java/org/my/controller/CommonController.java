@@ -318,6 +318,7 @@ public class CommonController {
 		return "error/commonError";
 	}   
 	
+	@PreAuthorize("hasAnyRole('ROLE_ADMIN','ROLE_SUPER')") 
 	@GetMapping("/admin/authorizationList")//일반 관리자 권한부여 리스트
 	public String authorizationList(Criteria cri, Model model, Authentication authentication, HttpSession session) {
 		
@@ -351,7 +352,7 @@ public class CommonController {
 			
 			if(!auth.equals("ROLE_SUPER")) {
 				
-				return "redirect:/superAdminError";
+				return "redirect:/superAdminError";//일반관리자는 접근 못하고 슈퍼관리자만 접근할 수 있음
 				//return "redirect:/superAdminLogin";
 			}
 			
