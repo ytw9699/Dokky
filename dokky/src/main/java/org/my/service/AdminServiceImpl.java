@@ -72,49 +72,12 @@ public class AdminServiceImpl implements AdminService {
 		return adminMapper.getUserReportCount(cri);
 	}
 	
-	@Transactional
-	@Override
-	public int updateApprove(commonVO vo) {
-
-		log.info("updateApprove");
-		log.info(vo);
-		
-		cashVO cashVO = vo.getCashVO();
-		
-		log.info("updateUsercash");
-		
-		if(cashVO.getCashKind().equals("충전")) 
-			adminMapper.updatePluscash(cashVO);
-		else if(cashVO.getCashKind().equals("환전"))
-			adminMapper.updateMinuscash(cashVO);
-		
-		log.info("insertAlarm: ");
-		commonMapper.insertAlarm(vo.getAlarmVO());
-		
-		log.info("updateApprove: ");
-
-		return adminMapper.updateApprove(cashVO.getCash_num());
-	}
-	
 	@Override
 	public MemberVO getUserForm(String userId) {
 
 		log.info("getUserForm: " + userId);
 
 		return adminMapper.getUserForm(userId);
-	}
-	
-	@Transactional
-	@Override
-	public int updateRoleStop(String userId,alarmVO vo) {
-		
-		log.info("insertAlarm: ");
-		
-		commonMapper.insertAlarm(vo);
-		
-		log.info("updateRoleStop.."+userId);
-		
-		return adminMapper.updateRoleStop(userId);
 	}
 	
 	@Transactional
@@ -128,6 +91,19 @@ public class AdminServiceImpl implements AdminService {
 		log.info("updateRoleLimit.."+userId);
 		
 		return adminMapper.updateRoleLimit(userId);
+	}
+	
+	@Transactional
+	@Override
+	public int updateRoleStop(String userId,alarmVO vo) {
+		
+		log.info("insertAlarm: ");
+		
+		commonMapper.insertAlarm(vo);
+		
+		log.info("updateRoleStop.."+userId);
+		
+		return adminMapper.updateRoleStop(userId);
 	}
 	
 	@Transactional
@@ -156,4 +132,27 @@ public class AdminServiceImpl implements AdminService {
 		return adminMapper.updateRoleAdmin(userId);
 	}
 	
+	@Transactional
+	@Override
+	public int updateApprove(commonVO vo) {
+
+		log.info("updateApprove");
+		log.info(vo);
+		
+		cashVO cashVO = vo.getCashVO();
+		
+		log.info("updateUsercash");
+		
+		if(cashVO.getCashKind().equals("충전")) 
+			adminMapper.updatePluscash(cashVO);
+		else if(cashVO.getCashKind().equals("환전"))
+			adminMapper.updateMinuscash(cashVO);
+		
+		log.info("insertAlarm: ");
+		commonMapper.insertAlarm(vo.getAlarmVO());
+		
+		log.info("updateApprove: ");
+
+		return adminMapper.updateApprove(cashVO.getCash_num());
+	}
 }

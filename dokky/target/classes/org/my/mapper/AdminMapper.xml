@@ -141,6 +141,36 @@
 			]]>
 	</select>
 	
+		<!-- 나의 정보 한줄 가져오기 -->
+	  <select id="getUserForm" resultMap="memberMap">
+			 SELECT mem.userid
+				  , nickname
+				  , bankName
+				  , account
+				  , regdate
+				  , preLoginDate
+				  , auth
+			 FROM 
+			  	dk_member mem LEFT OUTER JOIN dk_member_auth auth on mem.userid = auth.userid 
+			 WHERE mem.userid = #{userId} 
+	  </select>
+	  
+	<update id="updateRoleLimit"> 
+			update dk_member_auth set auth = 'ROLE_LIMIT' WHERE USERID = #{userId}  
+	</update>
+	
+	<update id="updateRoleStop"> 
+			update dk_member_auth set auth = 'ROLE_STOP' WHERE USERID = #{userId}  
+	</update>
+	
+	<update id="updateRoleUser"> 
+			update dk_member_auth set auth = 'ROLE_USER' WHERE USERID = #{userId}  
+	</update>
+	
+	<update id="updateRoleAdmin"> 
+			update dk_member_auth set auth = 'ROLE_ADMIN' WHERE USERID = #{userId}  
+	</update>
+	
 	<update id="updateApprove">
 		update dk_cash set specification = '승인완료' where cash_num = #{cash_num} 
 	</update>
@@ -152,35 +182,5 @@
 	<update id="updateMinuscash">
 	    update dk_member set cash = cash - #{cashAmount} where userId = #{userId}
 	</update>
-	
-	<update id="updateRoleStop"> 
-			update dk_member_auth set auth = 'ROLE_STOP' WHERE USERID = #{userId}  
-	</update>
-	
-	<update id="updateRoleLimit"> 
-			update dk_member_auth set auth = 'ROLE_LIMIT' WHERE USERID = #{userId}  
-	</update>
-	
-	<update id="updateRoleUser"> 
-			update dk_member_auth set auth = 'ROLE_USER' WHERE USERID = #{userId}  
-	</update>
-	
-	<update id="updateRoleAdmin"> 
-			update dk_member_auth set auth = 'ROLE_ADMIN' WHERE USERID = #{userId}  
-	</update>
-	
-	<!-- 나의 정보 한줄 가져오기 -->
-  <select id="getUserForm" resultMap="memberMap">
-		 SELECT mem.userid
-			  , nickname
-			  , bankName
-			  , account
-			  , regdate
-			  , preLoginDate
-			  , auth
-		 FROM 
-		  	dk_member mem LEFT OUTER JOIN dk_member_auth auth on mem.userid = auth.userid 
-		 WHERE mem.userid = #{userId} 
-  </select>
 	
 </mapper>

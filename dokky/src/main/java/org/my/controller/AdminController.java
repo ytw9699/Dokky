@@ -38,6 +38,7 @@ public class AdminController {
 	public String userList(Criteria cri, Model model) {
 	    
 		log.info("/admin/userList");
+		
 		log.info("cri"+cri);
 		
 		model.addAttribute("userList", adminService.getUserList(cri));
@@ -67,6 +68,7 @@ public class AdminController {
 	public String userReportList(Criteria cri, Model model) {//신고리스트
 		
 		log.info("admin/userReportList");
+		
 		log.info(cri);
 		
 		model.addAttribute("userReportList", adminService.getUserReportList(cri));
@@ -78,37 +80,7 @@ public class AdminController {
 		return "admin/userReportList"; 
 	}
 	
-	@RequestMapping(method = { RequestMethod.PUT,RequestMethod.PATCH },
-			value = "/approve", consumes = "application/json", produces = "text/plain; charset=UTF-8")
-		@ResponseBody
-		public ResponseEntity<String> approve(@RequestBody commonVO vo) {
-		
-		log.info("/approve");
-		log.info("commonVO...="+vo);
-		
-		return adminService.updateApprove(vo) == 1 ? new ResponseEntity<>("success", HttpStatus.OK)
-				: new ResponseEntity<>("fail",HttpStatus.INTERNAL_SERVER_ERROR);
-		}
-	
-	/*@RequestMapping(method = { RequestMethod.PUT,RequestMethod.PATCH },
-			value = "/approve", consumes = "application/json", produces = "text/plain; charset=UTF-8")
-		@ResponseBody
-		public ResponseEntity<String> approve(@RequestBody Map<String, VoInterface> params) {
-		
-		log.info("params...="+params);
-		
-		//Map alarmData1 = (Map) params.get("alarmData1");
-		
-		VoInterface alarmVO = (alarmVO)params.get("alarmData1");
-		
-		//alarmVO.setTarget((String)alarmData1.get("target"));
-		
-		log.info("alarmVO...="+alarmVO);
-		
-		return new ResponseEntity<>("알림이 입력되었습니다.", HttpStatus.OK) ;
-		}*/
-	
- 	@GetMapping("/userForm")  
+	@GetMapping("/userForm")  
 	public String userForm(@RequestParam("userId") String userId, Model model) {//관리자가 회원정보가져오기
 		
 		log.info("admin/userForm");
@@ -118,7 +90,59 @@ public class AdminController {
 		return "admin/userForm";
 	} 
 	
-	@PreAuthorize("isAuthenticated()") 
+	@RequestMapping(method = { RequestMethod.PUT, RequestMethod.PATCH },
+			value = "roleLimit/{userId}", produces = "text/plain; charset=UTF-8")
+	@ResponseBody
+	public ResponseEntity<String> updateRoleLimit(@PathVariable("userId") String userId, @RequestBody alarmVO vo) {//모든 글쓰기 제한
+	
+		log.info("admin/roleLimit");
+		log.info("vo"+vo);
+		log.info("userId...="+userId);
+		
+		return adminService.updateRoleLimit(userId, vo) == 1 ? new ResponseEntity<>("success", HttpStatus.OK)
+				: new ResponseEntity<>("fail", HttpStatus.INTERNAL_SERVER_ERROR);
+	}
+	
+	@RequestMapping(method = { RequestMethod.PUT, RequestMethod.PATCH },
+			value = "roleStop/{userId}", produces = "text/plain; charset=UTF-8")
+	@ResponseBody
+	public ResponseEntity<String> updateRoleStop(@PathVariable("userId") String userId, @RequestBody alarmVO vo) {//접속 제한
+		
+		log.info("admin/roleStop");
+		log.info("vo"+vo);
+		log.info("userId...="+userId);
+		
+		return adminService.updateRoleStop(userId, vo) == 1 ? new ResponseEntity<>("success", HttpStatus.OK)
+				: new ResponseEntity<>("fail", HttpStatus.INTERNAL_SERVER_ERROR);
+	}
+	
+	@RequestMapping(method = { RequestMethod.PUT, RequestMethod.PATCH },
+			value = "roleUser/{userId}", produces = "text/plain; charset=UTF-8")
+	@ResponseBody
+	public ResponseEntity<String> updateRoleUser(@PathVariable("userId") String userId , @RequestBody alarmVO vo) {//계정 복구
+		
+		log.info("admin/roleUser");
+		log.info("vo"+vo);
+		log.info("userId...="+userId);
+		
+		return adminService.updateRoleUser(userId, vo) == 1 ? new ResponseEntity<>("success", HttpStatus.OK)
+				: new ResponseEntity<>("fail", HttpStatus.INTERNAL_SERVER_ERROR);
+	}
+	
+	
+	@RequestMapping(method = { RequestMethod.PUT, RequestMethod.PATCH },
+			value = "roleAdmin/{userId}", produces = "text/plain; charset=UTF-8")
+	@ResponseBody
+	public ResponseEntity<String> updateRoleAdmin(@PathVariable("userId") String userId, @RequestBody alarmVO vo) {//관리자로 계정 변경
+	
+		log.info("admin/roleAdmin");
+		log.info("vo"+vo);
+		log.info("userId...="+userId);
+	
+		return adminService.updateRoleAdmin(userId, vo) == 1 ? new ResponseEntity<>("success", HttpStatus.OK)
+				: new ResponseEntity<>("fail", HttpStatus.INTERNAL_SERVER_ERROR);
+	}
+	
  	@GetMapping("/userCashHistory")  
 	public String userCashHistory(Criteria cri, Model model) {
 		
@@ -137,57 +161,34 @@ public class AdminController {
 		return "admin/userCashHistory"; 
 	}
 	
-	@RequestMapping(method = { RequestMethod.PUT,RequestMethod.PATCH },
-			value = "roleStop/{userId}", produces = "text/plain; charset=UTF-8")
-	@ResponseBody
-	public ResponseEntity<String> updateRoleStop(@PathVariable("userId") String userId, @RequestBody alarmVO vo) {
+	@RequestMapping(method = { RequestMethod.PUT, RequestMethod.PATCH },
+			value = "/approve", consumes = "application/json", produces = "text/plain; charset=UTF-8")
+		@ResponseBody
+		public ResponseEntity<String> approve(@RequestBody commonVO vo) {
 		
-		log.info("admin/roleStop");
-		log.info("vo"+vo);
-		log.info("userId...="+userId);
+		log.info("/approve");
+		log.info("commonVO...="+vo);
 		
-		return adminService.updateRoleStop(userId, vo) == 1 ? new ResponseEntity<>("success", HttpStatus.OK)
-				: new ResponseEntity<>("fail",HttpStatus.INTERNAL_SERVER_ERROR);
+		return adminService.updateApprove(vo) == 1 ? new ResponseEntity<>("success", HttpStatus.OK)
+				: new ResponseEntity<>("fail", HttpStatus.INTERNAL_SERVER_ERROR);
 	}
 	
-	@RequestMapping(method = { RequestMethod.PUT,RequestMethod.PATCH },
-			value = "roleLimit/{userId}", produces = "text/plain; charset=UTF-8")
-	@ResponseBody
-	public ResponseEntity<String> updateRoleLimit(@PathVariable("userId") String userId, @RequestBody alarmVO vo) {
-	
-		log.info("admin/roleLimit");
-		log.info("vo"+vo);
-		log.info("userId...="+userId);
+	/*@RequestMapping(method = { RequestMethod.PUT,RequestMethod.PATCH },
+			value = "/approve", consumes = "application/json", produces = "text/plain; charset=UTF-8")
+		@ResponseBody
+		public ResponseEntity<String> approve(@RequestBody Map<String, VoInterface> params) {
 		
-		return adminService.updateRoleLimit(userId, vo) == 1 ? new ResponseEntity<>("success", HttpStatus.OK)
-				: new ResponseEntity<>("fail",HttpStatus.INTERNAL_SERVER_ERROR);
-	}
-	
-	@RequestMapping(method = { RequestMethod.PUT,RequestMethod.PATCH },
-			value = "roleUser/{userId}", produces = "text/plain; charset=UTF-8")
-	@ResponseBody
-	public ResponseEntity<String> updateRoleUser(@PathVariable("userId") String userId , @RequestBody alarmVO vo) {
+		log.info("params...="+params);
 		
-		log.info("admin/roleUser");
-		log.info("vo"+vo);
-		log.info("userId...="+userId);
+		//Map alarmData1 = (Map) params.get("alarmData1");
 		
-		return adminService.updateRoleUser(userId, vo) == 1 ? new ResponseEntity<>("success", HttpStatus.OK)
-				: new ResponseEntity<>("fail",HttpStatus.INTERNAL_SERVER_ERROR);
-	}
-	
-	@RequestMapping(method = { RequestMethod.PUT,RequestMethod.PATCH },
-			value = "roleAdmin/{userId}", produces = "text/plain; charset=UTF-8")
-	@ResponseBody
-	public ResponseEntity<String> updateRoleAdmin(@PathVariable("userId") String userId, @RequestBody alarmVO vo) {
-	
-		log.info("admin/roleAdmin");
-		log.info("vo"+vo);
-		log.info("userId...="+userId);
-	
-		return adminService.updateRoleAdmin(userId, vo) == 1 ? new ResponseEntity<>("success", HttpStatus.OK)
-				: new ResponseEntity<>("fail",HttpStatus.INTERNAL_SERVER_ERROR);
-	}
-	
+		VoInterface alarmVO = (alarmVO)params.get("alarmData1");
+		
+		//alarmVO.setTarget((String)alarmData1.get("target"));
+		
+		log.info("alarmVO...="+alarmVO);
+		
+		return new ResponseEntity<>("알림이 입력되었습니다.", HttpStatus.OK) ;
+		}*/
 }
 	

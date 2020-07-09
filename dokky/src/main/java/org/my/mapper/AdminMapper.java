@@ -18,6 +18,16 @@ public interface AdminMapper {
 	public List<reportVO> getUserReportList(Criteria cri);
 	
 	public int getUserReportCount(Criteria cri);
+	
+	public MemberVO getUserForm(String userId);
+	
+	public int updateRoleLimit(String userId);
+	
+	public int updateRoleStop(String userId);
+
+	public int updateRoleUser(String userId);
+
+	public int updateRoleAdmin(String userId);
 
 	public int updateApprove(Long cash_num);
 
@@ -25,16 +35,6 @@ public interface AdminMapper {
 
 	public void updateMinuscash(cashVO vo);
 
-	public MemberVO getUserForm(String userId);
-
 	public int insertReportdata(reportVO vo);
-
-	public int updateRoleStop(String userId);
-
-	public int updateRoleLimit(String userId);
-
-	public int updateRoleUser(String userId);
-
-	public int updateRoleAdmin(String userId);
 	
 }

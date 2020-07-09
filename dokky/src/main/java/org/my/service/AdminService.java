@@ -21,16 +21,15 @@ public interface AdminService {
 
 	public int getUserReportCount(Criteria cri);
 	
-	public int updateApprove(commonVO vo);
-
 	public MemberVO getUserForm(String userId);
-
-	public int updateRoleStop(String userId, alarmVO vo);
-
+	
 	public int updateRoleLimit(String userId , alarmVO vo);
+	
+	public int updateRoleStop(String userId, alarmVO vo);
 
 	public int updateRoleUser(String userId, alarmVO vo);
 
 	public int updateRoleAdmin(String userId, alarmVO vo);
-
+	
+	public int updateApprove(commonVO vo);
 }
