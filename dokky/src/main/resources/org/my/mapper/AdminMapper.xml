@@ -40,7 +40,7 @@
 			</trim>
 	  </sql>
 	
-	<select id="getMemberList" resultMap="memberMap">
+	<select id="getUserList" resultMap="memberMap">
 		 <![CDATA[  
 				select userId
 					 , nickName 
@@ -108,18 +108,6 @@
 		select count(*) from dk_cash where specification = '미승인' or specification = '승인완료'
 	</select>
 	
-	<update id="updateApprove">
-		update dk_cash set specification = '승인완료' where cash_num = #{cash_num} 
-	</update>
-	
-	<update id="updatePluscash">
-	    update dk_member set cash = cash + #{cashAmount} where userId = #{userId}
-	</update>
-	
-	<update id="updateMinuscash">
-	    update dk_member set cash = cash - #{cashAmount} where userId = #{userId}
-	</update>
-	
 	<select id="getUserReportCount" resultType="int">
 		 select count(*) from dk_report
 	</select>
@@ -152,6 +140,18 @@
 			    where rn > (#{pageNum} -1) * #{amount}  
 			]]>
 	</select>
+	
+	<update id="updateApprove">
+		update dk_cash set specification = '승인완료' where cash_num = #{cash_num} 
+	</update>
+	
+	<update id="updatePluscash">
+	    update dk_member set cash = cash + #{cashAmount} where userId = #{userId}
+	</update>
+	
+	<update id="updateMinuscash">
+	    update dk_member set cash = cash - #{cashAmount} where userId = #{userId}
+	</update>
 	
 	<update id="updateRoleStop"> 
 			update dk_member_auth set auth = 'ROLE_STOP' WHERE USERID = #{userId}  

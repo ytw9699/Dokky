@@ -40,7 +40,7 @@ public class AdminController {
 		log.info("/admin/userList");
 		log.info("cri"+cri);
 		
-		model.addAttribute("userList", adminService.getMemberList(cri));
+		model.addAttribute("userList", adminService.getUserList(cri));
 		
 		int total = adminService.getMemberTotalCount(cri);
 		
@@ -61,6 +61,21 @@ public class AdminController {
 		model.addAttribute("pageMaker", new PageDTO(cri, total));
 		
 		return "admin/cashRequestList"; 
+	}
+	
+	@GetMapping("userReportList")
+	public String userReportList(Criteria cri, Model model) {//신고리스트
+		
+		log.info("admin/userReportList");
+		log.info(cri);
+		
+		model.addAttribute("userReportList", adminService.getUserReportList(cri));
+		
+		int total = adminService.getUserReportCount(cri);
+		
+		model.addAttribute("pageMaker", new PageDTO(cri, total));
+		
+		return "admin/userReportList"; 
 	}
 	
 	@RequestMapping(method = { RequestMethod.PUT,RequestMethod.PATCH },
@@ -120,21 +135,6 @@ public class AdminController {
 		model.addAttribute("pageMaker", new PageDTO(cri, total));
 		
 		return "admin/userCashHistory"; 
-	}
-	
-	@GetMapping("userReportList")
-	public String userReportList(Criteria cri, Model model) {//게시글 댓글 신고
-		
-		log.info("admin/userReportList");
-		log.info(cri);
-		
-		model.addAttribute("userReportList", adminService.getUserReportList(cri));
-		
-		int total = adminService.getUserReportCount(cri);
-		
-		model.addAttribute("pageMaker", new PageDTO(cri, total));
-		
-		return "admin/userReportList"; 
 	}
 	
 	@RequestMapping(method = { RequestMethod.PUT,RequestMethod.PATCH },

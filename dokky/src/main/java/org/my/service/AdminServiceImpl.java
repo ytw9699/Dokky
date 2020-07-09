@@ -25,11 +25,11 @@ public class AdminServiceImpl implements AdminService {
 	private CommonMapper commonMapper;
 	
 	@Override
-	public List<MemberVO> getMemberList(Criteria cri) {
+	public List<MemberVO> getUserList(Criteria cri) {
 
 		log.info("getMemberList: " + cri);
 
-		return adminMapper.getMemberList(cri);
+		return adminMapper.getUserList(cri);
 	}
 	
 	@Override
@@ -54,6 +54,22 @@ public class AdminServiceImpl implements AdminService {
 		log.info("getTotalCount: ");
 
 		return adminMapper.getCashListTotalCount();
+	}
+	
+	@Override
+	public List<reportVO> getUserReportList(Criteria cri){
+	
+		log.info("getUserReportList: " + cri);
+
+		return adminMapper.getUserReportList(cri);
+	}
+	
+	@Override
+	public int getUserReportCount(Criteria cri){
+
+		log.info("getUserReportCount: ");
+
+		return adminMapper.getUserReportCount(cri);
 	}
 	
 	@Transactional
@@ -86,22 +102,6 @@ public class AdminServiceImpl implements AdminService {
 		log.info("getUserForm: " + userId);
 
 		return adminMapper.getUserForm(userId);
-	}
-	
-	@Override
-	public List<reportVO> getUserReportList(Criteria cri){
-	
-		log.info("getUserReportList: " + cri);
-
-		return adminMapper.getUserReportList(cri);
-	}
-	
-	@Override
-	public int getUserReportCount(Criteria cri){
-
-		log.info("getUserReportCount: ");
-
-		return adminMapper.getUserReportCount(cri);
 	}
 	
 	@Transactional

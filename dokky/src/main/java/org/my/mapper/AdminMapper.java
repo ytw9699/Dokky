@@ -7,13 +7,17 @@ package org.my.mapper;
 
 public interface AdminMapper {
 	
-	public List<MemberVO> getMemberList(Criteria cri);
+	public List<MemberVO> getUserList(Criteria cri);
 	
 	public int getMemberTotalCount(Criteria cri);
 	
 	public List<cashVO> getCashRequestList(Criteria cri);
 	
 	public int getCashListTotalCount();
+	
+	public List<reportVO> getUserReportList(Criteria cri);
+	
+	public int getUserReportCount(Criteria cri);
 
 	public int updateApprove(Long cash_num);
 
@@ -23,11 +27,7 @@ public interface AdminMapper {
 
 	public MemberVO getUserForm(String userId);
 
-	public List<reportVO> getUserReportList(Criteria cri);
-
 	public int insertReportdata(reportVO vo);
-
-	public int getUserReportCount(Criteria cri);
 
 	public int updateRoleStop(String userId);
 
