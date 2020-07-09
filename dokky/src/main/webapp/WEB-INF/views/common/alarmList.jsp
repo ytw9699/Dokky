@@ -211,9 +211,27 @@
 							       
 							       <c:when test="${alarm.kind == 11 }">  
 						          		<a href="#" class="getMyPage" data-alarm_num="${alarm.alarmNum}">
-						          			계정의 권한이 관리자에 의해 복구되었습니다. 
+						          			관리자에 의해 계정이 복구되었습니다. 
 						          		</a>
 							       </c:when>  
+							       
+							       <c:when test="${alarm.kind == 12 }">  
+						          		<a href="#" class="getMyPage" data-alarm_num="${alarm.alarmNum}">
+						          			관리자에 의해 접속 제한 되었습니다. 
+						          		</a>
+							       </c:when>  
+							       
+							       <c:when test="${alarm.kind == 13 }">
+						          		<a href="#" class="getMyPage" data-alarm_num="${alarm.alarmNum}">
+						          			사용자 계정으로 변경 되었습니다.  
+						          		</a>
+							       </c:when>  
+							       
+							       <c:when test="${alarm.kind == 14 }">   
+						          		<a href="#" class="getMyPage" data-alarm_num="${alarm.alarmNum}">
+						          			관리자 계정으로 변경 되었습니다.
+						          		</a>
+							       </c:when> 
 							       
 						        </c:choose>  
 					        <c:if test="${alarm.checking == 'NO'}">

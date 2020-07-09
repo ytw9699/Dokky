@@ -152,15 +152,16 @@ public class AdminController {
 	
 	@RequestMapping(method = { RequestMethod.PUT,RequestMethod.PATCH },
 			value = "roleLimit/{userId}", produces = "text/plain; charset=UTF-8")
-		@ResponseBody
-		public ResponseEntity<String> updateRoleLimit(@PathVariable("userId") String userId) {
-		
+	@ResponseBody
+	public ResponseEntity<String> updateRoleLimit(@PathVariable("userId") String userId, @RequestBody alarmVO vo) {
+	
 		log.info("admin/roleLimit");
+		log.info("vo"+vo);
 		log.info("userId...="+userId);
 		
-		return service.updateRoleLimit(userId) == 1 ? new ResponseEntity<>("success", HttpStatus.OK)
+		return service.updateRoleLimit(userId, vo) == 1 ? new ResponseEntity<>("success", HttpStatus.OK)
 				: new ResponseEntity<>("fail",HttpStatus.INTERNAL_SERVER_ERROR);
-		}
+	}
 	
 	@RequestMapping(method = { RequestMethod.PUT,RequestMethod.PATCH },
 			value = "roleUser/{userId}", produces = "text/plain; charset=UTF-8")
@@ -177,15 +178,16 @@ public class AdminController {
 	
 	@RequestMapping(method = { RequestMethod.PUT,RequestMethod.PATCH },
 			value = "roleAdmin/{userId}", produces = "text/plain; charset=UTF-8")
-		@ResponseBody
-		public ResponseEntity<String> updateRoleAdmin(@PathVariable("userId") String userId) {
-		
+	@ResponseBody
+	public ResponseEntity<String> updateRoleAdmin(@PathVariable("userId") String userId, @RequestBody alarmVO vo) {
+	
 		log.info("admin/roleAdmin");
+		log.info("vo"+vo);
 		log.info("userId...="+userId);
-		
-		return service.updateRoleAdmin(userId) == 1 ? new ResponseEntity<>("success", HttpStatus.OK)
+	
+		return service.updateRoleAdmin(userId, vo) == 1 ? new ResponseEntity<>("success", HttpStatus.OK)
 				: new ResponseEntity<>("fail",HttpStatus.INTERNAL_SERVER_ERROR);
-		}
+	}
 	
 }
 	

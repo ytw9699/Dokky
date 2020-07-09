@@ -27,10 +27,10 @@ public interface AdminService {
 
 	public int updateRoleStop(String userId, alarmVO vo);
 
-	public int updateRoleLimit(String userId);
+	public int updateRoleLimit(String userId , alarmVO vo);
 
 	public int updateRoleUser(String userId, alarmVO vo);
 
-	public int updateRoleAdmin(String userId);
+	public int updateRoleAdmin(String userId, alarmVO vo);
 
 }
