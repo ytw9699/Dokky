@@ -19,17 +19,41 @@ package org.my.service;
 public class AdminServiceImpl implements AdminService {
 
 	@Setter(onMethod_ = @Autowired)
-	private AdminMapper mapper;
+	private AdminMapper adminMapper;
 	
 	@Setter(onMethod_ = @Autowired)
 	private CommonMapper commonMapper;
+	
+	@Override
+	public List<MemberVO> getMemberList(Criteria cri) {
+
+		log.info("getMemberList: " + cri);
+
+		return adminMapper.getMemberList(cri);
+	}
+	
+	@Override
+	public int getMemberTotalCount(Criteria cri) {
+
+		log.info("getMemberTotalCount: ");
+
+		return adminMapper.getMemberTotalCount(cri);
+	}
+	
+	@Override
+	public List<MemberVO> getAuthMemberList(Criteria cri) {
+
+		log.info("getMemberList: " + cri);
+
+		return adminMapper.getAuthMemberList(cri);
+	}
 	
 	@Override
 	public List<cashVO> getCashRequest(Criteria cri) {
 
 		log.info("getCashRequest: " + cri);
 
-		return mapper.getCashRequest(cri);
+		return adminMapper.getCashRequest(cri);
 	}
 	
 	@Transactional
@@ -44,16 +68,16 @@ public class AdminServiceImpl implements AdminService {
 		log.info("updateUsercash");
 		
 		if(cashVO.getCashKind().equals("충전")) 
-			mapper.updatePluscash(cashVO);
+			adminMapper.updatePluscash(cashVO);
 		else if(cashVO.getCashKind().equals("환전"))
-			mapper.updateMinuscash(cashVO);
+			adminMapper.updateMinuscash(cashVO);
 		
 		log.info("insertAlarm: ");
 		commonMapper.insertAlarm(vo.getAlarmVO());
 		
 		log.info("updateApprove: ");
 
-		return mapper.updateApprove(cashVO.getCash_num());
+		return adminMapper.updateApprove(cashVO.getCash_num());
 	}
 	
 	@Override
@@ -61,23 +85,7 @@ public class AdminServiceImpl implements AdminService {
 
 		log.info("getTotalCount: ");
 
-		return mapper.getTotalCount();
-	}
-	
-	@Override
-	public int getMemberTotalCount(Criteria cri) {
-
-		log.info("getMemberTotalCount: ");
-
-		return mapper.getMemberTotalCount(cri);
-	}
-	
-	@Override
-	public List<MemberVO> getMemberList(Criteria cri) {
-
-		log.info("getMemberList: " + cri);
-
-		return mapper.getMemberList(cri);
+		return adminMapper.getTotalCount();
 	}
 	
 	@Override
@@ -85,7 +93,7 @@ public class AdminServiceImpl implements AdminService {
 
 		log.info("getUserForm: " + userId);
 
-		return mapper.getUserForm(userId);
+		return adminMapper.getUserForm(userId);
 	}
 	
 	@Override
@@ -93,7 +101,7 @@ public class AdminServiceImpl implements AdminService {
 	
 		log.info("getUserReportList: " + cri);
 
-		return mapper.getUserReportList(cri);
+		return adminMapper.getUserReportList(cri);
 	}
 	
 	@Override
@@ -101,7 +109,7 @@ public class AdminServiceImpl implements AdminService {
 
 		log.info("getUserReportCount: ");
 
-		return mapper.getUserReportCount(cri);
+		return adminMapper.getUserReportCount(cri);
 	}
 	
 	@Transactional
@@ -114,7 +122,7 @@ public class AdminServiceImpl implements AdminService {
 		
 		log.info("updateRoleStop.."+userId);
 		
-		return mapper.updateRoleStop(userId);
+		return adminMapper.updateRoleStop(userId);
 	}
 	
 	@Transactional
@@ -127,7 +135,7 @@ public class AdminServiceImpl implements AdminService {
 		
 		log.info("updateRoleLimit.."+userId);
 		
-		return mapper.updateRoleLimit(userId);
+		return adminMapper.updateRoleLimit(userId);
 	}
 	
 	@Transactional
@@ -140,7 +148,7 @@ public class AdminServiceImpl implements AdminService {
 		
 		log.info("updateRoleUser.."+userId);
 		
-		return mapper.updateRoleUser(userId);
+		return adminMapper.updateRoleUser(userId);
 	}
 	
 	@Transactional
@@ -153,7 +161,7 @@ public class AdminServiceImpl implements AdminService {
 		
 		log.info("updateRoleAdmin.."+userId);
 		
-		return mapper.updateRoleAdmin(userId);
+		return adminMapper.updateRoleAdmin(userId);
 	}
 	
 }

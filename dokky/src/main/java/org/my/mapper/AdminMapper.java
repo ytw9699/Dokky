@@ -6,6 +6,12 @@ package org.my.mapper;
 	import org.my.domain.reportVO;
 
 public interface AdminMapper {
+	
+	public List<MemberVO> getMemberList(Criteria cri);
+	
+	public int getMemberTotalCount(Criteria cri);
+	
+	public List<MemberVO> getAuthMemberList(Criteria cri);
 
 	public List<cashVO> getCashRequest(Criteria cri);
 
@@ -16,10 +22,6 @@ public interface AdminMapper {
 	public void updatePluscash(cashVO vo);
 
 	public void updateMinuscash(cashVO vo);
-
-	public List<MemberVO> getMemberList(Criteria cri);
-
-	public int getMemberTotalCount(Criteria cri);
 
 	public MemberVO getUserForm(String userId);
 

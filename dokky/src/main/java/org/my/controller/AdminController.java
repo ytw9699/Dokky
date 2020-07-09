@@ -29,10 +29,10 @@ package org.my.controller;
 public class AdminController {
 	
 	@Setter(onMethod_ = @Autowired)
-	private AdminService service;
+	private AdminService adminService;
 	
 	@Setter(onMethod_ = @Autowired)
-	private MypageService MypageService;
+	private MypageService mypageService;
 	
 	@GetMapping("userList")//계정관리 회원리스트 가져오기
 	public String admin(Criteria cri, Model model) {
@@ -40,9 +40,9 @@ public class AdminController {
 		log.info("/admin/userList");
 		log.info("cri"+cri);
 		
-		model.addAttribute("userList", service.getMemberList(cri));
+		model.addAttribute("userList", adminService.getMemberList(cri));
 		
-		int total = service.getMemberTotalCount(cri);
+		int total = adminService.getMemberTotalCount(cri);
 		
 		model.addAttribute("pageMaker", new PageDTO(cri, total));
 		
@@ -54,9 +54,9 @@ public class AdminController {
 		
 		log.info("admin/cashRequest");
 		
-		model.addAttribute("cashRequest", service.getCashRequest(cri));
+		model.addAttribute("cashRequest", adminService.getCashRequest(cri));
 		
-		int total = service.getTotalCount();
+		int total = adminService.getTotalCount();
 		
 		model.addAttribute("pageMaker", new PageDTO(cri, total));
 		
@@ -71,7 +71,7 @@ public class AdminController {
 		log.info("/approve");
 		log.info("commonVO...="+vo);
 		
-		return service.updateApprove(vo) == 1 ? new ResponseEntity<>("success", HttpStatus.OK)
+		return adminService.updateApprove(vo) == 1 ? new ResponseEntity<>("success", HttpStatus.OK)
 				: new ResponseEntity<>("fail",HttpStatus.INTERNAL_SERVER_ERROR);
 		}
 	
@@ -98,7 +98,7 @@ public class AdminController {
 		
 		log.info("admin/userForm");
 		
-		model.addAttribute("user", service.getUserForm(userId));
+		model.addAttribute("user", adminService.getUserForm(userId));
 		
 		return "admin/userForm";
 	} 
@@ -109,11 +109,11 @@ public class AdminController {
 		
 		log.info("getUserCashHistoryCount");
 		
-		int total = MypageService.getMyCashHistoryCount(cri.getUserId());
+		int total = mypageService.getMyCashHistoryCount(cri.getUserId());
 		
 		log.info("/userCashHistory");
 		
-		model.addAttribute("userCashHistory", MypageService.getMyCashHistory(cri));
+		model.addAttribute("userCashHistory", mypageService.getMyCashHistory(cri));
 		
 		log.info("pageMaker");
 		
@@ -128,9 +128,9 @@ public class AdminController {
 		log.info("admin/userReportList");
 		log.info(cri);
 		
-		model.addAttribute("userReportList", service.getUserReportList(cri));
+		model.addAttribute("userReportList", adminService.getUserReportList(cri));
 		
-		int total = service.getUserReportCount(cri);
+		int total = adminService.getUserReportCount(cri);
 		
 		model.addAttribute("pageMaker", new PageDTO(cri, total));
 		
@@ -146,7 +146,7 @@ public class AdminController {
 		log.info("vo"+vo);
 		log.info("userId...="+userId);
 		
-		return service.updateRoleStop(userId, vo) == 1 ? new ResponseEntity<>("success", HttpStatus.OK)
+		return adminService.updateRoleStop(userId, vo) == 1 ? new ResponseEntity<>("success", HttpStatus.OK)
 				: new ResponseEntity<>("fail",HttpStatus.INTERNAL_SERVER_ERROR);
 	}
 	
@@ -159,7 +159,7 @@ public class AdminController {
 		log.info("vo"+vo);
 		log.info("userId...="+userId);
 		
-		return service.updateRoleLimit(userId, vo) == 1 ? new ResponseEntity<>("success", HttpStatus.OK)
+		return adminService.updateRoleLimit(userId, vo) == 1 ? new ResponseEntity<>("success", HttpStatus.OK)
 				: new ResponseEntity<>("fail",HttpStatus.INTERNAL_SERVER_ERROR);
 	}
 	
@@ -172,7 +172,7 @@ public class AdminController {
 		log.info("vo"+vo);
 		log.info("userId...="+userId);
 		
-		return service.updateRoleUser(userId, vo) == 1 ? new ResponseEntity<>("success", HttpStatus.OK)
+		return adminService.updateRoleUser(userId, vo) == 1 ? new ResponseEntity<>("success", HttpStatus.OK)
 				: new ResponseEntity<>("fail",HttpStatus.INTERNAL_SERVER_ERROR);
 	}
 	
@@ -185,7 +185,7 @@ public class AdminController {
 		log.info("vo"+vo);
 		log.info("userId...="+userId);
 	
-		return service.updateRoleAdmin(userId, vo) == 1 ? new ResponseEntity<>("success", HttpStatus.OK)
+		return adminService.updateRoleAdmin(userId, vo) == 1 ? new ResponseEntity<>("success", HttpStatus.OK)
 				: new ResponseEntity<>("fail",HttpStatus.INTERNAL_SERVER_ERROR);
 	}
 	

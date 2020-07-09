@@ -9,15 +9,17 @@ package org.my.service;
 
 public interface AdminService {
 	
+	public List<MemberVO> getMemberList(Criteria cri);
+	
+	public int getMemberTotalCount(Criteria cri);
+	
+	public List<MemberVO> getAuthMemberList(Criteria cri);
+	
 	public List<cashVO> getCashRequest(Criteria cri);
 
 	public int updateApprove(commonVO vo);
 
 	public int getTotalCount();
-
-	public List<MemberVO> getMemberList(Criteria cri);
-
-	public int getMemberTotalCount(Criteria cri);
 
 	public MemberVO getUserForm(String userId);
 
