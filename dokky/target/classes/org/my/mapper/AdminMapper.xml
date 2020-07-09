@@ -80,7 +80,7 @@
 				</trim>				   
 	 </select>
 	
-	<select id="getCashRequest" resultType="org.my.domain.cashVO"> 
+	<select id="getCashRequestList" resultType="org.my.domain.cashVO"> 
 		select cash_num
 			 , regDate
 			 , cashAmount
@@ -104,13 +104,13 @@
 		   ]]>
 	</select>
 	
+	<select id="getCashListTotalCount" resultType="int">
+		select count(*) from dk_cash where specification = '미승인' or specification = '승인완료'
+	</select>
+	
 	<update id="updateApprove">
 		update dk_cash set specification = '승인완료' where cash_num = #{cash_num} 
 	</update>
-	
-	<select id="getTotalCount" resultType="int">
-		select count(*) from dk_cash where specification = '미승인' or specification = '승인완료'
-	</select>
 	
 	<update id="updatePluscash">
 	    update dk_member set cash = cash + #{cashAmount} where userId = #{userId}

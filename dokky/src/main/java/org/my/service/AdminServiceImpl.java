@@ -41,11 +41,19 @@ public class AdminServiceImpl implements AdminService {
 	}
 	
 	@Override
-	public List<cashVO> getCashRequest(Criteria cri) {
+	public List<cashVO> getCashRequestList(Criteria cri) {
 
-		log.info("getCashRequest: " + cri);
+		log.info("getCashRequestList: " + cri);
 
-		return adminMapper.getCashRequest(cri);
+		return adminMapper.getCashRequestList(cri);
+	}
+	
+	@Override
+	public int getCashListTotalCount() {
+
+		log.info("getTotalCount: ");
+
+		return adminMapper.getCashListTotalCount();
 	}
 	
 	@Transactional
@@ -70,14 +78,6 @@ public class AdminServiceImpl implements AdminService {
 		log.info("updateApprove: ");
 
 		return adminMapper.updateApprove(cashVO.getCash_num());
-	}
-	
-	@Override
-	public int getTotalCount() {
-
-		log.info("getTotalCount: ");
-
-		return adminMapper.getTotalCount();
 	}
 	
 	@Override

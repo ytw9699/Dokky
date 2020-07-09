@@ -13,11 +13,11 @@ public interface AdminService {
 	
 	public int getMemberTotalCount(Criteria cri);
 	
-	public List<cashVO> getCashRequest(Criteria cri);
+	public List<cashVO> getCashRequestList(Criteria cri);
+	
+	public int getCashListTotalCount();
 
 	public int updateApprove(commonVO vo);
-
-	public int getTotalCount();
 
 	public MemberVO getUserForm(String userId);
 

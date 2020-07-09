@@ -11,11 +11,11 @@ public interface AdminMapper {
 	
 	public int getMemberTotalCount(Criteria cri);
 	
-	public List<cashVO> getCashRequest(Criteria cri);
+	public List<cashVO> getCashRequestList(Criteria cri);
+	
+	public int getCashListTotalCount();
 
 	public int updateApprove(Long cash_num);
-
-	public int getTotalCount();
 
 	public void updatePluscash(cashVO vo);
 

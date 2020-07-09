@@ -185,7 +185,7 @@
 		
 			chargeCash(chargeData, function(result){
 			        if(result == "success"){
-			        	openAlert("계좌 입금이 확인되면 캐시가 충전됩니다");
+			        	openAlert("입금이 확인되면 캐시가 충전됩니다");
 			        }
 			        else if(result == "fail"){
 			        	openAlert("잠시후 재시도 해주세요");

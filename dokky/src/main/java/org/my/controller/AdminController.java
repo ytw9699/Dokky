@@ -35,7 +35,7 @@ public class AdminController {
 	private MypageService mypageService;
 	
 	@GetMapping("userList")//계정관리 회원리스트 가져오기
-	public String admin(Criteria cri, Model model) {
+	public String userList(Criteria cri, Model model) {
 	    
 		log.info("/admin/userList");
 		log.info("cri"+cri);
@@ -49,18 +49,18 @@ public class AdminController {
 		return "admin/userList"; 
 	}
 	
-	@GetMapping("cashRequest")//결제관리 충전,환전 요청내역 리스트가져오기
-	public String cashRequest(Criteria cri,Model model) {
+	@GetMapping("cashRequestList")//결제관리 충전,환전 요청내역 리스트가져오기
+	public String cashRequestList(Criteria cri, Model model) {
 		
-		log.info("admin/cashRequest");
+		log.info("admin/cashRequestList");
 		
-		model.addAttribute("cashRequest", adminService.getCashRequest(cri));
+		model.addAttribute("cashRequestList", adminService.getCashRequestList(cri));
 		
-		int total = adminService.getTotalCount();
+		int total = adminService.getCashListTotalCount();
 		
 		model.addAttribute("pageMaker", new PageDTO(cri, total));
 		
-		return "admin/cashRequest"; 
+		return "admin/cashRequestList"; 
 	}
 	
 	@RequestMapping(method = { RequestMethod.PUT,RequestMethod.PATCH },
