@@ -11,8 +11,6 @@ public interface AdminMapper {
 	
 	public int getMemberTotalCount(Criteria cri);
 	
-	public List<MemberVO> getAuthMemberList(Criteria cri);
-
 	public List<cashVO> getCashRequest(Criteria cri);
 
 	public int updateApprove(Long cash_num);

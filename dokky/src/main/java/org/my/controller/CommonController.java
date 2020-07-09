@@ -358,7 +358,7 @@ public class CommonController {
 			
         }
 		
-		model.addAttribute("authorizationList", adminService.getAuthMemberList(cri));
+		model.addAttribute("authorizationList", adminService.getMemberList(cri));
 		
 		int total = adminService.getMemberTotalCount(cri);
 		

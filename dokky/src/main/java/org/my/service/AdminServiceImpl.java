@@ -41,14 +41,6 @@ public class AdminServiceImpl implements AdminService {
 	}
 	
 	@Override
-	public List<MemberVO> getAuthMemberList(Criteria cri) {
-
-		log.info("getMemberList: " + cri);
-
-		return adminMapper.getAuthMemberList(cri);
-	}
-	
-	@Override
 	public List<cashVO> getCashRequest(Criteria cri) {
 
 		log.info("getCashRequest: " + cri);

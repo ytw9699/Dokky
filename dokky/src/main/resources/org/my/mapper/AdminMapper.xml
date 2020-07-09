@@ -40,42 +40,7 @@
 			</trim>
 	  </sql>
 	
-	 <select id="getMemberList" resultType="org.my.domain.MemberVO">
-		 <![CDATA[  		
-			select userId
-				 , nickName 
-			 from 
-				( 
-				  select /*+INDEX_DESC(dk_member seq_dk_member) */ rownum rn
-																 , userId
-																 , nickName 
-			       from dk_member where ]]> <include refid ="criteria"></include> 
-			  <![CDATA[  
-			      rownum <= #{pageNum} * #{amount}
-			    )
-			  where rn > (#{pageNum} -1) * #{amount}   
-		  ]]>
-	 </select>
-	
-	 <select id="getMemberTotalCount" resultType="int">
-			select count(*) from dk_member 
-				 <trim prefix="where" suffix="" prefixOverrides="OR">
-					<foreach item='type' collection="typeArr">
-						<trim prefix="OR">
-							<choose>
-								<when test="type == 'I'.toString()">
-									userId like '%'||#{keyword}||'%'
-								</when>
-								<when test="type == 'N'.toString()">
-								 	nickName like '%'||#{keyword}||'%'
-								</when>
-							</choose>
-						</trim>
-					</foreach>
-				</trim>				   
-	 </select>
-	
-	<select id="getAuthMemberList" resultMap="memberMap">
+	<select id="getMemberList" resultMap="memberMap">
 		 <![CDATA[  
 				select userId
 					 , nickName 
@@ -97,6 +62,24 @@
 				  ]]>
 	</select>
 
+	 <select id="getMemberTotalCount" resultType="int">
+			select count(*) from dk_member 
+				 <trim prefix="where" suffix="" prefixOverrides="OR">
+					<foreach item='type' collection="typeArr">
+						<trim prefix="OR">
+							<choose>
+								<when test="type == 'I'.toString()">
+									userId like '%'||#{keyword}||'%'
+								</when>
+								<when test="type == 'N'.toString()">
+								 	nickName like '%'||#{keyword}||'%'
+								</when>
+							</choose>
+						</trim>
+					</foreach>
+				</trim>				   
+	 </select>
+	
 	<select id="getCashRequest" resultType="org.my.domain.cashVO"> 
 		select cash_num
 			 , regDate
