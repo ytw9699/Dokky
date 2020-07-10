@@ -82,7 +82,7 @@ public class MypageController {
 	
 	@PreAuthorize("principal.username == #memberVO.userId")
 	@PostMapping("/myInfo")
-	public String updateMyInfo(MemberVO memberVO, RedirectAttributes rttr) {//개인정보 변경하기
+	public String updateMyInfo(MemberVO memberVO, RedirectAttributes rttr) {//내 개인정보 변경하기
 		
 		log.info("/mypage/myInfo");
 		
@@ -124,7 +124,7 @@ public class MypageController {
 	
 	@PreAuthorize("principal.username == #cri.userId")
  	@GetMapping("/myReplylist")  
-	public String myReplylist(Criteria cri, Model model) {
+	public String myReplylist(Criteria cri, Model model) {//내 댓글 가져오기
 		
 		log.info("/mypage/myReplylist...cri "+cri);
 		
@@ -140,29 +140,6 @@ public class MypageController {
 		return "mypage/myReplylist";
 	} 
 	
-	@PreAuthorize("isAuthenticated()") 
-	@PostMapping(value = "/scrapData/{board_num}/{userId}", produces = "text/plain; charset=UTF-8")
-	@ResponseBody
-	public ResponseEntity<String> insertScrapData(@PathVariable("board_num") int board_num, @PathVariable("userId") String userId ) {
-		
-		log.info("/mypage/scrapData");
-		log.info("board_num="+board_num+", userId="+userId);
-		
-		if(mypageService.getScrapCnt(board_num, userId) == 1 && mypageService.deleteScrap(board_num, userId) == 1) {//스크랩 카운트가 1이라면 스크랩한거고,스크랩 삭제
-		
-			return new ResponseEntity<>("cancel",HttpStatus.OK);
-		}
-		
-		log.info("insertScrapData...board_num="+board_num+", userId="+userId);
-		
-		if(mypageService.insertScrapData(board_num, userId)) {
-			
-			return new ResponseEntity<>("success",HttpStatus.OK);
-		}
-		
-		return new ResponseEntity<>("fail",HttpStatus.OK);
-	}
-	
 	@PreAuthorize("principal.username == #cri.userId")
  	@GetMapping("/myScraplist")  
 	public String myScraplist(Criteria cri, Model model) { //내 스크랩 글 가져오기
@@ -170,7 +147,7 @@ public class MypageController {
 		log.info("/mypage/myScraplist");
 		log.info("myScraplist "+cri);
 		
-		int total = mypageService.getMyScrapCount(cri.getUserId());//total은 내 스크랩 총 게시물수
+		int total = mypageService.getMyScrapCount(cri.getUserId());
 		
 		model.addAttribute("myScraplist", mypageService.getMyScraplist(cri));
 		model.addAttribute("pageMaker", new PageDTO(cri, total));
@@ -179,24 +156,25 @@ public class MypageController {
 		return "mypage/myScraplist";
 	} 
 	
-	 @PreAuthorize("principal.username == #userId")  
-	 @PostMapping("/removeAllScrap")//다중삭제
-		public String removeAllScrap(@RequestParam("checkRow") String checkRow , @RequestParam("userId")String userId, Criteria cri) {
+	@PreAuthorize("principal.username == #userId")  
+	@PostMapping("/removeAllScrap")//스크랩 다중삭제
+	public String removeAllScrap(@RequestParam("checkRow") String checkRow , @RequestParam("userId") String userId, Criteria cri) {
 		 
 		log.info("/mypage/removeAllScrap");
 		log.info("checkRow..." + checkRow);
 	 	
 	 	String[] arrIdx = checkRow.split(",");
 	 	
-	 	for (int i=0; i<arrIdx.length; i++) {
+	    for (int i=0; i<arrIdx.length; i++) {
 	 		
 	 		Long scrap_num = Long.parseLong(arrIdx[i]);  
 	 		
 	 		log.info("remove...reply_num=" + scrap_num);
 	 		
-	 		mypageService.removeAllScrap(scrap_num);
+	 		mypageService.removeScrap(scrap_num);
 	 	}
-	 return "redirect:/mypage/myScraplist?userId="+userId+"&pageNum="+cri.getPageNum()+"&amount="+cri.getAmount();
+	 	
+	 	return "redirect:/mypage/myScraplist?userId="+userId+"&pageNum="+cri.getPageNum()+"&amount="+cri.getAmount();
 	}
 	
 	@PreAuthorize("principal.username == #userId")  
@@ -205,7 +183,7 @@ public class MypageController {
 		
 		log.info("/mypage/myCashInfo");
 		
-		String userCash = boardService.getuserCash(userId);
+		String userCash = boardService.getuserCash(userId);//나의 잔여캐시 가져오기
 		
 		log.info("getuserCash...="+userCash);
 		
@@ -401,5 +379,28 @@ public class MypageController {
 			model.addAttribute("update", "notComplete");
 		}
 			return "mypage/myRepasswordForm";
+	}
+	
+	@PreAuthorize("isAuthenticated()") 
+	@PostMapping(value = "/scrapData/{board_num}/{userId}", produces = "text/plain; charset=UTF-8")
+	@ResponseBody
+	public ResponseEntity<String> insertScrapData(@PathVariable("board_num") int board_num, @PathVariable("userId") String userId ) {
+		
+		log.info("/mypage/scrapData");
+		log.info("board_num="+board_num+", userId="+userId);
+		
+		if(mypageService.getScrapCnt(board_num, userId) == 1 && mypageService.deleteScrap(board_num, userId) == 1) {//스크랩 카운트가 1이라면 스크랩한거고,스크랩 삭제
+		
+			return new ResponseEntity<>("cancel",HttpStatus.OK);
+		}
+		
+		log.info("insertScrapData...board_num="+board_num+", userId="+userId);
+		
+		if(mypageService.insertScrapData(board_num, userId)) {
+			
+			return new ResponseEntity<>("success",HttpStatus.OK);
+		}
+		
+		return new ResponseEntity<>("fail",HttpStatus.OK);
 	}
 }

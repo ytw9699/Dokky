@@ -24,16 +24,18 @@ public interface MypageService {
 	public List<ReplyVO> getMyReplylist(Criteria cri);
 
 	public int getMyReplyCount(Criteria cri);
+	
+	public List<scrapVO> getMyScraplist(Criteria cri);
+
+	public int getMyScrapCount(String userId);
+	
+	public void removeScrap(Long scrap_num);
 
 	public boolean insertScrapData(int board_num, String userId);
 
 	public int getScrapCnt(int board_num, String userId);
 
 	public int deleteScrap(int board_num, String userId);
-
-	public List<scrapVO> getMyScraplist(Criteria cri);
-
-	public int getMyScrapCount(String userId);
 
 	public boolean insertChargeData(cashVO vo);
 
@@ -42,8 +44,6 @@ public interface MypageService {
 	public List<cashVO> getMyCashHistory(Criteria cri);
 
 	public int getMyCashHistoryCount(String userId);
-
-	public void removeAllScrap(Long scrap_num);
 
 	public boolean myWithdrawal(String userId);
 	

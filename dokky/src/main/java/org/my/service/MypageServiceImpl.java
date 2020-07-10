@@ -70,23 +70,6 @@ public class MypageServiceImpl implements MypageService {
 	}
 	
 	@Override
-	public String getMemberPW(String userId) {
-
-		log.info("getMemberPW");
-
-		return mapper.getMemberPW(userId);
-	}
-	
-	@Override
-	public boolean updateMyPassword(String userId, String userPw) {
-		
-		log.info("updateMyPassword1");
-		
-		boolean updateResult = mapper.updateMyPassword(userId,userPw) == 1; 
-		
-		return updateResult;
-	}
-	@Override
 	public List<BoardVO> getMyBoardList(Criteria cri) {
 
 		log.info("getMyBoardList with criteria: " + cri);
@@ -108,7 +91,7 @@ public class MypageServiceImpl implements MypageService {
 		log.info("getMyReplylist with criteria: " + cri);
 		
 	    return mapper.getMyReplylist(cri); 
-	 }
+	}
 	
 	@Override
 	public int getMyReplyCount(Criteria cri) {
@@ -116,6 +99,32 @@ public class MypageServiceImpl implements MypageService {
 		log.info("getMyReplyCount");
 		
 		return mapper.getMyReplyCount(cri);
+	}
+	
+	@Override
+	public List<scrapVO> getMyScraplist(Criteria cri) {
+
+		log.info("getMyScraplist with criteria: " + cri);
+
+		return mapper.getMyScraplist(cri);
+	}
+	
+	@Override
+	public int getMyScrapCount(String userId) {
+		
+		log.info("getMyScrapCount");
+		
+		int getResult = mapper.getMyScrapCount(userId); 
+		
+		return getResult;
+	}
+	
+	@Override
+	public void removeScrap(Long scrap_num) {
+		
+		log.info("removeScrap");
+		
+		mapper.removeScrap(scrap_num);
 	}
 	
 	@Override
@@ -146,24 +155,6 @@ public class MypageServiceImpl implements MypageService {
 		boolean inserResult = mapper.insertScrapData(board_num, userId) == 1; 
 		
 		return inserResult;
-	}
-	
-	@Override
-	public List<scrapVO> getMyScraplist(Criteria cri) {
-
-		log.info("getMyScraplist with criteria: " + cri);
-
-		return mapper.getMyScraplist(cri);
-	}
-	
-	@Override
-	public int getMyScrapCount(String userId) {
-		
-		log.info("getMyScrapCount");
-		
-		int getResult = mapper.getMyScrapCount(userId); 
-		
-		return getResult;
 	}
 	
 	@Override
@@ -204,14 +195,6 @@ public class MypageServiceImpl implements MypageService {
 		return getResult;
 	}
 	
-	@Override
-	
-	public void removeAllScrap(Long scrap_num) {
-		log.info("removeAllScrap");
-		
-		mapper.removeScrap(scrap_num);
-	}
-	
 	@Override 
 	public boolean myWithdrawal(String userId){
 
@@ -220,5 +203,22 @@ public class MypageServiceImpl implements MypageService {
 		return mapper.updateEnabled(userId) == 1;
 	}
 	
+	@Override
+	public String getMemberPW(String userId) {
+
+		log.info("getMemberPW");
+
+		return mapper.getMemberPW(userId);
+	}
+	
+	@Override
+	public boolean updateMyPassword(String userId, String userPw) {
+		
+		log.info("updateMyPassword1");
+		
+		boolean updateResult = mapper.updateMyPassword(userId,userPw) == 1; 
+		
+		return updateResult;
+	}
 }
 
