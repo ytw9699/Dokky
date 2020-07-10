@@ -31,5 +31,5 @@ public interface AdminService {
 
 	public int updateRoleAdmin(String userId, alarmVO vo);
 	
-	public int updateApprove(commonVO vo);
+	public int approveCash(commonVO vo);
 }

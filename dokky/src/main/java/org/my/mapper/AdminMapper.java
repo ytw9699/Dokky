@@ -29,7 +29,7 @@ public interface AdminMapper {
 
 	public int updateRoleAdmin(String userId);
 
-	public int updateApprove(Long cash_num);
+	public int approveCash(Long cash_num);
 
 	public void updatePluscash(cashVO vo);
 

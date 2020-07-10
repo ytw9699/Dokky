@@ -126,7 +126,7 @@
 				 
 					$.ajax({
 						type : 'put',
-						url : '/admin/approve/',
+						url : '/admin/approveCash/',
 						data : JSON.stringify(commonData),
 						contentType : "application/json; charset=utf-8",
 						success : function(result, status, xhr) {

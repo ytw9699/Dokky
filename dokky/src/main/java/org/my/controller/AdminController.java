@@ -20,12 +20,11 @@ package org.my.controller;
 	import org.springframework.web.bind.annotation.ResponseBody;
 	import lombok.Setter;
 	import lombok.extern.log4j.Log4j;
-  //import org.springframework.security.access.annotation.Secured;
 
 @Controller
 @Log4j
 @RequestMapping("/admin/*")
-@PreAuthorize("hasAnyRole('ROLE_ADMIN','ROLE_SUPER')") //관리자권한이있어야함 @Secured({"ROLE_ADMIN"}) 같은거
+@PreAuthorize("hasAnyRole('ROLE_ADMIN','ROLE_SUPER')")
 public class AdminController {
 	
 	@Setter(onMethod_ = @Autowired)
@@ -64,8 +63,8 @@ public class AdminController {
 		return "admin/cashRequestList"; 
 	}
 	
-	@GetMapping("userReportList")
-	public String userReportList(Criteria cri, Model model) {//신고리스트
+	@GetMapping("userReportList")//신고리스트 가져오기
+	public String userReportList(Criteria cri, Model model) {
 		
 		log.info("admin/userReportList");
 		
@@ -80,8 +79,8 @@ public class AdminController {
 		return "admin/userReportList"; 
 	}
 	
-	@GetMapping("/userForm")  
-	public String userForm(@RequestParam("userId") String userId, Model model) {//관리자가 회원정보가져오기
+	@GetMapping("/userForm")  //관리자가 회원정보가져오기
+	public String userForm(@RequestParam("userId") String userId, Model model) {
 		
 		log.info("admin/userForm");
 		
@@ -92,8 +91,8 @@ public class AdminController {
 	
 	@RequestMapping(method = { RequestMethod.PUT, RequestMethod.PATCH },
 			value = "roleLimit/{userId}", produces = "text/plain; charset=UTF-8")
-	@ResponseBody
-	public ResponseEntity<String> updateRoleLimit(@PathVariable("userId") String userId, @RequestBody alarmVO vo) {//모든 글쓰기 제한
+	@ResponseBody //모든 글쓰기 제한
+	public ResponseEntity<String> updateRoleLimit(@PathVariable("userId") String userId, @RequestBody alarmVO vo) {
 	
 		log.info("admin/roleLimit");
 		log.info("vo"+vo);
@@ -105,8 +104,8 @@ public class AdminController {
 	
 	@RequestMapping(method = { RequestMethod.PUT, RequestMethod.PATCH },
 			value = "roleStop/{userId}", produces = "text/plain; charset=UTF-8")
-	@ResponseBody
-	public ResponseEntity<String> updateRoleStop(@PathVariable("userId") String userId, @RequestBody alarmVO vo) {//접속 제한
+	@ResponseBody //접속 제한
+	public ResponseEntity<String> updateRoleStop(@PathVariable("userId") String userId, @RequestBody alarmVO vo) {
 		
 		log.info("admin/roleStop");
 		log.info("vo"+vo);
@@ -118,8 +117,8 @@ public class AdminController {
 	
 	@RequestMapping(method = { RequestMethod.PUT, RequestMethod.PATCH },
 			value = "roleUser/{userId}", produces = "text/plain; charset=UTF-8")
-	@ResponseBody
-	public ResponseEntity<String> updateRoleUser(@PathVariable("userId") String userId , @RequestBody alarmVO vo) {//계정 복구
+	@ResponseBody //계정 복구
+	public ResponseEntity<String> updateRoleUser(@PathVariable("userId") String userId , @RequestBody alarmVO vo) {
 		
 		log.info("admin/roleUser");
 		log.info("vo"+vo);
@@ -132,8 +131,8 @@ public class AdminController {
 	
 	@RequestMapping(method = { RequestMethod.PUT, RequestMethod.PATCH },
 			value = "roleAdmin/{userId}", produces = "text/plain; charset=UTF-8")
-	@ResponseBody
-	public ResponseEntity<String> updateRoleAdmin(@PathVariable("userId") String userId, @RequestBody alarmVO vo) {//관리자로 계정 변경
+	@ResponseBody //관리자로 계정 변경
+	public ResponseEntity<String> updateRoleAdmin(@PathVariable("userId") String userId, @RequestBody alarmVO vo) {
 	
 		log.info("admin/roleAdmin");
 		log.info("vo"+vo);
@@ -143,7 +142,7 @@ public class AdminController {
 				: new ResponseEntity<>("fail", HttpStatus.INTERNAL_SERVER_ERROR);
 	}
 	
- 	@GetMapping("/userCashHistory")  
+ 	@GetMapping("/userCashHistory") 
 	public String userCashHistory(Criteria cri, Model model) {
 		
 		log.info("getUserCashHistoryCount");
@@ -162,33 +161,15 @@ public class AdminController {
 	}
 	
 	@RequestMapping(method = { RequestMethod.PUT, RequestMethod.PATCH },
-			value = "/approve", consumes = "application/json", produces = "text/plain; charset=UTF-8")
+			value = "/approveCash", consumes = "application/json", produces = "text/plain; charset=UTF-8")
 		@ResponseBody
-		public ResponseEntity<String> approve(@RequestBody commonVO vo) {
+		public ResponseEntity<String> approveCash(@RequestBody commonVO vo) {
 		
-		log.info("/approve");
+		log.info("/approveCash");
 		log.info("commonVO...="+vo);
 		
-		return adminService.updateApprove(vo) == 1 ? new ResponseEntity<>("success", HttpStatus.OK)
+		return adminService.approveCash(vo) == 1 ? new ResponseEntity<>("success", HttpStatus.OK)
 				: new ResponseEntity<>("fail", HttpStatus.INTERNAL_SERVER_ERROR);
 	}
-	
-	/*@RequestMapping(method = { RequestMethod.PUT,RequestMethod.PATCH },
-			value = "/approve", consumes = "application/json", produces = "text/plain; charset=UTF-8")
-		@ResponseBody
-		public ResponseEntity<String> approve(@RequestBody Map<String, VoInterface> params) {
-		
-		log.info("params...="+params);
-		
-		//Map alarmData1 = (Map) params.get("alarmData1");
-		
-		VoInterface alarmVO = (alarmVO)params.get("alarmData1");
-		
-		//alarmVO.setTarget((String)alarmData1.get("target"));
-		
-		log.info("alarmVO...="+alarmVO);
-		
-		return new ResponseEntity<>("알림이 입력되었습니다.", HttpStatus.OK) ;
-		}*/
 }
 	

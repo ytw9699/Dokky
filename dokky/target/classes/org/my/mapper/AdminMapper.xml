@@ -171,16 +171,16 @@
 			update dk_member_auth set auth = 'ROLE_ADMIN' WHERE USERID = #{userId}  
 	</update>
 	
-	<update id="updateApprove">
-		update dk_cash set specification = '승인완료' where cash_num = #{cash_num} 
-	</update>
-	
 	<update id="updatePluscash">
 	    update dk_member set cash = cash + #{cashAmount} where userId = #{userId}
 	</update>
 	
 	<update id="updateMinuscash">
 	    update dk_member set cash = cash - #{cashAmount} where userId = #{userId}
+	</update>
+	
+	<update id="approveCash">
+		update dk_cash set specification = '승인완료' where cash_num = #{cash_num} 
 	</update>
 	
 </mapper>

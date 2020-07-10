@@ -134,25 +134,29 @@ public class AdminServiceImpl implements AdminService {
 	
 	@Transactional
 	@Override
-	public int updateApprove(commonVO vo) {
+	public int approveCash(commonVO vo) {
 
-		log.info("updateApprove");
 		log.info(vo);
 		
 		cashVO cashVO = vo.getCashVO();
 		
-		log.info("updateUsercash");
-		
-		if(cashVO.getCashKind().equals("충전")) 
+		if(cashVO.getCashKind().equals("충전")) {
+			
 			adminMapper.updatePluscash(cashVO);
-		else if(cashVO.getCashKind().equals("환전"))
+			
+			log.info("updatePluscash");
+			
+		}else if(cashVO.getCashKind().equals("환전")) {
+			
 			adminMapper.updateMinuscash(cashVO);
-		
+			
+			log.info("updateMinuscash");
+		}
+			
 		log.info("insertAlarm: ");
 		commonMapper.insertAlarm(vo.getAlarmVO());
 		
 		log.info("updateApprove: ");
-
-		return adminMapper.updateApprove(cashVO.getCash_num());
+		return adminMapper.approveCash(cashVO.getCash_num());
 	}
 }
