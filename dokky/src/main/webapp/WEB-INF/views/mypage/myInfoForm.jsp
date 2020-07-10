@@ -411,7 +411,7 @@
 		       <c:when test="${update eq 'notComplete'}">
 		       			<script>
 					      $(document).ready(function(){
-					      	openAlert("재시도해주세요");
+					      	openAlert("재시도 해주세요");
 					      });
 				    	</script>
 		       </c:when>

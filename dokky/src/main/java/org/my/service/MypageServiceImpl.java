@@ -27,7 +27,7 @@ public class MypageServiceImpl implements MypageService {
 	@Override
 	public MemberVO getMyInfo(String userId) {
 
-		log.info("get MemberVO");
+		log.info("getMyInfo");
 
 		return mapper.getMyInfo(userId);
 	}
@@ -42,7 +42,7 @@ public class MypageServiceImpl implements MypageService {
 		
 		String userId = board.getUserId();
 		
-		boolean nickNameResult = nickName.equals(mapper.getMyNickName(userId));
+		boolean nickNameResult = nickName.equals(mapper.getMyNickName(userId));//현재 나의 닉네임과 폼에서 입력한 닉네임이 같은지
 		
 		if(!nickNameResult) {//닉네임을 변경한다면 
 			

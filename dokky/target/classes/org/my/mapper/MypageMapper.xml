@@ -5,19 +5,20 @@
 <mapper namespace="org.my.mapper.MypageMapper">
 	
 	<!-- 나의 정보 한줄 가져오기 -->
-	 <select id="getMyInfo" resultType="org.my.domain.MemberVO">
-		select * from DK_MEMBER where userId = #{userId}
+	<select id="getMyInfo" resultType="org.my.domain.MemberVO">
+			select * from DK_MEMBER where userId = #{userId}
 	</select>
 
 	<!-- 나의 정보 변경하기 -->
 	<update id="updateMyInfo">
-		update DK_MEMBER set 
-			nickName = #{nickName},
-			bankName = #{bankName},
-			account  = #{account}
-	  where userId   = #{userId}
+			update DK_MEMBER set 
+				nickName = #{nickName},
+				bankName = #{bankName},
+				account  = #{account}
+		  where userId   = #{userId}
 	</update>
 	
+	<!-- 현재 나의 닉네임 가져오기 -->
 	<select id="getMyNickName" resultType="String">
 		select nickName from DK_MEMBER where userId = #{userId}
 	</select>
