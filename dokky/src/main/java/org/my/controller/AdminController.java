@@ -163,7 +163,7 @@ public class AdminController {
 	@RequestMapping(method = { RequestMethod.PUT, RequestMethod.PATCH },
 			value = "/approveCash", consumes = "application/json", produces = "text/plain; charset=UTF-8")
 		@ResponseBody
-		public ResponseEntity<String> approveCash(@RequestBody commonVO vo) {
+		public ResponseEntity<String> approveCash(@RequestBody commonVO vo) {//캐시 환전 및 충전 하기
 		
 		log.info("/approveCash");
 		log.info("commonVO...="+vo);

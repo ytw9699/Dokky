@@ -27,7 +27,7 @@ public class AdminServiceImpl implements AdminService {
 	@Override
 	public List<MemberVO> getUserList(Criteria cri) {
 
-		log.info("getMemberList: " + cri);
+		log.info("getMemberList" + cri);
 
 		return adminMapper.getUserList(cri);
 	}
@@ -35,7 +35,7 @@ public class AdminServiceImpl implements AdminService {
 	@Override
 	public int getMemberTotalCount(Criteria cri) {
 
-		log.info("getMemberTotalCount: ");
+		log.info("getMemberTotalCount");
 
 		return adminMapper.getMemberTotalCount(cri);
 	}
@@ -43,7 +43,7 @@ public class AdminServiceImpl implements AdminService {
 	@Override
 	public List<cashVO> getCashRequestList(Criteria cri) {
 
-		log.info("getCashRequestList: " + cri);
+		log.info("getCashRequestList" + cri);
 
 		return adminMapper.getCashRequestList(cri);
 	}
@@ -51,7 +51,7 @@ public class AdminServiceImpl implements AdminService {
 	@Override
 	public int getCashListTotalCount() {
 
-		log.info("getTotalCount: ");
+		log.info("getTotalCount");
 
 		return adminMapper.getCashListTotalCount();
 	}
@@ -59,7 +59,7 @@ public class AdminServiceImpl implements AdminService {
 	@Override
 	public List<reportVO> getUserReportList(Criteria cri){
 	
-		log.info("getUserReportList: " + cri);
+		log.info("getUserReportList" + cri);
 
 		return adminMapper.getUserReportList(cri);
 	}
@@ -67,7 +67,7 @@ public class AdminServiceImpl implements AdminService {
 	@Override
 	public int getUserReportCount(Criteria cri){
 
-		log.info("getUserReportCount: ");
+		log.info("getUserReportCount");
 
 		return adminMapper.getUserReportCount(cri);
 	}
@@ -75,7 +75,7 @@ public class AdminServiceImpl implements AdminService {
 	@Override
 	public MemberVO getUserForm(String userId) {
 
-		log.info("getUserForm: " + userId);
+		log.info("getUserForm" + userId);
 
 		return adminMapper.getUserForm(userId);
 	}
@@ -84,11 +84,11 @@ public class AdminServiceImpl implements AdminService {
 	@Override
 	public int updateRoleLimit(String userId, alarmVO vo) {
 		
-		log.info("insertAlarm: ");
+		log.info("insertAlarm");
 		
 		commonMapper.insertAlarm(vo);
 		
-		log.info("updateRoleLimit.."+userId);
+		log.info("updateRoleLimit :"+userId);
 		
 		return adminMapper.updateRoleLimit(userId);
 	}
@@ -97,11 +97,11 @@ public class AdminServiceImpl implements AdminService {
 	@Override
 	public int updateRoleStop(String userId,alarmVO vo) {
 		
-		log.info("insertAlarm: ");
+		log.info("insertAlarm");
 		
 		commonMapper.insertAlarm(vo);
 		
-		log.info("updateRoleStop.."+userId);
+		log.info("updateRoleStop :"+userId);
 		
 		return adminMapper.updateRoleStop(userId);
 	}
@@ -110,11 +110,11 @@ public class AdminServiceImpl implements AdminService {
 	@Override
 	public int updateRoleUser(String userId, alarmVO vo) {
 		
-		log.info("insertAlarm: ");
+		log.info("insertAlarm");
 		
 		commonMapper.insertAlarm(vo);
 		
-		log.info("updateRoleUser.."+userId);
+		log.info("updateRoleUser :"+userId);
 		
 		return adminMapper.updateRoleUser(userId);
 	}
@@ -123,11 +123,11 @@ public class AdminServiceImpl implements AdminService {
 	@Override
 	public int updateRoleAdmin(String userId, alarmVO vo) {
 		
-		log.info("insertAlarm: ");
+		log.info("insertAlarm");
 		
 		commonMapper.insertAlarm(vo);
 		
-		log.info("updateRoleAdmin.."+userId);
+		log.info("updateRoleAdmin : "+userId);
 		
 		return adminMapper.updateRoleAdmin(userId);
 	}
@@ -153,10 +153,10 @@ public class AdminServiceImpl implements AdminService {
 			log.info("updateMinuscash");
 		}
 			
-		log.info("insertAlarm: ");
+		log.info("insertAlarm");
 		commonMapper.insertAlarm(vo.getAlarmVO());
 		
-		log.info("updateApprove: ");
+		log.info("updateApprove");
 		return adminMapper.approveCash(cashVO.getCash_num());
 	}
 }

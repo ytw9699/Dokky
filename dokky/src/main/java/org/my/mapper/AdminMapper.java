@@ -36,5 +36,4 @@ public interface AdminMapper {
 	public void updateMinuscash(cashVO vo);
 
 	public int insertReportdata(reportVO vo);
-	
 }

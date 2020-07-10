@@ -4,7 +4,7 @@
   "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="org.my.mapper.AdminMapper">
 		
-		<resultMap id="memberMap" type="org.my.domain.MemberVO" >
+	  <resultMap id="memberMap" type="org.my.domain.MemberVO" >
 		    <id property="userId" column="userId"/>
 			    <result property="userId" column="userid"/>
 			    <result property="userPw" column="userpw"/>
@@ -40,7 +40,7 @@
 			</trim>
 	  </sql>
 	
-	<select id="getUserList" resultMap="memberMap">
+	  <select id="getUserList" resultMap="memberMap">
 		 <![CDATA[  
 				select userId
 					 , nickName 
@@ -60,9 +60,9 @@
 				    )
 				  where rn > (#{pageNum} -1) * #{amount}   
 				  ]]>
-	</select>
+	  </select>
 
-	 <select id="getMemberTotalCount" resultType="int">
+	  <select id="getMemberTotalCount" resultType="int">
 			select count(*) from dk_member 
 				 <trim prefix="where" suffix="" prefixOverrides="OR">
 					<foreach item='type' collection="typeArr">
@@ -78,41 +78,41 @@
 						</trim>
 					</foreach>
 				</trim>				   
-	 </select>
+	  </select>
 	
-	<select id="getCashRequestList" resultType="org.my.domain.cashVO"> 
-		select cash_num
-			 , regDate
-			 , cashAmount
-			 , specification
-			 , userId
-			 , nickName
-			 , cashKind
-	 	 from ( 
-	 	 		select /*+INDEX_DESC(dk_cash pk_cash) */ rownum rn
-				 									   , cash_num
-				 									   , regDate
-				 									   , cashAmount
-				 									   , specification
-				 									   , userId
-				 									   , nickName
-				 									   , cashKind
-				 from dk_cash 
-				  where (specification = '미승인' or specification = '승인완료') and <![CDATA[ rownum <= #{pageNum} * #{amount} 
-			  )
-		   where rn > (#{pageNum} -1) * #{amount}  
-		   ]]>
-	</select>
+	  <select id="getCashRequestList" resultType="org.my.domain.cashVO"> 
+			select cash_num
+				 , regDate
+				 , cashAmount
+				 , specification
+				 , userId
+				 , nickName
+				 , cashKind
+		 	 from ( 
+		 	 		select /*+INDEX_DESC(dk_cash pk_cash) */ rownum rn
+					 									   , cash_num
+					 									   , regDate
+					 									   , cashAmount
+					 									   , specification
+					 									   , userId
+					 									   , nickName
+					 									   , cashKind
+					 from dk_cash 
+					  where (specification = '미승인' or specification = '승인완료') and <![CDATA[ rownum <= #{pageNum} * #{amount} 
+				  )
+			   where rn > (#{pageNum} -1) * #{amount}  
+			   ]]>
+	  </select>
 	
-	<select id="getCashListTotalCount" resultType="int">
+	  <select id="getCashListTotalCount" resultType="int">
 		select count(*) from dk_cash where specification = '미승인' or specification = '승인완료'
-	</select>
+	  </select>
 	
-	<select id="getUserReportCount" resultType="int">
+	  <select id="getUserReportCount" resultType="int">
 		 select count(*) from dk_report
-	</select>
+	  </select>
 	
-	 <select id="getUserReportList" resultType="org.my.domain.reportVO">
+	  <select id="getUserReportList" resultType="org.my.domain.reportVO">
 			select  report_num
 				  , reportKind
 				  , reportingId
@@ -139,48 +139,48 @@
 				  )
 			    where rn > (#{pageNum} -1) * #{amount}  
 			]]>
-	</select>
+	   </select>
 	
 		<!-- 나의 정보 한줄 가져오기 -->
-	  <select id="getUserForm" resultMap="memberMap">
-			 SELECT mem.userid
-				  , nickname
-				  , bankName
-				  , account
-				  , regdate
-				  , preLoginDate
-				  , auth
-			 FROM 
-			  	dk_member mem LEFT OUTER JOIN dk_member_auth auth on mem.userid = auth.userid 
-			 WHERE mem.userid = #{userId} 
-	  </select>
+	   <select id="getUserForm" resultMap="memberMap">
+				 SELECT mem.userid
+					  , nickname
+					  , bankName
+					  , account
+					  , regdate
+					  , preLoginDate
+					  , auth
+				 FROM 
+				  	dk_member mem LEFT OUTER JOIN dk_member_auth auth on mem.userid = auth.userid 
+				 WHERE mem.userid = #{userId} 
+	   </select>
 	  
-	<update id="updateRoleLimit"> 
-			update dk_member_auth set auth = 'ROLE_LIMIT' WHERE USERID = #{userId}  
-	</update>
-	
-	<update id="updateRoleStop"> 
-			update dk_member_auth set auth = 'ROLE_STOP' WHERE USERID = #{userId}  
-	</update>
-	
-	<update id="updateRoleUser"> 
-			update dk_member_auth set auth = 'ROLE_USER' WHERE USERID = #{userId}  
-	</update>
-	
-	<update id="updateRoleAdmin"> 
-			update dk_member_auth set auth = 'ROLE_ADMIN' WHERE USERID = #{userId}  
-	</update>
-	
-	<update id="updatePluscash">
-	    update dk_member set cash = cash + #{cashAmount} where userId = #{userId}
-	</update>
-	
-	<update id="updateMinuscash">
-	    update dk_member set cash = cash - #{cashAmount} where userId = #{userId}
-	</update>
-	
-	<update id="approveCash">
-		update dk_cash set specification = '승인완료' where cash_num = #{cash_num} 
-	</update>
+		<update id="updateRoleLimit"> 
+				update dk_member_auth set auth = 'ROLE_LIMIT' WHERE USERID = #{userId}  
+		</update>
+		
+		<update id="updateRoleStop"> 
+				update dk_member_auth set auth = 'ROLE_STOP' WHERE USERID = #{userId}  
+		</update>
+		
+		<update id="updateRoleUser"> 
+				update dk_member_auth set auth = 'ROLE_USER' WHERE USERID = #{userId}  
+		</update>
+		
+		<update id="updateRoleAdmin"> 
+				update dk_member_auth set auth = 'ROLE_ADMIN' WHERE USERID = #{userId}  
+		</update>
+		
+		<update id="updatePluscash">
+		    update dk_member set cash = cash + #{cashAmount} where userId = #{userId}
+		</update>
+		
+		<update id="updateMinuscash">
+		    update dk_member set cash = cash - #{cashAmount} where userId = #{userId}
+		</update>
+		
+		<update id="approveCash">
+			update dk_cash set specification = '승인완료' where cash_num = #{cash_num} 
+		</update>
 	
 </mapper>
