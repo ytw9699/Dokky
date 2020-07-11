@@ -184,11 +184,14 @@
 		          };
 		
 			chargeCash(chargeData, function(result){
+				
 			        if(result == "success"){
-			        	openAlert("계좌 입금이 확인되면 캐시가 충전됩니다");
-			        }
-			        else if(result == "fail"){
-			        	openAlert("잠시후 재시도 해주세요");
+			        	
+			        	openAlert("입금이 확인되면 캐시가 충전됩니다");
+			        	
+			        }else if(result == "fail"){
+			        	
+			        	openAlert("관리자에게 문의해주세요");
 			        }
 		     }); 
 			
@@ -233,11 +236,14 @@
 			}
 			
 			reChargeCash(reChargeData, function(result){
+				
 			        if(result == "success"){
+			        	
 			        	openAlert("관리자 승인후 환전됩니다");
-			        }
-			        else if(result == "fail"){
-			        	openAlert("잠시후 재시도 해주세요");
+			        	
+			        }else if(result == "fail"){
+			        	
+			        	openAlert("관리자에게 문의해주세요");
 			        }
 		     }); 
 			

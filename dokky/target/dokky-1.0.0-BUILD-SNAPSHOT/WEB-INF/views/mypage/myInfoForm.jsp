@@ -51,6 +51,7 @@
 		        <label for="profile" id="profileSearch">프로필 이미지 찾기</label>    
 				<input type="file" name="profileFile" id="profile" /><br>
 				<input type="hidden" name="userId" value="${userInfo.username}"/> 
+				<input type="hidden" name="serverName" value="${pageContext.request.serverName}"/> 
 				<input type="hidden" name="${_csrf.parameterName}" value="${_csrf.token}" />
 				<input type="button" class="profileButtons" id="profileConfirm" value="확인" />
 				<input type="button" class="profileButtons" id="defaultImage" value="기본이미지"/>
@@ -411,7 +412,7 @@
 		       <c:when test="${update eq 'notComplete'}">
 		       			<script>
 					      $(document).ready(function(){
-					      	openAlert("재시도해주세요");
+					      	openAlert("재시도 해주세요");
 					      });
 				    	</script>
 		       </c:when>

@@ -137,20 +137,19 @@
 						</td> 
 						<td class="td">
 							<div class="tdData">  
-								기부금
 							</div>
 							    \<fmt:formatNumber type="number" maxFractionDigits="3" value="${board.money}"/>
 						</td>
 						<td class="td"> 
-							<a href="#" class="userMenu" data-board_num="${board.board_num}">
+							<a href="#" class="userMenu" data-board_num="${board.board_num}"> 
 								<c:choose>
-								   	  <c:when test="${pageContext.request.serverName == 'localhost'}">
-											<img src="/upload/<c:out value="${board.userId}"  />.png?${random}"  class="memberImage hideUsermenu" onerror="this.src='/resources/img/profile_img/basicProfile.png'" />
-									  </c:when>
-								      <c:otherwise>
+								   	  <c:when test="${pageContext.request.serverName == 'localhost'}"> 
+										 	<img src="/resources/img/profile_img/<c:out value="${board.userId}"  />.png?${random}"  class="memberImage hideUsermenu" onerror="this.src='/resources/img/profile_img/basicProfile.png'" />
+									  </c:when> 
+								      <c:otherwise> 
 								    		<img src="/upload/<c:out value="${board.userId}"  />.png?${random}"  class="memberImage hideUsermenu" onerror="this.src='/ROOT/resources/img/profile_img/basicProfile.png'" />
 								      </c:otherwise>
-								</c:choose>	
+								</c:choose>	 
 								<c:out value="${board.nickName}" /> 
 							</a> 
 							 <div id="userMenubar_${board.board_num}" class="userMenubar">
