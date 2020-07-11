@@ -40,8 +40,8 @@
 			<form action="/mypage/profileFile" id="profileForm" name="profileForm" method="post" enctype="multipart/form-data">
 				<div class="mainImgWrap">  
 					<c:choose>
-					   	  <c:when test="${pageContext.request.serverName == 'localhost'}">
-								<img class="mainImgtag" id="mainImg" src="/upload/<c:out value="${userInfo.username}" />.png?${random}" onerror="this.src='/resources/img/profile_img/basicProfile.png'" />
+					   	  <c:when test="${pageContext.request.serverName == 'localhost'}"> 
+								<img class="mainImgtag" id="mainImg" src="/resources/img/profile_img/<c:out value="${userInfo.username}"  />.png?${random}" onerror="this.src='/resources/img/profile_img/basicProfile.png'" />
 						  </c:when>
 					      <c:otherwise>
 								<img class="mainImgtag" id="mainImg" src="/upload/<c:out value="${userInfo.username}" />.png?${random}" onerror="this.src='/ROOT/resources/img/profile_img/basicProfile.png'" />
@@ -51,6 +51,7 @@
 		        <label for="profile" id="profileSearch">프로필 이미지 찾기</label>    
 				<input type="file" name="profileFile" id="profile" /><br>
 				<input type="hidden" name="userId" value="${userInfo.username}"/> 
+				<input type="hidden" name="serverName" value="${pageContext.request.serverName}"/> 
 				<input type="hidden" name="${_csrf.parameterName}" value="${_csrf.token}" />
 				<input type="button" class="profileButtons" id="profileConfirm" value="확인" />
 				<input type="button" class="profileButtons" id="defaultImage" value="기본이미지"/>
@@ -71,7 +72,7 @@
 	     				<div class="memberProfile">
      						<c:choose>
 							   	  <c:when test="${pageContext.request.serverName == 'localhost'}">
-										<img src="/upload/<c:out value="${userInfo.username}" />.png?${random}" id="myImage" onerror="this.src='/resources/img/profile_img/basicProfile.png'" />
+										<img src="/resources/img/profile_img/<c:out value="${userInfo.username}" />.png?${random}" id="myImage" onerror="this.src='/resources/img/profile_img/basicProfile.png'" />
 								  </c:when>
 							      <c:otherwise>
 										<img src="/upload/<c:out value="${userInfo.username}" />.png?${random}" id="myImage" onerror="this.src='/ROOT/resources/img/profile_img/basicProfile.png'" />

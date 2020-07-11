@@ -106,6 +106,73 @@ public class MypageController {
 			return "redirect:/mypage/myInfoForm?userId="+userId;
 	}
 	
+	@PreAuthorize("principal.username == #userId") 
+	@PostMapping(value = "/profileFile")//프로필 이미지 올리기
+	public String registerProfileFile(MultipartHttpServletRequest request, @RequestParam("userId") String userId, 
+												@RequestParam("serverName") String serverName ) throws IOException { 
+		
+		log.info("/mypage/profileFile"); 
+		
+		String uploadPath;
+		
+		if(serverName.equals("localhost")){//로컬의 경우
+			
+			uploadPath =request.getSession().getServletContext().getRealPath("/")+File.separator+"resources/img/profile_img";
+			
+		}else{//EC2 우분투의 경우
+			
+			uploadPath ="/var/lib/tomcat9/webapps/upload";
+			//String uploadPath ="/home/ubuntu/upload"; 
+		}	
+		
+		log.info("uploadPath"+uploadPath);
+		
+		MultipartFile profileFile = request.getFile("profileFile");
+		 
+		File uploadFile = new File(uploadPath , userId+".png");  
+		
+		//uploadFile.setExecutable(true, true);
+		
+		try {
+			profileFile.transferTo(uploadFile);
+		} catch (Exception e) {
+			e.getStackTrace();
+		}
+		
+		if(!serverName.equals("localhost")){
+			
+			Runtime.getRuntime().exec("chmod -R 777 " + "/var/lib/tomcat9/webapps/upload");//파일 접근 위해
+			//Runtime.getRuntime().exec("chmod -R 777 " + "/home/ubuntu/upload/");
+		}
+        
+		return "redirect:/mypage/myInfoForm?userId="+userId;
+	}
+	
+	@PreAuthorize("isAuthenticated()") 
+	@PostMapping(value = "/deleteProfile") 
+	public String deleteProfile(MultipartHttpServletRequest request){//기본 이미지 파일로 변경은 기존 파일 삭제로 구현
+		
+		log.info("/mypage/deleteProfile"); 
+		
+		//String uploadPath =request.getSession().getServletContext().getRealPath("/")+File.separator+"resources/img/profile_img/";
+		String uploadPath ="/var/lib/tomcat9/webapps/upload/";
+		//String uploadPath ="/home/ubuntu/upload/";
+		String userId = request.getParameter("userId");
+		
+		try {
+			  File file = new File(uploadPath+userId+".png");
+			  
+			   if( file.exists() ){
+				   file.delete();
+			   }
+			   
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+		
+		return "redirect:/mypage/myInfoForm?userId="+userId;
+	}
+	
 	@PreAuthorize("principal.username == #cri.userId")
  	@GetMapping("/myBoardList") 
 	public String myBoardList(Criteria cri, Model model) { //내 게시글 가져오기
@@ -280,66 +347,6 @@ public class MypageController {
 					return "error/commonError";
 			}
 	}
-	
-	@PreAuthorize("isAuthenticated()") 
-	@PostMapping(value = "/profileFile")//
-	public String registerProfileFile(MultipartHttpServletRequest request) throws IOException { //프로필 이미지 올리기
-		
-		log.info("/mypage/profileFile"); 
-		
-		//String uploadPath =request.getSession().getServletContext().getRealPath("/")+File.separator+"resources/img/profile_img";
-		String uploadPath ="/var/lib/tomcat9/webapps/upload"; 
-		//String uploadPath ="/home/ubuntu/upload"; 
-		
-		log.info("uploadPath"+uploadPath);
-		
-		String userId = request.getParameter("userId");
-		
-		MultipartFile profileFile = request.getFile("profileFile");
-		 
-		File uploadFile = new File(uploadPath , userId+".png");  
-		
-		//uploadFile.setExecutable(true, true);
-		//uploadFile.setExecutable(true, true);
-		
-		try {
-			profileFile.transferTo(uploadFile);
-		} catch (Exception e) {
-			e.getStackTrace();
-		}
-		
-		//Runtime.getRuntime().exec("chmod -R 755 " + "/var/lib/tomcat9/webapps/ROOT/resources/img/profile_img");
-		Runtime.getRuntime().exec("chmod -R 777 " + "/var/lib/tomcat9/webapps/upload");
-		//Runtime.getRuntime().exec("chmod -R 777 " + "/home/ubuntu/upload/");
-        
-		return "redirect:/mypage/myInfoForm?userId="+userId;
-	}
-	
-	@PreAuthorize("isAuthenticated()") 
-	@PostMapping(value = "/deleteProfile") 
-	public String deleteProfile(MultipartHttpServletRequest request){//기본 이미지 파일로 변경은 기존 파일 삭제로 구현
-		
-		log.info("/mypage/deleteProfile"); 
-		
-		//String uploadPath =request.getSession().getServletContext().getRealPath("/")+File.separator+"resources/img/profile_img/";
-		String uploadPath ="/var/lib/tomcat9/webapps/upload/";
-		//String uploadPath ="/home/ubuntu/upload/";
-		String userId = request.getParameter("userId");
-		
-		try {
-			  File file = new File(uploadPath+userId+".png");
-			  
-			   if( file.exists() ){
-				   file.delete();
-			   }
-			   
-		} catch (Exception e) {
-			e.printStackTrace();
-		}
-		
-		return "redirect:/mypage/myInfoForm?userId="+userId;
-	}
-	
 	
 	/*@PreAuthorize("isAuthenticated()") 
 	@PostMapping(value = "/checkPassword", consumes = "application/json", produces = "text/plain; charset=UTF-8")
