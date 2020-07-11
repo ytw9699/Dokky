@@ -192,6 +192,63 @@ public class MypageController {
 		return "mypage/myCashInfo";
 	}
 	
+	@PreAuthorize("principal.username == #vo.userId")  
+	@PostMapping(value = "/chargeData", produces = "text/plain; charset=UTF-8")
+	@ResponseBody
+	public ResponseEntity<String> chargeData(@RequestBody cashVO vo) {//캐시 충전 요청 하기
+		
+		log.info("/mypage/chargeData");
+		
+		if(mypageService.insertChargeData(vo)) {
+			
+			log.info("insertChargeData...success..vo = "+vo);
+			
+			return new ResponseEntity<>("success", HttpStatus.OK);
+		
+		}else{
+
+			log.info("insertChargeData...fail..vo = "+vo);
+			
+			return new ResponseEntity<>("fail", HttpStatus.OK);
+		}
+	}
+	
+	@PreAuthorize("principal.username == #vo.userId")  
+	@PostMapping(value = "/reChargeData", produces = "text/plain; charset=UTF-8")
+	@ResponseBody
+	public ResponseEntity<String> reChargeData(@RequestBody cashVO vo) {//캐시 환전 요청 하기
+		
+		log.info("/mypage/reChargeData");
+		
+		if(mypageService.insertReChargeData(vo)) {
+			
+			log.info("insertReChargeData...success..vo = "+vo);
+			
+			return new ResponseEntity<>("success", HttpStatus.OK);
+			
+		}else{
+			
+			log.info("insertReChargeData...fail..vo ="+vo);
+			
+			return new ResponseEntity<>("fail", HttpStatus.OK);
+		}
+	}
+	
+	@PreAuthorize("principal.username == #cri.userId")
+ 	@GetMapping("/myCashHistory")  
+	public String myCashHistory(Criteria cri, Model model) { //내 캐시 내역
+		
+		log.info("/mypage/myCashHistory");
+		
+		int total = mypageService.getMyCashHistoryCount(cri.getUserId());
+		
+		model.addAttribute("myCashHistory", mypageService.getMyCashHistory(cri));
+		
+		model.addAttribute("pageMaker", new PageDTO(cri, total));
+		
+		return "mypage/myCashHistory"; 
+	}
+	
 	@PreAuthorize("principal.username == #userId")  
  	@GetMapping("/myWithdrawalForm")  
 	public String myWithdrawalForm(@RequestParam("userId") String userId) { //탈퇴 하기 폼 가져오기
@@ -222,57 +279,6 @@ public class MypageController {
 					
 					return "error/commonError";
 			}
-	}
-	
-	@PreAuthorize("isAuthenticated()") 
-	@PostMapping(value = "/chargeData", produces = "text/plain; charset=UTF-8")
-	@ResponseBody
-	public ResponseEntity<String> chargeData(@RequestBody cashVO vo) {//캐시 충전하기
-		
-		log.info("/mypage/chargeData");
-		
-		if(mypageService.insertChargeData(vo)) {
-			
-			log.info("insertChargeData...success "+vo);
-			
-			return new ResponseEntity<>("success", HttpStatus.OK);
-		}
-			log.info("insertChargeData...fail "+vo);
-			
-			return new ResponseEntity<>("fail", HttpStatus.OK);
-	}
-	
-	@PreAuthorize("isAuthenticated()") 
-	@PostMapping(value = "/reChargeData", produces = "text/plain; charset=UTF-8")
-	@ResponseBody
-	public ResponseEntity<String> reChargeData(@RequestBody cashVO vo) {//캐시 환전하기
-		
-		log.info("/mypage/reChargeData");
-		
-		if(mypageService.insertReChargeData(vo)) {
-			
-			log.info("insertReChargeData...success "+vo);
-			
-			return new ResponseEntity<>("success", HttpStatus.OK);
-		}
-			log.info("insertReChargeData...fail "+vo);
-			
-			return new ResponseEntity<>("fail", HttpStatus.OK);
-	}
-	
-	@PreAuthorize("principal.username == #cri.userId")
- 	@GetMapping("/myCashHistory")  
-	public String myCashHistory(Criteria cri, Model model) { //내 캐시 내역
-		
-		log.info("/mypage/myCashHistory");
-		
-		int total = mypageService.getMyCashHistoryCount(cri.getUserId());
-		
-		model.addAttribute("myCashHistory", mypageService.getMyCashHistory(cri));
-		
-		model.addAttribute("pageMaker", new PageDTO(cri, total));
-		
-		return "mypage/myCashHistory"; 
 	}
 	
 	@PreAuthorize("isAuthenticated()") 

@@ -45,16 +45,16 @@ public interface MypageMapper {
 	public int getMyScrapCount(String userId);
 	
 	public void removeScrap(Long scrap_num);
+	
+	public int insertChargeData(cashVO vo);
+
+	public int insertReChargeData(cashVO vo);
 
 	public int insertScrapData(@Param("board_num") int board_num, @Param("userId") String userId);
  
 	public int getScrapCnt(@Param("board_num") int board_num, @Param("userId") String userId);
 
 	public int deleteScrap(@Param("board_num") int board_num, @Param("userId") String userId);
-
-	public int insertChargeData(cashVO vo);
-
-	public int insertReChargeData(cashVO vo);
 
 	public List<cashVO> getMyCashHistory(Criteria cri);
 

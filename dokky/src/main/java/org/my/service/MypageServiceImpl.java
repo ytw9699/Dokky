@@ -128,6 +128,26 @@ public class MypageServiceImpl implements MypageService {
 	}
 	
 	@Override
+	public boolean insertChargeData(cashVO vo) {
+		
+		log.info("insertChargeData");
+		
+		boolean insertResult = mapper.insertChargeData(vo) == 1; 
+		
+		return insertResult;
+	}
+	
+	@Override
+	public boolean insertReChargeData(cashVO vo) {
+		
+		log.info("insertReChargeData");
+		
+		boolean insertResult = mapper.insertReChargeData(vo) == 1; 
+		
+		return insertResult;
+	}
+	
+	@Override
 	public int getScrapCnt(int board_num, String userId) {
 		
 		log.info("getScrapCnt");
@@ -157,25 +177,6 @@ public class MypageServiceImpl implements MypageService {
 		return inserResult;
 	}
 	
-	@Override
-	public boolean insertChargeData(cashVO vo) {
-		
-		log.info("insertChargeData");
-		
-		boolean inserResult = mapper.insertChargeData(vo) == 1; 
-		
-		return inserResult;
-	}
-	
-	@Override
-	public boolean insertReChargeData(cashVO vo) {
-		
-		log.info("insertReChargeData");
-		
-		boolean inserResult = mapper.insertReChargeData(vo) == 1; 
-		
-		return inserResult;
-	}
 	
 	@Override
 	public List<cashVO> getMyCashHistory(Criteria cri) {

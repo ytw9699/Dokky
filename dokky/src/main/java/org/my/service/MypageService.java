@@ -30,16 +30,16 @@ public interface MypageService {
 	public int getMyScrapCount(String userId);
 	
 	public void removeScrap(Long scrap_num);
+	
+	public boolean insertChargeData(cashVO vo);
+
+	public boolean insertReChargeData(cashVO vo);
 
 	public boolean insertScrapData(int board_num, String userId);
 
 	public int getScrapCnt(int board_num, String userId);
 
 	public int deleteScrap(int board_num, String userId);
-
-	public boolean insertChargeData(cashVO vo);
-
-	public boolean insertReChargeData(cashVO vo);
 	
 	public List<cashVO> getMyCashHistory(Criteria cri);
 

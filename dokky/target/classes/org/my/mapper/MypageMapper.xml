@@ -171,6 +171,46 @@
 		delete from dk_scrap where scrap_num = #{scrap_num}
 	</delete>
 	
+	<insert id="insertChargeData">
+	
+		insert into dk_cash (
+							cash_num,
+							cashKind,
+							cashAmount,
+							userId,
+							nickName,
+							specification
+							) values 
+										(
+										seq_dk_cash.nextval,
+										#{cashKind},
+										#{cashAmount},
+										#{userId},
+										#{nickName},
+										#{specification} 
+										)
+	</insert>
+	
+	<insert id="insertReChargeData">
+	
+		insert into dk_cash (
+							cash_num,
+							cashKind,
+							cashAmount,
+							userId,
+							nickName,
+							specification
+							) values
+										(
+										seq_dk_cash.nextval,
+										#{cashKind},
+										#{cashAmount},
+										#{userId},
+										#{nickName},
+										#{specification} 
+										)
+	</insert>
+	
 	<!-- 하위 스크랩 관련 -->
 	<select id="getScrapCnt" resultType="int">
 		<![CDATA[
@@ -200,43 +240,6 @@
 	
 	<!-- 상위 스크랩 관련 -->
 		   
-	<insert id="insertChargeData">
-		insert into dk_cash (
-							cash_num,
-							cashKind,
-							cashAmount,
-							userId,
-							nickName,
-							specification
-							) values 
-										(
-										seq_dk_cash.nextval,
-										#{cashKind},
-										#{cashAmount},
-										#{userId},
-										#{nickName},
-										#{specification} 
-										)
-	</insert>
-	
-	<insert id="insertReChargeData">
-		insert into dk_cash (
-							cash_num,
-							cashKind,
-							cashAmount,
-							userId,
-							nickName,
-							specification
-							) values
-										(
-										seq_dk_cash.nextval,
-										#{cashKind},
-										#{cashAmount},
-										#{userId},
-										#{nickName},
-										#{specification} 
-										)
-	</insert>
 	
 	<select id="getMyCashHistoryCount" resultType="int">
 		<![CDATA[
