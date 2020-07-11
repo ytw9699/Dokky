@@ -20,6 +20,8 @@
 <%@include file="../includes/left.jsp"%>
 <c:set var="random"><%= java.lang.Math.round(java.lang.Math.random() * 123456) %></c:set>
 <body> 
+<sec:authentication property="principal" var="userInfo"/>
+
 	<div class="memberListWrap">	 
 	 
 		 <div id="menuWrap"> 
@@ -66,11 +68,20 @@
 						<span class="nickName"><c:out value="${user.nickName}" /></span>
 						<c:choose>
 		     				<c:when test="${user.authList[0].auth == 'ROLE_USER'}"> 
-								<button class="authorization" data-user_id="${user.userId}">회원</button>
+								<button class="authorization" data-user_id="${user.userId}">사용자</button>
 							</c:when>
 							<c:when test="${user.authList[0].auth == 'ROLE_ADMIN'}">
 								<button class="authorization admin" data-user_id="${user.userId}">관리자</button>
-							</c:when> 
+							</c:when>
+							<c:when test="${user.authList[0].auth == 'ROLE_LIMIT'}"> 
+								<button class="authorization admin" data-user_id="${user.userId}">제한계정</button> 
+							</c:when>  
+							<c:when test="${user.authList[0].auth == 'ROLE_STOP'}"> 
+								<button class="authorization admin" data-user_id="${user.userId}">정지계정</button>
+							</c:when>
+							<c:when test="${user.authList[0].auth == 'ROLE_SUPER'}"> 
+								<button class="authorization admin" data-user_id="${user.userId}">슈퍼관리자</button>
+							</c:when>  
 		     			</c:choose>
 						<br/>  
 						<span class="userId"><c:out value="${user.userId}" /></span>
@@ -115,15 +126,20 @@
 			
 			var csrfHeaderName ="${_csrf.headerName}"; 
 			var csrfTokenValue="${_csrf.token}";
+			var myId = '${userInfo.username}';  
+			var myNickName = '${userInfo.member.nickName}';
 			
 			$(document).ajaxSend(function(e, xhr, options) { 
 			    xhr.setRequestHeader(csrfHeaderName, csrfTokenValue);
 			  });
 	
-			function updateRoleUser(userId, callback, error) {//권한 ROLE_USER로 변경
-	   			$.ajax({
+			function updateRoleUser(userId, alarmData, callback, error) {//권한 ROLE_USER로 변경
+	   			
+				$.ajax({
 	   				type : 'put',
 	   				url : '/admin/roleUser/'+ userId,
+	   				data : JSON.stringify(alarmData), 
+	   				contentType : "application/json; charset=utf-8",
 	   				success : function(result, status, xhr) {
 	   					if (callback) {
 	   						callback(result,xhr);
@@ -137,10 +153,13 @@
 	   			});
 	   		}
 			
-			function updateRoleAdmin(userId, callback, error) {//권한 ROLE_ADMIN로 변경
-	   			$.ajax({
+			function updateRoleAdmin(userId, alarmData, callback, error) {//권한 ROLE_ADMIN로 변경
+	   			
+				$.ajax({
 	   				type : 'put',
 	   				url : '/admin/roleAdmin/'+ userId,
+	   				data : JSON.stringify(alarmData), 
+	   				contentType : "application/json; charset=utf-8",
 	   				success : function(result, status, xhr) {
 	   					if (callback) {
 	   						callback(result,xhr);
@@ -166,40 +185,57 @@
 				
 				if(auth == '관리자'){
 					
-					updateRoleUser(userId, function(result){
+						var alarmData = { 
+												target:userId,  
+												  kind:13, 
+											writerNick:myNickName,
+											  writerId:myId
+								 		};
 						
-						authButton.html("사용자");
-						
-						authButton.attr('class','authorization'); 
-
-						openAlert("사용자 계정으로 변경 완료");
-						
-				   	  }); 
+						updateRoleUser(userId, alarmData, function(result){ 
+							
+							authButton.html("사용자");
+							
+							authButton.attr('class','authorization'); 
+	
+							openAlert("사용자 계정으로 변경 완료");
+							
+				   	    }); 
 					
 				}else if((auth == '사용자')){
 					
-					updateRoleAdmin(userId, function(result){ 
+						var alarmData = { 
+												target:userId,  
+												  kind:14, 
+											writerNick:myNickName,
+											  writerId:myId
+								 		};
 						
-						authButton.html("관리자");
-						
-						authButton.attr('class','authorization admin'); 
-						
-						openAlert("관리자 계정으로 변경 완료");				   	
-			   	  	})
+						updateRoleAdmin(userId, alarmData, function(result){ 
+							
+							authButton.html("관리자");
+							
+							authButton.attr('class','authorization admin'); 
+							
+							openAlert("관리자 계정으로 변경 완료");				   	
+				   	  	})
+				   	  	
+				}else{
+					
+					openAlert("이 계정은 변경 할 수 없습니다");
 				}
-				
 		   	});
 			
 			var actionForm = $("#actionForm");  
 	   		
 			$(".paginate_button a").on("click", function(e) {//페이징관련
 		
-						e.preventDefault();
-		
-						actionForm.find("input[name='pageNum']").val($(this).attr("href"));
-						
-						actionForm.submit();
-					});
+					e.preventDefault();
+	
+					actionForm.find("input[name='pageNum']").val($(this).attr("href"));
+					
+					actionForm.submit();
+			});
 	   		
 
 	</script>

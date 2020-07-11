@@ -24,7 +24,7 @@
 		 <div id="menuWrap"> 
 				<div class="tab">      
 					<button class="active" onclick="location.href='/admin/userList'">계정관리</button>
-					<button onclick="location.href='/admin/cashRequest'">결제관리</button> 
+					<button onclick="location.href='/admin/cashRequestList'">결제관리</button> 
 					<button onclick="location.href='/admin/userReportList'">신고관리</button>
 			    </div>
 		 </div>    
@@ -54,7 +54,7 @@
 					<div class="memberProfile">
 						<c:choose>
 						  	  <c:when test="${pageContext.request.serverName == 'localhost'}">
-									<img src="/upload/<c:out value="${user.userId}"/>.png?${random}" id="memberProfile" onerror="this.src='/resources/img/profile_img/basicProfile.png'" />
+									<img src="/resources/img/profile_img/<c:out value="${user.userId}"  />.png?${random}" id="memberProfile" onerror="this.src='/resources/img/profile_img/basicProfile.png'" />
 						  	 </c:when>
 						     <c:otherwise>
 						   			<img src="/upload/<c:out value="${user.userId}"/>.png?${random}" id="memberProfile" onerror="this.src='/ROOT/resources/img/profile_img/basicProfile.png'" />

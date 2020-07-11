@@ -146,10 +146,13 @@
 		});
 	}
 	
-	function limitLogin(userId, callback, error) {
+	function limitLogin(userId, alarmData, callback, error) {
+		
 		$.ajax({
 			type : 'put',
 			url : '/admin/roleLimit/'+ userId,
+			data : JSON.stringify(alarmData), 
+			contentType : "application/json; charset=utf-8",
 			success : function(result, status, xhr) {
 				if (callback) {
 					callback(result,xhr);
@@ -218,7 +221,14 @@
 			return;
 		}
 		
-		limitLogin(userId, function(result){//접속 제한 api 함수
+		var alarmData = { 
+								target:userId,  
+								  kind:12, 
+							writerNick:myNickName,
+							  writerId:myId
+				 		};
+		
+		limitLogin(userId, alarmData, function(result){//접속 제한 api 함수
 			
 			if(result == "success"){//db에서 접속제한 성공 했다면
 				

@@ -27,7 +27,7 @@ public class MypageServiceImpl implements MypageService {
 	@Override
 	public MemberVO getMyInfo(String userId) {
 
-		log.info("get MemberVO");
+		log.info("getMyInfo");
 
 		return mapper.getMyInfo(userId);
 	}
@@ -42,7 +42,7 @@ public class MypageServiceImpl implements MypageService {
 		
 		String userId = board.getUserId();
 		
-		boolean nickNameResult = nickName.equals(mapper.getMyNickName(userId));
+		boolean nickNameResult = nickName.equals(mapper.getMyNickName(userId));//현재 나의 닉네임과 폼에서 입력한 닉네임이 같은지
 		
 		if(!nickNameResult) {//닉네임을 변경한다면 
 			
@@ -70,23 +70,6 @@ public class MypageServiceImpl implements MypageService {
 	}
 	
 	@Override
-	public String getMemberPW(String userId) {
-
-		log.info("getMemberPW");
-
-		return mapper.getMemberPW(userId);
-	}
-	
-	@Override
-	public boolean updateMyPassword(String userId, String userPw) {
-		
-		log.info("updateMyPassword1");
-		
-		boolean updateResult = mapper.updateMyPassword(userId,userPw) == 1; 
-		
-		return updateResult;
-	}
-	@Override
 	public List<BoardVO> getMyBoardList(Criteria cri) {
 
 		log.info("getMyBoardList with criteria: " + cri);
@@ -108,7 +91,7 @@ public class MypageServiceImpl implements MypageService {
 		log.info("getMyReplylist with criteria: " + cri);
 		
 	    return mapper.getMyReplylist(cri); 
-	 }
+	}
 	
 	@Override
 	public int getMyReplyCount(Criteria cri) {
@@ -116,6 +99,78 @@ public class MypageServiceImpl implements MypageService {
 		log.info("getMyReplyCount");
 		
 		return mapper.getMyReplyCount(cri);
+	}
+	
+	@Override
+	public List<scrapVO> getMyScraplist(Criteria cri) {
+
+		log.info("getMyScraplist with criteria: " + cri);
+
+		return mapper.getMyScraplist(cri);
+	}
+	
+	@Override
+	public int getMyScrapCount(String userId) {
+		
+		log.info("getMyScrapCount");
+		
+		int getResult = mapper.getMyScrapCount(userId); 
+		
+		return getResult;
+	}
+	
+	@Override
+	public void removeScrap(Long scrap_num) {
+		
+		log.info("removeScrap");
+		
+		mapper.removeScrap(scrap_num);
+	}
+	
+	@Override
+	public boolean insertChargeData(cashVO vo) {
+		
+		log.info("insertChargeData");
+		
+		boolean insertResult = mapper.insertChargeData(vo) == 1; 
+		
+		return insertResult;
+	}
+	
+	@Override
+	public boolean insertReChargeData(cashVO vo) {
+		
+		log.info("insertReChargeData");
+		
+		boolean insertResult = mapper.insertReChargeData(vo) == 1; 
+		
+		return insertResult;
+	}
+	
+	@Override
+	public List<cashVO> getMyCashHistory(Criteria cri) {
+
+		log.info("getMyCashHistory");
+
+		return mapper.getMyCashHistory(cri);
+	}
+	
+	@Override
+	public int getMyCashHistoryCount(String userId) {
+		
+		log.info("getMyCashHistoryCount");
+		
+		int getResult = mapper.getMyCashHistoryCount(userId); 
+		
+		return getResult;
+	}
+	
+	@Override 
+	public boolean myWithdrawal(String userId){
+
+		log.info("myWithdrawal...");
+		
+		return mapper.updateEnabled(userId) == 1;
 	}
 	
 	@Override
@@ -149,76 +204,21 @@ public class MypageServiceImpl implements MypageService {
 	}
 	
 	@Override
-	public List<scrapVO> getMyScraplist(Criteria cri) {
+	public String getMemberPW(String userId) {
 
-		log.info("getMyScraplist with criteria: " + cri);
+		log.info("getMemberPW");
 
-		return mapper.getMyScraplist(cri);
+		return mapper.getMemberPW(userId);
 	}
 	
 	@Override
-	public int getMyScrapCount(String userId) {
+	public boolean updateMyPassword(String userId, String userPw) {
 		
-		log.info("getMyScrapCount");
+		log.info("updateMyPassword1");
 		
-		int getResult = mapper.getMyScrapCount(userId); 
+		boolean updateResult = mapper.updateMyPassword(userId,userPw) == 1; 
 		
-		return getResult;
+		return updateResult;
 	}
-	
-	@Override
-	public boolean insertChargeData(cashVO vo) {
-		
-		log.info("insertChargeData");
-		
-		boolean inserResult = mapper.insertChargeData(vo) == 1; 
-		
-		return inserResult;
-	}
-	
-	@Override
-	public boolean insertReChargeData(cashVO vo) {
-		
-		log.info("insertReChargeData");
-		
-		boolean inserResult = mapper.insertReChargeData(vo) == 1; 
-		
-		return inserResult;
-	}
-	
-	@Override
-	public List<cashVO> getMyCashHistory(Criteria cri) {
-
-		log.info("getMyCashHistory");
-
-		return mapper.getMyCashHistory(cri);
-	}
-	
-	@Override
-	public int getMyCashHistoryCount(String userId) {
-		
-		log.info("getMyCashHistoryCount");
-		
-		int getResult = mapper.getMyCashHistoryCount(userId); 
-		
-		return getResult;
-	}
-	
-	@Override
-	
-	public void removeAllScrap(Long scrap_num) {
-		log.info("removeAllScrap");
-		
-		mapper.removeScrap(scrap_num);
-	}
-	
-	@Override 
-	public boolean myWithdrawal(String userId){
-
-		log.info("myWithdrawal...");
-		
-		return mapper.updateEnabled(userId) == 1;
-	}
-	
 }
 

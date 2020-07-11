@@ -2,8 +2,8 @@ package org.my.service;
 	import java.util.List;
 	import org.my.domain.Criteria;
 	import org.my.domain.MemberVO;
-import org.my.domain.alarmVO;
-import org.my.domain.cashVO;
+	import org.my.domain.alarmVO;
+	import org.my.domain.cashVO;
 	import org.my.domain.commonVO;
 	import org.my.domain.reportVO;
 	import org.my.mapper.AdminMapper;
@@ -19,128 +19,144 @@ import org.my.domain.cashVO;
 public class AdminServiceImpl implements AdminService {
 
 	@Setter(onMethod_ = @Autowired)
-	private AdminMapper mapper;
+	private AdminMapper adminMapper;
 	
 	@Setter(onMethod_ = @Autowired)
 	private CommonMapper commonMapper;
 	
 	@Override
-	public List<cashVO> getCashRequest(Criteria cri) {
+	public List<MemberVO> getUserList(Criteria cri) {
 
-		log.info("getCashRequest: " + cri);
+		log.info("getMemberList" + cri);
 
-		return mapper.getCashRequest(cri);
-	}
-	@Transactional
-	@Override
-	public int updateApprove(commonVO vo) {
-
-		log.info("updateApprove");
-		log.info(vo);
-		
-		cashVO cashVO = vo.getCashVO();
-		
-		log.info("updateUsercash");
-		
-		if(cashVO.getCashKind().equals("충전")) 
-			mapper.updatePluscash(cashVO);
-		else if(cashVO.getCashKind().equals("환전"))
-			mapper.updateMinuscash(cashVO);
-		
-		log.info("insertAlarm: ");
-		commonMapper.insertAlarm(vo.getAlarmVO());
-		
-		log.info("updateApprove: ");
-
-		return mapper.updateApprove(cashVO.getCash_num());
-	}
-	
-	@Override
-	public int getTotalCount() {
-
-		log.info("getTotalCount: ");
-
-		return mapper.getTotalCount();
+		return adminMapper.getUserList(cri);
 	}
 	
 	@Override
 	public int getMemberTotalCount(Criteria cri) {
 
-		log.info("getMemberTotalCount: ");
+		log.info("getMemberTotalCount");
 
-		return mapper.getMemberTotalCount(cri);
+		return adminMapper.getMemberTotalCount(cri);
 	}
 	
 	@Override
-	public List<MemberVO> getMemberList(Criteria cri) {
+	public List<cashVO> getCashRequestList(Criteria cri) {
 
-		log.info("getMemberList: " + cri);
+		log.info("getCashRequestList" + cri);
 
-		return mapper.getMemberList(cri);
+		return adminMapper.getCashRequestList(cri);
 	}
 	
 	@Override
-	public MemberVO getUserForm(String userId) {
+	public int getCashListTotalCount() {
 
-		log.info("getUserForm: " + userId);
+		log.info("getTotalCount");
 
-		return mapper.getUserForm(userId);
+		return adminMapper.getCashListTotalCount();
 	}
 	
 	@Override
 	public List<reportVO> getUserReportList(Criteria cri){
 	
-		log.info("getUserReportList: " + cri);
+		log.info("getUserReportList" + cri);
 
-		return mapper.getUserReportList(cri);
+		return adminMapper.getUserReportList(cri);
 	}
 	
 	@Override
 	public int getUserReportCount(Criteria cri){
 
-		log.info("getUserReportCount: ");
+		log.info("getUserReportCount");
 
-		return mapper.getUserReportCount(cri);
+		return adminMapper.getUserReportCount(cri);
+	}
+	
+	@Override
+	public MemberVO getUserForm(String userId) {
+
+		log.info("getUserForm" + userId);
+
+		return adminMapper.getUserForm(userId);
+	}
+	
+	@Transactional
+	@Override
+	public int updateRoleLimit(String userId, alarmVO vo) {
+		
+		log.info("insertAlarm");
+		
+		commonMapper.insertAlarm(vo);
+		
+		log.info("updateRoleLimit :"+userId);
+		
+		return adminMapper.updateRoleLimit(userId);
 	}
 	
 	@Transactional
 	@Override
 	public int updateRoleStop(String userId,alarmVO vo) {
 		
-		log.info("updateRoleStop.."+userId);
+		log.info("insertAlarm");
 		
-		log.info("insertAlarm: ");
 		commonMapper.insertAlarm(vo);
 		
-		return mapper.updateRoleStop(userId);
-	}
-	
-	@Override
-	public int updateRoleLimit(String userId) {
+		log.info("updateRoleStop :"+userId);
 		
-		log.info("updateRoleLimit.."+userId);
-		
-		return mapper.updateRoleLimit(userId);
+		return adminMapper.updateRoleStop(userId);
 	}
 	
 	@Transactional
 	@Override
-	public int updateRoleUser(String userId,alarmVO vo) {
+	public int updateRoleUser(String userId, alarmVO vo) {
 		
-		log.info("updateRoleUser.."+userId);
+		log.info("insertAlarm");
 		
-		log.info("insertAlarm: ");
 		commonMapper.insertAlarm(vo);
 		
-		return mapper.updateRoleUser(userId);
+		log.info("updateRoleUser :"+userId);
+		
+		return adminMapper.updateRoleUser(userId);
 	}
 	
+	@Transactional
 	@Override
-	public int updateRoleAdmin(String userId) {
+	public int updateRoleAdmin(String userId, alarmVO vo) {
 		
-		log.info("updateRoleAdmin.."+userId);
+		log.info("insertAlarm");
 		
-		return mapper.updateRoleAdmin(userId);
+		commonMapper.insertAlarm(vo);
+		
+		log.info("updateRoleAdmin : "+userId);
+		
+		return adminMapper.updateRoleAdmin(userId);
 	}
 	
+	@Transactional
+	@Override
+	public int approveCash(commonVO vo) {
+
+		log.info(vo);
+		
+		cashVO cashVO = vo.getCashVO();
+		
+		if(cashVO.getCashKind().equals("충전")) {
+			
+			adminMapper.updatePluscash(cashVO);
+			
+			log.info("updatePluscash");
+			
+		}else if(cashVO.getCashKind().equals("환전")) {
+			
+			adminMapper.updateMinuscash(cashVO);
+			
+			log.info("updateMinuscash");
+		}
+			
+		log.info("insertAlarm");
+		commonMapper.insertAlarm(vo.getAlarmVO());
+		
+		log.info("updateApprove");
+		return adminMapper.approveCash(cashVO.getCash_num());
+	}
 }

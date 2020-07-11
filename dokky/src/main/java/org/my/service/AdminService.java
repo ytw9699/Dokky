@@ -9,28 +9,27 @@ package org.my.service;
 
 public interface AdminService {
 	
-	public List<cashVO> getCashRequest(Criteria cri);
-
-	public int updateApprove(commonVO vo);
-
-	public int getTotalCount();
-
-	public List<MemberVO> getMemberList(Criteria cri);
-
+	public List<MemberVO> getUserList(Criteria cri);
+	
 	public int getMemberTotalCount(Criteria cri);
-
-	public MemberVO getUserForm(String userId);
-
+	
+	public List<cashVO> getCashRequestList(Criteria cri);
+	
+	public int getCashListTotalCount();
+	
 	public List<reportVO> getUserReportList(Criteria cri);
 
 	public int getUserReportCount(Criteria cri);
-
+	
+	public MemberVO getUserForm(String userId);
+	
+	public int updateRoleLimit(String userId , alarmVO vo);
+	
 	public int updateRoleStop(String userId, alarmVO vo);
-
-	public int updateRoleLimit(String userId);
 
 	public int updateRoleUser(String userId, alarmVO vo);
 
-	public int updateRoleAdmin(String userId);
-
+	public int updateRoleAdmin(String userId, alarmVO vo);
+	
+	public int approveCash(commonVO vo);
 }

@@ -59,7 +59,7 @@
 							<a href="#" class="userMenu" data-note_num="${note.note_num}">
 								<c:choose>
 								   	  <c:when test="${pageContext.request.serverName == 'localhost'}">
-											<img src="/upload/<c:out value="${note.from_id}"/>.png?${random}"  class="memberImage hideUsermenu" onerror="this.src='/resources/img/profile_img/basicProfile.png'" />
+											<img src="/resources/img/profile_img/<c:out value="${note.from_id}" />.png?${random}" class="memberImage hideUsermenu" onerror="this.src='/resources/img/profile_img/basicProfile.png'" />
 									  </c:when>
 								      <c:otherwise>
 								    		<img src="/upload/<c:out value="${note.from_id}"/>.png?${random}"  class="memberImage hideUsermenu" onerror="this.src='/ROOT/resources/img/profile_img/basicProfile.png'" />

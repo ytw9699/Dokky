@@ -10,10 +10,10 @@
 	<title>Dokky - 결제관리</title>  
 <c:choose>
    	  <c:when test="${pageContext.request.serverName == 'localhost'}">
-			<link href="/resources/css/cashRequest.css" rel="stylesheet" type="text/css"/>
+			<link href="/resources/css/cashRequestList.css" rel="stylesheet" type="text/css"/>
 	  </c:when>
       <c:otherwise>
-    		<link href="/ROOT/resources/css/cashRequest.css" rel="stylesheet" type="text/css"/>
+    		<link href="/ROOT/resources/css/cashRequestList.css" rel="stylesheet" type="text/css"/>
       </c:otherwise>
 </c:choose>
 </head> 
@@ -26,7 +26,7 @@
 	 <div id="menuWrap"> 
 		<div class="tab">      
 			<button onclick="location.href='/admin/userList'">계정관리</button>
-			<button class="active" onclick="location.href='/admin/cashRequest'">결제관리</button> 
+			<button class="active" onclick="location.href='/admin/cashRequestList'">결제관리</button> 
 			<button onclick="location.href='/admin/userReportList'">신고관리</button>
 	    </div>
 	 </div> 
@@ -41,14 +41,14 @@
 				<td class="topTd">상태</td> 
 				<td class="topTd">승인하기</td>
 			</tr>
-				<c:forEach items="${cashRequest}" var="cash">
+				<c:forEach items="${cashRequestList}" var="cash">
 			<tr>  
 			
 				<td class="td">
 					<a href='userForm?userId=<c:out value="${cash.userId}"/>'> 
 					  <c:choose>
 					   	  <c:when test="${pageContext.request.serverName == 'localhost'}">
-								<img src="/upload/<c:out value="${cash.userId}"/>.png?${random}"  class="memberImage" onerror="this.src='/resources/img/profile_img/basicProfile.png'" />
+								<img src="/resources/img/profile_img/<c:out value="${cash.userId}"  />.png?${random}"  class="memberImage" onerror="this.src='/resources/img/profile_img/basicProfile.png'" />
 						  </c:when>
 					      <c:otherwise>
 					    		<img src="/upload/<c:out value="${cash.userId}"/>.png?${random}"  class="memberImage" onerror="this.src='/ROOT/resources/img/profile_img/basicProfile.png'" />
@@ -125,7 +125,7 @@
 				 
 					$.ajax({
 						type : 'put',
-						url : '/admin/approve/',
+						url : '/admin/approveCash/',
 						data : JSON.stringify(commonData),
 						contentType : "application/json; charset=utf-8",
 						success : function(result, status, xhr) {

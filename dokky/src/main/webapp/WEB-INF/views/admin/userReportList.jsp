@@ -25,7 +25,7 @@
 		 <div id="menuWrap"> 
 			<div class="tab">   
 		        <button onclick="location.href='userList'">계정관리</button> 
-		        <button onclick="location.href='cashRequest'">결제관리</button> 
+		        <button onclick="location.href='cashRequestList'">결제관리</button> 
 		        <button class="active" onclick="location.href='userReportList'">신고관리</button> 
 		    </div> 
 		 </div> 
@@ -49,7 +49,7 @@
 							<a href='userForm?userId=<c:out value="${report.reportingId}"/>'> 
 							  <c:choose>
 							  	  <c:when test="${pageContext.request.serverName == 'localhost'}">
-										<img src="/upload/<c:out value="${report.reportingId}" />.png?${random}"  class="memberImage" onerror="this.src='/resources/img/profile_img/basicProfile.png'" />
+										<img src="/resources/img/profile_img/<c:out value="${report.reportingId}"  />.png?${random}"  class="memberImage" onerror="this.src='/resources/img/profile_img/basicProfile.png'" />
 							  	 </c:when>
 							     <c:otherwise>
 							   			<img src="/upload/<c:out value="${report.reportingId}" />.png?${random}"  class="memberImage" onerror="this.src='/ROOT/resources/img/profile_img/basicProfile.png'" />
@@ -63,7 +63,7 @@
 							<a href='userForm?userId=<c:out value="${report.reportedId}"/>'> 
 							  <c:choose>
 							  	  <c:when test="${pageContext.request.serverName == 'localhost'}">
-										<img src="/upload/<c:out value="${report.reportedId}" />.png?${random}"  class="memberImage" onerror="this.src='/resources/img/profile_img/basicProfile.png'" />
+										<img  src="/resources/img/profile_img/<c:out value="${report.reportingId}"  />.png?${random}"  class="memberImage" onerror="this.src='/resources/img/profile_img/basicProfile.png'" />
 							  	 </c:when>
 							     <c:otherwise>
 							   			<img src="/upload/<c:out value="${report.reportedId}" />.png?${random}"  class="memberImage" onerror="this.src='/ROOT/resources/img/profile_img/basicProfile.png'" />

@@ -29,13 +29,13 @@
 		
 	  <sec:authorize access="isAuthenticated()">
 		<div class="mypage topMypage">  
-					<a href="#" class="leftUsermenu">
+					<a href="#" class="leftUsermenu"> 
 					  	  <%-- <img id="leftProfile" src="/display?fileName=<c:out value="${userInfo.username}"/>.png" class="memberImage leftHideusermenu" onerror="this.src='/resources/img/basicProfile.png'"/> --%>
 					  	  <%-- <img id="leftProfile" src="/resources/img/profile_img/<c:out value="${userInfo.username}"/>.png" class="memberImage leftHideusermenu" onerror="this.src='/resources/img/profile_img/basicProfile.png'" /> --%>
 					  	  <c:choose>
 						   	  <c:when test="${pageContext.request.serverName == 'localhost'}">
-									<img id="leftProfile" src="/upload/<c:out value="${userInfo.username}"/>.png?${random}" class="memberImage leftHideusermenu" onerror="this.src='/resources/img/profile_img/basicProfile.png'" />
-							  </c:when>
+									<img id="leftProfile" src="/resources/img/profile_img/<c:out value="${userInfo.username}"  />.png?${random}" class="memberImage leftHideusermenu" onerror="this.src='/resources/img/profile_img/basicProfile.png'" />
+							  </c:when> 
 						      <c:otherwise>
 						    		<img id="leftProfile" src="/upload/<c:out value="${userInfo.username}"/>.png?${random}" class="memberImage leftHideusermenu" onerror="this.src='/ROOT/resources/img/profile_img/basicProfile.png'" />
 						      </c:otherwise>

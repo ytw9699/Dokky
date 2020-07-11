@@ -43,8 +43,8 @@
 	                    <td class="td"> 
 							<a href="#" class="userMenu" data-alarm_num="${alarm.alarmNum}">
 								<c:choose>
-								   	  <c:when test="${pageContext.request.serverName == 'localhost'}">
-											<img src="/upload/<c:out value="${alarm.writerId}" />.png?${random}"  class="memberImage hideUsermenu" onerror="this.src='/resources/img/profile_img/basicProfile.png'" />
+								   	  <c:when test="${pageContext.request.serverName == 'localhost'}"> 
+											<img src="/resources/img/profile_img/<c:out value="${alarm.writerId}" />.png?${random}"  class="memberImage hideUsermenu" onerror="this.src='/resources/img/profile_img/basicProfile.png'" />
 									  </c:when>
 								      <c:otherwise>
 								    		<img src="/upload/<c:out value="${alarm.writerId}" />.png?${random}"  class="memberImage hideUsermenu" onerror="this.src='/ROOT/resources/img/profile_img/basicProfile.png'" />
@@ -210,9 +210,27 @@
 							       
 							       <c:when test="${alarm.kind == 11 }">  
 						          		<a href="#" class="getMyPage" data-alarm_num="${alarm.alarmNum}">
-						          			계정의 권한이 관리자에 의해 복구되었습니다. 
+						          			관리자에 의해 계정이 복구되었습니다. 
 						          		</a>
 							       </c:when>  
+							       
+							       <c:when test="${alarm.kind == 12 }">  
+						          		<a href="#" class="getMyPage" data-alarm_num="${alarm.alarmNum}">
+						          			관리자에 의해 접속 제한 되었습니다. 
+						          		</a>
+							       </c:when>  
+							       
+							       <c:when test="${alarm.kind == 13 }">
+						          		<a href="#" class="getMyPage" data-alarm_num="${alarm.alarmNum}">
+						          			사용자 계정으로 변경 되었습니다.  
+						          		</a>
+							       </c:when>  
+							       
+							       <c:when test="${alarm.kind == 14 }">   
+						          		<a href="#" class="getMyPage" data-alarm_num="${alarm.alarmNum}">
+						          			관리자 계정으로 변경 되었습니다.
+						          		</a>
+							       </c:when> 
 							       
 						        </c:choose>  
 					        <c:if test="${alarm.checking == 'NO'}">

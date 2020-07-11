@@ -5,19 +5,20 @@
 <mapper namespace="org.my.mapper.MypageMapper">
 	
 	<!-- 나의 정보 한줄 가져오기 -->
-	 <select id="getMyInfo" resultType="org.my.domain.MemberVO">
-		select * from DK_MEMBER where userId = #{userId}
+	<select id="getMyInfo" resultType="org.my.domain.MemberVO">
+			select * from DK_MEMBER where userId = #{userId}
 	</select>
 
 	<!-- 나의 정보 변경하기 -->
 	<update id="updateMyInfo">
-		update DK_MEMBER set 
-			nickName = #{nickName},
-			bankName = #{bankName},
-			account  = #{account}
-	  where userId   = #{userId}
+			update DK_MEMBER set 
+				nickName = #{nickName},
+				bankName = #{bankName},
+				account  = #{account}
+		  where userId   = #{userId}
 	</update>
 	
+	<!-- 현재 나의 닉네임 가져오기 -->
 	<select id="getMyNickName" resultType="String">
 		select nickName from DK_MEMBER where userId = #{userId}
 	</select>
@@ -60,16 +61,6 @@
 	<!--  신고 하는자 닉네임 변경처리 -->
 	<update id="updateReportingNickName">
 		update dk_report set reportingNick = #{nickName} where reportingId = #{userId}
-	</update>
-	
-	<!-- 비밀번호 가져오기 --> 
-	 <select id="getMemberPW" resultType="String">
-		select userpw from DK_MEMBER where userId = #{userId}
-	</select>
-	
-	<!-- 비밀번호 변경 -->
-	<update id="updateMyPassword">
-		update DK_MEMBER set userpw = #{userPw} where userId = #{userId}
 	</update>
 	
 	<select id="getMyBoardList" resultType="org.my.domain.BoardVO"> 
@@ -132,20 +123,43 @@
 		]]>
 	</select>
 	
-	<!-- 하위 스크랩 관련 -->
-	<select id="getScrapCnt" resultType="int">
-		<![CDATA[
-			select count(*) from dk_scrap where userId = #{userId} and board_num = #{board_num}
-		]]>
-	</select>
-	
-	<insert id="insertScrapData">
-		insert into dk_scrap (scrap_num, userId, board_num) values (seq_dk_scrap.nextval, #{userId}, #{board_num})
-	</insert>
-	
-	<delete id="deleteScrap">
-		delete dk_scrap where userId = #{userId} and board_num = #{board_num}
-	</delete>
+	<select id="getMyScraplist" resultType="org.my.domain.scrapVO"> 
+			<![CDATA[
+			   select 	 
+			   		  board_num, 
+			   		  userId,
+			   		  nickName,
+			   		  title,
+			   		  replyCnt,
+			   		  hitCnt,
+			   		  category ,
+			   		  likeCnt,
+					  money,  
+			   		  regdate,
+			   		  scrap_num
+			   		  
+				 from 
+				   ( SELECT
+				   	  ROW_NUMBER() OVER(ORDER BY scrap.scrap_num desc) AS rn,
+					  BOARD.board_num,
+					  BOARD.userId,
+					  nickName, 
+					  title,
+					  replyCnt,
+					  hitCnt,
+					  likeCnt,
+					  money,
+					  category,
+					  scrap.regdate,
+					  scrap.scrap_num
+				FROM 
+					  DK_BOARD BOARD inner JOIN dk_scrap scrap on BOARD.board_num = scrap.board_num 
+					  
+				WHERE scrap.userid = #{userId})
+				
+				where rn > (#{pageNum} -1) * #{amount} and rn <= #{pageNum} * #{amount}
+			]]>
+	</select>   
 	
 	<select id="getMyScrapCount" resultType="int">
 		<![CDATA[
@@ -153,59 +167,12 @@
 		]]>
 	</select>
 	
-	<!--  select reply_num, num, reply_content, userId, replydate
-		 from 
-		   (
-		    select /*+INDEX_DESC(DK_REPLY pk_reply) */ 
-		      rownum rn, reply_num, num, reply_content, userId, replydate
-		    from DK_REPLY
-		    where userId = #{userId}
-		    and reply_num > 0
-		    and rownum <= #{pageNum} * #{amount}
-		   ) where rn > (#{pageNum} -1) * #{amount}  -->
-		
-		
-		<select id="getMyScraplist" resultType="org.my.domain.scrapVO"> 
-		<![CDATA[
-		   select 	 
-		   		  board_num, 
-		   		  userId,
-		   		  nickName,
-		   		  title,
-		   		  replyCnt,
-		   		  hitCnt,
-		   		  category ,
-		   		  likeCnt,
-				  money,  
-		   		  regdate,
-		   		  scrap_num
-		   		  
-			 from 
-			   ( SELECT
-			   	  ROW_NUMBER() OVER(ORDER BY scrap.scrap_num desc) AS rn,
-				  BOARD.board_num,
-				  BOARD.userId,
-				  nickName, 
-				  title,
-				  replyCnt,
-				  hitCnt,
-				  likeCnt,
-				  money,
-				  category,
-				  scrap.regdate,
-				  scrap.scrap_num
-			FROM 
-				  DK_BOARD BOARD inner JOIN dk_scrap scrap on BOARD.board_num = scrap.board_num 
-				  
-			WHERE scrap.userid = #{userId})
-			
-			where rn > (#{pageNum} -1) * #{amount} and rn <= #{pageNum} * #{amount}
-		]]>
-	</select>   
+	<delete id="removeScrap">
+		delete from dk_scrap where scrap_num = #{scrap_num}
+	</delete>
 	
-	<!-- 상위 스크랩 관련 -->
-		   
 	<insert id="insertChargeData">
+	
 		insert into dk_cash (
 							cash_num,
 							cashKind,
@@ -225,6 +192,7 @@
 	</insert>
 	
 	<insert id="insertReChargeData">
+	
 		insert into dk_cash (
 							cash_num,
 							cashKind,
@@ -245,9 +213,42 @@
 	
 	<select id="getMyCashHistoryCount" resultType="int">
 		<![CDATA[
-		select count(*) from dk_cash where userId = #{userId}
+			select count(*) from dk_cash where userId = #{userId}
 		]]>
 	</select>
+	
+	<select id="getMyCashHistory" resultType="org.my.domain.cashVO"> 
+		<![CDATA[
+		   select 
+				  cashKind,
+				  cashAmount,
+		   		  specification,
+		   		  regDate,
+		   		  board_num,
+		   		  reply_content,
+		   		  title,
+		   		  cash_num
+			 from 
+			   ( SELECT
+				   ROW_NUMBER() OVER(ORDER BY cash.cash_num desc) AS rn,
+				  cash.cashKind,
+				  cash.cashAmount,
+				  cash.specification,
+				  cash.regDate,
+				  cash.board_num, 
+				  reply.reply_content,
+				  board.title,
+				  cash.cash_num
+			FROM 
+				  dk_cash cash inner JOIN dk_board board on board.board_num = cash.board_num 
+				  
+				  inner JOIN dk_reply reply on reply.reply_num = cash.reply_num 
+				  
+			WHERE cash.userid = #{userId})
+			
+			where rn > (#{pageNum} -1) * #{amount} and rn <= #{pageNum} * #{amount} 
+		]]>
+	</select> 
 	
 	<!-- <select id="getMyCashHistory" resultType="org.my.domain.cashVO"> 
 		<![CDATA[
@@ -282,46 +283,48 @@
 		]]>
 	</select> -->
 	
-	<select id="getMyCashHistory" resultType="org.my.domain.cashVO"> 
+	<!-- 회원탈퇴 : 나의 enabled 값 변경하기 -->
+	<update id="updateEnabled">
+		update DK_MEMBER set enabled = 0 where userId = #{userId}
+	</update>
+	
+	<!-- 하위 스크랩 관련 -->
+	<select id="getScrapCnt" resultType="int">
 		<![CDATA[
-		   select 
-				  cashKind,
-				  cashAmount,
-		   		  specification,
-		   		  regDate,
-		   		  board_num,
-		   		  reply_content,
-		   		  title,
-		   		  cash_num
-			 from 
-			   ( SELECT
-				   ROW_NUMBER() OVER(ORDER BY cash.cash_num desc) AS rn,
-				  cash.cashKind,
-				  cash.cashAmount,
-				  cash.specification,
-				  cash.regDate,
-				  cash.board_num, 
-				  reply.reply_content,
-				  board.title,
-				  cash.cash_num
-			FROM 
-				  dk_cash cash inner JOIN dk_board board on board.board_num = cash.board_num 
-				  
-				  inner JOIN dk_reply reply on reply.reply_num = cash.reply_num 
-				  
-			WHERE cash.userid = #{userId})
-			
-			where rn > (#{pageNum} -1) * #{amount} and rn <= #{pageNum} * #{amount} 
+			select count(*) from dk_scrap where userId = #{userId} and board_num = #{board_num}
 		]]>
 	</select>
 	
-	<delete id="removeScrap">
-		delete from dk_scrap where scrap_num = #{scrap_num}
+	<insert id="insertScrapData">
+		insert into dk_scrap (scrap_num, userId, board_num) values (seq_dk_scrap.nextval, #{userId}, #{board_num})
+	</insert>
+	
+	<delete id="deleteScrap">
+		delete dk_scrap where userId = #{userId} and board_num = #{board_num}
 	</delete>
 	
-	<!-- 나의 enabled 값 변경하기 -->
-	<update id="updateEnabled">
-		update DK_MEMBER set enabled = 0 where userId = #{userId}
+	<!--  select reply_num, num, reply_content, userId, replydate
+		 from 
+		   (
+		    select /*+INDEX_DESC(DK_REPLY pk_reply) */ 
+		      rownum rn, reply_num, num, reply_content, userId, replydate
+		    from DK_REPLY
+		    where userId = #{userId}
+		    and reply_num > 0
+		    and rownum <= #{pageNum} * #{amount}
+		   ) where rn > (#{pageNum} -1) * #{amount}  -->
+		
+	
+	<!-- 상위 스크랩 관련 -->
+		   
+	<!-- 비밀번호 가져오기 --> 
+	 <select id="getMemberPW" resultType="String">
+		select userpw from DK_MEMBER where userId = #{userId}
+	</select>
+	
+	<!-- 비밀번호 변경 -->
+	<update id="updateMyPassword">
+		update DK_MEMBER set userpw = #{userPw} where userId = #{userId}
 	</update>
 	
 </mapper>

@@ -215,7 +215,7 @@
 		</dependency>
 			
 		<!-- Servlet -->
-		<!-- 3.0이상 버젼은 자바설정이용에 더좋음 -->
+		<!-- 3.0이상 버젼은 자바설정이용에 더좋음, 업로드도 이것으로 사용  -->
 			<dependency>
 			  <groupId>javax.servlet</groupId>
 			  <artifactId>javax.servlet-api</artifactId>
