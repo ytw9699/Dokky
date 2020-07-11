@@ -148,6 +148,32 @@ public class MypageServiceImpl implements MypageService {
 	}
 	
 	@Override
+	public List<cashVO> getMyCashHistory(Criteria cri) {
+
+		log.info("getMyCashHistory");
+
+		return mapper.getMyCashHistory(cri);
+	}
+	
+	@Override
+	public int getMyCashHistoryCount(String userId) {
+		
+		log.info("getMyCashHistoryCount");
+		
+		int getResult = mapper.getMyCashHistoryCount(userId); 
+		
+		return getResult;
+	}
+	
+	@Override 
+	public boolean myWithdrawal(String userId){
+
+		log.info("myWithdrawal...");
+		
+		return mapper.updateEnabled(userId) == 1;
+	}
+	
+	@Override
 	public int getScrapCnt(int board_num, String userId) {
 		
 		log.info("getScrapCnt");
@@ -175,33 +201,6 @@ public class MypageServiceImpl implements MypageService {
 		boolean inserResult = mapper.insertScrapData(board_num, userId) == 1; 
 		
 		return inserResult;
-	}
-	
-	
-	@Override
-	public List<cashVO> getMyCashHistory(Criteria cri) {
-
-		log.info("getMyCashHistory");
-
-		return mapper.getMyCashHistory(cri);
-	}
-	
-	@Override
-	public int getMyCashHistoryCount(String userId) {
-		
-		log.info("getMyCashHistoryCount");
-		
-		int getResult = mapper.getMyCashHistoryCount(userId); 
-		
-		return getResult;
-	}
-	
-	@Override 
-	public boolean myWithdrawal(String userId){
-
-		log.info("myWithdrawal...");
-		
-		return mapper.updateEnabled(userId) == 1;
 	}
 	
 	@Override

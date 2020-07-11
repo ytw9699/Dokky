@@ -236,7 +236,7 @@ public class MypageController {
 	
 	@PreAuthorize("principal.username == #cri.userId")
  	@GetMapping("/myCashHistory")  
-	public String myCashHistory(Criteria cri, Model model) { //내 캐시 내역
+	public String myCashHistory(Criteria cri, Model model) { //내 캐시 내역 리스트
 		
 		log.info("/mypage/myCashHistory");
 		
@@ -267,9 +267,9 @@ public class MypageController {
 			
 			if(mypageService.myWithdrawal(userId)) {//db에서 회원탈퇴 처리가 되었다면 로그아웃 처리 하기
 				
-					log.info("/logout");
-					
 					commonService.logout(request, response, authentication);
+					
+					log.info("/logout");
 					
 					return "redirect:/socialLogin";
 				

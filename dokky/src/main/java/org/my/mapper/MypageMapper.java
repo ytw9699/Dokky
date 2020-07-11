@@ -49,6 +49,12 @@ public interface MypageMapper {
 	public int insertChargeData(cashVO vo);
 
 	public int insertReChargeData(cashVO vo);
+	
+	public List<cashVO> getMyCashHistory(Criteria cri);
+	
+	public int getMyCashHistoryCount(String userId);
+	
+	public int updateEnabled(String userId);
 
 	public int insertScrapData(@Param("board_num") int board_num, @Param("userId") String userId);
  
@@ -56,12 +62,6 @@ public interface MypageMapper {
 
 	public int deleteScrap(@Param("board_num") int board_num, @Param("userId") String userId);
 
-	public List<cashVO> getMyCashHistory(Criteria cri);
-
-	public int getMyCashHistoryCount(String userId);
-
-	public int updateEnabled(String userId);
-	
 	public String getMemberPW(String userId);
 	
 	public int updateMyPassword(@Param("userId") String userId, @Param("userPw") String userPw);
