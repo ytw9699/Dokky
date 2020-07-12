@@ -401,27 +401,4 @@ public class MypageController {
 		}
 			return "mypage/myRepasswordForm";
 	}
-	
-	@PreAuthorize("isAuthenticated()") 
-	@PostMapping(value = "/scrapData/{board_num}/{userId}", produces = "text/plain; charset=UTF-8")
-	@ResponseBody
-	public ResponseEntity<String> insertScrapData(@PathVariable("board_num") int board_num, @PathVariable("userId") String userId ) {
-		
-		log.info("/mypage/scrapData");
-		log.info("board_num="+board_num+", userId="+userId);
-		
-		if(mypageService.getScrapCnt(board_num, userId) == 1 && mypageService.deleteScrap(board_num, userId) == 1) {//스크랩 카운트가 1이라면 스크랩한거고,스크랩 삭제
-		
-			return new ResponseEntity<>("cancel",HttpStatus.OK);
-		}
-		
-		log.info("insertScrapData...board_num="+board_num+", userId="+userId);
-		
-		if(mypageService.insertScrapData(board_num, userId)) {
-			
-			return new ResponseEntity<>("success",HttpStatus.OK);
-		}
-		
-		return new ResponseEntity<>("fail",HttpStatus.OK);
-	}
 }

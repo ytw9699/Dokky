@@ -81,5 +81,11 @@ public interface BoardMapper {
 	public List<BoardVO> getAllListWithOrder(Criteria cri);
 
 	public Long getRecentBoard_num();
+	
+	public int insertScrapData(@Param("board_num") int board_num, @Param("userId") String userId);
+	 
+	public int getScrapCnt(@Param("board_num") int board_num, @Param("userId") String userId);
+
+	public int deleteScrap(@Param("board_num") int board_num, @Param("userId") String userId);
 
 }

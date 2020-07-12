@@ -56,12 +56,6 @@ public interface MypageMapper {
 	
 	public int updateEnabled(String userId);
 
-	public int insertScrapData(@Param("board_num") int board_num, @Param("userId") String userId);
- 
-	public int getScrapCnt(@Param("board_num") int board_num, @Param("userId") String userId);
-
-	public int deleteScrap(@Param("board_num") int board_num, @Param("userId") String userId);
-
 	public String getMemberPW(String userId);
 	
 	public int updateMyPassword(@Param("userId") String userId, @Param("userPw") String userPw);
