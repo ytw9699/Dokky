@@ -289,13 +289,14 @@
 	</update>
 		   
 	<!-- 비밀번호 가져오기 --> 
+	<!--아래는 현재쓰이지 않는 로직 주석 
 	 <select id="getMemberPW" resultType="String">
 		select userpw from DK_MEMBER where userId = #{userId}
-	</select>
+	</select> -->
 	
 	<!-- 비밀번호 변경 -->
-	<update id="updateMyPassword">
+	<!-- <update id="updateMyPassword">
 		update DK_MEMBER set userpw = #{userPw} where userId = #{userId}
-	</update>
+	</update> -->
 	
 </mapper>

@@ -56,7 +56,8 @@ public interface MypageMapper {
 	
 	public int updateEnabled(String userId);
 
-	public String getMemberPW(String userId);
+	/*아래는 현재쓰이지 않는 로직 주석
+	 * public String getMemberPW(String userId);
 	
-	public int updateMyPassword(@Param("userId") String userId, @Param("userPw") String userPw);
+	public int updateMyPassword(@Param("userId") String userId, @Param("userPw") String userPw);*/
 }

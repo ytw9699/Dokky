@@ -1,41 +1,25 @@
 package org.my.controller;
-	import java.io.BufferedWriter;
 	import java.io.File;
-	import java.io.FileWriter;
 	import java.io.IOException;
-	import java.util.ArrayList;
-	import java.util.Iterator;
-	import java.util.List;
-
-import javax.servlet.http.Cookie;
-import javax.servlet.http.HttpServletRequest;
-import javax.servlet.http.HttpServletResponse;
-
-import org.my.domain.AuthVO;
+	import javax.servlet.http.HttpServletRequest;
+	import javax.servlet.http.HttpServletResponse;
 	import org.my.domain.Criteria;
 	import org.my.domain.MemberVO;
 	import org.my.domain.PageDTO;
 	import org.my.domain.cashVO;
-	import org.my.domain.checkVO;
-	import org.my.security.domain.CustomUser;
 	import org.my.service.BoardService;
-import org.my.service.CommonService;
-import org.my.service.MemberService;
+	import org.my.service.CommonService;
+	import org.my.service.MemberService;
 	import org.my.service.MypageService;
 	import org.springframework.beans.factory.annotation.Autowired;
 	import org.springframework.http.HttpStatus;
 	import org.springframework.http.ResponseEntity;
 	import org.springframework.security.access.prepost.PreAuthorize;
 	import org.springframework.security.core.Authentication;
-	import org.springframework.security.core.GrantedAuthority;
-	import org.springframework.security.core.authority.SimpleGrantedAuthority;
-	import org.springframework.security.core.context.SecurityContextHolder;
-	import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 	import org.springframework.security.crypto.password.PasswordEncoder;
 	import org.springframework.stereotype.Controller;
 	import org.springframework.ui.Model;
 	import org.springframework.web.bind.annotation.GetMapping;
-	import org.springframework.web.bind.annotation.PathVariable;
 	import org.springframework.web.bind.annotation.PostMapping;
 	import org.springframework.web.bind.annotation.RequestBody;
 	import org.springframework.web.bind.annotation.RequestMapping;
@@ -356,7 +340,9 @@ public class MypageController {
 			}
 	}
 	
-	/*@PreAuthorize("isAuthenticated()") 
+	/*
+	 * 아래는 현재쓰이지 않는 로직 주석
+	 * @PreAuthorize("isAuthenticated()") 
 	@PostMapping(value = "/checkPassword", consumes = "application/json", produces = "text/plain; charset=UTF-8")
 	@ResponseBody
 	public ResponseEntity<String> checkPassword(@RequestBody checkVO vo) {//나의 패스워드 체크
@@ -374,7 +360,7 @@ public class MypageController {
 			
 	    	return new ResponseEntity<>("success",HttpStatus.OK);//200
 	    }
-	}*/
+	}
 	
 	@PreAuthorize("isAuthenticated()") 
  	@GetMapping("/rePasswordForm")  
@@ -400,5 +386,5 @@ public class MypageController {
 			model.addAttribute("update", "notComplete");
 		}
 			return "mypage/myRepasswordForm";
-	}
+	}*/
 }

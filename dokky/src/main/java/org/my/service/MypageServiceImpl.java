@@ -173,7 +173,8 @@ public class MypageServiceImpl implements MypageService {
 		return mapper.updateEnabled(userId) == 1;
 	}
 	
-	@Override
+	/*아래는 현재쓰이지 않는 로직 주석
+	 * @Override
 	public String getMemberPW(String userId) {
 
 		log.info("getMemberPW");
@@ -189,6 +190,6 @@ public class MypageServiceImpl implements MypageService {
 		boolean updateResult = mapper.updateMyPassword(userId,userPw) == 1; 
 		
 		return updateResult;
-	}
+	}*/
 }
 
