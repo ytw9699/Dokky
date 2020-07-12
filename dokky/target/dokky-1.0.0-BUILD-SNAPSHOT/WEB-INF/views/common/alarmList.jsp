@@ -44,8 +44,8 @@
 	                    <td class="td"> 
 							<a href="#" class="userMenu" data-alarm_num="${alarm.alarmNum}">
 								<c:choose>
-								   	  <c:when test="${pageContext.request.serverName == 'localhost'}">
-											<img src="/upload/<c:out value="${alarm.writerId}" />.png?${random}"  class="memberImage hideUsermenu" onerror="this.src='/resources/img/profile_img/basicProfile.png'" />
+								   	  <c:when test="${pageContext.request.serverName == 'localhost'}"> 
+											<img src="/resources/img/profile_img/<c:out value="${alarm.writerId}" />.png?${random}"  class="memberImage hideUsermenu" onerror="this.src='/resources/img/profile_img/basicProfile.png'" />
 									  </c:when>
 								      <c:otherwise>
 								    		<img src="/upload/<c:out value="${alarm.writerId}" />.png?${random}"  class="memberImage hideUsermenu" onerror="this.src='/ROOT/resources/img/profile_img/basicProfile.png'" />

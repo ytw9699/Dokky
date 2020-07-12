@@ -354,6 +354,36 @@ public class BoardServiceImpl implements BoardService {
 		return mapper.insertReportdata(vo.getReportVO()) == 1;
 	}
 	
+	@Override
+	public int getScrapCnt(int board_num, String userId) {
+		
+		log.info("getScrapCnt");
+		
+		int getResult = mapper.getScrapCnt(board_num,userId); 
+		
+		return getResult;
+	}
+	
+	@Override
+	public int deleteScrap(int board_num, String userId) {
+		
+		log.info("deleteScrap");
+		
+		int deleteResult = mapper.deleteScrap(board_num, userId); 
+		
+		return deleteResult;
+	}
+	
+	@Override
+	public boolean insertScrapData(int board_num, String userId) {
+		
+		log.info("insertScrapData");
+		
+		boolean inserResult = mapper.insertScrapData(board_num, userId) == 1; 
+		
+		return inserResult;
+	}
+	
 	
 	
 }

@@ -90,7 +90,7 @@
 								<a href="#" class="userMenu" data-scrap_num="${scrap.scrap_num}"> 
 									<c:choose>
 									   	  <c:when test="${pageContext.request.serverName == 'localhost'}">
-												<img src="/upload/<c:out value="${scrap.userId}"  />.png?${random}"  class="memberImage hideUsermenu" onerror="this.src='/resources/img/profile_img/basicProfile.png'" />
+												<img src="/resources/img/profile_img/<c:out value="${scrap.userId}" />.png?${random}"  class="memberImage hideUsermenu" onerror="this.src='/resources/img/profile_img/basicProfile.png'" />
 										  </c:when>
 									      <c:otherwise>
 									    		<img src="/upload/<c:out value="${scrap.userId}"  />.png?${random}"  class="memberImage hideUsermenu" onerror="this.src='/ROOT/resources/img/profile_img/basicProfile.png'" />

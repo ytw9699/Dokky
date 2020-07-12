@@ -55,7 +55,7 @@
 					<div class="memberProfile">
 						<c:choose>
 						  	  <c:when test="${pageContext.request.serverName == 'localhost'}">
-									<img src="/upload/<c:out value="${user.userId}"/>.png?${random}" id="memberProfile" onerror="this.src='/resources/img/profile_img/basicProfile.png'" />
+									<img src="/resources/img/profile_img/<c:out value="${user.userId}"  />.png?${random}" id="memberProfile" onerror="this.src='/resources/img/profile_img/basicProfile.png'" />
 						  	 </c:when>
 						     <c:otherwise>
 						   			<img src="/upload/<c:out value="${user.userId}"/>.png?${random}" id="memberProfile" onerror="this.src='/ROOT/resources/img/profile_img/basicProfile.png'" />

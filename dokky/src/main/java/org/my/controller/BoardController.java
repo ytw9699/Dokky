@@ -357,4 +357,29 @@ public class BoardController {//
 	    });//end foreach
 	  }
 	
+	@PreAuthorize("principal.username == #userId")  
+	@PostMapping(value = "/scrapData/{board_num}/{userId}", produces = "text/plain; charset=UTF-8")
+	@ResponseBody
+	public ResponseEntity<String> ScrapData(@PathVariable("board_num") int board_num, @PathVariable("userId") String userId ) {
+		
+		log.info("/mypage/scrapData");
+		log.info("board_num="+board_num+", userId="+userId); 
+		
+		if(service.getScrapCnt(board_num, userId) == 1 && service.deleteScrap(board_num, userId) == 1) {
+			//스크랩 카운트가 1이라면 스크랩한거기 때문에,  스크랩 삭제
+		
+				return new ResponseEntity<>("cancel",HttpStatus.OK);
+			
+		}else if(service.insertScrapData(board_num, userId)) {//스크랩 등록
+			
+				log.info("insertScrapData...board_num="+board_num+", userId="+userId);
+				
+				return new ResponseEntity<>("success",HttpStatus.OK);
+			
+		}else {
+		
+				return new ResponseEntity<>("fail",HttpStatus.OK);
+		}
+	}
+	
 }

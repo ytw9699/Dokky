@@ -40,12 +40,5 @@ public interface MypageService {
 	public int getMyCashHistoryCount(String userId);
 	
 	public boolean myWithdrawal(String userId);
-
-	public boolean insertScrapData(int board_num, String userId);
-	
-	public int getScrapCnt(int board_num, String userId);
-
-	public int deleteScrap(int board_num, String userId);
-	
 	
 }

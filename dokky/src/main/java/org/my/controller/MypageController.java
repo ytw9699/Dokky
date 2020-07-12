@@ -139,7 +139,7 @@ public class MypageController {
 			e.getStackTrace();
 		}
 		
-		if(!serverName.equals("localhost")){
+		if(!serverName.equals("localhost")){//EC2 우분투의 경우
 			
 			Runtime.getRuntime().exec("chmod -R 777 " + "/var/lib/tomcat9/webapps/upload");//파일 접근 위해
 			//Runtime.getRuntime().exec("chmod -R 777 " + "/home/ubuntu/upload/");
@@ -148,19 +148,27 @@ public class MypageController {
 		return "redirect:/mypage/myInfoForm?userId="+userId;
 	}
 	
-	@PreAuthorize("isAuthenticated()") 
+	@PreAuthorize("principal.username == #userId")
 	@PostMapping(value = "/deleteProfile") 
-	public String deleteProfile(MultipartHttpServletRequest request){//기본 이미지 파일로 변경은 기존 파일 삭제로 구현
+	public String deleteProfileFile(MultipartHttpServletRequest request, @RequestParam("userId") String userId, 
+			@RequestParam("serverName") String serverName){//기본 이미지 파일로 변경은 기존 파일 삭제로 구현
 		
 		log.info("/mypage/deleteProfile"); 
 		
-		//String uploadPath =request.getSession().getServletContext().getRealPath("/")+File.separator+"resources/img/profile_img/";
-		String uploadPath ="/var/lib/tomcat9/webapps/upload/";
-		//String uploadPath ="/home/ubuntu/upload/";
-		String userId = request.getParameter("userId");
+		String uploadPath;
+		
+		if(serverName.equals("localhost")){//로컬의 경우
+			
+			uploadPath =request.getSession().getServletContext().getRealPath("/")+File.separator+"resources/img/profile_img";
+			
+		}else{//EC2 우분투의 경우
+			
+			uploadPath ="/var/lib/tomcat9/webapps/upload";
+			//String uploadPath ="/home/ubuntu/upload";
+		}
 		
 		try {
-			  File file = new File(uploadPath+userId+".png");
+			  File file = new File(uploadPath, userId+".png");
 			  
 			   if( file.exists() ){
 				   file.delete();
@@ -392,28 +400,5 @@ public class MypageController {
 			model.addAttribute("update", "notComplete");
 		}
 			return "mypage/myRepasswordForm";
-	}
-	
-	@PreAuthorize("isAuthenticated()") 
-	@PostMapping(value = "/scrapData/{board_num}/{userId}", produces = "text/plain; charset=UTF-8")
-	@ResponseBody
-	public ResponseEntity<String> insertScrapData(@PathVariable("board_num") int board_num, @PathVariable("userId") String userId ) {
-		
-		log.info("/mypage/scrapData");
-		log.info("board_num="+board_num+", userId="+userId);
-		
-		if(mypageService.getScrapCnt(board_num, userId) == 1 && mypageService.deleteScrap(board_num, userId) == 1) {//스크랩 카운트가 1이라면 스크랩한거고,스크랩 삭제
-		
-			return new ResponseEntity<>("cancel",HttpStatus.OK);
-		}
-		
-		log.info("insertScrapData...board_num="+board_num+", userId="+userId);
-		
-		if(mypageService.insertScrapData(board_num, userId)) {
-			
-			return new ResponseEntity<>("success",HttpStatus.OK);
-		}
-		
-		return new ResponseEntity<>("fail",HttpStatus.OK);
 	}
 }
