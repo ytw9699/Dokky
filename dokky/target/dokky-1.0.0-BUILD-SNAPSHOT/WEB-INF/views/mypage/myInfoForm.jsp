@@ -40,8 +40,8 @@
 			<form action="/mypage/profileFile" id="profileForm" name="profileForm" method="post" enctype="multipart/form-data">
 				<div class="mainImgWrap">  
 					<c:choose>
-					   	  <c:when test="${pageContext.request.serverName == 'localhost'}">
-								<img class="mainImgtag" id="mainImg" src="/upload/<c:out value="${userInfo.username}" />.png?${random}" onerror="this.src='/resources/img/profile_img/basicProfile.png'" />
+					   	  <c:when test="${pageContext.request.serverName == 'localhost'}"> 
+								<img class="mainImgtag" id="mainImg" src="/resources/img/profile_img/<c:out value="${userInfo.username}"  />.png?${random}" onerror="this.src='/resources/img/profile_img/basicProfile.png'" />
 						  </c:when>
 					      <c:otherwise>
 								<img class="mainImgtag" id="mainImg" src="/upload/<c:out value="${userInfo.username}" />.png?${random}" onerror="this.src='/ROOT/resources/img/profile_img/basicProfile.png'" />
@@ -72,7 +72,7 @@
 	     				<div class="memberProfile">
      						<c:choose>
 							   	  <c:when test="${pageContext.request.serverName == 'localhost'}">
-										<img src="/upload/<c:out value="${userInfo.username}" />.png?${random}" id="myImage" onerror="this.src='/resources/img/profile_img/basicProfile.png'" />
+										<img src="/resources/img/profile_img/<c:out value="${userInfo.username}" />.png?${random}" id="myImage" onerror="this.src='/resources/img/profile_img/basicProfile.png'" />
 								  </c:when>
 							      <c:otherwise>
 										<img src="/upload/<c:out value="${userInfo.username}" />.png?${random}" id="myImage" onerror="this.src='/ROOT/resources/img/profile_img/basicProfile.png'" />
