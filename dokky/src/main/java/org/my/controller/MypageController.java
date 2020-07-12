@@ -150,7 +150,7 @@ public class MypageController {
 	
 	@PreAuthorize("principal.username == #userId")
 	@PostMapping(value = "/deleteProfile") 
-	public String deleteProfile(MultipartHttpServletRequest request, @RequestParam("userId") String userId, 
+	public String deleteProfileFile(MultipartHttpServletRequest request, @RequestParam("userId") String userId, 
 			@RequestParam("serverName") String serverName){//기본 이미지 파일로 변경은 기존 파일 삭제로 구현
 		
 		log.info("/mypage/deleteProfile"); 
