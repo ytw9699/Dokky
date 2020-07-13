@@ -13,10 +13,6 @@ public interface MypageService {
 
 	public boolean updateMyInfo(MemberVO vo);
 
-	public String getMemberPW(String userId);
-
-	public boolean updateMyPassword(String userId, String userPw);
-	
 	public List<BoardVO> getMyBoardList(Criteria cri);
 
 	public int getMyBoardCount(Criteria cri);
@@ -41,4 +37,8 @@ public interface MypageService {
 	
 	public boolean myWithdrawal(String userId);
 	
+	/* 아래는 현재쓰이지 않는 로직 주석
+	 * public String getMemberPW(String userId);
+	
+	public boolean updateMyPassword(String userId, String userPw);*/
 }
