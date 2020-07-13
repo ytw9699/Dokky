@@ -48,8 +48,8 @@ import com.amazonaws.auth.AWSCredentials;
 
 @Log4j
 @Component
-public class myS3Util {
-	 
+public class myS3Util { 
+	
 	private static final String bucket_name = "dokky-bucket";//자신의 S3 버킷 이름을 입력하세요
 	private static final String ACCESS_KEY = "";//자신의 S3 ACCESS_KEY를 입력하세요
 	private static final String SECRET_KEY = "";//자신의 S3 SECRET_KEY를 입력하세요
