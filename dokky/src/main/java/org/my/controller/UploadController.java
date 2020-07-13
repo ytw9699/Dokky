@@ -43,8 +43,7 @@ import org.springframework.web.servlet.ModelAndView;
 import lombok.Setter;
 	import lombok.extern.log4j.Log4j;
 	import net.coobird.thumbnailator.Thumbnailator;
-
-
+	
 @Controller
 @Log4j
 public class UploadController {
@@ -115,13 +114,22 @@ public class UploadController {
 	
 	@GetMapping("/displayS3")
 	@ResponseBody
-	public ResponseEntity<byte[]> getS3File(String path , String filename) {
- 
+	public ResponseEntity<byte[]> getS3File(String path, String filename, HttpServletRequest request) {
+		
 		log.info("path + filename: " + path + filename);
-
+		
 		ResponseEntity<byte[]> result = null;
-
-		result = new ResponseEntity<>(s3Util.downloadImage(path, filename), HttpStatus.OK);
+		
+		if(request.getServerName().equals("localhost")){//개발 환경이 로컬호스트라면
+			
+			myS3Util localS3Util = new myS3Util(true);
+			
+			result = new ResponseEntity<>(localS3Util.downloadImage(path, filename), HttpStatus.OK);
+			
+		}else {
+			
+			result = new ResponseEntity<>(s3Util.downloadImage(path, filename), HttpStatus.OK);
+		}
 		
 		return result;
 	}
@@ -151,27 +159,49 @@ public class UploadController {
 	@PreAuthorize("isAuthenticated()")
 	@PostMapping(value = "/s3upload", produces = MediaType.APPLICATION_JSON_UTF8_VALUE)
 	@ResponseBody
-	public ResponseEntity<List<AttachFileDTO>> posts3UploadFile(MultipartFile[] uploadFile, String uploadKind) throws IOException {
+	public ResponseEntity<List<AttachFileDTO>> posts3UploadFile(MultipartFile[] uploadFile, 
+															String uploadKind, HttpServletRequest request) throws IOException {
 		
 		log.info("/s3upload");
 		
 		AttachFileDTO result;
 		
-		List<AttachFileDTO> list = new ArrayList<>();  
-		try {
-			
-			for (MultipartFile multipartFile : uploadFile) {
-				
-				result = s3Util.upload(multipartFile.getBytes(), multipartFile, multipartFile.getOriginalFilename(), uploadKind);
-				
-				list.add(result);
-			}
+		List<AttachFileDTO> list = new ArrayList<>();
 		
-		}catch (Exception e) { 
+		if(request.getServerName().equals("localhost")){//테스트 환경이 로컬호스트라면
 			
-			e.printStackTrace();  
- 
-		} 
+				myS3Util localS3Util = new myS3Util(true);
+				
+				try {
+					
+					for (MultipartFile multipartFile : uploadFile) {
+						
+						result = localS3Util.upload(multipartFile.getBytes(), multipartFile, multipartFile.getOriginalFilename(), uploadKind);
+						
+						list.add(result);
+					}
+				
+				}catch (Exception e) { 
+					
+					e.printStackTrace();  
+				} 
+		}else{
+			
+				try {
+					
+					for (MultipartFile multipartFile : uploadFile) {
+						
+						result = s3Util.upload(multipartFile.getBytes(), multipartFile, multipartFile.getOriginalFilename(), uploadKind);
+						
+						list.add(result);
+					}
+				
+				}catch (Exception e) { 
+					
+					e.printStackTrace();  
+				} 
+		}
+		
 		return new ResponseEntity<>(list, HttpStatus.OK);
 	}
 	

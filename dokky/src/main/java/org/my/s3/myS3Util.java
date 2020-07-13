@@ -49,16 +49,15 @@ import com.amazonaws.auth.AWSCredentials;
 @Log4j
 @Component
 public class myS3Util {
-	
-	private static final String bucket_name = "dokky-bucket";
-	
-	//private static final String ACCESS_KEY = "";
-    //private static final String SECRET_KEY = "";
+	 
+	private static final String bucket_name = "dokky-bucket";//자신의 S3 버킷 이름을 입력하세요
+	private static final String ACCESS_KEY = "";//자신의 S3 ACCESS_KEY를 입력하세요
+	private static final String SECRET_KEY = "";//자신의 S3 SECRET_KEY를 입력하세요
 	
 	String folder_name;
 	AmazonS3 s3;
 	
-    private AmazonS3 amazonS3;
+    //private AmazonS3 amazonS3;
 	 
 	public myS3Util() {
 		
@@ -66,14 +65,17 @@ public class myS3Util {
 						 		 standard().
 		 withRegion(Regions.AP_NORTHEAST_2).
 									build();
+	}
+	    
+    public myS3Util(Boolean serverNameResult) {
+    	
+    	AWSCredentials awsCredentials = new BasicAWSCredentials(ACCESS_KEY, SECRET_KEY);// 인증 객체를 생성한다.
 		 
-		/* AWSCredentials awsCredentials = new BasicAWSCredentials(ACCESS_KEY, SECRET_KEY);// 인증 객체를 생성한다.
-		 
-		 s3  = AmazonS3ClientBuilder.standard().
+		s3  = AmazonS3ClientBuilder.standard().
 	                withRegion(Regions.AP_NORTHEAST_2).
 	                withCredentials(new AWSStaticCredentialsProvider(awsCredentials)).
-				    build();*/
-	}
+				    build();
+    }
 	
 	public List<S3ObjectSummary> getObjectsList() {
 			
