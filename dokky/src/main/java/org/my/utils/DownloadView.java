@@ -21,8 +21,8 @@ import java.util.Map;
 @Component
 public class DownloadView extends AbstractView {//AbstractView를 상속
 	
-	//private static final String ACCESS_KEY = "AKIA47S6HNIPBSOVXPXH";
-    //private static final String SECRET_KEY = "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";
+	private static final String ACCESS_KEY = "";//자신의 S3 ACCESS_KEY를 입력하세요
+    private static final String SECRET_KEY = "";//자신의 S3 SECRET_KEY를 입력하세요
     
 	public DownloadView() {//생성자
 		setContentType("application/download; charset=utf-8");
@@ -32,10 +32,24 @@ public class DownloadView extends AbstractView {//AbstractView를 상속
 	protected void renderMergedOutputModel(Map<String, Object> model, HttpServletRequest request, HttpServletResponse response)
 			throws Exception {
 		
-		final AmazonS3 s3 = AmazonS3ClientBuilder.
-									   standard().
-			   withRegion(Regions.AP_NORTHEAST_2).
-										  build();
+		AmazonS3 s3;
+		
+		if(request.getServerName().equals("localhost")){//테스트 환경이 로컬호스트라면
+			
+			AWSCredentials awsCredentials = new BasicAWSCredentials(ACCESS_KEY, SECRET_KEY);// 인증 객체를 생성한다.
+			 
+			s3  = AmazonS3ClientBuilder.standard().
+		                withRegion(Regions.AP_NORTHEAST_2).
+		                withCredentials(new AWSStaticCredentialsProvider(awsCredentials)).
+					    build();
+			
+		}else {
+						s3 = AmazonS3ClientBuilder.
+						 		 		standard().
+				withRegion(Regions.AP_NORTHEAST_2).
+										   build();
+		}
+		
 		
 		 //AWSCredentials awsCredentials = new BasicAWSCredentials(ACCESS_KEY, SECRET_KEY);// 인증 객체를 생성한다.
 		 
@@ -47,9 +61,6 @@ public class DownloadView extends AbstractView {//AbstractView를 상속
 		String bucket_name = "dokky-bucket";
 		String path = request.getParameter("path");
 		String filename = request.getParameter("filename");
-		
-		System.out.println(filename); 
-		
 		String uuid = request.getParameter("uuid");
 		
 		try {
