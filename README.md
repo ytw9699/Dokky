@@ -14,20 +14,23 @@
 
 #### &emsp; 먼저 개인프로젝트로 진행중 19년 10월부터 멘토링을 통해서 진행 해왔습니다.
 
-## 5. 프로젝트 URL
+## 5. 프로젝트 도메인 주소
 
 #### &emsp; https://dokky.ga
-#### &emsp; http://localhost:8080/dokky
 
-## 6. 로그인 테스트 계정
+## 6. 프로젝트 실행 후 접속 주소(localhost)
+
+#### &emsp; http://localhost:8080/main
+
+## 7. 로그인 테스트 계정
 
 #### &emsp; 아이디 : admin (슈퍼 관리자)
 #### &emsp; 비밀번호 : admin
 
-## 7. 기술 스택 및 개발 환경
+## 8. 기술 스택 및 개발 환경
 #### &emsp; [기술 스택 및 개발 환경](https://github.com/ytw9699/Dokky/blob/master/dokky/documents/%EA%B8%B0%ED%83%80%EB%AC%B8%EC%84%9C%EB%93%A4/%EA%B8%B0%EC%88%A0-%EC%8A%A4%ED%83%9D-%EB%B0%8F-%EA%B0%9C%EB%B0%9C-%ED%99%98%EA%B2%BD.md)
 
-## 8. 프로젝트 주요 문서
+## 9. 프로젝트 주요 문서
 
 &emsp; [1. 요구사항 명세서](https://github.com/ytw9699/Dokky/blob/master/dokky/documents/%EA%B8%B0%ED%83%80%EB%AC%B8%EC%84%9C%EB%93%A4/%EC%9A%94%EA%B5%AC%EC%82%AC%ED%95%AD-%EB%AA%85%EC%84%B8%EC%84%9C.md)  
 &emsp; [2. 요구사항 변경 관리](https://github.com/ytw9699/Dokky/tree/master/dokky/documents/%EA%B8%B0%ED%83%80%EB%AC%B8%EC%84%9C%EB%93%A4/%EC%9A%94%EA%B5%AC%EC%82%AC%ED%95%AD_%EB%B3%80%EA%B2%BD%EA%B4%80%EB%A6%AC)  
@@ -38,22 +41,22 @@
 &emsp; [7. 데이터 정의](https://github.com/ytw9699/Dokky/blob/master/dokky/documents/%EA%B8%B0%ED%83%80%EB%AC%B8%EC%84%9C%EB%93%A4/%EB%8D%B0%EC%9D%B4%ED%84%B0-%EC%A0%95%EC%9D%98.md)   
 &emsp; [8. API 문서](https://github.com/ytw9699/Dokky/blob/master/dokky/documents/%EA%B8%B0%ED%83%80%EB%AC%B8%EC%84%9C%EB%93%A4/Dokky-API-%EB%AC%B8%EC%84%9C.md) 
 
-## 09. 코드 리뷰 진행
+## 10. 코드 리뷰 진행
 
 &emsp; [코드 리뷰 리스트](https://github.com/ytw9699/Dokky/blob/master/dokky/documents/%EA%B8%B0%ED%83%80%EB%AC%B8%EC%84%9C%EB%93%A4/%EC%BD%94%EB%93%9C%EB%A6%AC%EB%B7%B0-%EB%A6%AC%EC%8A%A4%ED%8A%B8.md) : 프로젝트에 대해 멘토와 코드 리뷰를 진행해왔습니다.
 
-## 10. 테스트 코드 작성
+## 11. 테스트 코드 작성
 
 &emsp; [테스트 코드 리스트](https://github.com/ytw9699/Dokky/blob/master/dokky/documents/%EA%B8%B0%ED%83%80%EB%AC%B8%EC%84%9C%EB%93%A4/%ED%85%8C%EC%8A%A4%ED%8A%B8-%EC%BD%94%EB%93%9C-%EB%A6%AC%EC%8A%A4%ED%8A%B8.md) 
 
-## 11. 이슈 관리
+## 12. 이슈 관리
 &emsp; [이슈관리](https://github.com/ytw9699/Dokky/issues) : 프로젝트를 진행중 겪었던 모든 이슈들을 기록하고 관리하였습니다.  
 			
-## 12. 진행 관리 - kanban board(To do, in progress, Done) 
+## 13. 진행 관리 - kanban board(To do, in progress, Done) 
 
 &emsp; [진행관리](https://github.com/ytw9699/Dokky/projects/3) : 프로젝트의 진행상황들을 kanban board에 기록하였습니다.  
 
-## 13. 리뷰 관리
+## 14. 리뷰 관리
 
 &emsp; 프로젝트를 만들며 겪은 문제해결 과정과 느낀점들을 1~2주 간격으로 회고 하였습니다.
 
