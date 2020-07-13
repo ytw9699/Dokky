@@ -284,7 +284,7 @@ var replyService = (function() {
 		
 		$.ajax({
 				type : 'post',
-				url : '/mypage/scrapData/' + scrapData.board_num + '/' + scrapData.userId,
+				url : '/board/scrapData/' + scrapData.board_num + '/' + scrapData.userId,
 				success : function(result, status, xhr) {
 					if (callback) {
 						callback(result,xhr);

@@ -287,44 +287,16 @@
 	<update id="updateEnabled">
 		update DK_MEMBER set enabled = 0 where userId = #{userId}
 	</update>
-	
-	<!-- 하위 스크랩 관련 -->
-	<select id="getScrapCnt" resultType="int">
-		<![CDATA[
-			select count(*) from dk_scrap where userId = #{userId} and board_num = #{board_num}
-		]]>
-	</select>
-	
-	<insert id="insertScrapData">
-		insert into dk_scrap (scrap_num, userId, board_num) values (seq_dk_scrap.nextval, #{userId}, #{board_num})
-	</insert>
-	
-	<delete id="deleteScrap">
-		delete dk_scrap where userId = #{userId} and board_num = #{board_num}
-	</delete>
-	
-	<!--  select reply_num, num, reply_content, userId, replydate
-		 from 
-		   (
-		    select /*+INDEX_DESC(DK_REPLY pk_reply) */ 
-		      rownum rn, reply_num, num, reply_content, userId, replydate
-		    from DK_REPLY
-		    where userId = #{userId}
-		    and reply_num > 0
-		    and rownum <= #{pageNum} * #{amount}
-		   ) where rn > (#{pageNum} -1) * #{amount}  -->
-		
-	
-	<!-- 상위 스크랩 관련 -->
 		   
 	<!-- 비밀번호 가져오기 --> 
+	<!--아래는 현재쓰이지 않는 로직 주석 
 	 <select id="getMemberPW" resultType="String">
 		select userpw from DK_MEMBER where userId = #{userId}
-	</select>
+	</select> -->
 	
 	<!-- 비밀번호 변경 -->
-	<update id="updateMyPassword">
+	<!-- <update id="updateMyPassword">
 		update DK_MEMBER set userpw = #{userPw} where userId = #{userId}
-	</update>
+	</update> -->
 	
 </mapper>
