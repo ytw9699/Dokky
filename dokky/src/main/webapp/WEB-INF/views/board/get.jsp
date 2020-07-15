@@ -149,7 +149,15 @@
 			    	</li>
 		    	</c:if>
 	    	<li class="contentMenu">
-				<button class="getButton" id="scrap">스크랩 </button>
+				<button class="getButton" id="list_button">글목록 </button>  
+	    	</li>
+	    	<li class="contentMenu">
+				 <!-- <button class="getButton">스크랩 </button> -->
+				 <span id="scrap">스크랩</span>
+				 <label class="switch">
+					  <input type="checkbox" id="scrapBtn">
+					  <span class="slider round"></span>
+				 </label>
 	    	</li>
 	    	<c:if test="${userInfo.username != board.userId}">
 		         <li class="contentMenu">
@@ -157,9 +165,7 @@
 	       	     </li>
 	        </c:if>
 	        </sec:authorize>  
-	    	<li class="contentMenu">
-				<button class="getButton" id="list_button">글목록 </button>  
-	    	</li>
+	    	
 	    </ul>
     </div> 
     
@@ -851,7 +857,7 @@
 	
 	/////////////////////////////////////////////////////////
 
-	$("#scrap").on("click",function(event){//게시글 스크랩
+	$("#scrapBtn").on("click",function(event){//게시글 스크랩
 		
 			var scrapData = { 
 								board_num : board_num,
