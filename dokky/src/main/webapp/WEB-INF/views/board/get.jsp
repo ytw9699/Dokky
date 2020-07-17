@@ -148,7 +148,20 @@
 			    	</li>
 		    	</c:if>
 	    	<li class="contentMenu">
-				<button class="getButton" id="scrap">스크랩 </button>
+				<button class="getButton" id="list_button">글목록 </button>  
+	    	</li>
+	    	<li class="contentMenu">
+				 <!-- <button class="getButton">스크랩 </button> -->
+				 <span id="scrap">스크랩</span>
+				 <label class="switch">
+				 		<c:if test="${scrapCount == 1}">
+	    					<input type="checkbox" id="scrapBtn" checked> 
+	    				</c:if>
+	    				<c:if test="${scrapCount != 1}">
+	    					<input type="checkbox" id="scrapBtn"> 
+	    				</c:if>
+					  <span class="slider round"></span>
+				 </label>
 	    	</li>
 	    	<c:if test="${userInfo.username != board.userId}">
 		         <li class="contentMenu">
@@ -156,9 +169,7 @@
 	       	     </li>
 	        </c:if>
 	        </sec:authorize>  
-	    	<li class="contentMenu">
-				<button class="getButton" id="list_button">글목록 </button>  
-	    	</li>
+	    	
 	    </ul>
     </div> 
     
@@ -294,10 +305,10 @@
 	var board_id = '${board.userId}';
 	var board_nickName = '${board.nickName}';
 	var board_title = '${board.title}';
+	var scrapCount = '${scrapCount}';
 	var myId;
 	var myNickName;
 	var pageNum = 1;//댓글의 페이지 번호
-	
 	var serverName = '${pageContext.request.serverName}';
 
 	<sec:authorize access="isAuthenticated()">   
@@ -850,25 +861,39 @@
 	
 	/////////////////////////////////////////////////////////
 
-	$("#scrap").on("click",function(event){//게시글 스크랩
-		
+	$("#scrapBtn").on("click",function(event){//게시글 스크랩
+			
 			var scrapData = { 
-								board_num : board_num,
-								userId    : myId
-					 		}; 
-			 	 
-			replyService.ScrapBoard(scrapData, function(result){
+					board_num : board_num,
+					userId    : myId
+		 		};
+	
+			if(scrapCount != 1){
 				
+				replyService.postScrapData(scrapData, function(result){
+					
 					 if(result == 'success'){
+						 scrapCount = 1;
 						 openAlert("스크랩 하였습니다");
-			 	 
-					 }else if(result == 'cancel'){
-						 openAlert("스크랩을 취소하였습니다");
-						 
-					 }else if(result == 'fail'){
+					 }
+					 else if(result == 'fail'){
 						 openAlert("스크랩을 할 수 없습니다. 관리자에게 문의주세요");
 					 }
-			});
+				});
+				
+			}else if(scrapCount == 1){
+				
+				replyService.deleteScrapData(scrapData, function(result){
+					
+					if(result == 'success'){
+						 scrapCount = 0;
+						 openAlert("스크랩을 취소하였습니다"); 
+					}			 	 
+					else if(result == 'fail'){
+						 openAlert("스크랩을 삭제 할 수 없습니다. 관리자에게 문의주세요");
+					}
+				});
+			}
 	});  
 	
 	/////////////////////////////////////////////////////////

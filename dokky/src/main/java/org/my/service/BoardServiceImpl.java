@@ -355,7 +355,7 @@ public class BoardServiceImpl implements BoardService {
 	}
 	
 	@Override
-	public int getScrapCnt(int board_num, String userId) {
+	public int getScrapCnt(Long board_num, String userId) {
 		
 		log.info("getScrapCnt");
 		
@@ -365,11 +365,11 @@ public class BoardServiceImpl implements BoardService {
 	}
 	
 	@Override
-	public int deleteScrap(int board_num, String userId) {
+	public int deleteScrapData(int board_num, String userId) {
 		
-		log.info("deleteScrap");
+		log.info("deleteScrapData");
 		
-		int deleteResult = mapper.deleteScrap(board_num, userId); 
+		int deleteResult = mapper.deleteScrapData(board_num, userId); 
 		
 		return deleteResult;
 	}
