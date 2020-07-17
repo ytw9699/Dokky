@@ -13,14 +13,17 @@ import org.my.domain.BoardAttachVO;
 	import org.my.domain.Criteria;
 	import org.my.domain.PageDTO;
 	import org.my.domain.commonVO;
-	import org.my.service.BoardService;
+import org.my.security.domain.CustomUser;
+import org.my.service.BoardService;
 	import org.springframework.http.HttpStatus;
 	import org.springframework.http.MediaType;
 	import org.springframework.http.ResponseEntity;
 	import org.springframework.security.access.prepost.PreAuthorize;
-	import org.springframework.stereotype.Controller;
+import org.springframework.security.core.Authentication;
+import org.springframework.stereotype.Controller;
 	import org.springframework.ui.Model;
-	import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.DeleteMapping;
+import org.springframework.web.bind.annotation.GetMapping;
 	import org.springframework.web.bind.annotation.ModelAttribute;
 	import org.springframework.web.bind.annotation.PathVariable;
 	import org.springframework.web.bind.annotation.PostMapping;
@@ -116,9 +119,18 @@ public class BoardController {//
 	}
 	
 	@GetMapping("/get")
-	public String get(@RequestParam("board_num") Long board_num, @ModelAttribute("cri") Criteria cri, Model model) {
-
+	public String get(@RequestParam("board_num") Long board_num, @ModelAttribute("cri") Criteria cri, Model model, Authentication authentication) {
+		
 		log.info("/get");
+		
+		if(authentication != null) {
+			
+			CustomUser user = (CustomUser)authentication.getPrincipal();
+			
+			String userId = user.getUsername();
+			
+			model.addAttribute("scrapCount", service.getScrapCnt(board_num, userId));
+		}
 		
 		BoardVO board = service.get(board_num);
 		
@@ -360,17 +372,13 @@ public class BoardController {//
 	@PreAuthorize("principal.username == #userId")  
 	@PostMapping(value = "/scrapData/{board_num}/{userId}", produces = "text/plain; charset=UTF-8")
 	@ResponseBody
-	public ResponseEntity<String> ScrapData(@PathVariable("board_num") int board_num, @PathVariable("userId") String userId ) {
+	public ResponseEntity<String> postScrapData(@PathVariable("board_num") int board_num, @PathVariable("userId") String userId ) {
 		
-		log.info("/mypage/scrapData");
+		log.info("/scrapData");
+		
 		log.info("board_num="+board_num+", userId="+userId); 
 		
-		if(service.getScrapCnt(board_num, userId) == 1 && service.deleteScrap(board_num, userId) == 1) {
-			//스크랩 카운트가 1이라면 스크랩한거기 때문에,  스크랩 삭제
-		
-				return new ResponseEntity<>("cancel",HttpStatus.OK);
-			
-		}else if(service.insertScrapData(board_num, userId)) {//스크랩 등록
+		if(service.insertScrapData(board_num, userId)) {//스크랩 등록
 			
 				log.info("insertScrapData...board_num="+board_num+", userId="+userId);
 				
@@ -382,4 +390,24 @@ public class BoardController {//
 		}
 	}
 	
+	@PreAuthorize("principal.username == #userId")  
+	@DeleteMapping(value = "/scrapData/{board_num}/{userId}", produces = "text/plain; charset=UTF-8")
+	@ResponseBody
+	public ResponseEntity<String> deleteScrapData(@PathVariable("board_num") int board_num, @PathVariable("userId") String userId ) {
+		
+		log.info("/scrapData");
+		
+		log.info("board_num="+board_num+", userId="+userId); 
+		
+		if(service.deleteScrapData(board_num, userId) == 1) {
+			
+				log.info("insertScrapData...board_num="+board_num+", userId="+userId);
+				
+				return new ResponseEntity<>("success",HttpStatus.OK);
+			
+		}else {
+		
+				return new ResponseEntity<>("fail",HttpStatus.OK);
+		}
+	}
 }

@@ -84,8 +84,8 @@ public interface BoardMapper {
 	
 	public int insertScrapData(@Param("board_num") int board_num, @Param("userId") String userId);
 	 
-	public int getScrapCnt(@Param("board_num") int board_num, @Param("userId") String userId);
+	public int getScrapCnt(@Param("board_num") Long board_num, @Param("userId") String userId);
 
-	public int deleteScrap(@Param("board_num") int board_num, @Param("userId") String userId);
+	public int deleteScrapData(@Param("board_num") int board_num, @Param("userId") String userId);
 
 }

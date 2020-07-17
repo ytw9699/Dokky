@@ -482,7 +482,7 @@
 		]]>
 	</select>
 	
-	<delete id="deleteScrap">
+	<delete id="deleteScrapData">
 		delete dk_scrap where userId = #{userId} and board_num = #{board_num}
 	</delete>
 	
