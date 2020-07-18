@@ -67,9 +67,18 @@ public class myS3Util {
 									build();
 	}
 	    
-    public myS3Util(Boolean serverNameResult) {
+    public myS3Util(String accessKey, String secretKey) {
     	
-    	AWSCredentials awsCredentials = new BasicAWSCredentials(ACCESS_KEY, SECRET_KEY);// 인증 객체를 생성한다.
+    	AWSCredentials awsCredentials;
+    	
+    	if(accessKey == null || secretKey == null) {
+    		
+    		 awsCredentials = new BasicAWSCredentials(ACCESS_KEY, SECRET_KEY);//직접 입력한 키로 인증 객체를 생성한다.
+    		 
+    	}else {
+    		
+    		 awsCredentials = new BasicAWSCredentials(accessKey, secretKey);//디비에서 가져온 키로 인증 객체를 생성한다.
+    	}
 		 
 		s3  = AmazonS3ClientBuilder.standard().
 	                withRegion(Regions.AP_NORTHEAST_2).

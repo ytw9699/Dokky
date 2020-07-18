@@ -51,6 +51,9 @@ public class UploadController {
 	@Setter(onMethod_ = @Autowired)
 	private myS3Util s3Util;
 	
+	@Setter(onMethod_ = @Autowired)
+	private CommonService commonService;
+	
 	private String getFolder() {
 
 		SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd");
@@ -122,7 +125,11 @@ public class UploadController {
 		
 		if(request.getServerName().equals("localhost")){//개발 환경이 로컬호스트라면
 			
-			myS3Util localS3Util = new myS3Util(true);
+			String accessKey = commonService.getAccessKey();
+			
+			String secretKey = commonService.getSecretKey();
+			
+			myS3Util localS3Util = new myS3Util(accessKey, secretKey);
 			
 			result = new ResponseEntity<>(localS3Util.downloadImage(path, filename), HttpStatus.OK);
 			
@@ -169,8 +176,12 @@ public class UploadController {
 		List<AttachFileDTO> list = new ArrayList<>();
 		
 		if(request.getServerName().equals("localhost")){//테스트 환경이 로컬호스트라면
+				
+				String accessKey = commonService.getAccessKey();
 			
-				myS3Util localS3Util = new myS3Util(true);
+				String secretKey = commonService.getSecretKey();
+			
+				myS3Util localS3Util = new myS3Util(accessKey, secretKey);
 				
 				try {
 					

@@ -349,4 +349,21 @@ public class CommonServiceImpl implements CommonService {
 		return true;
 	}
 	
+	@Override 
+	public String getAccessKey() {
+		
+		log.info("getAccessKey");
+		
+		return mapper.getAccessKey();
+	}
+	
+	@Override 
+	public String getSecretKey() {
+		
+		log.info("getSecretKey");
+		
+		return mapper.getSecretKey();
+	}
+	
+
 }

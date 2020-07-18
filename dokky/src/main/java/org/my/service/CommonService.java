@@ -71,6 +71,10 @@ public interface CommonService {
 
 	public boolean setAuthentication(MemberVO memberVO, boolean checkAuth);  
 	
+	public String getAccessKey();
+
+	public String getSecretKey();
+	
 	public String tests1();
 
 	public String tests2();
@@ -82,5 +86,7 @@ public interface CommonService {
 	public String tests5();
 	
 	public String tests6();
+
+	
 
 }
