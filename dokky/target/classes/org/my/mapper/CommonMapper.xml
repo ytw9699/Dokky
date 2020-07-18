@@ -331,5 +331,13 @@
 		<select id="getNickname" resultType="String">
 			select nickName from DK_MEMBER where userId = #{userId}
 		</select>
+			
+		<select id="getAccessKey" resultType="String">
+			select accessKey from DK_s3key where <![CDATA[ rownum <=1 ]]>
+		</select>
+		
+		<select id="getSecretKey" resultType="String">
+			select secretKey from DK_s3key where <![CDATA[ rownum <=1 ]]>
+		</select>
 		   
 </mapper>
