@@ -1594,7 +1594,7 @@
 		    var uuid = liObj.data("uuid");
 		    
 		    if(!liObj.data("type")){//파일이라면  
-		    	self.location ="/download?uuid="+uuid+"&filename="+filename+"&path="+path
+		    	self.location ="/fileDownload?uuid="+uuid+"&filename="+filename+"&path="+path
 		    }
 	});
    

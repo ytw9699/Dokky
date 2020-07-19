@@ -19,10 +19,14 @@ import java.util.Date;
 	import java.awt.image.BufferedImage;
 	import java.io.File;
 	import javax.imageio.ImageIO;
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
 
 //import org.apache.commons.io.FileUtils;
 import org.my.domain.AttachFileDTO;
-	import org.springframework.stereotype.Component;
+import org.my.service.CommonService;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Component;
 	import org.springframework.web.multipart.MultipartFile;
 	import com.amazonaws.AmazonServiceException;
 import com.amazonaws.HttpMethod;
@@ -43,7 +47,9 @@ import com.amazonaws.auth.AWSCredentials;
 	import com.amazonaws.services.s3.model.S3Object;
 	import com.amazonaws.services.s3.model.S3ObjectInputStream;
 	import com.amazonaws.services.s3.model.S3ObjectSummary;
-	import lombok.extern.log4j.Log4j;
+
+import lombok.Setter;
+import lombok.extern.log4j.Log4j;
 	import net.coobird.thumbnailator.Thumbnailator;
 
 @Log4j
@@ -67,9 +73,13 @@ public class myS3Util {
 									build();
 	}
 	    
-    public myS3Util(String accessKey, String secretKey) {
+    public myS3Util(CommonService commonService) {
     	
     	AWSCredentials awsCredentials;
+    	
+    	String accessKey = commonService.getAccessKey();
+		
+		String secretKey = commonService.getSecretKey();
     	
     	if(accessKey == null || secretKey == null) {
     		
@@ -364,6 +374,54 @@ public class myS3Util {
 		return bytesArray;
 	}
 	
+	
+	public void fileDownload(HttpServletRequest request, HttpServletResponse response, String ContentType) {
+		
+		String path = request.getParameter("path");
+		String filename = request.getParameter("filename");
+		String uuid = request.getParameter("uuid");
+		
+		try {
+		
+			S3Object s3Object = s3.getObject(bucket_name + "/" + path, uuid+"_"+filename);
+			
+			response.setContentType(ContentType);//리스폰스에 설정//다운로드타입이어야하니까
+			
+			response.setContentLength((int)s3Object.getObjectMetadata().getContentLength());//파일 크기설정
+			
+			String userAgent = request.getHeader("User-Agent");
+			
+			boolean ie = userAgent.indexOf("MSIE") > -1;
+		
+			if (ie) {
+				filename = URLEncoder.encode(filename, "UTF-8");
+			} else {
+				filename = new String(filename.getBytes("UTF-8"),"iso-8859-1");
+			}
+			
+			response.setHeader("Content-Disposition", "attachment; filename=\"" + filename + "\";");//다운로드할때의 파일이름설정을 해줘야한다!
+			
+			response.setHeader("Content-Transfer-Encoding", "binary");//인코딩설정
+			
+			S3ObjectInputStream s3ObjectInputStream = s3Object.getObjectContent();
+			
+			OutputStream out = response.getOutputStream();//아웃풋스트림객체얻어내고
+			
+			byte[] bytesArray = new byte[4096];
+			
+			int bytesRead = -1;
+			
+			while ((bytesRead = s3ObjectInputStream.read(bytesArray)) != -1) {
+				out.write(bytesArray, 0, bytesRead);
+			}
+			
+			out.close();
+			s3ObjectInputStream.close();
+			
+		} catch (IOException e) {
+			e.printStackTrace();
+		}
+	}
 	
 	public void downloadObject(String folder_name, String objectName) {
 		

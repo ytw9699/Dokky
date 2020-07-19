@@ -125,11 +125,7 @@ public class UploadController {
 		
 		if(request.getServerName().equals("localhost")){//개발 환경이 로컬호스트라면
 			
-			String accessKey = commonService.getAccessKey();
-			
-			String secretKey = commonService.getSecretKey();
-			
-			myS3Util localS3Util = new myS3Util(accessKey, secretKey);
+			myS3Util localS3Util = new myS3Util(commonService);
 			
 			result = new ResponseEntity<>(localS3Util.downloadImage(path, filename), HttpStatus.OK);
 			
@@ -177,11 +173,7 @@ public class UploadController {
 		
 		if(request.getServerName().equals("localhost")){//테스트 환경이 로컬호스트라면
 				
-				String accessKey = commonService.getAccessKey();
-			
-				String secretKey = commonService.getSecretKey();
-			
-				myS3Util localS3Util = new myS3Util(accessKey, secretKey);
+				myS3Util localS3Util = new myS3Util(commonService);
 				
 				try {
 					
@@ -356,7 +348,7 @@ public class UploadController {
 	}*/
 	
 	@PreAuthorize("isAuthenticated()")
-	@GetMapping("/download")		
+	@GetMapping("/fileDownload")		
 	public ModelAndView download2(HttpServletRequest request) throws Exception {
 		
 		return new ModelAndView("DownloadView", "temp", "temp");
