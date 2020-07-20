@@ -280,10 +280,28 @@ var replyService = (function() {
 			});
 		}
 	
-	function ScrapBoard(scrapData, callback, error) {
+	function postScrapData(scrapData, callback, error) {
 		
 		$.ajax({
 				type : 'post',
+				url : '/board/scrapData/' + scrapData.board_num + '/' + scrapData.userId,
+				success : function(result, status, xhr) {
+					if (callback) {
+						callback(result,xhr);
+					}
+				},
+				error : function(xhr, status, er) {
+					if (error) {
+						error(xhr,er);
+					}
+				}
+		});
+	}
+	
+	function deleteScrapData(scrapData, callback, error) {
+		
+		$.ajax({
+				type : 'delete',
 				url : '/board/scrapData/' + scrapData.board_num + '/' + scrapData.userId,
 				success : function(result, status, xhr) {
 					if (callback) {
@@ -371,7 +389,8 @@ var replyService = (function() {
 		getUserCash : getUserCash,
 		updateDonation : updateDonation,
 		updateReplyDonation : updateReplyDonation,
-		ScrapBoard : ScrapBoard,
+		postScrapData : postScrapData,
+		deleteScrapData : deleteScrapData,
 		report : report,
 		postAlarm : postAlarm
 		/*download: download*/

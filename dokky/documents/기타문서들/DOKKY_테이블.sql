@@ -341,7 +341,17 @@ insert into dk_alarm( alarmNum, target, writerNick, writerId, kind, commonVar1, 
 create sequence seq_dk_alarm
 
 drop table dk_alarm purge
+
+
+15.s3 키관리 테이블 -----------------------------------------------------
+create table DK_s3key(
 	
+		accessKey varchar2(50),
+		secretKey varchar2(50)
+)
+	
+insert into DK_s3key( accessKey, secretKey) VALUES ('accessKey', 'secretKey')
+ 
 
 14.기타 -----------------------------------------------------
 	컬럼수정

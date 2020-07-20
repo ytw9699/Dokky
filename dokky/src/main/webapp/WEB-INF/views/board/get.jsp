@@ -237,6 +237,12 @@
 		  <input type='hidden' name='keyword' value='<c:out value="${cri.keyword}"/>'>
 		  <input type='hidden' name='type' value='<c:out value="${cri.type}"/>'>  
 	</form>
+	<form id='downForm' action="/downloadS3File" method="post">
+		  <input type="hidden" id='csrf' name="${_csrf.parameterName}" value="${_csrf.token}"/>
+		  <input type='hidden' name='uuid' value=''>
+		  <input type='hidden' name='filename' value=''>
+		  <input type='hidden' name='path' value=''>
+	</form>
 </div>
 	
 <div id="donateBackGround">
@@ -1592,8 +1598,14 @@
 		    var filename = liObj.data("filename");
 		    var uuid = liObj.data("uuid");
 		    
-		    if(!liObj.data("type")){//파일이라면  
-		    	self.location ="/download?uuid="+uuid+"&filename="+filename+"&path="+path
+		    if(!liObj.data("type")){//파일이라면
+		    	
+		    	var downForm = $("#downForm");
+		    
+		    	downForm.find("input[name='uuid']").val(uuid);
+		    	downForm.find("input[name='filename']").val(filename);
+		    	downForm.find("input[name='path']").val(path);
+			    downForm.submit();
 		    }
 	});
    
@@ -1603,7 +1615,7 @@
     	    
 			$(".bigPictureWrapper").css("display","flex").show(); 
     	    
-    	    $(".bigPicture").html("<img src='/displayS3?path="+path+"&filename="+filename+"'>");
+    	    $(".bigPicture").html("<img src='/s3Image?path="+path+"&filename="+filename+"'>");
     	    
     	    $("#profileGray").css("display","block");
    }
