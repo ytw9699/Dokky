@@ -79,7 +79,8 @@ public class myS3Util {
 				    build();
     }
 	
-	public AttachFileDTO upload(byte[] fileData, MultipartFile multipartFile, String fileName, String uploadKind) throws FileNotFoundException {
+	public AttachFileDTO upload(byte[] fileData, MultipartFile multipartFile,
+						String fileName, String uploadKind) throws FileNotFoundException {//사진 및 파일 업로드
 			
 			createFolder();
 			
@@ -140,35 +141,6 @@ public class myS3Util {
 			}
 
 		    return attachDTO;
-	}
-	
-	public void createFolder() {
-		
-			SimpleDateFormat sdf = new SimpleDateFormat("yyyy/MM/dd");
-	
-			Date date = new Date();
-	
-			String str = sdf.format(date);
-			
-			folder_name = "upload/" + str;
-			
-			try {
-					if (s3.doesBucketExist(bucket_name + "/" + folder_name)) {
-				        
-						log.info("폴더가 이미 있음");  
-						
-				    }else {
-				    	
-			    		s3.putObject(bucket_name, folder_name + "/", new ByteArrayInputStream(new byte[0]), new ObjectMetadata());
-			    		
-			    		log.info("폴더 생성 완료");  
-			    	}
-				    
-			}catch(AmazonS3Exception e) {
-	    		
-				
-				log.info(e.getErrorMessage());  
-	    	}
 	}
 	
 	public byte[] downloadImage(String path, String filename) {
@@ -283,6 +255,35 @@ public class myS3Util {
     		log.info(e.getErrorMessage());
     		System.exit(1);
     		return false;
+    	}
+	}
+	
+	public void createFolder() {
+		
+		SimpleDateFormat sdf = new SimpleDateFormat("yyyy/MM/dd");
+
+		Date date = new Date();
+
+		String str = sdf.format(date);
+		
+		folder_name = "upload/" + str;
+		
+		try {
+				if (s3.doesBucketExist(bucket_name + "/" + folder_name)) {
+			        
+					log.info("폴더가 이미 있음");  
+					
+			    }else {
+			    	
+		    		s3.putObject(bucket_name, folder_name + "/", new ByteArrayInputStream(new byte[0]), new ObjectMetadata());
+		    		
+		    		log.info("폴더 생성 완료");  
+		    	}
+			    
+		}catch(AmazonS3Exception e) {
+    		
+			
+			log.info(e.getErrorMessage());  
     	}
 	}
 }
