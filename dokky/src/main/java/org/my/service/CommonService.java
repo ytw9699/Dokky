@@ -74,19 +74,4 @@ public interface CommonService {
 	public String getAccessKey();
 
 	public String getSecretKey();
-	
-	public String tests1();
-
-	public String tests2();
-	
-	public String tests3();
-
-	public String tests4();
-	
-	public String tests5();
-	
-	public String tests6();
-
-	
-
 }
