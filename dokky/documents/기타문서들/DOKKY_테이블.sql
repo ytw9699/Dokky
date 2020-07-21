@@ -249,7 +249,7 @@
 		 cashAmount number(10,0) not null,
 		 regDate date default sysdate, 
 		 userId varchar2(50) not null,
-		 nickName varchar2(50) not null,  --댓글 작성자 닉네임
+		 nickName varchar2(50), -- 반드시 not null 이면 안됨 
 		 specification varchar2(50), --미승인/승인완료
 		 board_num number(10,0) default 0,
 		 reply_num number(10,0) default 0,
