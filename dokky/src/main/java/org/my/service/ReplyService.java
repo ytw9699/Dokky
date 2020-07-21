@@ -8,15 +8,15 @@ package org.my.service;
 
 public interface ReplyService {
 
-	public int register(commonVO vo);
+	public int create(commonVO vo);
 
-	public ReplyVO get(Long reply_num);
-
-	public int modify(ReplyVO vo);
-
-	public int remove(Long reply_num);
+	public ReplyVO read(Long reply_num);
 	
-	public ReplyPageDTO getListPage(Criteria cri, Long board_num);
+	public ReplyPageDTO readReplyList(Criteria cri, Long board_num);
+	
+	public int update(ReplyVO vo);
+	
+	public int delete(Long reply_num);
 	
 	public String checkLikeValue(ReplyLikeVO vo);
 
@@ -38,6 +38,6 @@ public interface ReplyService {
 	
 	public String getDisLikeCount(Long reply_num);
 
-	public String replyDonateMoney(commonVO vo);
+	public String giveReplyWriterMoney(commonVO vo);
 
 }

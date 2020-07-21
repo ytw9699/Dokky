@@ -9,21 +9,18 @@ package org.my.mapper;
 
 public interface ReplyMapper {
 
-	public Long getRecentReply_num();
-	
 	public int insert(ReplyVO vo);
 	
-	public int reInsert(ReplyVO replyVO);
-
 	public ReplyVO read(Long reply_num);
-
-	public int delete(Long reply_num);
-
+	
+	public List<ReplyVO> readReplyListWithPaging( @Param("cri") Criteria cri,
+												 @Param("board_num") Long board_num );
+	
 	public int update(ReplyVO reply);
-
-	public List<ReplyVO> getListWithPaging(
-			@Param("cri") Criteria cri,
-			@Param("board_num") Long board_num );
+	
+	public int delete(Long reply_num);
+	
+	public int reInsert(ReplyVO replyVO);
 
 	public int getCountBynum(Long board_num);
 	
@@ -72,5 +69,7 @@ public interface ReplyMapper {
 	public int updateOrder_step(ReplyVO replyVO);
 
 	public Long getBoardNum(Long reply_num);
+	
+	public Long getRecentReply_num();
 
 }

@@ -306,7 +306,7 @@ depth | 댓글 깊이 | Int | O
 HTTP Header| value 
 ---- | ----
 Method | GET
-URI Path | /replies/pages/{board_num}/{page}
+URI Path | /replies/list/{board_num}/{page}
 
 ### PathVariable of HTTP Request Header
 

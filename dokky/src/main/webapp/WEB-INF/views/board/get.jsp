@@ -438,7 +438,7 @@
 	
 	function showReplyList(page){//댓글 리스트 가져오기
 		
-	    replyService.getList({board_num:board_num, page: page || 1 }, function(data) {
+	    replyService.readList({board_num:board_num, page: page || 1 }, function(data) {
 	    	var replyList = $(".replyList");//댓글리스트 ul  
 	    	var replyCntVal = $(".replyCntVal");//댓글 갯수 div
 			var str ="";
@@ -1160,6 +1160,7 @@
 		}
 		
 		if(option === 'board'){//게시글 기부시
+			
 			var donateData = {	 board_num 	: board_num, //글번호
 							 	 userId     : myId, //기부하는 아이디
 							 	 nickName   : myNickName, //기부하는 닉네임 
@@ -1219,15 +1220,32 @@
 								 	alarmVO          : alarmData
 		 						}	
 			
-				replyService.updateReplyDonation(commonData, function(result){
-				
-					var replyMoney= $("#replyMoney"+donate_reply_num);
-					replyMoney.html(result+"\\"); 
-				   	
-					closeDonateModal();
+				replyService.giveReplyWriterMoney(commonData, 
+						
+					function(result, status){
 					
-					openAlert("기부 하였습니다");
-		   	    });
+						if(status == "success"){ 
+							
+							var replyMoney= $("#replyMoney"+donate_reply_num);
+							
+							replyMoney.html(result+"\\"); 
+						   	
+							closeDonateModal();
+							
+							openAlert("기부 하였습니다");
+						}
+		   	    	},
+		   	    
+		   	    	function(status){
+		   	    	
+						if(status == "error"){ 
+							
+							closeDonateModal();
+							
+							openAlert("기부 할 수 없습니다");
+						}
+		   	    	}
+				);
 		}
 	});
 	
@@ -1382,10 +1400,18 @@
 							  };
 		 	}
 		 	
-			replyService.add(commonData, function(result){
+			replyService.create(commonData, function(result){
+					
+				if(result = "success"){
+					
 			        reply_contents.val("");
 			        
-			        showReplyList(-1);//다시 댓글 목록 마지막 페이지 보여주기
+			        showReplyList(-1);//다시 댓글 목록 마지막 페이지 보여주기					
+				
+				}else if(result = "fail"){
+					openAlert("댓글을 달 수 없습니다.");							
+				}
+
 			}); 
     });
 		 
@@ -1468,7 +1494,7 @@
 					 	  		} 
 	          }
 			  
-	     	  replyService.add(commonData, function(result){
+	     	  replyService.create(commonData, function(result){
 	        	    
 	     			reReplyWriteForm.css("display","none"); 
 	     	 
@@ -1526,8 +1552,15 @@
 							     };
 				   	  
 			   	     replyService.updateReply(reply, function(result){
-				   	        
-				   	    	showReplyList(pageNum);//수정후 댓글 페이지 유지하면서 리스트 다시불름
+			   	    	 
+			   	    	if(result == "success"){
+			   	    		
+			   	    		showReplyList(pageNum);//수정후 댓글 페이지 유지하면서 리스트 다시불름
+			   	    		
+			   	    	}else if( result == "fail"){
+			   	    		openAlert("댓글을 수정 할수 없습니다");
+			   	    	}
+				   	    	
 			   	     });
 		   	  });   
 			    

@@ -29,62 +29,65 @@ package org.my.controller;
 @AllArgsConstructor
 public class ReplyController {
 	
-	private ReplyService service;
+	private ReplyService replyService;
 	
-	//@PreAuthorize("isAuthenticated()")
+	@PreAuthorize("principal.username == #vo.replyVO.userId")
 	@ResponseBody
-	@PostMapping(value = "/new", consumes = "application/json", produces = "text/plain; charset=UTF-8")
+	@PostMapping(value = "/reply", consumes = "application/json", produces = "text/plain; charset=UTF-8")
 	public ResponseEntity<String> createReply(@RequestBody commonVO vo) {
 
-		log.info("/replies/new");
-		log.info("ReplyVO: " + vo);
+		log.info("/replies/reply");
+		log.info("vo : " + vo);
 		
-		int insertCount = service.register(vo);//댓글입력+알람입력
+		int insertCount = replyService.create(vo);//댓글입력+알람입력
 
 		return insertCount == 1  
-				?  new ResponseEntity<>("댓글이 입력되었습니다.", HttpStatus.OK) 
-				: new ResponseEntity<>(HttpStatus.INTERNAL_SERVER_ERROR);
+				? new ResponseEntity<>("success", HttpStatus.OK) 
+				: new ResponseEntity<>("fail", HttpStatus.INTERNAL_SERVER_ERROR);
 	}
 	
-	@GetMapping(value = "/{reply_num}",  produces = { MediaType.APPLICATION_JSON_UTF8_VALUE })
+	@GetMapping(value = "/reply/{reply_num}", produces = { MediaType.APPLICATION_JSON_UTF8_VALUE })
 	@ResponseBody
 	public ResponseEntity<ReplyVO> readReply(@PathVariable("reply_num") Long reply_num) {
 	
-	log.info("/replies/"+reply_num);
-	
-	return new ResponseEntity<>(service.get(reply_num), HttpStatus.OK);
+		log.info("/replies/reply/"+reply_num);
+		
+		return new ResponseEntity<>(replyService.read(reply_num), HttpStatus.OK);
 	}
 	
-	@GetMapping(value = "/pages/{board_num}/{page}", produces = { MediaType.APPLICATION_JSON_UTF8_VALUE })
-	@ResponseBody
-	public ResponseEntity<ReplyPageDTO> readReplyList(@PathVariable("page") int page, @PathVariable("board_num") Long board_num) {//댓글 리스트
+	@GetMapping(value = "/list/{board_num}/{page}", produces = { MediaType.APPLICATION_JSON_UTF8_VALUE })
+	@ResponseBody						//댓글 리스트
+	public ResponseEntity<ReplyPageDTO> readReplyList(@PathVariable("board_num") Long board_num, 
+													  @PathVariable("page") int page) {
 		
-		log.info("/replies/pages/"+board_num+"/"+page);
+		log.info("/replies/list/"+board_num+"/"+page);
 		
 		Criteria cri = new Criteria(page, 10);//댓글을 10개씩 보여줌 
 		
 		log.info("cri:" + cri);
 
-		return new ResponseEntity<>(service.getListPage(cri, board_num), HttpStatus.OK);
+		return new ResponseEntity<>(replyService.readReplyList(cri, board_num), HttpStatus.OK);
 	}
 	
 	@PreAuthorize("principal.username == #vo.userId")
-	@DeleteMapping(value = "/{reply_num}", produces = { MediaType.TEXT_PLAIN_VALUE })
+	@DeleteMapping(value = "/reply/{reply_num}", produces = { MediaType.TEXT_PLAIN_VALUE })
 	@ResponseBody
-	public ResponseEntity<String> deleteReply(@RequestBody ReplyVO vo, @PathVariable("reply_num") Long reply_num) {
+	public ResponseEntity<String> deleteReply(@RequestBody ReplyVO vo, 
+											  @PathVariable("reply_num") Long reply_num) {
 		
-		log.info("/replies/"+reply_num);
+		log.info("/replies/reply/"+reply_num);
 		
-		return service.remove(reply_num) == 1 
+		return replyService.delete(reply_num) == 1
 				? new ResponseEntity<>("success", HttpStatus.OK)
 				: new ResponseEntity<>(HttpStatus.INTERNAL_SERVER_ERROR);
 	} 
 	
 	@PreAuthorize("principal.username == #userId")  
-	@PostMapping("/removeAll")//댓글 다중삭제
-		public String deleteReplies(@RequestParam("checkRow") String checkRow , @RequestParam("userId")String userId, Criteria cri) {
+	@PostMapping("/deleteReplies")//댓글 다중삭제
+		public String deleteReplies(@RequestParam("checkRow") String checkRow ,
+				      				@RequestParam("userId")String userId, Criteria cri) {
 
-		log.info("/replies/removeAll");
+		log.info("/replies/deleteReplies");
 		log.info("checkRow..." + checkRow);
 	 	
 	 	String[] arrIdx = checkRow.split(",");
@@ -93,16 +96,16 @@ public class ReplyController {
 	 		
 	 		Long reply_num = Long.parseLong(arrIdx[i]);  
 	 		
-	 		log.info("remove...reply_num=" + reply_num);
+	 		log.info("delete...reply_num=" + reply_num);
 	 		
-	 		service.remove(reply_num);
+	 		replyService.delete(reply_num);
 	 	}
 	 	
 	 	return "redirect:/mypage/myReplylist?userId="+userId+"&pageNum="+cri.getPageNum()+"&amount="+cri.getAmount();
 	}
 
 	@PreAuthorize("principal.username == #vo.userId")
-	@RequestMapping(method = { RequestMethod.PUT,RequestMethod.PATCH }, 
+	@RequestMapping(method = { RequestMethod.PUT, RequestMethod.PATCH }, 
 					value = "/reply", consumes = "application/json", produces = { MediaType.TEXT_PLAIN_VALUE }) 
 	@ResponseBody
 	public ResponseEntity<String> updateReply(@RequestBody ReplyVO vo) {
@@ -110,10 +113,30 @@ public class ReplyController {
 		log.info("/replies/reply");
 		log.info("ReplyVO: " + vo);
 
-		return service.modify(vo) == 1 
+		return replyService.update(vo) == 1 
 				? new ResponseEntity<>("success", HttpStatus.OK)
-				: new ResponseEntity<>(HttpStatus.INTERNAL_SERVER_ERROR);
+				: new ResponseEntity<>("fail", HttpStatus.INTERNAL_SERVER_ERROR);
 	}
+	
+	@PostMapping(value = "/giveReplyWriterMoney", consumes = "application/json", produces = "text/plain; charset=UTF-8")
+	@ResponseBody
+	public ResponseEntity<String> giveReplyWriterMoney(@RequestBody commonVO vo) {//기부하기
+		
+			log.info("/replies/giveReplyWriterMoney");
+			log.info("replyDonateVO: " + vo);
+			
+			String replyMoney = replyService.giveReplyWriterMoney(vo);
+			
+			if(replyMoney != null) {
+				
+				return new ResponseEntity<>(replyMoney, HttpStatus.OK); 
+				
+			}else {
+				
+				return new ResponseEntity<>(HttpStatus.INTERNAL_SERVER_ERROR);
+			}
+	}
+	
 	
 	@RequestMapping(method = { RequestMethod.PUT,RequestMethod.PATCH },
 			value = "/likeCount", consumes = "application/json", produces = "text/plain; charset=UTF-8")
@@ -124,28 +147,28 @@ public class ReplyController {
 			
 			ReplyLikeVO replyLikeVO = vo.getReplyLikeVO();
 			
-			String CheckResult = service.checkLikeValue(replyLikeVO);
+			String CheckResult = replyService.checkLikeValue(replyLikeVO);
 			
 			log.info("CheckResult: " + CheckResult);
 			
 			int returnVal = 0;
 			
 			if(CheckResult == null){ 
-				returnVal = service.registerLike(vo);
+				returnVal = replyService.registerLike(vo);
 				log.info("registerLike..." );
 				 
 			}else if(CheckResult.equals("pull")){
-				returnVal = service.pushLike(vo);//댓글 좋아요 누르기
+				returnVal = replyService.pushLike(vo);//댓글 좋아요 누르기
 				log.info("pushLike...");
 				
 			}else if(CheckResult.equals("push")){
-				returnVal = service.pullLike(vo);//댓글 좋아요 취소
+				returnVal = replyService.pullLike(vo);//댓글 좋아요 취소
 				log.info("pullLike...");
 			}
 			
 			log.info("returnVal: " + returnVal);
 			
-			return returnVal == 1 ? new ResponseEntity<>(service.getLikeCount(replyLikeVO.getReply_num()), HttpStatus.OK)
+			return returnVal == 1 ? new ResponseEntity<>(replyService.getLikeCount(replyLikeVO.getReply_num()), HttpStatus.OK)
 					: new ResponseEntity<>(HttpStatus.INTERNAL_SERVER_ERROR);
 		}
 	
@@ -158,43 +181,32 @@ public class ReplyController {
 		
 			ReplyDisLikeVO boardDisLikeVO = vo.getReplyDisLikeVO();
 			
-			String CheckResult = service.checkDisLikeValue(boardDisLikeVO);
+			String CheckResult = replyService.checkDisLikeValue(boardDisLikeVO);
 			 
 			log.info("CheckResult: " + CheckResult);
 			
 			int returnVal = 0;
 			 
 			if(CheckResult == null){ 
-				returnVal = service.registerDisLike(vo);
+				returnVal = replyService.registerDisLike(vo);
 				log.info("registerDisLike..." );
 				
 			}else if(CheckResult.equals("pull")){
 				
-				returnVal = service.pushDisLike(vo);//싫어요 누르기
+				returnVal = replyService.pushDisLike(vo);//싫어요 누르기
 				log.info("pushDisLike...");
 				
 			}else if(CheckResult.equals("push")){
-				returnVal = service.pullDisLike(vo); //싫어요 취소
+				returnVal = replyService.pullDisLike(vo); //싫어요 취소
 				log.info("pullDisLike...");
 			}
 			
 			log.info("returnVal: " + returnVal);
 			
-			return returnVal == 1 ? new ResponseEntity<>(service.getDisLikeCount(boardDisLikeVO.getReply_num()), HttpStatus.OK)
+			return returnVal == 1 ? new ResponseEntity<>(replyService.getDisLikeCount(boardDisLikeVO.getReply_num()), HttpStatus.OK)
 					: new ResponseEntity<>(HttpStatus.INTERNAL_SERVER_ERROR);
 		}
 	
-		@RequestMapping(method = { RequestMethod.PUT,RequestMethod.PATCH },
-			value = "/replyDonateMoney", consumes = "application/json", produces = "text/plain; charset=UTF-8")
-		@ResponseBody
-		public ResponseEntity<String> replyDonateMoney(@RequestBody commonVO vo) {//기부하기
-			
-			log.info("/replies/replyDonateMoney");
-			log.info("replyDonateVO: " + vo);
-			
-			String replyMoney = service.replyDonateMoney(vo);
-			
-			return new ResponseEntity<>(replyMoney, HttpStatus.OK);
-		}
+		
 }
 

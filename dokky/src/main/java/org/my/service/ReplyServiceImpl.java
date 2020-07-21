@@ -23,7 +23,7 @@ package org.my.service;
 public class ReplyServiceImpl implements ReplyService {
   
 	@Setter(onMethod_ = @Autowired)
-	private ReplyMapper mapper;
+	private ReplyMapper replyMapper;
 
 	@Setter(onMethod_ = @Autowired)
 	private BoardMapper boardMapper;
@@ -33,16 +33,16 @@ public class ReplyServiceImpl implements ReplyService {
 		
 	@Transactional
 	@Override
-	public int register(commonVO vo) {
+	public int create(commonVO vo) {
 		
 		log.info("register......" + vo);
-		
 		ReplyVO replyVO = vo.getReplyVO();
 
 		log.info("updateReplyCnt......" + vo);
 		boardMapper.updateReplyCnt(replyVO.getBoard_num(), 1);
 		
 		if(vo.getAlarmVO() != null) {
+			
 			log.info("insertAlarm: "); 
 			commonMapper.insertAlarm(vo.getAlarmVO());
 		}
@@ -50,87 +50,81 @@ public class ReplyServiceImpl implements ReplyService {
 		if(replyVO.getGroup_num() == 0 ) {//시퀀스값은 디폴트 1부터 시작하니까 0으로 기준을 잡자
 			
 			log.info("insert......" + replyVO); 
-			return mapper.insert(replyVO);//일반 루트 부모 댓글 입력
+			return replyMapper.insert(replyVO);//일반 루트 부모 댓글 입력
 			
 		}else {//자식 댓글 입력 
 			
-			List<ReplyVO> list = mapper.selectNextReply(replyVO);//이게 댓글의 순서를 결정하는 2번째 중요한 핵심
+			List<ReplyVO> list = replyMapper.selectNextReply(replyVO);//이게 댓글의 순서를 결정하는 2번째 중요한 핵심
 			/*한개의 (부모)그룹번호 기준으로 생각할때 대댓글의 출력 순서는 대댓글을 달고자 하는 대상인 부모댓글(루트가 아닌 경우도 포함)의
 			출력 순서 보다 크면서(밑에 있으면서), 부모댓글의 (레벨)깊이보다 작거나 같은 최초의 댓글의 그룹순서가 된다*/
 			
 			if(list.isEmpty()){//그런데 최초의 댓글이 없다면 
 				//댓글의 순서를 결정하는 1번째 핵심
-				int lastReplyStep = mapper.lastReplyStep(replyVO.getGroup_num());//그룹내에 맨 마지막 댓글의 순서번호를가져오고
+				int lastReplyStep = replyMapper.lastReplyStep(replyVO.getGroup_num());//그룹내에 맨 마지막 댓글의 순서번호를가져오고
 				
 				replyVO.setOrder_step(lastReplyStep+1);//순서번호에 +1을 해준다 
 				
 				log.info("reInsert......" + replyVO); 
-				return mapper.reInsert(replyVO);//깊이도 +1해서 입력 해줌 ,
+				return replyMapper.reInsert(replyVO);//깊이도 +1해서 입력 해줌 ,
 				
 			}else{// 최초의 댓글이 있다면
 				
 				ReplyVO firstVO = list.get(0);
 				
-				mapper.updateOrder_step(firstVO);//최초댓글을 포함해서 나머지 아래 댓글의 순서값 모두 1씩 올려줌
+				replyMapper.updateOrder_step(firstVO);//최초댓글을 포함해서 나머지 아래 댓글의 순서값 모두 1씩 올려줌
 				
 				replyVO.setOrder_step(firstVO.getOrder_step());//최초의 댓글에 해당하는 순서값으로 변경후 입력
 				
 				log.info("reInsert......" + replyVO); 
-				return mapper.reInsert(replyVO);//깊이도 +1해서 입력 해줌 , 
+				return replyMapper.reInsert(replyVO);//깊이도 +1해서 입력 해줌 , 
 			}
 		}
 	} 
 	
-	 @Override
-	 public ReplyVO get(Long reply_num) {
+	@Override
+	public ReplyVO read(Long reply_num) {
 	
-	    log.info("get......" + reply_num);
+	    log.info("read......" + reply_num);
 	
-	    return mapper.read(reply_num);
-	
-	 }
+	    return replyMapper.read(reply_num);
+	}
 
 	  @Override
-	  public int modify(ReplyVO vo) {
+	  public int update(ReplyVO vo) {
 	
-	    log.info("modify......" + vo);
+	    log.info("update......" + vo);
 	
-	    return mapper.update(vo);
+	    return replyMapper.update(vo);
 	
 	  }
 
     @Transactional
 	@Override 
-	public int remove(Long reply_num) {
+	public int delete(Long reply_num) {
 
-    	log.info("remove...." + reply_num);
+    	log.info("delete...." + reply_num);
 
-		Long board_num = mapper.getBoardNum(reply_num); 
+		Long board_num = replyMapper.getBoardNum(reply_num); 
 
 		boardMapper.updateReplyCnt(board_num, -1);
 		
-		return mapper.delete(reply_num);
+		return replyMapper.delete(reply_num);
 		
 	}
 	  
 	  @Override
-	  public ReplyPageDTO getListPage(Criteria cri, Long board_num) {
-	       
-		  log.info("getListPage111111111111111111111111111111111111");
-		  //log.info(mapper.getListWithPaging(cri, board_num));
-		  //log.info(mapper.getListWithPaging(cri, board_num).get(0).getReplyDate().toString());
-		  log.info("getListPage22222222222222222222222222222222");
+	  public ReplyPageDTO readReplyList(Criteria cri, Long board_num) {
 		  
-	    return new ReplyPageDTO(
-	        mapper.getCountBynum(board_num), 
-	        mapper.getListWithPaging(cri, board_num));
+		  return new ReplyPageDTO(replyMapper.getCountBynum(board_num), 
+	    						  replyMapper.readReplyListWithPaging(cri, board_num));
+		  
 	  }
 	  
 		@Override
 		public String checkLikeValue(ReplyLikeVO vo) { 
 			
 			log.info("checkLikeValue");
-			return mapper.checkLikeValue(vo); 
+			return replyMapper.checkLikeValue(vo); 
 		}
 		
 		@Transactional
@@ -140,13 +134,13 @@ public class ReplyServiceImpl implements ReplyService {
 			ReplyLikeVO replyLikeVO = vo.getReplyLikeVO();
 			
 			log.info("registerLike...." + vo);
-			mapper.registerLike(replyLikeVO); 
+			replyMapper.registerLike(replyLikeVO); 
 			
 			log.info("insertAlarm: ");
 			commonMapper.insertAlarm(vo.getAlarmVO());
 			
 			log.info("pushLike....");
-			return mapper.pushLike(replyLikeVO.getReply_num()); 
+			return replyMapper.pushLike(replyLikeVO.getReply_num()); 
 		}
 		
 		@Transactional
@@ -156,13 +150,13 @@ public class ReplyServiceImpl implements ReplyService {
 			ReplyLikeVO replyLikeVO = vo.getReplyLikeVO();
 			
 			log.info("pushLikeValue...."+replyLikeVO);  
-			mapper.pushLikeValue(replyLikeVO);
+			replyMapper.pushLikeValue(replyLikeVO);
 			
 			log.info("insertAlarm: "+vo.getAlarmVO());
 			commonMapper.insertAlarm(vo.getAlarmVO());
 			
 			log.info("pushLike....");
-			return mapper.pushLike(replyLikeVO.getReply_num()); 
+			return replyMapper.pushLike(replyLikeVO.getReply_num()); 
 		}
 		
 		@Transactional 
@@ -172,20 +166,20 @@ public class ReplyServiceImpl implements ReplyService {
 			ReplyLikeVO replyLikeVO = vo.getReplyLikeVO();
 			
 			log.info("pullLikeValue...."+vo);
-			mapper.pullLikeValue(replyLikeVO);
+			replyMapper.pullLikeValue(replyLikeVO);
 			
 			log.info("insertAlarm: ");
 			commonMapper.deleteAlarm(vo.getAlarmVO());
 			
 			log.info("pullLike....");
-			return mapper.pullLike(replyLikeVO.getReply_num());
+			return replyMapper.pullLike(replyLikeVO.getReply_num());
 		}
 		
 		@Override
 		public String getLikeCount(Long reply_num) {
 	  
 			log.info("getLikeCount");
-			return mapper.getLikeCount(reply_num);
+			return replyMapper.getLikeCount(reply_num);
 		}
 		
 		@Transactional
@@ -195,13 +189,13 @@ public class ReplyServiceImpl implements ReplyService {
 			ReplyDisLikeVO replyDisLikeVO = vo.getReplyDisLikeVO();
 			
 			log.info("registerDisLike...." + vo);
-			mapper.registerDisLike(replyDisLikeVO);
+			replyMapper.registerDisLike(replyDisLikeVO);
 			
 			log.info("insertAlarm: ");
 			commonMapper.insertAlarm(vo.getAlarmVO());
 			
 			log.info("pushDisLike....");
-			return mapper.pushDisLike(replyDisLikeVO.getReply_num()); 
+			return replyMapper.pushDisLike(replyDisLikeVO.getReply_num()); 
 		}
 		
 		@Transactional
@@ -211,13 +205,13 @@ public class ReplyServiceImpl implements ReplyService {
 			ReplyDisLikeVO replyDisLikeVO = vo.getReplyDisLikeVO();
 			
 			log.info("pulldislikeCheck...."+vo);
-			mapper.pulldislikeCheck(replyDisLikeVO); 
+			replyMapper.pulldislikeCheck(replyDisLikeVO); 
 			
 			log.info("insertAlarm: ");
 			commonMapper.deleteAlarm(vo.getAlarmVO());
 			
 			log.info("pullDisLike....");
-			return mapper.pullDisLike(replyDisLikeVO.getReply_num()); 
+			return replyMapper.pullDisLike(replyDisLikeVO.getReply_num()); 
 		}
 		
 		@Transactional
@@ -227,32 +221,32 @@ public class ReplyServiceImpl implements ReplyService {
 			ReplyDisLikeVO replyDisLikeVO = vo.getReplyDisLikeVO();
 			
 			log.info("pushDislikeValue...."+vo);
-			mapper.pushDislikeValue(replyDisLikeVO); 
+			replyMapper.pushDislikeValue(replyDisLikeVO); 
 			
 			log.info("insertAlarm: "); 
 			commonMapper.insertAlarm(vo.getAlarmVO());
 			
 			log.info("pushDisLike....");
-			return mapper.pushDisLike(replyDisLikeVO.getReply_num());
+			return replyMapper.pushDisLike(replyDisLikeVO.getReply_num());
 		}
 		
 		@Override
 		public String checkDisLikeValue(ReplyDisLikeVO vo) {
 			
 			log.info("checkDisLikeValue"); 
-			return mapper.checkDisLikeValue(vo); 
+			return replyMapper.checkDisLikeValue(vo); 
 		}
 		
 		@Override
 		public String getDisLikeCount(Long reply_num) {
 	 
 			log.info("getDisLikeCount");
-			return mapper.getDisLikeCount(reply_num);
+			return replyMapper.getDisLikeCount(reply_num);
 		}
 		
 		@Transactional
 		@Override 
-		public String replyDonateMoney(commonVO vo) {
+		public String giveReplyWriterMoney(commonVO vo) {
 			
 			replyDonateVO replyDonateVO = vo.getReplyDonateVO();
 			
@@ -260,23 +254,23 @@ public class ReplyServiceImpl implements ReplyService {
 			boardMapper.updateMycash(replyDonateVO.getMoney(),replyDonateVO.getUserId());
 			
 			log.info("insertMyCashHistory");
-			mapper.insertMyCashHistory(replyDonateVO); 
+			replyMapper.insertMyCashHistory(replyDonateVO); 
 			 
 			log.info("updateReplyUserCash");
 			log.info(vo);
-			mapper.updateReplyUserCash(replyDonateVO);
+			replyMapper.updateReplyUserCash(replyDonateVO);
 			 
 			log.info("insertReplyUserCashHistory");
-			   mapper.insertReplyUserCashHistory(replyDonateVO);
+			   replyMapper.insertReplyUserCashHistory(replyDonateVO);
 			
 			log.info("updateReplyMoney");
-			mapper.updateReplyMoney(replyDonateVO);
+			replyMapper.updateReplyMoney(replyDonateVO);
 			
 			log.info("insertAlarm: ");
 			commonMapper.insertAlarm(vo.getAlarmVO());
 			
 			log.info("getReplyMoney");
-			return mapper.getReplyMoney(replyDonateVO);
+			return replyMapper.getReplyMoney(replyDonateVO);
 		}
 }
 
