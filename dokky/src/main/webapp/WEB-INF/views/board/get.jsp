@@ -881,7 +881,6 @@
 					
 					 if(result == 'success'){
 						 scrapCount = 1;
-						 openAlert("스크랩 하였습니다");
 					 }
 					 else if(result == 'fail'){
 						 openAlert("스크랩을 할 수 없습니다. 관리자에게 문의주세요");
@@ -894,7 +893,6 @@
 					
 					if(result == 'success'){
 						 scrapCount = 0;
-						 openAlert("스크랩을 취소하였습니다"); 
 					}			 	 
 					else if(result == 'fail'){
 						 openAlert("스크랩을 삭제 할 수 없습니다. 관리자에게 문의주세요");
