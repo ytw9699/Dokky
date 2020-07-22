@@ -18,6 +18,8 @@ public interface ReplyService {
 	
 	public int delete(Long reply_num);
 	
+	public String giveReplyWriterMoney(commonVO vo);
+	
 	public String checkLikeValue(ReplyLikeVO vo);
 
 	public int registerLike(commonVO vo);
@@ -38,6 +40,6 @@ public interface ReplyService {
 	
 	public String getDisLikeCount(Long reply_num);
 
-	public String giveReplyWriterMoney(commonVO vo);
+	
 
 }

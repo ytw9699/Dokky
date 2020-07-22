@@ -62,8 +62,6 @@ public interface BoardMapper {
 
 	public String donateMoney(donateVO vo);
 	
-	public void updateMycash(@Param("money") int money, @Param("userId") String userId);
-		
 	public void updateBoardUserCash(donateVO vo);
 
 	public void updateBoardMoney(donateVO vo);
@@ -87,5 +85,7 @@ public interface BoardMapper {
 	public int getScrapCnt(@Param("board_num") Long board_num, @Param("userId") String userId);
 
 	public int deleteScrapData(@Param("board_num") int board_num, @Param("userId") String userId);
+	
+	public void minusMycash(@Param("money") int money, @Param("userId") String userId);
 
 }

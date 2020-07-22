@@ -92,6 +92,65 @@
 		where reply_num = #{reply_num}
 	</update>
 	
+	<!-- 내 캐시 히스토리 입력 -->
+	<insert id="createMyCashHistory">
+		insert into dk_cash (
+							cash_num,
+							cashKind,
+							cashAmount,
+							userId,
+							specification,
+							board_num,
+							reply_num
+							) values 
+										(
+											seq_dk_cash.nextval,
+											'기부하기',
+											#{money},
+											#{userId},
+											'댓글' ,
+											#{board_num},
+											#{reply_num}
+										)
+	</insert>
+	
+	<!-- 댓글 기부받는자 캐시 증가하기 -->
+	<update id="plusReplyUserCash">
+	    update dk_member set cash = cash + #{money} where userId = #{donatedId}
+	</update> 
+	
+	<!-- 댓글 유저 캐시 히스토리 입력 -->
+	<insert id="createReplyUserCashHistory">
+		insert into dk_cash (
+								cash_num,
+								cashKind,
+								cashAmount,
+								userId,
+								specification,
+								board_num,
+								reply_num
+								) values 
+											(
+												seq_dk_cash.nextval, 
+												'기부받기',
+												#{money},
+												#{donatedId},
+												'댓글' ,
+												#{board_num},
+												#{reply_num}
+											)
+	</insert>
+	
+	<!-- 댓글의 기부금액 증가하기 -->
+	<update id="plusReplyMoney"> 
+	    update DK_REPLY set MONEY = MONEY + #{money} where reply_num = #{reply_num}
+	</update> 
+	
+	<!-- 댓글의 기부금액 조회하기 -->
+	<select id="getReplyMoney" resultType="String">
+		select money from DK_REPLY where reply_num = #{reply_num}
+	</select>
+	
 	<insert id="reInsert">
 		insert into DK_REPLY (    
 								  reply_num
@@ -225,65 +284,6 @@
 	<select id="getDisLikeCount" resultType="String">
 		select dislikeCnt from DK_REPLY where reply_num = #{reply_num}
 	</select>
-	
-	<!-- 댓글 기부받는자 캐시 증감하기 -->
-	<update id="updateReplyUserCash">
-	    update dk_member set cash = cash + #{money} where userId = #{donatedId}
-	</update> 
-	
-	<!-- 댓글의 기부금액 증감하기 -->
-	<update id="updateReplyMoney"> 
-	    update DK_REPLY set MONEY = MONEY + #{money} where reply_num = #{reply_num}
-	</update> 
-	
-	<!-- 댓글의 기부금액 조회하기 -->
-	<select id="getReplyMoney" resultType="String">
-		select money from DK_REPLY where reply_num = #{reply_num}
-	</select>
-	
-	<!-- 내 캐시 히스토리 입력 -->
-	<insert id="insertMyCashHistory">
-		insert into dk_cash (
-							cash_num,
-							cashKind,
-							cashAmount,
-							userId,
-							specification,
-							board_num,
-							reply_num
-							) values 
-										(
-											seq_dk_cash.nextval,
-											'기부하기',
-											#{money},
-											#{userId},
-											'댓글' ,
-											#{board_num},
-											#{reply_num}
-										)
-	</insert>
-	
-	<!-- 댓글 유저 캐시 히스토리 입력 -->
-	<insert id="insertReplyUserCashHistory">
-		insert into dk_cash (
-								cash_num,
-								cashKind,
-								cashAmount,
-								userId,
-								specification,
-								board_num,
-								reply_num
-								) values 
-											(
-												seq_dk_cash.nextval, 
-												'기부받기',
-												#{money},
-												#{donatedId},
-												'댓글' ,
-												#{board_num},
-												#{reply_num}
-											)
-	</insert>
 	
 	<select id="getRecentReply_num" resultType="long">
 		<![CDATA[

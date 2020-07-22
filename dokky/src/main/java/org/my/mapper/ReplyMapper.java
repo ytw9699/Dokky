@@ -20,6 +20,16 @@ public interface ReplyMapper {
 	
 	public int delete(Long reply_num);
 	
+	public void plusReplyUserCash(replyDonateVO vo);
+
+	public void plusReplyMoney(replyDonateVO vo);
+
+	public String getReplyMoney(replyDonateVO vo);
+
+	public void createMyCashHistory(replyDonateVO vo);
+
+	public void createReplyUserCashHistory(replyDonateVO vo);
+	
 	public int reInsert(ReplyVO replyVO);
 
 	public int getCountBynum(Long board_num);
@@ -51,16 +61,6 @@ public interface ReplyMapper {
 	public void pushDislikeValue(ReplyDisLikeVO vo);
 	
 	public String getDisLikeCount(Long reply_num);
-
-	public void updateReplyUserCash(replyDonateVO vo);
-
-	public void updateReplyMoney(replyDonateVO vo);
-
-	public String getReplyMoney(replyDonateVO vo);
-
-	public void insertMyCashHistory(replyDonateVO vo);
-
-	public void insertReplyUserCashHistory(replyDonateVO vo);
 
 	public List<ReplyVO> selectNextReply(ReplyVO replyVO);
 

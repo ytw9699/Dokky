@@ -320,8 +320,8 @@ public class BoardServiceImpl implements BoardService {
 		  
 		donateVO donateVO = vo.getDonateVO();
 		
-		log.info("updateMycash");
-		mapper.updateMycash(donateVO.getMoney(), donateVO.getUserId());
+		log.info("minusMycash");
+		mapper.minusMycash(donateVO.getMoney(), donateVO.getUserId());
 		
 		log.info("insertMyCashHistory");
 		mapper.insertMyCashHistory(donateVO);

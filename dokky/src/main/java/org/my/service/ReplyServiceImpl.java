@@ -88,6 +88,14 @@ public class ReplyServiceImpl implements ReplyService {
 	
 	    return replyMapper.read(reply_num);
 	}
+	
+	 @Override
+	  public ReplyPageDTO readReplyList(Criteria cri, Long board_num) {
+		  
+		  return new ReplyPageDTO(replyMapper.getCountBynum(board_num), 
+	    						  replyMapper.readReplyListWithPaging(cri, board_num));
+		  
+	  }
 
 	  @Override
 	  public int update(ReplyVO vo) {
@@ -112,13 +120,33 @@ public class ReplyServiceImpl implements ReplyService {
 		
 	}
 	  
-	  @Override
-	  public ReplyPageDTO readReplyList(Criteria cri, Long board_num) {
-		  
-		  return new ReplyPageDTO(replyMapper.getCountBynum(board_num), 
-	    						  replyMapper.readReplyListWithPaging(cri, board_num));
-		  
-	  }
+	  	@Transactional
+		@Override 
+		public String giveReplyWriterMoney(commonVO vo) {
+			
+			replyDonateVO replyDonateVO = vo.getReplyDonateVO();
+			
+			log.info("minusMycash");
+			boardMapper.minusMycash(replyDonateVO.getMoney(), replyDonateVO.getUserId());
+			
+			log.info("createMyCashHistory");
+			replyMapper.createMyCashHistory(replyDonateVO); 
+			 
+			log.info("plusReplyUserCash");
+			replyMapper.plusReplyUserCash(replyDonateVO);
+			 
+			log.info("createReplyUserCashHistory");
+			replyMapper.createReplyUserCashHistory(replyDonateVO);
+			
+			log.info("plusReplyMoney");
+			replyMapper.plusReplyMoney(replyDonateVO);
+			
+			log.info("insertAlarm: ");
+			commonMapper.insertAlarm(vo.getAlarmVO());
+			
+			log.info("getReplyMoney");
+			return replyMapper.getReplyMoney(replyDonateVO);
+		}
 	  
 		@Override
 		public String checkLikeValue(ReplyLikeVO vo) { 
@@ -244,33 +272,6 @@ public class ReplyServiceImpl implements ReplyService {
 			return replyMapper.getDisLikeCount(reply_num);
 		}
 		
-		@Transactional
-		@Override 
-		public String giveReplyWriterMoney(commonVO vo) {
-			
-			replyDonateVO replyDonateVO = vo.getReplyDonateVO();
-			
-			log.info("updateMycash");
-			boardMapper.updateMycash(replyDonateVO.getMoney(),replyDonateVO.getUserId());
-			
-			log.info("insertMyCashHistory");
-			replyMapper.insertMyCashHistory(replyDonateVO); 
-			 
-			log.info("updateReplyUserCash");
-			log.info(vo);
-			replyMapper.updateReplyUserCash(replyDonateVO);
-			 
-			log.info("insertReplyUserCashHistory");
-			   replyMapper.insertReplyUserCashHistory(replyDonateVO);
-			
-			log.info("updateReplyMoney");
-			replyMapper.updateReplyMoney(replyDonateVO);
-			
-			log.info("insertAlarm: ");
-			commonMapper.insertAlarm(vo.getAlarmVO());
-			
-			log.info("getReplyMoney");
-			return replyMapper.getReplyMoney(replyDonateVO);
-		}
+		
 }
 

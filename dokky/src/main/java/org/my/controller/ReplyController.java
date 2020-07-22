@@ -120,7 +120,7 @@ public class ReplyController {
 	
 	@PostMapping(value = "/giveReplyWriterMoney", consumes = "application/json", produces = "text/plain; charset=UTF-8")
 	@ResponseBody
-	public ResponseEntity<String> giveReplyWriterMoney(@RequestBody commonVO vo) {//기부하기
+	public ResponseEntity<String> giveReplyWriterMoney(@RequestBody commonVO vo) {
 		
 			log.info("/replies/giveReplyWriterMoney");
 			log.info("replyDonateVO: " + vo);
