@@ -167,21 +167,21 @@ var replyService = (function() {
 		});
 	}
 	
-	function updateReplyLike(commonData, callback, error) {//댓글 좋아요 업데이트
+	function likeReply(commonData, callback, error) {//댓글 좋아요 업데이트
 
 		$.ajax({
-				type : 'put', 
-				url : '/replies/likeCount', 
+				type : 'post', 
+				url : '/replies/likeReply', 
 				data : JSON.stringify(commonData), 
 				contentType : "application/json; charset=utf-8",
 				success : function(result, status, xhr) {
 					if (callback) {
-						callback(result);
+						callback(result, status);
 					}
 				},
 				error : function(xhr, status, er) {
 					if (error) {
-						error(er);
+						error(status);
 					}
 				}
 		});
@@ -384,7 +384,7 @@ var replyService = (function() {
 		displayTime : displayTime,
 		updateLike : updateLike,
 		updateDisLike : updateDisLike,
-		updateReplyLike : updateReplyLike,
+		likeReply : likeReply,
 		updateReplyDisLike : updateReplyDisLike,
 		getUserCash : getUserCash,
 		updateDonation : updateDonation,

@@ -20,13 +20,11 @@ public interface ReplyService {
 	
 	public String giveReplyWriterMoney(commonVO vo);
 	
-	public String checkLikeValue(ReplyLikeVO vo);
-
-	public int registerLike(commonVO vo);
-
-	public int pushLike(commonVO vo);
-
-	public int pullLike(commonVO vo);
+	public boolean checkReplyLikeButton(ReplyLikeVO vo);
+	
+	public boolean pushReplyLikeButton(commonVO vo);
+	
+	public boolean pullReplyLikeButton(commonVO vo);
 
 	public String getLikeCount(Long reply_num);
 	
@@ -39,7 +37,5 @@ public interface ReplyService {
 	public int registerDisLike(commonVO vo);
 	
 	public String getDisLikeCount(Long reply_num);
-
-	
 
 }

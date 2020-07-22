@@ -149,58 +149,38 @@ public class ReplyServiceImpl implements ReplyService {
 		}
 	  
 		@Override
-		public String checkLikeValue(ReplyLikeVO vo) { 
+		public boolean checkReplyLikeButton(ReplyLikeVO vo) { 
 			
-			log.info("checkLikeValue");
-			return replyMapper.checkLikeValue(vo); 
+			log.info("checkReplyLikeButton");
+			return replyMapper.checkReplyLikeButton(vo) == 1; 
 		}
 		
 		@Transactional
 		@Override
-		public int registerLike(commonVO vo) {//댓글 좋아요 첫 컬럼 등록 및 좋아요 push
-
-			ReplyLikeVO replyLikeVO = vo.getReplyLikeVO();
+		public boolean pushReplyLikeButton(commonVO vo) {//댓글 좋아요 누르기
 			
-			log.info("registerLike...." + vo);
-			replyMapper.registerLike(replyLikeVO); 
+			log.info("pushReplyLikeButton...." + vo);
+			
+			ReplyLikeVO replyLikeVO = vo.getReplyLikeVO();
 			
 			log.info("insertAlarm: ");
 			commonMapper.insertAlarm(vo.getAlarmVO());
 			
-			log.info("pushLike....");
-			return replyMapper.pushLike(replyLikeVO.getReply_num()); 
+			return replyMapper.pushReplyLikeButton(replyLikeVO) == 1 && replyMapper.plusReplyLikeCount(replyLikeVO.getReply_num()) == 1; 
 		}
 		
 		@Transactional
 		@Override
-		public int pushLike(commonVO vo) {//댓글 좋아요 누르기  
+		public boolean pullReplyLikeButton(commonVO vo) {//댓글 좋아요 당기기(취소)
+			
+			log.info("pullReplyLikeButton...." + vo);
 			
 			ReplyLikeVO replyLikeVO = vo.getReplyLikeVO();
 			
-			log.info("pushLikeValue...."+replyLikeVO);  
-			replyMapper.pushLikeValue(replyLikeVO);
-			
-			log.info("insertAlarm: "+vo.getAlarmVO());
-			commonMapper.insertAlarm(vo.getAlarmVO());
-			
-			log.info("pushLike....");
-			return replyMapper.pushLike(replyLikeVO.getReply_num()); 
-		}
-		
-		@Transactional 
-		@Override
-		public int pullLike(commonVO vo) {//댓글  좋아요 취소 pull
-			
-			ReplyLikeVO replyLikeVO = vo.getReplyLikeVO();
-			
-			log.info("pullLikeValue...."+vo);
-			replyMapper.pullLikeValue(replyLikeVO);
-			
-			log.info("insertAlarm: ");
+			log.info("deleteAlarm: ");
 			commonMapper.deleteAlarm(vo.getAlarmVO());
 			
-			log.info("pullLike....");
-			return replyMapper.pullLike(replyLikeVO.getReply_num());
+			return replyMapper.pullReplyLikeButton(replyLikeVO) == 1 && replyMapper.minusReplyLikeCount(replyLikeVO.getReply_num()) == 1; 
 		}
 		
 		@Override

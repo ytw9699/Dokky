@@ -138,39 +138,34 @@ public class ReplyController {
 	}
 	
 	
-	@RequestMapping(method = { RequestMethod.PUT,RequestMethod.PATCH },
-			value = "/likeCount", consumes = "application/json", produces = "text/plain; charset=UTF-8")
-		@ResponseBody
-		public ResponseEntity<String> updateLike(@RequestBody commonVO vo) {//댓글 좋아요 누르기 및 취소
+	@PostMapping(value = "/likeReply", consumes = "application/json", produces = "text/plain; charset=UTF-8")
+	@ResponseBody
+	public ResponseEntity<String> likeReply(@RequestBody commonVO vo) {//댓글 좋아요 누르기 및 취소
 		
-			log.info("/replies/likeCount");
+			log.info("/replies/likeReply");
 			
 			ReplyLikeVO replyLikeVO = vo.getReplyLikeVO();
 			
-			String CheckResult = replyService.checkLikeValue(replyLikeVO);
+			boolean CheckResult = replyService.checkReplyLikeButton(replyLikeVO);
 			
-			log.info("CheckResult: " + CheckResult);
+			boolean returnVal = false;
 			
-			int returnVal = 0;
-			
-			if(CheckResult == null){ 
-				returnVal = replyService.registerLike(vo);
-				log.info("registerLike..." );
-				 
-			}else if(CheckResult.equals("pull")){
-				returnVal = replyService.pushLike(vo);//댓글 좋아요 누르기
-				log.info("pushLike...");
+			if(CheckResult == false){ 
 				
-			}else if(CheckResult.equals("push")){
-				returnVal = replyService.pullLike(vo);//댓글 좋아요 취소
-				log.info("pullLike...");
+				log.info("pushReplyLikeButton..." );
+				returnVal = replyService.pushReplyLikeButton(vo);//댓글 좋아요 누르기
+				 
+			}else if(CheckResult == true){ 
+				
+				returnVal = replyService.pullReplyLikeButton(vo);//댓글 좋아요 당기기(취소)
+				log.info("pullReplyLikeButton...");
 			}
 			
 			log.info("returnVal: " + returnVal);
 			
-			return returnVal == 1 ? new ResponseEntity<>(replyService.getLikeCount(replyLikeVO.getReply_num()), HttpStatus.OK)
+			return returnVal == true ? new ResponseEntity<>(replyService.getLikeCount(replyLikeVO.getReply_num()), HttpStatus.OK)
 					: new ResponseEntity<>(HttpStatus.INTERNAL_SERVER_ERROR);
-		}
+	}
 	
 	@RequestMapping(method = { RequestMethod.PUT,RequestMethod.PATCH },
 			value = "/dislikeCount", consumes = "application/json", produces = "text/plain; charset=UTF-8")

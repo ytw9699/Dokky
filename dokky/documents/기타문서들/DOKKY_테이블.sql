@@ -207,7 +207,6 @@
 	
 		 userId varchar2(50) not null,
 	     reply_num number(10,0) not null,
-	     likeValue varchar2(50) not null,--좋아요 눌르면 push,다시 눌르면 pull
 	     constraint fk_reply_like foreign key(reply_num) references DK_REPLY(reply_num) on delete cascade
 	);
 	

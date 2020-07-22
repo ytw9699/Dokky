@@ -34,17 +34,15 @@ public interface ReplyMapper {
 
 	public int getCountBynum(Long board_num);
 	
-	public String checkLikeValue(ReplyLikeVO vo);
-
-	public int pushLike(Long reply_num);
-
-	public int registerLike(ReplyLikeVO vo);
-
-	public void pushLikeValue(ReplyLikeVO vo);
-
-	public int pullLike(Long reply_num); 
-
-	public void pullLikeValue(ReplyLikeVO vo);
+	public int checkReplyLikeButton(ReplyLikeVO vo);
+	
+	public int pushReplyLikeButton(ReplyLikeVO vo);
+	
+	public int plusReplyLikeCount(Long reply_num);
+	
+	public int pullReplyLikeButton(ReplyLikeVO vo);
+	
+	public int minusReplyLikeCount(Long reply_num);
 
 	public String getLikeCount(Long reply_num);
 	
@@ -71,5 +69,4 @@ public interface ReplyMapper {
 	public Long getBoardNum(Long reply_num);
 	
 	public Long getRecentReply_num();
-
 }

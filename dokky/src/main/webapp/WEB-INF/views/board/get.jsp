@@ -1010,11 +1010,25 @@
 							 	alarmVO     : alarmData
 		 					 };
 	
-			replyService.updateReplyLike(commonData, function(result){
-			 
-				var replyLikeCount = $("#replyLikeCount"+reply_num);
-					replyLikeCount.html(result);
-		    });
+			replyService.likeReply(commonData,  
+					
+				function(result, status){
+					
+					if(status == "success"){ 
+						
+						var replyLikeCount = $("#replyLikeCount"+reply_num);
+						replyLikeCount.html(result);
+					}
+	   	    	},
+	   	    
+	   	    	function(status){
+	   	    	
+					if(status == "error"){ 
+						
+						openAlert("Server Error(관리자에게 문의해주세요)");
+					}
+	   	    	}
+			);
 	});
 	
 	///////////////////////////////////////////////////////
