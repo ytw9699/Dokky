@@ -4,7 +4,7 @@
   "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="org.my.mapper.ReplyMapper">
 
-	<insert id="insert">
+	<insert id="insertParentReply">
 		insert into DK_REPLY (   
 									  reply_num
 									, board_num
@@ -26,6 +26,46 @@
 									, 0
 							   )
 	</insert>
+	
+	<select id="selectNextReply" resultType="org.my.domain.ReplyVO">
+		  <![CDATA[ select * from dk_reply where group_num = #{group_num} and order_step > #{order_step} and depth <= #{depth} order by order_step asc   ]]>
+	</select> 
+	
+	<!-- 그룹번호에 해당하는 가장 마지막줄의 step_order를 가져오는것 -->
+	<select id="lastReplyStep" resultType="int">
+		SELECT order_step FROM (SELECT order_step FROM dk_reply where group_num = #{group_num} order by order_step desc) WHERE ROWNUM = 1
+	</select>
+	
+	<insert id="insertChildReply">
+		insert into DK_REPLY (    
+								  reply_num
+								, board_num
+								, reply_content
+								, nickName
+								, userId
+								, group_num
+								, order_step
+								, depth
+								, toUserId
+								, toNickName
+							 )
+					values (   
+								seq_dk_reply.nextval
+							 , #{board_num}
+							 , #{reply_content}
+							 , #{nickName}
+							 , #{userId}
+							 , #{group_num}
+							 , #{order_step}
+							 , #{depth}+1
+							 , #{toUserId}
+							 , #{toNickName} 
+						   )
+	</insert>
+	
+	<update id="updateOrder_step">
+	 	<![CDATA[update dk_reply set order_step = order_step+1 where group_num = #{group_num} and order_step >= #{order_step} ]]>
+	</update>
 	
 	<select id="read" resultType="org.my.domain.ReplyVO">
 		select * from DK_REPLY where reply_num = #{reply_num}
@@ -89,14 +129,18 @@
 		    and rownum <= #{cri.pageNum} * #{cri.amount}
 		   ) where rn > (#{cri.pageNum} -1) * #{cri.amount} -->
 		   
-	<delete id="delete">
-		delete from DK_REPLY where reply_num = #{reply_num}
-	</delete>
-
 	<update id="update">
 		update DK_REPLY set reply_content = #{reply_content}, updatedate = sysdate 
 		where reply_num = #{reply_num}
 	</update>
+		
+	<select id="getBoardNum" resultType="long">
+		select board_num from DK_REPLY where reply_num = #{reply_num}
+	</select>
+	
+	<delete id="delete">
+		delete from DK_REPLY where reply_num = #{reply_num}
+	</delete>
 	
 	<!-- 내 캐시 히스토리 입력 -->
 	<insert id="createMyCashHistory">
@@ -155,56 +199,6 @@
 	<!-- 댓글의 기부금액 조회하기 -->
 	<select id="getReplyMoney" resultType="String">
 		select money from DK_REPLY where reply_num = #{reply_num}
-	</select>
-	
-	<insert id="reInsert">
-		insert into DK_REPLY (    
-								  reply_num
-								, board_num
-								, reply_content
-								, nickName
-								, userId
-								, group_num
-								, order_step
-								, depth
-								, toUserId
-								, toNickName
-							 )
-					values (   
-								seq_dk_reply.nextval
-							 , #{board_num}
-							 , #{reply_content}
-							 , #{nickName}
-							 , #{userId}
-							 , #{group_num}
-							 , #{order_step}
-							 , #{depth}+1
-							 , #{toUserId}
-							 , #{toNickName} 
-						   )
-	</insert>
-	 
-	<select id="selectNextReply" resultType="org.my.domain.ReplyVO">
-		  <![CDATA[ select * from dk_reply where group_num = #{group_num} and order_step > #{order_step} and depth <= #{depth} order by order_step asc   ]]>
-	</select> 
-	
-	<!-- 그룹번호에 해당하는 가장 마지막줄의 step_order를 가져오는것 -->
-	<select id="lastReplyStep" resultType="int">
-		SELECT order_step FROM (SELECT order_step FROM dk_reply where group_num = #{group_num} order by order_step desc) WHERE ROWNUM = 1
-	</select>
-	
-	<update id="updateOrder_step">
-	 	<![CDATA[update dk_reply set order_step = order_step+1 where group_num = #{group_num} and order_step >= #{order_step} ]]>
-	</update>
-		
-	<select id="getBoardNum" resultType="long">
-		select board_num from DK_REPLY where reply_num = #{reply_num}
-	</select>
-
-	<select id="getRecentReply_num" resultType="long">
-		<![CDATA[
-			select reply_num from DK_REPLY WHERE ROWNUM <= 1 order by reply_num desc 
-		]]>	
 	</select>
 	
 	<!-- 댓글 좋아요 버튼 누름 여부 체크-->	
@@ -277,6 +271,12 @@
 	<!-- 댓글 싫어요 카운트 가져오기 -->
 	<select id="getDislikeCount" resultType="String">
 		select dislikeCnt from DK_REPLY where reply_num = #{reply_num}
+	</select>
+	
+	<select id="getRecentReply_num" resultType="long">
+		<![CDATA[
+			select reply_num from DK_REPLY WHERE ROWNUM <= 1 order by reply_num desc 
+		]]>	
 	</select>
 
 </mapper>

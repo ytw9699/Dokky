@@ -9,7 +9,15 @@ package org.my.mapper;
 
 public interface ReplyMapper {
 
-	public int insert(ReplyVO vo);
+	public int insertParentReply(ReplyVO vo);
+	
+	public List<ReplyVO> selectNextReply(ReplyVO replyVO);
+
+	public int lastReplyStep(int group_num);
+	
+	public int insertChildReply(ReplyVO replyVO);
+
+	public int updateOrder_step(ReplyVO replyVO);
 	
 	public ReplyVO read(Long reply_num);
 	
@@ -20,17 +28,19 @@ public interface ReplyMapper {
 	
 	public int update(ReplyVO reply);
 	
+	public Long getBoardNum(Long reply_num);
+
 	public int delete(Long reply_num);
+	
+	public void createMyCashHistory(replyDonateVO vo);
 	
 	public void plusReplyUserCash(replyDonateVO vo);
 
+	public void createReplyUserCashHistory(replyDonateVO vo);
+	
 	public void plusReplyMoney(replyDonateVO vo);
 
 	public String getReplyMoney(replyDonateVO vo);
-
-	public void createMyCashHistory(replyDonateVO vo);
-
-	public void createReplyUserCashHistory(replyDonateVO vo);
 	
 	public int checkReplyLikeButton(ReplyLikeVO vo);
 	
@@ -56,17 +66,5 @@ public interface ReplyMapper {
 	
 	public String getDislikeCount(Long reply_num);
 	
-	public int reInsert(ReplyVO replyVO);
-
-	public List<ReplyVO> selectNextReply(ReplyVO replyVO);
-
-	public int lastReplyStep(int group_num);
-
-	public int updateOrder_step(ReplyVO replyVO);
-
-	public Long getBoardNum(Long reply_num);
-	
 	public Long getRecentReply_num();
-
-	
 }

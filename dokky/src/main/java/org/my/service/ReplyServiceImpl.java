@@ -35,7 +35,7 @@ public class ReplyServiceImpl implements ReplyService {
 	@Override
 	public int create(commonVO vo) {
 		
-		log.info("register......" + vo);
+		log.info("create......reply " + vo);
 		ReplyVO replyVO = vo.getReplyVO();
 
 		log.info("updateReplyCnt......" + vo);
@@ -43,16 +43,16 @@ public class ReplyServiceImpl implements ReplyService {
 		
 		if(vo.getAlarmVO() != null) {
 			
-			log.info("insertAlarm: "); 
+			log.info("insertAlarm"); 
 			commonMapper.insertAlarm(vo.getAlarmVO());
 		}
 		
 		if(replyVO.getGroup_num() == 0 ) {//시퀀스값은 디폴트 1부터 시작하니까 0으로 기준을 잡자
 			
-			log.info("insert......" + replyVO); 
-			return replyMapper.insert(replyVO);//일반 루트 부모 댓글 입력
+			log.info("insertParentReply......" + replyVO); 
+			return replyMapper.insertParentReply(replyVO);//일반 루트 부모 댓글 입력
 			
-		}else {//자식 댓글 입력 
+		}else{//자식 댓글 입력 
 			
 			List<ReplyVO> list = replyMapper.selectNextReply(replyVO);//이게 댓글의 순서를 결정하는 2번째 중요한 핵심
 			/*한개의 (부모)그룹번호 기준으로 생각할때 대댓글의 출력 순서는 대댓글을 달고자 하는 대상인 부모댓글(루트가 아닌 경우도 포함)의
@@ -64,8 +64,8 @@ public class ReplyServiceImpl implements ReplyService {
 				
 				replyVO.setOrder_step(lastReplyStep+1);//순서번호에 +1을 해준다 
 				
-				log.info("reInsert......" + replyVO); 
-				return replyMapper.reInsert(replyVO);//깊이도 +1해서 입력 해줌 ,
+				log.info("insertChildReply......" + replyVO); 
+				return replyMapper.insertChildReply(replyVO);//깊이도 +1해서 입력 해줌 ,
 				
 			}else{// 최초의 댓글이 있다면
 				
@@ -75,8 +75,8 @@ public class ReplyServiceImpl implements ReplyService {
 				
 				replyVO.setOrder_step(firstVO.getOrder_step());//최초의 댓글에 해당하는 순서값으로 변경후 입력
 				
-				log.info("reInsert......" + replyVO); 
-				return replyMapper.reInsert(replyVO);//깊이도 +1해서 입력 해줌 , 
+				log.info("insertChildReply......" + replyVO); 
+				return replyMapper.insertChildReply(replyVO);//깊이도 +1해서 입력 해줌 , 
 			}
 		}
 	} 
