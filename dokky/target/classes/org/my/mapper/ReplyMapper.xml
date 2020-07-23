@@ -31,6 +31,12 @@
 		select * from DK_REPLY where reply_num = #{reply_num}
 	</select>
 	
+	<select id="getReplyCnt" resultType="int">
+		<![CDATA[
+		select count(reply_num) from DK_REPLY where board_num = #{board_num}
+		]]>
+	</select>
+	
 	<select id="readReplyListWithPaging" resultType="org.my.domain.ReplyVO">
 	  <![CDATA[
 	    select reply_num
@@ -193,12 +199,6 @@
 		
 	<select id="getBoardNum" resultType="long">
 		select board_num from DK_REPLY where reply_num = #{reply_num}
-	</select>
-
-	<select id="getCountBynum" resultType="int">
-		<![CDATA[
-		select count(reply_num) from DK_REPLY where board_num = #{board_num}
-		]]>
 	</select>
 
 	<select id="getRecentReply_num" resultType="long">

@@ -89,22 +89,22 @@ public class ReplyServiceImpl implements ReplyService {
 	    return replyMapper.read(reply_num);
 	}
 	
-	 @Override
-	  public ReplyPageDTO readReplyList(Criteria cri, Long board_num) {
-		  
-		  return new ReplyPageDTO(replyMapper.getCountBynum(board_num), 
+	@Override
+	public ReplyPageDTO readReplyList(Criteria cri, Long board_num) {
+		
+		  return new ReplyPageDTO(replyMapper.getReplyCnt(board_num), 
 	    						  replyMapper.readReplyListWithPaging(cri, board_num));
 		  
-	  }
+	}
 
-	  @Override
-	  public int update(ReplyVO vo) {
+	@Override
+	public int update(ReplyVO vo) {
 	
 	    log.info("update......" + vo);
 	
 	    return replyMapper.update(vo);
 	
-	  }
+	}
 
     @Transactional
 	@Override 
@@ -120,125 +120,125 @@ public class ReplyServiceImpl implements ReplyService {
 		
 	}
 	  
-	  	@Transactional
-		@Override 
-		public String giveReplyWriterMoney(commonVO vo) {
-			
-			replyDonateVO replyDonateVO = vo.getReplyDonateVO();
-			
-			log.info("minusMycash");
-			boardMapper.minusMycash(replyDonateVO.getMoney(), replyDonateVO.getUserId());
-			
-			log.info("createMyCashHistory");
-			replyMapper.createMyCashHistory(replyDonateVO); 
-			 
-			log.info("plusReplyUserCash");
-			replyMapper.plusReplyUserCash(replyDonateVO);
-			 
-			log.info("createReplyUserCashHistory");
-			replyMapper.createReplyUserCashHistory(replyDonateVO);
-			
-			log.info("plusReplyMoney");
-			replyMapper.plusReplyMoney(replyDonateVO);
-			
-			log.info("insertAlarm: ");
-			commonMapper.insertAlarm(vo.getAlarmVO());
-			
-			log.info("getReplyMoney");
-			return replyMapper.getReplyMoney(replyDonateVO);
-		}
+	@Transactional
+	@Override 
+	public String giveReplyWriterMoney(commonVO vo) {
+		
+		replyDonateVO replyDonateVO = vo.getReplyDonateVO();
+		
+		log.info("minusMycash");
+		boardMapper.minusMycash(replyDonateVO.getMoney(), replyDonateVO.getUserId());
+		
+		log.info("createMyCashHistory");
+		replyMapper.createMyCashHistory(replyDonateVO); 
+		 
+		log.info("plusReplyUserCash");
+		replyMapper.plusReplyUserCash(replyDonateVO);
+		 
+		log.info("createReplyUserCashHistory");
+		replyMapper.createReplyUserCashHistory(replyDonateVO);
+		
+		log.info("plusReplyMoney");
+		replyMapper.plusReplyMoney(replyDonateVO);
+		
+		log.info("insertAlarm: ");
+		commonMapper.insertAlarm(vo.getAlarmVO());
+		
+		log.info("getReplyMoney");
+		return replyMapper.getReplyMoney(replyDonateVO);
+	}
 	  
-		@Override
-		public boolean checkReplyLikeButton(ReplyLikeVO vo) { 
-			
-			log.info("checkReplyLikeButton");
-			
-			return replyMapper.checkReplyLikeButton(vo) == 1; 
-		}
+	@Override
+	public boolean checkReplyLikeButton(ReplyLikeVO vo) { 
 		
-		@Override
-		public boolean checkReplyDislikeButton(ReplyDisLikeVO vo) {
-			
-			log.info("checkReplyDislikeButton"); 
-			
-			return replyMapper.checkReplyDislikeButton(vo) == 1; 
-		}
+		log.info("checkReplyLikeButton");
 		
-		@Transactional
-		@Override
-		public boolean pushReplyLikeButton(commonVO vo) {//댓글 좋아요 버튼 누르기
-			
-			log.info("pushReplyLikeButton...." + vo);
-			
-			ReplyLikeVO replyLikeVO = vo.getReplyLikeVO();
-			
-			log.info("insertAlarm");
-			
-			commonMapper.insertAlarm(vo.getAlarmVO());
-			
-			return replyMapper.pushReplyLikeButton(replyLikeVO) == 1 && replyMapper.plusReplyLikeCount(replyLikeVO.getReply_num()) == 1; 
-		}
+		return replyMapper.checkReplyLikeButton(vo) == 1; 
+	}
+	
+	@Override
+	public boolean checkReplyDislikeButton(ReplyDisLikeVO vo) {
 		
-		@Transactional
-		@Override
-		public boolean pushReplyDislikeButton(commonVO vo) {//댓글 싫어요 버튼 누르기
-			
-			log.info("pushReplyDislikeButton...." + vo);
-			
-			ReplyDisLikeVO replyDislikeVO = vo.getReplyDisLikeVO();
-			
-			log.info("insertAlarm");
-			
-			commonMapper.insertAlarm(vo.getAlarmVO());
-			
-			return replyMapper.pushReplyDislikeButton(replyDislikeVO) == 1 && replyMapper.plusReplyDislikeCount(replyDislikeVO.getReply_num()) == 1; 
-		}
+		log.info("checkReplyDislikeButton"); 
 		
-		@Transactional
-		@Override
-		public boolean pullReplyLikeButton(commonVO vo) {//댓글 좋아요 당기기(취소)
-			
-			log.info("pullReplyLikeButton...." + vo);
-			
-			ReplyLikeVO replyLikeVO = vo.getReplyLikeVO();
-			
-			log.info("deleteAlarm");
-			
-			commonMapper.deleteAlarm(vo.getAlarmVO());
-			
-			return replyMapper.pullReplyLikeButton(replyLikeVO) == 1 && replyMapper.minusReplyLikeCount(replyLikeVO.getReply_num()) == 1; 
-		}
+		return replyMapper.checkReplyDislikeButton(vo) == 1; 
+	}
 		
-		@Transactional
-		@Override
-		public boolean pullReplyDislikeButton(commonVO vo) {//댓글 싫어요 당기기(취소)
-			
-			log.info("pullReplyDislikeButton...." + vo);
-			
-			ReplyDisLikeVO replyDislikeVO = vo.getReplyDisLikeVO();
-			
-			log.info("deleteAlarm");
-			
-			commonMapper.deleteAlarm(vo.getAlarmVO());
-																						
-			return replyMapper.pullReplyDislikeButton(replyDislikeVO) == 1 && replyMapper.minusReplyDislikeCount(replyDislikeVO.getReply_num()) == 1; 
-		}
+	@Transactional
+	@Override
+	public boolean pushReplyLikeButton(commonVO vo) {//댓글 좋아요 버튼 누르기
 		
-		@Override
-		public String getLikeCount(Long reply_num) {
-	  
-			log.info("getLikeCount");
-			
-			return replyMapper.getLikeCount(reply_num);
-		}
+		log.info("pushReplyLikeButton...." + vo);
 		
-		@Override
-		public String getDislikeCount(Long reply_num) {
-	 
-			log.info("getDislikeCount");
-			
-			return replyMapper.getDislikeCount(reply_num);
-		}
+		ReplyLikeVO replyLikeVO = vo.getReplyLikeVO();
+		
+		log.info("insertAlarm");
+		
+		commonMapper.insertAlarm(vo.getAlarmVO());
+		
+		return replyMapper.pushReplyLikeButton(replyLikeVO) == 1 && replyMapper.plusReplyLikeCount(replyLikeVO.getReply_num()) == 1; 
+	}
+	
+	@Transactional
+	@Override
+	public boolean pushReplyDislikeButton(commonVO vo) {//댓글 싫어요 버튼 누르기
+		
+		log.info("pushReplyDislikeButton...." + vo);
+		
+		ReplyDisLikeVO replyDislikeVO = vo.getReplyDisLikeVO();
+		
+		log.info("insertAlarm");
+		
+		commonMapper.insertAlarm(vo.getAlarmVO());
+		
+		return replyMapper.pushReplyDislikeButton(replyDislikeVO) == 1 && replyMapper.plusReplyDislikeCount(replyDislikeVO.getReply_num()) == 1; 
+	}
+		
+	@Transactional
+	@Override
+	public boolean pullReplyLikeButton(commonVO vo) {//댓글 좋아요 당기기(취소)
+		
+		log.info("pullReplyLikeButton...." + vo);
+		
+		ReplyLikeVO replyLikeVO = vo.getReplyLikeVO();
+		
+		log.info("deleteAlarm");
+		
+		commonMapper.deleteAlarm(vo.getAlarmVO());
+		
+		return replyMapper.pullReplyLikeButton(replyLikeVO) == 1 && replyMapper.minusReplyLikeCount(replyLikeVO.getReply_num()) == 1; 
+	}
+	
+	@Transactional
+	@Override
+	public boolean pullReplyDislikeButton(commonVO vo) {//댓글 싫어요 당기기(취소)
+		
+		log.info("pullReplyDislikeButton...." + vo);
+		
+		ReplyDisLikeVO replyDislikeVO = vo.getReplyDisLikeVO();
+		
+		log.info("deleteAlarm");
+		
+		commonMapper.deleteAlarm(vo.getAlarmVO());
+																					
+		return replyMapper.pullReplyDislikeButton(replyDislikeVO) == 1 && replyMapper.minusReplyDislikeCount(replyDislikeVO.getReply_num()) == 1; 
+	}
+		
+	@Override
+	public String getLikeCount(Long reply_num) {
+  
+		log.info("getLikeCount");
+		
+		return replyMapper.getLikeCount(reply_num);
+	}
+	
+	@Override
+	public String getDislikeCount(Long reply_num) {
+ 
+		log.info("getDislikeCount");
+		
+		return replyMapper.getDislikeCount(reply_num);
+	}
 		
 }
 

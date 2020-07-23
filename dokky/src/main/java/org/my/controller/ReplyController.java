@@ -137,7 +137,6 @@ public class ReplyController {
 			}
 	}
 	
-	
 	@PostMapping(value = "/likeReply", consumes = "application/json", produces = "text/plain; charset=UTF-8")
 	@ResponseBody
 	public ResponseEntity<String> likeReply(@RequestBody commonVO vo) {//댓글 좋아요 누르기 및 취소
@@ -166,7 +165,6 @@ public class ReplyController {
 			return returnVal == true ? new ResponseEntity<>(replyService.getLikeCount(replyLikeVO.getReply_num()), HttpStatus.OK)
 					: new ResponseEntity<>(HttpStatus.INTERNAL_SERVER_ERROR);
 	}
-	
 	
 	@PostMapping(value = "/disLikeReply", consumes = "application/json", produces = "text/plain; charset=UTF-8")
 	@ResponseBody

@@ -13,6 +13,8 @@ public interface ReplyMapper {
 	
 	public ReplyVO read(Long reply_num);
 	
+	public int getReplyCnt(Long board_num);
+	
 	public List<ReplyVO> readReplyListWithPaging( @Param("cri") Criteria cri,
 												 @Param("board_num") Long board_num );
 	
@@ -56,8 +58,6 @@ public interface ReplyMapper {
 	
 	public int reInsert(ReplyVO replyVO);
 
-	public int getCountBynum(Long board_num);
-	
 	public List<ReplyVO> selectNextReply(ReplyVO replyVO);
 
 	public int lastReplyStep(int group_num);
