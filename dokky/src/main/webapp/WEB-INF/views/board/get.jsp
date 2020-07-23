@@ -1065,12 +1065,25 @@
 							 	   alarmVO     : alarmData
 		 					 };
 			
-			replyService.updateReplyDisLike(commonData, function(result){
-			 
-				var replyDisLikeCount = $("#replyDisLikeCount"+reply_num);
-					replyDisLikeCount.html(result);
+			replyService.disLikeReply(commonData,   
 					
-	 	 	});
+					function(result, status){
+						
+						if(status == "success"){ 
+							
+							var replyDisLikeCount = $("#replyDisLikeCount"+reply_num);
+							replyDisLikeCount.html(result);
+						}
+		   	    	},
+		   	    
+		   	    	function(status){
+		   	    	
+						if(status == "error"){ 
+							
+							openAlert("Server Error(관리자에게 문의해주세요)");
+						}
+		   	    	}
+			);
 	});
 	
 	///////////////////////////////////////////////////////이하 게시판,댓글 - 기부 관련

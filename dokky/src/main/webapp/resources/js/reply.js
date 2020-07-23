@@ -24,7 +24,7 @@ var replyService = (function() {
 		
 		var board_num = param.board_num;
 		var page = param.page || 1;
-
+		
 		  $.getJSON("/replies/list/" + board_num + "/" + page,
 				function(data) {
 					if (callback) {
@@ -160,14 +160,14 @@ var replyService = (function() {
 					}
 				},
 				error : function(xhr, status, er) {
-					if (error) {
+					if (error) {likeReply
 						error(er);
 					}
 				}
 		});
 	}
 	
-	function likeReply(commonData, callback, error) {//댓글 좋아요 업데이트
+	function likeReply(commonData, callback, error) {//댓글 좋아요
 
 		$.ajax({
 				type : 'post', 
@@ -187,21 +187,21 @@ var replyService = (function() {
 		});
 	}
 	
-	function updateReplyDisLike(commonData, callback, error) {//댓글 싫어요 업데이트
+	function disLikeReply(commonData, callback, error) {//댓글 싫어요 업데이트
 
 		$.ajax({
-				type : 'put', 
-				url : '/replies/dislikeCount',  
+				type : 'post', 
+				url : '/replies/disLikeReply',  
 				data : JSON.stringify(commonData), 
 				contentType : "application/json; charset=utf-8",
 				success : function(result, status, xhr) {
 					if (callback) {
-						callback(result);
+						callback(result, status);
 					}
 				},
 				error : function(xhr, status, er) {
 					if (error) {
-						error(er);
+						error(status);
 					}
 				}
 		});
@@ -385,7 +385,7 @@ var replyService = (function() {
 		updateLike : updateLike,
 		updateDisLike : updateDisLike,
 		likeReply : likeReply,
-		updateReplyDisLike : updateReplyDisLike,
+		disLikeReply : disLikeReply,
 		getUserCash : getUserCash,
 		updateDonation : updateDonation,
 		giveReplyWriterMoney : giveReplyWriterMoney,

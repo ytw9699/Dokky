@@ -152,21 +152,46 @@ public class ReplyServiceImpl implements ReplyService {
 		public boolean checkReplyLikeButton(ReplyLikeVO vo) { 
 			
 			log.info("checkReplyLikeButton");
+			
 			return replyMapper.checkReplyLikeButton(vo) == 1; 
+		}
+		
+		@Override
+		public boolean checkReplyDislikeButton(ReplyDisLikeVO vo) {
+			
+			log.info("checkReplyDislikeButton"); 
+			
+			return replyMapper.checkReplyDislikeButton(vo) == 1; 
 		}
 		
 		@Transactional
 		@Override
-		public boolean pushReplyLikeButton(commonVO vo) {//댓글 좋아요 누르기
+		public boolean pushReplyLikeButton(commonVO vo) {//댓글 좋아요 버튼 누르기
 			
 			log.info("pushReplyLikeButton...." + vo);
 			
 			ReplyLikeVO replyLikeVO = vo.getReplyLikeVO();
 			
-			log.info("insertAlarm: ");
+			log.info("insertAlarm");
+			
 			commonMapper.insertAlarm(vo.getAlarmVO());
 			
 			return replyMapper.pushReplyLikeButton(replyLikeVO) == 1 && replyMapper.plusReplyLikeCount(replyLikeVO.getReply_num()) == 1; 
+		}
+		
+		@Transactional
+		@Override
+		public boolean pushReplyDislikeButton(commonVO vo) {//댓글 싫어요 버튼 누르기
+			
+			log.info("pushReplyDislikeButton...." + vo);
+			
+			ReplyDisLikeVO replyDislikeVO = vo.getReplyDisLikeVO();
+			
+			log.info("insertAlarm");
+			
+			commonMapper.insertAlarm(vo.getAlarmVO());
+			
+			return replyMapper.pushReplyDislikeButton(replyDislikeVO) == 1 && replyMapper.plusReplyDislikeCount(replyDislikeVO.getReply_num()) == 1; 
 		}
 		
 		@Transactional
@@ -177,81 +202,43 @@ public class ReplyServiceImpl implements ReplyService {
 			
 			ReplyLikeVO replyLikeVO = vo.getReplyLikeVO();
 			
-			log.info("deleteAlarm: ");
+			log.info("deleteAlarm");
+			
 			commonMapper.deleteAlarm(vo.getAlarmVO());
 			
 			return replyMapper.pullReplyLikeButton(replyLikeVO) == 1 && replyMapper.minusReplyLikeCount(replyLikeVO.getReply_num()) == 1; 
+		}
+		
+		@Transactional
+		@Override
+		public boolean pullReplyDislikeButton(commonVO vo) {//댓글 싫어요 당기기(취소)
+			
+			log.info("pullReplyDislikeButton...." + vo);
+			
+			ReplyDisLikeVO replyDislikeVO = vo.getReplyDisLikeVO();
+			
+			log.info("deleteAlarm");
+			
+			commonMapper.deleteAlarm(vo.getAlarmVO());
+																						
+			return replyMapper.pullReplyDislikeButton(replyDislikeVO) == 1 && replyMapper.minusReplyDislikeCount(replyDislikeVO.getReply_num()) == 1; 
 		}
 		
 		@Override
 		public String getLikeCount(Long reply_num) {
 	  
 			log.info("getLikeCount");
+			
 			return replyMapper.getLikeCount(reply_num);
 		}
 		
-		@Transactional
 		@Override
-		public int registerDisLike(commonVO vo) {//싫어요 컬럼 등록 및 싫어요 push
-
-			ReplyDisLikeVO replyDisLikeVO = vo.getReplyDisLikeVO();
-			
-			log.info("registerDisLike...." + vo);
-			replyMapper.registerDisLike(replyDisLikeVO);
-			
-			log.info("insertAlarm: ");
-			commonMapper.insertAlarm(vo.getAlarmVO());
-			
-			log.info("pushDisLike....");
-			return replyMapper.pushDisLike(replyDisLikeVO.getReply_num()); 
-		}
-		
-		@Transactional
-		@Override
-		public int pullDisLike(commonVO vo) {//싫어요 취소 pull
-			
-			ReplyDisLikeVO replyDisLikeVO = vo.getReplyDisLikeVO();
-			
-			log.info("pulldislikeCheck...."+vo);
-			replyMapper.pulldislikeCheck(replyDisLikeVO); 
-			
-			log.info("insertAlarm: ");
-			commonMapper.deleteAlarm(vo.getAlarmVO());
-			
-			log.info("pullDisLike....");
-			return replyMapper.pullDisLike(replyDisLikeVO.getReply_num()); 
-		}
-		
-		@Transactional
-		@Override 
-		public int pushDisLike(commonVO vo) {//싫어요 누르기
-			
-			ReplyDisLikeVO replyDisLikeVO = vo.getReplyDisLikeVO();
-			
-			log.info("pushDislikeValue...."+vo);
-			replyMapper.pushDislikeValue(replyDisLikeVO); 
-			
-			log.info("insertAlarm: "); 
-			commonMapper.insertAlarm(vo.getAlarmVO());
-			
-			log.info("pushDisLike....");
-			return replyMapper.pushDisLike(replyDisLikeVO.getReply_num());
-		}
-		
-		@Override
-		public String checkDisLikeValue(ReplyDisLikeVO vo) {
-			
-			log.info("checkDisLikeValue"); 
-			return replyMapper.checkDisLikeValue(vo); 
-		}
-		
-		@Override
-		public String getDisLikeCount(Long reply_num) {
+		public String getDislikeCount(Long reply_num) {
 	 
-			log.info("getDisLikeCount");
-			return replyMapper.getDisLikeCount(reply_num);
+			log.info("getDislikeCount");
+			
+			return replyMapper.getDislikeCount(reply_num);
 		}
-		
 		
 }
 

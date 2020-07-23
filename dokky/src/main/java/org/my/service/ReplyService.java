@@ -22,20 +22,18 @@ public interface ReplyService {
 	
 	public boolean checkReplyLikeButton(ReplyLikeVO vo);
 	
+	public boolean checkReplyDislikeButton(ReplyDisLikeVO vo);
+	
 	public boolean pushReplyLikeButton(commonVO vo);
 	
+	public boolean pushReplyDislikeButton(commonVO vo);
+	
 	public boolean pullReplyLikeButton(commonVO vo);
+	
+	public boolean pullReplyDislikeButton(commonVO vo);
 
 	public String getLikeCount(Long reply_num);
 	
-	public int pullDisLike(commonVO vo);
-	
-	public int pushDisLike(commonVO vo);
-	
-	public String checkDisLikeValue(ReplyDisLikeVO vo);
-	
-	public int registerDisLike(commonVO vo);
-	
-	public String getDisLikeCount(Long reply_num);
+	public String getDislikeCount(Long reply_num);
 
 }

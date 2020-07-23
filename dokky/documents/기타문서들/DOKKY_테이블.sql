@@ -218,7 +218,6 @@
 	
 		 userId varchar2(50) not null,
 	     reply_num number(10,0) not null,
-	     dislikeValue varchar2(50) not null,--싫어요 눌르면 push,다시 눌르면 pull
 	     constraint fk_reply_dislike foreign key(reply_num) references DK_REPLY(reply_num) on delete cascade
 	);
 	

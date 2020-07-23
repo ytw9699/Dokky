@@ -30,36 +30,34 @@ public interface ReplyMapper {
 
 	public void createReplyUserCashHistory(replyDonateVO vo);
 	
+	public int checkReplyLikeButton(ReplyLikeVO vo);
+	
+	public int checkReplyDislikeButton(ReplyDisLikeVO vo);
+	
+	public int pushReplyLikeButton(ReplyLikeVO vo);
+	
+	public int pushReplyDislikeButton(ReplyDisLikeVO vo);
+	
+	public int plusReplyLikeCount(Long reply_num);
+
+	public int plusReplyDislikeCount(Long reply_num);
+	
+	public int pullReplyLikeButton(ReplyLikeVO vo);
+	
+	public int pullReplyDislikeButton(ReplyDisLikeVO vo);
+	
+	public int minusReplyLikeCount(Long reply_num);
+	
+	public int minusReplyDislikeCount(Long reply_num);
+
+	public String getLikeCount(Long reply_num);
+	
+	public String getDislikeCount(Long reply_num);
+	
 	public int reInsert(ReplyVO replyVO);
 
 	public int getCountBynum(Long board_num);
 	
-	public int checkReplyLikeButton(ReplyLikeVO vo);
-	
-	public int pushReplyLikeButton(ReplyLikeVO vo);
-	
-	public int plusReplyLikeCount(Long reply_num);
-	
-	public int pullReplyLikeButton(ReplyLikeVO vo);
-	
-	public int minusReplyLikeCount(Long reply_num);
-
-	public String getLikeCount(Long reply_num);
-	
-	public int pullDisLike(Long reply_num);
-	
-	public int pushDisLike(Long reply_num);
-	
-	public String checkDisLikeValue(ReplyDisLikeVO vo);
-	
-	public int registerDisLike(ReplyDisLikeVO vo);
-	
-	public void pulldislikeCheck(ReplyDisLikeVO vo);
-	
-	public void pushDislikeValue(ReplyDisLikeVO vo);
-	
-	public String getDisLikeCount(Long reply_num);
-
 	public List<ReplyVO> selectNextReply(ReplyVO replyVO);
 
 	public int lastReplyStep(int group_num);
@@ -69,4 +67,6 @@ public interface ReplyMapper {
 	public Long getBoardNum(Long reply_num);
 	
 	public Long getRecentReply_num();
+
+	
 }

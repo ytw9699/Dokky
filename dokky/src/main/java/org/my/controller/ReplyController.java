@@ -146,7 +146,7 @@ public class ReplyController {
 			
 			ReplyLikeVO replyLikeVO = vo.getReplyLikeVO();
 			
-			boolean CheckResult = replyService.checkReplyLikeButton(replyLikeVO);
+			boolean CheckResult = replyService.checkReplyLikeButton(replyLikeVO);//버튼 누름 여부 확인
 			
 			boolean returnVal = false;
 			
@@ -167,40 +167,35 @@ public class ReplyController {
 					: new ResponseEntity<>(HttpStatus.INTERNAL_SERVER_ERROR);
 	}
 	
-	@RequestMapping(method = { RequestMethod.PUT,RequestMethod.PATCH },
-			value = "/dislikeCount", consumes = "application/json", produces = "text/plain; charset=UTF-8")
-		@ResponseBody
-		public ResponseEntity<String> updateDisLike(@RequestBody commonVO vo) {//싫어요 누르기 및 취소
+	
+	@PostMapping(value = "/disLikeReply", consumes = "application/json", produces = "text/plain; charset=UTF-8")
+	@ResponseBody
+	public ResponseEntity<String> disLikeReply(@RequestBody commonVO vo) {//댓글 싫어요 누르기 및 취소
 			
-			log.info("/replies/dislikeCount");
+			log.info("/replies/disLikeReply");
 		
-			ReplyDisLikeVO boardDisLikeVO = vo.getReplyDisLikeVO();
+			ReplyDisLikeVO replyDislikeVO = vo.getReplyDisLikeVO();
 			
-			String CheckResult = replyService.checkDisLikeValue(boardDisLikeVO);
-			 
-			log.info("CheckResult: " + CheckResult);
+			boolean CheckResult = replyService.checkReplyDislikeButton(replyDislikeVO);//버튼 누름 여부 확인
 			
-			int returnVal = 0;
-			 
-			if(CheckResult == null){ 
-				returnVal = replyService.registerDisLike(vo);
-				log.info("registerDisLike..." );
+			boolean returnVal = false;
+			
+			if(CheckResult == false){ 
 				
-			}else if(CheckResult.equals("pull")){
+				log.info("pushReplyDislikeButton..." );
+				returnVal = replyService.pushReplyDislikeButton(vo);//댓글 싫어요 누르기
+				 
+			}else if(CheckResult == true){ 
 				
-				returnVal = replyService.pushDisLike(vo);//싫어요 누르기
-				log.info("pushDisLike...");
-				
-			}else if(CheckResult.equals("push")){
-				returnVal = replyService.pullDisLike(vo); //싫어요 취소
-				log.info("pullDisLike...");
+				returnVal = replyService.pullReplyDislikeButton(vo);//댓글 싫어요 당기기(취소)
+				log.info("pullReplyDislikeButton...");
 			}
 			
 			log.info("returnVal: " + returnVal);
 			
-			return returnVal == 1 ? new ResponseEntity<>(replyService.getDisLikeCount(boardDisLikeVO.getReply_num()), HttpStatus.OK)
+			return returnVal == true ? new ResponseEntity<>(replyService.getDislikeCount(replyDislikeVO.getReply_num()), HttpStatus.OK)
 					: new ResponseEntity<>(HttpStatus.INTERNAL_SERVER_ERROR);
-		}
+	}
 	
 		
 }
