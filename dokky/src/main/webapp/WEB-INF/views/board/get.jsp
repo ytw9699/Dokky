@@ -1425,19 +1425,26 @@
 							  };
 		 	}
 		 	
-			replyService.create(commonData, function(result){
+			replyService.create(commonData,
 					
-				if(result = "success"){
+					function(result, status){
 					
-			        reply_contents.val("");
-			        
-			        showReplyList(-1);//다시 댓글 목록 마지막 페이지 보여주기					
-				
-				}else if(result = "fail"){
-					openAlert("댓글을 달 수 없습니다.");							
-				}
-
-			}); 
+						if(status == "success"){ 
+							
+							reply_contents.val("");
+						        
+					        showReplyList(-1);//다시 댓글 목록 마지막 페이지 보여주기		
+						}
+		   	    	},
+		   	    
+		   	    	function(status){
+		   	    	
+						if(status == "error"){ 
+							
+							openAlert("Server Error(관리자에게 문의해주세요)");
+						}
+		   	    	}
+			); 
     });
 		 
 	/////////////////////////////////////////////////////////대댓글
@@ -1519,16 +1526,30 @@
 					 	  		} 
 	          }
 			  
-	     	  replyService.create(commonData, function(result){
-	        	    
-	     			reReplyWriteForm.css("display","none"); 
-	     	 
-	     			reReply_contents.val("");//대댓글 내용  비우기 
-	     			
-	     			$(".replyWriteForm").after(reReplyWriteForm);//댓글 리스트가 리셋되면 폼이 사라지니까 다시 붙여두기 
-			         
-			        showReplyList(-1);//댓글 목록 마지막 페이지 보여주기
-		     }); 
+	     	  replyService.create(commonData, 
+						
+						function(result, status){
+						
+							if(status == "success"){ 
+								
+								reReplyWriteForm.css("display","none"); 
+						     	 
+				     			reReply_contents.val("");//대댓글 내용  비우기 
+				     			
+				     			$(".replyWriteForm").after(reReplyWriteForm);//댓글 리스트가 리셋되면 폼이 사라지니까 다시 붙여두기 
+						         
+						        showReplyList(-1);//댓글 목록 마지막 페이지 보여주기
+							}
+			   	    	},
+			   	    
+			   	    	function(status){
+			   	    	
+							if(status == "error"){ 
+								
+								openAlert("Server Error(관리자에게 문의해주세요)");
+							}
+			   	    	}
+			 ); 
     });
 	
 	

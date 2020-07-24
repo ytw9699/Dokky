@@ -21,13 +21,13 @@
 									, #{reply_content}
 									, #{nickName}
 									, #{userId}
-									, seq_dk_reply.currval
+									, seq_dk_reply.currval <!-- 댓글번호와 그룹번호가 같게해서 입력 -->
 									, 0
 									, 0
 							   )
 	</insert>
 	
-	<select id="selectNextReply" resultType="org.my.domain.ReplyVO">
+	<select id="selectReplylistToDecideStep" resultType="org.my.domain.ReplyVO">
 		  <![CDATA[ select * from dk_reply where group_num = #{group_num} and order_step > #{order_step} and depth <= #{depth} order by order_step asc   ]]>
 	</select> 
 	
@@ -57,13 +57,13 @@
 							 , #{userId}
 							 , #{group_num}
 							 , #{order_step}
-							 , #{depth}+1
+							 , #{depth}
 							 , #{toUserId}
 							 , #{toNickName} 
 						   )
 	</insert>
 	
-	<update id="updateOrder_step">
+	<update id="plusOrder_step">
 	 	<![CDATA[update dk_reply set order_step = order_step+1 where group_num = #{group_num} and order_step >= #{order_step} ]]>
 	</update>
 	

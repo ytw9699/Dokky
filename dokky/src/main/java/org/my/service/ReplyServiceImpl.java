@@ -14,12 +14,10 @@ package org.my.service;
 	import org.springframework.stereotype.Service;
 	import org.springframework.transaction.annotation.Transactional;
 	import lombok.Setter;
-	//import lombok.AllArgsConstructor;
 	import lombok.extern.log4j.Log4j;
 
 @Service
 @Log4j
-//@AllArgsConstructor
 public class ReplyServiceImpl implements ReplyService {
   
 	@Setter(onMethod_ = @Autowired)
@@ -50,33 +48,40 @@ public class ReplyServiceImpl implements ReplyService {
 		if(replyVO.getGroup_num() == 0 ) {//시퀀스값은 디폴트 1부터 시작하니까 0으로 기준을 잡자
 			
 			log.info("insertParentReply......" + replyVO); 
-			return replyMapper.insertParentReply(replyVO);//일반 루트 부모 댓글 입력
+			return replyMapper.insertParentReply(replyVO);//부모 댓글 입력
 			
-		}else{//자식 댓글 입력 
+		}else{//부모의 자식 댓글 입력 
 			
-			List<ReplyVO> list = replyMapper.selectNextReply(replyVO);//이게 댓글의 순서를 결정하는 2번째 중요한 핵심
-			/*한개의 (부모)그룹번호 기준으로 생각할때 대댓글의 출력 순서는 대댓글을 달고자 하는 대상인 부모댓글(루트가 아닌 경우도 포함)의
-			출력 순서 보다 크면서(밑에 있으면서), 부모댓글의 (레벨)깊이보다 작거나 같은 최초의 댓글의 그룹순서가 된다*/
+			List<ReplyVO> replylist = replyMapper.selectReplylistToDecideStep(replyVO);//댓글들의 순서값을 어떻게 할지 결정하는 중요한 리스트
+			//부모댓글의 출력 순서(Order_step)값보다 크면서(밑에 있으면서), 부모댓글의(레벨)깊이 값보다 작거나 같은 댓글들의 리스틀 가져온다.
+			//즉 자식댓글을 입력함으로써, Order_step의 값을 +1씩 바꿔줄 댓글들의 리스트가 있다면 가져오는것
 			
-			if(list.isEmpty()){//그런데 최초의 댓글이 없다면 
-				//댓글의 순서를 결정하는 1번째 핵심
-				int lastReplyStep = replyMapper.lastReplyStep(replyVO.getGroup_num());//그룹내에 맨 마지막 댓글의 순서번호를가져오고
+			if(replylist.isEmpty()){//값을 바꿔줄 댓글의 리스트가 없다면
 				
-				replyVO.setOrder_step(lastReplyStep+1);//순서번호에 +1을 해준다 
+				int lastReplyStep = replyMapper.lastReplyStep(replyVO.getGroup_num());
+				//같은 댓글의 그룹내에 맨 마지막 댓글의 순서번호(Order_step)를 가져오고
+				
+				replyVO.setOrder_step(lastReplyStep+1);//그 순서번호에 +1을 해준다 
+				replyVO.setDepth(replyVO.getDepth()+1);//깊이는 부모보다 +1해서 입력 해줌
 				
 				log.info("insertChildReply......" + replyVO); 
-				return replyMapper.insertChildReply(replyVO);//깊이도 +1해서 입력 해줌 ,
+				return replyMapper.insertChildReply(replyVO);
 				
-			}else{// 최초의 댓글이 있다면
+			}else{//값을 바꿔줄 댓글의 리스트가 있다면 
 				
-				ReplyVO firstVO = list.get(0);
+				//한개의 (부모)그룹번호 기준으로 생각할때 부모 댓글의 자식댓글의 출력 순서는 자식댓글을 달고자 하는 대상인 부모댓글(루트가 아닌 경우도 포함)의
+				//출력 순서값보다 크면서(밑에 있으면서), 부모댓글의 (레벨)깊이값보다 작거나 같은 최초의 댓글에 해당하는 순서(Order_step)로 새롭게 적용 된다
+				//즉 순서값을 교체해주는것
 				
-				replyMapper.updateOrder_step(firstVO);//최초댓글을 포함해서 나머지 아래 댓글의 순서값 모두 1씩 올려줌
+				ReplyVO firstVO = replylist.get(0);
+				
+				replyMapper.plusOrder_step(firstVO);//최초댓글을 포함해서 나머지 아래 댓글의 순서값 모두 1씩 올려줌
 				
 				replyVO.setOrder_step(firstVO.getOrder_step());//최초의 댓글에 해당하는 순서값으로 변경후 입력
+				replyVO.setDepth(replyVO.getDepth()+1);//깊이는 부모보다 +1해서 입력 해줌
 				
 				log.info("insertChildReply......" + replyVO); 
-				return replyMapper.insertChildReply(replyVO);//깊이도 +1해서 입력 해줌 , 
+				return replyMapper.insertChildReply(replyVO);
 			}
 		}
 	} 

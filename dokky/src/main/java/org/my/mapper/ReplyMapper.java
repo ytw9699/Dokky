@@ -11,13 +11,13 @@ public interface ReplyMapper {
 
 	public int insertParentReply(ReplyVO vo);
 	
-	public List<ReplyVO> selectNextReply(ReplyVO replyVO);
+	public List<ReplyVO> selectReplylistToDecideStep(ReplyVO replyVO);
 
 	public int lastReplyStep(int group_num);
 	
 	public int insertChildReply(ReplyVO replyVO);
 
-	public int updateOrder_step(ReplyVO replyVO);
+	public int plusOrder_step(ReplyVO replyVO);
 	
 	public ReplyVO read(Long reply_num);
 	
@@ -67,4 +67,5 @@ public interface ReplyMapper {
 	public String getDislikeCount(Long reply_num);
 	
 	public Long getRecentReply_num();
+
 }

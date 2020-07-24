@@ -42,8 +42,8 @@ public class ReplyController {
 		int insertCount = replyService.create(vo);//댓글입력+알람입력
 
 		return insertCount == 1  
-				? new ResponseEntity<>("success", HttpStatus.OK) 
-				: new ResponseEntity<>("fail", HttpStatus.INTERNAL_SERVER_ERROR);
+				? new ResponseEntity<>("success", HttpStatus.OK)
+				: new ResponseEntity<>(HttpStatus.INTERNAL_SERVER_ERROR);
 	}
 	
 	@GetMapping(value = "/reply/{reply_num}", produces = { MediaType.APPLICATION_JSON_UTF8_VALUE })
