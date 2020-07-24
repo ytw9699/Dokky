@@ -1,31 +1,31 @@
 var replyService = (function() {
 
-	function add(commonData, callback, error) {
+	function create(commonData, callback, error) {
 		
 			$.ajax({
 				type : 'post',
-				url : '/replies/new',
+				url : '/replies/reply',
 				data : JSON.stringify(commonData),
 				contentType : "application/json; charset=utf-8",
 				success : function(result, status, xhr) {
 								if (callback) { 
-									callback(result);
+									callback(result,status);
 								}
 						  },
 				error : function(xhr, status, er) {
 							if (error) {
-								error(er);
+								error(status);
 							}
 						}
 			})
 	}
 
-	function getList(param, callback, error) { 
+	function readList(param, callback, error) { 
 		
 		var board_num = param.board_num;
 		var page = param.page || 1;
-
-		  $.getJSON("/replies/pages/" + board_num + "/" + page,
+		
+		  $.getJSON("/replies/list/" + board_num + "/" + page,
 				function(data) {
 					if (callback) {
 						callback(data);
@@ -37,7 +37,7 @@ var replyService = (function() {
 		});
 	}
 
-/*	function getList(param, callback, error) {
+/*	function readList(param, callback, error) {
 
 	    var num = param.num;
 	    var page = param.page || 1;
@@ -62,7 +62,7 @@ var replyService = (function() {
 		$.ajax({
 			
 				type : 'delete',
-				url : '/replies/' + reply_num,
+				url : '/replies/reply/' + reply_num,
 				data:  JSON.stringify({ userId:reply_id }),
 			    contentType: "application/json; charset=utf-8",
 				success : function(deleteResult, status, xhr) {
@@ -100,7 +100,7 @@ var replyService = (function() {
 
 	function get(reply_num, callback, error) {
 
-		$.get("/replies/" + reply_num, function(result) {
+		$.get("/replies/reply/" + reply_num, function(result) {
 
 			if (callback) {
 				callback(result);
@@ -160,48 +160,48 @@ var replyService = (function() {
 					}
 				},
 				error : function(xhr, status, er) {
-					if (error) {
+					if (error) {likeReply
 						error(er);
 					}
 				}
 		});
 	}
 	
-	function updateReplyLike(commonData, callback, error) {//댓글 좋아요 업데이트
+	function likeReply(commonData, callback, error) {//댓글 좋아요
 
 		$.ajax({
-				type : 'put', 
-				url : '/replies/likeCount', 
+				type : 'post', 
+				url : '/replies/likeReply', 
 				data : JSON.stringify(commonData), 
 				contentType : "application/json; charset=utf-8",
 				success : function(result, status, xhr) {
 					if (callback) {
-						callback(result);
+						callback(result, status);
 					}
 				},
 				error : function(xhr, status, er) {
 					if (error) {
-						error(er);
+						error(status);
 					}
 				}
 		});
 	}
 	
-	function updateReplyDisLike(commonData, callback, error) {//댓글 싫어요 업데이트
+	function disLikeReply(commonData, callback, error) {//댓글 싫어요 업데이트
 
 		$.ajax({
-				type : 'put', 
-				url : '/replies/dislikeCount',  
+				type : 'post', 
+				url : '/replies/disLikeReply',  
 				data : JSON.stringify(commonData), 
 				contentType : "application/json; charset=utf-8",
 				success : function(result, status, xhr) {
 					if (callback) {
-						callback(result);
+						callback(result, status);
 					}
 				},
 				error : function(xhr, status, er) {
 					if (error) {
-						error(er);
+						error(status);
 					}
 				}
 		});
@@ -222,7 +222,7 @@ var replyService = (function() {
 		});
 	}
 		
-	/*function getList(param, callback, error) { 
+	/*function readList(param, callback, error) { 
 		alert(3);
 		var board_num = param.board_num;
 		var page = param.page || 1;
@@ -260,21 +260,21 @@ var replyService = (function() {
 		});
 	}
 		
-	function updateReplyDonation(commonData, callback, error) {//댓글 기부하기
+	function giveReplyWriterMoney(commonData, callback, error) {
 	
 			$.ajax({
-				type : 'put', 
-				url : '/replies/replyDonateMoney',  
+				type : 'post', 
+				url : '/replies/giveReplyWriterMoney',  
 				data : JSON.stringify(commonData), 
 				contentType : "application/json; charset=utf-8",
 				success : function(result, status, xhr) {
 					if (callback) {
-						callback(result);
+						callback(result, status);
 					}
 				},
 				error : function(xhr, status, er) {
 					if (error) {
-						error(er);
+						error(status);
 					}
 				}
 			});
@@ -376,19 +376,19 @@ var replyService = (function() {
 	}*/
 	
 	return {
-		add : add,
+		create : create,
 		get : get,
-		getList : getList,
+		readList : readList,
 		remove : remove, 
 		updateReply : updateReply,
 		displayTime : displayTime,
 		updateLike : updateLike,
 		updateDisLike : updateDisLike,
-		updateReplyLike : updateReplyLike,
-		updateReplyDisLike : updateReplyDisLike,
+		likeReply : likeReply,
+		disLikeReply : disLikeReply,
 		getUserCash : getUserCash,
 		updateDonation : updateDonation,
-		updateReplyDonation : updateReplyDonation,
+		giveReplyWriterMoney : giveReplyWriterMoney,
 		postScrapData : postScrapData,
 		deleteScrapData : deleteScrapData,
 		report : report,

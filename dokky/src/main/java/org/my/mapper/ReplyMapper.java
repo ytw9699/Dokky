@@ -9,68 +9,63 @@ package org.my.mapper;
 
 public interface ReplyMapper {
 
-	public Long getRecentReply_num();
+	public int insertParentReply(ReplyVO vo);
 	
-	public int insert(ReplyVO vo);
-	
-	public int reInsert(ReplyVO replyVO);
+	public List<ReplyVO> selectReplylistToDecideStep(ReplyVO replyVO);
 
+	public int lastReplyStep(int group_num);
+	
+	public int insertChildReply(ReplyVO replyVO);
+
+	public int plusOrder_step(ReplyVO replyVO);
+	
 	public ReplyVO read(Long reply_num);
+	
+	public int getReplyCnt(Long board_num);
+	
+	public List<ReplyVO> readReplyListWithPaging( @Param("cri") Criteria cri,
+												 @Param("board_num") Long board_num );
+	
+	public int update(ReplyVO reply);
+	
+	public Long getBoardNum(Long reply_num);
 
 	public int delete(Long reply_num);
-
-	public int update(ReplyVO reply);
-
-	public List<ReplyVO> getListWithPaging(
-			@Param("cri") Criteria cri,
-			@Param("board_num") Long board_num );
-
-	public int getCountBynum(Long board_num);
 	
-	public String checkLikeValue(ReplyLikeVO vo);
+	public void createMyCashHistory(replyDonateVO vo);
+	
+	public void plusReplyUserCash(replyDonateVO vo);
 
-	public int pushLike(Long reply_num);
+	public void createReplyUserCashHistory(replyDonateVO vo);
+	
+	public void plusReplyMoney(replyDonateVO vo);
 
-	public int registerLike(ReplyLikeVO vo);
+	public String getReplyMoney(replyDonateVO vo);
+	
+	public int checkReplyLikeButton(ReplyLikeVO vo);
+	
+	public int checkReplyDislikeButton(ReplyDisLikeVO vo);
+	
+	public int pushReplyLikeButton(ReplyLikeVO vo);
+	
+	public int pushReplyDislikeButton(ReplyDisLikeVO vo);
+	
+	public int plusReplyLikeCount(Long reply_num);
 
-	public void pushLikeValue(ReplyLikeVO vo);
-
-	public int pullLike(Long reply_num); 
-
-	public void pullLikeValue(ReplyLikeVO vo);
+	public int plusReplyDislikeCount(Long reply_num);
+	
+	public int pullReplyLikeButton(ReplyLikeVO vo);
+	
+	public int pullReplyDislikeButton(ReplyDisLikeVO vo);
+	
+	public int minusReplyLikeCount(Long reply_num);
+	
+	public int minusReplyDislikeCount(Long reply_num);
 
 	public String getLikeCount(Long reply_num);
 	
-	public int pullDisLike(Long reply_num);
+	public String getDislikeCount(Long reply_num);
 	
-	public int pushDisLike(Long reply_num);
-	
-	public String checkDisLikeValue(ReplyDisLikeVO vo);
-	
-	public int registerDisLike(ReplyDisLikeVO vo);
-	
-	public void pulldislikeCheck(ReplyDisLikeVO vo);
-	
-	public void pushDislikeValue(ReplyDisLikeVO vo);
-	
-	public String getDisLikeCount(Long reply_num);
-
-	public void updateReplyUserCash(replyDonateVO vo);
-
-	public void updateReplyMoney(replyDonateVO vo);
-
-	public String getReplyMoney(replyDonateVO vo);
-
-	public void insertMyCashHistory(replyDonateVO vo);
-
-	public void insertReplyUserCashHistory(replyDonateVO vo);
-
-	public List<ReplyVO> selectNextReply(ReplyVO replyVO);
-
-	public int lastReplyStep(int group_num);
-
-	public int updateOrder_step(ReplyVO replyVO);
-
-	public Long getBoardNum(Long reply_num);
+	public Long getRecentReply_num();
 
 }

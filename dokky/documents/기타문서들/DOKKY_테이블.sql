@@ -207,7 +207,6 @@
 	
 		 userId varchar2(50) not null,
 	     reply_num number(10,0) not null,
-	     likeValue varchar2(50) not null,--좋아요 눌르면 push,다시 눌르면 pull
 	     constraint fk_reply_like foreign key(reply_num) references DK_REPLY(reply_num) on delete cascade
 	);
 	
@@ -219,7 +218,6 @@
 	
 		 userId varchar2(50) not null,
 	     reply_num number(10,0) not null,
-	     dislikeValue varchar2(50) not null,--싫어요 눌르면 push,다시 눌르면 pull
 	     constraint fk_reply_dislike foreign key(reply_num) references DK_REPLY(reply_num) on delete cascade
 	);
 	
@@ -249,7 +247,7 @@
 		 cashAmount number(10,0) not null,
 		 regDate date default sysdate, 
 		 userId varchar2(50) not null,
-		 nickName varchar2(50) not null,  --댓글 작성자 닉네임
+		 nickName varchar2(50), -- 반드시 not null 이면 안됨 
 		 specification varchar2(50), --미승인/승인완료
 		 board_num number(10,0) default 0,
 		 reply_num number(10,0) default 0,
