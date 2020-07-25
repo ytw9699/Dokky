@@ -391,7 +391,7 @@
 	</select>
 	
 	<!-- 기부하는자의 캐시 차감하기 -->
-	<update id="updateMycash">
+	<update id="minusMycash">
 	    update dk_member set cash = cash - #{money} where userId = #{userId}
 	</update> 
 	

@@ -242,11 +242,11 @@
 		}
 	}
 	
-	<sec:authorize access="isAuthenticated()">
+	/* <sec:authorize access="isAuthenticated()">
 		if(webSocket == null){
 			connect();
 		}
-	</sec:authorize>
+	</sec:authorize> */
 	
 	var username = null;
 	var isLimited ; // 쓰기 제한된 계정의 true,false 여부
