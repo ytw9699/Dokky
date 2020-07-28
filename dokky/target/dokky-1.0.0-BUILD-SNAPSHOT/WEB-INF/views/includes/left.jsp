@@ -190,10 +190,11 @@
 
 		}else{
 			
-			webSocket = new WebSocket("wss://dokky.ga:443/websocketHandler"); 
+			webSocket = new WebSocket("wss://dokky.ga:443/websocketHandler");
 		}
 		
 		//WebSocket API
+		
 		webSocket.onopen = function (){ //소켓이 연결됬다면
 			
 			console.log("WebSocket is connected");
@@ -204,7 +205,7 @@
 				
 				if(event.data == 'limitAndLogoutSuccessMessageToUser'){
 					 
-						openAlert("곧 관리자에 의해 접속 제한 후 로그아웃 됩니다");
+						openAlert("곧 관리자에 의해 접속 제한(로그아웃) 됩니다");
 						
 						setTimeout(function() {
 							
@@ -242,11 +243,11 @@
 		}
 	}
 	
-	/* <sec:authorize access="isAuthenticated()">
+	<sec:authorize access="isAuthenticated()">
 		if(webSocket == null){
 			connect();
 		}
-	</sec:authorize> */
+	</sec:authorize>
 	
 	var username = null;
 	var isLimited ; // 쓰기 제한된 계정의 true,false 여부
