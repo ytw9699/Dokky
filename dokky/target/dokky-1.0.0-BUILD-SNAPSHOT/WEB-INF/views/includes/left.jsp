@@ -194,7 +194,7 @@
 		}
 		
 		//WebSocket API
-		
+
 		webSocket.onopen = function (){ //소켓이 연결됬다면
 			
 			console.log("WebSocket is connected");

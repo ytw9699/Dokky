@@ -155,6 +155,10 @@
 				 where rn > (#{pageNum} -1) * #{amount} and rn <= #{pageNum} * #{amount}
 				]]>	
 	</select>
+	
+	<select id="getTotalCount" resultType="int">
+		select count(*) from DK_BOARD where category = #{category} and <include refid="criteria"></include>  board_num > 0
+	</select>
 			
 	<select id="getAllList" resultType="org.my.domain.BoardVO"> 
 		 <![CDATA[
@@ -238,6 +242,10 @@
 			]]>	
 	</select>
 	
+	<select id="getAllTotalCount" resultType="int">
+		select count(*) from DK_BOARD where <include refid="criteria"></include>  board_num > 0
+	</select>
+	
 	<!-- insert문이 실행되고 생성된 PK board_num 값을 알아야 하는 경우 -->
 	<insert id="insertSelectKey">
 	
@@ -287,14 +295,6 @@
 	<delete id="delete">
 		delete DK_BOARD where board_num = #{board_num} 
 	</delete>
-	
-	<select id="getTotalCount" resultType="int">
-		select count(*) from DK_BOARD where category = #{category} and <include refid="criteria"></include>  board_num > 0
-	</select>
-	
-	<select id="getAllTotalCount" resultType="int">
-		select count(*) from DK_BOARD where <include refid="criteria"></include>  board_num > 0
-	</select>
 	
   	<!-- 해당 글의 댓글 갯수 하나 늘리거나 빼기 --> 
   	<update id="updateReplyCnt">

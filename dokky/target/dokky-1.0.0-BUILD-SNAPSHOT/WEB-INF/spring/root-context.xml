@@ -96,7 +96,7 @@
 		<constructor-arg value="https://dokky.ga/auth/naver/callback" />
 	</bean> 
 	 
-	<bean id="naverSns" class="org.my.auth.SnsValue">
+	<bean id="naverSns" class="org.my.auth.SnsValue">  
 		<constructor-arg value="naver"/>
 		<constructor-arg ref="naverClientID"/>
 		<constructor-arg ref="naverClientSecret"/>
