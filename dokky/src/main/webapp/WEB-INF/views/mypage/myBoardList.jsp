@@ -91,10 +91,10 @@
 				    <tr>
 				        <td class="bottomTd"><input type="checkbox" name="checkAll" id="checkAll" onclick="checkAll();"/>전체선택</td>
 				        <td class="bottomTd"><button id='deleteBtn' type="button" class="btn">삭제</button></td>
-				       	<td class="bottomTd"></td>
+				       	<td class="bottomTd"></td> 
+				       	<td class="bottomTd"></td>  
 				       	<td class="bottomTd"></td>
 				        <td class="bottomTd"><span>총 게시글 ${total}개</span></td>  
-						<td class="bottomTd"><button id='regBtn' type="button" class="btn">새 글쓰기</button></td> 
 				    </tr>
 			</table>
 		
@@ -132,13 +132,8 @@
 <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script> 
 <script> 
 	   
-	$("#regBtn").on("click", function() { 
-	
-		self.location = "/board/register?category="+${pageMaker.cri.category};
-	}); 
-	
 	$("#deleteBtn").on("click", function() { 
-		deleteAction(); 
+		deleteAction();
 	}); 
     
 	var actionForm = $("#actionForm");
