@@ -12,23 +12,33 @@ public interface BoardMapper {
 
 	public List<BoardVO> getList(Criteria cri); 
 	
+	public List<BoardVO> getListWithOrder(Criteria cri);
+	
+	public int getTotalCount(Criteria cri);
+	
 	public List<BoardVO> getAllList(Criteria cri);
 	
-	public List<BoardVO> getListWithOrder(Criteria cri);
-
-	public Integer insertSelectKey(BoardVO board);
+	public List<BoardVO> getAllListWithOrder(Criteria cri);
+	
+	public int getAllTotalCount(Criteria cri);
+	
+	public int register(BoardVO board);
+	
+	public int getScrapCnt(@Param("board_num") Long board_num, @Param("userId") String userId);
+	
+	public int updateHitCnt(Long board_num);//조회수 증가
 	
 	public BoardVO read(Long board_num);
+	
+	public int updateBoard(BoardVO board);
 
-	public int delete(Long bno);
+	public int deleteBoard(Long bno);
 
-	public int update(BoardVO board);
-
-	public int getTotalCount(Criteria cri);
+	
 	
 	public void updateReplyCnt(@Param("board_num") Long board_num, @Param("amount") int amount);
 
-	public int updateHitCnt(Long board_num);//조회수 증가
+	
 
 	public int pushLike(Long board_num);
 	
@@ -74,16 +84,10 @@ public interface BoardMapper {
 
 	public int insertReportdata(reportVO vo);
 
-	public int getAllTotalCount(Criteria cri);
-
-	public List<BoardVO> getAllListWithOrder(Criteria cri);
-
 	public Long getRecentBoard_num();
 	
 	public int insertScrapData(@Param("board_num") int board_num, @Param("userId") String userId);
 	 
-	public int getScrapCnt(@Param("board_num") Long board_num, @Param("userId") String userId);
-
 	public int deleteScrapData(@Param("board_num") int board_num, @Param("userId") String userId);
 	
 	public void minusMycash(@Param("money") int money, @Param("userId") String userId);

@@ -34,7 +34,7 @@ public class BoardMapperTests {
 				board.setUserId("admin");
 				board.setCategory(1);
 		
-		mapper.insertSelectKey(board);
+		mapper.register(board);
 
 		log.info("생성된 게시물 번호 = "+board.getBoard_num());
 		log.info(board);
@@ -63,7 +63,7 @@ public class BoardMapperTests {
 		board.setTitle("수정된 테스트 제목");
 		board.setContent("수정된 테스트 내용");
 
-		int count = mapper.update(board);
+		int count = mapper.updateBoard(board);
 		
 		if(count == 1) {
 			log.info("수정 완료");
@@ -77,7 +77,7 @@ public class BoardMapperTests {
 		
 		log.info("게시글 삭제 테스트");
 		
-		int count = mapper.delete(444L);
+		int count = mapper.deleteBoard(444L);
 		
 		if(count == 1) {
 			log.info("삭제 완료");

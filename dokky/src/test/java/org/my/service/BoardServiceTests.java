@@ -61,7 +61,7 @@ public class BoardServiceTests {
 		
 		log.info("가져온 게시물 번호"+board_num);
 		
-		BoardVO board = service.get(board_num);
+		BoardVO board = service.getBoard(board_num, true);
 		
 		log.info(board);
 	}
@@ -73,7 +73,7 @@ public class BoardServiceTests {
 		
 		Long board_num = service.getRecentBoard_num();
 		
-		BoardVO board = service.get(board_num);
+		BoardVO board = service.getBoard(board_num, false);
 
 		if (board == null) {
 			log.info("수정할 게시글 없음");
@@ -83,7 +83,7 @@ public class BoardServiceTests {
 		board.setTitle("수정된 테스트 제목");
 		board.setContent("수정된 테스트 내용");
 		
-		if(service.modify(board) == true) {
+		if(service.modifyBoard(board) == true) {
 			log.info("수정 완료");
 		}else {
 			log.info("수정 실패");
@@ -98,7 +98,7 @@ public class BoardServiceTests {
 		
 		Long board_num = service.getRecentBoard_num();
 		
-		if(service.remove(board_num) == true) {
+		if(service.removeBoard(board_num) == true) {
 			log.info("삭제 완료");
 		}else {
 			log.info("삭제 실패");

@@ -3,27 +3,24 @@ package org.my.controller;
 	import java.nio.file.Path;
 	import java.nio.file.Paths;
 	import java.util.List;
-
-import javax.servlet.http.HttpServletRequest;
-
-import org.my.domain.BoardAttachVO;
+	import org.my.domain.BoardAttachVO;
 	import org.my.domain.BoardDisLikeVO;
 	import org.my.domain.BoardLikeVO;
 	import org.my.domain.BoardVO;
 	import org.my.domain.Criteria;
 	import org.my.domain.PageDTO;
 	import org.my.domain.commonVO;
-import org.my.security.domain.CustomUser;
-import org.my.service.BoardService;
+	import org.my.security.domain.CustomUser;
+	import org.my.service.BoardService;
 	import org.springframework.http.HttpStatus;
 	import org.springframework.http.MediaType;
 	import org.springframework.http.ResponseEntity;
 	import org.springframework.security.access.prepost.PreAuthorize;
-import org.springframework.security.core.Authentication;
-import org.springframework.stereotype.Controller;
+	import org.springframework.security.core.Authentication;
+	import org.springframework.stereotype.Controller;
 	import org.springframework.ui.Model;
-import org.springframework.web.bind.annotation.DeleteMapping;
-import org.springframework.web.bind.annotation.GetMapping;
+	import org.springframework.web.bind.annotation.DeleteMapping;
+	import org.springframework.web.bind.annotation.GetMapping;
 	import org.springframework.web.bind.annotation.ModelAttribute;
 	import org.springframework.web.bind.annotation.PathVariable;
 	import org.springframework.web.bind.annotation.PostMapping;
@@ -33,7 +30,6 @@ import org.springframework.web.bind.annotation.GetMapping;
 	import org.springframework.web.bind.annotation.RequestParam;
 	import org.springframework.web.bind.annotation.ResponseBody;
 	import org.springframework.web.servlet.mvc.support.RedirectAttributes;
-	
 	import lombok.AllArgsConstructor;
 	import lombok.extern.log4j.Log4j;
 
@@ -41,29 +37,25 @@ import org.springframework.web.bind.annotation.GetMapping;
 @Log4j
 @RequestMapping("/board/*")
 @AllArgsConstructor
-public class BoardController {//
+public class BoardController {
 
-	private BoardService service;
-	
-	@PreAuthorize("hasAnyRole('ROLE_ADMIN','ROLE_USER','ROLE_SUPER')")
-	@GetMapping("/test")
-	public String test() {
-
-		return "board/test";
-	}
+	private BoardService boardService;
 	
 	@GetMapping("/list")
-	public String list(Criteria cri, Model model) {
+	public String getList(Criteria cri, Model model) {
 		
-		log.info("/list: " + cri);
+		log.info("/board/list: " + cri);
 	
 		if(cri.getOrder() == 0) {//최신순 이면
-			model.addAttribute("list", service.getList(cri));
-		}else {
-			model.addAttribute("list", service.getListWithOrder(cri));//조회순,댓글순,좋아요순,기부순
+			
+			model.addAttribute("list", boardService.getList(cri));
+			
+		}else { //조회순,댓글순,좋아요순,기부순 이면
+			
+			model.addAttribute("list", boardService.getListWithOrder(cri));
 		}
 		
-		int total = service.getTotalCount(cri);//total은 특정 게시판의 총 게시물수
+		int total = boardService.getTotalCount(cri);//total은 특정 게시판의 총 게시물수
 		
 		model.addAttribute("pageMaker", new PageDTO(cri, total));//페이징
 	
@@ -71,57 +63,58 @@ public class BoardController {//
 	}
 	
 	@GetMapping("/allList")
-	public String allList(Criteria cri, Model model) {
+	public String getAllList(Criteria cri, Model model) {
 		
-		log.info("/allList: " + cri);
+		log.info("/board/allList: " + cri);
 		
 		if(cri.getOrder() == 0) {
-			model.addAttribute("list", service.getAllList(cri));
+			
+			model.addAttribute("list", boardService.getAllList(cri));
+			
 		}else {
-			model.addAttribute("list", service.getAllListWithOrder(cri));
+			
+			model.addAttribute("list", boardService.getAllListWithOrder(cri));
 		}
 		
-		int total = service.getAllTotalCount(cri);
+		int total = boardService.getAllTotalCount(cri);
 		
 		model.addAttribute("pageMaker", new PageDTO(cri, total));
 	
 		return "board/list";
 	}
 	
-	@PreAuthorize("hasAnyRole('ROLE_ADMIN','ROLE_USER','ROLE_SUPER')")//관리자이거나, 일반 회원일경우 권한 가짐
-	@GetMapping("/register")
-	public String register(@ModelAttribute("category") int category, HttpServletRequest request) {//게시글 등록 폼
+	@PreAuthorize("hasAnyRole('ROLE_ADMIN','ROLE_USER','ROLE_SUPER')")
+	@GetMapping("/registerForm")
+	public String getRegisterForm(@ModelAttribute("category") int category){
 
-		log.info("/register:");
+		log.info("/board/registerForm");
 		
 		return "board/register";
 	}
 	
 	@PreAuthorize("hasAnyRole('ROLE_ADMIN','ROLE_USER','ROLE_SUPER')")
 	@PostMapping("/register")
-	public String register(BoardVO board, RedirectAttributes rttr) {//게시글 등록
+	public String registerBoard(BoardVO board, RedirectAttributes rttr) {
 
 		log.info("/board/register: " + board);
 		
-		if (board.getAttachList() != null) {
+		/*if (board.getAttachList() != null) {
 			board.getAttachList().forEach(attach -> log.info(attach));
-		}
+		}*/
 		
-		service.register(board);
-		log.info("/board/register: " + board);
+		boardService.register(board);
 
-	   //rttr.addFlashAttribute("result", board.getNum());
-		 rttr.addAttribute("board_num", board.getBoard_num());
-		 //<selectKey keyProperty="board_num" order="BEFORE" resultType="long">로부터 board_num값이 넘어옴
-		 rttr.addAttribute("category", board.getCategory());
+		rttr.addAttribute("board_num", board.getBoard_num());//생성된 board_num값을 넘겨받음
+		rttr.addAttribute("category", board.getCategory());
 
-		return "redirect:/board/get";//response.sendRedirect()처리
+		return "redirect:/board/get";
 	}
 	
 	@GetMapping("/get")
-	public String get(@RequestParam("board_num") Long board_num, @ModelAttribute("cri") Criteria cri, Model model, Authentication authentication) {
+	public String getBoard(@RequestParam("board_num") Long board_num, 
+						   @ModelAttribute("cri") Criteria cri, Model model, Authentication authentication) {
 		
-		log.info("/get");
+		log.info("/board/get");
 		
 		if(authentication != null) {
 			
@@ -129,10 +122,10 @@ public class BoardController {//
 			
 			String userId = user.getUsername();
 			
-			model.addAttribute("scrapCount", service.getScrapCnt(board_num, userId));
+			model.addAttribute("scrapCount", boardService.getScrapCnt(board_num, userId));
 		}
 		
-		BoardVO board = service.get(board_num);
+		BoardVO board = boardService.getBoard(board_num, true);//조회수증가 + 한줄 글 상세 데이터 가져오기
 		
 		if(board == null) {
 			
@@ -143,27 +136,41 @@ public class BoardController {//
 			return "error/accessError";
 		}   
 		
-		model.addAttribute("board", board); //조회수증가 + 한줄 글 상세 데이터 가져오기
+		model.addAttribute("board", board); 
 		model.addAttribute("previousCategory", cri.getCategory());//조회 하기전 카테고리 값 넘기기
 		
 		return "board/get";
 	}
 	
-	@GetMapping("/modify")
-	public void getModifyForm(@RequestParam("board_num") Long board_num, @ModelAttribute("cri") Criteria cri, Model model) {
+	@PreAuthorize("principal.username == #cri.userId")
+	@GetMapping("/modifyForm")
+	public String getModifyForm(@RequestParam("board_num") Long board_num, 
+							  @ModelAttribute("cri") Criteria cri, Model model){
 
-		log.info("/modify");
-		model.addAttribute("board", service.getModifyForm(board_num));//수정폼+데이터 가져오기
+		log.info("/modifyForm");
+		
+		model.addAttribute("board", boardService.getBoard(board_num, false));
+		
+		return "board/modify";
 	}
 	
-	 @PreAuthorize("principal.username == #board.userId")
-	 @PostMapping("/modify")
-	 public String modify(BoardVO board, Criteria cri, RedirectAttributes rttr) {
+	@PreAuthorize("principal.username == #board.userId")
+	@PostMapping("/modify")
+	public String modifyBoard(BoardVO board, Criteria cri, RedirectAttributes rttr, Model model) {
 		 
-		 log.info("/modify BoardVO:" + board);
-		 log.info("/modify Criteria:" + cri);
+		 log.info("/modifyBoard BoardVO:" + board);
+		 log.info("/modifyBoard Criteria:" + cri);
 		
-		 service.modify(board);
+		 Boolean result = boardService.modifyBoard(board);
+		 
+		 if(!result) {
+				
+				log.info("/error/accessError");
+				
+				model.addAttribute("msg", "글을 수정 할 수 없습니다.");
+				
+				return "error/commonError";
+		 }   
 		 
 		 rttr.addAttribute("pageNum", cri.getPageNum());
 		 rttr.addAttribute("amount", cri.getAmount());
@@ -172,22 +179,27 @@ public class BoardController {//
 		 rttr.addAttribute("category", cri.getCategory());
 		 rttr.addAttribute("board_num", board.getBoard_num());
 		 
-	 return "redirect:/board/get";
-	 }
+		 return "redirect:/board/get";
+	}
 
-	 @PreAuthorize("principal.username == #userId")   
-	 @PostMapping("/remove")//삭제시 글+댓글+첨부파일 모두 삭제
-		public String remove(@RequestParam("board_num") Long board_num, @RequestParam("userId")String userId, Criteria cri, RedirectAttributes rttr) {
+	@PreAuthorize("principal.username == #userId")   
+	@PostMapping("/remove")//삭제시 글+댓글+첨부파일 모두 삭제
+	public String removeBoard(@RequestParam("board_num") Long board_num,
+						 	  @RequestParam("userId")String userId, boolean hasFile, Criteria cri, RedirectAttributes rttr) {
 
 		 	log.info("/remove..." + board_num);
-
-			if (service.remove(board_num)) { //첨부파일 디비 삭제 + 글삭제
-				List<BoardAttachVO> attachList = service.getAttachList(board_num);
-				deleteFiles(attachList); //실제 첨부파일 모두 삭제
-				rttr.addFlashAttribute("result", "success");
+		 	
+		 	log.info("/hasFile..." + hasFile);
+		 	
+			if(boardService.removeBoard(board_num, hasFile) && hasFile){//첨부파일 디비 삭제 + 글삭제
+				
+				//List<BoardAttachVO> attachList = boardService.getAttachList(board_num);
+				
+				//deleteFiles(attachList); //실제 첨부파일 모두 삭제
 			}
+			
 			return "redirect:/board/list" + cri.getListLink();
-		}
+	}
 	 
 	 @PreAuthorize("principal.username == #userId")   
 	 @PostMapping("/removeAll")//다중삭제
@@ -203,11 +215,11 @@ public class BoardController {//
 		 		
 		 		Long board_num = Long.parseLong(arrIdx[i]); 
 		 		
-		 		if (service.remove(board_num)) {
+		 		if (boardService.removeBoard(board_num, true)) {
 		 			
 		 			log.info("remove...board_num=" + board_num);
 					
-		 			List<BoardAttachVO> attachList = service.getAttachList(board_num);
+		 			List<BoardAttachVO> attachList = boardService.getAttachList(board_num);
 		 			
 		 			log.info("deleteFiles...attachList");
 		 			
@@ -227,28 +239,28 @@ public class BoardController {//
 		
 		BoardLikeVO boardLikeVO = vo.getBoardLikeVO();
 		
-		String CheckResult = service.checkLikeValue(boardLikeVO);
+		String CheckResult = boardService.checkLikeValue(boardLikeVO);
 		
 		log.info("CheckResult: " + CheckResult);//좋아요가 눌러져 있는지 아닌지 체크
 		
 		int returnVal = 0;
 		
 		if(CheckResult == null){ 
-			returnVal = service.registerLike(vo);//좋아요 첫 셋팅
+			returnVal = boardService.registerLike(vo);//좋아요 첫 셋팅
 			log.info("registerLike..." );
 			
 		}else if(CheckResult.equals("pull")){
-			returnVal = service.pushLike(vo);//좋아요 누르기
+			returnVal = boardService.pushLike(vo);//좋아요 누르기
 			log.info("pushLike...");
 			
 		}else if(CheckResult.equals("push")){
-			returnVal = service.pullLike(vo);//좋아요 취소
+			returnVal = boardService.pullLike(vo);//좋아요 취소
 			log.info("pullLike...");
 		}
 		
 		log.info("returnVal: " + returnVal);
 		
-		return returnVal == 1 ? new ResponseEntity<>(service.getLikeCount(boardLikeVO.getBoard_num()), HttpStatus.OK)
+		return returnVal == 1 ? new ResponseEntity<>(boardService.getLikeCount(boardLikeVO.getBoard_num()), HttpStatus.OK)
 				: new ResponseEntity<>(HttpStatus.INTERNAL_SERVER_ERROR);
 	}
 	
@@ -262,29 +274,29 @@ public class BoardController {//
 			
 			BoardDisLikeVO boardDisLikeVO = vo.getBoardDisLikeVO();
 		
-			String CheckResult = service.checkDisLikeValue(boardDisLikeVO);
+			String CheckResult = boardService.checkDisLikeValue(boardDisLikeVO);
 			
 			log.info("CheckResult: " + CheckResult);
 			
 			int returnVal = 0;
 			 
 			if(CheckResult == null){ 
-				returnVal = service.registerDisLike(vo);
+				returnVal = boardService.registerDisLike(vo);
 				log.info("registerDisLike..." );
 				
 			}else if(CheckResult.equals("pull")){
 				
-				returnVal = service.pushDisLike(vo);//싫어요 누르기
+				returnVal = boardService.pushDisLike(vo);//싫어요 누르기
 				log.info("pushDisLike...");
 				
 			}else if(CheckResult.equals("push")){
-				returnVal = service.pullDisLike(vo); //싫어요 취소
+				returnVal = boardService.pullDisLike(vo); //싫어요 취소
 				log.info("pullDisLike...");
 			}
 			
 			log.info("returnVal: " + returnVal);
 			
-			return returnVal == 1 ? new ResponseEntity<>(service.getDisLikeCount(boardDisLikeVO.getBoard_num()), HttpStatus.OK)
+			return returnVal == 1 ? new ResponseEntity<>(boardService.getDisLikeCount(boardDisLikeVO.getBoard_num()), HttpStatus.OK)
 					: new ResponseEntity<>(HttpStatus.INTERNAL_SERVER_ERROR);
 		}
 	
@@ -295,7 +307,7 @@ public class BoardController {//
 		log.info("/usercash");
 		log.info("userId...="+userId);
 		
-		String userCash = service.getuserCash(userId);
+		String userCash = boardService.getuserCash(userId);
 				
 		log.info("userCash...="+userCash); 
 		
@@ -310,7 +322,7 @@ public class BoardController {//
 			log.info("/donateMoney");
 			log.info("commonVO: " + vo);
 			
-			String BoardMoney = service.donateMoney(vo);
+			String BoardMoney = boardService.donateMoney(vo);
 			
 			return new ResponseEntity<>(BoardMoney, HttpStatus.OK);
 		}
@@ -321,7 +333,7 @@ public class BoardController {//
 		
 		log.info("/report");
 		
-		if(service.insertReportdata(vo)) {
+		if(boardService.insertReportdata(vo)) {
 			
 			log.info("insertReportdata...success "+vo);
 			return new ResponseEntity<>("success", HttpStatus.OK);
@@ -338,7 +350,7 @@ public class BoardController {//
 	
 		log.info("/getAttachList " + board_num);
 
-		return new ResponseEntity<>(service.getAttachList(board_num), HttpStatus.OK);
+		return new ResponseEntity<>(boardService.getAttachList(board_num), HttpStatus.OK);
 	}
 	
 	private void deleteFiles(List<BoardAttachVO> attachList) {
@@ -378,7 +390,7 @@ public class BoardController {//
 		
 		log.info("board_num="+board_num+", userId="+userId); 
 		
-		if(service.insertScrapData(board_num, userId)) {//스크랩 등록
+		if(boardService.insertScrapData(board_num, userId)) {//스크랩 등록
 			
 				log.info("insertScrapData...board_num="+board_num+", userId="+userId);
 				
@@ -399,7 +411,7 @@ public class BoardController {//
 		
 		log.info("board_num="+board_num+", userId="+userId); 
 		
-		if(service.deleteScrapData(board_num, userId) == 1) {
+		if(boardService.deleteScrapData(board_num, userId) == 1) {
 			
 				log.info("insertScrapData...board_num="+board_num+", userId="+userId);
 				

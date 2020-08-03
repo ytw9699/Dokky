@@ -155,6 +155,10 @@
 				 where rn > (#{pageNum} -1) * #{amount} and rn <= #{pageNum} * #{amount}
 				]]>	
 	</select>
+	
+	<select id="getTotalCount" resultType="int">
+		select count(*) from DK_BOARD where category = #{category} and <include refid="criteria"></include>  board_num > 0
+	</select>
 			
 	<select id="getAllList" resultType="org.my.domain.BoardVO"> 
 		 <![CDATA[
@@ -238,8 +242,12 @@
 			]]>	
 	</select>
 	
+	<select id="getAllTotalCount" resultType="int">
+		select count(*) from DK_BOARD where <include refid="criteria"></include>  board_num > 0
+	</select>
+	
 	<!-- insert문이 실행되고 생성된 PK board_num 값을 알아야 하는 경우 -->
-	<insert id="insertSelectKey">
+	<insert id="register">
 	
 		<selectKey keyProperty="board_num" order="BEFORE" resultType="long">
 				select seq_dk_board.nextval from dual
@@ -261,21 +269,22 @@
 		               )
 	</insert>
 	
-	<select id="read" resultType="org.my.domain.BoardVO">
-		select * from DK_BOARD where board_num = #{board_num}
-	</select>
-	
-	<select id="getRecentBoard_num" resultType="long">
+	<!-- 하위 스크랩 관련 -->
+	<select id="getScrapCnt" resultType="int">
 		<![CDATA[
-			select BOARD_NUM from DK_BOARD WHERE ROWNUM <= 1 order by BOARD_NUM desc 
-		]]>	
+			select count(*) from dk_scrap where userId = #{userId} and board_num = #{board_num}
+		]]>
 	</select>
 	
 	<update id="updateHitCnt">
 		update dk_board set hitCnt = hitCnt+1 where board_num = #{board_num}
 	</update>
 	
-	<update id="update">
+	<select id="read" resultType="org.my.domain.BoardVO">
+		select * from DK_BOARD where board_num = #{board_num}
+	</select>
+	
+	<update id="updateBoard">
 		update DK_BOARD 
 			set title= #{title},
 			category= #{category},
@@ -284,16 +293,14 @@
 		where board_num = #{board_num}
 	</update>
 	
-	<delete id="delete">
+	<delete id="deleteBoard">
 		delete DK_BOARD where board_num = #{board_num} 
 	</delete>
 	
-	<select id="getTotalCount" resultType="int">
-		select count(*) from DK_BOARD where category = #{category} and <include refid="criteria"></include>  board_num > 0
-	</select>
-	
-	<select id="getAllTotalCount" resultType="int">
-		select count(*) from DK_BOARD where <include refid="criteria"></include>  board_num > 0
+	<select id="getRecentBoard_num" resultType="long">
+		<![CDATA[
+			select BOARD_NUM from DK_BOARD WHERE ROWNUM <= 1 order by BOARD_NUM desc 
+		]]>	
 	</select>
 	
   	<!-- 해당 글의 댓글 갯수 하나 늘리거나 빼기 --> 
@@ -474,13 +481,6 @@
 											, #{reason}
 										)
 	</insert>
-	
-	<!-- 하위 스크랩 관련 -->
-	<select id="getScrapCnt" resultType="int">
-		<![CDATA[
-			select count(*) from dk_scrap where userId = #{userId} and board_num = #{board_num}
-		]]>
-	</select>
 	
 	<delete id="deleteScrapData">
 		delete dk_scrap where userId = #{userId} and board_num = #{board_num}

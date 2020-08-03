@@ -1,6 +1,5 @@
 package org.my.service;
 	import java.util.List;
-	
 	import org.my.domain.BoardAttachVO;
 	import org.my.domain.BoardDisLikeVO;
 	import org.my.domain.BoardLikeVO;
@@ -14,17 +13,15 @@ package org.my.service;
 	import org.springframework.beans.factory.annotation.Autowired;
 	import org.springframework.stereotype.Service;
 	import org.springframework.transaction.annotation.Transactional;
-	
 	import lombok.Setter;
 	import lombok.extern.log4j.Log4j;
 
 @Log4j
 @Service//비즈니스 영역담당 어노테이션
-//@AllArgsConstructor
 public class BoardServiceImpl implements BoardService {
 
 	@Setter(onMethod_ = @Autowired)
-	private BoardMapper mapper;
+	private BoardMapper boardMapper;
 	
 	@Setter(onMethod_ = @Autowired)
 	private BoardAttachMapper attachMapper;
@@ -37,7 +34,7 @@ public class BoardServiceImpl implements BoardService {
 
 		log.info("get List with criteria: " + cri);
 
-		return mapper.getList(cri);
+		return boardMapper.getList(cri);
 	}
 	
 	@Override
@@ -45,7 +42,23 @@ public class BoardServiceImpl implements BoardService {
 
 		log.info("getListWithOrder: " + cri);
 
-		return mapper.getListWithOrder(cri);
+		return boardMapper.getListWithOrder(cri);
+	}
+	
+	@Override
+	public int getTotalCount(Criteria cri) {
+
+		log.info("getTotalCount");
+		
+		return boardMapper.getTotalCount(cri);
+	}
+	
+	@Override
+	public List<BoardVO> getAllList(Criteria cri) {
+
+		log.info("getAllList with criteria: " + cri);
+
+		return boardMapper.getAllList(cri);
 	}
 	
 	@Override
@@ -53,15 +66,15 @@ public class BoardServiceImpl implements BoardService {
 
 		log.info("getAllListWithOrder: " + cri);
 
-		return mapper.getAllListWithOrder(cri);
+		return boardMapper.getAllListWithOrder(cri);
 	}
 	
 	@Override
-	public List<BoardVO> getAllList(Criteria cri) {
+	public int getAllTotalCount(Criteria cri) {
 
-		log.info("get getAllList with criteria: " + cri);
-
-		return mapper.getAllList(cri);
+		log.info("getAllTotalCount");
+		
+		return boardMapper.getAllTotalCount(cri);
 	}
 	
 	@Transactional
@@ -70,94 +83,97 @@ public class BoardServiceImpl implements BoardService {
 
 		log.info("register......" + board);
 
-		mapper.insertSelectKey(board);//글입력
+		if(boardMapper.register(board) == 1) {
+		
+			if (board.getAttachList() == null || board.getAttachList().size() <= 0) {//첨부파일이 없다면
+				
+				return;
+				
+			}else {//첨부파일이 있다면
+				
+				log.info("register......getAttachList");
 
-		if (board.getAttachList() == null || board.getAttachList().size() <= 0) {//첨부파일이 없다면
-			
-			return;
-			
-		}else {//첨부파일이 있다면
-			
-			log.info("register......getAttachList");
-
-			board.getAttachList().forEach(boardAttachVO -> {// attach는 BoardAttachVO
-				boardAttachVO.setBoard_num(board.getBoard_num());//board_num값을 여기서도 쓰고 컨트롤러 쪽으로도 넘긴다
-				attachMapper.insert(boardAttachVO);
-			});
+				board.getAttachList().forEach(boardAttachVO -> {
+					
+					boardAttachVO.setBoard_num(board.getBoard_num());//새롭게 생성된 board_num값을 쓰고, 컨트롤러 쪽으로도 넘긴다
+					
+					attachMapper.insert(boardAttachVO);
+				});
+			}
 		}
 	}
 	 
-	@Transactional
 	@Override
-	public BoardVO get(Long board_num) {
-
-		log.info("get..." + board_num);
+	public int getScrapCnt(Long board_num, String userId) {
 		
-		log.info("updateHitCnt..." + board_num);
+		log.info("getScrapCnt");
 		
-		mapper.updateHitCnt(board_num);//조회수 증가
+		int getResult = boardMapper.getScrapCnt(board_num,userId); 
 		
-		return mapper.read(board_num);
+		return getResult;
 	}
 	
-	@Override
-	public Long getRecentBoard_num() {
-		
-		return mapper.getRecentBoard_num();
-	}
-	
-	@Override
-	public BoardVO getModifyForm(Long board_num) {
-
-		log.info("getModifyForm" + board_num);
-		
-		return mapper.read(board_num);
-	}
-
 	@Transactional
 	@Override
-	public boolean modify(BoardVO board) {
+	public BoardVO getBoard(Long board_num , Boolean hitChoice) {
 
-		log.info("modify......" + board); 
+		if(hitChoice) {
+			
+			log.info("updateHitCnt..." + board_num);
+			
+			boardMapper.updateHitCnt(board_num);//조회수 증가
+		}
+		
+		log.info("getBoard..." + board_num);
+		
+		return boardMapper.read(board_num);
+	}
+	
+	@Transactional
+	@Override
+	public boolean modifyBoard(BoardVO board) {
+
+		log.info("modifyBoard......" + board); 
 
 		attachMapper.deleteAll(board.getBoard_num());//일단 디비에서 첨부파일 정보 모두다 삭제,실제파일은 삭제안됨
 
-		boolean modifyResult = mapper.update(board) == 1; 
+		boolean result = boardMapper.updateBoard(board) == 1; 
 		
-		if (modifyResult && board.getAttachList() != null && board.getAttachList().size() > 0) {
+		if (result && board.getAttachList() != null && board.getAttachList().size() > 0) {
 
 			board.getAttachList().forEach(boardAttachVO -> {
 
 				boardAttachVO.setBoard_num(board.getBoard_num());
+				
 				attachMapper.insert(boardAttachVO);//다시 모든파일 정보를 다 디비에 넣어준다
 			});
 		}
-		return modifyResult;
+		
+		return result;
 	}
 
 	@Transactional
 	@Override
-	public boolean remove(Long bno) {
+	public boolean removeBoard(Long board_num, boolean hasFile) {
 
-		log.info("remove...." + bno);
-
-		attachMapper.deleteAll(bno);
-
-		return mapper.delete(bno) == 1;
+		log.info("removeBoard...." + board_num);
+		
+		if(hasFile) {
+			
+			attachMapper.deleteAll(board_num);
+		}
+		
+		return boardMapper.deleteBoard(board_num) == 1;
 	}
-
+	
+		
 	@Override
-	public int getTotalCount(Criteria cri) {
-
-		log.info("get total count");
-		return mapper.getTotalCount(cri);
+	public Long getRecentBoard_num() {
+		
+		return boardMapper.getRecentBoard_num();
 	}
-	@Override
-	public int getAllTotalCount(Criteria cri) {
-
-		log.info("get AllTotal count");
-		return mapper.getAllTotalCount(cri);
-	}
+	
+	
 	
 	@Override
 	public List<BoardAttachVO> getAttachList(Long board_num) {
@@ -179,14 +195,14 @@ public class BoardServiceImpl implements BoardService {
 	public String checkLikeValue(BoardLikeVO vo) {
 		
 		log.info("checkLikeValue");
-		return mapper.checkLikeValue(vo); 
+		return boardMapper.checkLikeValue(vo); 
 	}
 	
 	@Override
 	public String checkDisLikeValue(BoardDisLikeVO vo) {
 		
 		log.info("checkDisLikeValue"); 
-		return mapper.checkDisLikeValue(vo); 
+		return boardMapper.checkDisLikeValue(vo); 
 	}
 	
 	@Transactional
@@ -197,14 +213,14 @@ public class BoardServiceImpl implements BoardService {
 		
 		log.info("registerLike...." + vo);
 		
-		mapper.registerLike(boardLikeVO);
+		boardMapper.registerLike(boardLikeVO);
 		
 		log.info("insertAlarm: ");
 		commonMapper.insertAlarm(vo.getAlarmVO());
 		
 		log.info("pushLike....");
 		
-		return mapper.pushLike(boardLikeVO.getBoard_num()); 
+		return boardMapper.pushLike(boardLikeVO.getBoard_num()); 
 	}
 	
 	@Transactional
@@ -214,13 +230,13 @@ public class BoardServiceImpl implements BoardService {
 		BoardDisLikeVO boardDisLikeVO = vo.getBoardDisLikeVO();
 		
 		log.info("registerDisLike...." + vo);
-		mapper.registerDisLike(boardDisLikeVO);
+		boardMapper.registerDisLike(boardDisLikeVO);
 		
 		log.info("insertAlarm: ");
 		commonMapper.insertAlarm(vo.getAlarmVO());
 		
 		log.info("pushDisLike....");
-		return mapper.pushDisLike(boardDisLikeVO.getBoard_num()); 
+		return boardMapper.pushDisLike(boardDisLikeVO.getBoard_num()); 
 	}
 	
 	@Transactional
@@ -231,14 +247,14 @@ public class BoardServiceImpl implements BoardService {
 		
 		log.info("pushLikeValue...."+vo);  
 		
-		mapper.pushLikeValue(boardLikeVO);
+		boardMapper.pushLikeValue(boardLikeVO);
 		
 		log.info("insertAlarm: "+vo.getAlarmVO());
 		commonMapper.insertAlarm(vo.getAlarmVO());
 		
 		log.info("pushLike....");
 		
-		return mapper.pushLike(boardLikeVO.getBoard_num()); 
+		return boardMapper.pushLike(boardLikeVO.getBoard_num()); 
 	}
 	
 	@Transactional
@@ -249,14 +265,14 @@ public class BoardServiceImpl implements BoardService {
 		
 		log.info("pullLikeValue...."+vo);
 		
-		mapper.pullLikeValue(boardLikeVO);
+		boardMapper.pullLikeValue(boardLikeVO);
 		
 		log.info("insertAlarm: ");
 		commonMapper.deleteAlarm(vo.getAlarmVO());
 		
 		log.info("pullLike....");
 		
-		return mapper.pullLike(boardLikeVO.getBoard_num());
+		return boardMapper.pullLike(boardLikeVO.getBoard_num());
 	}
 	
 	@Transactional
@@ -267,14 +283,14 @@ public class BoardServiceImpl implements BoardService {
 		
 		log.info("pulldislikeCheck...."+vo);
 		
-		mapper.pulldislikeCheck(boardDisLikeVO); 
+		boardMapper.pulldislikeCheck(boardDisLikeVO); 
 		
 		log.info("insertAlarm: ");
 		commonMapper.deleteAlarm(vo.getAlarmVO());
 		
 		log.info("pullDisLike....");
 		
-		return mapper.pullDisLike(boardDisLikeVO.getBoard_num()); 
+		return boardMapper.pullDisLike(boardDisLikeVO.getBoard_num()); 
 	}
 	
 	@Transactional
@@ -284,26 +300,26 @@ public class BoardServiceImpl implements BoardService {
 		BoardDisLikeVO boardDisLikeVO = vo.getBoardDisLikeVO();
 		
 		log.info("pushDislikeValue...."+vo);
-		mapper.pushDislikeValue(boardDisLikeVO); 
+		boardMapper.pushDislikeValue(boardDisLikeVO); 
 		
 		log.info("insertAlarm: "); 
 		commonMapper.insertAlarm(vo.getAlarmVO());
 		
 		log.info("pushDisLike....");
-		return mapper.pushDisLike(boardDisLikeVO.getBoard_num());
+		return boardMapper.pushDisLike(boardDisLikeVO.getBoard_num());
 	}
 	
 	@Override
 	public String getLikeCount(Long board_num) {
   
 		log.info("getLikeCount");
-		return mapper.getLikeCount(board_num);
+		return boardMapper.getLikeCount(board_num);
 	}
 	@Override
 	public String getDisLikeCount(Long board_num) {
  
 		log.info("getDisLikeCount");
-		return mapper.getDisLikeCount(board_num);
+		return boardMapper.getDisLikeCount(board_num);
 	}
 	
 	@Override
@@ -311,7 +327,7 @@ public class BoardServiceImpl implements BoardService {
  
 		log.info("getuserCash");
 		
-		return mapper.getuserCash(userId);
+		return boardMapper.getuserCash(userId);
 	}
 	
 	@Transactional
@@ -321,25 +337,25 @@ public class BoardServiceImpl implements BoardService {
 		donateVO donateVO = vo.getDonateVO();
 		
 		log.info("minusMycash");
-		mapper.minusMycash(donateVO.getMoney(), donateVO.getUserId());
+		boardMapper.minusMycash(donateVO.getMoney(), donateVO.getUserId());
 		
 		log.info("insertMyCashHistory");
-		mapper.insertMyCashHistory(donateVO);
+		boardMapper.insertMyCashHistory(donateVO);
 		
 		log.info("updateBoardUserCash");
-		mapper.updateBoardUserCash(donateVO);
+		boardMapper.updateBoardUserCash(donateVO);
 		
 		log.info("insertBoardUserCashHistory");
-		mapper.insertBoardUserCashHistory(donateVO);
+		boardMapper.insertBoardUserCashHistory(donateVO);
 		
 		log.info("updateBoardMoney");
-		mapper.updateBoardMoney(donateVO);
+		boardMapper.updateBoardMoney(donateVO);
 		
 		log.info("insertAlarm: ");
 		commonMapper.insertAlarm(vo.getAlarmVO());
 		
 		log.info("getBoardMoney");
-		return mapper.getBoardMoney(donateVO);
+		return boardMapper.getBoardMoney(donateVO);
 	}
 	    
 	@Transactional
@@ -351,25 +367,16 @@ public class BoardServiceImpl implements BoardService {
 		//log.info("insertAlarm: ");
 		//commonMapper.insertAlarm(vo.getAlarmVO());
 		
-		return mapper.insertReportdata(vo.getReportVO()) == 1;
+		return boardMapper.insertReportdata(vo.getReportVO()) == 1;
 	}
 	
-	@Override
-	public int getScrapCnt(Long board_num, String userId) {
-		
-		log.info("getScrapCnt");
-		
-		int getResult = mapper.getScrapCnt(board_num,userId); 
-		
-		return getResult;
-	}
 	
 	@Override
 	public int deleteScrapData(int board_num, String userId) {
 		
 		log.info("deleteScrapData");
 		
-		int deleteResult = mapper.deleteScrapData(board_num, userId); 
+		int deleteResult = boardMapper.deleteScrapData(board_num, userId); 
 		
 		return deleteResult;
 	}
@@ -379,7 +386,7 @@ public class BoardServiceImpl implements BoardService {
 		
 		log.info("insertScrapData");
 		
-		boolean inserResult = mapper.insertScrapData(board_num, userId) == 1; 
+		boolean inserResult = boardMapper.insertScrapData(board_num, userId) == 1; 
 		
 		return inserResult;
 	}

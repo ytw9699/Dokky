@@ -332,7 +332,7 @@
 	    	  return;
 	    }
 		
-		self.location = "/board/register?category="+${pageMaker.cri.category};
+		self.location = "/board/registerForm?category="+${pageMaker.cri.category};
 	}); 
     
 	

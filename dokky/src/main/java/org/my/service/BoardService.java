@@ -14,19 +14,27 @@ public interface BoardService {
 	
 	public List<BoardVO> getListWithOrder(Criteria cri);
 	
+	public int getTotalCount(Criteria cri);
+	
+	public List<BoardVO> getAllList(Criteria cri);
+	
 	public List<BoardVO> getAllListWithOrder(Criteria cri);
 	
-	public void register(BoardVO board);
-
-	public Long getRecentBoard_num();
+	public int getAllTotalCount(Criteria cri);
 	
-	public BoardVO get(Long board_num);
+	public void register(BoardVO board);
+	
+	public int getScrapCnt(Long board_num, String userId);
+	
+	public BoardVO getBoard(Long board_num, Boolean hitChoice);
 
-	public boolean modify(BoardVO board);
+	public boolean modifyBoard(BoardVO board);
 
-	public boolean remove(Long bno);
-
-	public int getTotalCount(Criteria cri);
+	public boolean removeBoard(Long board_num, boolean hasFile);
+	
+	
+	
+	public Long getRecentBoard_num();
 
 	public int pushLike(commonVO vo);
 	
@@ -35,8 +43,6 @@ public interface BoardService {
 	public int pullLike(commonVO vo);
 	
 	public int pushDisLike(commonVO vo);
-
-	public BoardVO getModifyForm(Long board_num);
 
 	public List<BoardAttachVO> getAttachList(Long board_num);
 
@@ -58,14 +64,8 @@ public interface BoardService {
 
 	public boolean insertReportdata(commonVO vo);
 
-	public List<BoardVO> getAllList(Criteria cri);
-
-	public int getAllTotalCount(Criteria cri);
-
 	public boolean insertScrapData(int board_num, String userId);
 	
-	public int getScrapCnt(Long board_num, String userId);
-
 	public int deleteScrapData(int board_num, String userId);
 	
 	//public void removeAttach(Long num);

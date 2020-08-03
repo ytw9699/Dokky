@@ -228,7 +228,7 @@
 </div>
 
 <div> 
-	<form id='operForm' action="/board/modify" method="get">
+	<form id='operForm' action="/board/modifyForm" method="get">
 		  <input type="hidden" id='csrf' name="${_csrf.parameterName}" value="${_csrf.token}"/>
 		  <input type='hidden' id='userId' name='userId' value='<c:out value="${board.userId}"/>'>    
 		  <input type='hidden' id='board_num' name='board_num' value='<c:out value="${board.board_num}"/>'>
@@ -856,8 +856,13 @@
 	$("#remove_button").on("click", function(e){//게시글 삭제
 		
 		deleting('정말 삭제 하시겠습니까?', function() {
-				  operForm.attr("action","/board/remove").attr("method","post");
-			      operForm.submit();
+				
+			if(hasFile){
+				operForm.append("<input type='hidden' name='hasFile' value='true'>");
+				alert(1);
+			}
+			    operForm.attr("action","/board/remove").attr("method","post");
+		        operForm.submit();
 		});
 	
 		/* if(func_confirm('정말 삭제 하시겠습니까?')){
@@ -1642,7 +1647,9 @@
 		});
 	}); 
 	///////////////////////////////////////////////////////
-
+	
+   var hasFile = false;
+	
    $(document).ready(function(){//첨부파일 즉시 함수
     	  
 	  	 (function(){//즉시실행함수 
@@ -1650,7 +1657,6 @@
 		   	    $.getJSON("/board/getAttachList", {board_num: board_num}, function(arr){
 		   	        	
 		    	       var fileStr = "";
-		    	       var hasFile = false;
 		    	       
 		    	       $(arr).each(function(i, attach){
 							if(!attach.fileType){ //파일이라면
