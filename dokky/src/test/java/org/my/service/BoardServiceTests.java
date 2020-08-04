@@ -98,7 +98,7 @@ public class BoardServiceTests {
 		
 		Long board_num = service.getRecentBoard_num();
 		
-		if(service.removeBoard(board_num) == true) {
+		if(service.removeBoard(board_num, false) == true) {
 			log.info("삭제 완료");
 		}else {
 			log.info("삭제 실패");

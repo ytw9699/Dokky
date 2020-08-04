@@ -30,7 +30,7 @@ public interface BoardService {
 
 	public boolean modifyBoard(BoardVO board);
 
-	public boolean removeBoard(Long board_num, boolean hasFile);
+	public boolean removeBoard(Long board_num, boolean hasAttach);
 	
 	
 	

@@ -1,8 +1,6 @@
 package org.my.controller;
-	import java.nio.file.Files;
-	import java.nio.file.Path;
-	import java.nio.file.Paths;
 	import java.util.List;
+	import javax.servlet.http.HttpServletRequest;
 	import org.my.domain.BoardAttachVO;
 	import org.my.domain.BoardDisLikeVO;
 	import org.my.domain.BoardLikeVO;
@@ -10,8 +8,10 @@ package org.my.controller;
 	import org.my.domain.Criteria;
 	import org.my.domain.PageDTO;
 	import org.my.domain.commonVO;
+	import org.my.s3.myS3Util;
 	import org.my.security.domain.CustomUser;
 	import org.my.service.BoardService;
+	import org.my.service.CommonService;
 	import org.springframework.http.HttpStatus;
 	import org.springframework.http.MediaType;
 	import org.springframework.http.ResponseEntity;
@@ -40,6 +40,10 @@ package org.my.controller;
 public class BoardController {
 
 	private BoardService boardService;
+	
+	private myS3Util s3Util;
+	
+	private CommonService commonService;
 	
 	@GetMapping("/list")
 	public String getList(Criteria cri, Model model) {
@@ -185,27 +189,43 @@ public class BoardController {
 	@PreAuthorize("principal.username == #userId")   
 	@PostMapping("/remove")//삭제시 글+댓글+첨부파일 모두 삭제
 	public String removeBoard(@RequestParam("board_num") Long board_num,
-						 	  @RequestParam("userId")String userId, boolean hasFile, Criteria cri, RedirectAttributes rttr) {
+						 	  @RequestParam("userId")String userId, Criteria cri, 
+						 	  						 RedirectAttributes rttr, HttpServletRequest request) {
 
-		 	log.info("/remove..." + board_num);
+		 	log.info("/getAttachList..." + board_num);
 		 	
-		 	log.info("/hasFile..." + hasFile);
+		 	List<BoardAttachVO> attachList = boardService.getAttachList(board_num);
 		 	
-			if(boardService.removeBoard(board_num, hasFile) && hasFile){//첨부파일 디비 삭제 + 글삭제
+		 	if(attachList == null || attachList.size() == 0) {
 				
-				//List<BoardAttachVO> attachList = boardService.getAttachList(board_num);
+		 		if(boardService.removeBoard(board_num, false)){//첨부파일 디비 삭제 + 글삭제
+					
+					log.info("/remove..." + board_num);
+					
+					return "redirect:/board/list" + cri.getListLink();
+				}
 				
-				//deleteFiles(attachList); //실제 첨부파일 모두 삭제
-			}
+		    }else {
+		    	
+		    	if(boardService.removeBoard(board_num, true)){//첨부파일 디비 삭제 + 글삭제
+					
+					log.info("/remove..." + board_num);
+					
+					deleteS3Files(attachList , request); //실제 첨부파일 모두 삭제
+					
+					return "redirect:/board/list" + cri.getListLink();
+				}
+		    }
 			
-			return "redirect:/board/list" + cri.getListLink();
+			return "redirect:/serverError";
 	}
-	 
-	 @PreAuthorize("principal.username == #userId")   
-	 @PostMapping("/removeAll")//다중삭제
-		public String removeAll(@RequestParam("checkRow") String checkRow , @RequestParam("userId")String userId, Criteria cri) {
+	
+	@PreAuthorize("principal.username == #userId")   
+	@PostMapping("/removeBoards")//다중삭제
+	public String removeBoards(@RequestParam("checkRow") String checkRow , 
+						    @RequestParam("userId")String userId, Criteria cri , HttpServletRequest request){
 		 	
-		 	log.info("/removeAll...");
+		 	log.info("/removeBoards...");
 		 
 		 	log.info("checkRow..." + checkRow);
 		 	
@@ -213,21 +233,74 @@ public class BoardController {
 		 	
 		 	for (int i=0; i<arrIdx.length; i++) {
 		 		
-		 		Long board_num = Long.parseLong(arrIdx[i]); 
+		 		 Long board_num = Long.parseLong(arrIdx[i]); 
 		 		
-		 		if (boardService.removeBoard(board_num, true)) {
-		 			
-		 			log.info("remove...board_num=" + board_num);
+		 		 List<BoardAttachVO> attachList = boardService.getAttachList(board_num);
+		 		
+		 		 if(attachList == null || attachList.size() == 0) {
 					
-		 			List<BoardAttachVO> attachList = boardService.getAttachList(board_num);
-		 			
-		 			log.info("deleteFiles...attachList");
-		 			
-					deleteFiles(attachList);
-				}
+			 			if (boardService.removeBoard(board_num , false)) {
+				 			
+				 			log.info("remove...board_num=" + board_num);
+				 			
+						}else {
+							return "redirect:/serverError";
+						}
+					
+			     }else {
+			    	
+				    	if (boardService.removeBoard(board_num ,true)) {
+				 			
+				 			log.info("remove...board_num=" + board_num);
+				 			
+						}else {
+							return "redirect:/serverError";
+						}
+	
+				    	deleteS3Files(attachList , request); //실제 첨부파일 모두 삭제
+			     }
 		 	}
-			return "redirect:/mypage/myBoardList?userId="+userId+"&pageNum="+cri.getPageNum()+"&amount="+cri.getAmount();
-		}
+		 	
+		 	return "redirect:/mypage/myBoardList?userId="+userId+"&pageNum="+cri.getPageNum()+"&amount="+cri.getAmount();
+	}
+	
+	private void deleteS3Files(List<BoardAttachVO> attachList, HttpServletRequest request) {
+		    
+		    log.info("deleteS3Files........");
+		    log.info(attachList);
+		    
+		    myS3Util nowS3Util;
+			
+			if(request.getServerName().equals("localhost")){
+				
+				nowS3Util = new myS3Util(commonService);
+				
+			}else {
+				
+				nowS3Util = s3Util;
+			}
+		    
+		    attachList.forEach(attach -> {
+		    
+			      String path = attach.getUploadPath();
+			      String filename = attach.getUuid()+"_"+attach.getFileName();
+		    	
+			      try {    
+			    	  
+			    		if(nowS3Util.deleteObject(path, filename)) {
+			    			
+							if (attach.isFileType()) {//만약 이미지파일이었다면
+								
+								nowS3Util.deleteObject(path, "s_"+filename);//썸네일도 삭제
+							}
+			    		}
+			    		
+			      }catch(Exception e) {
+			    	  
+			    	    log.error("deleteS3Files error" + e.getMessage());
+			      }
+		    });
+	}
 	
 	@RequestMapping(method = { RequestMethod.PUT, RequestMethod.PATCH },
 		value = "/likeCount", consumes = "application/json", produces = "text/plain; charset=UTF-8")
@@ -349,37 +422,9 @@ public class BoardController {
 	public ResponseEntity<List<BoardAttachVO>> getAttachList(Long board_num) {
 	
 		log.info("/getAttachList " + board_num);
-
+									
 		return new ResponseEntity<>(boardService.getAttachList(board_num), HttpStatus.OK);
 	}
-	
-	private void deleteFiles(List<BoardAttachVO> attachList) {
-	    
-	    if(attachList == null || attachList.size() == 0) {
-	      return;
-	    }
-	    
-	    log.info("delete attach files........");
-	    log.info(attachList);
-	    
-	    attachList.forEach(attach -> {
-	      try {        
-	        Path file  = Paths.get("C:\\upload\\"+attach.getUploadPath()+"\\" + attach.getUuid()+"_"+ attach.getFileName());
-	        
-	        Files.deleteIfExists(file);
-	        
-	        if(Files.probeContentType(file).startsWith("image")) {
-	        
-	          Path thumbNail = Paths.get("C:\\upload\\"+attach.getUploadPath()+"\\s_" + attach.getUuid()+"_"+ attach.getFileName());
-	          
-	          Files.delete(thumbNail);
-	        }
-	
-	      }catch(Exception e) {
-	        log.error("delete file error" + e.getMessage());
-	      }//end catch
-	    });//end foreach
-	  }
 	
 	@PreAuthorize("principal.username == #userId")  
 	@PostMapping(value = "/scrapData/{board_num}/{userId}", produces = "text/plain; charset=UTF-8")

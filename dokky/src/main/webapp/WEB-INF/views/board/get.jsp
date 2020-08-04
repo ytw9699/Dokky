@@ -857,10 +857,6 @@
 		
 		deleting('정말 삭제 하시겠습니까?', function() {
 				
-			if(hasFile){
-				operForm.append("<input type='hidden' name='hasFile' value='true'>");
-				alert(1);
-			}
 			    operForm.attr("action","/board/remove").attr("method","post");
 		        operForm.submit();
 		});
@@ -1648,8 +1644,6 @@
 	}); 
 	///////////////////////////////////////////////////////
 	
-   var hasFile = false;
-	
    $(document).ready(function(){//첨부파일 즉시 함수
     	  
 	  	 (function(){//즉시실행함수 
@@ -1657,6 +1651,7 @@
 		   	    $.getJSON("/board/getAttachList", {board_num: board_num}, function(arr){
 		   	        	
 		    	       var fileStr = "";
+		    	       var hasFile = false;
 		    	       
 		    	       $(arr).each(function(i, attach){
 							if(!attach.fileType){ //파일이라면

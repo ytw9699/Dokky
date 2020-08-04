@@ -154,11 +154,11 @@ public class BoardServiceImpl implements BoardService {
 
 	@Transactional
 	@Override
-	public boolean removeBoard(Long board_num, boolean hasFile) {
+	public boolean removeBoard(Long board_num, boolean hasAttach) {
 
 		log.info("removeBoard...." + board_num);
 		
-		if(hasFile) {
+		if(hasAttach) {
 			
 			attachMapper.deleteAll(board_num);
 		}
@@ -177,6 +177,7 @@ public class BoardServiceImpl implements BoardService {
 	
 	@Override
 	public List<BoardAttachVO> getAttachList(Long board_num) {
+		//	특정 게시물의 번호로 첨부파일을 찾는 작업 
 
 		log.info("get Attach list by board_num" + board_num);
 
