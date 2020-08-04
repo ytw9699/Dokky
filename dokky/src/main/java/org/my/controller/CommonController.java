@@ -286,6 +286,16 @@ public class CommonController {
 		return "common/main";
 	}
 	
+	@GetMapping("/serverError")
+	public String serverError(Model model) {//serverError페이지
+
+		log.info("/serverError");
+		
+		model.addAttribute("message", "ServerError입니다 관리자에게 문의해주세요.");
+		
+		return "error/commonError";  
+	}
+	
 	@GetMapping("/adminError")
 	public String adminError(Model model) {//관리자 리스트 접근 제한 에러페이지
 
