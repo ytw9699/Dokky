@@ -29,7 +29,6 @@
 
 	<select id="findByNum" resultType="org.my.domain.BoardAttachVO">
 			select * from dk_attach where board_num = #{board_num}
-			<!-- 특정 게시물의 번호로 첨부파일을 찾는 작업  -->
 	</select>
 
 	<select id="getYesterdayFiles" resultType="org.my.domain.BoardAttachVO">
