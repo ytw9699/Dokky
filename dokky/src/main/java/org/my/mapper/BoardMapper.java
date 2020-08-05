@@ -33,40 +33,32 @@ public interface BoardMapper {
 	public int updateBoard(BoardVO board);
 
 	public int deleteBoard(Long bno);
+	
+	public int checkBoardLikeButton(BoardLikeVO vo);
+	
+	public int checkBoardDisLikeButton(BoardDisLikeVO vo);
+	
+	public int pushBoardLikeButton(BoardLikeVO vo);
+	
+	public int pushBoardDisLikeButton(BoardDisLikeVO vo);
 
+	public int plusBoardLikeCount(Long board_num);
 	
+	public int plusBoardDisLikeCount(Long board_num);
 	
-	public void updateReplyCnt(@Param("board_num") Long board_num, @Param("amount") int amount);
+	public int pullBoardLikeButton(BoardLikeVO vo);
+	
+	public int pullBoardDisLikeButton(BoardDisLikeVO vo);
 
+	public int minusBoardLikeCount(Long board_num);
 	
-
-	public int pushLike(Long board_num);
-	
-	public int pullDisLike(Long board_num);
-	
-	public int pullLike(Long board_num);
-	
-	public int pushDisLike(Long board_num);
-
-	public String checkLikeValue(BoardLikeVO vo);
-	
-	public String checkDisLikeValue(BoardDisLikeVO vo);
-
-	public int registerLike(BoardLikeVO vo);
-	
-	public int registerDisLike(BoardDisLikeVO vo);
-
-	public void pushLikeValue(BoardLikeVO vo);
-	
-	public void pulldislikeCheck(BoardDisLikeVO vo);
-	
-	public void pullLikeValue(BoardLikeVO vo);
-
-	public void pushDislikeValue(BoardDisLikeVO vo);
+	public int minusBoardDisLikeCount(Long board_num);
 	
 	public String getLikeCount(Long board_num);
-
+	
 	public String getDisLikeCount(Long board_num);
+	
+	public void updateReplyCnt(@Param("board_num") Long board_num, @Param("amount") int amount);
 
 	public String getuserCash(String userId); 
 

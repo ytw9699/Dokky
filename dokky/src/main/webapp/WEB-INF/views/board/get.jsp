@@ -931,8 +931,8 @@
 						 	boardLikeVO : likeData,
 						 	alarmVO     : alarmData
 	 					 };
-		 
-	   	replyService.updateLike(commonData, function(result){
+	    
+	   	replyService.likeBoard(commonData, function(result){
 	   	
 			   	var likeCount = $("#likeCount");
 			  	likeCount.html(result);
@@ -970,7 +970,7 @@
 						 	alarmVO        : alarmData
 			 			 }
 		
-		replyService.updateDisLike(commonData, function(result){
+		replyService.disLikeBoard(commonData, function(result){
 		   	 
 			   	var dislikeCount = $("#dislikeCount");
 			   	dislikeCount.html(result);

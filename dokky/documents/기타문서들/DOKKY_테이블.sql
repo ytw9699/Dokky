@@ -185,7 +185,6 @@
 	
 		 userId varchar2(50) not null,
 	     board_num number(10,0) not null,
-	     likeValue varchar2(50) not null,--좋아요 눌르면 push,다시 눌르면 pull
 	     constraint fk_board_like foreign key(board_num) references DK_BOARD(board_num) on delete cascade
 	);
 	
@@ -196,7 +195,6 @@
 	
 		 userId varchar2(50) not null,
 	     board_num number(10,0) not null,
-	     dislikeValue varchar2(50) not null,--싫어요 눌르면 push,다시 눌르면 pull
 	     constraint fk_board_dislike foreign key(board_num) references DK_BOARD(board_num) on delete cascade
 	);
 	

@@ -5,7 +5,8 @@ package org.my.service;
 	import org.my.domain.BoardLikeVO;
 	import org.my.domain.BoardVO;
 	import org.my.domain.Criteria;
-	import org.my.domain.commonVO;
+import org.my.domain.ReplyLikeVO;
+import org.my.domain.commonVO;
 	import org.my.domain.donateVO;
 	import org.my.mapper.BoardAttachMapper;
 	import org.my.mapper.BoardMapper;
@@ -166,15 +167,6 @@ public class BoardServiceImpl implements BoardService {
 		return boardMapper.deleteBoard(board_num) == 1;
 	}
 	
-		
-	@Override
-	public Long getRecentBoard_num() {
-		
-		return boardMapper.getRecentBoard_num();
-	}
-	
-	
-	
 	@Override
 	public List<BoardAttachVO> getAttachList(Long board_num) {
 		//	특정 게시물의 번호로 첨부파일을 찾는 작업 
@@ -184,130 +176,80 @@ public class BoardServiceImpl implements BoardService {
 		return attachMapper.findByNum(board_num);
 	}
 	
-	/*@Override
-	public void removeAttach(Long num) {
-
-		log.info("remove all attach files");
-
-		attachMapper.deleteAll(num);
-	}*/
-	
 	@Override
-	public String checkLikeValue(BoardLikeVO vo) {
+	public boolean checkBoardLikeButton(BoardLikeVO vo) {
 		
-		log.info("checkLikeValue");
-		return boardMapper.checkLikeValue(vo); 
+		log.info("checkBoardLikeButton");
+		
+		return boardMapper.checkBoardLikeButton(vo) == 1; 
 	}
 	
 	@Override
-	public String checkDisLikeValue(BoardDisLikeVO vo) {
+	public boolean checkBoardDisLikeButton(BoardDisLikeVO vo) {
 		
-		log.info("checkDisLikeValue"); 
-		return boardMapper.checkDisLikeValue(vo); 
+		log.info("checkBoardDisLikeButton");
+		
+		return boardMapper.checkBoardDisLikeButton(vo) == 1; 
 	}
 	
 	@Transactional
 	@Override
-	public int registerLike(commonVO vo) {//좋아요 컬럼 첫 등록 및 좋아요 push
+	public boolean pushBoardLikeButton(commonVO vo) {//글 좋아요 버튼 누르기
+		
+		log.info("pushBoardLikeButton...." + vo);
 		
 		BoardLikeVO boardLikeVO = vo.getBoardLikeVO();
 		
-		log.info("registerLike...." + vo);
+		log.info("insertAlarm");
 		
-		boardMapper.registerLike(boardLikeVO);
-		
-		log.info("insertAlarm: ");
 		commonMapper.insertAlarm(vo.getAlarmVO());
 		
-		log.info("pushLike....");
-		
-		return boardMapper.pushLike(boardLikeVO.getBoard_num()); 
+		return boardMapper.pushBoardLikeButton(boardLikeVO) == 1 && boardMapper.plusBoardLikeCount(boardLikeVO.getBoard_num()) == 1; 
 	}
 	
 	@Transactional
-	@Override 
-	public int registerDisLike(commonVO vo) {//싫어요 컬럼 첫 등록 및 싫어요 push
-
+	@Override
+	public boolean pushBoardDisLikeButton(commonVO vo) {//글 싫어요 버튼 누르기
+		
+		log.info("pushBoardDisLikeButton...." + vo);
+		
 		BoardDisLikeVO boardDisLikeVO = vo.getBoardDisLikeVO();
 		
-		log.info("registerDisLike...." + vo);
-		boardMapper.registerDisLike(boardDisLikeVO);
+		log.info("insertAlarm");
 		
-		log.info("insertAlarm: ");
 		commonMapper.insertAlarm(vo.getAlarmVO());
 		
-		log.info("pushDisLike....");
-		return boardMapper.pushDisLike(boardDisLikeVO.getBoard_num()); 
+		return boardMapper.pushBoardDisLikeButton(boardDisLikeVO) == 1 && boardMapper.plusBoardDisLikeCount(boardDisLikeVO.getBoard_num()) == 1; 
 	}
 	
 	@Transactional
 	@Override
-	public int pushLike(commonVO vo) {//좋아요 누르기  
+	public boolean pullBoardLikeButton(commonVO vo) {//글 좋아요 당기기(취소)
+		
+		log.info("pullBoardLikeButton...." + vo);
 		
 		BoardLikeVO boardLikeVO = vo.getBoardLikeVO();
 		
-		log.info("pushLikeValue...."+vo);  
+		log.info("deleteAlarm");
 		
-		boardMapper.pushLikeValue(boardLikeVO);
-		
-		log.info("insertAlarm: "+vo.getAlarmVO());
-		commonMapper.insertAlarm(vo.getAlarmVO());
-		
-		log.info("pushLike....");
-		
-		return boardMapper.pushLike(boardLikeVO.getBoard_num()); 
-	}
-	
-	@Transactional
-	@Override
-	public int pullLike(commonVO vo) {//좋아요 취소 pull
-		
-		BoardLikeVO boardLikeVO = vo.getBoardLikeVO();
-		
-		log.info("pullLikeValue...."+vo);
-		
-		boardMapper.pullLikeValue(boardLikeVO);
-		
-		log.info("insertAlarm: ");
 		commonMapper.deleteAlarm(vo.getAlarmVO());
 		
-		log.info("pullLike....");
-		
-		return boardMapper.pullLike(boardLikeVO.getBoard_num());
+		return boardMapper.pullBoardLikeButton(boardLikeVO) == 1 && boardMapper.minusBoardLikeCount(boardLikeVO.getBoard_num()) == 1; 
 	}
 	
 	@Transactional
 	@Override
-	public int pullDisLike(commonVO vo) {//싫어요 취소 pull
+	public boolean pullBoardDisLikeButton(commonVO vo) {//글 싫어요 당기기(취소)
+		
+		log.info("pullBoardDisLikeButton...." + vo);
 		
 		BoardDisLikeVO boardDisLikeVO = vo.getBoardDisLikeVO();
 		
-		log.info("pulldislikeCheck...."+vo);
+		log.info("deleteAlarm");
 		
-		boardMapper.pulldislikeCheck(boardDisLikeVO); 
-		
-		log.info("insertAlarm: ");
 		commonMapper.deleteAlarm(vo.getAlarmVO());
 		
-		log.info("pullDisLike....");
-		
-		return boardMapper.pullDisLike(boardDisLikeVO.getBoard_num()); 
-	}
-	
-	@Transactional
-	@Override 
-	public int pushDisLike(commonVO vo) {//싫어요 누르기
-		
-		BoardDisLikeVO boardDisLikeVO = vo.getBoardDisLikeVO();
-		
-		log.info("pushDislikeValue...."+vo);
-		boardMapper.pushDislikeValue(boardDisLikeVO); 
-		
-		log.info("insertAlarm: "); 
-		commonMapper.insertAlarm(vo.getAlarmVO());
-		
-		log.info("pushDisLike....");
-		return boardMapper.pushDisLike(boardDisLikeVO.getBoard_num());
+		return boardMapper.pullBoardDisLikeButton(boardDisLikeVO) == 1 && boardMapper.minusBoardDisLikeCount(boardDisLikeVO.getBoard_num()) == 1; 
 	}
 	
 	@Override
@@ -316,9 +258,10 @@ public class BoardServiceImpl implements BoardService {
 		log.info("getLikeCount");
 		return boardMapper.getLikeCount(board_num);
 	}
+	
 	@Override
 	public String getDisLikeCount(Long board_num) {
- 
+  
 		log.info("getDisLikeCount");
 		return boardMapper.getDisLikeCount(board_num);
 	}
@@ -392,6 +335,11 @@ public class BoardServiceImpl implements BoardService {
 		return inserResult;
 	}
 	
+	@Override
+	public Long getRecentBoard_num() {
+		
+		return boardMapper.getRecentBoard_num();
+	}
 	
 	
 }

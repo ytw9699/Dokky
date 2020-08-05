@@ -137,7 +137,7 @@ public class BoardController {
 			
 			model.addAttribute("msg", "글이 삭제되었습니다.");
 			
-			return "error/accessError";
+			return "error/commonError"; 
 		}   
 		
 		model.addAttribute("board", board); 
@@ -169,7 +169,7 @@ public class BoardController {
 		 
 		 if(!result) {
 				
-				log.info("/error/accessError");
+				log.info("/error/commonError");
 				
 				model.addAttribute("msg", "글을 수정 할 수 없습니다.");
 				
@@ -302,76 +302,63 @@ public class BoardController {
 		    });
 	}
 	
-	@RequestMapping(method = { RequestMethod.PUT, RequestMethod.PATCH },
-		value = "/likeCount", consumes = "application/json", produces = "text/plain; charset=UTF-8")
+	@PostMapping(value = "/likeBoard", consumes = "application/json", produces = "text/plain; charset=UTF-8")
 	@ResponseBody
-	public ResponseEntity<String> updateLike(@RequestBody commonVO vo) {//게시글 좋아요 누르기 및 취소
+	public ResponseEntity<String> likeBoard(@RequestBody commonVO vo) {//게시글 좋아요 누르기 및 취소
 		
-		log.info("/likeCount");
-		log.info("commonVO: " + vo);
+		log.info("/board/likeBoard");
+		log.info("vo: " +vo);
 		
 		BoardLikeVO boardLikeVO = vo.getBoardLikeVO();
 		
-		String CheckResult = boardService.checkLikeValue(boardLikeVO);
+		boolean CheckResult = boardService.checkBoardLikeButton(boardLikeVO);
 		
-		log.info("CheckResult: " + CheckResult);//좋아요가 눌러져 있는지 아닌지 체크
+		boolean returnVal = false;
 		
-		int returnVal = 0;
-		
-		if(CheckResult == null){ 
-			returnVal = boardService.registerLike(vo);//좋아요 첫 셋팅
-			log.info("registerLike..." );
+		if(CheckResult == false){ 
 			
-		}else if(CheckResult.equals("pull")){
-			returnVal = boardService.pushLike(vo);//좋아요 누르기
-			log.info("pushLike...");
+			log.info("pushBoardLikeButton..." );
+			returnVal = boardService.pushBoardLikeButton(vo);//글 좋아요 누르기
 			
-		}else if(CheckResult.equals("push")){
-			returnVal = boardService.pullLike(vo);//좋아요 취소
-			log.info("pullLike...");
+		}else if(CheckResult == true){ 
+			
+			log.info("pullBoardLikeButton...");
+			returnVal = boardService.pullBoardLikeButton(vo);//글 좋아요 당기기(취소)
+			
 		}
 		
-		log.info("returnVal: " + returnVal);
-		
-		return returnVal == 1 ? new ResponseEntity<>(boardService.getLikeCount(boardLikeVO.getBoard_num()), HttpStatus.OK)
+		return returnVal == true ? new ResponseEntity<>(boardService.getLikeCount(boardLikeVO.getBoard_num()), HttpStatus.OK)
 				: new ResponseEntity<>(HttpStatus.INTERNAL_SERVER_ERROR);
 	}
 	
-	@RequestMapping(method = { RequestMethod.PUT,RequestMethod.PATCH },
-			value = "/dislikeCount", consumes = "application/json", produces ="text/plain; charset=UTF-8")
-		@ResponseBody
-		public ResponseEntity<String> updateDisLike(@RequestBody commonVO vo) {//게시글 싫어요 누르기 및 취소
+	@PostMapping(value = "/disLikeBoard", consumes = "application/json", produces = "text/plain; charset=UTF-8")
+	@ResponseBody
+	public ResponseEntity<String> disLikeBoard(@RequestBody commonVO vo) {//게시글 싫어요 누르기 및 취소
+	
+		log.info("/board/disLikeBoard");
+		log.info("vo: " +vo);
 		
-			log.info("/dislikeCount");
-			log.info("vo: " +vo);
-			
-			BoardDisLikeVO boardDisLikeVO = vo.getBoardDisLikeVO();
+		BoardDisLikeVO boardDisLikeVO = vo.getBoardDisLikeVO();
 		
-			String CheckResult = boardService.checkDisLikeValue(boardDisLikeVO);
+		boolean CheckResult = boardService.checkBoardDisLikeButton(boardDisLikeVO);
+		
+		boolean returnVal = false;
+		
+		if(CheckResult == false){ 
 			
-			log.info("CheckResult: " + CheckResult);
-			
-			int returnVal = 0;
+			log.info("pushBoardDisLikeButton..." );
+			returnVal = boardService.pushBoardDisLikeButton(vo);//글 싫어요 누르기
 			 
-			if(CheckResult == null){ 
-				returnVal = boardService.registerDisLike(vo);
-				log.info("registerDisLike..." );
-				
-			}else if(CheckResult.equals("pull")){
-				
-				returnVal = boardService.pushDisLike(vo);//싫어요 누르기
-				log.info("pushDisLike...");
-				
-			}else if(CheckResult.equals("push")){
-				returnVal = boardService.pullDisLike(vo); //싫어요 취소
-				log.info("pullDisLike...");
-			}
+		}else if(CheckResult == true){ 
 			
-			log.info("returnVal: " + returnVal);
+			log.info("pullBoardDisLikeButton...");
+			returnVal = boardService.pullBoardDisLikeButton(vo);//글 싫어요 당기기(취소)
 			
-			return returnVal == 1 ? new ResponseEntity<>(boardService.getDisLikeCount(boardDisLikeVO.getBoard_num()), HttpStatus.OK)
-					: new ResponseEntity<>(HttpStatus.INTERNAL_SERVER_ERROR);
 		}
+		
+		return returnVal == true ? new ResponseEntity<>(boardService.getDisLikeCount(boardDisLikeVO.getBoard_num()), HttpStatus.OK)
+				: new ResponseEntity<>(HttpStatus.INTERNAL_SERVER_ERROR);
+	}
 	
 	@GetMapping(value = "/usercash/{userId}", produces = "text/plain; charset=UTF-8")
 	@ResponseBody

@@ -32,30 +32,22 @@ public interface BoardService {
 
 	public boolean removeBoard(Long board_num, boolean hasAttach);
 	
-	
-	
-	public Long getRecentBoard_num();
-
-	public int pushLike(commonVO vo);
-	
-	public int pullDisLike(commonVO vo);
-	
-	public int pullLike(commonVO vo);
-	
-	public int pushDisLike(commonVO vo);
-
 	public List<BoardAttachVO> getAttachList(Long board_num);
-
-	public String checkLikeValue(BoardLikeVO vo);
 	
-	public String checkDisLikeValue(BoardDisLikeVO vo);
-
-	public int registerLike(commonVO vo); 
+	public boolean checkBoardLikeButton(BoardLikeVO vo);
 	
-	public int registerDisLike(commonVO vo);
-
+	public boolean checkBoardDisLikeButton(BoardDisLikeVO vo);
+	
+	public boolean pushBoardLikeButton(commonVO vo);
+	
+	public boolean pushBoardDisLikeButton(commonVO vo);
+	
+	public boolean pullBoardLikeButton(commonVO vo);
+	
+	public boolean pullBoardDisLikeButton(commonVO vo);
+	
 	public String getLikeCount(Long board_num);
-
+	
 	public String getDisLikeCount(Long board_num);
 
 	public String getuserCash(String userId);
@@ -67,6 +59,6 @@ public interface BoardService {
 	public boolean insertScrapData(int board_num, String userId);
 	
 	public int deleteScrapData(int board_num, String userId);
-	
-	//public void removeAttach(Long num);
+
+	public Long getRecentBoard_num();
 }
