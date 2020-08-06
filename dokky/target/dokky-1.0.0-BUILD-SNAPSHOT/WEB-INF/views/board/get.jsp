@@ -228,7 +228,7 @@
 </div>
 
 <div> 
-	<form id='operForm' action="/board/modify" method="get">
+	<form id='operForm' action="/board/modifyForm" method="get">
 		  <input type="hidden" id='csrf' name="${_csrf.parameterName}" value="${_csrf.token}"/>
 		  <input type='hidden' id='userId' name='userId' value='<c:out value="${board.userId}"/>'>    
 		  <input type='hidden' id='board_num' name='board_num' value='<c:out value="${board.board_num}"/>'>
@@ -856,8 +856,9 @@
 	$("#remove_button").on("click", function(e){//게시글 삭제
 		
 		deleting('정말 삭제 하시겠습니까?', function() {
-				  operForm.attr("action","/board/remove").attr("method","post");
-			      operForm.submit();
+				
+			    operForm.attr("action","/board/remove").attr("method","post");
+		        operForm.submit();
 		});
 	
 		/* if(func_confirm('정말 삭제 하시겠습니까?')){
@@ -930,8 +931,8 @@
 						 	boardLikeVO : likeData,
 						 	alarmVO     : alarmData
 	 					 };
-		 
-	   	replyService.updateLike(commonData, function(result){
+	    
+	   	replyService.likeBoard(commonData, function(result){
 	   	
 			   	var likeCount = $("#likeCount");
 			  	likeCount.html(result);
@@ -969,7 +970,7 @@
 						 	alarmVO        : alarmData
 			 			 }
 		
-		replyService.updateDisLike(commonData, function(result){
+		replyService.disLikeBoard(commonData, function(result){
 		   	 
 			   	var dislikeCount = $("#dislikeCount");
 			   	dislikeCount.html(result);
@@ -1642,7 +1643,7 @@
 		});
 	}); 
 	///////////////////////////////////////////////////////
-
+	
    $(document).ready(function(){//첨부파일 즉시 함수
     	  
 	  	 (function(){//즉시실행함수 

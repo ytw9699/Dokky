@@ -127,11 +127,11 @@ var replyService = (function() {
 				(dd > 9 ? '' : '0') + dd, ' ', (hh > 9 ? '' : '0') + hh, ':', (mi > 9 ? '' : '0') + mi].join('');
 	}
 
-	function updateLike(commonData, callback, error) {//좋아요 업데이트
+	function likeBoard(commonData, callback, error) {//좋아요 업데이트
 
 		$.ajax({
-				type : 'put', 
-				url : '/board/likeCount', 
+				type : 'post', 
+				url : '/board/likeBoard', 
 				data : JSON.stringify(commonData), 
 				contentType : "application/json; charset=utf-8",
 				success : function(result, status, xhr) {
@@ -147,11 +147,11 @@ var replyService = (function() {
 		});
 	}
 	
-	function updateDisLike(commonData, callback, error) {//싫어요 업데이트
+	function disLikeBoard(commonData, callback, error) {//싫어요 업데이트
 
 		$.ajax({
-				type : 'put', 
-				url : '/board/dislikeCount',  
+				type : 'post', 
+				url : '/board/disLikeBoard',  
 				data : JSON.stringify(commonData), 
 				contentType : "application/json; charset=utf-8",
 				success : function(result, status, xhr) {
@@ -382,8 +382,8 @@ var replyService = (function() {
 		remove : remove, 
 		updateReply : updateReply,
 		displayTime : displayTime,
-		updateLike : updateLike,
-		updateDisLike : updateDisLike,
+		likeBoard : likeBoard,
+		disLikeBoard : disLikeBoard,
 		likeReply : likeReply,
 		disLikeReply : disLikeReply,
 		getUserCash : getUserCash,
