@@ -360,19 +360,19 @@ public class BoardController {
 				: new ResponseEntity<>(HttpStatus.INTERNAL_SERVER_ERROR);
 	}
 	
-	@GetMapping(value = "/usercash/{userId}", produces = "text/plain; charset=UTF-8")
+	@PreAuthorize("principal.username == #userId")  
+	@GetMapping(value = "/myCash/{userId}", produces = "text/plain; charset=UTF-8")
 	@ResponseBody
-	public ResponseEntity<String> userCash(@PathVariable("userId") String userId) {
+	public ResponseEntity<String> getMyCash(@PathVariable("userId") String userId) {
 		 
-		log.info("/usercash");
-		log.info("userId...="+userId);
+		log.info("/board/myCash");
 		
-		String userCash = boardService.getuserCash(userId);
+		String userCash = boardService.getMyCash(userId);
 				
-		log.info("userCash...="+userCash); 
-		
-		return new ResponseEntity<>(userCash, HttpStatus.OK);
-	}
+		return userCash != null
+			? new ResponseEntity<>(userCash, HttpStatus.OK)
+			: new ResponseEntity<>(HttpStatus.INTERNAL_SERVER_ERROR);
+	} 
 	
 	@RequestMapping(method = { RequestMethod.PUT,RequestMethod.PATCH },
 			value = "/donateMoney", consumes = "application/json", produces = "text/plain; charset=UTF-8")

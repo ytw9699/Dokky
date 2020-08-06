@@ -267,11 +267,11 @@ public class BoardServiceImpl implements BoardService {
 	}
 	
 	@Override
-	public String getuserCash(String userId) { 
+	public String getMyCash(String userId) { 
  
-		log.info("getuserCash");
+		log.info("getMyCash");
 		
-		return boardMapper.getuserCash(userId);
+		return boardMapper.getMyCash(userId);
 	}
 	
 	@Transactional

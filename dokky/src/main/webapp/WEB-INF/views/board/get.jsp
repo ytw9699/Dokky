@@ -1127,19 +1127,30 @@
 			return;  
 		}
 		
-		replyService.getUserCash(myId, function(result){//나의 잔여 캐시 가져오기
+		replyService.getMyCash(myId, function(result, status){//나의 잔여 캐시 가져오기
 				
-				option = 'board';
-				myCash = parseInt(result);
-				 
-				result = result.replace(/[^0-9]/g,''); 
-				result = (result.replace(/\B(?=(\d{3})+(?!\d))/g, ","));  
-			  
-				donateModal.find("input[name='myCash']").val(result);
-				
-				openDonateModal();
-   	    });
-   	
+				if(status == "success"){ 
+					
+					option = 'board';
+					myCash = parseInt(result);
+					 
+					result = result.replace(/[^0-9]/g,''); 
+					result = (result.replace(/\B(?=(\d{3})+(?!\d))/g, ","));  
+				  
+					donateModal.find("input[name='myCash']").val(result);
+					
+					openDonateModal();
+				}
+	   	    },
+   	 	
+	   	    function(status){
+	   	    	
+				if(status == "error"){
+					
+					openAlert("Server Error(관리자에게 문의해주세요)");
+				}
+	    	}
+		);
 	});
 	
 	$(".replyList").on("click",'button[data-oper="donateMoney"]', function(event){//댓글 기부 모달폼 열기
@@ -1154,7 +1165,7 @@
 			return;
 		} 
 		
-		replyService.getUserCash(myId, function(result){
+		replyService.getMyCash(myId, function(result){
 				
 				option = 'reply'; 
 				myCash = parseInt(result); 

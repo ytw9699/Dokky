@@ -50,7 +50,9 @@ public interface BoardService {
 	
 	public String getDisLikeCount(Long board_num);
 
-	public String getuserCash(String userId);
+	public String getMyCash(String userId);
+	
+	
 
 	public String donateMoney(commonVO vo);
 

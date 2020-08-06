@@ -207,17 +207,17 @@ var replyService = (function() {
 		});
 	}
 	
-	function getUserCash(userId, callback, error) {
+	function getMyCash(userId, callback, error) {
 
-		$.get("/board/usercash/" + userId, function(result) {
+		$.get("/board/myCash/" + userId, function(result, status) {
 
 			if (callback) {
-				callback(result);
+				callback(result, status);
 			}
 
 		}).fail(function(xhr, status, err) {
 			if (error) {
-				error();
+				error(status);
 			}
 		});
 	}
@@ -386,7 +386,7 @@ var replyService = (function() {
 		disLikeBoard : disLikeBoard,
 		likeReply : likeReply,
 		disLikeReply : disLikeReply,
-		getUserCash : getUserCash,
+		getMyCash : getMyCash,
 		updateDonation : updateDonation,
 		giveReplyWriterMoney : giveReplyWriterMoney,
 		postScrapData : postScrapData,
