@@ -359,6 +359,11 @@
 		update DK_BOARD set dislikeCnt = dislikeCnt + 1 where board_num = #{board_num}
 	</update>
 	
+	<!-- 나의 캐시 가져오기 -->
+	<select id="getMyCash" resultType="String">
+		select cash from DK_member where userId = #{userId}
+	</select>
+	
 	<!-- 좋아요 카운트 가져오기 -->
 	<select id="getLikeCount" resultType="String">
 		select likeCnt from DK_BOARD where board_num = #{board_num}
@@ -373,11 +378,6 @@
   	<update id="updateReplyCnt">
   		update dk_board set replycnt = replycnt + #{amount} where board_num = #{board_num}
   	</update> 
-	
-	<!-- 나의 캐시 가져오기 -->
-	<select id="getuserCash" resultType="String">
-		select cash from DK_member where userId = #{userId}
-	</select>
 	
 	<!-- 기부하는자의 캐시 차감하기 -->
 	<update id="minusMycash">
