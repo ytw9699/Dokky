@@ -396,6 +396,7 @@ public class BoardController {
 		}
 	}
 	
+	@PreAuthorize("principal.username == #vo.reportingId")
 	@PostMapping(value = "/report", consumes = "application/json", produces = "text/plain; charset=UTF-8")
 	@ResponseBody
 	public ResponseEntity<String> report(@RequestBody reportVO vo) {//게시글의 게시글 or 댓글 신고
