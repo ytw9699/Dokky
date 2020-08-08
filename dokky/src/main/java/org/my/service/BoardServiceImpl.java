@@ -6,9 +6,11 @@ package org.my.service;
 	import org.my.domain.BoardVO;
 	import org.my.domain.Criteria;
 import org.my.domain.ReplyLikeVO;
+import org.my.domain.ReplyVO;
 import org.my.domain.commonVO;
 	import org.my.domain.donateVO;
-	import org.my.mapper.BoardAttachMapper;
+import org.my.domain.reportVO;
+import org.my.mapper.BoardAttachMapper;
 	import org.my.mapper.BoardMapper;
 	import org.my.mapper.CommonMapper;
 	import org.springframework.beans.factory.annotation.Autowired;
@@ -304,14 +306,11 @@ public class BoardServiceImpl implements BoardService {
 	    
 	@Transactional
 	@Override
-	public boolean insertReportdata(commonVO vo) {//신고
+	public boolean createReportdata(reportVO vo) {//신고
 
-		log.info("insertReportdata");
+		log.info("createReportdata");
 		
-		//log.info("insertAlarm: ");
-		//commonMapper.insertAlarm(vo.getAlarmVO());
-		
-		return boardMapper.insertReportdata(vo.getReportVO()) == 1;
+		return boardMapper.createReportdata(vo) == 1;
 	}
 	
 	

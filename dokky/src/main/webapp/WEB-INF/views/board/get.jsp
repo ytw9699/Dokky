@@ -1355,7 +1355,7 @@
 		
 	});
 	
-    $("#submitReport").on("click",function(event){//신고 확인 버튼 
+    $("#submitReport").on("click",function(event){//게시글 or 댓글 신고 확인 버튼 
     	  
     	 var reason = reportInput.val();
     	 
@@ -1377,33 +1377,31 @@
 			 				board_num     : board_num, 
 			 				reason        : reason
 		 				  };
-		 
-		 /* var alarmData = { 
-							target		: 'admin',  
-							kind		: 9,
-							commonVar1:reason, 
-							writerNick	: myNickName,
-							writerId	: myId
-	            		 }; */
-			
-		 var commonData ={ 
-			 				reportVO  : reportData,
-			 				//alarmVO   : alarmData
-						 };	
 
-		 replyService.report(commonData, function(result){
-			 
-				 if(result == 'success'){
-					 openAlert("신고완료 되었습니다");
-					 
-				 }else if(result == 'fail'){	
-					 openAlert("신고되지 않았습니다. 관리자에게 문의주세요");
-				 } 
+		 replyService.report(reportData, 
 				 
-				 closeReportForm();  
-		 });
+				function(status){
+				
+					if(status == "success"){
+						
+						openAlert("신고완료 되었습니다");
+						
+						closeReportForm(); 
+					}
+		    	},
+		    
+		    	function(status){
+		    	
+					if(status == "error"){ 
+						
+						openAlert("Server Error(관리자에게 문의해주세요)");
+						
+						closeReportForm(); 
+					}
+		    	}
+		 );
     });
-	 	
+    
 	///////////////////////////////////////////////////////// 
 	$("#replyRegisterBtn").on("click",function(e){//댓글 등록 버튼 
 		

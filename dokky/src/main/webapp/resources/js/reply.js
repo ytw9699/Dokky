@@ -315,21 +315,21 @@ var replyService = (function() {
 		});
 	}
 	
-	function report(commonData, callback, error) {
+	function report(reportData, callback, error) {
 		
 			$.ajax({
 				type : 'post',
 				url : '/board/report',
-				data : JSON.stringify(commonData),
+				data : JSON.stringify(reportData),
 				contentType : "application/json; charset=utf-8",
 				success : function(result, status, xhr) {
 					if (callback) { 
-						callback(result);
+						callback(status);
 					}
 				},
 				error : function(xhr, status, er) {
 					if (error) {
-						error(er);
+						error(status);
 					}
 				}
 			})

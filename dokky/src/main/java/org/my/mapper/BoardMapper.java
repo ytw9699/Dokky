@@ -72,7 +72,7 @@ public interface BoardMapper {
 	
 	public String getBoardMoney(donateVO vo);
 
-	public int insertReportdata(reportVO vo);
+	public int createReportdata(reportVO vo);
 
 	public Long getRecentBoard_num();
 	

@@ -7,8 +7,10 @@ package org.my.controller;
 	import org.my.domain.BoardVO;
 	import org.my.domain.Criteria;
 	import org.my.domain.PageDTO;
-	import org.my.domain.commonVO;
-	import org.my.s3.myS3Util;
+import org.my.domain.ReplyVO;
+import org.my.domain.commonVO;
+import org.my.domain.reportVO;
+import org.my.s3.myS3Util;
 	import org.my.security.domain.CustomUser;
 	import org.my.service.BoardService;
 	import org.my.service.CommonService;
@@ -396,18 +398,19 @@ public class BoardController {
 	
 	@PostMapping(value = "/report", consumes = "application/json", produces = "text/plain; charset=UTF-8")
 	@ResponseBody
-	public ResponseEntity<String> report(@RequestBody commonVO vo) {//신고
+	public ResponseEntity<String> report(@RequestBody reportVO vo) {//게시글의 게시글 or 댓글 신고
 		
-		log.info("/report");
+		log.info("/board/report");
 		
-		if(boardService.insertReportdata(vo)) {
+		log.info("createReportdata..."+vo);
+		
+		if(boardService.createReportdata(vo)){
 			
-			log.info("insertReportdata...success "+vo);
-			return new ResponseEntity<>("success", HttpStatus.OK);
+			return new ResponseEntity<>(HttpStatus.OK);
 			
 		}else{
-			log.info("insertChargeData...fail "+vo);
-			return new ResponseEntity<>("fail", HttpStatus.OK);
+			
+			return new ResponseEntity<>(HttpStatus.INTERNAL_SERVER_ERROR);
 		}
 	}
 	
