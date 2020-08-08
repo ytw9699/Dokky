@@ -33,8 +33,6 @@ public interface BoardService {
 
 	public boolean removeBoard(Long board_num, boolean hasAttach);
 	
-	public List<BoardAttachVO> getAttachList(Long board_num);
-	
 	public boolean checkBoardLikeButton(BoardLikeVO vo);
 	
 	public boolean checkBoardDisLikeButton(BoardDisLikeVO vo);
@@ -56,6 +54,8 @@ public interface BoardService {
 	public String giveBoardWriterMoney(commonVO vo);
 
 	public boolean createReportdata(reportVO vo);
+	
+	public List<BoardAttachVO> getAttachList(Long board_num);
 
 	public boolean insertScrapData(int board_num, String userId);
 	

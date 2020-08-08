@@ -1672,7 +1672,7 @@
     	  
 	  	 (function(){//즉시실행함수 
 	   	  
-		   	    $.getJSON("/board/getAttachList", {board_num: board_num}, function(arr){
+		   	    $.getJSON("/board/attachList", {board_num: board_num}, function(arr){
 		   	        	
 		    	       var fileStr = "";
 		    	       var hasFile = false;

@@ -414,11 +414,11 @@ public class BoardController {
 		}
 	}
 	
-	@GetMapping(value = "/getAttachList", produces = MediaType.APPLICATION_JSON_UTF8_VALUE)
+	@GetMapping(value = "/attachList", produces = MediaType.APPLICATION_JSON_UTF8_VALUE)
 	@ResponseBody
 	public ResponseEntity<List<BoardAttachVO>> getAttachList(Long board_num) {
 	
-		log.info("/getAttachList " + board_num);
+		log.info("/board/attachList :" + board_num);
 									
 		return new ResponseEntity<>(boardService.getAttachList(board_num), HttpStatus.OK);
 	}

@@ -170,15 +170,6 @@ public class BoardServiceImpl implements BoardService {
 	}
 	
 	@Override
-	public List<BoardAttachVO> getAttachList(Long board_num) {
-		//	특정 게시물의 번호로 첨부파일을 찾는 작업 
-
-		log.info("get Attach list by board_num" + board_num);
-
-		return attachMapper.findByNum(board_num);
-	}
-	
-	@Override
 	public boolean checkBoardLikeButton(BoardLikeVO vo) {
 		
 		log.info("checkBoardLikeButton");
@@ -313,6 +304,14 @@ public class BoardServiceImpl implements BoardService {
 		return boardMapper.createReportdata(vo) == 1;
 	}
 	
+	@Override
+	public List<BoardAttachVO> getAttachList(Long board_num) {
+		//특정 게시물의 번호로 첨부파일을 찾는 작업 
+
+		log.info("get Attach list by board_num" + board_num);
+
+		return attachMapper.getAttachList(board_num);
+	}
 	
 	@Override
 	public int deleteScrapData(int board_num, String userId) {

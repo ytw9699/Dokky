@@ -27,7 +27,7 @@
 			delete from dk_attach where uuid = #{uuid}
 	</delete>
 
-	<select id="findByNum" resultType="org.my.domain.BoardAttachVO">
+	<select id="getAttachList" resultType="org.my.domain.BoardAttachVO">
 			select * from dk_attach where board_num = #{board_num}
 	</select>
 

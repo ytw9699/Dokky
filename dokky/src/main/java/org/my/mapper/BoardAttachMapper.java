@@ -10,7 +10,7 @@ public interface BoardAttachMapper {
 
 	public void delete(String uuid);
 
-	public List<BoardAttachVO> findByNum(Long board_num);//특정 게시물의 번호로 첨부파일을 찾는 작업 
+	public List<BoardAttachVO> getAttachList(Long board_num); 
 	
 	public List<BoardAttachVO> getYesterdayFiles();
 
