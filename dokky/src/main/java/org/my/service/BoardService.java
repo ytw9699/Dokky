@@ -1,13 +1,12 @@
 package org.my.service;
 	import java.util.List;
-
 	import org.my.domain.BoardAttachVO;
 	import org.my.domain.BoardDisLikeVO;
 	import org.my.domain.BoardLikeVO;
 	import org.my.domain.BoardVO;
 	import org.my.domain.Criteria;
 	import org.my.domain.commonVO;
-import org.my.domain.reportVO;
+	import org.my.domain.reportVO;
 
 public interface BoardService {
 	
@@ -57,7 +56,7 @@ public interface BoardService {
 	
 	public List<BoardAttachVO> getAttachList(Long board_num);
 
-	public boolean insertScrapData(int board_num, String userId);
+	public int postScrapData(int board_num, String userId);
 	
 	public int deleteScrapData(int board_num, String userId);
 

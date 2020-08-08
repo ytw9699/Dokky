@@ -269,7 +269,6 @@
 		               )
 	</insert>
 	
-	<!-- 하위 스크랩 관련 -->
 	<select id="getScrapCnt" resultType="int">
 		<![CDATA[
 			select count(*) from dk_scrap where userId = #{userId} and board_num = #{board_num}
@@ -459,27 +458,13 @@
 										)
 	</insert>
 	
-	<delete id="deleteScrapData">
-		delete dk_scrap where userId = #{userId} and board_num = #{board_num}
-	</delete>
-	
-	<insert id="insertScrapData">
+	<insert id="postScrapData">
 		insert into dk_scrap (scrap_num, userId, board_num) values (seq_dk_scrap.nextval, #{userId}, #{board_num})
 	</insert>
 	
-	<!--  select reply_num, num, reply_content, userId, replydate
-		 from 
-		   (
-		    select /*+INDEX_DESC(DK_REPLY pk_reply) */ 
-		      rownum rn, reply_num, num, reply_content, userId, replydate
-		    from DK_REPLY
-		    where userId = #{userId}
-		    and reply_num > 0
-		    and rownum <= #{pageNum} * #{amount}
-		   ) where rn > (#{pageNum} -1) * #{amount}  -->
-		
-	
-	<!-- 상위 스크랩 관련 -->
+	<delete id="deleteScrapData">
+		delete dk_scrap where userId = #{userId} and board_num = #{board_num}
+	</delete>
 	
 	<select id="getRecentBoard_num" resultType="long">
 		<![CDATA[

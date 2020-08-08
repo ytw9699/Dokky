@@ -429,19 +429,15 @@ public class BoardController {
 	@ResponseBody
 	public ResponseEntity<String> postScrapData(@PathVariable("board_num") int board_num, @PathVariable("userId") String userId ) {
 		
-		log.info("/scrapData");
+		log.info("/board/scrapData");
 		
-		log.info("board_num="+board_num+", userId="+userId); 
-		
-		if(boardService.insertScrapData(board_num, userId)) {//스크랩 등록
-			
-				log.info("insertScrapData...board_num="+board_num+", userId="+userId);
+		if(boardService.postScrapData(board_num, userId) == 1) {
 				
-				return new ResponseEntity<>("success",HttpStatus.OK);
+				return new ResponseEntity<>(HttpStatus.OK);
 			
 		}else {
 		
-				return new ResponseEntity<>("fail",HttpStatus.OK);
+				return new ResponseEntity<>(HttpStatus.INTERNAL_SERVER_ERROR);
 		}
 	}
 	
@@ -450,14 +446,10 @@ public class BoardController {
 	@ResponseBody
 	public ResponseEntity<String> deleteScrapData(@PathVariable("board_num") int board_num, @PathVariable("userId") String userId ) {
 		
-		log.info("/scrapData");
-		
-		log.info("board_num="+board_num+", userId="+userId); 
+		log.info("/board/scrapData");
 		
 		if(boardService.deleteScrapData(board_num, userId) == 1) {
 			
-				log.info("insertScrapData...board_num="+board_num+", userId="+userId);
-				
 				return new ResponseEntity<>("success",HttpStatus.OK);
 			
 		}else {

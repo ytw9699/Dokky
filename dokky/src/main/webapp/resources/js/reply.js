@@ -286,12 +286,12 @@ var replyService = (function() {
 				url : '/board/scrapData/' + scrapData.board_num + '/' + scrapData.userId,
 				success : function(result, status, xhr) {
 					if (callback) {
-						callback(result,xhr);
+						callback(result, status);
 					}
 				},
 				error : function(xhr, status, er) {
 					if (error) {
-						error(xhr,er);
+						error(status);
 					}
 				}
 		});
@@ -304,12 +304,12 @@ var replyService = (function() {
 				url : '/board/scrapData/' + scrapData.board_num + '/' + scrapData.userId,
 				success : function(result, status, xhr) {
 					if (callback) {
-						callback(result,xhr);
+						callback(result, status);
 					}
 				},
 				error : function(xhr, status, er) {
 					if (error) {
-						error(xhr,er);
+						error(status);
 					}
 				}
 		});

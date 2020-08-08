@@ -314,23 +314,19 @@ public class BoardServiceImpl implements BoardService {
 	}
 	
 	@Override
+	public int postScrapData(int board_num, String userId) {
+		
+		log.info("postScrapData");
+		
+		return boardMapper.postScrapData(board_num, userId);
+	}
+	
+	@Override
 	public int deleteScrapData(int board_num, String userId) {
 		
 		log.info("deleteScrapData");
 		
-		int deleteResult = boardMapper.deleteScrapData(board_num, userId); 
-		
-		return deleteResult;
-	}
-	
-	@Override
-	public boolean insertScrapData(int board_num, String userId) {
-		
-		log.info("insertScrapData");
-		
-		boolean inserResult = boardMapper.insertScrapData(board_num, userId) == 1; 
-		
-		return inserResult;
+		return boardMapper.deleteScrapData(board_num, userId);
 	}
 	
 	@Override

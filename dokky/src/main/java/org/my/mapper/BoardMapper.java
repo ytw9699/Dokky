@@ -76,7 +76,7 @@ public interface BoardMapper {
 
 	public Long getRecentBoard_num();
 	
-	public int insertScrapData(@Param("board_num") int board_num, @Param("userId") String userId);
+	public int postScrapData(@Param("board_num") int board_num, @Param("userId") String userId);
 	 
 	public int deleteScrapData(@Param("board_num") int board_num, @Param("userId") String userId);
 	

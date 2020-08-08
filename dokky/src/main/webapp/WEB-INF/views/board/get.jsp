@@ -872,33 +872,49 @@
 	$("#scrapBtn").on("click",function(event){//게시글 스크랩
 			
 			var scrapData = { 
-					board_num : board_num,
-					userId    : myId
-		 		};
+								board_num : board_num,
+								userId    : myId
+					 		};
 	
 			if(scrapCount != 1){
 				
-				replyService.postScrapData(scrapData, function(result){
+				replyService.postScrapData(scrapData, 
+						
+					function(result, status){
 					
-					 if(result == 'success'){
-						 scrapCount = 1;
-					 }
-					 else if(result == 'fail'){
-						 openAlert("스크랩을 할 수 없습니다. 관리자에게 문의주세요");
-					 }
-				});
+						 if(status == 'success'){
+							 scrapCount = 1;
+						 }
+					},
+					
+					function(status){
+			   	    	
+						if(status == "error"){ 
+							
+							openAlert("Server Error(관리자에게 문의해주세요)");
+						}
+		   	    	}
+				);
 				
 			}else if(scrapCount == 1){
 				
-				replyService.deleteScrapData(scrapData, function(result){
+				replyService.deleteScrapData(scrapData,
+						
+					function(result, status){
 					
-					if(result == 'success'){
-						 scrapCount = 0;
-					}			 	 
-					else if(result == 'fail'){
-						 openAlert("스크랩을 삭제 할 수 없습니다. 관리자에게 문의주세요");
-					}
-				});
+						 if(status == 'success'){
+							 scrapCount = 0;
+					 	 }
+					},
+				
+					function(status){
+		   	    	
+						if(status == "error"){ 
+							
+							openAlert("Server Error(관리자에게 문의해주세요)");
+						}
+	   	    		}
+				);
 			}
 	});  
 	
