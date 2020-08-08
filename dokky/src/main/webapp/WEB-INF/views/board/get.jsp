@@ -1220,17 +1220,32 @@
 							  donateVO    : donateData,
 						 	  alarmVO     : alarmData
 						 	}
-	
-			replyService.updateDonation(commonData, function(result){
 			
-				var boardMoney = $("#boardMoney"); 
-			   	boardMoney.html(result+"\\");  
-			   	
-				closeDonateModal(); 
-				
-				openAlert("기부 하였습니다");
-				
-	   	    });
+			replyService.giveBoardWriterMoney(commonData, 
+					
+					function(result, status){
+					
+						if(status == "success"){ 
+							
+							var boardMoney = $("#boardMoney"); 
+						   	boardMoney.html(result+"\\");  
+						   	
+							closeDonateModal(); 
+							
+							openAlert("기부 하였습니다");
+						}
+		   	    	},
+		   	    
+		   	    	function(status){
+		   	    	
+						if(status == "error"){ 
+							
+							closeDonateModal();
+							
+							openAlert("ServerError입니다");
+						}
+		   	    	}
+			);
 			
 		}else if(option === 'reply'){//댓글 기부시
 				
@@ -1279,7 +1294,7 @@
 							
 							closeDonateModal();
 							
-							openAlert("기부 할 수 없습니다");
+							openAlert("ServerError입니다");
 						}
 		   	    	}
 				);

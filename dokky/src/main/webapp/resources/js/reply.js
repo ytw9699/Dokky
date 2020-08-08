@@ -239,22 +239,21 @@ var replyService = (function() {
 		});
 	}*/
 	
-	
-	function updateDonation(commonData, callback, error) {//게시글 기부하기
+	function giveBoardWriterMoney(commonData, callback, error) {//게시글 기부하기
 		
 		$.ajax({
-			type : 'put', 
-			url : '/board/donateMoney',  
+			type : 'post', 
+			url : '/board/giveBoardWriterMoney',  
 			data : JSON.stringify(commonData), 
 			contentType : "application/json; charset=utf-8",
 			success : function(result, status, xhr) {
 				if (callback) {
-					callback(result);
+					callback(result, status);
 				}
 			},
 			error : function(xhr, status, er) {
 				if (error) {
-					error(er);
+					error(status);
 				}
 			}
 		});
@@ -278,7 +277,7 @@ var replyService = (function() {
 					}
 				}
 			});
-		}
+	}
 	
 	function postScrapData(scrapData, callback, error) {
 		
@@ -387,7 +386,7 @@ var replyService = (function() {
 		likeReply : likeReply,
 		disLikeReply : disLikeReply,
 		getMyCash : getMyCash,
-		updateDonation : updateDonation,
+		giveBoardWriterMoney : giveBoardWriterMoney,
 		giveReplyWriterMoney : giveReplyWriterMoney,
 		postScrapData : postScrapData,
 		deleteScrapData : deleteScrapData,

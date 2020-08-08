@@ -276,26 +276,26 @@ public class BoardServiceImpl implements BoardService {
 	
 	@Transactional
 	@Override 
-	public String donateMoney(commonVO vo) {
+	public String giveBoardWriterMoney(commonVO vo) {
 		  
 		donateVO donateVO = vo.getDonateVO();
 		
 		log.info("minusMycash");
 		boardMapper.minusMycash(donateVO.getMoney(), donateVO.getUserId());
 		
-		log.info("insertMyCashHistory");
-		boardMapper.insertMyCashHistory(donateVO);
+		log.info("createMyCashHistory");
+		boardMapper.createMyCashHistory(donateVO);
 		
-		log.info("updateBoardUserCash");
-		boardMapper.updateBoardUserCash(donateVO);
+		log.info("plusBoardUserCash");
+		boardMapper.plusBoardUserCash(donateVO);
 		
-		log.info("insertBoardUserCashHistory");
-		boardMapper.insertBoardUserCashHistory(donateVO);
+		log.info("createBoardUserCashHistory");
+		boardMapper.createBoardUserCashHistory(donateVO);
 		
-		log.info("updateBoardMoney");
-		boardMapper.updateBoardMoney(donateVO);
+		log.info("plusBoardMoney");
+		boardMapper.plusBoardMoney(donateVO);
 		
-		log.info("insertAlarm: ");
+		log.info("insertAlarm");
 		commonMapper.insertAlarm(vo.getAlarmVO());
 		
 		log.info("getBoardMoney");

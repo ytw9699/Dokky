@@ -359,11 +359,6 @@
 		update DK_BOARD set dislikeCnt = dislikeCnt + 1 where board_num = #{board_num}
 	</update>
 	
-	<!-- 나의 캐시 가져오기 -->
-	<select id="getMyCash" resultType="String">
-		select cash from DK_member where userId = #{userId}
-	</select>
-	
 	<!-- 좋아요 카운트 가져오기 -->
 	<select id="getLikeCount" resultType="String">
 		select likeCnt from DK_BOARD where board_num = #{board_num}
@@ -374,33 +369,18 @@
 		select dislikeCnt from DK_BOARD where board_num = #{board_num}
 	</select>
 	
-  	<!-- 해당 글의 댓글 갯수 하나 늘리거나 빼기 --> 
-  	<update id="updateReplyCnt">
-  		update dk_board set replycnt = replycnt + #{amount} where board_num = #{board_num}
-  	</update> 
+	<!-- 나의 캐시 가져오기 -->
+	<select id="getMyCash" resultType="String">
+		select cash from DK_member where userId = #{userId}
+	</select>
 	
 	<!-- 기부하는자의 캐시 차감하기 -->
 	<update id="minusMycash">
 	    update dk_member set cash = cash - #{money} where userId = #{userId}
 	</update> 
 	
-	<!-- 기부받는자 캐시 증감하기 -->
-	<update id="updateBoardUserCash">
-	    update dk_member set cash = cash + #{money} where userId = #{donatedId}
-	</update> 
-	
-	<!-- 게시글의 기부금액 증감하기 -->
-	<update id="updateBoardMoney"> 
-	    update dk_board set MONEY = MONEY + #{money} where board_num = #{board_num}
-	</update> 
-	
-	<!-- 게시글의 기부금액 조회하기 -->
-	<select id="getBoardMoney" resultType="String">
-		select money from dk_board where board_num = #{board_num}
-	</select>
-	
 	<!-- 내 캐시 히스토리 입력 -->
-	<insert id="insertMyCashHistory">
+	<insert id="createMyCashHistory">
 			insert into dk_cash ( cash_num
 								, cashKind
 								, cashAmount
@@ -420,8 +400,13 @@
 									)
 	</insert>
 	
+	<!-- 기부받는자 캐시 증감하기 -->
+	<update id="plusBoardUserCash">
+	    update dk_member set cash = cash + #{money} where userId = #{donatedId}
+	</update> 
+	
 	<!-- 게시글 유저 캐시 히스토리 입력 -->
-	<insert id="insertBoardUserCashHistory">
+	<insert id="createBoardUserCashHistory">
 			insert into dk_cash ( cash_num
 								, cashKind
 								, cashAmount
@@ -441,6 +426,16 @@
 											, #{board_num}
 										)
 	</insert>
+	
+	<!-- 게시글의 기부금액 증감하기 -->
+	<update id="plusBoardMoney"> 
+	    update dk_board set MONEY = MONEY + #{money} where board_num = #{board_num}
+	</update> 
+	
+	<!-- 게시글의 기부금액 조회하기 -->
+	<select id="getBoardMoney" resultType="String">
+		select money from dk_board where board_num = #{board_num}
+	</select>
 	
 	<insert id="insertReportdata">
 			insert into dk_report ( 	report_num
@@ -491,5 +486,10 @@
 			select BOARD_NUM from DK_BOARD WHERE ROWNUM <= 1 order by BOARD_NUM desc 
 		]]>	
 	</select>
+	
+	<!-- 해당 글의 댓글 갯수 하나 늘리거나 빼기 --> 
+  	<update id="updateReplyCnt">
+  		update dk_board set replycnt = replycnt + #{amount} where board_num = #{board_num}
+  	</update> 
 
 </mapper>

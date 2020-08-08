@@ -51,10 +51,8 @@ public interface BoardService {
 	public String getDisLikeCount(Long board_num);
 
 	public String getMyCash(String userId);
-	
-	
 
-	public String donateMoney(commonVO vo);
+	public String giveBoardWriterMoney(commonVO vo);
 
 	public boolean insertReportdata(commonVO vo);
 

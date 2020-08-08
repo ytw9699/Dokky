@@ -374,18 +374,25 @@ public class BoardController {
 			: new ResponseEntity<>(HttpStatus.INTERNAL_SERVER_ERROR);
 	} 
 	
-	@RequestMapping(method = { RequestMethod.PUT,RequestMethod.PATCH },
-			value = "/donateMoney", consumes = "application/json", produces = "text/plain; charset=UTF-8")
-		@ResponseBody
-		public ResponseEntity<String> donateMoney(@RequestBody commonVO vo) {//기부하기
+	@PreAuthorize("principal.username == #vo.donateVO.userId")
+	@PostMapping(value = "/giveBoardWriterMoney", consumes = "application/json", produces = "text/plain; charset=UTF-8")
+	@ResponseBody
+	public ResponseEntity<String> giveBoardWriterMoney(@RequestBody commonVO vo) {//글 작성자에게 기부
+		
+		log.info("/giveBoardWriterMoney");
+		log.info("commonVO: " + vo);
+		
+		String BoardMoney = boardService.giveBoardWriterMoney(vo);
+		
+		if(BoardMoney != null) {
 			
-			log.info("/donateMoney");
-			log.info("commonVO: " + vo);
+			return new ResponseEntity<>(BoardMoney, HttpStatus.OK); 
 			
-			String BoardMoney = boardService.donateMoney(vo);
+		}else {
 			
-			return new ResponseEntity<>(BoardMoney, HttpStatus.OK);
+			return new ResponseEntity<>(HttpStatus.INTERNAL_SERVER_ERROR);
 		}
+	}
 	
 	@PostMapping(value = "/report", consumes = "application/json", produces = "text/plain; charset=UTF-8")
 	@ResponseBody

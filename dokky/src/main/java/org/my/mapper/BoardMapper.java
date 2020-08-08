@@ -58,21 +58,19 @@ public interface BoardMapper {
 	
 	public String getDisLikeCount(Long board_num);
 	
-	public void updateReplyCnt(@Param("board_num") Long board_num, @Param("amount") int amount);
-
 	public String getMyCash(String userId); 
-
-	public String donateMoney(donateVO vo);
 	
-	public void updateBoardUserCash(donateVO vo);
-
-	public void updateBoardMoney(donateVO vo);
-
+	public void minusMycash(@Param("money") int money, @Param("userId") String userId);
+	
+	public void createMyCashHistory(donateVO vo);
+	
+	public void plusBoardUserCash(donateVO vo);
+	
+	public void createBoardUserCashHistory(donateVO vo);
+	
+	public void plusBoardMoney(donateVO vo);
+	
 	public String getBoardMoney(donateVO vo);
-
-	public void insertMyCashHistory(donateVO vo);
-
-	public void insertBoardUserCashHistory(donateVO vo);
 
 	public int insertReportdata(reportVO vo);
 
@@ -82,6 +80,6 @@ public interface BoardMapper {
 	 
 	public int deleteScrapData(@Param("board_num") int board_num, @Param("userId") String userId);
 	
-	public void minusMycash(@Param("money") int money, @Param("userId") String userId);
-
+	public void updateReplyCnt(@Param("board_num") Long board_num, @Param("amount") int amount);
+	
 }
