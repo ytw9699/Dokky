@@ -1,4 +1,4 @@
-<%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
+<%-- <%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c"%>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/fmt" prefix="fmt"%>
 <%@ taglib uri="http://www.springframework.org/security/tags" prefix="sec" %>
@@ -85,13 +85,13 @@
 		         	  <label for="inputFile" class="inputButton" >파일</label>    
 			          <input type="file" id="inputFile" name='uploadFile' multiple>
 			      </li> 
-			       <%--  <sec:authentication property="principal" var="userInfo"/>
+			        <sec:authentication property="principal" var="userInfo"/>
 				 
 				 	<sec:authorize access="isAuthenticated()">
 				        <c:if test="${userInfo.username eq board.userId}">
 				       		 <button type="submit">수정완료</button>
 				        </c:if>
-			        </sec:authorize> --%> 
+			        </sec:authorize> 
 		          <li class="submit">
 		          	<button type="submit" class="submitButton">등록</button> 
 		          </li>
@@ -120,7 +120,7 @@
 		    
 		    var board_num = '<c:out value="${board.board_num}"/>';
 		    
-		    $.getJSON("/board/getAttachList", {board_num: board_num}, function(arr){
+		    $.getJSON("/board/attachList", {board_num: board_num}, function(arr){
 		    
 			      var fileStr ="";
 			      var photoStr ="";
@@ -542,4 +542,4 @@
 </script>
 
 </body>
-</html>
+</html> --%>

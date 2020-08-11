@@ -22,7 +22,9 @@ import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Service;
-	import lombok.Setter;
+import org.springframework.transaction.annotation.Transactional;
+
+import lombok.Setter;
 	import lombok.extern.log4j.Log4j;
 
 @Log4j
@@ -31,6 +33,23 @@ public class CommonServiceImpl implements CommonService {
 
 	@Setter(onMethod_ = @Autowired)
 	private CommonMapper mapper;
+	
+	@Override 
+	public boolean getIdCheckedVal(String profileId) {
+
+		log.info("getIdCheckedVal...");
+		
+		return mapper.getIdCheckedVal(profileId) == 1;
+	}
+
+	@Transactional
+	@Override 
+	public boolean updateLoginDate(String userName) {
+		
+		log.info("updateLoginDate..."); 
+		
+		return mapper.updatePreLoginDate(userName) == 1 && mapper.updatelastLoginDate(userName) == 1;
+	}
 	
 	@Override 
 	public boolean insertVisitor(VisitCountVO vo) {  

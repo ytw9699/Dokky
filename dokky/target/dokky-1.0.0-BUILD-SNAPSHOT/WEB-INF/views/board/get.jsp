@@ -228,7 +228,7 @@
 </div>
 
 <div> 
-	<form id='operForm' action="/board/modify" method="get">
+	<form id='operForm' action="/board/modifyForm" method="get">
 		  <input type="hidden" id='csrf' name="${_csrf.parameterName}" value="${_csrf.token}"/>
 		  <input type='hidden' id='userId' name='userId' value='<c:out value="${board.userId}"/>'>    
 		  <input type='hidden' id='board_num' name='board_num' value='<c:out value="${board.board_num}"/>'>
@@ -237,6 +237,12 @@
 		  <input type='hidden' name='amount' value='<c:out value="${cri.amount}"/>'>
 		  <input type='hidden' name='keyword' value='<c:out value="${cri.keyword}"/>'>
 		  <input type='hidden' name='type' value='<c:out value="${cri.type}"/>'>  
+	</form>
+	<form id='downForm' action="/downloadS3File" method="post">
+		  <input type="hidden" id='csrf' name="${_csrf.parameterName}" value="${_csrf.token}"/>
+		  <input type='hidden' name='uuid' value=''>
+		  <input type='hidden' name='filename' value=''>
+		  <input type='hidden' name='path' value=''>
 	</form>
 </div>
 	
@@ -432,7 +438,7 @@
 	
 	function showReplyList(page){//댓글 리스트 가져오기
 		
-	    replyService.getList({board_num:board_num, page: page || 1 }, function(data) {
+	    replyService.readList({board_num:board_num, page: page || 1 }, function(data) {
 	    	var replyList = $(".replyList");//댓글리스트 ul  
 	    	var replyCntVal = $(".replyCntVal");//댓글 갯수 div
 			var str ="";
@@ -850,8 +856,9 @@
 	$("#remove_button").on("click", function(e){//게시글 삭제
 		
 		deleting('정말 삭제 하시겠습니까?', function() {
-				  operForm.attr("action","/board/remove").attr("method","post");
-			      operForm.submit();
+				
+			    operForm.attr("action","/board/remove").attr("method","post");
+		        operForm.submit();
 		});
 	
 		/* if(func_confirm('정말 삭제 하시겠습니까?')){
@@ -875,7 +882,6 @@
 					
 					 if(result == 'success'){
 						 scrapCount = 1;
-						 openAlert("스크랩 하였습니다");
 					 }
 					 else if(result == 'fail'){
 						 openAlert("스크랩을 할 수 없습니다. 관리자에게 문의주세요");
@@ -888,7 +894,6 @@
 					
 					if(result == 'success'){
 						 scrapCount = 0;
-						 openAlert("스크랩을 취소하였습니다"); 
 					}			 	 
 					else if(result == 'fail'){
 						 openAlert("스크랩을 삭제 할 수 없습니다. 관리자에게 문의주세요");
@@ -926,8 +931,8 @@
 						 	boardLikeVO : likeData,
 						 	alarmVO     : alarmData
 	 					 };
-		 
-	   	replyService.updateLike(commonData, function(result){
+	    
+	   	replyService.likeBoard(commonData, function(result){
 	   	
 			   	var likeCount = $("#likeCount");
 			  	likeCount.html(result);
@@ -965,7 +970,7 @@
 						 	alarmVO        : alarmData
 			 			 }
 		
-		replyService.updateDisLike(commonData, function(result){
+		replyService.disLikeBoard(commonData, function(result){
 		   	 
 			   	var dislikeCount = $("#dislikeCount");
 			   	dislikeCount.html(result);
@@ -1006,11 +1011,25 @@
 							 	alarmVO     : alarmData
 		 					 };
 	
-			replyService.updateReplyLike(commonData, function(result){
-			 
-				var replyLikeCount = $("#replyLikeCount"+reply_num);
-					replyLikeCount.html(result);
-		    });
+			replyService.likeReply(commonData,  
+					
+				function(result, status){
+					
+					if(status == "success"){ 
+						
+						var replyLikeCount = $("#replyLikeCount"+reply_num);
+						replyLikeCount.html(result);
+					}
+	   	    	},
+	   	    
+	   	    	function(status){
+	   	    	
+					if(status == "error"){ 
+						
+						openAlert("Server Error(관리자에게 문의해주세요)");
+					}
+	   	    	}
+			);
 	});
 	
 	///////////////////////////////////////////////////////
@@ -1047,12 +1066,25 @@
 							 	   alarmVO     : alarmData
 		 					 };
 			
-			replyService.updateReplyDisLike(commonData, function(result){
-			 
-				var replyDisLikeCount = $("#replyDisLikeCount"+reply_num);
-					replyDisLikeCount.html(result);
+			replyService.disLikeReply(commonData,   
 					
-	 	 	});
+					function(result, status){
+						
+						if(status == "success"){ 
+							
+							var replyDisLikeCount = $("#replyDisLikeCount"+reply_num);
+							replyDisLikeCount.html(result);
+						}
+		   	    	},
+		   	    
+		   	    	function(status){
+		   	    	
+						if(status == "error"){ 
+							
+							openAlert("Server Error(관리자에게 문의해주세요)");
+						}
+		   	    	}
+			);
 	});
 	
 	///////////////////////////////////////////////////////이하 게시판,댓글 - 기부 관련
@@ -1154,6 +1186,7 @@
 		}
 		
 		if(option === 'board'){//게시글 기부시
+			
 			var donateData = {	 board_num 	: board_num, //글번호
 							 	 userId     : myId, //기부하는 아이디
 							 	 nickName   : myNickName, //기부하는 닉네임 
@@ -1213,15 +1246,32 @@
 								 	alarmVO          : alarmData
 		 						}	
 			
-				replyService.updateReplyDonation(commonData, function(result){
-				
-					var replyMoney= $("#replyMoney"+donate_reply_num);
-					replyMoney.html(result+"\\"); 
-				   	
-					closeDonateModal();
+				replyService.giveReplyWriterMoney(commonData, 
+						
+					function(result, status){
 					
-					openAlert("기부 하였습니다");
-		   	    });
+						if(status == "success"){ 
+							
+							var replyMoney= $("#replyMoney"+donate_reply_num);
+							
+							replyMoney.html(result+"\\"); 
+						   	
+							closeDonateModal();
+							
+							openAlert("기부 하였습니다");
+						}
+		   	    	},
+		   	    
+		   	    	function(status){
+		   	    	
+						if(status == "error"){ 
+							
+							closeDonateModal();
+							
+							openAlert("기부 할 수 없습니다");
+						}
+		   	    	}
+				);
 		}
 	});
 	
@@ -1376,11 +1426,26 @@
 							  };
 		 	}
 		 	
-			replyService.add(commonData, function(result){
-			        reply_contents.val("");
-			        
-			        showReplyList(-1);//다시 댓글 목록 마지막 페이지 보여주기
-			}); 
+			replyService.create(commonData,
+					
+					function(result, status){
+					
+						if(status == "success"){ 
+							
+							reply_contents.val("");
+						        
+					        showReplyList(-1);//다시 댓글 목록 마지막 페이지 보여주기		
+						}
+		   	    	},
+		   	    
+		   	    	function(status){
+		   	    	
+						if(status == "error"){ 
+							
+							openAlert("Server Error(관리자에게 문의해주세요)");
+						}
+		   	    	}
+			); 
     });
 		 
 	/////////////////////////////////////////////////////////대댓글
@@ -1462,16 +1527,30 @@
 					 	  		} 
 	          }
 			  
-	     	  replyService.add(commonData, function(result){
-	        	    
-	     			reReplyWriteForm.css("display","none"); 
-	     	 
-	     			reReply_contents.val("");//대댓글 내용  비우기 
-	     			
-	     			$(".replyWriteForm").after(reReplyWriteForm);//댓글 리스트가 리셋되면 폼이 사라지니까 다시 붙여두기 
-			         
-			        showReplyList(-1);//댓글 목록 마지막 페이지 보여주기
-		     }); 
+	     	  replyService.create(commonData, 
+						
+						function(result, status){
+						
+							if(status == "success"){ 
+								
+								reReplyWriteForm.css("display","none"); 
+						     	 
+				     			reReply_contents.val("");//대댓글 내용  비우기 
+				     			
+				     			$(".replyWriteForm").after(reReplyWriteForm);//댓글 리스트가 리셋되면 폼이 사라지니까 다시 붙여두기 
+						         
+						        showReplyList(-1);//댓글 목록 마지막 페이지 보여주기
+							}
+			   	    	},
+			   	    
+			   	    	function(status){
+			   	    	
+							if(status == "error"){ 
+								
+								openAlert("Server Error(관리자에게 문의해주세요)");
+							}
+			   	    	}
+			 ); 
     });
 	
 	
@@ -1520,8 +1599,15 @@
 							     };
 				   	  
 			   	     replyService.updateReply(reply, function(result){
-				   	        
-				   	    	showReplyList(pageNum);//수정후 댓글 페이지 유지하면서 리스트 다시불름
+			   	    	 
+			   	    	if(result == "success"){
+			   	    		
+			   	    		showReplyList(pageNum);//수정후 댓글 페이지 유지하면서 리스트 다시불름
+			   	    		
+			   	    	}else if( result == "fail"){
+			   	    		openAlert("댓글을 수정 할수 없습니다");
+			   	    	}
+				   	    	
 			   	     });
 		   	  });   
 			    
@@ -1557,7 +1643,7 @@
 		});
 	}); 
 	///////////////////////////////////////////////////////
-
+	
    $(document).ready(function(){//첨부파일 즉시 함수
     	  
 	  	 (function(){//즉시실행함수 
@@ -1593,8 +1679,14 @@
 		    var filename = liObj.data("filename");
 		    var uuid = liObj.data("uuid");
 		    
-		    if(!liObj.data("type")){//파일이라면  
-		    	self.location ="/fileDownload?uuid="+uuid+"&filename="+filename+"&path="+path
+		    if(!liObj.data("type")){//파일이라면
+		    	
+		    	var downForm = $("#downForm");
+		    
+		    	downForm.find("input[name='uuid']").val(uuid);
+		    	downForm.find("input[name='filename']").val(filename);
+		    	downForm.find("input[name='path']").val(path);
+			    downForm.submit();
 		    }
 	});
    
@@ -1604,7 +1696,7 @@
     	    
 			$(".bigPictureWrapper").css("display","flex").show(); 
     	    
-    	    $(".bigPicture").html("<img src='/displayS3?path="+path+"&filename="+filename+"'>");
+    	    $(".bigPicture").html("<img src='/s3Image?path="+path+"&filename="+filename+"'>");
     	    
     	    $("#profileGray").css("display","block");
    }

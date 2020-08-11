@@ -137,13 +137,7 @@
 	    padding: 34px;
 	    background-color: white;
 	}
-    .modprofileText { 
-	    display: block;
-	    font-size: 23px;
-	    text-align: center;
-	    margin-bottom: 5%;
-	    color: #7151fc; 
-	}
+	
 	.profileButtons {
 	   width: 32%;
 	    margin: 0 auto;
@@ -185,6 +179,7 @@
 	    font-size: 20px; 
 	    text-align: center;
 	    margin-top: 5%;
+	    cursor: pointer;
 	}
 	 
 	#myImage{

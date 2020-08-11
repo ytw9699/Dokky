@@ -242,13 +242,18 @@ public class MypageController {
 		
 		log.info("/mypage/myCashInfo");
 		
-		String userCash = boardService.getuserCash(userId);//나의 잔여캐시 가져오기
+		String myCash = boardService.getMyCash(userId);//나의 잔여캐시 가져오기
 		
-		log.info("getuserCash...="+userCash);
-		
-		model.addAttribute("userCash", userCash);
-		
-		return "mypage/myCashInfo";
+		if(myCash == null) {
+
+			return "redirect:/serverError";
+
+		}else{
+			
+			model.addAttribute("myCash", myCash);
+			
+			return "mypage/myCashInfo";
+		}
 	}
 	
 	@PreAuthorize("principal.username == #vo.userId")  

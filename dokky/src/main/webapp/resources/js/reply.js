@@ -127,11 +127,11 @@ var replyService = (function() {
 				(dd > 9 ? '' : '0') + dd, ' ', (hh > 9 ? '' : '0') + hh, ':', (mi > 9 ? '' : '0') + mi].join('');
 	}
 
-	function updateLike(commonData, callback, error) {//좋아요 업데이트
+	function likeBoard(commonData, callback, error) {//좋아요 업데이트
 
 		$.ajax({
-				type : 'put', 
-				url : '/board/likeCount', 
+				type : 'post', 
+				url : '/board/likeBoard', 
 				data : JSON.stringify(commonData), 
 				contentType : "application/json; charset=utf-8",
 				success : function(result, status, xhr) {
@@ -147,11 +147,11 @@ var replyService = (function() {
 		});
 	}
 	
-	function updateDisLike(commonData, callback, error) {//싫어요 업데이트
+	function disLikeBoard(commonData, callback, error) {//싫어요 업데이트
 
 		$.ajax({
-				type : 'put', 
-				url : '/board/dislikeCount',  
+				type : 'post', 
+				url : '/board/disLikeBoard',  
 				data : JSON.stringify(commonData), 
 				contentType : "application/json; charset=utf-8",
 				success : function(result, status, xhr) {
@@ -207,17 +207,17 @@ var replyService = (function() {
 		});
 	}
 	
-	function getUserCash(userId, callback, error) {
+	function getMyCash(userId, callback, error) {
 
-		$.get("/board/usercash/" + userId, function(result) {
+		$.get("/board/myCash/" + userId, function(result, status) {
 
 			if (callback) {
-				callback(result);
+				callback(result, status);
 			}
 
 		}).fail(function(xhr, status, err) {
 			if (error) {
-				error();
+				error(status);
 			}
 		});
 	}
@@ -239,22 +239,21 @@ var replyService = (function() {
 		});
 	}*/
 	
-	
-	function updateDonation(commonData, callback, error) {//게시글 기부하기
+	function giveBoardWriterMoney(commonData, callback, error) {//게시글 기부하기
 		
 		$.ajax({
-			type : 'put', 
-			url : '/board/donateMoney',  
+			type : 'post', 
+			url : '/board/giveBoardWriterMoney',  
 			data : JSON.stringify(commonData), 
 			contentType : "application/json; charset=utf-8",
 			success : function(result, status, xhr) {
 				if (callback) {
-					callback(result);
+					callback(result, status);
 				}
 			},
 			error : function(xhr, status, er) {
 				if (error) {
-					error(er);
+					error(status);
 				}
 			}
 		});
@@ -278,7 +277,7 @@ var replyService = (function() {
 					}
 				}
 			});
-		}
+	}
 	
 	function postScrapData(scrapData, callback, error) {
 		
@@ -287,12 +286,12 @@ var replyService = (function() {
 				url : '/board/scrapData/' + scrapData.board_num + '/' + scrapData.userId,
 				success : function(result, status, xhr) {
 					if (callback) {
-						callback(result,xhr);
+						callback(result, status);
 					}
 				},
 				error : function(xhr, status, er) {
 					if (error) {
-						error(xhr,er);
+						error(status);
 					}
 				}
 		});
@@ -305,32 +304,32 @@ var replyService = (function() {
 				url : '/board/scrapData/' + scrapData.board_num + '/' + scrapData.userId,
 				success : function(result, status, xhr) {
 					if (callback) {
-						callback(result,xhr);
+						callback(result, status);
 					}
 				},
 				error : function(xhr, status, er) {
 					if (error) {
-						error(xhr,er);
+						error(status);
 					}
 				}
 		});
 	}
 	
-	function report(commonData, callback, error) {
+	function report(reportData, callback, error) {
 		
 			$.ajax({
 				type : 'post',
 				url : '/board/report',
-				data : JSON.stringify(commonData),
+				data : JSON.stringify(reportData),
 				contentType : "application/json; charset=utf-8",
 				success : function(result, status, xhr) {
 					if (callback) { 
-						callback(result);
+						callback(status);
 					}
 				},
 				error : function(xhr, status, er) {
 					if (error) {
-						error(er);
+						error(status);
 					}
 				}
 			})
@@ -382,12 +381,12 @@ var replyService = (function() {
 		remove : remove, 
 		updateReply : updateReply,
 		displayTime : displayTime,
-		updateLike : updateLike,
-		updateDisLike : updateDisLike,
+		likeBoard : likeBoard,
+		disLikeBoard : disLikeBoard,
 		likeReply : likeReply,
 		disLikeReply : disLikeReply,
-		getUserCash : getUserCash,
-		updateDonation : updateDonation,
+		getMyCash : getMyCash,
+		giveBoardWriterMoney : giveBoardWriterMoney,
 		giveReplyWriterMoney : giveReplyWriterMoney,
 		postScrapData : postScrapData,
 		deleteScrapData : deleteScrapData,

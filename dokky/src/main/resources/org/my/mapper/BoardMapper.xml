@@ -155,6 +155,10 @@
 				 where rn > (#{pageNum} -1) * #{amount} and rn <= #{pageNum} * #{amount}
 				]]>	
 	</select>
+	
+	<select id="getTotalCount" resultType="int">
+		select count(*) from DK_BOARD where category = #{category} and <include refid="criteria"></include>  board_num > 0
+	</select>
 			
 	<select id="getAllList" resultType="org.my.domain.BoardVO"> 
 		 <![CDATA[
@@ -238,8 +242,12 @@
 			]]>	
 	</select>
 	
+	<select id="getAllTotalCount" resultType="int">
+		select count(*) from DK_BOARD where <include refid="criteria"></include>  board_num > 0
+	</select>
+	
 	<!-- insert문이 실행되고 생성된 PK board_num 값을 알아야 하는 경우 -->
-	<insert id="insertSelectKey">
+	<insert id="register">
 	
 		<selectKey keyProperty="board_num" order="BEFORE" resultType="long">
 				select seq_dk_board.nextval from dual
@@ -261,21 +269,21 @@
 		               )
 	</insert>
 	
-	<select id="read" resultType="org.my.domain.BoardVO">
-		select * from DK_BOARD where board_num = #{board_num}
-	</select>
-	
-	<select id="getRecentBoard_num" resultType="long">
+	<select id="getScrapCnt" resultType="int">
 		<![CDATA[
-			select BOARD_NUM from DK_BOARD WHERE ROWNUM <= 1 order by BOARD_NUM desc 
-		]]>	
+			select count(*) from dk_scrap where userId = #{userId} and board_num = #{board_num}
+		]]>
 	</select>
 	
 	<update id="updateHitCnt">
 		update dk_board set hitCnt = hitCnt+1 where board_num = #{board_num}
 	</update>
 	
-	<update id="update">
+	<select id="read" resultType="org.my.domain.BoardVO">
+		select * from DK_BOARD where board_num = #{board_num}
+	</select>
+	
+	<update id="updateBoard">
 		update DK_BOARD 
 			set title= #{title},
 			category= #{category},
@@ -284,109 +292,84 @@
 		where board_num = #{board_num}
 	</update>
 	
-	<delete id="delete">
+	<delete id="deleteBoard">
 		delete DK_BOARD where board_num = #{board_num} 
 	</delete>
 	
-	<select id="getTotalCount" resultType="int">
-		select count(*) from DK_BOARD where category = #{category} and <include refid="criteria"></include>  board_num > 0
+	<!-- 글 좋아요 버튼 누름 여부 체크-->	
+	<select id="checkBoardLikeButton" resultType="int">
+		select count(*) from dk_board_like where userId = #{userId} and board_num = #{board_num}
 	</select>
 	
-	<select id="getAllTotalCount" resultType="int">
-		select count(*) from DK_BOARD where <include refid="criteria"></include>  board_num > 0
+	<!-- 글 싫어요 버튼 누름 여부 체크-->	
+	<select id="checkBoardDisLikeButton" resultType="int">
+		select count(*) from dk_board_dislike where userId = #{userId} and board_num = #{board_num}
 	</select>
 	
-  	<!-- 해당 글의 댓글 갯수 하나 늘리거나 빼기 --> 
-  	<update id="updateReplyCnt">
-  		update dk_board set replycnt = replycnt + #{amount} where board_num = #{board_num}
-  	</update> 
-  	
-	<!-- 좋아요 누르기 -->
-	<update id="pushLike">
+	<!-- 글 좋아요 버튼 누르기 -->
+	<insert id="pushBoardLikeButton">
+	
+		insert into dk_board_like (	    userId
+									  , board_num
+								  )
+							values (   #{userId}
+									  ,#{board_num}
+									)
+	</insert>
+	
+	<!-- 글 싫어요 버튼 누르기 -->
+	<insert id="pushBoardDisLikeButton">
+	
+		insert into dk_board_dislike (	    userId
+									  , board_num
+								  )
+							values (   #{userId}
+									  ,#{board_num}
+									)
+	</insert>
+	
+	<!-- 글 좋아요 카운트 +1 더하기 -->
+	<update id="plusBoardLikeCount">
 		update DK_BOARD set likeCnt = likeCnt + 1 where board_num = #{board_num}
 	</update>
 	
-	<!-- 싫어요 누르기  -->
-	<update id="pushDisLike">
+	<!-- 글 싫어요 카운트 -1 더하기 -->
+	<update id="plusBoardDisLikeCount">
 		update DK_BOARD set dislikeCnt = dislikeCnt - 1 where board_num = #{board_num}
 	</update>
 	
-	<!-- 싫어요 취소  -->
-	<update id="pullDisLike">
-		update DK_BOARD set dislikeCnt = dislikeCnt + 1 where board_num = #{board_num}
-	</update>
+	<!-- 글 좋아요 버튼 당기기(취소) -->
+	<delete id="pullBoardLikeButton">
+		delete from dk_board_like where userId = #{userId} and board_num = #{board_num}
+	</delete>
 	
-	<!-- 좋아요 취소  -->
-	<update id="pullLike">
+	<!-- 글 싫어요 버튼 당기기(취소) -->
+	<delete id="pullBoardDisLikeButton">
+		delete from dk_board_dislike where userId = #{userId} and board_num = #{board_num}
+	</delete>
+
+	<!-- 글 좋아요 카운트 빼기(-1) -->
+	<update id="minusBoardLikeCount">
 		update DK_BOARD set likeCnt = likeCnt - 1 where board_num = #{board_num}
 	</update>
 	
-	<!-- 좋아요 체크값을 pull로 변경 -->
-	<update id="pullLikeValue">
-		update dk_board_like set likeValue = 'pull' where userId = #{userId} and board_num = #{board_num}
+	<!-- 글 싫어요 카운트 빼기(+1) -->
+	<update id="minusBoardDisLikeCount">
+		update DK_BOARD set dislikeCnt = dislikeCnt + 1 where board_num = #{board_num}
 	</update>
-	
-	<!-- 싫어요 체크값을 pull로 변경 -->
-	<update id="pulldislikeCheck">
-		update dk_board_dislike set dislikeValue = 'pull' where userId = #{userId} and board_num = #{board_num}
-	</update>
-	
-	<!-- 좋아요 체크값을 push로 변경 -->
-	<update id="pushLikeValue">
-		update dk_board_like set likeValue = 'push' where userId = #{userId} and board_num = #{board_num}
-	</update>
-	
-	<!-- 싫어요 체크값을 push로 변경 -->
-	<update id="pushDislikeValue">
-		update dk_board_dislike set dislikeValue = 'push' where userId = #{userId} and board_num = #{board_num}
-	</update>
-	
-	<!-- 좋아요 값 체크 -->	
-	<select id="checkLikeValue" resultType="String">
-		select likeValue from dk_board_like where userId = #{userId} and board_num = #{board_num}
-	</select>
-	
-	<!-- 싫어요 값 체크 -->	 
-	<select id="checkDisLikeValue" resultType="String">
-		select dislikeValue from dk_board_dislike where userId = #{userId} and board_num = #{board_num}
-	</select>
-	
-	<!-- 좋아요 컬럼 등록 -->
-	<insert id="registerLike">
-		insert into dk_board_like (   userId
-									, board_num
-									, likeValue
-								  )
-							values (  #{userId}
-									, #{board_num}
-									, 'push'
-								   )
-	</insert>
-	
-	<!-- 싫어요 컬럼 등록 -->
-	<insert id="registerDisLike">
-		insert into dk_board_dislike(     userId
-										, board_num
-										, dislikeValue
-									)
-							 values (	   #{userId}
-										 , #{board_num}
-										 , 'push'
-										 )
-	</insert>
 	
 	<!-- 좋아요 카운트 가져오기 -->
 	<select id="getLikeCount" resultType="String">
 		select likeCnt from DK_BOARD where board_num = #{board_num}
 	</select>
-	 
-	<!-- 싫어요 카운트 가져오기 -->
+	
+	<!-- 글 싫어요 카운트 가져오기 -->
 	<select id="getDisLikeCount" resultType="String">
 		select dislikeCnt from DK_BOARD where board_num = #{board_num}
 	</select>
 	
 	<!-- 나의 캐시 가져오기 -->
-	<select id="getuserCash" resultType="String">
+	<select id="getMyCash" resultType="String">
 		select cash from DK_member where userId = #{userId}
 	</select>
 	
@@ -395,23 +378,8 @@
 	    update dk_member set cash = cash - #{money} where userId = #{userId}
 	</update> 
 	
-	<!-- 기부받는자 캐시 증감하기 -->
-	<update id="updateBoardUserCash">
-	    update dk_member set cash = cash + #{money} where userId = #{donatedId}
-	</update> 
-	
-	<!-- 게시글의 기부금액 증감하기 -->
-	<update id="updateBoardMoney"> 
-	    update dk_board set MONEY = MONEY + #{money} where board_num = #{board_num}
-	</update> 
-	
-	<!-- 게시글의 기부금액 조회하기 -->
-	<select id="getBoardMoney" resultType="String">
-		select money from dk_board where board_num = #{board_num}
-	</select>
-	
 	<!-- 내 캐시 히스토리 입력 -->
-	<insert id="insertMyCashHistory">
+	<insert id="createMyCashHistory">
 			insert into dk_cash ( cash_num
 								, cashKind
 								, cashAmount
@@ -431,8 +399,13 @@
 									)
 	</insert>
 	
+	<!-- 기부받는자 캐시 증감하기 -->
+	<update id="plusBoardUserCash">
+	    update dk_member set cash = cash + #{money} where userId = #{donatedId}
+	</update> 
+	
 	<!-- 게시글 유저 캐시 히스토리 입력 -->
-	<insert id="insertBoardUserCashHistory">
+	<insert id="createBoardUserCashHistory">
 			insert into dk_cash ( cash_num
 								, cashKind
 								, cashAmount
@@ -453,7 +426,17 @@
 										)
 	</insert>
 	
-	<insert id="insertReportdata">
+	<!-- 게시글의 기부금액 증감하기 -->
+	<update id="plusBoardMoney"> 
+	    update dk_board set MONEY = MONEY + #{money} where board_num = #{board_num}
+	</update> 
+	
+	<!-- 게시글의 기부금액 조회하기 -->
+	<select id="getBoardMoney" resultType="String">
+		select money from dk_board where board_num = #{board_num}
+	</select>
+	
+	<insert id="createReportdata">
 			insert into dk_report ( 	report_num
 									  , reportKind
 									  , reportingId
@@ -475,33 +458,23 @@
 										)
 	</insert>
 	
-	<!-- 하위 스크랩 관련 -->
-	<select id="getScrapCnt" resultType="int">
-		<![CDATA[
-			select count(*) from dk_scrap where userId = #{userId} and board_num = #{board_num}
-		]]>
-	</select>
+	<insert id="postScrapData">
+		insert into dk_scrap (scrap_num, userId, board_num) values (seq_dk_scrap.nextval, #{userId}, #{board_num})
+	</insert>
 	
 	<delete id="deleteScrapData">
 		delete dk_scrap where userId = #{userId} and board_num = #{board_num}
 	</delete>
 	
-	<insert id="insertScrapData">
-		insert into dk_scrap (scrap_num, userId, board_num) values (seq_dk_scrap.nextval, #{userId}, #{board_num})
-	</insert>
+	<select id="getRecentBoard_num" resultType="long">
+		<![CDATA[
+			select BOARD_NUM from DK_BOARD WHERE ROWNUM <= 1 order by BOARD_NUM desc 
+		]]>	
+	</select>
 	
-	<!--  select reply_num, num, reply_content, userId, replydate
-		 from 
-		   (
-		    select /*+INDEX_DESC(DK_REPLY pk_reply) */ 
-		      rownum rn, reply_num, num, reply_content, userId, replydate
-		    from DK_REPLY
-		    where userId = #{userId}
-		    and reply_num > 0
-		    and rownum <= #{pageNum} * #{amount}
-		   ) where rn > (#{pageNum} -1) * #{amount}  -->
-		
-	
-	<!-- 상위 스크랩 관련 -->
+	<!-- 해당 글의 댓글 갯수 하나 늘리거나 빼기 --> 
+  	<update id="updateReplyCnt">
+  		update dk_board set replycnt = replycnt + #{amount} where board_num = #{board_num}
+  	</update> 
 
 </mapper>

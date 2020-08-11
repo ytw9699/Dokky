@@ -12,80 +12,74 @@ public interface BoardMapper {
 
 	public List<BoardVO> getList(Criteria cri); 
 	
-	public List<BoardVO> getAllList(Criteria cri);
-	
 	public List<BoardVO> getListWithOrder(Criteria cri);
-
-	public Integer insertSelectKey(BoardVO board);
 	
-	public BoardVO read(Long board_num);
-
-	public int delete(Long bno);
-
-	public int update(BoardVO board);
-
 	public int getTotalCount(Criteria cri);
 	
-	public void updateReplyCnt(@Param("board_num") Long board_num, @Param("amount") int amount);
-
+	public List<BoardVO> getAllList(Criteria cri);
+	
+	public List<BoardVO> getAllListWithOrder(Criteria cri);
+	
+	public int getAllTotalCount(Criteria cri);
+	
+	public int register(BoardVO board);
+	
+	public int getScrapCnt(@Param("board_num") Long board_num, @Param("userId") String userId);
+	
 	public int updateHitCnt(Long board_num);//조회수 증가
+	
+	public BoardVO read(Long board_num);
+	
+	public int updateBoard(BoardVO board);
 
-	public int pushLike(Long board_num);
+	public int deleteBoard(Long bno);
 	
-	public int pullDisLike(Long board_num);
+	public int checkBoardLikeButton(BoardLikeVO vo);
 	
-	public int pullLike(Long board_num);
+	public int checkBoardDisLikeButton(BoardDisLikeVO vo);
 	
-	public int pushDisLike(Long board_num);
+	public int pushBoardLikeButton(BoardLikeVO vo);
+	
+	public int pushBoardDisLikeButton(BoardDisLikeVO vo);
 
-	public String checkLikeValue(BoardLikeVO vo);
+	public int plusBoardLikeCount(Long board_num);
 	
-	public String checkDisLikeValue(BoardDisLikeVO vo);
+	public int plusBoardDisLikeCount(Long board_num);
+	
+	public int pullBoardLikeButton(BoardLikeVO vo);
+	
+	public int pullBoardDisLikeButton(BoardDisLikeVO vo);
 
-	public int registerLike(BoardLikeVO vo);
+	public int minusBoardLikeCount(Long board_num);
 	
-	public int registerDisLike(BoardDisLikeVO vo);
-
-	public void pushLikeValue(BoardLikeVO vo);
-	
-	public void pulldislikeCheck(BoardDisLikeVO vo);
-	
-	public void pullLikeValue(BoardLikeVO vo);
-
-	public void pushDislikeValue(BoardDisLikeVO vo);
+	public int minusBoardDisLikeCount(Long board_num);
 	
 	public String getLikeCount(Long board_num);
-
-	public String getDisLikeCount(Long board_num);
-
-	public String getuserCash(String userId); 
-
-	public String donateMoney(donateVO vo);
 	
-	public void updateBoardUserCash(donateVO vo);
-
-	public void updateBoardMoney(donateVO vo);
-
+	public String getDisLikeCount(Long board_num);
+	
+	public String getMyCash(String userId); 
+	
+	public void minusMycash(@Param("money") int money, @Param("userId") String userId);
+	
+	public void createMyCashHistory(donateVO vo);
+	
+	public void plusBoardUserCash(donateVO vo);
+	
+	public void createBoardUserCashHistory(donateVO vo);
+	
+	public void plusBoardMoney(donateVO vo);
+	
 	public String getBoardMoney(donateVO vo);
 
-	public void insertMyCashHistory(donateVO vo);
-
-	public void insertBoardUserCashHistory(donateVO vo);
-
-	public int insertReportdata(reportVO vo);
-
-	public int getAllTotalCount(Criteria cri);
-
-	public List<BoardVO> getAllListWithOrder(Criteria cri);
+	public int createReportdata(reportVO vo);
 
 	public Long getRecentBoard_num();
 	
-	public int insertScrapData(@Param("board_num") int board_num, @Param("userId") String userId);
+	public int postScrapData(@Param("board_num") int board_num, @Param("userId") String userId);
 	 
-	public int getScrapCnt(@Param("board_num") Long board_num, @Param("userId") String userId);
-
 	public int deleteScrapData(@Param("board_num") int board_num, @Param("userId") String userId);
 	
-	public void minusMycash(@Param("money") int money, @Param("userId") String userId);
-
+	public void updateReplyCnt(@Param("board_num") Long board_num, @Param("amount") int amount);
+	
 }
