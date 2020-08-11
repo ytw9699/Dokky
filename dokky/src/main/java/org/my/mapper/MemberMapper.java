@@ -13,8 +13,6 @@ public interface MemberMapper {
 
 	public int registerMember_auth(MemberVO vo);
 
-	public int IdCheckedCount(String inputId);
-
 	public int emailCheckedCount(String inputEmail);
 
 	public List<BoardVO> getRealtimeList();
@@ -22,9 +20,4 @@ public interface MemberMapper {
 	public List<BoardVO> getMonthlyList();
 
 	public List<BoardVO> getDonationList();
-	
-	public int updatePreLoginDate(String userName);
-
-	public int updatelastLoginDate(String userName);
-
 }

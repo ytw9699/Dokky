@@ -13,8 +13,6 @@ public interface MemberService {
 	
 	public boolean registerAdminMembers(MemberVO vo);
 
-	public boolean getIdCheckedVal(String inputId);
-
 	public boolean getEmailCheckedVal(String inputEmail);
 
 	public List<BoardVO> getRealtimeList();
@@ -22,8 +20,5 @@ public interface MemberService {
 	public List<BoardVO> getMonthlyList();
 
 	public List<BoardVO> getDonationList();
-	
-	public boolean updateLoginDate(String userName);
-
 	
 }

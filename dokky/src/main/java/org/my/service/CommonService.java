@@ -13,6 +13,10 @@ import org.springframework.security.core.Authentication;
 
 public interface CommonService {
 	 
+	public boolean getIdCheckedVal(String profileId);
+	
+	public boolean updateLoginDate(String userName);
+	
 	public boolean insertVisitor(VisitCountVO vo);
 
 	public int getVisitTodayCount();

@@ -1,13 +1,8 @@
 package org.my.controller;
 	import java.io.UnsupportedEncodingException;
-	import java.util.ArrayList;
-import java.util.Enumeration;
-import java.util.Iterator;
-import java.util.List;
+	import java.util.Iterator;
+	import java.util.List;
 	import java.util.Locale;
-import java.util.Random;
-
-	import javax.servlet.http.Cookie;
 	import javax.servlet.http.HttpServletRequest;
 	import javax.servlet.http.HttpServletResponse;
 	import javax.servlet.http.HttpSession;
@@ -29,12 +24,7 @@ import java.util.Random;
 	import org.springframework.http.ResponseEntity;
 	import org.springframework.security.access.prepost.PreAuthorize;
 	import org.springframework.security.core.Authentication;
-	import org.springframework.security.core.GrantedAuthority;
-	import org.springframework.security.core.authority.SimpleGrantedAuthority;
-	import org.springframework.security.core.context.SecurityContextHolder;
-	import org.springframework.security.core.userdetails.User;
 	import org.springframework.security.crypto.password.PasswordEncoder;
-	import org.springframework.security.web.savedrequest.SavedRequest;
 	import org.springframework.stereotype.Controller;
 	import org.springframework.ui.Model;
 	import org.springframework.web.bind.annotation.GetMapping;
@@ -50,8 +40,7 @@ import java.util.Random;
 	import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 	import lombok.Setter;
 	import lombok.extern.log4j.Log4j;
-	import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
-	
+		
 @Controller
 @Log4j 
 public class CommonController {
@@ -76,48 +65,104 @@ public class CommonController {
 	
 	@Setter(onMethod_ = @Autowired)
 	private AdminService adminService;
-		
 	
 	
-	/*@GetMapping("/adminLogin")
-	public String adminLogin(Model model, HttpServletRequest request, String error, String logout, String check){
+	@GetMapping("/socialLogin")//커스텀 로그인 페이지는 반드시 get방식 이어야 한다. 스프링 시큐리티의 특성임
+	public String getSocialLogin(String error, String logout, String check, Model model) throws UnsupportedEncodingException {
 		
-		log.info("/adminLogin");
-		log.info("error: " + error);
-		log.info("logout: " + logout);
-		log.info("check: " + check);
+		log.info("/socialLogin");
+		 
+		SNSLogin naverLogin = new SNSLogin(naverSns);//소셜로그인
 		
-		if(!request.isUserInRole("ROLE_ADMIN")) {//관리자가 아니라면 관리자 로그인 페이지로
-			
-			if (error != null) {
-				model.addAttribute("error", "Login Error Check Your Account");
-			}
-			if (logout != null) {
-				model.addAttribute("logout", "Logout!!");
-			}
-			if (check != null) {
-				if(check.equals("notId") ) {
-					model.addAttribute("check", "아이디가 없습니다.");
-				}else if(check.equals("notPassword") ) {
-					model.addAttribute("check", "비밀번호가 틀립니다.");
-				}
-				else if(check.equals("limit") ) {
-					model.addAttribute("check", "차단된 아이디입니다. 관리자에게 문의해주세요.");
-				}
-			}
-			
-			return "common/adminLogin";  
+		model.addAttribute("naver_url", naverLogin.getAuthURL());
+		
+		SNSLogin googleLogin = new SNSLogin(googleSns);
+		
+		model.addAttribute("google_url", googleLogin.getAuthURL());
+		
+		return "common/socialLogin";  
+	}
+	
+	@GetMapping("/auth/{snsService}/callback")
+	public String socialLoginCallback(@PathVariable String snsService, Model model, HttpServletRequest request,
+								      @RequestParam(value = "code", required = false) String code, RedirectAttributes rttr, 
+								      @RequestParam(value = "error", defaultValue = "noterror") String error) throws Exception {
+		
+		log.info("/auth/"+snsService+"/callback");
+		
+		if(error.equals("access_denied")) {//정보동의 수락안하고 취소눌를시
+			return "redirect:/socialLogin";
 		}
+		
+		SnsValue sns = null; 
+		
+		if ("naver".equals(snsService))
+			sns = naverSns;
+		else
+			sns = googleSns;
+		
+		SNSLogin snsLogin = new SNSLogin(sns);
+		
+		MemberVO profile = snsLogin.getUserProfile(code);//소셜로부터 사용자 profile 받기
+		
+		String profileId = profile.getUserId();
+		
+		if(!commonService.getIdCheckedVal(profileId)){//회원가입되어있지 않다면
+			
+			model.addAttribute("id", profileId);
+			model.addAttribute("nickName", profile.getNickName());
+			
+			return "common/memberForm";
+		}
+		
+		MemberVO memberVO = memberService.readMembers(profileId);//소셜에서 가져온 프로필에 해당하는 개인정보를 db에서 불러온다
+		
+		if(!memberVO.isEnabled()){//탈퇴한 회원 이라면
+			
+			model.addAttribute("id", profileId);
+			model.addAttribute("nickName", profile.getNickName());
+			model.addAttribute("bankName", memberVO.getBankName());
+			model.addAttribute("account", memberVO.getAccount());
+			
+			return "common/reMemberForm";//재가입 폼 이동
+		}
+		
+		Boolean result = commonService.setAuthentication(memberVO, true);//인증하면서 권한도 체크 true
+		
+		if(!result){
+			
+			rttr.addFlashAttribute("check", "접속 제한된 아이디입니다."); 
+			return "redirect:/socialLogin";
+		}
+		
+		commonService.updateLoginDate(profileId); //로긴날짜찍기
+		
+		HttpSession session = request.getSession();
+		
+		if (session != null) {
 
-		return "redirect:/admin/userList";//관리자라면 관리자 페이지로
-	}*/
+            String redirectUrl = (String)session.getAttribute("preUrl");
+            
+            if (redirectUrl != null) {
+          	   
+            	 log.info("redirectUrl="+redirectUrl);
+              	 
+                 session.removeAttribute("preUrl");
+                  
+                 return "redirect:"+redirectUrl;
+            }
+        }
+		
+		return "redirect:/main";
+	}
 	
 	@PostMapping("/members") 
 	public String postMembers(MemberVO vo, Model model, RedirectAttributes rttr) {//회원가입
 		
 		log.info("/members: vo" + vo); 
 		
-		vo.setUserPw(pwencoder.encode(""+Math.random()*10));//패스워드 랜덤 하게 만들어 암호화,이 암호가 없으면 시큐리티인증객체를 못만듬
+		vo.setUserPw(pwencoder.encode(""+Math.random()*10));
+		//패스워드 랜덤 하게 만들어 암호화,이 암호가 없으면 시큐리티인증객체를 못만듬
 		
 		if(memberService.registerMembers(vo)){
 			
@@ -158,80 +203,6 @@ public class CommonController {
 			
 			return "redirect:/socialLogin";
 		}
-	}
-	
-	@RequestMapping(value = "/auth/{snsService}/callback", method = { RequestMethod.GET, RequestMethod.POST})
-	public String snsLoginCallback(@PathVariable String snsService, Model model, 
-			@RequestParam(value="code", required=false) String code,HttpServletRequest request,
-			 RedirectAttributes rttr, @RequestParam(value = "error", defaultValue = "noterror") String error) throws Exception {
-		//https://dokky.ga/auth/naver/callback?error=access_denied&error_description=Canceled+By+User&state=
-		
-		log.info("snsLoginCallback");
-		
-		if(error.equals("access_denied")) {//정보동의 수락안하고 취소눌를시
-			return "redirect:/socialLogin";
-		}
-		
-		SnsValue sns = null; 
-		
-		if ("naver".equals(snsService))
-			sns = naverSns;
-		else
-			sns = googleSns;
-		
-		SNSLogin snsLogin = new SNSLogin(sns);
-		
-		MemberVO profile = snsLogin.getUserProfile(code);//사용자 profile 정보 가져오기
-		
-		String profileId = profile.getUserId();
-		
-		if(!memberService.getIdCheckedVal(profileId)){//회원가입되어있지 않다면 , DB 해당 유저가 존재하는 체크
-			
-			model.addAttribute("id", profileId);
-			model.addAttribute("nickName", profile.getNickName());
-			
-			return "common/memberForm";
-		}
-		
-		MemberVO memberVO = memberService.readMembers(profileId);//소셜에서 가져온 프로필에 해당하는 개인정보를 db에서 불러온다
-		
-		if(!memberVO.isEnabled()){//탈퇴한 회원 이라면
-			
-			model.addAttribute("id", profileId);
-			model.addAttribute("nickName", profile.getNickName());
-			model.addAttribute("bankName", memberVO.getBankName());
-			model.addAttribute("account", memberVO.getAccount());
-			
-			return "common/reMemberForm";//재가입 폼 이동
-		}
-		
-		Boolean result = commonService.setAuthentication(memberVO, true);//인증하면서 권한도 체크 true
-		
-		if(!result){
-			
-			rttr.addFlashAttribute("check", "접속 제한된 아이디입니다."); 
-			return "redirect:/socialLogin";
-		}
-		
-		memberService.updateLoginDate(profileId); //로긴날짜찍기
-		
-		HttpSession session = request.getSession();
-		
-		if (session != null) {
-
-            String redirectUrl = (String)session.getAttribute("preUrl");
-            
-            if (redirectUrl != null) {
-          	   
-            	 log.info("redirectUrl="+redirectUrl);
-              	 
-                 session.removeAttribute("preUrl");
-                  
-                 return "redirect:"+redirectUrl;
-            }
-            
-        }
-		return "redirect:/main";
 	}
 	
 	@GetMapping("/adminMemberForm")
@@ -448,25 +419,7 @@ public class CommonController {
 		
 		return "common/superAdminLogin";   
 	}
-	
     
-	@GetMapping("/socialLogin")//커스톰 로그인 페이지는 반드시 get방식 이여야한다.시큐리티의 특성임
-	public String loginInput(String error, String logout, String check, Model model) throws UnsupportedEncodingException {
-		
-		log.info("/socialLogin");
-		 
-		//소셜로그인
-		SNSLogin naverLogin = new SNSLogin(naverSns);
-		
-		model.addAttribute("naver_url", naverLogin.getAuthURL());//네이버 로그인 url가져오기
-		
-		SNSLogin googleLogin = new SNSLogin(googleSns);
-		
-		model.addAttribute("google_url", googleLogin.getAuthURL());//구글 로그인 url가져오기
-		
-		return "common/socialLogin";  
-	}
-	
 	/*@GetMapping("/socialLogin")//커스톰 로그인 페이지는 반드시 get방식 이여야한다.시큐리티의 특성임
 	public String loginInput(String error, String logout, String check, Model model,HttpServletRequest request, Authentication authentication) throws UnsupportedEncodingException {
 		
@@ -613,7 +566,7 @@ public class CommonController {
 		
 		log.info("/idCheckedVal"); 
 		
-		if(memberService.getIdCheckedVal(inputId)){
+		if(commonService.getIdCheckedVal(inputId)){
 			return new ResponseEntity<>("success", HttpStatus.OK);
 		}
 			return new ResponseEntity<>("fail", HttpStatus.OK);
@@ -999,6 +952,39 @@ public class CommonController {
 				return "redirect:/myNoteList?userId="+userId+"&pageNum="+cri.getPageNum()+"&amount="+cri.getAmount();
 			}
 	}
+	
+	/*@GetMapping("/adminLogin")
+	public String adminLogin(Model model, HttpServletRequest request, String error, String logout, String check){
+		
+		log.info("/adminLogin");
+		log.info("error: " + error);
+		log.info("logout: " + logout);
+		log.info("check: " + check);
+		
+		if(!request.isUserInRole("ROLE_ADMIN")) {//관리자가 아니라면 관리자 로그인 페이지로
+			
+			if (error != null) {
+				model.addAttribute("error", "Login Error Check Your Account");
+			}
+			if (logout != null) {
+				model.addAttribute("logout", "Logout!!");
+			}
+			if (check != null) {
+				if(check.equals("notId") ) {
+					model.addAttribute("check", "아이디가 없습니다.");
+				}else if(check.equals("notPassword") ) {
+					model.addAttribute("check", "비밀번호가 틀립니다.");
+				}
+				else if(check.equals("limit") ) {
+					model.addAttribute("check", "차단된 아이디입니다. 관리자에게 문의해주세요.");
+				}
+			}
+			
+			return "common/adminLogin";  
+		}
+
+		return "redirect:/admin/userList";//관리자라면 관리자 페이지로
+	}*/
 }
 		
 		 	

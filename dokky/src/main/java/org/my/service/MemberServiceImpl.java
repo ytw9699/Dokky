@@ -56,14 +56,6 @@ public class MemberServiceImpl implements MemberService {
 	}
 	
 	@Override 
-	public boolean getIdCheckedVal(String inputId) {
-
-		log.info("getDuplicatedId...");
-		
-		return mapper.IdCheckedCount(inputId) == 1;
-	}
-	
-	@Override 
 	public boolean getEmailCheckedVal(String inputEmail){
 
 		log.info("getEmailCheckedVal...");
@@ -91,14 +83,5 @@ public class MemberServiceImpl implements MemberService {
 		log.info("getDonationList: ");
 
 		return mapper.getDonationList();
-	}
-	
-	@Transactional
-	@Override 
-	public boolean updateLoginDate(String userName) {
-		
-		log.info("updateLoginDate..."); 
-		
-		return mapper.updatePreLoginDate(userName) == 1 && mapper.updatelastLoginDate(userName) == 1;
 	}
 }

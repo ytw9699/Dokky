@@ -3,7 +3,22 @@
   PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
   "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="org.my.mapper.CommonMapper">
-
+	
+	  <!-- 아이디 중복 체크 카운트 구하기 -->
+	  <select id="getIdCheckedVal" resultType="int">
+	 	 select count(*) from dk_member where userId= #{profileId}
+	  </select>
+	  
+	  <!-- 가장 마지막 이전의 로그인 날짜 업데이트 -->
+	  <update id="updatePreLoginDate">
+	 	 update dk_member set preLoginDate = lastLoginDate where userId = #{userId} 
+	  </update>
+	 
+	  <!-- 가장 마지막 로그인날짜 -->
+	  <update id="updatelastLoginDate">
+	 	 update dk_member set lastLoginDate = sysdate where userId = #{userId} 
+	  </update>
+	 
 	  <insert id="insertVisitor">
           insert into dk_visitor
             (

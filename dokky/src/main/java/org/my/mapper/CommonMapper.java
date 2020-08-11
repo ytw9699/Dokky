@@ -1,14 +1,19 @@
 package org.my.mapper;
 	import java.util.List;
-
-import org.apache.ibatis.annotations.Param;
-import org.my.domain.Criteria;
+	import org.apache.ibatis.annotations.Param;
+	import org.my.domain.Criteria;
 	import org.my.domain.VisitCountVO;
 	import org.my.domain.alarmVO;
 	import org.my.domain.noteVO;
 
 public interface CommonMapper {
+	
+	public int getIdCheckedVal(String profileId);
+	
+	public int updatePreLoginDate(String userName);
 
+	public int updatelastLoginDate(String userName);
+	
 	public int insertVisitor(VisitCountVO vo);
 
 	public int getVisitTodayCount();
