@@ -3,6 +3,84 @@
   PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
   "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="org.my.mapper.CommonMapper">
+		
+	<select id="getRealtimeBoardList" resultType="org.my.domain.BoardVO"> 
+		 SELECT /*+INDEX_DESC(DK_BOARD PK_DK_BOARD) */ money,
+		 											   replyCnt,
+		 										 	   board_num,
+		 										  	   title,
+		 										   	   nickName,
+		 										       regdate,
+		 										       hitCnt,
+		 										       userId,
+		 										       likeCnt
+		  from dk_board where <![CDATA[ rownum <= 5  ]]>
+	</select>
+	 
+	<select id="getMonthlyBoardList" resultType="org.my.domain.BoardVO"> 
+		select 	 
+				money,
+		 		replyCnt,
+			 	board_num, 
+			 	title, 
+			 	nickName, 
+			 	regdate, 
+			 	hitCnt,
+			 	userId,
+			 	likeCnt
+			 from (
+		SELECT 
+			money,
+			replyCnt,
+		 	board_num, 
+		 	title, 
+		 	nickName, 
+		 	regdate, 
+		 	hitCnt,
+		 	userId,
+		 	likeCnt
+		  from dk_board WHERE REGDATE >= SYSDATE-30 order by likeCnt desc,hitcnt desc,replycnt desc )
+		  where <![CDATA[ rownum <= 5 ]]>
+	</select>
+	
+	<select id="getDonationBoardList" resultType="org.my.domain.BoardVO"> 
+		<![CDATA[
+		 	select 	 
+		 		 money,
+	 			 replyCnt, 
+	 			 board_num, 
+	 			 title, 
+	 			 nickName, 
+	 			 regdate, 
+	 			 hitCnt,
+	 			 userId,
+	 			 likeCnt
+			 from 
+			   ( 
+			   SELECT
+			   	 money , 
+			   	 replyCnt, 
+			   	 board_num, 
+			   	 title, 
+			   	 nickName, 
+			   	 regdate, 
+			   	 hitCnt,
+			   	 userId,
+			   	 likeCnt
+			FROM 
+				  dk_board WHERE REGDATE >= SYSDATE-30 order by money desc )
+			
+			where rownum <= 5 
+			]]>
+	</select>
+	
+	<select id="getNickname" resultType="String">
+		select nickName from DK_MEMBER where userId = #{userId}
+	</select>
+	
+	<select id="getNicknameCheckedVal" resultType="int">
+			select count(*) from DK_MEMBER where nickName = #{nickName}
+	</select>
 	
 	  <!-- 아이디 중복 체크 카운트 구하기 -->
 	  <select id="getIdCheckedVal" resultType="int">
@@ -309,14 +387,6 @@
 			select enabled from dk_member where userId = #{userId}
        </select>
        
-       <select id="checkNickname" resultType="int">
-			select count(*) from DK_MEMBER where nickName = #{nickName}
-		</select>
-	
-		<select id="getNickname" resultType="String">
-			select nickName from DK_MEMBER where userId = #{userId}
-		</select>
-			
 		<select id="getAccessKey" resultType="String">
 			select accessKey from DK_s3key where <![CDATA[ rownum <=1 ]]>
 		</select>
