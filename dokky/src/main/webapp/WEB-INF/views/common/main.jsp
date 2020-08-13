@@ -33,7 +33,7 @@
 			실시간 게시글
 		  </div>
 			<table class="table"> 
-				<c:forEach items="${realtimeList}" var="board">
+				<c:forEach items="${realtimeBoardList}" var="board">
 					<tr>
 						<td class="title">   
 							<a class='move' href='/board/get?board_num=<c:out value="${board.board_num}"/>'> 
@@ -110,7 +110,7 @@
 			한달간 인기글
 		  </div> 
 			<table class="table"> 
-				<c:forEach items="${monthlyList}" var="board">
+				<c:forEach items="${monthlyBoardList}" var="board">
 					<tr>
 						<td class="title">  
 							<a class='move' href='/board/get?board_num=<c:out value="${board.board_num}"/>'> 
@@ -187,7 +187,7 @@
 			한달간 기부글
 		  </span>
 			<table class="table">
-				<c:forEach items="${donationList}" var="board">
+				<c:forEach items="${donationBoardList}" var="board">
 					<tr>
 						<td class="title">  
 							<a class='move' href='/board/get?board_num=<c:out value="${board.board_num}"/>'> 

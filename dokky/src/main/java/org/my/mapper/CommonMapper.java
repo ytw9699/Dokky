@@ -1,12 +1,23 @@
 package org.my.mapper;
 	import java.util.List;
 	import org.apache.ibatis.annotations.Param;
+	import org.my.domain.BoardVO;
 	import org.my.domain.Criteria;
 	import org.my.domain.VisitCountVO;
 	import org.my.domain.alarmVO;
 	import org.my.domain.noteVO;
 
 public interface CommonMapper {
+	
+	public List<BoardVO> getRealtimeBoardList();
+
+	public List<BoardVO> getMonthlyBoardList();
+
+	public List<BoardVO> getDonationBoardList();
+	
+	public String getNickname(@Param("userId") String userId);
+	
+	public int getNicknameCheckedVal(@Param("nickName") String nickName);
 	
 	public int getIdCheckedVal(String profileId);
 	
@@ -68,19 +79,8 @@ public interface CommonMapper {
 
 	public int getEnabled(String userId);
 	
-	public int checkNickname(@Param("nickName") String nickName);
-
-	public String getNickname(@Param("userId") String userId);
-	
 	public String getAccessKey();
 	
 	public String getSecretKey();
-	
-	public String tests1();
-	public String tests2();
-	public String tests3();
-	public String tests4();
-	public String tests5();
-	public String tests6();
 	
 }

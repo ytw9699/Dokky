@@ -156,6 +156,31 @@ public class CommonController {
 		return "redirect:/main";
 	}
 	
+	@GetMapping("/memberForm")
+	public String memberForm() {
+
+		log.info("/memberForm");
+		
+		return "common/memberForm";
+	}
+	
+	@GetMapping(value = "/nickCheckedVal", produces = "text/plain; charset=UTF-8")
+	@ResponseBody
+	public ResponseEntity<String> getNicknameCheckedVal(String inputNickname, String userId) {
+		 
+		log.info("/nickCheckedVal"); 
+		
+		if(commonService.getNicknameCheckedVal(inputNickname, userId)) {//닉네임이 중복된다면
+		
+			return new ResponseEntity<>("duplicated", HttpStatus.OK);
+			
+		}else {
+			
+			return new ResponseEntity<>(HttpStatus.INTERNAL_SERVER_ERROR);
+		}
+	}
+	
+	
 	@PostMapping("/members") 
 	public String postMembers(MemberVO vo, Model model, RedirectAttributes rttr) {//회원가입
 		
@@ -199,37 +224,10 @@ public class CommonController {
 			
 		}else {
 		
-			rttr.addFlashAttribute("check", "가입실패 하였습니다 관리자에게 문의주세요.");
+			rttr.addFlashAttribute("check", "재가입실패 하였습니다 관리자에게 문의주세요.");
 			
 			return "redirect:/socialLogin";
 		}
-	}
-	
-	@GetMapping("/adminMemberForm")
-	public String adminMemberForm() {
-
-		log.info("admin/adminMemberForm");
-		
-		return "common/adminMemberForm";
-	}
-	
-	@PostMapping("/adminMembers") 
-	public String postAdminMembers(MemberVO vo, Model model) {//회원가입
-		
-		log.info("/members: vo" + vo); 
-		
-		vo.setUserPw(pwencoder.encode(vo.getUserPw()));//패스워드 암호화
-		
-		if(memberService.registerMembers(vo)){
-			
-			model.addAttribute("check", "가입완료 되었습니다 로그인해주세요.");
-			
-			return "common/superAdminLogin";
-		}
-		
-			model.addAttribute("check", "가입실패 하였습니다 관리자에게 문의주세요.");
-			
-			return "common/superAdminLogin"; 
 	}
 	
 	@RequestMapping(value = "/main", method = RequestMethod.GET)
@@ -237,67 +235,27 @@ public class CommonController {
 		
 		log.info("/main");
 		
-		model.addAttribute("realtimeList", memberService.getRealtimeList());//실시간 게시글
+		model.addAttribute("realtimeBoardList", commonService.getRealtimeBoardList());//실시간 게시글
 		
-		model.addAttribute("monthlyList", memberService.getMonthlyList());//한달 인길글
+		model.addAttribute("monthlyBoardList", commonService.getMonthlyBoardList());//한달 인길글
 		
-		model.addAttribute("donationList", memberService.getDonationList());//한달 최다 기부글
+		model.addAttribute("donationBoardList", commonService.getDonationBoardList());//한달 최다 기부글
 		
 		return "common/main";
 	}
+	
 	@RequestMapping(value = "/", method = RequestMethod.GET)
 	public String home(Locale locale, Model model) {
 		
-		model.addAttribute("realtimeList", memberService.getRealtimeList());
+		model.addAttribute("realtimeBoardList", commonService.getRealtimeBoardList());//실시간 게시글
 		
-		model.addAttribute("monthlyList", memberService.getMonthlyList());
+		model.addAttribute("monthlyBoardList", commonService.getMonthlyBoardList());//한달 인길글
 		
-		model.addAttribute("donationList", memberService.getDonationList());
+		model.addAttribute("donationBoardList", commonService.getDonationBoardList());//한달 최다 기부글
 		
 		return "common/main";
 	}
 	
-	@GetMapping("/serverError")
-	public String serverError(Model model) {//serverError페이지
-
-		log.info("/serverError");
-		
-		model.addAttribute("message", "ServerError입니다 관리자에게 문의해주세요.");
-		
-		return "error/commonError";  
-	}
-	
-	@GetMapping("/adminError")
-	public String adminError(Model model) {//관리자 리스트 접근 제한 에러페이지
-
-		log.info("/adminError");
-		
-		model.addAttribute("message", "관리자만 접근 가능합니다.");
-		
-		return "error/commonError";  
-	}
-	
-	@GetMapping("/superAdminError")
-	public String superAdminError(Model model) {//관리자 리스트 접근 제한 에러페이지
-
-		log.info("/superAdminError");
-		
-		model.addAttribute("message", "Super-관리자만 접근 가능합니다.");
-		
-		return "error/commonError";  
-	}
-
-	@GetMapping("/accessError")//공통 접근제한 에러페이지
-	public String accessDenied(Authentication auth, Model model) {//Authentication 타입의 파라미터를 받도록 설계해서 필요한 경우에 사용자의 정보를 확인할 수 있도록
-		
-		log.info("/accessError");
-		
-		log.info("access Denied : " + auth); 
- 
-		model.addAttribute("message", "접근 권한이 없습니다. 관리자에게 문의해주세요.");
-		
-		return "error/commonError";
-	}   
 	
 	@PreAuthorize("hasAnyRole('ROLE_ADMIN','ROLE_SUPER')") 
 	@GetMapping("/admin/authorizationList")//일반 관리자 권한부여 리스트
@@ -552,14 +510,6 @@ public class CommonController {
 		return "redirect:/socialLogin";
 	}*/
 	
-	@GetMapping("/memberForm")
-	public String memberForm() {
-
-		log.info("/memberForm");
-		
-		return "common/memberForm";
-	}
-	
 	@GetMapping(value = "/idCheckedVal", produces = "text/plain; charset=UTF-8")
 	@ResponseBody
 	public ResponseEntity<String> getIdCheckedVal(String inputId) {
@@ -572,34 +522,6 @@ public class CommonController {
 			return new ResponseEntity<>("fail", HttpStatus.OK);
 	}
 	 
-	@GetMapping(value = "/nickCheckedVal", produces = "text/plain; charset=UTF-8")
-	@ResponseBody
-	public ResponseEntity<String> getNicknameCheckedVal(String inputNickname, String userId) {
-		 
-		log.info("/nickCheckedVal"); 
-		
-		if(commonService.checkNickname(inputNickname, userId)) {//닉네임이 중복된다면
-		
-			return new ResponseEntity<>("success", HttpStatus.OK);
-			
-		}else {
-			
-			return new ResponseEntity<>("fail", HttpStatus.OK);
-		}
-	}
-	
-	@GetMapping(value = "/emailCheckedVal", produces = "text/plain; charset=UTF-8")
-	@ResponseBody
-	public ResponseEntity<String> getEmailCheckedVal(String inputEmail) {
-		 
-		log.info("/emailCheckedVal"); 
-		
-		if(memberService.getEmailCheckedVal(inputEmail)){
-			return new ResponseEntity<>("success", HttpStatus.OK);
-		}
-			return new ResponseEntity<>("fail", HttpStatus.OK);
-	}
-	
 	@PreAuthorize("isAuthenticated()")
  	@GetMapping("/userBoardList") 
 	public String userBoardList(Criteria cri, Model model, String pageLocation) { //유저 게시글 가져오기
@@ -952,6 +874,90 @@ public class CommonController {
 				return "redirect:/myNoteList?userId="+userId+"&pageNum="+cri.getPageNum()+"&amount="+cri.getAmount();
 			}
 	}
+	
+	@GetMapping("/serverError")
+	public String serverError(Model model) {//serverError페이지
+
+		log.info("/serverError");
+		
+		model.addAttribute("message", "ServerError입니다 관리자에게 문의해주세요.");
+		
+		return "error/commonError";  
+	}
+	
+	@GetMapping("/adminError")
+	public String adminError(Model model) {//관리자 리스트 접근 제한 에러페이지
+
+		log.info("/adminError");
+		
+		model.addAttribute("message", "관리자만 접근 가능합니다.");
+		
+		return "error/commonError";  
+	}
+	
+	@GetMapping("/superAdminError")
+	public String superAdminError(Model model) {//관리자 리스트 접근 제한 에러페이지
+
+		log.info("/superAdminError");
+		
+		model.addAttribute("message", "Super-관리자만 접근 가능합니다.");
+		
+		return "error/commonError";  
+	}
+
+	@GetMapping("/accessError")//공통 접근제한 에러페이지
+	public String accessDenied(Authentication auth, Model model) {//Authentication 타입의 파라미터를 받도록 설계해서 필요한 경우에 사용자의 정보를 확인할 수 있도록
+		
+		log.info("/accessError");
+		
+		log.info("access Denied : " + auth); 
+ 
+		model.addAttribute("message", "접근 권한이 없습니다. 관리자에게 문의해주세요.");
+		
+		return "error/commonError";
+	}   
+	
+	
+	/*@GetMapping("/adminMemberForm")
+	public String adminMemberForm() {
+
+		log.info("admin/adminMemberForm");
+		
+		return "common/adminMemberForm";
+	}
+	
+	@PostMapping("/adminMembers") 
+	public String postAdminMembers(MemberVO vo, Model model) {//회원가입
+		
+		log.info("/members: vo" + vo); 
+		
+		vo.setUserPw(pwencoder.encode(vo.getUserPw()));//패스워드 암호화
+		
+		if(memberService.registerMembers(vo)){
+			
+			model.addAttribute("check", "가입완료 되었습니다 로그인해주세요.");
+			
+			return "common/superAdminLogin";
+		}
+		
+			model.addAttribute("check", "가입실패 하였습니다 관리자에게 문의주세요.");
+			
+			return "common/superAdminLogin"; 
+	}
+	
+	@GetMapping(value = "/emailCheckedVal", produces = "text/plain; charset=UTF-8")
+	@ResponseBody
+	public ResponseEntity<String> getEmailCheckedVal(String inputEmail) {
+		 
+		log.info("/emailCheckedVal"); 
+		
+		if(memberService.getEmailCheckedVal(inputEmail)){
+			return new ResponseEntity<>("success", HttpStatus.OK);
+		}
+			return new ResponseEntity<>("fail", HttpStatus.OK);
+	}
+	
+	*/
 	
 	/*@GetMapping("/adminLogin")
 	public String adminLogin(Model model, HttpServletRequest request, String error, String logout, String check){

@@ -126,6 +126,7 @@
 			}
 		 				 
 		 function checkDuplicatedNickname(nickname, callback, error) {
+			 
 			 	var checkReturn; 
 			 
 				$.ajax({
@@ -134,14 +135,15 @@
 					async: false,  
 					success : function(result, status, xhr) {
 						if (callback) {
-							if(callback(result,xhr)){
+							if(callback(result, xhr)){
 								checkReturn = true; 
 							}
 						}
 					},
 					error : function(xhr, status, er) {
-						if (error) {
-							error(xhr,er);  
+						if(status == "error"){
+							openAlert("ServerErorr입니다.");
+							checkReturn = true; 
 						}
 					}
 				});
@@ -162,7 +164,7 @@
 				}
 					      
 			    if(checkDuplicatedNickname(nickNameVal, function(result){ //닉네임 중복체크
-						if(result == 'success'){ 
+						if(result == 'duplicated'){ 
 					 		openAlert("닉네임이 중복됩니다"); 
 					 		nickName.focus(); 
 					 		return true; 
@@ -178,7 +180,7 @@
 		$("#join").on("click", function(e){
 			   e.preventDefault();
 			   
-			   if(memberCheck()){
+			   if(memberCheck()){ 
 			   	return; 
 			   } 
 			   
