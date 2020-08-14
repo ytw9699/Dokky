@@ -292,39 +292,6 @@
 			update dk_note set read_check = 'YES' where note_num = #{note_num}       
        </update>
 	  
-       <insert id="insertNote">
-	 			insert into dk_note(	  NOTE_NUM
-							 			, CONTENT
-							 			, FROM_NICKNAME
-							 			, FROM_ID
-							 			, TO_NICKNAME
-							 			, TO_ID 
-							 			, read_check
-					 			   ) 
-					 		values(
-						 				seq_dk_note.nextval
-						 				,#{content}
-										,#{from_nickname}
-										,#{from_id}
-										,#{to_nickname}				 		
-								 		,#{to_id}
-								 		,#{read_check}
-					 				) 
-       </insert>
-		 
-       <select id="getFromNoteCount" resultType="int">
-			select count(*) from dk_note where TO_ID = #{userId} and FROM_ID != #{userId} and from_check = 'NO'
-       </select>
-       
-       <select id="getToNoteCount" resultType="int">
-			select count(*) from dk_note where FROM_ID = #{userId} and TO_ID != #{userId} and to_check = 'NO'
-       </select>
-       
-       <select id="getMyNoteCount" resultType="int">
-			select count(*) from dk_note where TO_ID = #{userId} and FROM_ID = #{userId}
-       </select>
-       
-       
        <select id="getToNoteList" resultType="org.my.domain.noteVO">
        
        		  select NOTE_NUM
@@ -394,5 +361,37 @@
 		<select id="getSecretKey" resultType="String">
 			select secretKey from DK_s3key where <![CDATA[ rownum <=1 ]]>
 		</select>
+		
+		<select id="getFromNoteCount" resultType="int">
+			select count(*) from dk_note where TO_ID = #{userId} and FROM_ID != #{userId} and from_check = 'NO'
+       </select>
+       
+       <select id="getToNoteCount" resultType="int">
+			select count(*) from dk_note where FROM_ID = #{userId} and TO_ID != #{userId} and to_check = 'NO'
+       </select>
+       
+       <select id="getMyNoteCount" resultType="int">
+			select count(*) from dk_note where TO_ID = #{userId} and FROM_ID = #{userId}
+       </select>
+       
+       <insert id="insertNote">
+	 			insert into dk_note(	  NOTE_NUM
+							 			, CONTENT
+							 			, FROM_NICKNAME
+							 			, FROM_ID
+							 			, TO_NICKNAME
+							 			, TO_ID 
+							 			, read_check
+					 			   ) 
+					 		values(
+						 				seq_dk_note.nextval
+						 				,#{content}
+										,#{from_nickname}
+										,#{from_id}
+										,#{to_nickname}				 		
+								 		,#{to_id}
+								 		,#{read_check}
+					 				) 
+       </insert>
 		   
 </mapper>
