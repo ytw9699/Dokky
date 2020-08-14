@@ -230,6 +230,45 @@ public class CommonController {
 		}
 	}
 	
+	@PostMapping("/logout")//사용자 직접구현 로그아웃
+	public String logout(HttpServletRequest request, HttpServletResponse response, Authentication authentication) {
+		
+		log.info("/logout");
+		
+		commonService.logout(request, response, authentication);
+			
+		return "redirect:/socialLogin";
+	}
+	
+	@GetMapping("/superAdminLogin")
+	public String superAdminLogin(Model model, HttpServletRequest request, 
+								  String error, String logout, String check) throws UnsupportedEncodingException {
+	
+		log.info("/superAdminLogin");
+		
+		if (check != null) {
+			if(check.equals("notId") ) {
+				model.addAttribute("check", "아이디가 없습니다");
+			}else if(check.equals("notPassword") ) {
+				model.addAttribute("check", "비밀번호가 틀립니다");
+			}
+			else if(check.equals("limit") ) {
+				model.addAttribute("check", "차단된 아이디입니다. 관리자에게 문의해주세요");
+			}
+		}
+		
+		/*if (error != null) {
+		model.addAttribute("error", "Login Error Check Your Account");
+		}
+		
+		if (logout != null) {
+			model.addAttribute("logout", "Logout!!");
+		}*/
+		
+		return "common/superAdminLogin";   
+	}
+    
+	
 	@RequestMapping(value = "/main", method = RequestMethod.GET)
 	public String main(Model model) {
 		
@@ -256,275 +295,10 @@ public class CommonController {
 		return "common/main";
 	}
 	
-	
-	@PreAuthorize("hasAnyRole('ROLE_ADMIN','ROLE_SUPER')") 
-	@GetMapping("/admin/authorizationList")//일반 관리자 권한부여 리스트
-	public String authorizationList(Criteria cri, Model model, Authentication authentication, HttpSession session) {
-		
-		log.info("/admin/authorizationList");
-		log.info("cri"+cri);
-		
-		/*if(authentication == null) {//인증이 안됬다면
-			//request.getRequestURL();
-			//SavedRequest aa = new SavedRequest();
-			
-			//SavedRequest saveRequest = new SavedRequest();
-			//(Object)"DefaultSavedRequest[http://localhost:8080/admin/authorizationList]";
-			//session.setAttribute("SPRING_SECURITY_SAVED_REQUEST", saveRequest);
-			
-			return "redirect:/superAdminLogin";
-		}*/
-		
-		CustomUser user = (CustomUser)authentication.getPrincipal();
-		
-		MemberVO vo = user.getMember();
-		
-		List<AuthVO> AuthList = vo.getAuthList();//사용자의 권한 정보만 list로 가져온다
-		
-		Iterator<AuthVO> it = AuthList.iterator();
-		
-		while (it.hasNext()) {
-			
-			AuthVO authVO = it.next(); 
-			
-			String auth = authVO.getAuth();
-			
-			if(!auth.equals("ROLE_SUPER")) {
-				
-				return "redirect:/superAdminError";//일반관리자는 접근 못하고 슈퍼관리자만 접근할 수 있음
-				//return "redirect:/superAdminLogin";
-			}
-			
-        }
-		
-		model.addAttribute("authorizationList", adminService.getUserList(cri));
-		
-		int total = adminService.getMemberTotalCount(cri);
-		
-		model.addAttribute("pageMaker", new PageDTO(cri, total));
-		
-		return "admin/authorizationList"; 
-	}
-	
-	/*@GetMapping("/superAdminLogin")
-    public String superAdminLogin(Model model, HttpServletRequest request, String error, String logout, String check,Authentication authentication) throws UnsupportedEncodingException {
-    	
-		log.info("/superAdminLogin");
-		log.info("error: " + error);
-		log.info("logout: " + logout);
-		log.info("check: " + check);
-		
-		
-		if(authentication != null) {
-			log.info("authentication"+SecurityContextHolder.getContext().getAuthentication().getPrincipal());
-		}
-		
-		  Enumeration<String> e = request.getSession().getAttributeNames();
-		    
-		    while(e.hasMoreElements()){
-		    	log.info("Enumeration7="+e.nextElement());
-		    }
-		    
-		    Object SPRING_SECURITY_CONTEXT = request.getSession().getAttribute("SPRING_SECURITY_CONTEXT");
-		    
-		    log.info("SPRING_SECURITY_CONTEXT" +SPRING_SECURITY_CONTEXT);
-		    
-		
-		if (error != null) {
-			model.addAttribute("error", "Login Error Check Your Account");
-		}
-		if (logout != null) {
-			model.addAttribute("logout", "Logout!!");
-		}
-		if (check != null) {
-			if(check.equals("notId") ) {
-				model.addAttribute("check", "아이디가 없습니다.");
-			}else if(check.equals("notPassword") ) {
-				model.addAttribute("check", "비밀번호가 틀립니다.");
-			}
-			else if(check.equals("limit") ) {
-				model.addAttribute("check", "차단된 아이디입니다. 관리자에게 문의해주세요.");
-			}
-		}
-		
-		return "common/superAdminLogin";  
-	}*/
-    
-	@GetMapping("/superAdminLogin")
-	public String superAdminLogin(Model model, HttpServletRequest request, String error, String logout, String check) throws UnsupportedEncodingException {
-	
-		log.info("/superAdminLogin");
-		log.info("error: " + error);
-		log.info("logout: " + logout);
-		log.info("check: " + check);
-		
-		if (error != null) {
-			model.addAttribute("error", "Login Error Check Your Account");
-		}
-		if (logout != null) {
-			model.addAttribute("logout", "Logout!!");
-		}
-		if (check != null) {
-			if(check.equals("notId") ) {
-				model.addAttribute("check", "아이디가 없습니다");
-			}else if(check.equals("notPassword") ) {
-				model.addAttribute("check", "비밀번호가 틀립니다");
-			}
-			else if(check.equals("limit") ) {
-				model.addAttribute("check", "차단된 아이디입니다. 관리자에게 문의해주세요");
-			}
-		}
-		
-		return "common/superAdminLogin";   
-	}
-    
-	/*@GetMapping("/socialLogin")//커스톰 로그인 페이지는 반드시 get방식 이여야한다.시큐리티의 특성임
-	public String loginInput(String error, String logout, String check, Model model,HttpServletRequest request, Authentication authentication) throws UnsupportedEncodingException {
-		
-		log.info("/socialLogin");
-		 
-		if(authentication != null) {
-			log.info("authentication"+SecurityContextHolder.getContext().getAuthentication().getPrincipal());
-		}
-		
-        Enumeration<String> e = request.getSession().getAttributeNames();
-        
-        while(e.hasMoreElements()){
-        	log.info("Enumeration7="+e.nextElement());
-        }
-        
-        Object SPRING_SECURITY_CONTEXT = request.getSession().getAttribute("SPRING_SECURITY_CONTEXT");
-        
-        log.info("SPRING_SECURITY_CONTEXT" +SPRING_SECURITY_CONTEXT);
-        
-		//소셜로그인
-		SNSLogin naverLogin = new SNSLogin(naverSns);
-		
-		model.addAttribute("naver_url", naverLogin.getAuthURL());//네이버 로그인 url가져오기
-		
-		SNSLogin googleLogin = new SNSLogin(googleSns);
-		
-		model.addAttribute("google_url", googleLogin.getAuthURL());//구글 로그인 url가져오기
-		
-		return "common/socialLogin";  
-	}*/
-	
-	@PostMapping("/logout")//사용자 직접구현 로그아웃
-	public String logout(HttpServletRequest request, HttpServletResponse response, Authentication authentication) {
-		
-		log.info("/logout");
-		
-		commonService.logout(request, response, authentication);
-			
-		return "redirect:/socialLogin";
-	}
-	
-	/*@PostMapping("/logout")//사용자 직접구현 로그아웃
-	public String logout(HttpServletRequest request, HttpServletResponse response, Authentication authentication, HttpSession session) {
-		
-		log.info("/logout1");
-		log.info(SecurityContextHolder.getContext().getAuthentication().getPrincipal());
-		
-		Enumeration<String> e = session.getAttributeNames();
-        
-        while(e.hasMoreElements()){
-        	log.info("Enumeration1="+e.nextElement());
-        }
-        
-        e = request.getSession().getAttributeNames();
-        
-        while(e.hasMoreElements()){
-        	log.info("Enumeration2="+e.nextElement());
-        }
-        
-        Object SPRING_SECURITY_CONTEXT = request.getSession().getAttribute("SPRING_SECURITY_CONTEXT");
-        
-        log.info("SPRING_SECURITY_CONTEXT" +SPRING_SECURITY_CONTEXT);
-		
-		//request.getSession().invalidate();
-        //log.info("getId1"+request.getSession().getId());
-        
-        //session.setMaxInactiveInterval(0);
-
-		//session.invalidate();
-		
-		e = request.getSession().getAttributeNames();
-        
-        while(e.hasMoreElements()){
-        	log.info("Enumeration3="+e.nextElement());
-        }
-        
-		log.info("/logout2");
-
-		Cookie JSESSIONID = new Cookie("JSESSIONID", null);
-
-		JSESSIONID.setMaxAge(0);
-
-		response.addCookie(JSESSIONID);
-		
-		// 쿠키 삭제
-		
-		if(authentication != null) { 
-			SecurityContextHolder.getContext().setAuthentication(null);//인증 풀기
-			
-		}
-		
-		log.info("/logout3");
-		
-		if(authentication != null) {
-			log.info("/logout4");
-			//SecurityContextHolder.getContext().setAuthentication(null);//인증 풀기
-			log.info("/logout5");
-			if(SecurityContextHolder.getContext().getAuthentication() != null) {
-				log.info("/logout6");
-				log.info(SecurityContextHolder.getContext().getAuthentication().getPrincipal());
-			}else {
-			log.info("/logout7");
-			log.info(SecurityContextHolder.getContext().getAuthentication());
-			}
-		}
-		SPRING_SECURITY_CONTEXT = request.getSession().getAttribute("SPRING_SECURITY_CONTEXT");
-        
-        log.info("SPRING_SECURITY_CONTEXT" +SPRING_SECURITY_CONTEXT);
-		log.info("/logout8");
-		
-		e = session.getAttributeNames();
-        
-        while(e.hasMoreElements()){
-        	log.info("Enumeration3="+e.nextElement());
-        }
-        
-        e = request.getSession().getAttributeNames();
-        
-        while(e.hasMoreElements()){
-        	log.info("Enumeration4="+e.nextElement());
-        }
-         
-         SPRING_SECURITY_CONTEXT = request.getSession().getAttribute("SPRING_SECURITY_CONTEXT");
-         
-         log.info("SPRING_SECURITY_CONTEXT" +SPRING_SECURITY_CONTEXT);
-         log.info("/logout9");
-         
-         //log.info(SecurityContextHolder.getContext().getAuthentication().getPrincipal());
-         
-		return "redirect:/socialLogin";
-	}*/
-	
-	@GetMapping(value = "/idCheckedVal", produces = "text/plain; charset=UTF-8")
-	@ResponseBody
-	public ResponseEntity<String> getIdCheckedVal(String inputId) {
-		
-		log.info("/idCheckedVal"); 
-		
-		if(commonService.getIdCheckedVal(inputId)){
-			return new ResponseEntity<>("success", HttpStatus.OK);
-		}
-			return new ResponseEntity<>("fail", HttpStatus.OK);
-	}
-	 
 	@PreAuthorize("isAuthenticated()")
- 	@GetMapping("/userBoardList") 
-	public String userBoardList(Criteria cri, Model model, String pageLocation) { //유저 게시글 가져오기
+ 	@GetMapping("/userBoardList")//유저 게시글 가져오기
+	public String getUserBoardList(Criteria cri, Model model, 
+								@RequestParam(value = "pageLocation", defaultValue = "user", required = false) String pageLocation ){
 		
 		log.info("/userBoardList"); 
 		
@@ -537,138 +311,52 @@ public class CommonController {
 		model.addAttribute("replyTotal", mypageService.getMyReplyCount(cri));
 		model.addAttribute("enabled", commonService.getEnabled(cri.getUserId()));
 		
-		if(pageLocation == null) {
-			return "common/userBoardList"; 
-		}else if(pageLocation.equals("admin")) {
+		if(pageLocation.equals("admin")) {
+			
 			return "admin/userBoardList";
-		}else { 
+		}else{
 			return "common/userBoardList";
 		}
 	} 
 	
 	@PreAuthorize("isAuthenticated()")
  	@GetMapping("/userReplylist")  
-	public String userReplylist(Criteria cri, Model model, String pageLocation) { 
+	public String getUserReplylist(Criteria cri, Model model, 
+						   		@RequestParam(value = "pageLocation", defaultValue = "user", required = false) String pageLocation ){ 
 		
-		log.info("userReplylist cri"+cri);
+		log.info("/userReplylist");
 		
 		model.addAttribute("userReply", mypageService.getMyReplylist(cri));
 		
 		int total = mypageService.getMyReplyCount(cri);
 		
-		model.addAttribute("boardTotal",mypageService.getMyBoardCount(cri));  
+		model.addAttribute("boardTotal", mypageService.getMyBoardCount(cri));  
 		model.addAttribute("replyTotal", total);
 		model.addAttribute("pageMaker", new PageDTO(cri, total));
-	 
-		if(pageLocation == null) { 
-			return "common/userReplylist"; 
-		}else if(pageLocation.equals("admin")) {
+		model.addAttribute("enabled", commonService.getEnabled(cri.getUserId()));
+		
+		if(pageLocation.equals("admin")) {
+			
 			return "admin/userReplylist";
-		}  
-			return "common/userReplylist";    
+		}else { 
+			return "common/userReplylist";
+		}
 	} 
-
 	
-	@GetMapping(value = "/alarmRealCount/{userId}", produces = "text/plain; charset=UTF-8")
-	@ResponseBody
-	public ResponseEntity<String> getAlarmRealCount(@PathVariable("userId") String userId) {
-		 
-		log.info("/alarmRealCount...="+userId);
+	@PreAuthorize("hasAnyRole('ROLE_ADMIN','ROLE_USER','ROLE_SUPER')")
+	@GetMapping("/noteForm")
+	public String getNoteForm(@RequestParam("userId")String userId, @RequestParam("nickname")String nickname, Model model) {
 		
-		return  new ResponseEntity<>(commonService.getAlarmRealCount(userId), HttpStatus.OK);
-	}
-	
-	@GetMapping(value = "/noteCount/{userId}", produces = "text/plain; charset=UTF-8")
-	@ResponseBody
-	public ResponseEntity<String> getNoteCount(@PathVariable("userId") String userId) {
-		 
-		log.info("/noteCount...="+userId);
+		model.addAttribute("to_id", userId);
+		model.addAttribute("to_nickname", nickname);
+		model.addAttribute("enabled", commonService.getEnabled(userId));
 		
-		return  new ResponseEntity<>(commonService.getNoteCount(userId), HttpStatus.OK);
-	}
-	
-	@PreAuthorize("isAuthenticated()")
-	@GetMapping("/alarmList")  
-	 public String getAlarmList(Criteria cri, Model model) {//내 알림 리스트 가져오기
-		
-		log.info("/alarmList");
-		
-		int Alltotal = commonService.getAlarmCount(cri);//전체알람
-		int readedTotal = commonService.getAlarmReadCount(cri);//읽은 알람
-		int notReadedTotal = Integer.parseInt(commonService.getAlarmRealCount(cri.getUserId()));//읽지않은 알람
-		
-		if(cri.getOrder() == 0) {
-			
-			model.addAttribute("alarmList", commonService.getAllAlarmList(cri));
-			model.addAttribute("pageMaker", new PageDTO(cri, Alltotal));
-			
-		}else if(cri.getOrder() == 1){
-			model.addAttribute("alarmList", commonService.getReadedAlarmList(cri));
-			model.addAttribute("pageMaker", new PageDTO(cri, readedTotal));
-			 
-		}
-		else if (cri.getOrder() == 2){
-			model.addAttribute("alarmList", commonService.getNotReadedAlarmList(cri));
-			model.addAttribute("pageMaker", new PageDTO(cri, notReadedTotal));
-		}
-		
-		model.addAttribute("Alltotal", Alltotal);
-		model.addAttribute("readedTotal", readedTotal);
-		model.addAttribute("notReadedtotal", notReadedTotal);
-		
-		return "common/alarmList";
-	}
-	
-	@PreAuthorize("principal.username == #userId")   
-	 @PostMapping("/removeAllAlarm")//다중알람삭제
-		public String removeAllAlarm(@RequestParam("checkRow") String checkRow , @RequestParam("userId")String userId, Criteria cri) {
-		 
-			log.info("/removeAllAlarm");
-		 	log.info("checkRow..." + checkRow);
-		 	
-		 	String[] arrIdx = checkRow.split(",");
-		 	
-		 	for (int i=0; i<arrIdx.length; i++) {
-		 		
-		 		Long alarmNum = Long.parseLong(arrIdx[i]); 
-		 		
-		 		if (commonService.deleteAllAlarm(alarmNum)) {
-		 			log.info("delete...deleteAllAlarm=" + alarmNum);
-				}
-		 	}
-			return "redirect:/alarmList?userId="+userId+"&pageNum="+cri.getPageNum()+"&amount="+cri.getAmount()+"&order="+cri.getOrder();
-	}
-	
-	@PreAuthorize("isAuthenticated()")
-	@ResponseBody
-	@PostMapping(value = "/alarm", consumes = "application/json", produces = "text/plain; charset=UTF-8")
-	public ResponseEntity<String> insertAlarm(@RequestBody cashVO vo) {
-
-		log.info("/alarm...cashVO: " + vo);
-
-		//int insertCount = commonService.insertAlarm(vo);
-		
-		//log.info("alarm INSERT COUNT: " + insertCount);
-
-		return new ResponseEntity<>("알림이 입력되었습니다.", HttpStatus.OK) ;
-	}
-	
-	@PreAuthorize("isAuthenticated()")  
-	@ResponseBody
-	@PutMapping(value = "/updateAlarmCheck/{alarmNum}",produces = "text/plain; charset=UTF-8")
-	public ResponseEntity<String> updateAlarmCheck(@PathVariable("alarmNum") String alarmNum) {
-		
-		log.info("/updateAlarmCheck:... " + alarmNum);
-		
-		if(commonService.updateAlarmCheck(alarmNum) == 1) {//알림 체크값을 바꿨다면
-			return new ResponseEntity<>("success", HttpStatus.OK) ;
-		} 
-			return new ResponseEntity<>("fail", HttpStatus.OK) ;
+		return "common/noteForm";
 	}
 	
 	@PreAuthorize("hasAnyRole('ROLE_ADMIN','ROLE_USER','ROLE_SUPER')")
-	@GetMapping("/registerNote")
-	public String registerNote(Criteria cri, Model model) {//쪽지 폼 열기
+	@GetMapping("/myNoteForm")
+	public String getMyNoteForm(Criteria cri, Model model) {
 		
 		int fromNotetotal = commonService.getFromNoteCount(cri);
 		int toNotetotal   = commonService.getToNoteCount(cri);
@@ -678,32 +366,23 @@ public class CommonController {
 		model.addAttribute("toNotetotal"  , toNotetotal);
 		model.addAttribute("myNotetotal"  , myNotetotal);
 		
-		return "common/registerNote";
-	}
-	
-	@PreAuthorize("hasAnyRole('ROLE_ADMIN','ROLE_USER','ROLE_SUPER')")
-	@GetMapping("/minRegNote")
-	public String minRegNote(@RequestParam("userId")String userId, @RequestParam("nickname")String nickname, Model model) {
-		
-		model.addAttribute("to_id", userId);
-		model.addAttribute("to_nickname", nickname);
-		model.addAttribute("enabled", commonService.getEnabled(userId));
-		
-		return "common/minRegNote";
+		return "common/myNoteForm";
 	}
 	
 	@PreAuthorize("principal.username == #vo.from_id")
 	@ResponseBody
-	@PostMapping(value = "/Note", consumes = "application/json", produces = "text/plain; charset=UTF-8")
-	public ResponseEntity<String> insertNote(@RequestBody noteVO vo) {
+	@PostMapping(value = "/note", consumes = "application/json", produces = "text/plain; charset=UTF-8")
+	public ResponseEntity<String> postNote(@RequestBody noteVO vo) {
 
-		log.info("/Note...noteVO: " + vo);
+		log.info("/note...noteVO: " + vo);
 
 		if(commonService.insertNote(vo) == 1) {
-			return new ResponseEntity<>("쪽지를 보냈습니다.", HttpStatus.OK) ;
+			
+			return new ResponseEntity<>("쪽지를 보냈습니다", HttpStatus.OK) ;
 			
 		}else {
-			return new ResponseEntity<>("쪽지보내기에 실패했습니다 관리자에게 문의주세요.", HttpStatus.OK) ;
+			
+			return new ResponseEntity<>(HttpStatus.INTERNAL_SERVER_ERROR);
 		}
 	}
 	
@@ -875,6 +554,164 @@ public class CommonController {
 			}
 	}
 	
+	@PreAuthorize("hasAnyRole('ROLE_ADMIN','ROLE_SUPER')") 
+	@GetMapping("/admin/authorizationList")//일반 관리자 권한부여 리스트
+	public String authorizationList(Criteria cri, Model model, Authentication authentication, HttpSession session) {
+		
+		log.info("/admin/authorizationList");
+		log.info("cri"+cri);
+		
+		/*if(authentication == null) {//인증이 안됬다면
+			//request.getRequestURL();
+			//SavedRequest aa = new SavedRequest();
+			
+			//SavedRequest saveRequest = new SavedRequest();
+			//(Object)"DefaultSavedRequest[http://localhost:8080/admin/authorizationList]";
+			//session.setAttribute("SPRING_SECURITY_SAVED_REQUEST", saveRequest);
+			
+			return "redirect:/superAdminLogin";
+		}*/
+		
+		CustomUser user = (CustomUser)authentication.getPrincipal();
+		
+		MemberVO vo = user.getMember();
+		
+		List<AuthVO> AuthList = vo.getAuthList();//사용자의 권한 정보만 list로 가져온다
+		
+		Iterator<AuthVO> it = AuthList.iterator();
+		
+		while (it.hasNext()) {
+			
+			AuthVO authVO = it.next(); 
+			
+			String auth = authVO.getAuth();
+			
+			if(!auth.equals("ROLE_SUPER")) {
+				
+				return "redirect:/superAdminError";//일반관리자는 접근 못하고 슈퍼관리자만 접근할 수 있음
+				//return "redirect:/superAdminLogin";
+			}
+			
+        }
+		
+		model.addAttribute("authorizationList", adminService.getUserList(cri));
+		
+		int total = adminService.getMemberTotalCount(cri);
+		
+		model.addAttribute("pageMaker", new PageDTO(cri, total));
+		
+		return "admin/authorizationList"; 
+	}
+	
+	@GetMapping(value = "/idCheckedVal", produces = "text/plain; charset=UTF-8")
+	@ResponseBody
+	public ResponseEntity<String> getIdCheckedVal(String inputId) {
+		
+		log.info("/idCheckedVal"); 
+		
+		if(commonService.getIdCheckedVal(inputId)){
+			return new ResponseEntity<>("success", HttpStatus.OK);
+		}
+			return new ResponseEntity<>("fail", HttpStatus.OK);
+	}
+	 
+	@GetMapping(value = "/alarmRealCount/{userId}", produces = "text/plain; charset=UTF-8")
+	@ResponseBody
+	public ResponseEntity<String> getAlarmRealCount(@PathVariable("userId") String userId) {
+		 
+		log.info("/alarmRealCount...="+userId);
+		
+		return  new ResponseEntity<>(commonService.getAlarmRealCount(userId), HttpStatus.OK);
+	}
+	
+	@GetMapping(value = "/noteCount/{userId}", produces = "text/plain; charset=UTF-8")
+	@ResponseBody
+	public ResponseEntity<String> getNoteCount(@PathVariable("userId") String userId) {
+		 
+		log.info("/noteCount...="+userId);
+		
+		return  new ResponseEntity<>(commonService.getNoteCount(userId), HttpStatus.OK);
+	}
+	
+	@PreAuthorize("isAuthenticated()")
+	@GetMapping("/alarmList")  
+	 public String getAlarmList(Criteria cri, Model model) {//내 알림 리스트 가져오기
+		
+		log.info("/alarmList");
+		
+		int Alltotal = commonService.getAlarmCount(cri);//전체알람
+		int readedTotal = commonService.getAlarmReadCount(cri);//읽은 알람
+		int notReadedTotal = Integer.parseInt(commonService.getAlarmRealCount(cri.getUserId()));//읽지않은 알람
+		
+		if(cri.getOrder() == 0) {
+			
+			model.addAttribute("alarmList", commonService.getAllAlarmList(cri));
+			model.addAttribute("pageMaker", new PageDTO(cri, Alltotal));
+			
+		}else if(cri.getOrder() == 1){
+			model.addAttribute("alarmList", commonService.getReadedAlarmList(cri));
+			model.addAttribute("pageMaker", new PageDTO(cri, readedTotal));
+			 
+		}
+		else if (cri.getOrder() == 2){
+			model.addAttribute("alarmList", commonService.getNotReadedAlarmList(cri));
+			model.addAttribute("pageMaker", new PageDTO(cri, notReadedTotal));
+		}
+		
+		model.addAttribute("Alltotal", Alltotal);
+		model.addAttribute("readedTotal", readedTotal);
+		model.addAttribute("notReadedtotal", notReadedTotal);
+		
+		return "common/alarmList";
+	}
+	
+	@PreAuthorize("principal.username == #userId")   
+	 @PostMapping("/removeAllAlarm")//다중알람삭제
+		public String removeAllAlarm(@RequestParam("checkRow") String checkRow , @RequestParam("userId")String userId, Criteria cri) {
+		 
+			log.info("/removeAllAlarm");
+		 	log.info("checkRow..." + checkRow);
+		 	
+		 	String[] arrIdx = checkRow.split(",");
+		 	
+		 	for (int i=0; i<arrIdx.length; i++) {
+		 		
+		 		Long alarmNum = Long.parseLong(arrIdx[i]); 
+		 		
+		 		if (commonService.deleteAllAlarm(alarmNum)) {
+		 			log.info("delete...deleteAllAlarm=" + alarmNum);
+				}
+		 	}
+			return "redirect:/alarmList?userId="+userId+"&pageNum="+cri.getPageNum()+"&amount="+cri.getAmount()+"&order="+cri.getOrder();
+	}
+	
+	@PreAuthorize("isAuthenticated()")
+	@ResponseBody
+	@PostMapping(value = "/alarm", consumes = "application/json", produces = "text/plain; charset=UTF-8")
+	public ResponseEntity<String> insertAlarm(@RequestBody cashVO vo) {
+
+		log.info("/alarm...cashVO: " + vo);
+
+		//int insertCount = commonService.insertAlarm(vo);
+		
+		//log.info("alarm INSERT COUNT: " + insertCount);
+
+		return new ResponseEntity<>("알림이 입력되었습니다.", HttpStatus.OK) ;
+	}
+	
+	@PreAuthorize("isAuthenticated()")  
+	@ResponseBody
+	@PutMapping(value = "/updateAlarmCheck/{alarmNum}",produces = "text/plain; charset=UTF-8")
+	public ResponseEntity<String> updateAlarmCheck(@PathVariable("alarmNum") String alarmNum) {
+		
+		log.info("/updateAlarmCheck:... " + alarmNum);
+		
+		if(commonService.updateAlarmCheck(alarmNum) == 1) {//알림 체크값을 바꿨다면
+			return new ResponseEntity<>("success", HttpStatus.OK) ;
+		} 
+			return new ResponseEntity<>("fail", HttpStatus.OK) ;
+	}
+	
 	@GetMapping("/serverError")
 	public String serverError(Model model) {//serverError페이지
 
@@ -915,7 +752,8 @@ public class CommonController {
 		model.addAttribute("message", "접근 권한이 없습니다. 관리자에게 문의해주세요.");
 		
 		return "error/commonError";
-	}   
+	}  
+}
 	
 	
 	/*@GetMapping("/adminMemberForm")
@@ -991,6 +829,172 @@ public class CommonController {
 
 		return "redirect:/admin/userList";//관리자라면 관리자 페이지로
 	}*/
-}
+	
+	/*@GetMapping("/superAdminLogin")
+    public String superAdminLogin(Model model, HttpServletRequest request, String error, String logout, String check,Authentication authentication) throws UnsupportedEncodingException {
+    	
+		log.info("/superAdminLogin");
+		log.info("error: " + error);
+		log.info("logout: " + logout);
+		log.info("check: " + check);
+		
+		
+		if(authentication != null) {
+			log.info("authentication"+SecurityContextHolder.getContext().getAuthentication().getPrincipal());
+		}
+		
+		  Enumeration<String> e = request.getSession().getAttributeNames();
+		    
+		    while(e.hasMoreElements()){
+		    	log.info("Enumeration7="+e.nextElement());
+		    }
+		    
+		    Object SPRING_SECURITY_CONTEXT = request.getSession().getAttribute("SPRING_SECURITY_CONTEXT");
+		    
+		    log.info("SPRING_SECURITY_CONTEXT" +SPRING_SECURITY_CONTEXT);
+		    
+		
+		if (error != null) {
+			model.addAttribute("error", "Login Error Check Your Account");
+		}
+		if (logout != null) {
+			model.addAttribute("logout", "Logout!!");
+		}
+		if (check != null) {
+			if(check.equals("notId") ) {
+				model.addAttribute("check", "아이디가 없습니다.");
+			}else if(check.equals("notPassword") ) {
+				model.addAttribute("check", "비밀번호가 틀립니다.");
+			}
+			else if(check.equals("limit") ) {
+				model.addAttribute("check", "차단된 아이디입니다. 관리자에게 문의해주세요.");
+			}
+		}
+		
+		return "common/superAdminLogin";  
+	}*/
+    
+	/*@GetMapping("/socialLogin")//커스톰 로그인 페이지는 반드시 get방식 이여야한다.시큐리티의 특성임
+	public String loginInput(String error, String logout, String check, Model model,HttpServletRequest request, Authentication authentication) throws UnsupportedEncodingException {
+		
+		log.info("/socialLogin");
+		 
+		if(authentication != null) {
+			log.info("authentication"+SecurityContextHolder.getContext().getAuthentication().getPrincipal());
+		}
+		
+        Enumeration<String> e = request.getSession().getAttributeNames();
+        
+        while(e.hasMoreElements()){
+        	log.info("Enumeration7="+e.nextElement());
+        }
+        
+        Object SPRING_SECURITY_CONTEXT = request.getSession().getAttribute("SPRING_SECURITY_CONTEXT");
+        
+        log.info("SPRING_SECURITY_CONTEXT" +SPRING_SECURITY_CONTEXT);
+        
+		//소셜로그인
+		SNSLogin naverLogin = new SNSLogin(naverSns);
+		
+		model.addAttribute("naver_url", naverLogin.getAuthURL());//네이버 로그인 url가져오기
+		
+		SNSLogin googleLogin = new SNSLogin(googleSns);
+		
+		model.addAttribute("google_url", googleLogin.getAuthURL());//구글 로그인 url가져오기
+		
+		return "common/socialLogin";  
+	}*/
+	
+	/*@PostMapping("/logout")//사용자 직접구현 로그아웃
+	public String logout(HttpServletRequest request, HttpServletResponse response, Authentication authentication, HttpSession session) {
+		
+		log.info("/logout1");
+		log.info(SecurityContextHolder.getContext().getAuthentication().getPrincipal());
+		
+		Enumeration<String> e = session.getAttributeNames();
+        
+        while(e.hasMoreElements()){
+        	log.info("Enumeration1="+e.nextElement());
+        }
+        
+        e = request.getSession().getAttributeNames();
+        
+        while(e.hasMoreElements()){
+        	log.info("Enumeration2="+e.nextElement());
+        }
+        
+        Object SPRING_SECURITY_CONTEXT = request.getSession().getAttribute("SPRING_SECURITY_CONTEXT");
+        
+        log.info("SPRING_SECURITY_CONTEXT" +SPRING_SECURITY_CONTEXT);
+		
+		//request.getSession().invalidate();
+        //log.info("getId1"+request.getSession().getId());
+        
+        //session.setMaxInactiveInterval(0);
+
+		//session.invalidate();
+		
+		e = request.getSession().getAttributeNames();
+        
+        while(e.hasMoreElements()){
+        	log.info("Enumeration3="+e.nextElement());
+        }
+        
+		log.info("/logout2");
+
+		Cookie JSESSIONID = new Cookie("JSESSIONID", null);
+
+		JSESSIONID.setMaxAge(0);
+
+		response.addCookie(JSESSIONID);
+		
+		// 쿠키 삭제
+		
+		if(authentication != null) { 
+			SecurityContextHolder.getContext().setAuthentication(null);//인증 풀기
+			
+		}
+		
+		log.info("/logout3");
+		
+		if(authentication != null) {
+			log.info("/logout4");
+			//SecurityContextHolder.getContext().setAuthentication(null);//인증 풀기
+			log.info("/logout5");
+			if(SecurityContextHolder.getContext().getAuthentication() != null) {
+				log.info("/logout6");
+				log.info(SecurityContextHolder.getContext().getAuthentication().getPrincipal());
+			}else {
+			log.info("/logout7");
+			log.info(SecurityContextHolder.getContext().getAuthentication());
+			}
+		}
+		SPRING_SECURITY_CONTEXT = request.getSession().getAttribute("SPRING_SECURITY_CONTEXT");
+        
+        log.info("SPRING_SECURITY_CONTEXT" +SPRING_SECURITY_CONTEXT);
+		log.info("/logout8");
+		
+		e = session.getAttributeNames();
+        
+        while(e.hasMoreElements()){
+        	log.info("Enumeration3="+e.nextElement());
+        }
+        
+        e = request.getSession().getAttributeNames();
+        
+        while(e.hasMoreElements()){
+        	log.info("Enumeration4="+e.nextElement());
+        }
+         
+         SPRING_SECURITY_CONTEXT = request.getSession().getAttribute("SPRING_SECURITY_CONTEXT");
+         
+         log.info("SPRING_SECURITY_CONTEXT" +SPRING_SECURITY_CONTEXT);
+         log.info("/logout9");
+         
+         //log.info(SecurityContextHolder.getContext().getAuthentication().getPrincipal());
+         
+		return "redirect:/socialLogin";
+	}*/
+
 		
 		 	

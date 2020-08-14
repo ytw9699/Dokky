@@ -12,6 +12,8 @@ package org.my.service;
 
 public interface CommonService {
 	
+	public void logout(HttpServletRequest request, HttpServletResponse response, Authentication authentication);
+	
 	public List<BoardVO> getRealtimeBoardList();
 
 	public List<BoardVO> getMonthlyBoardList();
@@ -50,14 +52,6 @@ public interface CommonService {
 	
 	public boolean deleteMyNote(Long note_num);
 
-	public int getFromNoteCount(Criteria cri);
-
-	public int getToNoteCount(Criteria cri);
-
-	public int getMyNoteCount(Criteria cri);
-
-	public int insertNote(noteVO note);
-
 	public int updateNoteCheck(String note_num);
 
 	public noteVO getDetailNotepage(Long note_num);
@@ -74,8 +68,6 @@ public interface CommonService {
 
 	public String getNoteCount(String userId);
 	
-	public void logout(HttpServletRequest request, HttpServletResponse response, Authentication authentication);
-
 	public int getEnabled(String userId);
 	
 	public boolean setAuthentication(MemberVO memberVO, boolean checkAuth);  
@@ -83,4 +75,13 @@ public interface CommonService {
 	public String getAccessKey();
 
 	public String getSecretKey();
+	
+	
+	public int getFromNoteCount(Criteria cri);
+
+	public int getToNoteCount(Criteria cri);
+
+	public int getMyNoteCount(Criteria cri);
+	
+	public int insertNote(noteVO note);
 }

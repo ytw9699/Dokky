@@ -5,13 +5,15 @@
 <!DOCTYPE html>
 <html>
 <head>
-<meta charset="UTF-8"> 
+<meta charset="UTF-8">
 <c:choose>
    	  <c:when test="${pageContext.request.serverName == 'localhost'}">
-			<link href="/resources/css/left.css" rel="stylesheet" type="text/css"/>
+			<link href="/resources/css/left.css" rel="stylesheet" type="text/css"/>.
+			<script type="text/javascript" src="/resources/js/common.js"></script>
 	  </c:when>  
       <c:otherwise>
     		<link href="/ROOT/resources/css/left.css" rel="stylesheet" type="text/css"/>
+    		<script type="text/javascript" src="/ROOT/resources/js/common.js"></script>
       </c:otherwise>
 </c:choose>
 </head>  
@@ -356,11 +358,11 @@
 			return;
 		}
 		
-		var popupX = (window.screen.width / 2) - (400 / 2); 
+		var popupX = (window.screen.width / 2) - (400 / 2);
 
 		var popupY= (window.screen.height /2) - (500 / 2);
 	         
-        window.open('/minRegNote?userId='+userId+'&nickname='+nickname, 'ot', 'height=500, width=400, screenX='+ popupX + ', screenY= '+ popupY);
+        window.open('/noteForm?userId='+userId+'&nickname='+nickname, 'ot', 'height=500, width=400, screenX='+ popupX + ', screenY= '+ popupY);
     }
 	
 	function getAlarmRealCount(userId, callback, error) {

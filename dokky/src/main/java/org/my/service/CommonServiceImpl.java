@@ -32,6 +32,25 @@ public class CommonServiceImpl implements CommonService {
 	@Setter(onMethod_ = @Autowired)
 	private CommonMapper mapper;
 	
+	@Override 
+	public void logout(HttpServletRequest request, HttpServletResponse response, Authentication authentication) {  
+		
+		log.info("/logout"); 
+		
+		if(authentication != null) {
+			//log.info(SecurityContextHolder.getContext().getAuthentication().getPrincipal());
+			SecurityContextHolder.getContext().setAuthentication(null);//인증 풀기
+		}
+		
+		request.getSession().invalidate();//세션무효화
+
+		Cookie JSESSIONID = new Cookie("JSESSIONID", null);
+
+		JSESSIONID.setMaxAge(0);
+
+		response.addCookie(JSESSIONID);//쿠키 삭제
+	}
+	
 	@Override
 	public List<BoardVO> getRealtimeBoardList() {
 
@@ -212,81 +231,12 @@ public class CommonServiceImpl implements CommonService {
 		return mapper.updateNoteCheck(note_num);
 	}
 	
-	@Override
-	public List<noteVO> getFromNoteList(Criteria cri){
-		log.info("getFromNoteList");
-		
-		return mapper.getFromNoteList(cri);
-	}
-	
-	@Override
-	public List<noteVO> getMyNoteList(Criteria cri){
-		log.info("getMyNoteList");
-		
-		return mapper.getMyNoteList(cri);
-	}
-	
-	@Override
-	public List<noteVO> getToNoteList(Criteria cri){
-		log.info("getToNoteList");
-		
-		return mapper.getToNoteList(cri);
-	}
-	
 	@Override 
 	public noteVO getDetailNotepage(Long note_num) {
 		
 		log.info("getDetailNotepage");
 		
 		return mapper.getDetailNotepage(note_num);
-	}
-	
-	@Override 
-	public int getFromNoteCount(Criteria cri) {
-		log.info("getFromNoteCount");
-		
-		return mapper.getFromNoteCount(cri);
-	}
-	
-	@Override 
-	public int getToNoteCount(Criteria cri) {
-		log.info("getToNoteCount");
-		
-		return mapper.getToNoteCount(cri);
-	}
-	
-	@Override 
-	public int getMyNoteCount(Criteria cri) {
-		log.info("getMyNoteCount");
-		
-		return mapper.getMyNoteCount(cri);
-	}
-	
-	@Override 
-	public int insertNote(noteVO vo) {  
-
-		log.info("insertNote : " + vo); 
-		
-		return mapper.insertNote(vo) ;
-	}
-	
-	@Override 
-	public void logout(HttpServletRequest request, HttpServletResponse response, Authentication authentication) {  
-		
-		log.info("logout"); 
-		
-		if(authentication != null) {
-			log.info(SecurityContextHolder.getContext().getAuthentication().getPrincipal());
-			SecurityContextHolder.getContext().setAuthentication(null);//인증 풀기
-		}
-		
-		request.getSession().invalidate();//세션무효화
-
-		Cookie JSESSIONID = new Cookie("JSESSIONID", null);
-
-		JSESSIONID.setMaxAge(0);
-
-		response.addCookie(JSESSIONID);//쿠키 삭제
 	}
 	
 	@Override 
@@ -353,6 +303,57 @@ public class CommonServiceImpl implements CommonService {
 		
 		return mapper.getSecretKey();
 	}
+	
+	@Override 
+	public int getFromNoteCount(Criteria cri) {
+		log.info("getFromNoteCount");
+		
+		return mapper.getFromNoteCount(cri);
+	}
+	
+	@Override 
+	public int getToNoteCount(Criteria cri) {
+		log.info("getToNoteCount");
+		
+		return mapper.getToNoteCount(cri);
+	}
+	
+	@Override 
+	public int getMyNoteCount(Criteria cri) {
+		log.info("getMyNoteCount");
+		
+		return mapper.getMyNoteCount(cri);
+	}
+	
+	@Override 
+	public int insertNote(noteVO vo) {  
+
+		log.info("insertNote : " + vo); 
+		
+		return mapper.insertNote(vo) ;
+	}
+	
+	@Override
+	public List<noteVO> getFromNoteList(Criteria cri){
+		log.info("getFromNoteList");
+		
+		return mapper.getFromNoteList(cri);
+	}
+	
+	@Override
+	public List<noteVO> getMyNoteList(Criteria cri){
+		log.info("getMyNoteList");
+		
+		return mapper.getMyNoteList(cri);
+	}
+	
+	@Override
+	public List<noteVO> getToNoteList(Criteria cri){
+		log.info("getToNoteList");
+		
+		return mapper.getToNoteList(cri);
+	}
+	
 	
 
 }

@@ -11,10 +11,12 @@
 	<title>Dokky - 쪽지쓰기</title>  
 	<c:choose>
 	   	  <c:when test="${pageContext.request.serverName == 'localhost'}">
-				<link href="/resources/css/minRegNote.css" rel="stylesheet" type="text/css">
+				<link href="/resources/css/noteForm.css" rel="stylesheet" type="text/css">
+				<script type="text/javascript" src="/resources/js/common.js"></script>
 		  </c:when>
 	      <c:otherwise>
-	    		<link href="/ROOT/resources/css/minRegNote.css" rel="stylesheet" type="text/css">
+	    		<link href="/ROOT/resources/css/noteForm.css" rel="stylesheet" type="text/css">
+	    		<script type="text/javascript" src="/ROOT/resources/js/common.js"></script>
 	      </c:otherwise>
 	</c:choose>
 	<sec:authentication property="principal" var="userInfo"/>
@@ -76,7 +78,6 @@
 <script> 
 
 
-
 	var csrfHeaderName ="${_csrf.headerName}"; 
 	var csrfTokenValue="${_csrf.token}"; 
 	   
@@ -134,25 +135,6 @@
 	
 	//////////////////////////////////////////////////////////////////////////////
 	
-	function insertNote(noteData, callback, error) {
-			$.ajax({
-				type : 'post',
-				url : '/Note',
-				data : JSON.stringify(noteData),
-				contentType : "application/json; charset=utf-8",
-				success : function(result, status, xhr) {
-					if (callback) { 
-						callback(result);
-					}
-				},
-				error : function(xhr, status, er) {
-					if (error) {
-						error(er);
-					}
-				}
-			})
-	}
-	
 	$("#submitBtn").on("click", function(e){//쪽지 보내기 버튼
     		
 		    e.preventDefault();
@@ -185,10 +167,12 @@
 		    					read_check 	    : 'NO' 		  //쪽지 읽음 체크
 				 		  };
 		    
-		    insertNote(noteData, function(result){
-					openAlert(result);  
-					window.close(); 
-					opener.openAlert("쪽지를 보냈습니다"); 
+		    commonService.insertNote(noteData, function(result, status){
+		    	
+			    	if(status == "success"){
+			    		window.close(); 
+						opener.openAlert(result);
+			    	}
 	   	    });
     });
 	

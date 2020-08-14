@@ -47,16 +47,6 @@ public interface CommonMapper {
 	
 	public int deleteMyNote(Long note_num);
 
-	public List<noteVO> getFromNoteList(Criteria cri);
-
-	public int getFromNoteCount(Criteria cri);
-
-	public int getToNoteCount(Criteria cri);
-
-	public int getMyNoteCount(Criteria cri);
-
-	public int insertNote(noteVO vo);
-
 	public int updateNoteCheck(String note_num);
 
 	public noteVO getDetailNotepage(Long note_num);
@@ -82,5 +72,15 @@ public interface CommonMapper {
 	public String getAccessKey();
 	
 	public String getSecretKey();
+	
+	public int getFromNoteCount(Criteria cri);
+	
+	public int getToNoteCount(Criteria cri);
+
+	public int getMyNoteCount(Criteria cri);
+	
+	public int insertNote(noteVO vo);
+	
+	public List<noteVO> getFromNoteList(Criteria cri);
 	
 }
