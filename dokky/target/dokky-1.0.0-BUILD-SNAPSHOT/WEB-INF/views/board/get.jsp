@@ -872,33 +872,49 @@
 	$("#scrapBtn").on("click",function(event){//게시글 스크랩
 			
 			var scrapData = { 
-					board_num : board_num,
-					userId    : myId
-		 		};
+								board_num : board_num,
+								userId    : myId
+					 		};
 	
 			if(scrapCount != 1){
 				
-				replyService.postScrapData(scrapData, function(result){
+				replyService.postScrapData(scrapData, 
+						
+					function(result, status){
 					
-					 if(result == 'success'){
-						 scrapCount = 1;
-					 }
-					 else if(result == 'fail'){
-						 openAlert("스크랩을 할 수 없습니다. 관리자에게 문의주세요");
-					 }
-				});
+						 if(status == 'success'){
+							 scrapCount = 1;
+						 }
+					},
+					
+					function(status){
+			   	    	
+						if(status == "error"){ 
+							
+							openAlert("Server Error(관리자에게 문의해주세요)");
+						}
+		   	    	}
+				);
 				
 			}else if(scrapCount == 1){
 				
-				replyService.deleteScrapData(scrapData, function(result){
+				replyService.deleteScrapData(scrapData,
+						
+					function(result, status){
 					
-					if(result == 'success'){
-						 scrapCount = 0;
-					}			 	 
-					else if(result == 'fail'){
-						 openAlert("스크랩을 삭제 할 수 없습니다. 관리자에게 문의주세요");
-					}
-				});
+						 if(status == 'success'){
+							 scrapCount = 0;
+					 	 }
+					},
+				
+					function(status){
+		   	    	
+						if(status == "error"){ 
+							
+							openAlert("Server Error(관리자에게 문의해주세요)");
+						}
+	   	    		}
+				);
 			}
 	});  
 	
@@ -1127,19 +1143,30 @@
 			return;  
 		}
 		
-		replyService.getUserCash(myId, function(result){//나의 잔여 캐시 가져오기
+		replyService.getMyCash(myId, function(result, status){//나의 잔여 캐시 가져오기
 				
-				option = 'board';
-				myCash = parseInt(result);
-				 
-				result = result.replace(/[^0-9]/g,''); 
-				result = (result.replace(/\B(?=(\d{3})+(?!\d))/g, ","));  
-			  
-				donateModal.find("input[name='myCash']").val(result);
-				
-				openDonateModal();
-   	    });
-   	
+				if(status == "success"){ 
+					
+					option = 'board';
+					myCash = parseInt(result);
+					 
+					result = result.replace(/[^0-9]/g,''); 
+					result = (result.replace(/\B(?=(\d{3})+(?!\d))/g, ","));  
+				  
+					donateModal.find("input[name='myCash']").val(result);
+					
+					openDonateModal();
+				}
+	   	    },
+   	 	
+	   	    function(status){
+	   	    	
+				if(status == "error"){
+					
+					openAlert("Server Error(관리자에게 문의해주세요)");
+				}
+	    	}
+		);
 	});
 	
 	$(".replyList").on("click",'button[data-oper="donateMoney"]', function(event){//댓글 기부 모달폼 열기
@@ -1154,7 +1181,7 @@
 			return;
 		} 
 		
-		replyService.getUserCash(myId, function(result){
+		replyService.getMyCash(myId, function(result){
 				
 				option = 'reply'; 
 				myCash = parseInt(result); 
@@ -1209,17 +1236,32 @@
 							  donateVO    : donateData,
 						 	  alarmVO     : alarmData
 						 	}
-	
-			replyService.updateDonation(commonData, function(result){
 			
-				var boardMoney = $("#boardMoney"); 
-			   	boardMoney.html(result+"\\");  
-			   	
-				closeDonateModal(); 
-				
-				openAlert("기부 하였습니다");
-				
-	   	    });
+			replyService.giveBoardWriterMoney(commonData, 
+					
+					function(result, status){
+					
+						if(status == "success"){ 
+							
+							var boardMoney = $("#boardMoney"); 
+						   	boardMoney.html(result+"\\");  
+						   	
+							closeDonateModal(); 
+							
+							openAlert("기부 하였습니다");
+						}
+		   	    	},
+		   	    
+		   	    	function(status){
+		   	    	
+						if(status == "error"){ 
+							
+							closeDonateModal();
+							
+							openAlert("ServerError입니다");
+						}
+		   	    	}
+			);
 			
 		}else if(option === 'reply'){//댓글 기부시
 				
@@ -1268,7 +1310,7 @@
 							
 							closeDonateModal();
 							
-							openAlert("기부 할 수 없습니다");
+							openAlert("ServerError입니다");
 						}
 		   	    	}
 				);
@@ -1329,7 +1371,7 @@
 		
 	});
 	
-    $("#submitReport").on("click",function(event){//신고 확인 버튼 
+    $("#submitReport").on("click",function(event){//게시글 or 댓글 신고 확인 버튼 
     	  
     	 var reason = reportInput.val();
     	 
@@ -1351,33 +1393,31 @@
 			 				board_num     : board_num, 
 			 				reason        : reason
 		 				  };
-		 
-		 /* var alarmData = { 
-							target		: 'admin',  
-							kind		: 9,
-							commonVar1:reason, 
-							writerNick	: myNickName,
-							writerId	: myId
-	            		 }; */
-			
-		 var commonData ={ 
-			 				reportVO  : reportData,
-			 				//alarmVO   : alarmData
-						 };	
 
-		 replyService.report(commonData, function(result){
-			 
-				 if(result == 'success'){
-					 openAlert("신고완료 되었습니다");
-					 
-				 }else if(result == 'fail'){	
-					 openAlert("신고되지 않았습니다. 관리자에게 문의주세요");
-				 } 
+		 replyService.report(reportData, 
 				 
-				 closeReportForm();  
-		 });
+				function(status){
+				
+					if(status == "success"){
+						
+						openAlert("신고완료 되었습니다");
+						
+						closeReportForm(); 
+					}
+		    	},
+		    
+		    	function(status){
+		    	
+					if(status == "error"){ 
+						
+						openAlert("Server Error(관리자에게 문의해주세요)");
+						
+						closeReportForm(); 
+					}
+		    	}
+		 );
     });
-	 	
+    
 	///////////////////////////////////////////////////////// 
 	$("#replyRegisterBtn").on("click",function(e){//댓글 등록 버튼 
 		
@@ -1648,7 +1688,7 @@
     	  
 	  	 (function(){//즉시실행함수 
 	   	  
-		   	    $.getJSON("/board/getAttachList", {board_num: board_num}, function(arr){
+		   	    $.getJSON("/board/attachList", {board_num: board_num}, function(arr){
 		   	        	
 		    	       var fileStr = "";
 		    	       var hasFile = false;

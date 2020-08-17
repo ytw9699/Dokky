@@ -31,15 +31,6 @@
 	여러 개의 데이터를 처리하는 경우 1:N의 결과를 처리할수 있는〈resultMap〉태그를 지
 	원. -->
   
-  <select id="readMembers" resultMap="memberMap">
-		SELECT 
-		  mem.userid, userpw, nickname, enabled, auth
-		FROM 
-		  dk_member mem LEFT OUTER JOIN dk_member_auth auth on mem.userid = auth.userid 
-		WHERE mem.userid = #{userId} 
-  </select>
-  	
-  	 <!-- 회원가입 -->
 	 <insert id="registerMembers">
 	 
 		 insert into dk_member(
@@ -60,9 +51,16 @@
 	 </insert>
 	 
 	 <insert id="registerMember_auth">
-		 insert into dk_member_auth(userid) values(#{userId})
+		 insert into dk_member_auth(userid, auth) values(#{userId}, 'ROLE_USER')
 	 </insert>
-	 <!-- 회원가입 -->
+	 
+	  <select id="readMembers" resultMap="memberMap">
+		SELECT 
+		  mem.userid, userpw, nickname, enabled, auth
+		FROM 
+		  dk_member mem LEFT OUTER JOIN dk_member_auth auth on mem.userid = auth.userid 
+		WHERE mem.userid = #{userId} 
+ 	 </select>
 	 
 	 <!-- 재 회원가입 -->
      <update id="reRegisterMembers">
@@ -75,88 +73,10 @@
 								 enabled = 1
 						   where userid = #{userId}
 	 </update>
-	 <!-- 재 회원가입 -->
-	 
-	 <!-- 아이디 중복 체크 카운트 구하기 -->
-	 <select id="IdCheckedCount" resultType="int">
-	 	select count(*) from dk_member where userId= #{inputId}
-	 </select>
 	 
 	 <!-- 이메일 중복 체크 카운트 구하기 -->
 	 <select id="emailCheckedCount" resultType="int">
 	 	select count(*) from dk_member where email= #{inputEmail}
 	 </select>
-	 
-	 <!-- 가장 마지막 이전의 로그인 날짜 업데이트 -->
-	 <update id="updatePreLoginDate">
-	 	update dk_member set preLoginDate = lastLoginDate where userId = #{userId} 
-	 </update>
-	 
-	 <!-- 가장 마지막 로그인날짜 -->
-	 <update id="updatelastLoginDate">
-	 	update dk_member set lastLoginDate = sysdate where userId = #{userId} 
-	 </update>
-	 
-	 <select id="getRealtimeList" resultType="org.my.domain.BoardVO"> 
-		 SELECT /*+INDEX_DESC(DK_BOARD PK_DK_BOARD) */ money,replyCnt, board_num, title, nickName, regdate, hitCnt,userId,likeCnt
-		  from dk_board where <![CDATA[ rownum <= 5  ]]>
-	</select>
-	 
-	<select id="getMonthlyList" resultType="org.my.domain.BoardVO"> 
-		select 	 
-				money,
-		 		replyCnt,
-			 	board_num, 
-			 	title, 
-			 	nickName, 
-			 	regdate, 
-			 	hitCnt,
-			 	userId,
-			 	likeCnt
-			 from (
-		SELECT 
-			money,
-			replyCnt,
-		 	board_num, 
-		 	title, 
-		 	nickName, 
-		 	regdate, 
-		 	hitCnt,
-		 	userId,
-		 	likeCnt
-		  from dk_board WHERE REGDATE >= SYSDATE-30 order by likeCnt desc,hitcnt desc,replycnt desc )
-		  where <![CDATA[ rownum <= 5 ]]>
-	</select>
-	
-	<select id="getDonationList" resultType="org.my.domain.BoardVO"> 
-		<![CDATA[
-		 	select 	 
-		 		 money,
-	 			 replyCnt, 
-	 			 board_num, 
-	 			 title, 
-	 			 nickName, 
-	 			 regdate, 
-	 			 hitCnt,
-	 			 userId,
-	 			 likeCnt
-			 from 
-			   ( 
-			   SELECT
-			   	 money , 
-			   	 replyCnt, 
-			   	 board_num, 
-			   	 title, 
-			   	 nickName, 
-			   	 regdate, 
-			   	 hitCnt,
-			   	 userId,
-			   	 likeCnt
-			FROM 
-				  dk_board WHERE REGDATE >= SYSDATE-30 order by money desc )
-			
-			where rownum <= 5 
-			]]>
-	</select>
 	 
 </mapper>

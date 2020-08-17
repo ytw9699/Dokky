@@ -128,7 +128,7 @@
 		    
 		    var board_num = '<c:out value="${board.board_num}"/>';
 		    
-		    $.getJSON("/board/getAttachList", {board_num: board_num}, function(arr){
+		    $.getJSON("/board/attachList", {board_num: board_num}, function(arr){
 		    
 			      var fileStr ="";
 			      var photoStr ="";

@@ -207,17 +207,17 @@ var replyService = (function() {
 		});
 	}
 	
-	function getUserCash(userId, callback, error) {
+	function getMyCash(userId, callback, error) {
 
-		$.get("/board/usercash/" + userId, function(result) {
+		$.get("/board/myCash/" + userId, function(result, status) {
 
 			if (callback) {
-				callback(result);
+				callback(result, status);
 			}
 
 		}).fail(function(xhr, status, err) {
 			if (error) {
-				error();
+				error(status);
 			}
 		});
 	}
@@ -239,22 +239,21 @@ var replyService = (function() {
 		});
 	}*/
 	
-	
-	function updateDonation(commonData, callback, error) {//게시글 기부하기
+	function giveBoardWriterMoney(commonData, callback, error) {//게시글 기부하기
 		
 		$.ajax({
-			type : 'put', 
-			url : '/board/donateMoney',  
+			type : 'post', 
+			url : '/board/giveBoardWriterMoney',  
 			data : JSON.stringify(commonData), 
 			contentType : "application/json; charset=utf-8",
 			success : function(result, status, xhr) {
 				if (callback) {
-					callback(result);
+					callback(result, status);
 				}
 			},
 			error : function(xhr, status, er) {
 				if (error) {
-					error(er);
+					error(status);
 				}
 			}
 		});
@@ -278,7 +277,7 @@ var replyService = (function() {
 					}
 				}
 			});
-		}
+	}
 	
 	function postScrapData(scrapData, callback, error) {
 		
@@ -287,12 +286,12 @@ var replyService = (function() {
 				url : '/board/scrapData/' + scrapData.board_num + '/' + scrapData.userId,
 				success : function(result, status, xhr) {
 					if (callback) {
-						callback(result,xhr);
+						callback(result, status);
 					}
 				},
 				error : function(xhr, status, er) {
 					if (error) {
-						error(xhr,er);
+						error(status);
 					}
 				}
 		});
@@ -305,32 +304,32 @@ var replyService = (function() {
 				url : '/board/scrapData/' + scrapData.board_num + '/' + scrapData.userId,
 				success : function(result, status, xhr) {
 					if (callback) {
-						callback(result,xhr);
+						callback(result, status);
 					}
 				},
 				error : function(xhr, status, er) {
 					if (error) {
-						error(xhr,er);
+						error(status);
 					}
 				}
 		});
 	}
 	
-	function report(commonData, callback, error) {
+	function report(reportData, callback, error) {
 		
 			$.ajax({
 				type : 'post',
 				url : '/board/report',
-				data : JSON.stringify(commonData),
+				data : JSON.stringify(reportData),
 				contentType : "application/json; charset=utf-8",
 				success : function(result, status, xhr) {
 					if (callback) { 
-						callback(result);
+						callback(status);
 					}
 				},
 				error : function(xhr, status, er) {
 					if (error) {
-						error(er);
+						error(status);
 					}
 				}
 			})
@@ -386,8 +385,8 @@ var replyService = (function() {
 		disLikeBoard : disLikeBoard,
 		likeReply : likeReply,
 		disLikeReply : disLikeReply,
-		getUserCash : getUserCash,
-		updateDonation : updateDonation,
+		getMyCash : getMyCash,
+		giveBoardWriterMoney : giveBoardWriterMoney,
 		giveReplyWriterMoney : giveReplyWriterMoney,
 		postScrapData : postScrapData,
 		deleteScrapData : deleteScrapData,
