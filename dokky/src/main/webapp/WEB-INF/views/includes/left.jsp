@@ -177,6 +177,7 @@
 	</div>
 	
 	<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+	<!-- <script src="https://cdnjs.cloudflare.com/ajax/libs/sockjs-client/1.5.0/sockjs.min.js"></script> -->
 	<script>
 	
 	var webSocket = null; //소켓 객체 전역변수
@@ -188,11 +189,13 @@
 		if(serverName == 'localhost'){
 		
 			webSocket = new WebSocket("ws://localhost:8080/websocketHandler");
+			//webSocket = new SockJS("http://localhost:8080/websocketHandler");
 			//최초 접속이 일반 http request를 통해 handshaking과정을 통해 이루어 진다는 점
+			//LoadModule proxy_module modules/mod_proxy.so 
 
 		}else{
-			
-			webSocket = new WebSocket("wss://dokky.ga:443/websocketHandler");
+			//webSocket = new SockJS("http://dokky.ga:80/websocketHandler");
+			webSocket = new WebSocket("ws://dokky.ga:80/websocketHandler");
 		}
 		
 		//WebSocket API
