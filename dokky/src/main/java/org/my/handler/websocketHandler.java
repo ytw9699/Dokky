@@ -55,7 +55,12 @@ public class websocketHandler extends TextWebSocketHandler {
 			}else if(kind.equals("limit") && userSession == null) {//계정 제한은 하였지만 유저의 세션이 존재하지 않는다면 로그아웃 시키지 않는다.
 				
 				session.sendMessage(new TextMessage("limitSuccessMessageToAdmin"));//관리자에게만 메시지를 보낸다
+			
+			}else if(kind.equals("noteAlarm") && userSession != null) {//쪽지를 쓰고 알림 업데이트 요청을 사용자에게 보낸다
+				
+				userSession.sendMessage(new TextMessage("noteAlarmUpdateRequestToUser"));
 			}
+			
 		}
 	}
 	

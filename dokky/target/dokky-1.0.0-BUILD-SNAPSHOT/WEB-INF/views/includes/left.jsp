@@ -195,7 +195,7 @@
 
 		}else{
 			//webSocket = new SockJS("http://dokky.ga:80/websocketHandler");
-			webSocket = new WebSocket("ws://dokky.ga:80/websocketHandler");
+			webSocket = new WebSocket("wss://dokky.ga:443/websocketHandler");
 		}
 		
 		//WebSocket API

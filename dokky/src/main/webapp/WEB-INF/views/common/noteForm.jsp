@@ -170,7 +170,13 @@
 		    commonService.insertNote(noteData, function(result, status){
 		    	
 			    	if(status == "success"){
+			    			
 			    		window.close(); 
+			    		
+			    		if(opener.webSocket != null){
+							opener.webSocket.send("noteAlarm,"+noteData.to_id);
+					   	}
+			    		
 						opener.openAlert(result);
 			    	}
 	   	    });
