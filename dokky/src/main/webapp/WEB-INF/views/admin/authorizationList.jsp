@@ -142,12 +142,12 @@
 	   				contentType : "application/json; charset=utf-8",
 	   				success : function(result, status, xhr) {
 	   					if (callback) {
-	   						callback(result,xhr);
+	   						callback(result, status);
 	   					}
 	   				},
 	   				error : function(xhr, status, er) {
 	   					if (error) {
-	   						error(xhr,er);
+	   						error(status);
 	   					}
 	   				}
 	   			});
@@ -162,12 +162,12 @@
 	   				contentType : "application/json; charset=utf-8",
 	   				success : function(result, status, xhr) {
 	   					if (callback) {
-	   						callback(result,xhr);
+	   						callback(result, status);
 	   					}
 	   				},
 	   				error : function(xhr, status, er) {
 	   					if (error) {
-	   						error(xhr,er);
+	   						error(status);
 	   					}
 	   				}
 	   			});
@@ -191,16 +191,33 @@
 											writerNick:myNickName,
 											  writerId:myId
 								 		};
-						
-						updateRoleUser(userId, alarmData, function(result){ 
-							
-							authButton.html("사용자");
-							
-							authButton.attr('class','authorization'); 
-	
-							openAlert("사용자 계정으로 변경 완료");
-							
-				   	    }); 
+						 
+						updateRoleUser(userId, alarmData,
+								
+								function(result, status){
+								
+									if(status == "success"){ 
+										
+										authButton.html("사용자");
+										
+										authButton.attr('class','authorization'); 
+				
+										openAlert("사용자 계정으로 변경 완료");
+										
+										if(webSocket != null && alarmData != null ){
+									   		webSocket.send("sendAlarmMsg,"+alarmData.target);
+									   	}
+									}
+					   	    	},
+					   	    
+					   	    	function(status){
+					   	    	
+									if(status == "error"){ 
+										
+										openAlert("Server Error(관리자에게 문의해주세요)");
+									}
+					   	    	}
+						 ); 
 					
 				}else if((auth == '사용자')){
 					
@@ -211,14 +228,32 @@
 											  writerId:myId
 								 		};
 						
-						updateRoleAdmin(userId, alarmData, function(result){ 
-							
-							authButton.html("관리자");
-							
-							authButton.attr('class','authorization admin'); 
-							
-							openAlert("관리자 계정으로 변경 완료");				   	
-				   	  	})
+				   		updateRoleAdmin(userId, alarmData,
+								
+								function(result, status){
+								
+									if(status == "success"){ 
+										
+										authButton.html("관리자");
+										
+										authButton.attr('class','authorization admin'); 
+										
+										openAlert("관리자 계정으로 변경 완료");		
+										
+										if(webSocket != null && alarmData != null ){
+									   		webSocket.send("sendAlarmMsg,"+alarmData.target);
+									   	}
+									}
+					   	    	},
+					   	    
+					   	    	function(status){
+					   	    	
+									if(status == "error"){ 
+										
+										openAlert("Server Error(관리자에게 문의해주세요)");
+									}
+					   	    	}
+						 ); 
 				   	  	
 				}else{
 					

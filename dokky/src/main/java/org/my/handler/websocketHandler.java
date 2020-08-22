@@ -46,7 +46,15 @@ public class websocketHandler extends TextWebSocketHandler {
 			
 			WebSocketSession userSession = userSessionsMap.get(userId);//유저 아이디에 해당하는 웹소켓 세션을 가져온다.
 			
-			if(kind.equals("limit") && userSession != null){//요청의 종류가 계정 제한 이고 해당 유저의 세션이 존재한다면
+			if(kind.equals("sendAlarmMsg") && userSession != null) {//모든 알람 메시지
+			
+				userSession.sendMessage(new TextMessage("allAlarmUpdateRequestToUser"));
+			
+			}else if(kind.equals("noteAlarm") && userSession != null) {//쪽지를 쓰고 알림 업데이트 요청을 사용자에게 보낸다
+				
+				userSession.sendMessage(new TextMessage("noteAlarmUpdateRequestToUser"));
+			
+			}else if(kind.equals("limit") && userSession != null){//요청의 종류가 계정 제한 이고 해당 유저의 세션이 존재한다면
 				
 				userSession.sendMessage(new TextMessage("limitAndLogoutSuccessMessageToUser"));//유저에게  메시지를 보낸다
 				
@@ -55,12 +63,7 @@ public class websocketHandler extends TextWebSocketHandler {
 			}else if(kind.equals("limit") && userSession == null) {//계정 제한은 하였지만 유저의 세션이 존재하지 않는다면 로그아웃 시키지 않는다.
 				
 				session.sendMessage(new TextMessage("limitSuccessMessageToAdmin"));//관리자에게만 메시지를 보낸다
-			
-			}else if(kind.equals("noteAlarm") && userSession != null) {//쪽지를 쓰고 알림 업데이트 요청을 사용자에게 보낸다
-				
-				userSession.sendMessage(new TextMessage("noteAlarmUpdateRequestToUser"));
-			}
-			
+			} 
 		}
 	}
 	

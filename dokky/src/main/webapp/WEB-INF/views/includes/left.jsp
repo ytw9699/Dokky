@@ -208,7 +208,13 @@
 				
 				console.log("webSocket message");
 				
-				if(event.data == 'noteAlarmUpdateRequestToUser'){
+ 				if(event.data == 'allAlarmUpdateRequestToUser'){
+ 					
+ 					 getAlarmRealCount(userId, function(result){
+ 				    		alarmCount.html(result);
+ 				 	 });
+					
+				}else if(event.data == 'noteAlarmUpdateRequestToUser'){
 					 
 					 getNoteCount(userId, function(result){
 					    	noteCount.html(result);

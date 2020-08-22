@@ -188,7 +188,7 @@
 						          		</a>
 							       </c:when>  
 							       
-						           <c:when test="${alarm.kind == 9 }">
+						           <%-- <c:when test="${alarm.kind == 9 }">
 						          			<c:choose>
 										        <c:when test="${fn:length(alarm.commonVar1) gt 15}">
 										        	<a href="#" class="getUserReportList" data-alarm_num="${alarm.alarmNum}">
@@ -201,11 +201,11 @@
 										        	</a> 
 										        </c:otherwise>
 											</c:choose>
-							       </c:when>
+							       </c:when> --%>
 							       
 							       <c:when test="${alarm.kind == 10 }">  
 						          		<a href="#" class="getMyPage" data-alarm_num="${alarm.alarmNum}">
-						          			모든 쓰기 기능이 관리자에 의해 제한되었습니다. 
+						          			관리자에 의해 모든 쓰기 기능이 제한되었습니다. 
 						          		</a>
 							       </c:when>  
 							       

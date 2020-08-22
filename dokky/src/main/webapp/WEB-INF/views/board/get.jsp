@@ -948,11 +948,29 @@
 						 	alarmVO     : alarmData
 	 					 };
 	    
-	   	replyService.likeBoard(commonData, function(result){
-	   	
-			   	var likeCount = $("#likeCount");
-			  	likeCount.html(result);
-        }); 
+	   	replyService.likeBoard(commonData, 
+	   			
+		   		function(result, status){
+				
+					if(status == "success"){ 
+						
+					   	var likeCount = $("#likeCount");
+					  	likeCount.html(result);
+					  	
+					  	if(webSocket != null && alarmData != null ){
+					   		webSocket.send("sendAlarmMsg,"+alarmData.target);
+					   	}
+					}
+		    	},
+			    
+		    	function(status){
+		    	
+					if(status == "error"){ 
+						
+						openAlert("Server Error(관리자에게 문의해주세요)");
+					}
+		    	}
+	   	); 
 	   	//다시보기 추후 좋아요를 눌르면 이미지변경까지, 취소하면 이미지변경 추가해보자
    	}); 
    	
@@ -986,12 +1004,30 @@
 						 	alarmVO        : alarmData
 			 			 }
 		
-		replyService.disLikeBoard(commonData, function(result){
-		   	 
-			   	var dislikeCount = $("#dislikeCount");
-			   	dislikeCount.html(result);
-		   	
-   	    });
+		replyService.disLikeBoard(commonData, 
+	   			
+		   		function(result, status){
+				
+					if(status == "success"){ 
+						
+						var dislikeCount = $("#dislikeCount");
+					   	dislikeCount.html(result);
+					  	
+					  	if(webSocket != null && alarmData != null ){
+					   		webSocket.send("sendAlarmMsg,"+alarmData.target);
+					   	}
+					}
+		    	},
+			    
+		    	function(status){
+		    	
+					if(status == "error"){ 
+						
+						openAlert("Server Error(관리자에게 문의해주세요)");
+					}
+		    	}
+	   	); 
+	   	
 	});
 	
 	///////////////////////////////////////////////////////
@@ -1035,6 +1071,10 @@
 						
 						var replyLikeCount = $("#replyLikeCount"+reply_num);
 						replyLikeCount.html(result);
+						
+						if(webSocket != null && alarmData != null ){
+					   		webSocket.send("sendAlarmMsg,"+alarmData.target);
+					   	}
 					}
 	   	    	},
 	   	    
@@ -1090,6 +1130,10 @@
 							
 							var replyDisLikeCount = $("#replyDisLikeCount"+reply_num);
 							replyDisLikeCount.html(result);
+							
+							if(webSocket != null && alarmData != null ){
+						   		webSocket.send("sendAlarmMsg,"+alarmData.target);
+						   	}
 						}
 		   	    	},
 		   	    
@@ -1249,6 +1293,10 @@
 							closeDonateModal(); 
 							
 							openAlert("기부 하였습니다");
+							
+							if(webSocket != null && alarmData != null ){
+						   		webSocket.send("sendAlarmMsg,"+alarmData.target);
+						   	}	
 						}
 		   	    	},
 		   	    
@@ -1301,6 +1349,10 @@
 							closeDonateModal();
 							
 							openAlert("기부 하였습니다");
+							
+							if(webSocket != null && alarmData != null ){
+						   		webSocket.send("sendAlarmMsg,"+alarmData.target);
+						   	}	
 						}
 		   	    	},
 		   	    
@@ -1474,7 +1526,12 @@
 							
 							reply_contents.val("");
 						        
-					        showReplyList(-1);//다시 댓글 목록 마지막 페이지 보여주기		
+					        showReplyList(-1);//다시 댓글 목록 마지막 페이지 보여주기	
+					        
+					    	if(webSocket != null && alarmData != null ){
+						   		webSocket.send("sendAlarmMsg,"+alarmData.target);
+						   	}	
+					        
 						}
 		   	    	},
 		   	    
@@ -1573,13 +1630,17 @@
 						
 							if(status == "success"){ 
 								
-								reReplyWriteForm.css("display","none"); 
+								reReplyWriteForm.css("display","none");
 						     	 
 				     			reReply_contents.val("");//대댓글 내용  비우기 
 				     			
 				     			$(".replyWriteForm").after(reReplyWriteForm);//댓글 리스트가 리셋되면 폼이 사라지니까 다시 붙여두기 
 						         
 						        showReplyList(-1);//댓글 목록 마지막 페이지 보여주기
+						        
+						        if(webSocket != null && alarmData != null ){
+							   		webSocket.send("sendAlarmMsg,"+alarmData.target);
+							   	}	
 							}
 			   	    	},
 			   	    
