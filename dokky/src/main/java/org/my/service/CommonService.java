@@ -1,17 +1,26 @@
 package org.my.service;
 	import java.util.List;
-
-import javax.servlet.http.HttpServletRequest;
-import javax.servlet.http.HttpServletResponse;
-
-import org.my.domain.Criteria;
-import org.my.domain.MemberVO;
-import org.my.domain.VisitCountVO;
+	import javax.servlet.http.HttpServletRequest;
+	import javax.servlet.http.HttpServletResponse;
+	import org.my.domain.BoardVO;
+	import org.my.domain.Criteria;
+	import org.my.domain.MemberVO;
+	import org.my.domain.VisitCountVO;
 	import org.my.domain.alarmVO;
 	import org.my.domain.noteVO;
-import org.springframework.security.core.Authentication;
+	import org.springframework.security.core.Authentication;
 
 public interface CommonService {
+	
+	public void logout(HttpServletRequest request, HttpServletResponse response, Authentication authentication);
+	
+	public List<BoardVO> getRealtimeBoardList();
+
+	public List<BoardVO> getMonthlyBoardList();
+
+	public List<BoardVO> getDonationBoardList();
+	
+	public boolean getNicknameCheckedVal(String inputNickname, String userId);
 	 
 	public boolean getIdCheckedVal(String profileId);
 	
@@ -43,14 +52,6 @@ public interface CommonService {
 	
 	public boolean deleteMyNote(Long note_num);
 
-	public int getFromNoteCount(Criteria cri);
-
-	public int getToNoteCount(Criteria cri);
-
-	public int getMyNoteCount(Criteria cri);
-
-	public int insertNote(noteVO note);
-
 	public int updateNoteCheck(String note_num);
 
 	public noteVO getDetailNotepage(Long note_num);
@@ -67,15 +68,20 @@ public interface CommonService {
 
 	public String getNoteCount(String userId);
 	
-	public void logout(HttpServletRequest request, HttpServletResponse response, Authentication authentication);
-
 	public int getEnabled(String userId);
 	
-	public boolean checkNickname(String nickName,String userId);
-
 	public boolean setAuthentication(MemberVO memberVO, boolean checkAuth);  
 	
 	public String getAccessKey();
 
 	public String getSecretKey();
+	
+	
+	public int getFromNoteCount(Criteria cri);
+
+	public int getToNoteCount(Criteria cri);
+
+	public int getMyNoteCount(Criteria cri);
+	
+	public int insertNote(noteVO note);
 }

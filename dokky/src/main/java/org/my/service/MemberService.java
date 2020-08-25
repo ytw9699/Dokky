@@ -5,20 +5,14 @@ package org.my.service;
 
 public interface MemberService {
 	 
-	public MemberVO readMembers(String userId);
-	
 	public boolean registerMembers(MemberVO vo);
+	
+	public MemberVO readMembers(String userId);
 	
 	public boolean reRegisterMembers(MemberVO vo);
 	
-	public boolean registerAdminMembers(MemberVO vo);
-
-	public boolean getEmailCheckedVal(String inputEmail);
-
-	public List<BoardVO> getRealtimeList();
-
-	public List<BoardVO> getMonthlyList();
-
-	public List<BoardVO> getDonationList();
+	//public boolean registerAdminMembers(MemberVO vo);
+	
+	//public boolean getEmailCheckedVal(String inputEmail);
 	
 }

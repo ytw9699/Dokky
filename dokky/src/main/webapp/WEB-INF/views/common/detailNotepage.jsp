@@ -79,7 +79,7 @@
 									<div id="userMenubar_${note.note_num}" class="userMenubar">
 										<ul class="hideUsermenu">
 											<li class="hideUsermenu"><a href="/userBoardList?userId=${note.to_id}" class="hideUsermenu"><span class="hideUsermenu">게시글보기</span></a></li>
-											<li class="hideUsermenu"><a href="#" class="hideUsermenu"><span class="hideUsermenu">쪽지보내기</span></a></li>
+											<li class="hideUsermenu"><a href="#" class="hideUsermenu" onclick="noteOpen('${note.to_id}','${note.to_nickname}')"><span class="hideUsermenu">쪽지보내기</span></a></li>
 										</ul>      
 								    </div> 
 					          	</div>
@@ -125,30 +125,11 @@
 
 		var popupY= (window.screen.height /2) - (500 / 2);
 	         
-        window.open('/minRegNote?userId='+userId+'&nickname='+nickname, 'ot', 'height=500, width=400, left='+ popupX + ', top='+ popupY + ', screenX='+ popupX + ', screenY= '+ popupY);
+        window.open('/noteForm?userId='+userId+'&nickname='+nickname, 'ot', 'height=500, width=400, left='+ popupX + ', top='+ popupY + ', screenX='+ popupX + ', screenY= '+ popupY);
     } 
 
 	
 	//////////////////////////////////////////////////////////////////////////////
-	
-	function insertNote(noteData, callback, error) {
-			$.ajax({
-				type : 'post',
-				url : '/Note',
-				data : JSON.stringify(noteData),
-				contentType : "application/json; charset=utf-8",
-				success : function(result, status, xhr) {
-					if (callback) { 
-						callback(result);
-					}
-				},
-				error : function(xhr, status, er) {
-					if (error) {
-						error(er);
-					}
-				}
-			})
-	}
 	
 	$("#checkbox").on("change", function(e){
 			
@@ -192,7 +173,7 @@
 		    					read_check 	    : 'NO' 		  //쪽지 읽음 체크
 				 		  };
 		    
-		    insertNote(noteData, function(result){
+		    commonService.insertNote(noteData, function(result){
 				
 			    	$("#content").val("");
 			    	$("#to_id").val(""); 

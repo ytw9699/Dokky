@@ -69,6 +69,7 @@
 		      <beans:bean class="org.springframework.web.socket.server.support.HttpSessionHandshakeInterceptor"/>
 		      <!-- 로그인한 유저의 아이디를 알려면 http세션을 써야함, 그러려면 웹소켓 세션에다가 http세션을 올려줘야 접근이 가능함 -->
 		 </websocket:handshake-interceptors>
+		 <!-- <websocket:sockjs/> -->
 	</websocket:handlers>
 	
 	

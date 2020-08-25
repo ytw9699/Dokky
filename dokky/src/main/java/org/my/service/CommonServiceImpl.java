@@ -1,30 +1,28 @@
 package org.my.service;
 	import java.util.ArrayList;
-import java.util.Iterator;
-import java.util.List;
-
-import javax.servlet.http.Cookie;
-import javax.servlet.http.HttpServletRequest;
-import javax.servlet.http.HttpServletResponse;
-
-import org.my.domain.AuthVO;
+	import java.util.Iterator;
+	import java.util.List;
+	import javax.servlet.http.Cookie;
+	import javax.servlet.http.HttpServletRequest;
+	import javax.servlet.http.HttpServletResponse;
+	import org.my.domain.AuthVO;
+import org.my.domain.BoardVO;
 import org.my.domain.Criteria;
-import org.my.domain.MemberVO;
-import org.my.domain.VisitCountVO;
+	import org.my.domain.MemberVO;
+	import org.my.domain.VisitCountVO;
 	import org.my.domain.alarmVO;
 	import org.my.domain.noteVO;
 	import org.my.mapper.CommonMapper;
-import org.my.security.domain.CustomUser;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
-import org.springframework.security.core.Authentication;
-import org.springframework.security.core.GrantedAuthority;
-import org.springframework.security.core.authority.SimpleGrantedAuthority;
-import org.springframework.security.core.context.SecurityContextHolder;
-import org.springframework.stereotype.Service;
-import org.springframework.transaction.annotation.Transactional;
-
-import lombok.Setter;
+	import org.my.security.domain.CustomUser;
+	import org.springframework.beans.factory.annotation.Autowired;
+	import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
+	import org.springframework.security.core.Authentication;
+	import org.springframework.security.core.GrantedAuthority;
+	import org.springframework.security.core.authority.SimpleGrantedAuthority;
+	import org.springframework.security.core.context.SecurityContextHolder;
+	import org.springframework.stereotype.Service;
+	import org.springframework.transaction.annotation.Transactional;
+	import lombok.Setter;
 	import lombok.extern.log4j.Log4j;
 
 @Log4j
@@ -33,6 +31,62 @@ public class CommonServiceImpl implements CommonService {
 
 	@Setter(onMethod_ = @Autowired)
 	private CommonMapper mapper;
+	
+	@Override 
+	public void logout(HttpServletRequest request, HttpServletResponse response, Authentication authentication) {  
+		
+		log.info("/logout"); 
+		
+		if(authentication != null) {
+			//log.info(SecurityContextHolder.getContext().getAuthentication().getPrincipal());
+			SecurityContextHolder.getContext().setAuthentication(null);//인증 풀기
+		}
+		
+		request.getSession().invalidate();//세션무효화
+
+		Cookie JSESSIONID = new Cookie("JSESSIONID", null);
+
+		JSESSIONID.setMaxAge(0);
+
+		response.addCookie(JSESSIONID);//쿠키 삭제
+	}
+	
+	@Override
+	public List<BoardVO> getRealtimeBoardList() {
+
+		log.info("getRealtimeBoardList: ");
+
+		return mapper.getRealtimeBoardList();
+	}
+	@Override
+	public List<BoardVO> getMonthlyBoardList() {
+
+		log.info("getMonthlyBoardList: ");
+
+		return mapper.getMonthlyBoardList();
+	}
+	@Override
+	public List<BoardVO> getDonationBoardList() {
+
+		log.info("getDonationBoardList: ");
+
+		return mapper.getDonationBoardList();
+	}
+	
+	@Override
+	public boolean getNicknameCheckedVal(String inputNickname, String userId) {
+		
+		log.info("getNicknameCheckedVal");
+		
+		if(userId != null) {
+			
+			if(inputNickname.equals(mapper.getNickname(userId))) {
+				return false;
+			}
+		}
+		
+		return mapper.getNicknameCheckedVal(inputNickname) == 1;
+	}
 	
 	@Override 
 	public boolean getIdCheckedVal(String profileId) {
@@ -177,27 +231,6 @@ public class CommonServiceImpl implements CommonService {
 		return mapper.updateNoteCheck(note_num);
 	}
 	
-	@Override
-	public List<noteVO> getFromNoteList(Criteria cri){
-		log.info("getFromNoteList");
-		
-		return mapper.getFromNoteList(cri);
-	}
-	
-	@Override
-	public List<noteVO> getMyNoteList(Criteria cri){
-		log.info("getMyNoteList");
-		
-		return mapper.getMyNoteList(cri);
-	}
-	
-	@Override
-	public List<noteVO> getToNoteList(Criteria cri){
-		log.info("getToNoteList");
-		
-		return mapper.getToNoteList(cri);
-	}
-	
 	@Override 
 	public noteVO getDetailNotepage(Long note_num) {
 		
@@ -207,75 +240,11 @@ public class CommonServiceImpl implements CommonService {
 	}
 	
 	@Override 
-	public int getFromNoteCount(Criteria cri) {
-		log.info("getFromNoteCount");
-		
-		return mapper.getFromNoteCount(cri);
-	}
-	
-	@Override 
-	public int getToNoteCount(Criteria cri) {
-		log.info("getToNoteCount");
-		
-		return mapper.getToNoteCount(cri);
-	}
-	
-	@Override 
-	public int getMyNoteCount(Criteria cri) {
-		log.info("getMyNoteCount");
-		
-		return mapper.getMyNoteCount(cri);
-	}
-	
-	@Override 
-	public int insertNote(noteVO vo) {  
-
-		log.info("insertNote : " + vo); 
-		
-		return mapper.insertNote(vo) ;
-	}
-	
-	@Override 
-	public void logout(HttpServletRequest request, HttpServletResponse response, Authentication authentication) {  
-		
-		log.info("logout"); 
-		
-		if(authentication != null) {
-			log.info(SecurityContextHolder.getContext().getAuthentication().getPrincipal());
-			SecurityContextHolder.getContext().setAuthentication(null);//인증 풀기
-		}
-		
-		request.getSession().invalidate();//세션무효화
-
-		Cookie JSESSIONID = new Cookie("JSESSIONID", null);
-
-		JSESSIONID.setMaxAge(0);
-
-		response.addCookie(JSESSIONID);//쿠키 삭제
-	}
-	
-	@Override 
 	public int getEnabled(String userId){  
 
 		log.info("getEnabled : " + userId); 
 		
 		return mapper.getEnabled(userId);
-	}
-	
-	@Override
-	public boolean checkNickname(String nickName, String userId) {
-		
-		log.info("checkNickname");
-		
-		if(userId != null) {
-			
-			if(nickName.equals(mapper.getNickname(userId))) {
-				return false;
-			}
-			
-		}
-		
-		return mapper.checkNickname(nickName) == 1;
 	}
 	
 	@Override 
@@ -334,6 +303,57 @@ public class CommonServiceImpl implements CommonService {
 		
 		return mapper.getSecretKey();
 	}
+	
+	@Override 
+	public int getFromNoteCount(Criteria cri) {
+		log.info("getFromNoteCount");
+		
+		return mapper.getFromNoteCount(cri);
+	}
+	
+	@Override 
+	public int getToNoteCount(Criteria cri) {
+		log.info("getToNoteCount");
+		
+		return mapper.getToNoteCount(cri);
+	}
+	
+	@Override 
+	public int getMyNoteCount(Criteria cri) {
+		log.info("getMyNoteCount");
+		
+		return mapper.getMyNoteCount(cri);
+	}
+	
+	@Override 
+	public int insertNote(noteVO vo) {  
+
+		log.info("insertNote : " + vo); 
+		
+		return mapper.insertNote(vo) ;
+	}
+	
+	@Override
+	public List<noteVO> getFromNoteList(Criteria cri){
+		log.info("getFromNoteList");
+		
+		return mapper.getFromNoteList(cri);
+	}
+	
+	@Override
+	public List<noteVO> getMyNoteList(Criteria cri){
+		log.info("getMyNoteList");
+		
+		return mapper.getMyNoteList(cri);
+	}
+	
+	@Override
+	public List<noteVO> getToNoteList(Criteria cri){
+		log.info("getToNoteList");
+		
+		return mapper.getToNoteList(cri);
+	}
+	
 	
 
 }

@@ -218,6 +218,10 @@
 					 		specification.html("승인완료"); 
 					 		
 					 		openAlert("승인완료 되었습니다");
+					 		
+					 		if(webSocket != null && alarmData != null ){
+						   		webSocket.send("sendAlarmMsg,"+alarmData.target);
+						   	}	
 						}
 						
 			   	    });

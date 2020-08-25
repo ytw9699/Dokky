@@ -9,13 +9,13 @@
 <head>
 	<meta charset="UTF-8">
 	<script src="//code.jquery.com/jquery-1.11.3.min.js"></script>
-	<title>Dokky - 쪽지쓰기</title>  
+	<title>Dokky - 내게쪽지쓰기</title>  
 	<c:choose>
 	   	  <c:when test="${pageContext.request.serverName == 'localhost'}">
-				<link href="/resources/css/registerNote.css" rel="stylesheet" type="text/css">
+				<link href="/resources/css/myNoteForm.css" rel="stylesheet" type="text/css">
 		  </c:when>
 	      <c:otherwise>
-	    		<link href="/ROOT/resources/css/registerNote.css" rel="stylesheet" type="text/css">
+	    		<link href="/ROOT/resources/css/myNoteForm.css" rel="stylesheet" type="text/css">
 	      </c:otherwise>
 	</c:choose>
 </head>
@@ -110,25 +110,6 @@
 	
 	//////////////////////////////////////////////////////////////////////////////
 	
-	function insertNote(noteData, callback, error) {
-			$.ajax({
-				type : 'post',
-				url : '/Note',
-				data : JSON.stringify(noteData),
-				contentType : "application/json; charset=utf-8",
-				success : function(result, status, xhr) {
-					if (callback) { 
-						callback(result);
-					}
-				},
-				error : function(xhr, status, er) {
-					if (error) {
-						error(er);
-					}
-				}
-			})
-	}
-	
 	/* $("#checkbox").on("change", function(e){
 			
 			if($("#checkbox").is(":checked")){
@@ -173,7 +154,7 @@
 		    					read_check 	    : 'NO' 		  //쪽지 읽음 체크
 				 		  };
 		    
-		    insertNote(noteData, function(result){
+		    commonService.insertNote(noteData, function(result){ 
 				
 			    	$("#content").val("");
 			    	//$("#to_id").val(""); 

@@ -45,7 +45,11 @@ public class CustomUserDetailsService implements UserDetailsService {
 			}
 		}
 		
+		log.warn("queried by member mapper:11111 ");
+		
 		commonService.updateLoginDate(userName); //로긴날짜찍기
+		
+		log.warn("queried by member mapper:2222 ");
 		
 		return new CustomUser(vo);
 	} 

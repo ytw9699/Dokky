@@ -25,8 +25,12 @@
 <div class="userReplyWrap">	
 
 		<div id="userId">
-			   ${userReply[0].nickName} 회원님의 댓글   
-			   <%-- ${pageMaker.cri.userId} --%> 
+				<c:if test="${enabled == 0}">
+						탈퇴회원 입니다.
+		        </c:if>
+		        <c:if test="${enabled == 1}">
+						${userReply[0].nickName} 회원님의 댓글   
+		        </c:if>
 		</div>
 		
 		<div id="menuWrap">

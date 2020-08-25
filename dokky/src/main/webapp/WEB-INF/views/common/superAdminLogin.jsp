@@ -129,11 +129,11 @@
 		    if(memberCheck()){
 		    	return; 
 		    }
-		  
-		    if($('#userId').val() != 'admin'){ 
-		    	openAlert("아이디를 다시 확인해주세요"); 
+		    
+		    /* if($('#userId').val() != 'admin'){ 
+		    	openAlert("아이디를 다시 확인해주세요");
 		    	return; 
-		    }
+		    } */
 		    
 		    $("form").submit();
 	  });

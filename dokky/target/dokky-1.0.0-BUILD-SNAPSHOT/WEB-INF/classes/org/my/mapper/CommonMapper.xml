@@ -3,7 +3,100 @@
   PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
   "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="org.my.mapper.CommonMapper">
-
+		
+	<select id="getRealtimeBoardList" resultType="org.my.domain.BoardVO"> 
+		 SELECT /*+INDEX_DESC(DK_BOARD PK_DK_BOARD) */ money,
+		 											   replyCnt,
+		 										 	   board_num,
+		 										  	   title,
+		 										   	   nickName,
+		 										       regdate,
+		 										       hitCnt,
+		 										       userId,
+		 										       likeCnt
+		  from dk_board where <![CDATA[ rownum <= 5  ]]>
+	</select>
+	 
+	<select id="getMonthlyBoardList" resultType="org.my.domain.BoardVO"> 
+		select 	 
+				money,
+		 		replyCnt,
+			 	board_num, 
+			 	title, 
+			 	nickName, 
+			 	regdate, 
+			 	hitCnt,
+			 	userId,
+			 	likeCnt
+			 from (
+		SELECT 
+			money,
+			replyCnt,
+		 	board_num, 
+		 	title, 
+		 	nickName, 
+		 	regdate, 
+		 	hitCnt,
+		 	userId,
+		 	likeCnt
+		  from dk_board WHERE REGDATE >= SYSDATE-30 order by likeCnt desc,hitcnt desc,replycnt desc )
+		  where <![CDATA[ rownum <= 5 ]]>
+	</select>
+	
+	<select id="getDonationBoardList" resultType="org.my.domain.BoardVO"> 
+		<![CDATA[
+		 	select 	 
+		 		 money,
+	 			 replyCnt, 
+	 			 board_num, 
+	 			 title, 
+	 			 nickName, 
+	 			 regdate, 
+	 			 hitCnt,
+	 			 userId,
+	 			 likeCnt
+			 from 
+			   ( 
+			   SELECT
+			   	 money , 
+			   	 replyCnt, 
+			   	 board_num, 
+			   	 title, 
+			   	 nickName, 
+			   	 regdate, 
+			   	 hitCnt,
+			   	 userId,
+			   	 likeCnt
+			FROM 
+				  dk_board WHERE REGDATE >= SYSDATE-30 order by money desc )
+			
+			where rownum <= 5 
+			]]>
+	</select>
+	
+	<select id="getNickname" resultType="String">
+		select nickName from DK_MEMBER where userId = #{userId}
+	</select>
+	
+	<select id="getNicknameCheckedVal" resultType="int">
+			select count(*) from DK_MEMBER where nickName = #{nickName}
+	</select>
+	
+	  <!-- 아이디 중복 체크 카운트 구하기 -->
+	  <select id="getIdCheckedVal" resultType="int">
+	 	 select count(*) from dk_member where userId= #{profileId}
+	  </select>
+	  
+	  <!-- 가장 마지막 이전의 로그인 날짜 업데이트 -->
+	  <update id="updatePreLoginDate">
+	 	 update dk_member set preLoginDate = lastLoginDate where userId = #{userId} 
+	  </update>
+	 
+	  <!-- 가장 마지막 로그인날짜 -->
+	  <update id="updatelastLoginDate">
+	 	 update dk_member set lastLoginDate = sysdate where userId = #{userId} 
+	  </update>
+	 
 	  <insert id="insertVisitor">
           insert into dk_visitor
             (
@@ -199,39 +292,6 @@
 			update dk_note set read_check = 'YES' where note_num = #{note_num}       
        </update>
 	  
-       <insert id="insertNote">
-	 			insert into dk_note(	  NOTE_NUM
-							 			, CONTENT
-							 			, FROM_NICKNAME
-							 			, FROM_ID
-							 			, TO_NICKNAME
-							 			, TO_ID 
-							 			, read_check
-					 			   ) 
-					 		values(
-						 				seq_dk_note.nextval
-						 				,#{content}
-										,#{from_nickname}
-										,#{from_id}
-										,#{to_nickname}				 		
-								 		,#{to_id}
-								 		,#{read_check}
-					 				) 
-       </insert>
-		 
-       <select id="getFromNoteCount" resultType="int">
-			select count(*) from dk_note where TO_ID = #{userId} and FROM_ID != #{userId} and from_check = 'NO'
-       </select>
-       
-       <select id="getToNoteCount" resultType="int">
-			select count(*) from dk_note where FROM_ID = #{userId} and TO_ID != #{userId} and to_check = 'NO'
-       </select>
-       
-       <select id="getMyNoteCount" resultType="int">
-			select count(*) from dk_note where TO_ID = #{userId} and FROM_ID = #{userId}
-       </select>
-       
-       
        <select id="getToNoteList" resultType="org.my.domain.noteVO">
        
        		  select NOTE_NUM
@@ -294,14 +354,6 @@
 			select enabled from dk_member where userId = #{userId}
        </select>
        
-       <select id="checkNickname" resultType="int">
-			select count(*) from DK_MEMBER where nickName = #{nickName}
-		</select>
-	
-		<select id="getNickname" resultType="String">
-			select nickName from DK_MEMBER where userId = #{userId}
-		</select>
-			
 		<select id="getAccessKey" resultType="String">
 			select accessKey from DK_s3key where <![CDATA[ rownum <=1 ]]>
 		</select>
@@ -309,5 +361,37 @@
 		<select id="getSecretKey" resultType="String">
 			select secretKey from DK_s3key where <![CDATA[ rownum <=1 ]]>
 		</select>
+		
+		<select id="getFromNoteCount" resultType="int">
+			select count(*) from dk_note where TO_ID = #{userId} and FROM_ID != #{userId} and from_check = 'NO'
+       </select>
+       
+       <select id="getToNoteCount" resultType="int">
+			select count(*) from dk_note where FROM_ID = #{userId} and TO_ID != #{userId} and to_check = 'NO'
+       </select>
+       
+       <select id="getMyNoteCount" resultType="int">
+			select count(*) from dk_note where TO_ID = #{userId} and FROM_ID = #{userId}
+       </select>
+       
+       <insert id="insertNote">
+	 			insert into dk_note(	  NOTE_NUM
+							 			, CONTENT
+							 			, FROM_NICKNAME
+							 			, FROM_ID
+							 			, TO_NICKNAME
+							 			, TO_ID 
+							 			, read_check
+					 			   ) 
+					 		values(
+						 				seq_dk_note.nextval
+						 				,#{content}
+										,#{from_nickname}
+										,#{from_id}
+										,#{to_nickname}				 		
+								 		,#{to_id}
+								 		,#{read_check}
+					 				) 
+       </insert>
 		   
 </mapper>
