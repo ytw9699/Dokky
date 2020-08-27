@@ -208,7 +208,19 @@
 				
 				console.log("webSocket message");
 				
-				if(event.data == 'limitAndLogoutSuccessMessageToUser'){
+ 				if(event.data == 'allAlarmUpdateRequestToUser'){
+ 					
+ 					 getAlarmRealCount(userId, function(result){
+ 				    		alarmCount.html(result);
+ 				 	 });
+					
+				}else if(event.data == 'noteAlarmUpdateRequestToUser'){
+					 
+					 getNoteCount(userId, function(result){
+					    	noteCount.html(result);
+				 	 });
+					
+				}else if(event.data == 'limitAndLogoutSuccessMessageToUser'){
 					 
 						openAlert("곧 관리자에 의해 접속 제한(로그아웃) 됩니다");
 						
@@ -222,11 +234,11 @@
 						
 				}else if(event.data == 'limitAndLogoutSuccessMessageToAdmin'){
 					
-						openAlert("DB에서 접속 제한 후 사용자를 로그아웃 시켰습니다");
+						openAlert("해당 사용자를 접속 제한 후 로그아웃 시켰습니다");
 						
 				}else if(event.data == 'limitSuccessMessageToAdmin'){
 					
-						openAlert("DB에서 접속 제한을 하였습니다");//
+						openAlert("해당 사용자를 접속 제한 하였습니다");//
 				}
 			}
 			

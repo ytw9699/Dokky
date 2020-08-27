@@ -205,9 +205,16 @@
 			limitRegistering(userId, alarmData, function(result){
 				
 					if(result == 'success'){
+						
 						var currentState = $("#currentState");
-					   	currentState.html("모든 쓰기 기능 제한");
+					   	
+						currentState.html("모든 쓰기 기능 제한");
+					   	
 					   	openAlert("모든 쓰기 기능을 제한 하였습니다");
+					   	
+					   	if(webSocket != null && alarmData != null ){
+					   		webSocket.send("sendAlarmMsg,"+alarmData.target);
+					   	}		
 					}
 	   	    });
    	});
@@ -236,9 +243,9 @@
 			   	
 			   	currentState.html("접속 제한");
 			   	
-			   	if(webSocket != null){
-			   		webSocket.send("limit,"+userId);//웹소켓으로 사용자 로그아웃 시키기
-			   	}		   	
+			   	if(webSocket != null && alarmData != null ){
+			   		webSocket.send("limit,"+alarmData.target);//웹소켓으로 사용자 로그아웃 시키기
+			   	}
 			}
    	    });
    	});
@@ -266,6 +273,10 @@
 				var currentState = $("#currentState");
 			   	currentState.html("정상");
 			   	openAlert("계정을 정상으로 복구 하였습니다");
+			   	
+				if(webSocket != null && alarmData != null ){
+			   		webSocket.send("sendAlarmMsg,"+alarmData.target);
+			   	}
 			}
    	    });
    	});
