@@ -327,6 +327,7 @@
 		 kind VARCHAR2(10) NOT NULL,--1~9
 		 commonVar1 VARCHAR2(200),
 		 commonVar2 VARCHAR2(200),
+		 commonVar3 number(10,0),
 		 regdate date default sysdate,
 		 constraint pk_alarm PRIMARY KEY (alarmNum)
 )

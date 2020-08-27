@@ -27,6 +27,8 @@ public interface BoardService {
 	public int getScrapCnt(Long board_num, String userId);
 	
 	public BoardVO getBoard(Long board_num, Boolean hitChoice);
+	
+	public int getReplyPageNum(Long board_num, Long reply_num);
 
 	public boolean modifyBoard(BoardVO board);
 
@@ -61,4 +63,5 @@ public interface BoardService {
 	public int deleteScrapData(int board_num, String userId);
 
 	public Long getRecentBoard_num();
+
 }

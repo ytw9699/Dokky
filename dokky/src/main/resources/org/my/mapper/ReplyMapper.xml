@@ -5,6 +5,11 @@
 <mapper namespace="org.my.mapper.ReplyMapper">
 
 	<insert id="insertParentReply">
+	
+		<selectKey keyProperty="reply_num" order="BEFORE" resultType="long">
+				select seq_dk_reply.nextval from dual
+		</selectKey>
+		
 		insert into DK_REPLY (   
 									  reply_num
 									, board_num
@@ -16,7 +21,7 @@
 									, depth
 							 )
 						values (  
-									  seq_dk_reply.nextval
+									  #{reply_num}
 									, #{board_num}
 									, #{reply_content}
 									, #{nickName}
@@ -37,6 +42,11 @@
 	</select>
 	
 	<insert id="insertChildReply">
+	
+		<selectKey keyProperty="reply_num" order="BEFORE" resultType="long">
+				select seq_dk_reply.nextval from dual
+		</selectKey>
+		
 		insert into DK_REPLY (    
 								  reply_num
 								, board_num
@@ -50,7 +60,7 @@
 								, toNickName
 							 )
 					values (   
-								seq_dk_reply.nextval
+							   #{reply_num}
 							 , #{board_num}
 							 , #{reply_content}
 							 , #{nickName}
@@ -118,6 +128,7 @@
 		 ) where rn <= #{cri.pageNum} * #{cri.amount} and rn > (#{cri.pageNum} -1) * #{cri.amount}
 		]]>
 	</select>
+	
 	 <!-- select reply_num, num, reply_content, nickName, userId, replydate, updatedate, likeCnt ,dislikeCnt,money,parent_num, order_step, reply_level
 		 from 
 		   (

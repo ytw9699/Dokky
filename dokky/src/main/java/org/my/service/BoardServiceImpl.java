@@ -5,12 +5,12 @@ package org.my.service;
 	import org.my.domain.BoardLikeVO;
 	import org.my.domain.BoardVO;
 	import org.my.domain.Criteria;
-import org.my.domain.ReplyLikeVO;
-import org.my.domain.ReplyVO;
-import org.my.domain.commonVO;
+	import org.my.domain.ReplyLikeVO;
+	import org.my.domain.ReplyVO;
+	import org.my.domain.commonVO;
 	import org.my.domain.donateVO;
-import org.my.domain.reportVO;
-import org.my.mapper.BoardAttachMapper;
+	import org.my.domain.reportVO;
+	import org.my.mapper.BoardAttachMapper;
 	import org.my.mapper.BoardMapper;
 	import org.my.mapper.CommonMapper;
 	import org.springframework.beans.factory.annotation.Autowired;
@@ -130,6 +130,23 @@ public class BoardServiceImpl implements BoardService {
 		log.info("getBoard..." + board_num);
 		
 		return boardMapper.read(board_num);
+	}
+	
+	@Override
+	public int getReplyPageNum(Long board_num, Long reply_num){
+		
+		log.info("getReplyPageNum");
+		
+		int[] replyNums = boardMapper.getReplyNums(board_num); 
+		
+		for(int i=0; i<replyNums.length; i++){
+			
+			if(replyNums[i] == reply_num) {
+				return i+1;
+			}
+		}
+		
+		return 1;
 	}
 	
 	@Transactional

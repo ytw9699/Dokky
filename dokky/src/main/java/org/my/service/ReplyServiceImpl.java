@@ -5,6 +5,7 @@ package org.my.service;
 	import org.my.domain.ReplyLikeVO;
 	import org.my.domain.ReplyPageDTO;
 	import org.my.domain.ReplyVO;
+	import org.my.domain.alarmVO;
 	import org.my.domain.commonVO;
 	import org.my.domain.replyDonateVO;
 	import org.my.mapper.BoardMapper;
@@ -33,22 +34,20 @@ public class ReplyServiceImpl implements ReplyService {
 	@Override
 	public int create(commonVO vo) {
 		
+		int returnVal;
+		
 		log.info("create......reply " + vo);
 		ReplyVO replyVO = vo.getReplyVO();
+		alarmVO alarmVO = vo.getAlarmVO();
 
 		log.info("updateReplyCnt......" + vo);
 		boardMapper.updateReplyCnt(replyVO.getBoard_num(), 1);
 		
-		if(vo.getAlarmVO() != null) {
-			
-			log.info("insertAlarm"); 
-			commonMapper.insertAlarm(vo.getAlarmVO());
-		}
-		
 		if(replyVO.getGroup_num() == 0 ) {//시퀀스값은 디폴트 1부터 시작하니까 0으로 기준을 잡자
 			
 			log.info("insertParentReply......" + replyVO); 
-			return replyMapper.insertParentReply(replyVO);//부모 댓글 입력
+			
+			returnVal = replyMapper.insertParentReply(replyVO);//부모 댓글 입력
 			
 		}else{//부모의 자식 댓글 입력 
 			
@@ -64,9 +63,6 @@ public class ReplyServiceImpl implements ReplyService {
 				replyVO.setOrder_step(lastReplyStep+1);//그 순서번호에 +1을 해준다 
 				replyVO.setDepth(replyVO.getDepth()+1);//깊이는 부모보다 +1해서 입력 해줌
 				
-				log.info("insertChildReply......" + replyVO); 
-				return replyMapper.insertChildReply(replyVO);
-				
 			}else{//값을 바꿔줄 댓글의 리스트가 있다면 
 				
 				//한개의 (부모)그룹번호 기준으로 생각할때 부모 댓글의 자식댓글의 출력 순서는 자식댓글을 달고자 하는 대상인 부모댓글(루트가 아닌 경우도 포함)의
@@ -79,11 +75,22 @@ public class ReplyServiceImpl implements ReplyService {
 				
 				replyVO.setOrder_step(firstVO.getOrder_step());//최초의 댓글에 해당하는 순서값으로 변경후 입력
 				replyVO.setDepth(replyVO.getDepth()+1);//깊이는 부모보다 +1해서 입력 해줌
-				
-				log.info("insertChildReply......" + replyVO); 
-				return replyMapper.insertChildReply(replyVO);
 			}
+				
+			log.info("insertChildReply......" + replyVO); 
+			
+			returnVal =  replyMapper.insertChildReply(replyVO);
 		}
+		
+		if(alarmVO != null) {
+			
+			log.info("insertAlarm"); 
+			
+			alarmVO.setCommonVar3(replyVO.getReply_num());
+			commonMapper.insertAlarm(alarmVO);
+		}
+		
+		return returnVal;
 	} 
 	
 	@Override

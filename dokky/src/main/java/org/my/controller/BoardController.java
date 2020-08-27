@@ -115,35 +115,42 @@ public class BoardController {
 	}
 	
 	@GetMapping("/get")
-	public String getBoard(@RequestParam("board_num") Long board_num, 
+	public String getBoard(@RequestParam("board_num") Long board_num, @RequestParam(value = "reply_num", required = false) Long reply_num,
 						   @ModelAttribute("cri") Criteria cri, Model model, Authentication authentication) {
 		
-		log.info("/board/get");
-		
-		if(authentication != null) {
+			log.info("/board/get");
 			
-			CustomUser user = (CustomUser)authentication.getPrincipal();
+			if(authentication != null) {
+				
+				CustomUser user = (CustomUser)authentication.getPrincipal();
+				
+				String userId = user.getUsername();
+				
+				model.addAttribute("scrapCount", boardService.getScrapCnt(board_num, userId));
+			}
 			
-			String userId = user.getUsername();
+			BoardVO board = boardService.getBoard(board_num, true);//조회수증가 + 한줄 글 상세 데이터 가져오기
 			
-			model.addAttribute("scrapCount", boardService.getScrapCnt(board_num, userId));
-		}
-		
-		BoardVO board = boardService.getBoard(board_num, true);//조회수증가 + 한줄 글 상세 데이터 가져오기
-		
-		if(board == null) {
+			if(board == null) {
+				
+				log.info("/getBoardError");
+				
+				model.addAttribute("msg", "글이 삭제되었습니다.");
+				
+				return "error/commonError"; 
+			}   
 			
-			log.info("/getBoardError");
+			if(reply_num != null) {
+				
+				model.addAttribute("reply_num", reply_num); 
+				
+				model.addAttribute("reply_pageNum", boardService.getReplyPageNum(board_num, reply_num));
+			}  
 			
-			model.addAttribute("msg", "글이 삭제되었습니다.");
+			model.addAttribute("board", board); 
+			model.addAttribute("previousCategory", cri.getCategory());//조회 하기전 카테고리 값 넘기기
 			
-			return "error/commonError"; 
-		}   
-		
-		model.addAttribute("board", board); 
-		model.addAttribute("previousCategory", cri.getCategory());//조회 하기전 카테고리 값 넘기기
-		
-		return "board/get";
+			return "board/get";
 	}
 	
 	@PreAuthorize("principal.username == #cri.userId")

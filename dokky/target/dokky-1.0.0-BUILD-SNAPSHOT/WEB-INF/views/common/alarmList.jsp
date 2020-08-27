@@ -74,12 +74,12 @@
 							       <c:when test="${alarm.kind == 0 }"> 
 								        <c:choose>
 										        <c:when test="${fn:length(alarm.commonVar1) gt 13}">
-											        <a href="#" class="getBoard" data-alarm_num="${alarm.alarmNum}" data-board_num="${alarm.commonVar2}">
+											        <a href="#" class="getBoard" data-alarm_num="${alarm.alarmNum}" data-board_num="${alarm.commonVar2}" data-reply_num="${alarm.commonVar3}">
 											        	댓글이 달렸습니다. "<c:out value="${fn:substring(alarm.commonVar1, 0, 13)}"/>....."
 										        	</a>
 										        </c:when>
 										        <c:otherwise>
-											        <a href="#" class="getBoard" data-alarm_num="${alarm.alarmNum}" data-board_num="${alarm.commonVar2}">
+											        <a href="#" class="getBoard" data-alarm_num="${alarm.alarmNum}" data-board_num="${alarm.commonVar2}" data-reply_num="${alarm.commonVar3}">
 											        	댓글이 달렸습니다. "<c:out value="${alarm.commonVar1}"/>"
 										        	</a> 
 										        </c:otherwise>
@@ -188,7 +188,7 @@
 						          		</a>
 							       </c:when>  
 							       
-						           <c:when test="${alarm.kind == 9 }">
+						           <%-- <c:when test="${alarm.kind == 9 }">
 						          			<c:choose>
 										        <c:when test="${fn:length(alarm.commonVar1) gt 15}">
 										        	<a href="#" class="getUserReportList" data-alarm_num="${alarm.alarmNum}">
@@ -201,11 +201,11 @@
 										        	</a> 
 										        </c:otherwise>
 											</c:choose>
-							       </c:when>
+							       </c:when> --%>
 							       
 							       <c:when test="${alarm.kind == 10 }">  
 						          		<a href="#" class="getMyPage" data-alarm_num="${alarm.alarmNum}">
-						          			모든 쓰기 기능이 관리자에 의해 제한되었습니다. 
+						          			관리자에 의해 모든 쓰기 기능이 제한되었습니다. 
 						          		</a>
 							       </c:when>  
 							       
@@ -360,7 +360,8 @@
 		$(".getBoard").on("click",function(e) {//글 상세보기+알람 읽기 체크
 					e.preventDefault();
 					var board_num = $(this).data("board_num");  
-					var alarmNum = $(this).data("alarm_num");  
+					var alarmNum = $(this).data("alarm_num");
+					var reply_num = $(this).data("reply_num");
 					
 					updateAlarmCheck(alarmNum, function(result){//알람 읽기 체크
 						var checkAlarm = $("#checkAlarm+"+alarmNum);
@@ -368,8 +369,11 @@
 								
 								checkAlarm.html("");//알림 숫자 1 없애주기
 								
+								//location.href='/board/get?board_num='+board_num+'#reply_contents';
+
 								commonForm.append("<input type='hidden' name='board_num' value='"+board_num+"'/>");
-								commonForm.submit();//글 상세보기 
+								commonForm.append("<input type='hidden' name='reply_num' value='"+reply_num+"'/>");
+								commonForm.submit();
 								}
 				   	  });
 		});

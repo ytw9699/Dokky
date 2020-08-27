@@ -81,5 +81,7 @@ public interface BoardMapper {
 	public int deleteScrapData(@Param("board_num") int board_num, @Param("userId") String userId);
 	
 	public void updateReplyCnt(@Param("board_num") Long board_num, @Param("amount") int amount);
+
+	public int[] getReplyNums(Long board_num);
 	
 }
