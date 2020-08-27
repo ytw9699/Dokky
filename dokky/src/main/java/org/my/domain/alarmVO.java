@@ -12,5 +12,6 @@ public class alarmVO {
 	  private String kind;
 	  private String commonVar1;
 	  private String commonVar2;
+	  private Long commonVar3;
 	  private Date regdate;
 }

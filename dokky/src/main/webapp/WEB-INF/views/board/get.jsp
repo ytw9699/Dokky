@@ -43,7 +43,7 @@
 		       </c:when>
           </c:choose> 
 	</div>
-     
+	
 	<div class="topInfoWrap">
 			
 			<div class="nickName">
@@ -293,6 +293,14 @@
 	         </span>
          </div>
 </div>
+
+<c:if test="${reply_num != null}">
+	<a id="replyTarget" href="#replyLi${reply_num}"></a>
+	<script>
+		reply_num = '${reply_num}';
+		reply_pageNum = '${reply_pageNum}';
+	</script>
+</c:if>  
 <!-- END 숨겨진 DIV들  -->
 
 <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
@@ -317,6 +325,8 @@
 	var myNickName;
 	var pageNum = 1;//댓글의 페이지 번호
 	var serverName = '${pageContext.request.serverName}';
+	var reply_num;
+	var reply_pageNum;
 
 	<sec:authorize access="isAuthenticated()">   
 				  myId = '${userInfo.username}';  
@@ -757,13 +767,25 @@
 			}//end for
 	        
 	        replyList.html(str);//댓글목록안에 채워주기
-		     
+	        
+	        if (reply_num != null){
+	        	replyTarget.click();	
+	        } 
 	    });//end function
 	     
 	}//end showReplyList
 	
-	showReplyList(1);//댓글리스트 1페이지 보여주기  
-
+	if (reply_pageNum == null){
+		
+		showReplyList(1);//댓글리스트 1페이지 보여주기
+		
+    }else{
+    	
+    	var pageNum = Math.ceil(reply_pageNum / 10.0);
+    	
+    	showReplyList(pageNum);
+    }
+	
 	/////////////////////////////////////////////////////////
 	
 	var replyPage = $(".replyPage");

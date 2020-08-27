@@ -152,6 +152,7 @@
 				   kind,
 				   commonVar1,
 				   commonVar2,
+				   commonVar3,
 				   regdate from 
 					 ( select /*+INDEX_DESC(dk_alarm pk_alarm) */ rownum rn,
 					 														alarmNum,
@@ -162,6 +163,7 @@
 					 														kind,
 					 														commonVar1,
 																			commonVar2,
+																			commonVar3,
 					 														regdate
 					from dk_alarm where target = #{userId} and <![CDATA[ rownum <= #{pageNum} * #{amount} )
 						  where rn > (#{pageNum} -1) * #{amount}  
@@ -230,6 +232,9 @@
 				                <if test="commonVar2 != null and commonVar2 !=''">
 				              	    commonVar2,
 				                </if>
+				                <if test="commonVar3 != null and commonVar3 !=''">
+				              	    commonVar3,
+				                </if>
 				               kind
 					          )
 					            VALUES
@@ -243,6 +248,9 @@
 						                </if>
 						                <if test="commonVar2 != null and commonVar2 !=''">
 						               		  #{commonVar2},
+						                </if>
+						                <if test="commonVar3 != null and commonVar3 !=''">
+						               		  #{commonVar3},
 						                </if>
 						                #{kind}
 						            )
