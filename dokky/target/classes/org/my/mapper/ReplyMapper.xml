@@ -32,6 +32,10 @@
 							   )
 	</insert>
 	
+	<select id="getReplyNums" resultType="int">
+		select reply_num from dk_reply where board_num = #{reply_num} order by group_num ASC, order_step ASC
+	</select>
+	
 	<select id="selectReplylistToDecideStep" resultType="org.my.domain.ReplyVO">
 		  <![CDATA[ select * from dk_reply where group_num = #{group_num} and order_step > #{order_step} and depth <= #{depth} order by order_step asc   ]]>
 	</select> 
