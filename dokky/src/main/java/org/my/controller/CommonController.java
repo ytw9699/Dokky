@@ -9,7 +9,8 @@ package org.my.controller;
 	import org.my.auth.SNSLogin;
 	import org.my.auth.SnsValue;
 	import org.my.domain.AuthVO;
-	import org.my.domain.Criteria;
+import org.my.domain.BoardVO;
+import org.my.domain.Criteria;
 	import org.my.domain.MemberVO;
 	import org.my.domain.PageDTO;
 	import org.my.domain.cashVO;
@@ -267,18 +268,21 @@ public class CommonController {
 		
 		return "common/superAdminLogin";   
 	}
-    
 	
 	@RequestMapping(value = "/main", method = RequestMethod.GET)
 	public String main(Model model) {
 		
 		log.info("/main");
 		
-		model.addAttribute("realtimeBoardList", commonService.getRealtimeBoardList());//실시간 게시글
+		List<BoardVO> realtimeBoardList = commonService.getRealtimeBoardList();
+		List<BoardVO> monthlyBoardList = commonService.getMonthlyBoardList();
+		List<BoardVO> donationBoardList = commonService.getDonationBoardList();
 		
-		model.addAttribute("monthlyBoardList", commonService.getMonthlyBoardList());//한달 인길글
+		model.addAttribute("realtimeBoardList", realtimeBoardList);//실시간 게시글
 		
-		model.addAttribute("donationBoardList", commonService.getDonationBoardList());//한달 최다 기부글
+		model.addAttribute("monthlyBoardList", monthlyBoardList);//한달 인기글
+		
+		model.addAttribute("donationBoardList", donationBoardList);//한달 최다 기부글
 		
 		return "common/main";
 	}
@@ -286,23 +290,27 @@ public class CommonController {
 	@RequestMapping(value = "/", method = RequestMethod.GET)
 	public String home(Locale locale, Model model) {
 		
-		model.addAttribute("realtimeBoardList", commonService.getRealtimeBoardList());//실시간 게시글
+		List<BoardVO> realtimeBoardList = commonService.getRealtimeBoardList();
+		List<BoardVO> monthlyBoardList = commonService.getMonthlyBoardList();
+		List<BoardVO> donationBoardList = commonService.getDonationBoardList();
 		
-		model.addAttribute("monthlyBoardList", commonService.getMonthlyBoardList());//한달 인길글
+		model.addAttribute("realtimeBoardList", realtimeBoardList);//실시간 게시글
 		
-		model.addAttribute("donationBoardList", commonService.getDonationBoardList());//한달 최다 기부글
+		model.addAttribute("monthlyBoardList", monthlyBoardList);//한달 인기글
+		
+		model.addAttribute("donationBoardList", donationBoardList);//한달 최다 기부글
 		
 		return "common/main";
 	}
 	
 	@PreAuthorize("isAuthenticated()")
- 	@GetMapping("/userBoardList")//유저 게시글 가져오기
+ 	@GetMapping("/userBoardList")
 	public String getUserBoardList(Criteria cri, Model model, 
-								@RequestParam(value = "pageLocation", defaultValue = "user", required = false) String pageLocation ){
+							@RequestParam(value = "pageLocation", defaultValue = "user", required = false) String pageLocation ){
 		
 		log.info("/userBoardList"); 
 		
-		model.addAttribute("userBoard", mypageService.getMyBoardList(cri));
+		model.addAttribute("userBoardList", mypageService.getMyBoardList(cri));
 		
 		int total = mypageService.getMyBoardCount(cri);
 		
@@ -314,7 +322,9 @@ public class CommonController {
 		if(pageLocation.equals("admin")) {
 			
 			return "admin/userBoardList";
+			
 		}else{
+			
 			return "common/userBoardList";
 		}
 	} 
@@ -322,11 +332,11 @@ public class CommonController {
 	@PreAuthorize("isAuthenticated()")
  	@GetMapping("/userReplylist")  
 	public String getUserReplylist(Criteria cri, Model model, 
-						   		@RequestParam(value = "pageLocation", defaultValue = "user", required = false) String pageLocation ){ 
+						 @RequestParam(value = "pageLocation", defaultValue = "user", required = false) String pageLocation ){ 
 		
 		log.info("/userReplylist");
 		
-		model.addAttribute("userReply", mypageService.getMyReplylist(cri));
+		model.addAttribute("userReplylist", mypageService.getMyReplylist(cri));
 		
 		int total = mypageService.getMyReplyCount(cri);
 		
@@ -338,7 +348,9 @@ public class CommonController {
 		if(pageLocation.equals("admin")) {
 			
 			return "admin/userReplylist";
+			
 		}else { 
+			
 			return "common/userReplylist";
 		}
 	} 
@@ -372,15 +384,15 @@ public class CommonController {
 	@PreAuthorize("principal.username == #vo.from_id")
 	@ResponseBody
 	@PostMapping(value = "/note", consumes = "application/json", produces = "text/plain; charset=UTF-8")
-	public ResponseEntity<String> postNote(@RequestBody noteVO vo) {
+	public ResponseEntity<String> postNote(@RequestBody noteVO vo){
 
 		log.info("/note...noteVO: " + vo);
 
-		if(commonService.insertNote(vo) == 1) {
+		if(commonService.insertNote(vo) == 1){
 			
-			return new ResponseEntity<>("쪽지를 보냈습니다", HttpStatus.OK) ;
+			return new ResponseEntity<>(HttpStatus.OK);
 			
-		}else {
+		}else{
 			
 			return new ResponseEntity<>(HttpStatus.INTERNAL_SERVER_ERROR);
 		}
@@ -449,23 +461,10 @@ public class CommonController {
 			return "common/myNoteList";
 	}
 	
-	@PreAuthorize("isAuthenticated()")
-	@ResponseBody
-	@PutMapping(value = "/noteCheck/{note_num}",produces = "text/plain; charset=UTF-8")
-	public ResponseEntity<String> updateNoteCheck(@PathVariable("note_num") String note_num) { 
-		
-		log.info("/updateNoteCheck:... " + note_num);
-		
-		if(commonService.updateNoteCheck(note_num) == 1) {//쪽지의 체크값을 바꿨다면
-			return new ResponseEntity<>("success", HttpStatus.OK) ;
-		} 
-			return new ResponseEntity<>("fail", HttpStatus.OK) ;
-	}
-	
 	@PreAuthorize("principal.username == #cri.userId")
 	@GetMapping("/detailNotepage")
-	public String get(@RequestParam("note_num") Long note_num, @RequestParam("note_kind") String note_kind, Model model, @ModelAttribute("cri") Criteria cri) {
-
+	public String getDetailNotepage(@RequestParam("note_num") Long note_num, @RequestParam("note_kind") String note_kind, 
+																Model model, @ModelAttribute("cri") Criteria cri) {
 		log.info("/detailNotepage");
 		
 		noteVO note = commonService.getDetailNotepage(note_num);
@@ -552,6 +551,20 @@ public class CommonController {
 				
 				return "redirect:/myNoteList?userId="+userId+"&pageNum="+cri.getPageNum()+"&amount="+cri.getAmount();
 			}
+	}
+	
+	@PreAuthorize("isAuthenticated()")
+	@ResponseBody
+	@PutMapping(value = "/noteCheck/{note_num}", produces = "text/plain; charset=UTF-8")
+	public ResponseEntity<String> updateNoteCheck(@PathVariable("note_num") String note_num) { 
+		
+			log.info("/updateNoteCheck:... " + note_num);
+			
+			if(commonService.updateNoteCheck(note_num) == 1) {//쪽지의 체크값을 바꿨다면
+				
+				return new ResponseEntity<>("success", HttpStatus.OK) ;
+			} 
+				return new ResponseEntity<>("fail", HttpStatus.OK) ;
 	}
 	
 	@PreAuthorize("hasAnyRole('ROLE_ADMIN','ROLE_SUPER')") 
