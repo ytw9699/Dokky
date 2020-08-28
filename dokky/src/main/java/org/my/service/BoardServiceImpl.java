@@ -132,23 +132,6 @@ public class BoardServiceImpl implements BoardService {
 		return boardMapper.read(board_num);
 	}
 	
-	@Override
-	public int getReplyPageNum(Long board_num, Long reply_num){
-		
-		log.info("getReplyPageNum");
-		
-		int[] replyNums = boardMapper.getReplyNums(board_num); 
-		
-		for(int i=0; i<replyNums.length; i++){
-			
-			if(replyNums[i] == reply_num) {
-				return i+1;
-			}
-		}
-		
-		return 1;
-	}
-	
 	@Transactional
 	@Override
 	public boolean modifyBoard(BoardVO board) {

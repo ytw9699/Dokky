@@ -94,6 +94,21 @@ public class ReplyServiceImpl implements ReplyService {
 	} 
 	
 	@Override
+	public int getReplyPageNum(Long board_num, Long reply_num){
+		
+		int[] replyNums = replyMapper.getReplyNums(board_num);
+		
+		for(int i=0; i<replyNums.length; i++){
+			
+			if(replyNums[i] == reply_num) {
+				return i+1;
+			}
+		}
+		
+		return 1;
+	}
+	
+	@Override
 	public ReplyVO read(Long reply_num) {
 	
 	    log.info("read......" + reply_num);

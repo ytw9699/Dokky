@@ -13,6 +13,7 @@ package org.my.controller;
 	import org.my.security.domain.CustomUser;
 	import org.my.service.BoardService;
 	import org.my.service.CommonService;
+	import org.my.service.ReplyService;
 	import org.springframework.http.HttpStatus;
 	import org.springframework.http.MediaType;
 	import org.springframework.http.ResponseEntity;
@@ -44,6 +45,8 @@ public class BoardController {
 	private myS3Util s3Util;
 	
 	private CommonService commonService;
+	
+	private ReplyService replyService;
 	
 	@GetMapping("/list")
 	public String getList(Criteria cri, Model model) {
@@ -144,7 +147,7 @@ public class BoardController {
 				
 				model.addAttribute("reply_num", reply_num); 
 				
-				model.addAttribute("reply_pageNum", boardService.getReplyPageNum(board_num, reply_num));
+				model.addAttribute("reply_pageNum", replyService.getReplyPageNum(board_num, reply_num));
 			}  
 			
 			model.addAttribute("board", board); 

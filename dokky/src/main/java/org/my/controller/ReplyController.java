@@ -40,9 +40,15 @@ public class ReplyController {
 		log.info("vo : " + vo);
 		
 		int insertCount = replyService.create(vo);//댓글입력+알람입력
-
+		
+		ReplyVO replyVO = vo.getReplyVO();
+		
+		int result = replyService.getReplyPageNum(replyVO.getBoard_num(), replyVO.getReply_num());
+		
+		String replyPageNum = Integer.toString(result);
+		
 		return insertCount == 1  
-				? new ResponseEntity<>("success", HttpStatus.OK)
+				? new ResponseEntity<>(replyPageNum, HttpStatus.OK)
 				: new ResponseEntity<>(HttpStatus.INTERNAL_SERVER_ERROR);
 	}
 	
