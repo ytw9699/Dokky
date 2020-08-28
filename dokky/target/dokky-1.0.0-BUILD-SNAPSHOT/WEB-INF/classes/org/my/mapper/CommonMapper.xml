@@ -232,7 +232,7 @@
 				                <if test="commonVar2 != null and commonVar2 !=''">
 				              	    commonVar2,
 				                </if>
-				                <if test="commonVar3 != null and commonVar2 !=''">
+				                <if test="commonVar3 != null and commonVar3 !=''">
 				              	    commonVar3,
 				                </if>
 				               kind

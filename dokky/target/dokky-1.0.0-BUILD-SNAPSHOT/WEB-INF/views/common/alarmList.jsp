@@ -357,14 +357,18 @@
 		
 		var commonForm = $("#commonForm");
 		
-		$(".getBoard").on("click",function(e) {//글 상세보기+알람 읽기 체크
+		$(".getBoard").on("click", function(e){//글 상세보기+알람 읽기 체크
+			
 					e.preventDefault();
+		
 					var board_num = $(this).data("board_num");  
-					var alarmNum = $(this).data("alarm_num");
+					var alarmNum  = $(this).data("alarm_num");
 					var reply_num = $(this).data("reply_num");
 					
 					updateAlarmCheck(alarmNum, function(result){//알람 읽기 체크
-						var checkAlarm = $("#checkAlarm+"+alarmNum);
+						
+							var checkAlarm = $("#checkAlarm+"+alarmNum);
+					
 							if(result == "success"){
 								
 								checkAlarm.html("");//알림 숫자 1 없애주기
@@ -374,8 +378,8 @@
 								commonForm.append("<input type='hidden' name='board_num' value='"+board_num+"'/>");
 								commonForm.append("<input type='hidden' name='reply_num' value='"+reply_num+"'/>");
 								commonForm.submit();
-								}
-				   	  });
+							}
+				   	});
 		});
 		
 		$(".getMyCashHistory").on("click",function(e) {//알람 읽기 체크+캐시 히스토리 가져오기
