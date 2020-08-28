@@ -469,15 +469,17 @@ public class CommonController {
 		
 		noteVO note = commonService.getDetailNotepage(note_num);
 		
-		int fromNotetotal = commonService.getFromNoteCount(cri);
-		int toNotetotal   = commonService.getToNoteCount(cri);
-		int myNotetotal   = commonService.getMyNoteCount(cri);
+		if(note == null){
+		
+			log.info("/serverError");
+			
+			model.addAttribute("message", "ServerError입니다 관리자에게 문의해주세요.");
+			
+			return "error/commonError";  
+		}
 		
 		model.addAttribute("note", note);
 		model.addAttribute("note_kind", note_kind);
-		model.addAttribute("fromNotetotal", fromNotetotal);
-		model.addAttribute("toNotetotal"  , toNotetotal);
-		model.addAttribute("myNotetotal"  , myNotetotal);
 		
 		return "common/detailNotepage";
 	}

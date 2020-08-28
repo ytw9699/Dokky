@@ -144,9 +144,10 @@
 	});
 	
 	$("#deleteBtn").on("click", function() {
-		if(confirm("정말 삭제 하시겠습니까?")){
+		deleting('정말 삭제 하시겠습니까?', function() {
+			
 			$("#actionForm").submit();
-		  }
+		});
 	}); 
 	
 	$(".userMenu").on("click",function(event){//해당 메뉴바 보이기 이벤트
