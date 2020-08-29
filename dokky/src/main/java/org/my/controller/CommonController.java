@@ -485,44 +485,44 @@ public class CommonController {
 	}
 	 
 	@PostMapping("/deleteNote")//쪽지 삭제
-	public String deleteNote(@RequestParam("note_num") Long note_num, @RequestParam("note_kind") String note_kind, Criteria cri) {
+	public String deleteNote(@RequestParam("note_num") Long note_num, 
+							 @RequestParam("note_kind") String note_kind, Criteria cri){
 
-		 	log.info("/deleteNote..." + note_num);
-		 	
-		 	if (note_kind.equals("fromNote")) {
+	 	log.info("/deleteNote..." + note_num);
+	 	
+	 	if (note_kind.equals("fromNote")) {
+	 		
+	 		commonService.updateFromNote(note_num);
+	 		
+	 		return "redirect:/fromNoteList?userId="+cri.getUserId()+"&pageNum="+cri.getPageNum()+"&amount="+cri.getAmount();
+ 			
+		}else if(note_kind.equals("toNote")) {
 		 		
-		 		commonService.updateFromNote(note_num);
-		 		
-		 		return "redirect:/fromNoteList?userId="+cri.getUserId()+"&pageNum="+cri.getPageNum()+"&amount="+cri.getAmount();
-	 			
-			}else if(note_kind.equals("toNote")) {
-			 		
-		 		commonService.updateToNote(note_num);
+	 		commonService.updateToNote(note_num);
+		
+	 		return "redirect:/toNoteList?userId="+cri.getUserId()+"&pageNum="+cri.getPageNum()+"&amount="+cri.getAmount();
+	 		
+		}else{//if(note_kind.equals("myNote")) 
 			
-		 		return "redirect:/toNoteList?userId="+cri.getUserId()+"&pageNum="+cri.getPageNum()+"&amount="+cri.getAmount();
-		 		
-			}else{//if(note_kind.equals("myNote")) 
-				
-		 		commonService.deleteMyNote(note_num);
-		 		
-		 		return "redirect:/myNoteList?userId="+cri.getUserId()+"&pageNum="+cri.getPageNum()+"&amount="+cri.getAmount();
-			}
+	 		commonService.deleteMyNote(note_num);
+	 		
+	 		return "redirect:/myNoteList?userId="+cri.getUserId()+"&pageNum="+cri.getPageNum()+"&amount="+cri.getAmount();
+		}
 	}
 	
 	@PreAuthorize("principal.username == #userId")   
 	@PostMapping("/deleteAllNote")//다중 쪽지 삭제
-		public String deleteAllNote(@RequestParam("checkRow") String checkRow , @RequestParam("note_kind") String note_kind,
-				@RequestParam("userId")String userId, Criteria cri) {
+	public String deleteAllNote(@RequestParam("checkRow")String checkRow , @RequestParam("note_kind")String note_kind,
+								@RequestParam("userId")String userId, Criteria cri) {
 		 
 			log.info("/deleteAllNote");
 		 	log.info("checkRow..." + checkRow);
 		 	
 		 	String[] arrIdx = checkRow.split(",");
 		 	
-		 	
-		 	if (note_kind.equals("fromNote")) {
+		 	if(note_kind.equals("fromNote")){
 		 		
-		 		for (int i=0; i<arrIdx.length; i++) {
+		 		for(int i=0; i<arrIdx.length; i++) {
 			 		
 			 		Long note_num = Long.parseLong(arrIdx[i]); 
 			 		
@@ -531,9 +531,9 @@ public class CommonController {
 		 		
 		 		return "redirect:/fromNoteList?userId="+userId+"&pageNum="+cri.getPageNum()+"&amount="+cri.getAmount();
 	 			
-			}else if(note_kind.equals("toNote")) {
+			}else if(note_kind.equals("toNote")){
 				
-				for (int i=0; i<arrIdx.length; i++) {
+				for(int i=0; i<arrIdx.length; i++) {
 			 		
 			 		Long note_num = Long.parseLong(arrIdx[i]); 
 			 		
@@ -542,9 +542,9 @@ public class CommonController {
 				
 				return "redirect:/toNoteList?userId="+userId+"&pageNum="+cri.getPageNum()+"&amount="+cri.getAmount();
 				
-			}else {//if(note_kind.equals("myNote"))
+			}else{//if(note_kind.equals("myNote"))
 				
-				for (int i=0; i<arrIdx.length; i++) {
+				for(int i=0; i<arrIdx.length; i++) {
 			 		
 			 		Long note_num = Long.parseLong(arrIdx[i]); 
 			 		
@@ -564,9 +564,91 @@ public class CommonController {
 			
 			if(commonService.updateNoteCheck(note_num) == 1) {//쪽지의 체크값을 바꿨다면
 				
-				return new ResponseEntity<>("success", HttpStatus.OK) ;
-			} 
-				return new ResponseEntity<>("fail", HttpStatus.OK) ;
+				return new ResponseEntity<>(HttpStatus.OK) ;
+				
+			}else { 
+
+				return new ResponseEntity<>(HttpStatus.INTERNAL_SERVER_ERROR);
+			}
+	}
+	
+	@PreAuthorize("isAuthenticated()")
+	@GetMapping("/alarmList")  
+	public String getAlarmList(Criteria cri, Model model) {//내 알림 리스트 가져오기
+		
+		log.info("/alarmList");
+		
+		int Alltotal = commonService.getAlarmCount(cri);//전체알람
+		int readedTotal = commonService.getAlarmReadCount(cri);//읽은 알람
+		int notReadedTotal = Integer.parseInt(commonService.getAlarmRealCount(cri.getUserId()));//읽지않은 알람
+		
+		if(cri.getOrder() == 0) {
+			
+			model.addAttribute("alarmList", commonService.getAllAlarmList(cri));
+			model.addAttribute("pageMaker", new PageDTO(cri, Alltotal));
+			
+		}else if(cri.getOrder() == 1){
+			model.addAttribute("alarmList", commonService.getReadedAlarmList(cri));
+			model.addAttribute("pageMaker", new PageDTO(cri, readedTotal));
+			 
+		}
+		else if (cri.getOrder() == 2){
+			model.addAttribute("alarmList", commonService.getNotReadedAlarmList(cri));
+			model.addAttribute("pageMaker", new PageDTO(cri, notReadedTotal));
+		}
+		
+		model.addAttribute("Alltotal", Alltotal);
+		model.addAttribute("readedTotal", readedTotal);
+		model.addAttribute("notReadedtotal", notReadedTotal);
+		
+		return "common/alarmList";
+	}
+	
+	@PreAuthorize("principal.username == #userId")   
+	 @PostMapping("/removeAllAlarm")//다중알람삭제
+		public String removeAllAlarm(@RequestParam("checkRow") String checkRow , @RequestParam("userId")String userId, Criteria cri) {
+		 
+			log.info("/removeAllAlarm");
+		 	log.info("checkRow..." + checkRow);
+		 	
+		 	String[] arrIdx = checkRow.split(",");
+		 	
+		 	for (int i=0; i<arrIdx.length; i++) {
+		 		
+		 		Long alarmNum = Long.parseLong(arrIdx[i]); 
+		 		
+		 		if (commonService.deleteAllAlarm(alarmNum)) {
+		 			log.info("delete...deleteAllAlarm=" + alarmNum);
+				}
+		 	}
+			return "redirect:/alarmList?userId="+userId+"&pageNum="+cri.getPageNum()+"&amount="+cri.getAmount()+"&order="+cri.getOrder();
+	}
+	
+	@PreAuthorize("isAuthenticated()")
+	@ResponseBody
+	@PostMapping(value = "/alarm", consumes = "application/json", produces = "text/plain; charset=UTF-8")
+	public ResponseEntity<String> insertAlarm(@RequestBody cashVO vo) {
+
+		log.info("/alarm...cashVO: " + vo);
+
+		//int insertCount = commonService.insertAlarm(vo);
+		
+		//log.info("alarm INSERT COUNT: " + insertCount);
+
+		return new ResponseEntity<>("알림이 입력되었습니다.", HttpStatus.OK) ;
+	}
+	
+	@PreAuthorize("isAuthenticated()")  
+	@ResponseBody
+	@PutMapping(value = "/updateAlarmCheck/{alarmNum}",produces = "text/plain; charset=UTF-8")
+	public ResponseEntity<String> updateAlarmCheck(@PathVariable("alarmNum") String alarmNum) {
+		
+		log.info("/updateAlarmCheck:... " + alarmNum);
+		
+		if(commonService.updateAlarmCheck(alarmNum) == 1) {//알림 체크값을 바꿨다면
+			return new ResponseEntity<>("success", HttpStatus.OK) ;
+		} 
+			return new ResponseEntity<>("fail", HttpStatus.OK) ;
 	}
 	
 	@PreAuthorize("hasAnyRole('ROLE_ADMIN','ROLE_SUPER')") 
@@ -646,85 +728,6 @@ public class CommonController {
 		log.info("/noteCount...="+userId);
 		
 		return  new ResponseEntity<>(commonService.getNoteCount(userId), HttpStatus.OK);
-	}
-	
-	@PreAuthorize("isAuthenticated()")
-	@GetMapping("/alarmList")  
-	 public String getAlarmList(Criteria cri, Model model) {//내 알림 리스트 가져오기
-		
-		log.info("/alarmList");
-		
-		int Alltotal = commonService.getAlarmCount(cri);//전체알람
-		int readedTotal = commonService.getAlarmReadCount(cri);//읽은 알람
-		int notReadedTotal = Integer.parseInt(commonService.getAlarmRealCount(cri.getUserId()));//읽지않은 알람
-		
-		if(cri.getOrder() == 0) {
-			
-			model.addAttribute("alarmList", commonService.getAllAlarmList(cri));
-			model.addAttribute("pageMaker", new PageDTO(cri, Alltotal));
-			
-		}else if(cri.getOrder() == 1){
-			model.addAttribute("alarmList", commonService.getReadedAlarmList(cri));
-			model.addAttribute("pageMaker", new PageDTO(cri, readedTotal));
-			 
-		}
-		else if (cri.getOrder() == 2){
-			model.addAttribute("alarmList", commonService.getNotReadedAlarmList(cri));
-			model.addAttribute("pageMaker", new PageDTO(cri, notReadedTotal));
-		}
-		
-		model.addAttribute("Alltotal", Alltotal);
-		model.addAttribute("readedTotal", readedTotal);
-		model.addAttribute("notReadedtotal", notReadedTotal);
-		
-		return "common/alarmList";
-	}
-	
-	@PreAuthorize("principal.username == #userId")   
-	 @PostMapping("/removeAllAlarm")//다중알람삭제
-		public String removeAllAlarm(@RequestParam("checkRow") String checkRow , @RequestParam("userId")String userId, Criteria cri) {
-		 
-			log.info("/removeAllAlarm");
-		 	log.info("checkRow..." + checkRow);
-		 	
-		 	String[] arrIdx = checkRow.split(",");
-		 	
-		 	for (int i=0; i<arrIdx.length; i++) {
-		 		
-		 		Long alarmNum = Long.parseLong(arrIdx[i]); 
-		 		
-		 		if (commonService.deleteAllAlarm(alarmNum)) {
-		 			log.info("delete...deleteAllAlarm=" + alarmNum);
-				}
-		 	}
-			return "redirect:/alarmList?userId="+userId+"&pageNum="+cri.getPageNum()+"&amount="+cri.getAmount()+"&order="+cri.getOrder();
-	}
-	
-	@PreAuthorize("isAuthenticated()")
-	@ResponseBody
-	@PostMapping(value = "/alarm", consumes = "application/json", produces = "text/plain; charset=UTF-8")
-	public ResponseEntity<String> insertAlarm(@RequestBody cashVO vo) {
-
-		log.info("/alarm...cashVO: " + vo);
-
-		//int insertCount = commonService.insertAlarm(vo);
-		
-		//log.info("alarm INSERT COUNT: " + insertCount);
-
-		return new ResponseEntity<>("알림이 입력되었습니다.", HttpStatus.OK) ;
-	}
-	
-	@PreAuthorize("isAuthenticated()")  
-	@ResponseBody
-	@PutMapping(value = "/updateAlarmCheck/{alarmNum}",produces = "text/plain; charset=UTF-8")
-	public ResponseEntity<String> updateAlarmCheck(@PathVariable("alarmNum") String alarmNum) {
-		
-		log.info("/updateAlarmCheck:... " + alarmNum);
-		
-		if(commonService.updateAlarmCheck(alarmNum) == 1) {//알림 체크값을 바꿨다면
-			return new ResponseEntity<>("success", HttpStatus.OK) ;
-		} 
-			return new ResponseEntity<>("fail", HttpStatus.OK) ;
 	}
 	
 	@GetMapping("/serverError")
