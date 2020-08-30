@@ -606,37 +606,26 @@ public class CommonController {
 	}
 	
 	@PreAuthorize("principal.username == #userId")   
-	 @PostMapping("/removeAllAlarm")//다중알람삭제
-		public String removeAllAlarm(@RequestParam("checkRow") String checkRow , @RequestParam("userId")String userId, Criteria cri) {
+	@PostMapping("/deleteAllAlarm")//다중알람삭제
+	public String deleteAllAlarm(@RequestParam("checkRow")String checkRow, 
+								 @RequestParam("userId")String userId, Criteria cri){
 		 
-			log.info("/removeAllAlarm");
-		 	log.info("checkRow..." + checkRow);
-		 	
-		 	String[] arrIdx = checkRow.split(",");
-		 	
-		 	for (int i=0; i<arrIdx.length; i++) {
-		 		
-		 		Long alarmNum = Long.parseLong(arrIdx[i]); 
-		 		
-		 		if (commonService.deleteAllAlarm(alarmNum)) {
-		 			log.info("delete...deleteAllAlarm=" + alarmNum);
-				}
-		 	}
-			return "redirect:/alarmList?userId="+userId+"&pageNum="+cri.getPageNum()+"&amount="+cri.getAmount()+"&order="+cri.getOrder();
-	}
-	
-	@PreAuthorize("isAuthenticated()")
-	@ResponseBody
-	@PostMapping(value = "/alarm", consumes = "application/json", produces = "text/plain; charset=UTF-8")
-	public ResponseEntity<String> insertAlarm(@RequestBody cashVO vo) {
-
-		log.info("/alarm...cashVO: " + vo);
-
-		//int insertCount = commonService.insertAlarm(vo);
-		
-		//log.info("alarm INSERT COUNT: " + insertCount);
-
-		return new ResponseEntity<>("알림이 입력되었습니다.", HttpStatus.OK) ;
+		log.info("/deleteAllAlarm");
+	 	log.info("checkRow..." + checkRow);
+	 	
+	 	String[] arrIdx = checkRow.split(",");
+	 	
+	 	for (int i=0; i<arrIdx.length; i++) {
+	 		
+	 		Long alarmNum = Long.parseLong(arrIdx[i]); 
+	 		
+	 		if (commonService.deleteAllAlarm(alarmNum)) {
+	 			
+	 			log.info("delete...deleteAllAlarm=" + alarmNum);
+			}
+	 	}
+	 	
+		return "redirect:/alarmList?userId="+userId+"&pageNum="+cri.getPageNum()+"&amount="+cri.getAmount()+"&order="+cri.getOrder();
 	}
 	
 	@PreAuthorize("isAuthenticated()")  

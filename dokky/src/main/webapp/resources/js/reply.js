@@ -335,26 +335,6 @@ var replyService = (function() {
 			})
 	}
 	
-	function postAlarm(alarmData, callback, error) {
-		//console.log("postAlarm...............");  
-		
-		$.ajax({
-			type : 'post',
-			url : '/alarm',
-			data : JSON.stringify(alarmData),
-			contentType : "application/json; charset=utf-8",
-			success : function(result, status, xhr) {
-				if (callback) { 
-					callback(result);
-				}
-			},
-			error : function(xhr, status, er) {
-				if (error) {
-					error(er);
-				}
-			}
-		})
-	}
 	/*function download(path, callback, error) {
 		console.log("download...............");  
 		 
@@ -390,8 +370,7 @@ var replyService = (function() {
 		giveReplyWriterMoney : giveReplyWriterMoney,
 		postScrapData : postScrapData,
 		deleteScrapData : deleteScrapData,
-		report : report,
-		postAlarm : postAlarm
+		report : report
 		/*download: download*/
 	};
 
