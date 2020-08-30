@@ -32,19 +32,19 @@ public interface CommonService {
 
 	public int getVisitTotalCount();
 
-	public int getAlarmCount(Criteria cri);
+	public int getAllAlarmCount(Criteria cri);
 	
-	public int getAlarmReadCount(Criteria cri);
+	public int getAlarmCountRead(Criteria cri);
 
 	public List<alarmVO> getAllAlarmList(Criteria cri);
 	
-	public List<alarmVO> getReadedAlarmList(Criteria cri);
+	public List<alarmVO> getAlarmListRead(Criteria cri);
 
-	public List<alarmVO> getNotReadedAlarmList(Criteria cri);
+	public List<alarmVO> getAlarmListNotRead(Criteria cri);
 	
 	public int insertAlarm(alarmVO vo);
 
-	public String getAlarmRealCount(String userId);
+	public int getAlarmCountNotRead(String userId);
 	
 	public int updateAlarmCheck(String alarmNum);
 

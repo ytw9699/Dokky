@@ -130,23 +130,23 @@ public class CommonServiceImpl implements CommonService {
 	}
 	
 	@Override 
-	public int getAlarmCount(Criteria cri) {
-		log.info("getAlarmCount");
+	public int getAllAlarmCount(Criteria cri) {
+		log.info("getAllAlarmCount");
 		
-		return mapper.getAlarmCount(cri);
+		return mapper.getAllAlarmCount(cri);
 	}
 	
 	@Override 
-	public int getAlarmReadCount(Criteria cri) {
-		log.info("getAlarmReadCount");
+	public int getAlarmCountRead(Criteria cri) {
+		log.info("getAlarmCountRead");
 		
-		return mapper.getAlarmReadCount(cri);
+		return mapper.getAlarmCountRead(cri);
 	}
 	@Override 
-	public String getAlarmRealCount(String userId) {
-		log.info("getAlarmRealCount");
+	public int getAlarmCountNotRead(String userId) {
+		log.info("getAlarmCountNotRead");
 		
-		return mapper.getAlarmRealCount(userId);
+		return mapper.getAlarmCountNotRead(userId);
 	}
 	
 	@Override 
@@ -165,17 +165,17 @@ public class CommonServiceImpl implements CommonService {
 	}
 	
 	@Override
-	public List<alarmVO> getReadedAlarmList(Criteria cri){
-		log.info("getReadedAlarmList");
+	public List<alarmVO> getAlarmListRead(Criteria cri){
+		log.info("getAlarmListRead");
 		
-		return mapper.getReadedAlarmList(cri);
+		return mapper.getAlarmListRead(cri);
 	}
 	
 	@Override
-	public List<alarmVO> getNotReadedAlarmList(Criteria cri){
-		log.info("getNotReadedAlarmList");
+	public List<alarmVO> getAlarmListNotRead(Criteria cri){
+		log.info("getAlarmListNotRead");
 		
-		return mapper.getNotReadedAlarmList(cri);
+		return mapper.getAlarmListNotRead(cri);
 	}
 	
 	

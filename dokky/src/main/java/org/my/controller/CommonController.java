@@ -572,36 +572,37 @@ public class CommonController {
 			}
 	}
 	
-	@PreAuthorize("isAuthenticated()")
+	@PreAuthorize("principal.username == #cri.userId")
 	@GetMapping("/alarmList")  
 	public String getAlarmList(Criteria cri, Model model) {//내 알림 리스트 가져오기
 		
-		log.info("/alarmList");
-		
-		int Alltotal = commonService.getAlarmCount(cri);//전체알람
-		int readedTotal = commonService.getAlarmReadCount(cri);//읽은 알람
-		int notReadedTotal = Integer.parseInt(commonService.getAlarmRealCount(cri.getUserId()));//읽지않은 알람
-		
-		if(cri.getOrder() == 0) {
+			log.info("/alarmList");
 			
-			model.addAttribute("alarmList", commonService.getAllAlarmList(cri));
-			model.addAttribute("pageMaker", new PageDTO(cri, Alltotal));
+			int allAlarmCount = commonService.getAllAlarmCount(cri);//전체알람
+			int alarmCountRead = commonService.getAlarmCountRead(cri);//읽은 알람
+			int alarmCountNotReaded = commonService.getAlarmCountNotRead(cri.getUserId());//읽지않은 알람
 			
-		}else if(cri.getOrder() == 1){
-			model.addAttribute("alarmList", commonService.getReadedAlarmList(cri));
-			model.addAttribute("pageMaker", new PageDTO(cri, readedTotal));
-			 
-		}
-		else if (cri.getOrder() == 2){
-			model.addAttribute("alarmList", commonService.getNotReadedAlarmList(cri));
-			model.addAttribute("pageMaker", new PageDTO(cri, notReadedTotal));
-		}
-		
-		model.addAttribute("Alltotal", Alltotal);
-		model.addAttribute("readedTotal", readedTotal);
-		model.addAttribute("notReadedtotal", notReadedTotal);
-		
-		return "common/alarmList";
+			if(cri.getOrder() == 0) {
+				
+				model.addAttribute("alarmList", commonService.getAllAlarmList(cri));
+				model.addAttribute("pageMaker", new PageDTO(cri, allAlarmCount));
+				
+			}else if(cri.getOrder() == 1){
+				
+				model.addAttribute("alarmList", commonService.getAlarmListRead(cri));
+				model.addAttribute("pageMaker", new PageDTO(cri, alarmCountRead));
+			}
+			else if (cri.getOrder() == 2){
+				
+				model.addAttribute("alarmList", commonService.getAlarmListNotRead(cri));
+				model.addAttribute("pageMaker", new PageDTO(cri, alarmCountNotReaded));
+			}
+			
+			model.addAttribute("allAlarmCount", allAlarmCount);
+			model.addAttribute("alarmCountRead", alarmCountRead);
+			model.addAttribute("alarmCountNotReaded", alarmCountNotReaded);
+			
+			return "common/alarmList";
 	}
 	
 	@PreAuthorize("principal.username == #userId")   
@@ -712,13 +713,13 @@ public class CommonController {
 			return new ResponseEntity<>("fail", HttpStatus.OK);
 	}
 	 
-	@GetMapping(value = "/alarmRealCount/{userId}", produces = "text/plain; charset=UTF-8")
+	@GetMapping(value = "/getAlarmCountNotRead/{userId}", produces = "text/plain; charset=UTF-8")
 	@ResponseBody
-	public ResponseEntity<String> getAlarmRealCount(@PathVariable("userId") String userId) {
+	public ResponseEntity<String> getAlarmCountNotRead(@PathVariable("userId") String userId) {
 		 
-		log.info("/alarmRealCount...="+userId);
+		log.info("/getAlarmCountNotRead...="+userId);
 		
-		return  new ResponseEntity<>(commonService.getAlarmRealCount(userId), HttpStatus.OK);
+		return new ResponseEntity<>(Integer.toString(commonService.getAlarmCountNotRead(userId)), HttpStatus.OK);
 	}
 	
 	@GetMapping(value = "/noteCount/{userId}", produces = "text/plain; charset=UTF-8")

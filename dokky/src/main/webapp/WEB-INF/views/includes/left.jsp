@@ -210,7 +210,7 @@
 				
  				if(event.data == 'allAlarmUpdateRequestToUser'){
  					
- 					 getAlarmRealCount(userId, function(result){
+ 					getAlarmCountNotRead(userId, function(result){
  				    		alarmCount.html(result);
  				 	 });
 					
@@ -380,10 +380,10 @@
         window.open('/noteForm?userId='+userId+'&nickname='+nickname, 'ot', 'height=500, width=400, screenX='+ popupX + ', screenY= '+ popupY);
     }
 	
-	function getAlarmRealCount(userId, callback, error) {
+	function getAlarmCountNotRead(userId, callback, error) {
 		$.ajax({
 			type : 'get',
-			url : '/alarmRealCount/'+ userId,
+			url : '/getAlarmCountNotRead/'+ userId,
 			success : function(result, status, xhr) {
 				if (callback) {
 					callback(result,xhr);
@@ -422,7 +422,7 @@
 	
 	function schedule(){
 		
-	    getAlarmRealCount(userId, function(result){
+		getAlarmCountNotRead(userId, function(result){
 	    	alarmCount.html(result);
 	 	 });
 	    

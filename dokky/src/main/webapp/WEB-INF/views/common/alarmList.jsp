@@ -27,9 +27,9 @@
 
 	<div id="menuWrap">
 		<div class="tab">  
-			<button class="<c:if test="${pageMaker.cri.order == 0 }">active</c:if>" onclick="location.href='alarmList?userId=${userInfo.username}&order=0'">모든 알림 ${Alltotal}개</button> 
-			<button class="<c:if test="${pageMaker.cri.order == 1 }">active</c:if>" onclick="location.href='alarmList?userId=${userInfo.username}&order=1'">읽은 알림 ${readedTotal}개</button>
-			<button class="<c:if test="${pageMaker.cri.order == 2 }">active</c:if>" onclick="location.href='alarmList?userId=${userInfo.username}&order=2'">읽지 않은 알림 ${notReadedtotal}개</button> 
+			<button class="<c:if test="${pageMaker.cri.order == 0 }">active</c:if>" onclick="location.href='alarmList?userId=${userInfo.username}&order=0'">모든 알림 ${allAlarmCount}개</button> 
+			<button class="<c:if test="${pageMaker.cri.order == 1 }">active</c:if>" onclick="location.href='alarmList?userId=${userInfo.username}&order=1'">읽은 알림 ${alarmCountRead}개</button>
+			<button class="<c:if test="${pageMaker.cri.order == 2 }">active</c:if>" onclick="location.href='alarmList?userId=${userInfo.username}&order=2'">읽지 않은 알림 ${alarmCountNotReaded}개</button> 
 	    </div> 																								
 	</div> 
 	
