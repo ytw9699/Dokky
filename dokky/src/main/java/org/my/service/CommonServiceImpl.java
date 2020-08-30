@@ -353,7 +353,4 @@ public class CommonServiceImpl implements CommonService {
 		
 		return mapper.getToNoteList(cri);
 	}
-	
-	
-
 }

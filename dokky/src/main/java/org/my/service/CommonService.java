@@ -76,7 +76,6 @@ public interface CommonService {
 
 	public String getSecretKey();
 	
-	
 	public int getFromNoteCount(Criteria cri);
 
 	public int getToNoteCount(Criteria cri);
