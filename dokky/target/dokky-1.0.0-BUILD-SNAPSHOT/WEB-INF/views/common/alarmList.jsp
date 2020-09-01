@@ -27,9 +27,9 @@
 
 	<div id="menuWrap">
 		<div class="tab">  
-			<button class="<c:if test="${pageMaker.cri.order == 0 }">active</c:if>" onclick="location.href='alarmList?userId=${userInfo.username}&order=0'">모든 알림 ${Alltotal}개</button> 
-			<button class="<c:if test="${pageMaker.cri.order == 1 }">active</c:if>" onclick="location.href='alarmList?userId=${userInfo.username}&order=1'">읽은 알림 ${readedTotal}개</button>
-			<button class="<c:if test="${pageMaker.cri.order == 2 }">active</c:if>" onclick="location.href='alarmList?userId=${userInfo.username}&order=2'">읽지 않은 알림 ${notReadedtotal}개</button> 
+			<button class="<c:if test="${pageMaker.cri.order == 0 }">active</c:if>" onclick="location.href='alarmList?userId=${userInfo.username}&order=0'">모든 알림 ${allAlarmCount}개</button> 
+			<button class="<c:if test="${pageMaker.cri.order == 1 }">active</c:if>" onclick="location.href='alarmList?userId=${userInfo.username}&order=1'">읽은 알림 ${alarmCountRead}개</button>
+			<button class="<c:if test="${pageMaker.cri.order == 2 }">active</c:if>" onclick="location.href='alarmList?userId=${userInfo.username}&order=2'">읽지 않은 알림 ${alarmCountNotReaded}개</button> 
 	    </div> 																								
 	</div> 
 	
@@ -319,12 +319,12 @@
 				url : '/updateAlarmCheck/'+ alarmNum,
 				success : function(result, status, xhr) {
 					if (callback) {
-						callback(result,xhr);
+						callback(result, status);
 					}
 				},
 				error : function(xhr, status, er) {
 					if (error) {
-						error(xhr,er);
+						error(status);
 					}
 				}
 			});
@@ -365,21 +365,32 @@
 					var alarmNum  = $(this).data("alarm_num");
 					var reply_num = $(this).data("reply_num");
 					
-					updateAlarmCheck(alarmNum, function(result){//알람 읽기 체크
+					updateAlarmCheck(alarmNum, 
+							
+						function(result, status){//알람 읽기 체크
+							
+								var checkAlarm = $("#checkAlarm+"+alarmNum);
 						
-							var checkAlarm = $("#checkAlarm+"+alarmNum);
-					
-							if(result == "success"){
+								if(status == "success"){
+									
+									checkAlarm.html("");//알림 숫자 1 없애주기
+									
+									//location.href='/board/get?board_num='+board_num+'#reply_contents';
+	
+									commonForm.append("<input type='hidden' name='board_num' value='"+board_num+"'/>");
+									commonForm.append("<input type='hidden' name='reply_num' value='"+reply_num+"'/>");
+									commonForm.submit();
+								}
+					   	},
+					   	
+					   	function(status){
+				   	    	
+							if(status == "error"){ 
 								
-								checkAlarm.html("");//알림 숫자 1 없애주기
-								
-								//location.href='/board/get?board_num='+board_num+'#reply_contents';
-
-								commonForm.append("<input type='hidden' name='board_num' value='"+board_num+"'/>");
-								commonForm.append("<input type='hidden' name='reply_num' value='"+reply_num+"'/>");
-								commonForm.submit();
+								openAlert("Server Error(관리자에게 문의해주세요)");
 							}
-				   	});
+			   	    	}
+					);
 		});
 		
 		$(".getMyCashHistory").on("click",function(e) {//알람 읽기 체크+캐시 히스토리 가져오기
@@ -460,7 +471,7 @@
 		  //console.log(checkRow); 
 		  
 		  deleting('정말 삭제 하시겠습니까?', function() {
-			  actionForm.attr("action","/removeAllAlarm").attr("method","post");
+			  actionForm.attr("action","/deleteAllAlarm").attr("method","post");
 			  actionForm.append("<input type='hidden' name='checkRow' value='"+checkRow+"'>");
 			  actionForm.append("<input type='hidden' id='csrf' name='${_csrf.parameterName}' value='${_csrf.token}'/>");
 			  actionForm.submit();

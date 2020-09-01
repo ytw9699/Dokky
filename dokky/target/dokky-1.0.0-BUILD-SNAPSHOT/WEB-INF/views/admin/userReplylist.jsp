@@ -41,7 +41,7 @@
 			</div>
 			
 			<table id="inforTable"> 
-				<c:forEach items="${userReply}" var="Reply">
+				<c:forEach items="${userReplylist}" var="Reply">
 					<tr>
 						<td class="replyTitle">
 					         <c:choose>
