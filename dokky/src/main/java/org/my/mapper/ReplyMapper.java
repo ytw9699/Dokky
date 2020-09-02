@@ -68,4 +68,6 @@ public interface ReplyMapper {
 	
 	public Long getRecentReply_num();
 
+	public int[] getReplyNums(Long board_num);
+
 }

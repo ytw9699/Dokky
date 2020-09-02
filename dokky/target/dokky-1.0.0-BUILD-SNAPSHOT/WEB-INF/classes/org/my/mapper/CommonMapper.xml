@@ -127,15 +127,15 @@
 			select count(*) from dk_visitor where substr(to_char(visit_time,'yy/MM/dd'), 1, 9) = to_char(sysdate, 'yy/MM/dd')
        </select>
        
-        <select id="getAlarmCount" resultType="int">
+        <select id="getAllAlarmCount" resultType="int">
 			select count(*) from dk_alarm where target = #{userId}
        </select>
 	  
-	  <select id="getAlarmRealCount" resultType="String">
+	  <select id="getAlarmCountNotRead" resultType="int">
 			select count(*) from dk_alarm where target = #{userId} and checking = 'NO'
        </select>
        
-       <select id="getAlarmReadCount" resultType="int">
+       <select id="getAlarmCountRead" resultType="int">
        		select count(*) from dk_alarm where target = #{userId} and checking = 'YES' 
        </select>
        
@@ -170,7 +170,7 @@
 						  ]]>
 	   </select>
 	   
-	    <select id="getReadedAlarmList" resultType="org.my.domain.alarmVO"> 
+	    <select id="getAlarmListRead" resultType="org.my.domain.alarmVO"> 
 			select alarmNum,
 				   checking,
 				   target,
@@ -195,7 +195,7 @@
 						  ]]>
 	   </select>
 	   
-	    <select id="getNotReadedAlarmList" resultType="org.my.domain.alarmVO"> 
+	    <select id="getAlarmListNotRead" resultType="org.my.domain.alarmVO"> 
 			select alarmNum,
 				   checking,
 				   target,
@@ -232,7 +232,7 @@
 				                <if test="commonVar2 != null and commonVar2 !=''">
 				              	    commonVar2,
 				                </if>
-				                <if test="commonVar3 != null and commonVar2 !=''">
+				                <if test="commonVar3 != null and commonVar3 !=''">
 				              	    commonVar3,
 				                </if>
 				               kind

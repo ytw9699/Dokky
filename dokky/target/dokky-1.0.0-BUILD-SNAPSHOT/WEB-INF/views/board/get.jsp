@@ -1548,7 +1548,7 @@
 							
 							reply_contents.val("");
 						        
-					        showReplyList(-1);//다시 댓글 목록 마지막 페이지 보여주기	
+					        showReplyList(-1);//부모댓글 달고서 항상 댓글 목록 마지막 페이지 보여주기	
 					        
 					    	if(webSocket != null && alarmData != null ){
 						   		webSocket.send("sendAlarmMsg,"+alarmData.target);
@@ -1658,7 +1658,11 @@
 				     			
 				     			$(".replyWriteForm").after(reReplyWriteForm);//댓글 리스트가 리셋되면 폼이 사라지니까 다시 붙여두기 
 						         
-						        showReplyList(-1);//댓글 목록 마지막 페이지 보여주기
+				     			var replyStep = parseInt(result);
+								
+								var pageNum = Math.ceil(replyStep/10.0);
+								
+						        showReplyList(pageNum);//자식 댓글 달고서 댓글 위치의 페이지 보여주기	
 						        
 						        if(webSocket != null && alarmData != null ){
 							   		webSocket.send("sendAlarmMsg,"+alarmData.target);

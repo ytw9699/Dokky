@@ -31,7 +31,7 @@ public interface CommonMapper {
 
 	public int getVisitTotalCount();
 
-	public int getAlarmCount(Criteria cri);
+	public int getAllAlarmCount(Criteria cri);
 
 	public List<alarmVO> getAllAlarmList(Criteria cri);
 
@@ -39,7 +39,7 @@ public interface CommonMapper {
 	
 	public int deleteAlarm(alarmVO vo);
 
-	public String getAlarmRealCount(String userId);
+	public int getAlarmCountNotRead(String userId);
 
 	public int updateAlarmCheck(String alarmNum);
 
@@ -61,11 +61,11 @@ public interface CommonMapper {
 
 	public String getNoteCount(String userId);
 
-	public int getAlarmReadCount(Criteria cri);
+	public int getAlarmCountRead(Criteria cri);
 
-	public List<alarmVO> getReadedAlarmList(Criteria cri);
+	public List<alarmVO> getAlarmListRead(Criteria cri);
 
-	public List<alarmVO> getNotReadedAlarmList(Criteria cri);
+	public List<alarmVO> getAlarmListNotRead(Criteria cri);
 
 	public int getEnabled(String userId);
 	

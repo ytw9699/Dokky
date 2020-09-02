@@ -177,7 +177,7 @@
 							opener.webSocket.send("noteAlarm,"+noteData.to_id);
 					   	}
 			    		
-						opener.openAlert(result);
+						opener.openAlert("쪽지를 보냈습니다");
 			    	}
 	   	    });
     });

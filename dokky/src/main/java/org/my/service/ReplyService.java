@@ -36,4 +36,6 @@ public interface ReplyService {
 	
 	public String getDislikeCount(Long reply_num);
 
+	public int getReplyPageNum(Long board_num, Long reply_num);
+
 }

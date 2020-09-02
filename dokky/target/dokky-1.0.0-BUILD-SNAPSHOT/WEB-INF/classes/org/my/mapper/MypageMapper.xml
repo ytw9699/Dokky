@@ -75,8 +75,8 @@
 			   regdate from 
 				 ( select /*+INDEX_DESC(DK_BOARD PK_DK_BOARD) */ rownum rn,
 				 														board_num,
-				 														NICKNAME,
 				 														title,
+				 														NICKNAME,
 				 														replyCnt, 
 				 														hitCnt,
 				 														category,

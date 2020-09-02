@@ -283,12 +283,6 @@
 		select * from DK_BOARD where board_num = #{board_num}
 	</select>
 	
-	<select id="getReplyNums" resultType="int">
-		
-		select reply_num from dk_reply where board_num = #{reply_num} order by group_num ASC, order_step ASC
-		
-	</select>
-	
 	<update id="updateBoard">
 		update DK_BOARD 
 			set title= #{title},
@@ -481,6 +475,6 @@
 	<!-- 해당 글의 댓글 갯수 하나 늘리거나 빼기 --> 
   	<update id="updateReplyCnt">
   		update dk_board set replycnt = replycnt + #{amount} where board_num = #{board_num}
-  	</update> 
+  	</update>
 
 </mapper>

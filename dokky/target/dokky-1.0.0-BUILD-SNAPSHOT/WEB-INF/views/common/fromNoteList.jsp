@@ -237,18 +237,18 @@
 					actionForm.submit();
 		});
 		
-		function updateNoteCheck(note_num, callback, error) {
+		function updateNoteCheck(note_num, callback, error){
 				$.ajax({
 						type : 'put',
 						url : '/noteCheck/'+ note_num,
 						success : function(result, status, xhr) {
 							if (callback) {
-								callback(result,xhr);
+								callback(result, status);
 							}
 						},
 						error : function(xhr, status, er) {
 							if (error) {
-								error(xhr,er);
+								error(status);
 							}
 						}
 				});
@@ -256,15 +256,17 @@
 		
 		$(".getNote").on("click",function(e) {//쪽지 상세보기 + 쪽지 읽기 체크
 			
-					e.preventDefault();
-		
-					var note_num = $(this).data("note_num");  
-					
-					updateNoteCheck(note_num, function(result){//쪽지 읽기 체크
-							
+				e.preventDefault();
+	
+				var note_num = $(this).data("note_num");  
+				
+				updateNoteCheck(note_num, 
+						
+						function(result, status){//쪽지 읽기 체크
+						
 							var checkNote = $("#checkNote+"+note_num);
 							
-							if(result == "success"){
+							if(status == "success"){
 								
 								checkNote.html("");
 								
@@ -273,9 +275,18 @@
 								actionForm.append("<input type='hidden' name='note_kind' value='fromNote'/>");
 								actionForm.submit();
 							}
-			   	  	});
+						},
+						    
+				    	function(status){
+				    	
+							if(status == "error"){ 
+								
+								openAlert("Server Error(관리자에게 문의해주세요)");
+							}
+				    	}
+	   	  		);
 		});
-		
+    	
 </script>
 	
 </body>

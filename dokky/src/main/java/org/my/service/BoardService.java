@@ -28,8 +28,6 @@ public interface BoardService {
 	
 	public BoardVO getBoard(Long board_num, Boolean hitChoice);
 	
-	public int getReplyPageNum(Long board_num, Long reply_num);
-
 	public boolean modifyBoard(BoardVO board);
 
 	public boolean removeBoard(Long board_num, boolean hasAttach);

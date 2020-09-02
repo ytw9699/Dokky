@@ -153,15 +153,17 @@
 		    					to_nickname		: myNickName,
 		    					read_check 	    : 'NO' 		  //쪽지 읽음 체크
 				 		  };
+		 
+		    commonService.insertNote(noteData, function(result, status){
+		    	
+			    	if(status == "success"){
+			    		
+			    		$("#content").val("");
+			    		
+			    		openAlert("쪽지를 보냈습니다"); 
+			    	}
+   	   		});
 		    
-		    commonService.insertNote(noteData, function(result){ 
-				
-			    	$("#content").val("");
-			    	//$("#to_id").val(""); 
-					//$("#checkbox").prop("checked", false);
-					
-					openAlert(result); 
-	   	    });
     });
 	
 </script>

@@ -39,7 +39,7 @@
 				</div>
 		
 				<table id="inforTable"> 
-					<c:forEach items="${userBoard}" var="board">
+					<c:forEach items="${userBoardList}" var="board">
 						<tr>
 							<td class="title"> 
 								<a class='move' href='<c:out value="${board.board_num}"/>'> 
