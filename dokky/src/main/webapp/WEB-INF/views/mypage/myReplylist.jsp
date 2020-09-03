@@ -18,7 +18,7 @@
       </c:otherwise>
 </c:choose> 
 </head>
-<%@include file="../includes/left.jsp"%>
+<%@include file="../includes/common.jsp"%>
 <body>
 <sec:authentication property="principal" var="userInfo"/>
 <div class="myreplyWrap">	

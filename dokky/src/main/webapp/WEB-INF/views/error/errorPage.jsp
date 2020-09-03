@@ -9,7 +9,7 @@
 		<title>Dokky-error</title>
 		<link href="/resources/css/404errorPage.css" rel="stylesheet" type="text/css"/>
 	</head>
-	<%@include file="../includes/left.jsp"%>
+	<%@include file="../includes/common.jsp"%>
 	<body>
 		<div class="bodyWrap">
 		  <h4><c:out value="${exception.getMessage()}"></c:out></h4>

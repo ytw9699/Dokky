@@ -18,7 +18,7 @@
       </c:otherwise>
 </c:choose>
 </head>
-<%@include file="../includes/left.jsp"%>
+<%@include file="../includes/common.jsp"%>
 
 <body>
 <c:set var="random"><%= java.lang.Math.round(java.lang.Math.random() * 123456) %></c:set>
