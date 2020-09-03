@@ -23,9 +23,8 @@
        </c:choose>
 </head>
 
-<%@include file="../includes/left.jsp"%>
+<%@include file="../includes/common.jsp"%>
 <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
-<c:set var="random"><%= java.lang.Math.round(java.lang.Math.random() * 123456) %></c:set>
 <body>
 	<div class="bodyWrap">	 
 		<div class="mainLists">
@@ -273,19 +272,63 @@
 	        var now = new Date();//현재시간
 	        var writeDay = new Date(time);//글쓴 시간 
 	     	var minus;//현재 년도랑 글쓴시간의 년도 비교 
+	     	var prev;
 	        
 	        if(now.getFullYear() > writeDay.getFullYear()){
 	        	
 	            minus= now.getFullYear()-writeDay.getFullYear();//두개의 차이를 구해서 표시
+	            
+				if(minus == 1){
+	        		
+	        		var monthVal = now.getMonth()+12-writeDay.getMonth();
+	        		
+	        		if(monthVal < 12){
+	        			
+	    	            return monthVal+"달 전";
+	        		}
+	        	}
+	            
 	            return minus+"년 전";
+	            
 	        }else if(now.getMonth() > writeDay.getMonth()){//년도가 같을 경우 달을 비교해서 출력
 	        	
-	            minus= now.getMonth()-writeDay.getMonth();
+	        	minus= now.getMonth()-writeDay.getMonth();
+	        
+	        	if(minus == 1){
+	        		
+	        		prev = new Date(writeDay.getYear(), writeDay.getMonth(), 0);//작성달의 말일
+	        	        
+	        		var dayVal = prev.getDate()+now.getDate()-writeDay.getDate();//작성달의 전체일수+현재 이번달의 일수 - 작성일
+	        		
+        			if(dayVal < 7){
+        				
+        				return dayVal+"일 전";
+        				
+        			}else if(dayVal < 11){//7~10일
+        				
+        				return "1주 전";
+        				
+        			}else if(dayVal < 18){//11일 ~17일
+        				
+        				return "2주 전";
+        				
+        			}else if(dayVal < 25){//18~24일
+        				
+        				return "3주 전";
+        				
+        			}else if(dayVal < 31){
+        				
+        				return "1달 전";
+        			}
+	        	}
+	            
 	            return minus+"달 전";
+	            
 	        }else if(now.getDate() > writeDay.getDate()){//같은 달일 경우 일을 계산
 	        	
 	            minus= now.getDate()-writeDay.getDate();	
 	            return minus+"일 전";
+	            
 	        }else if(now.getDate() == writeDay.getDate()){//당일인 경우에는 
 	        	
 	            var nowTime = now.getTime();
