@@ -17,7 +17,8 @@
       </c:otherwise>
 </c:choose>
 </head> 
-<%@include file="../includes/left.jsp"%>
+<%@include file="../includes/common.jsp"%>
+<c:set var="random"><%= java.lang.Math.round(java.lang.Math.random() * 123456) %></c:set>
 <body> 
 <sec:authentication property="principal" var="userInfo"/>
 
@@ -141,32 +142,6 @@
 					});
 				}
 			 
-			 function postAlarm(approveData, callback, error) {//알림등록
-					console.log("postAlarm...............");  
-					
-					$.ajax({
-						type : 'post',
-						url : '/alarm',
-						//data : JSON.stringify(alarmData1),
-						data : JSON.stringify(approveData),
-						/* data : {
-							  alarmData : JSON.stringify(alarmData1),
-							  approveData : JSON.stringify(approveData)
-							}, */
-						contentType : "application/json; charset=utf-8",
-						success : function(result, status, xhr) {
-							if (callback) { 
-								callback(result);
-							}
-						},
-						error : function(xhr, status, er) {
-							if (error) {
-								error(er);
-							}
-						}
-					})
-				}
-			 
 			 $(".approveButton").on("click",function(event){// 이벤트  
 				 
 				 	var cash_num = $(this).data("cash_num");
@@ -218,6 +193,10 @@
 					 		specification.html("승인완료"); 
 					 		
 					 		openAlert("승인완료 되었습니다");
+					 		
+					 		if(webSocket != null && alarmData != null ){
+						   		webSocket.send("sendAlarmMsg,"+alarmData.target);
+						   	}	
 						}
 						
 			   	    });

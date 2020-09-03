@@ -18,19 +18,18 @@
 				 , #{board_num} 
 			   )
 	</insert>
-
+	
+	<delete id="deleteAll">
+			delete dk_attach where board_num = #{board_num}
+	</delete>
+	
 	<delete id="delete">
 			delete from dk_attach where uuid = #{uuid}
 	</delete>
 
-	<select id="findByNum" resultType="org.my.domain.BoardAttachVO">
+	<select id="getAttachList" resultType="org.my.domain.BoardAttachVO">
 			select * from dk_attach where board_num = #{board_num}
-			<!-- 특정 게시물의 번호로 첨부파일을 찾는 작업  -->
 	</select>
-
-	<delete id="deleteAll">
-			delete dk_attach where board_num = #{board_num}
-	</delete>
 
 	<select id="getYesterdayFiles" resultType="org.my.domain.BoardAttachVO">
 			select * from dk_attach where uploadpath = 'upload' || to_char(sysdate -1 ,'/yyyy/mm/dd')

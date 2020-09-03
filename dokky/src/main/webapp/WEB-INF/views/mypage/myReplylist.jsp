@@ -18,7 +18,7 @@
       </c:otherwise>
 </c:choose> 
 </head>
-<%@include file="../includes/left.jsp"%>
+<%@include file="../includes/common.jsp"%>
 <body>
 <sec:authentication property="principal" var="userInfo"/>
 <div class="myreplyWrap">	
@@ -148,9 +148,9 @@
 			   	 openAlert("삭제할 댓글을 선택하세요");
 			    return false;
 			  }
- 			     
+			  
 			  deleting('정말 삭제 하시겠습니까?', function() {
-				  actionForm.attr("action","/replies/removeAll").attr("method","post");
+				  actionForm.attr("action","/replies/deleteReplies").attr("method","post");
 				  actionForm.append("<input type='hidden' name='checkRow' value='"+checkRow+"'>");
 				  actionForm.append("<input type='hidden' id='csrf' name='${_csrf.parameterName}' value='${_csrf.token}'/>");
 				  actionForm.submit();

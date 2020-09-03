@@ -1,31 +1,31 @@
-var replyService = (function() {
-
-	function add(commonData, callback, error) {
+var commonService = (function() {
+	
+	function createReply(commonData, callback, error) {
 		
 			$.ajax({
 				type : 'post',
-				url : '/replies/new',
+				url : '/replies/reply',
 				data : JSON.stringify(commonData),
 				contentType : "application/json; charset=utf-8",
 				success : function(result, status, xhr) {
 								if (callback) { 
-									callback(result);
+									callback(result,status);
 								}
 						  },
 				error : function(xhr, status, er) {
 							if (error) {
-								error(er);
+								error(status);
 							}
 						}
 			})
 	}
 
-	function getList(param, callback, error) { 
+	function readReplyList(param, callback, error) { 
 		
 		var board_num = param.board_num;
 		var page = param.page || 1;
-
-		  $.getJSON("/replies/pages/" + board_num + "/" + page,
+		
+		  $.getJSON("/replies/list/" + board_num + "/" + page,
 				function(data) {
 					if (callback) {
 						callback(data);
@@ -37,7 +37,7 @@ var replyService = (function() {
 		});
 	}
 
-/*	function getList(param, callback, error) {
+/*	function readList(param, callback, error) {
 
 	    var num = param.num;
 	    var page = param.page || 1;
@@ -57,12 +57,12 @@ var replyService = (function() {
 	  }
 */
 	
-	function remove(reply_num, reply_id, callback, error) {
+	function removeReply(reply_num, reply_id, callback, error) {
 		
 		$.ajax({
 			
 				type : 'delete',
-				url : '/replies/' + reply_num,
+				url : '/replies/reply/' + reply_num,
 				data:  JSON.stringify({ userId:reply_id }),
 			    contentType: "application/json; charset=utf-8",
 				success : function(deleteResult, status, xhr) {
@@ -98,9 +98,9 @@ var replyService = (function() {
 		});
 	}
 
-	function get(reply_num, callback, error) {
+	function readReply(reply_num, callback, error) {
 
-		$.get("/replies/" + reply_num, function(result) {
+		$.get("/replies/reply/" + reply_num, function(result) {
 
 			if (callback) {
 				callback(result);
@@ -113,7 +113,7 @@ var replyService = (function() {
 		});
 	}
 
-	function displayTime(timeValue) {
+	function displayReplyTime(timeValue) {
 
 		var dateObj = new Date(timeValue);
 		var yy = dateObj.getFullYear();
@@ -127,102 +127,102 @@ var replyService = (function() {
 				(dd > 9 ? '' : '0') + dd, ' ', (hh > 9 ? '' : '0') + hh, ':', (mi > 9 ? '' : '0') + mi].join('');
 	}
 
-	function updateLike(commonData, callback, error) {//좋아요 업데이트
+	function likeBoard(commonData, callback, error) {//좋아요 업데이트
 
 		$.ajax({
-				type : 'put', 
-				url : '/board/likeCount', 
+				type : 'post', 
+				url : '/board/likeBoard', 
 				data : JSON.stringify(commonData), 
 				contentType : "application/json; charset=utf-8",
 				success : function(result, status, xhr) {
 					if (callback) {
-						callback(result);
+						callback(result, status);
 					}
 				},
 				error : function(xhr, status, er) {
 					if (error) {
-						error(er);
+						error(status);
 					}
 				}
 		});
 	}
 	
-	function updateDisLike(commonData, callback, error) {//싫어요 업데이트
+	function disLikeBoard(commonData, callback, error) {//싫어요 업데이트
 
 		$.ajax({
-				type : 'put', 
-				url : '/board/dislikeCount',  
+				type : 'post', 
+				url : '/board/disLikeBoard',  
 				data : JSON.stringify(commonData), 
 				contentType : "application/json; charset=utf-8",
 				success : function(result, status, xhr) {
 					if (callback) {
-						callback(result);
+						callback(result, status);
 					}
 				},
 				error : function(xhr, status, er) {
 					if (error) {
-						error(er);
+						error(status);
 					}
 				}
 		});
 	}
 	
-	function updateReplyLike(commonData, callback, error) {//댓글 좋아요 업데이트
+	function likeReply(commonData, callback, error) {//댓글 좋아요
 
 		$.ajax({
-				type : 'put', 
-				url : '/replies/likeCount', 
+				type : 'post', 
+				url : '/replies/likeReply', 
 				data : JSON.stringify(commonData), 
 				contentType : "application/json; charset=utf-8",
 				success : function(result, status, xhr) {
 					if (callback) {
-						callback(result);
+						callback(result, status);
 					}
 				},
 				error : function(xhr, status, er) {
 					if (error) {
-						error(er);
+						error(status);
 					}
 				}
 		});
 	}
 	
-	function updateReplyDisLike(commonData, callback, error) {//댓글 싫어요 업데이트
+	function disLikeReply(commonData, callback, error) {//댓글 싫어요 업데이트
 
 		$.ajax({
-				type : 'put', 
-				url : '/replies/dislikeCount',  
+				type : 'post', 
+				url : '/replies/disLikeReply',  
 				data : JSON.stringify(commonData), 
 				contentType : "application/json; charset=utf-8",
 				success : function(result, status, xhr) {
 					if (callback) {
-						callback(result);
+						callback(result, status);
 					}
 				},
 				error : function(xhr, status, er) {
 					if (error) {
-						error(er);
+						error(status);
 					}
 				}
 		});
 	}
 	
-	function getUserCash(userId, callback, error) {
+	function getMyCash(userId, callback, error) {
 
-		$.get("/board/usercash/" + userId, function(result) {
+		$.get("/board/myCash/" + userId, function(result, status) {
 
 			if (callback) {
-				callback(result);
+				callback(result, status);
 			}
 
 		}).fail(function(xhr, status, err) {
 			if (error) {
-				error();
+				error(status);
 			}
 		});
 	}
 		
-	/*function getList(param, callback, error) { 
+	/*function readList(param, callback, error) { 
 		alert(3);
 		var board_num = param.board_num;
 		var page = param.page || 1;
@@ -239,105 +239,122 @@ var replyService = (function() {
 		});
 	}*/
 	
-	
-	function updateDonation(commonData, callback, error) {//게시글 기부하기
+	function giveBoardWriterMoney(commonData, callback, error) {//게시글 기부하기
 		
 		$.ajax({
-			type : 'put', 
-			url : '/board/donateMoney',  
+			type : 'post', 
+			url : '/board/giveBoardWriterMoney',  
 			data : JSON.stringify(commonData), 
 			contentType : "application/json; charset=utf-8",
 			success : function(result, status, xhr) {
 				if (callback) {
-					callback(result);
+					callback(result, status);
 				}
 			},
 			error : function(xhr, status, er) {
 				if (error) {
-					error(er);
+					error(status);
 				}
 			}
 		});
 	}
 		
-	function updateReplyDonation(commonData, callback, error) {//댓글 기부하기
+	function giveReplyWriterMoney(commonData, callback, error) {
 	
 			$.ajax({
-				type : 'put', 
-				url : '/replies/replyDonateMoney',  
+				type : 'post', 
+				url : '/replies/giveReplyWriterMoney',  
 				data : JSON.stringify(commonData), 
 				contentType : "application/json; charset=utf-8",
 				success : function(result, status, xhr) {
 					if (callback) {
-						callback(result);
+						callback(result, status);
 					}
 				},
 				error : function(xhr, status, er) {
 					if (error) {
-						error(er);
+						error(status);
 					}
 				}
 			});
-		}
+	}
 	
-	function ScrapBoard(scrapData, callback, error) {
+	function postScrapData(scrapData, callback, error) {
 		
 		$.ajax({
 				type : 'post',
 				url : '/board/scrapData/' + scrapData.board_num + '/' + scrapData.userId,
 				success : function(result, status, xhr) {
 					if (callback) {
-						callback(result,xhr);
+						callback(result, status);
 					}
 				},
 				error : function(xhr, status, er) {
 					if (error) {
-						error(xhr,er);
+						error(status);
 					}
 				}
 		});
 	}
 	
-	function report(commonData, callback, error) {
+	function deleteScrapData(scrapData, callback, error) {
 		
-			$.ajax({
-				type : 'post',
-				url : '/board/report',
-				data : JSON.stringify(commonData),
-				contentType : "application/json; charset=utf-8",
+		$.ajax({
+				type : 'delete',
+				url : '/board/scrapData/' + scrapData.board_num + '/' + scrapData.userId,
 				success : function(result, status, xhr) {
-					if (callback) { 
-						callback(result);
+					if (callback) {
+						callback(result, status);
 					}
 				},
 				error : function(xhr, status, er) {
 					if (error) {
-						error(er);
+						error(status);
+					}
+				}
+		});
+	}
+	
+	function report(reportData, callback, error) {
+		
+			$.ajax({
+				type : 'post',
+				url : '/board/report',
+				data : JSON.stringify(reportData),
+				contentType : "application/json; charset=utf-8",
+				success : function(result, status, xhr) {
+					if (callback) { 
+						callback(status);
+					}
+				},
+				error : function(xhr, status, er) {
+					if (error) {
+						error(status);
 					}
 				}
 			})
 	}
 	
-	function postAlarm(alarmData, callback, error) {
-		//console.log("postAlarm...............");  
+	function insertNote(noteData, callback, error) {
 		
 		$.ajax({
 			type : 'post',
-			url : '/alarm',
-			data : JSON.stringify(alarmData),
+			url : '/note',
+			data : JSON.stringify(noteData),
 			contentType : "application/json; charset=utf-8",
 			success : function(result, status, xhr) {
 				if (callback) { 
-					callback(result);
+					callback(result, status);
 				}
 			},
 			error : function(xhr, status, er) {
-				if (error) {
-					error(er);
+				if(status == "error"){
+					openAlert("ServerError");
 				}
 			}
 		})
 	}
+	
 	/*function download(path, callback, error) {
 		console.log("download...............");  
 		 
@@ -358,22 +375,23 @@ var replyService = (function() {
 	}*/
 	
 	return {
-		add : add,
-		get : get,
-		getList : getList,
-		remove : remove, 
+		createReply : createReply,
+		readReply : readReply,
+		readReplyList : readReplyList,
+		removeReply : removeReply, 
 		updateReply : updateReply,
-		displayTime : displayTime,
-		updateLike : updateLike,
-		updateDisLike : updateDisLike,
-		updateReplyLike : updateReplyLike,
-		updateReplyDisLike : updateReplyDisLike,
-		getUserCash : getUserCash,
-		updateDonation : updateDonation,
-		updateReplyDonation : updateReplyDonation,
-		ScrapBoard : ScrapBoard,
-		report : report,
-		postAlarm : postAlarm
+		displayReplyTime : displayReplyTime,
+		likeBoard : likeBoard,
+		disLikeBoard : disLikeBoard,
+		likeReply : likeReply,
+		disLikeReply : disLikeReply,
+		getMyCash : getMyCash,
+		giveBoardWriterMoney : giveBoardWriterMoney,
+		giveReplyWriterMoney : giveReplyWriterMoney,
+		postScrapData : postScrapData,
+		deleteScrapData : deleteScrapData,
+		insertNote : insertNote,
+		report : report
 		/*download: download*/
 	};
 

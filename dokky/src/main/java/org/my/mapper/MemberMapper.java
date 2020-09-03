@@ -5,26 +5,13 @@ package org.my.mapper;
 
 public interface MemberMapper {
 
-	public MemberVO readMembers(String userId);
-
 	public int registerMembers(MemberVO vo);
+	
+	public int registerMember_auth(MemberVO vo);
+	
+	public MemberVO readMembers(String userId);
 	
 	public int reRegisterMembers(MemberVO vo);
 
-	public int registerMember_auth(MemberVO vo);
-
-	public int IdCheckedCount(String inputId);
-
 	public int emailCheckedCount(String inputEmail);
-
-	public List<BoardVO> getRealtimeList();
-
-	public List<BoardVO> getMonthlyList();
-
-	public List<BoardVO> getDonationList();
-	
-	public int updatePreLoginDate(String userName);
-
-	public int updatelastLoginDate(String userName);
-
 }

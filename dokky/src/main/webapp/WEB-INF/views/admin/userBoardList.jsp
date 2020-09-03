@@ -17,7 +17,7 @@
      </c:otherwise>
 </c:choose>
 </head>
-<%@include file="../includes/left.jsp"%>
+<%@include file="../includes/common.jsp"%>
 <body>
 <sec:authentication property="principal" var="userInfo"/>
 <div class="userBoardWrap">	
@@ -39,7 +39,7 @@
 				</div>
 		
 				<table id="inforTable"> 
-					<c:forEach items="${userBoard}" var="board">
+					<c:forEach items="${userBoardList}" var="board">
 						<tr>
 							<td class="title"> 
 								<a class='move' href='<c:out value="${board.board_num}"/>'> 

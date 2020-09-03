@@ -16,23 +16,23 @@ public class MemberServiceImpl implements MemberService {
 	@Setter(onMethod_ = @Autowired)
 	private MemberMapper mapper;
 	
-	@Override 
-	public MemberVO readMembers(String userId){
-
-		log.info("readMembers..."+userId);
-		
-		return mapper.readMembers(userId);
-	}
-	
 	@Transactional
 	@Override 
 	public boolean registerMembers(MemberVO vo) {
 
 		log.info("registerMembers..." + vo);
 		
-		log.info("registerMember_auth..." + vo);
+		log.info("registerMember_auth...");
 		
 		return mapper.registerMembers(vo) == 1 && mapper.registerMember_auth(vo) == 1;
+	}
+	
+	@Override 
+	public MemberVO readMembers(String userId){
+
+		log.info("readMembers..."+userId);
+		
+		return mapper.readMembers(userId);
 	}
 	
 	@Transactional
@@ -44,7 +44,7 @@ public class MemberServiceImpl implements MemberService {
 		return mapper.reRegisterMembers(vo) == 1;
 	}
 	
-	@Transactional
+	/*@Transactional
 	@Override 
 	public boolean registerAdminMembers(MemberVO vo) {
 
@@ -56,49 +56,10 @@ public class MemberServiceImpl implements MemberService {
 	}
 	
 	@Override 
-	public boolean getIdCheckedVal(String inputId) {
-
-		log.info("getDuplicatedId...");
-		
-		return mapper.IdCheckedCount(inputId) == 1;
-	}
-	
-	@Override 
 	public boolean getEmailCheckedVal(String inputEmail){
 
 		log.info("getEmailCheckedVal...");
 		
 		return mapper.emailCheckedCount(inputEmail) == 1;
-	}
-	
-	@Override
-	public List<BoardVO> getRealtimeList() {
-
-		log.info("getRealtimeList: ");
-
-		return mapper.getRealtimeList();
-	}
-	@Override
-	public List<BoardVO> getMonthlyList() {
-
-		log.info("getMonthlyList: ");
-
-		return mapper.getMonthlyList();
-	}
-	@Override
-	public List<BoardVO> getDonationList() {
-
-		log.info("getDonationList: ");
-
-		return mapper.getDonationList();
-	}
-	
-	@Transactional
-	@Override 
-	public boolean updateLoginDate(String userName) {
-		
-		log.info("updateLoginDate..."); 
-		
-		return mapper.updatePreLoginDate(userName) == 1 && mapper.updatelastLoginDate(userName) == 1;
-	}
+	}*/
 }

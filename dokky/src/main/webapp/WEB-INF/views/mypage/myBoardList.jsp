@@ -18,7 +18,7 @@
       </c:otherwise>
 </c:choose>
 </head>
-<%@include file="../includes/left.jsp"%> 
+<%@include file="../includes/common.jsp"%> 
 <body>
 <sec:authentication property="principal" var="userInfo"/>
 <div class="myboardWrap">	
@@ -91,10 +91,10 @@
 				    <tr>
 				        <td class="bottomTd"><input type="checkbox" name="checkAll" id="checkAll" onclick="checkAll();"/>전체선택</td>
 				        <td class="bottomTd"><button id='deleteBtn' type="button" class="btn">삭제</button></td>
-				       	<td class="bottomTd"></td>
+				       	<td class="bottomTd"></td> 
+				       	<td class="bottomTd"></td>  
 				       	<td class="bottomTd"></td>
 				        <td class="bottomTd"><span>총 게시글 ${total}개</span></td>  
-						<td class="bottomTd"><button id='regBtn' type="button" class="btn">새 글쓰기</button></td> 
 				    </tr>
 			</table>
 		
@@ -132,13 +132,8 @@
 <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script> 
 <script> 
 	   
-	$("#regBtn").on("click", function() { 
-	
-		self.location = "/board/register?category="+${pageMaker.cri.category};
-	}); 
-	
 	$("#deleteBtn").on("click", function() { 
-		deleteAction(); 
+		deleteAction();
 	}); 
     
 	var actionForm = $("#actionForm");
@@ -190,7 +185,7 @@
 		  //console.log(checkRow);	
 		  
 		  deleting('정말 삭제 하시겠습니까?', function() {
-			  actionForm.attr("action","/board/removeAll").attr("method","post");
+			  actionForm.attr("action","/board/removeBoards").attr("method","post");
 			  actionForm.append("<input type='hidden' name='checkRow' value='"+checkRow+"'>");
 			  actionForm.append("<input type='hidden' id='csrf' name='${_csrf.parameterName}' value='${_csrf.token}'/>");
 			  actionForm.submit();

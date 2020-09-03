@@ -17,7 +17,7 @@
 	      </c:otherwise>
 	</c:choose>
 </head>
-<%@include file="../includes/left.jsp"%>
+<%@include file="../includes/common.jsp"%>
 <body>
 <sec:authentication property="principal" var="userInfo"/>
 <div class="mycashHisWrap">	
@@ -29,6 +29,7 @@
 	        <button onclick="location.href='myReplylist?userId=${userInfo.username}'">나의 댓글</button> 
 	        <button onclick="location.href='myScraplist?userId=${userInfo.username}'">나의 스크랩</button>
 	        <button class="active" onclick="location.href='myCashInfo?userId=${userInfo.username}'">나의 캐시</button>
+	        <button onclick="location.href='myWithdrawalForm?userId=${userInfo.username}'">탈퇴 하기</button>
 	    </div> 
 	</div>
 	

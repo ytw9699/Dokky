@@ -1,27 +1,27 @@
 package org.my.service;
 	import java.util.ArrayList;
-import java.util.Iterator;
-import java.util.List;
-
-import javax.servlet.http.Cookie;
-import javax.servlet.http.HttpServletRequest;
-import javax.servlet.http.HttpServletResponse;
-
-import org.my.domain.AuthVO;
-import org.my.domain.Criteria;
-import org.my.domain.MemberVO;
-import org.my.domain.VisitCountVO;
+	import java.util.Iterator;
+	import java.util.List;
+	import javax.servlet.http.Cookie;
+	import javax.servlet.http.HttpServletRequest;
+	import javax.servlet.http.HttpServletResponse;
+	import org.my.domain.AuthVO;
+	import org.my.domain.BoardVO;
+	import org.my.domain.Criteria;
+	import org.my.domain.MemberVO;
+	import org.my.domain.VisitCountVO;
 	import org.my.domain.alarmVO;
 	import org.my.domain.noteVO;
 	import org.my.mapper.CommonMapper;
-import org.my.security.domain.CustomUser;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
-import org.springframework.security.core.Authentication;
-import org.springframework.security.core.GrantedAuthority;
-import org.springframework.security.core.authority.SimpleGrantedAuthority;
-import org.springframework.security.core.context.SecurityContextHolder;
-import org.springframework.stereotype.Service;
+	import org.my.security.domain.CustomUser;
+	import org.springframework.beans.factory.annotation.Autowired;
+	import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
+	import org.springframework.security.core.Authentication;
+	import org.springframework.security.core.GrantedAuthority;
+	import org.springframework.security.core.authority.SimpleGrantedAuthority;
+	import org.springframework.security.core.context.SecurityContextHolder;
+	import org.springframework.stereotype.Service;
+	import org.springframework.transaction.annotation.Transactional;
 	import lombok.Setter;
 	import lombok.extern.log4j.Log4j;
 
@@ -31,6 +31,79 @@ public class CommonServiceImpl implements CommonService {
 
 	@Setter(onMethod_ = @Autowired)
 	private CommonMapper mapper;
+	
+	@Override 
+	public void logout(HttpServletRequest request, HttpServletResponse response, Authentication authentication) {  
+		
+		log.info("/logout"); 
+		
+		if(authentication != null) {
+			//log.info(SecurityContextHolder.getContext().getAuthentication().getPrincipal());
+			SecurityContextHolder.getContext().setAuthentication(null);//인증 풀기
+		}
+		
+		request.getSession().invalidate();//세션무효화
+
+		Cookie JSESSIONID = new Cookie("JSESSIONID", null);
+
+		JSESSIONID.setMaxAge(0);
+
+		response.addCookie(JSESSIONID);//쿠키 삭제
+	}
+	
+	@Override
+	public List<BoardVO> getRealtimeBoardList() {
+
+		log.info("getRealtimeBoardList: ");
+
+		return mapper.getRealtimeBoardList();
+	}
+	@Override
+	public List<BoardVO> getMonthlyBoardList() {
+
+		log.info("getMonthlyBoardList: ");
+
+		return mapper.getMonthlyBoardList();
+	}
+	@Override
+	public List<BoardVO> getDonationBoardList() {
+
+		log.info("getDonationBoardList: ");
+
+		return mapper.getDonationBoardList();
+	}
+	
+	@Override
+	public boolean getNicknameCheckedVal(String inputNickname, String userId) {
+		
+		log.info("getNicknameCheckedVal");
+		
+		if(userId != null) {
+			
+			if(inputNickname.equals(mapper.getNickname(userId))) {
+				return false;
+			}
+		}
+		
+		return mapper.getNicknameCheckedVal(inputNickname) == 1;
+	}
+	
+	@Override 
+	public boolean getIdCheckedVal(String profileId) {
+
+		log.info("getIdCheckedVal...");
+		
+		return mapper.getIdCheckedVal(profileId) == 1;
+	}
+
+	@Transactional
+	@Override 
+	public boolean updateLoginDate(String userName) {
+		
+		log.info("updateLoginDate..."); 
+		
+		return mapper.updatePreLoginDate(userName) == 1 && mapper.updatelastLoginDate(userName) == 1;
+	}
 	
 	@Override 
 	public boolean insertVisitor(VisitCountVO vo) {  
@@ -49,55 +122,6 @@ public class CommonServiceImpl implements CommonService {
 	}
 	
 	@Override 
-	public String tests1(){
-		
-		log.info("tests1..."); 
-		
-		return mapper.tests1();
-	}
-	
-	@Override 
-	public String tests2(){
-		
-		log.info("tests2..."); 
-		
-		return mapper.tests2();
-	}
-	
-	@Override 
-	public String tests3(){
-		
-		log.info("tests3..."); 
-		
-		return mapper.tests3();
-	}
-	
-	@Override 
-	public String tests4(){
-		
-		log.info("tests4..."); 
-		
-		return mapper.tests4();
-	}
-	
-	@Override 
-	public String tests5(){
-		
-		log.info("tests5..."); 
-		
-		return mapper.tests5();
-	}
-	
-	
-	@Override 
-	public String tests6(){
-		
-		log.info("tests6..."); 
-		
-		return mapper.tests6();
-	}
-	
-	@Override 
 	public int getVisitTotalCount() {
 		
 		log.info("getVisitTotalCount..."); 
@@ -106,23 +130,23 @@ public class CommonServiceImpl implements CommonService {
 	}
 	
 	@Override 
-	public int getAlarmCount(Criteria cri) {
-		log.info("getAlarmCount");
+	public int getAllAlarmCount(Criteria cri) {
+		log.info("getAllAlarmCount");
 		
-		return mapper.getAlarmCount(cri);
+		return mapper.getAllAlarmCount(cri);
 	}
 	
 	@Override 
-	public int getAlarmReadCount(Criteria cri) {
-		log.info("getAlarmReadCount");
+	public int getAlarmCountRead(Criteria cri) {
+		log.info("getAlarmCountRead");
 		
-		return mapper.getAlarmReadCount(cri);
+		return mapper.getAlarmCountRead(cri);
 	}
 	@Override 
-	public String getAlarmRealCount(String userId) {
-		log.info("getAlarmRealCount");
+	public int getAlarmCountNotRead(String userId) {
+		log.info("getAlarmCountNotRead");
 		
-		return mapper.getAlarmRealCount(userId);
+		return mapper.getAlarmCountNotRead(userId);
 	}
 	
 	@Override 
@@ -141,17 +165,17 @@ public class CommonServiceImpl implements CommonService {
 	}
 	
 	@Override
-	public List<alarmVO> getReadedAlarmList(Criteria cri){
-		log.info("getReadedAlarmList");
+	public List<alarmVO> getAlarmListRead(Criteria cri){
+		log.info("getAlarmListRead");
 		
-		return mapper.getReadedAlarmList(cri);
+		return mapper.getAlarmListRead(cri);
 	}
 	
 	@Override
-	public List<alarmVO> getNotReadedAlarmList(Criteria cri){
-		log.info("getNotReadedAlarmList");
+	public List<alarmVO> getAlarmListNotRead(Criteria cri){
+		log.info("getAlarmListNotRead");
 		
-		return mapper.getNotReadedAlarmList(cri);
+		return mapper.getAlarmListNotRead(cri);
 	}
 	
 	
@@ -207,27 +231,6 @@ public class CommonServiceImpl implements CommonService {
 		return mapper.updateNoteCheck(note_num);
 	}
 	
-	@Override
-	public List<noteVO> getFromNoteList(Criteria cri){
-		log.info("getFromNoteList");
-		
-		return mapper.getFromNoteList(cri);
-	}
-	
-	@Override
-	public List<noteVO> getMyNoteList(Criteria cri){
-		log.info("getMyNoteList");
-		
-		return mapper.getMyNoteList(cri);
-	}
-	
-	@Override
-	public List<noteVO> getToNoteList(Criteria cri){
-		log.info("getToNoteList");
-		
-		return mapper.getToNoteList(cri);
-	}
-	
 	@Override 
 	public noteVO getDetailNotepage(Long note_num) {
 		
@@ -237,75 +240,11 @@ public class CommonServiceImpl implements CommonService {
 	}
 	
 	@Override 
-	public int getFromNoteCount(Criteria cri) {
-		log.info("getFromNoteCount");
-		
-		return mapper.getFromNoteCount(cri);
-	}
-	
-	@Override 
-	public int getToNoteCount(Criteria cri) {
-		log.info("getToNoteCount");
-		
-		return mapper.getToNoteCount(cri);
-	}
-	
-	@Override 
-	public int getMyNoteCount(Criteria cri) {
-		log.info("getMyNoteCount");
-		
-		return mapper.getMyNoteCount(cri);
-	}
-	
-	@Override 
-	public int insertNote(noteVO vo) {  
-
-		log.info("insertNote : " + vo); 
-		
-		return mapper.insertNote(vo) ;
-	}
-	
-	@Override 
-	public void logout(HttpServletRequest request, HttpServletResponse response, Authentication authentication) {  
-		
-		log.info("logout"); 
-		
-		if(authentication != null) {
-			log.info(SecurityContextHolder.getContext().getAuthentication().getPrincipal());
-			SecurityContextHolder.getContext().setAuthentication(null);//인증 풀기
-		}
-		
-		request.getSession().invalidate();//세션무효화
-
-		Cookie JSESSIONID = new Cookie("JSESSIONID", null);
-
-		JSESSIONID.setMaxAge(0);
-
-		response.addCookie(JSESSIONID);//쿠키 삭제
-	}
-	
-	@Override 
 	public int getEnabled(String userId){  
 
 		log.info("getEnabled : " + userId); 
 		
 		return mapper.getEnabled(userId);
-	}
-	
-	@Override
-	public boolean checkNickname(String nickName, String userId) {
-		
-		log.info("checkNickname");
-		
-		if(userId != null) {
-			
-			if(nickName.equals(mapper.getNickname(userId))) {
-				return false;
-			}
-			
-		}
-		
-		return mapper.checkNickname(nickName) == 1;
 	}
 	
 	@Override 
@@ -349,4 +288,69 @@ public class CommonServiceImpl implements CommonService {
 		return true;
 	}
 	
+	@Override 
+	public String getAccessKey() {
+		
+		log.info("getAccessKey");
+		
+		return mapper.getAccessKey();
+	}
+	
+	@Override 
+	public String getSecretKey() {
+		
+		log.info("getSecretKey");
+		
+		return mapper.getSecretKey();
+	}
+	
+	@Override 
+	public int getFromNoteCount(Criteria cri) {
+		log.info("getFromNoteCount");
+		
+		return mapper.getFromNoteCount(cri);
+	}
+	
+	@Override 
+	public int getToNoteCount(Criteria cri) {
+		log.info("getToNoteCount");
+		
+		return mapper.getToNoteCount(cri);
+	}
+	
+	@Override 
+	public int getMyNoteCount(Criteria cri) {
+		log.info("getMyNoteCount");
+		
+		return mapper.getMyNoteCount(cri);
+	}
+	
+	@Override 
+	public int insertNote(noteVO vo) {  
+
+		log.info("insertNote : " + vo); 
+		
+		return mapper.insertNote(vo) ;
+	}
+	
+	@Override
+	public List<noteVO> getFromNoteList(Criteria cri){
+		log.info("getFromNoteList");
+		
+		return mapper.getFromNoteList(cri);
+	}
+	
+	@Override
+	public List<noteVO> getMyNoteList(Criteria cri){
+		log.info("getMyNoteList");
+		
+		return mapper.getMyNoteList(cri);
+	}
+	
+	@Override
+	public List<noteVO> getToNoteList(Criteria cri){
+		log.info("getToNoteList");
+		
+		return mapper.getToNoteList(cri);
+	}
 }

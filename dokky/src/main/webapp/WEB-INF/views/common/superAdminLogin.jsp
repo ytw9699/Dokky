@@ -1,7 +1,7 @@
  <%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
  <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c"%>
  <%@ taglib uri="http://java.sun.com/jsp/jstl/fmt" prefix="fmt"%>
- <%@include file="../includes/left.jsp"%>
+ <%@include file="../includes/common.jsp"%>
  
 <!DOCTYPE html>
 <html>
@@ -129,11 +129,11 @@
 		    if(memberCheck()){
 		    	return; 
 		    }
-		  
-		    if($('#userId').val() != 'admin'){ 
-		    	openAlert("아이디를 다시 확인해주세요"); 
+		    
+		    /* if($('#userId').val() != 'admin'){ 
+		    	openAlert("아이디를 다시 확인해주세요");
 		    	return; 
-		    }
+		    } */
 		    
 		    $("form").submit();
 	  });

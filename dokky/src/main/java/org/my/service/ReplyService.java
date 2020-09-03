@@ -8,36 +8,34 @@ package org.my.service;
 
 public interface ReplyService {
 
-	public int register(commonVO vo);
+	public int create(commonVO vo);
 
-	public ReplyVO get(Long reply_num);
-
-	public int modify(ReplyVO vo);
-
-	public int remove(Long reply_num);
+	public ReplyVO read(Long reply_num);
 	
-	public ReplyPageDTO getListPage(Criteria cri, Long board_num);
+	public ReplyPageDTO readReplyList(Criteria cri, Long board_num);
 	
-	public String checkLikeValue(ReplyLikeVO vo);
-
-	public int registerLike(commonVO vo);
-
-	public int pushLike(commonVO vo);
-
-	public int pullLike(commonVO vo);
+	public int update(ReplyVO vo);
+	
+	public int delete(Long reply_num);
+	
+	public String giveReplyWriterMoney(commonVO vo);
+	
+	public boolean checkReplyLikeButton(ReplyLikeVO vo);
+	
+	public boolean checkReplyDislikeButton(ReplyDisLikeVO vo);
+	
+	public boolean pushReplyLikeButton(commonVO vo);
+	
+	public boolean pushReplyDislikeButton(commonVO vo);
+	
+	public boolean pullReplyLikeButton(commonVO vo);
+	
+	public boolean pullReplyDislikeButton(commonVO vo);
 
 	public String getLikeCount(Long reply_num);
 	
-	public int pullDisLike(commonVO vo);
-	
-	public int pushDisLike(commonVO vo);
-	
-	public String checkDisLikeValue(ReplyDisLikeVO vo);
-	
-	public int registerDisLike(commonVO vo);
-	
-	public String getDisLikeCount(Long reply_num);
+	public String getDislikeCount(Long reply_num);
 
-	public String replyDonateMoney(commonVO vo);
+	public int getReplyPageNum(Long board_num, Long reply_num);
 
 }

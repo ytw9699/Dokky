@@ -2,7 +2,7 @@
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c"%>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/fmt" prefix="fmt"%>
 <%@ taglib uri="http://www.springframework.org/security/tags" prefix="sec" %>
-<%@ include file="../includes/left.jsp"%>
+<%@ include file="../includes/common.jsp"%>
 
 <!DOCTYPE html>
 <html>
@@ -215,12 +215,12 @@
 				str += "<li id='"+obj.uuid+"' data-path='"+obj.uploadPath+"'";
 				str +=" data-uuid='"+obj.uuid+"' data-filename='"+obj.fileName+"' data-type='"+obj.image+"'"
 				str +" >";            
-				str += "<br><img src='/displayS3?path="+obj.uploadPath+"&filename=s_"+obj.uuid+"_"+obj.fileName+"' data-path='"+obj.uploadPath+"' data-filename='"+obj.uuid+"_"+obj.fileName+"'>";
+				str += "<br><img src='/s3Image?path="+obj.uploadPath+"&filename=s_"+obj.uuid+"_"+obj.fileName+"' data-path='"+obj.uploadPath+"' data-filename='"+obj.uuid+"_"+obj.fileName+"'>";
 				str += "<button type='button' data-uuid='"+obj.uuid+"' data-filename='"+obj.uuid+"_"+obj.fileName+"' data-path='"+obj.uploadPath+"'"
 				str += "data-type='image' class='btn btn-warning btn-circle'><span class='css-cancel'></span></button>"; 
 				str +"</li>";
 				
-				contentVal += "<img src='/displayS3?path="+obj.uploadPath+"&filename=s_"+obj.uuid+"_"+obj.fileName+"' data-type='image' data-uuid='"+obj.uuid+"' data-path='"+obj.uploadPath+"' data-filename='"+obj.uuid+"_"+obj.fileName+"'>";
+				contentVal += "<img src='/s3Image?path="+obj.uploadPath+"&filename=s_"+obj.uuid+"_"+obj.fileName+"' data-type='image' data-uuid='"+obj.uuid+"' data-path='"+obj.uploadPath+"' data-filename='"+obj.uuid+"_"+obj.fileName+"'>";
 				divContent.html(contentVal);//본문 삽입  
 				
 			}else{//일반파일이라면
@@ -368,9 +368,8 @@
 						 var type = removeTarget.getAttribute('data-type');
 						 
 						 $.ajax({
-						      url: '/deleteS3File',
-						      type: 'POST',
-						      dataType:'text',
+						      url : '/deleteS3Data',
+						      type : 'post',
 						      data: {	
 							    	  	path		: path,
 							    	  	filename	: filename,
@@ -382,7 +381,7 @@
 						      
 					          success: function(result){
 					      	    		
-					        	  if(result === "deleted"){
+					        	  if(result === "success"){
 						              if(type == "image"){
 							        	    
 							        	   if($(".photoUploadResult ul li").length == 0 ){ //사진 업로드결과 li가 0개라면 div숨기기
@@ -415,9 +414,8 @@
 		    var imgTags = $('#divContent img');
 		    
 		    $.ajax({
-			      url: '/deleteS3File',
-			      type: 'POST',
-			      dataType:'text',
+			      url: '/deleteS3Data',
+			      type: 'post',
 			      data: {	
 				    	  	path		: path,
 				    	  	filename	: filename,
@@ -429,7 +427,7 @@
 			      
 		          success: function(result){
 		      	    		
-		        	  if(result === "deleted"){
+		        	  if(result === "success"){
 		        		  
 		        		  targetLi.remove();//프론트 업로드결과의 사진 or 파일 삭제
 				           
@@ -465,7 +463,7 @@
     	    
 			$(".bigPictureWrapper").css("display","flex").show(); 
     	    
-    	    $(".bigPicture").html("<img src='/displayS3?path="+path+"&filename="+filename+"'>");
+    	    $(".bigPicture").html("<img src='/s3Image?path="+path+"&filename="+filename+"'>");
     	    
     	    $("#profileGray").css("display","block");
     }

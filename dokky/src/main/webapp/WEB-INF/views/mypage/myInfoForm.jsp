@@ -2,7 +2,7 @@
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c"%>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/fmt" prefix="fmt"%>
 <%@ taglib uri="http://www.springframework.org/security/tags" prefix="sec" %> 
-<%@include file="../includes/left.jsp"%>
+<%@include file="../includes/common.jsp"%>
 
 <!DOCTYPE html>
 <html>
@@ -35,7 +35,6 @@
 		<!-- 프로필 이미지 관련 -->
 		<div id="profileGray"></div>
 		<div id="modprofile">
-			<span class="modprofileText">이미지를 선택해주세요</span>
 			<form action="/mypage/profileFile" id="profileForm" name="profileForm" method="post" enctype="multipart/form-data">
 				<div class="mainImgWrap">  
 					<c:choose>
@@ -225,16 +224,21 @@
 	 	$("#profileConfirm").on("click",function(event){
 			var profileForm = $("#profileForm");
 			var fileName = profileForm.find("input[name='profileFile']").val();
+			
+			if(fileName == "" || fileName == null){   
+				 profileBack.css("display","none"); 
+				 profileDiv.css("display","none");
+				 openAlert("먼저 이미지를 선택해주세요");
+				 return; 
+			}
+			
 			var fileSize = profileForm.find("input[name='profileFile']")[0].files[0].size; 
 			
-			 if(fileName == ""){    
-				 openAlert("이미지를 선택해주세요");
+			if(!checkImage(fileName,fileSize)){ 
 				 return; 
-			 }else if(!checkImage(fileName,fileSize)){ 
-				 return; 
-			 }else{
+			}else{
 				 profileForm.submit(); 	    
-			 } 
+			} 
 		});
 		
 		function readURL(input) {

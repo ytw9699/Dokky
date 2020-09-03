@@ -18,15 +18,19 @@
       </c:otherwise>
 </c:choose>
 </head>
-<%@include file="../includes/left.jsp"%>
+<%@include file="../includes/common.jsp"%>
 <body>
 <sec:authentication property="principal" var="userInfo"/>
 
 <div class="userReplyWrap">	
 
 		<div id="userId">
-			   ${userReply[0].nickName} 회원님의 댓글   
-			   <%-- ${pageMaker.cri.userId} --%> 
+				<c:if test="${enabled == 0}">
+						탈퇴회원 입니다.
+		        </c:if>
+		        <c:if test="${enabled == 1}">
+						${userReplylist[0].nickName} 회원님의 댓글   
+		        </c:if>
 		</div>
 		
 		<div id="menuWrap">
@@ -38,7 +42,7 @@
 		
 		<div class="listWrapper">
 				<table id="inforTable">
-					<c:forEach items="${userReply}" var="Reply">
+					<c:forEach items="${userReplylist}" var="Reply">
 						<tr>
 							<td class="replyTitle">
 						         <c:choose>

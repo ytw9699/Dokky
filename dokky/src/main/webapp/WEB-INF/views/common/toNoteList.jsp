@@ -18,7 +18,7 @@
       </c:otherwise>
 </c:choose>
 </head>
-<%@include file="../includes/left.jsp"%>
+<%@include file="../includes/common.jsp"%>
 <body>
 <sec:authentication property="principal" var="userInfo"/>
 
@@ -29,7 +29,7 @@
 				<button onclick="location.href='/fromNoteList?userId=${userInfo.username}'">받은쪽지함 - ${fromNotetotal}</button>
 				<button class="active" onclick="location.href='/toNoteList?userId=${userInfo.username}'">보낸쪽지함  - ${toNotetotal}</button>
 				<button onclick="location.href='/myNoteList?userId=${userInfo.username}'">내게쓴쪽지함  - ${myNotetotal}</button>
-				<button onclick="location.href='/registerNote?userId=${userInfo.username}'">내게쓰기</button>
+				<button onclick="location.href='/myNoteForm?userId=${userInfo.username}'">내게쓰기</button>
 		    </div> 
 		</div>
 		
@@ -168,7 +168,7 @@
 
 			var popupY= (window.screen.height /2) - (500 / 2);
 		         
-	        window.open('/minRegNote?userId='+userId+'&nickname='+nickname, 'ot', 'height=500, width=400, left='+ popupX + ', top='+ popupY + ', screenX='+ popupX + ', screenY= '+ popupY);
+	        window.open('/noteForm?userId='+userId+'&nickname='+nickname, 'ot', 'height=500, width=400, left='+ popupX + ', top='+ popupY + ', screenX='+ popupX + ', screenY= '+ popupY);
 	    }  
 		*/
 		

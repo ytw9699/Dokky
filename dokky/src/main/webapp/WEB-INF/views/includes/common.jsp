@@ -5,13 +5,15 @@
 <!DOCTYPE html>
 <html>
 <head>
-<meta charset="UTF-8"> 
+<meta charset="UTF-8">
 <c:choose>
    	  <c:when test="${pageContext.request.serverName == 'localhost'}">
-			<link href="/resources/css/left.css" rel="stylesheet" type="text/css"/>
+			<link href="/resources/css/common.css" rel="stylesheet" type="text/css"/>.
+			<script type="text/javascript" src="/resources/js/common.js"></script>
 	  </c:when>  
       <c:otherwise>
-    		<link href="/ROOT/resources/css/left.css" rel="stylesheet" type="text/css"/>
+    		<link href="/ROOT/resources/css/common.css" rel="stylesheet" type="text/css"/>
+    		<script type="text/javascript" src="/ROOT/resources/js/common.js"></script>
       </c:otherwise>
 </c:choose>
 </head>  
@@ -175,6 +177,7 @@
 	</div>
 	
 	<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+	<!-- <script src="https://cdnjs.cloudflare.com/ajax/libs/sockjs-client/1.5.0/sockjs.min.js"></script> -->
 	<script>
 	
 	var webSocket = null; //소켓 객체 전역변수
@@ -186,14 +189,17 @@
 		if(serverName == 'localhost'){
 		
 			webSocket = new WebSocket("ws://localhost:8080/websocketHandler");
+			//webSocket = new SockJS("http://localhost:8080/websocketHandler");
 			//최초 접속이 일반 http request를 통해 handshaking과정을 통해 이루어 진다는 점
+			//LoadModule proxy_module modules/mod_proxy.so 
 
 		}else{
-			
-			webSocket = new WebSocket("wss://dokky.ga:443/websocketHandler"); 
+			//webSocket = new SockJS("http://dokky.ga:80/websocketHandler");
+			webSocket = new WebSocket("wss://dokky.ga:443/websocketHandler");
 		}
 		
 		//WebSocket API
+		
 		webSocket.onopen = function (){ //소켓이 연결됬다면
 			
 			console.log("WebSocket is connected");
@@ -202,9 +208,21 @@
 				
 				console.log("webSocket message");
 				
-				if(event.data == 'limitAndLogoutSuccessMessageToUser'){
+ 				if(event.data == 'allAlarmUpdateRequestToUser'){
+ 					
+ 					getAlarmCountNotRead(userId, function(result){
+ 				    		alarmCount.html(result);
+ 				 	 });
+					
+				}else if(event.data == 'noteAlarmUpdateRequestToUser'){
 					 
-						openAlert("곧 관리자에 의해 접속 제한 후 로그아웃 됩니다");
+					 getNoteCount(userId, function(result){
+					    	noteCount.html(result);
+				 	 });
+					
+				}else if(event.data == 'limitAndLogoutSuccessMessageToUser'){
+					 
+						openAlert("곧 관리자에 의해 접속 제한(로그아웃) 됩니다");
 						
 						setTimeout(function() {
 							
@@ -216,11 +234,11 @@
 						
 				}else if(event.data == 'limitAndLogoutSuccessMessageToAdmin'){
 					
-						openAlert("DB에서 접속 제한 후 사용자를 로그아웃 시켰습니다");
+						openAlert("해당 사용자를 접속 제한 후 로그아웃 시켰습니다");
 						
 				}else if(event.data == 'limitSuccessMessageToAdmin'){
 					
-						openAlert("DB에서 접속 제한을 하였습니다");//
+						openAlert("해당 사용자를 접속 제한 하였습니다");//
 				}
 			}
 			
@@ -355,17 +373,17 @@
 			return;
 		}
 		
-		var popupX = (window.screen.width / 2) - (400 / 2); 
+		var popupX = (window.screen.width / 2) - (400 / 2);
 
 		var popupY= (window.screen.height /2) - (500 / 2);
 	         
-        window.open('/minRegNote?userId='+userId+'&nickname='+nickname, 'ot', 'height=500, width=400, screenX='+ popupX + ', screenY= '+ popupY);
+        window.open('/noteForm?userId='+userId+'&nickname='+nickname, 'ot', 'height=500, width=400, screenX='+ popupX + ', screenY= '+ popupY);
     }
 	
-	function getAlarmRealCount(userId, callback, error) {
+	function getAlarmCountNotRead(userId, callback, error) {
 		$.ajax({
 			type : 'get',
-			url : '/alarmRealCount/'+ userId,
+			url : '/getAlarmCountNotRead/'+ userId,
 			success : function(result, status, xhr) {
 				if (callback) {
 					callback(result,xhr);
@@ -403,7 +421,8 @@
 	</sec:authorize>
 	
 	function schedule(){
-	    getAlarmRealCount(userId, function(result){
+		
+		getAlarmCountNotRead(userId, function(result){
 	    	alarmCount.html(result);
 	 	 });
 	    
@@ -415,7 +434,7 @@
 	$(document).ready(function() {
 		<sec:authorize access="isAuthenticated()">  
 			schedule();
-		 	setInterval(schedule, 60000);//60초마다 알람카운트 불러오기
+		 	setInterval(schedule, 60000);//60초마다 알람,쪽지 카운트 불러오기
 		</sec:authorize>
 	});
 	

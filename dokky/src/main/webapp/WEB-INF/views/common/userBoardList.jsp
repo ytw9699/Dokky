@@ -17,7 +17,7 @@
       </c:otherwise>
 </c:choose>
 </head>
-<%@include file="../includes/left.jsp"%>
+<%@include file="../includes/common.jsp"%>
 <body>
 <sec:authentication property="principal" var="userInfo"/>
 <div class="userBoardWrap">	
@@ -27,7 +27,7 @@
 						탈퇴회원 입니다.
 		        </c:if>
 		        <c:if test="${enabled == 1}">
-						${userBoard[0].nickName} 회원님의 게시글
+						${userBoardList[0].nickName} 회원님의 게시글
 		      	<%-- ${pageMaker.cri.nickName} --%>
 		        </c:if>
 		</div>
@@ -41,7 +41,7 @@
 		
 		<div class="listWrapper">
 			<table id="inforTable">  
-				<c:forEach items="${userBoard}" var="board">
+				<c:forEach items="${userBoardList}" var="board">
 					<tr>
 						<td class="title"> 
 							<a class='move' href='<c:out value="${board.board_num}"/>'> 

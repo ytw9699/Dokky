@@ -4,6 +4,7 @@ package org.my.task;
 	import org.my.domain.BoardAttachVO;
 	import org.my.mapper.BoardAttachMapper;
 	import org.my.s3.myS3Util;
+	import org.my.service.CommonService;
 	import org.springframework.beans.factory.annotation.Autowired;
 	import org.springframework.scheduling.annotation.Scheduled;
 	import org.springframework.stereotype.Component;
@@ -13,18 +14,39 @@ package org.my.task;
 
 @Log4j
 @Component
-public class FileCheckTask {//task 작업 처리 ,스케쥴러
-
+public class FileCheckTask {//task 작업 처리 ,스케쥴러 
+	
 	@Setter(onMethod_ = { @Autowired })
 	private BoardAttachMapper attachMapper;
 	
 	@Setter(onMethod_ = @Autowired)
 	private myS3Util s3Util;
 
+	@Setter(onMethod_ = @Autowired)
+	private CommonService commonService;
+	
 	@Scheduled(cron = "0 0 9 * * *")//매일 9시 동작
 	public void checkFiles() throws Exception {
 		
 		boolean type;//파일의 타입
+		
+		myS3Util nowS3Util;
+			
+		String osName = System.getProperty("os.name");
+			
+		//if(request.getServerName().equals("localhost")){//로컬호스트라면
+		if( osName.matches(".*Windows.*")){//윈도우 라면
+			
+			log.info("osName == Windows");//본인의 테스트 환경에 맞는 os로 바꿔주세요
+			
+			nowS3Util = new myS3Util(commonService);
+			
+		}else {
+			
+			log.info("osName != Windows");
+			
+			nowS3Util = s3Util;//ec2의 경우라면 
+		}
 		
 		ArrayList<String> dbUploadList = new ArrayList<String>();//어제 날짜 최종 디비의 업로드 목록
 		
@@ -50,7 +72,7 @@ public class FileCheckTask {//task 작업 처리 ,스케쥴러
             log.info("dbUploadList "+dbUploadList.get(i)); 
         }*/
         
-    	List<S3ObjectSummary> objects = s3Util.getObjectsList();//s3의 업로드 목록
+    	List<S3ObjectSummary> objects = nowS3Util.getObjectsList();//s3의 업로드 목록
             	
     	for (int i = 1; i < objects.size(); i++) {
     		
@@ -63,53 +85,9 @@ public class FileCheckTask {//task 작업 처리 ,스케쥴러
     			String filename = S3key.substring(S3key.lastIndexOf("/")+1);
             	String path = S3key.substring(0, S3key.lastIndexOf("/"));
             
-            	s3Util.deleteObject(path, filename);//삭제를 해준다//즉 디비와 S3의 업로드파일을 동기화시키는것
+            	nowS3Util.deleteObject(path, filename);//삭제를 해준다//즉 디비와 S3의 업로드파일을 동기화시키는것
     		}
         }
     	
     }
 }
-		/*private String getFolderYesterDay() {
-		
-			SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd");
-		
-			Calendar cal = Calendar.getInstance();
-		
-			cal.add(Calendar.DATE, -1);
-		
-			String str = sdf.format(cal.getTime());
-		
-			return str.replace("-", File.separator);
-		}*/
-
-		/*log.warn("File Check Task run.................");
-		log.warn(new Date());
-		
-		List<BoardAttachVO> fileList = attachMapper.getYesterdayFiles();//어제 날짜 database 모든 첨부파일 목록 가져오기
-
-		List<Path> fileListPaths = fileList.stream()
-				.map(vo -> Paths.get("C:\\upload", vo.getUploadPath(), vo.getUuid() + "_" + vo.getFileName()))
-				.collect(Collectors.toList()); //실제 폴더에 잇는 파일들의 목록과 비교를 위해서 java.nio.Paths의 목록으로 변환
-
-		fileList.stream().filter(vo -> vo.isFileType() == true)
-				.map(vo -> Paths.get("C:\\upload", vo.getUploadPath(), "s_" + vo.getUuid() + "_" + vo.getFileName()))
-				.forEach(p -> fileListPaths.add(p));//이미지 파일의 경우에는 섬네일 파일도 목록에 필요하기 때문에 목록에 추가
-
-		log.warn("===========================================");
-
-		fileListPaths.forEach(p -> log.warn(p));
-
-		File targetDir = Paths.get("C:\\upload", getFolderYesterDay()).toFile();//어제 날짜 폴더에 있는 실제 파일
-
-		File[] removeFiles = targetDir.listFiles(file -> fileListPaths.contains(file.toPath()) == false);
-		//실제 폴더에 있는 파일들의 목록에서 데이터베이스에는 없는 파일들을 찾아서 목록으로 준비
-
-		log.warn("-----------------------------------------");
-		for (File file : removeFiles) {//최종적으로는 삭제 대상이 되는 파일들을 삭제
-
-			log.warn(file.getAbsolutePath());
-
-			file.delete();
-
-		}*/
-

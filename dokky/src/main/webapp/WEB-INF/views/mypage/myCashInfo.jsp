@@ -2,7 +2,7 @@
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c"%>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/fmt" prefix="fmt"%>
 <%@ taglib uri="http://www.springframework.org/security/tags" prefix="sec" %> 
-<%@include file="../includes/left.jsp"%>
+<%@include file="../includes/common.jsp"%>
 
 <!DOCTYPE html>
 <html>
@@ -56,7 +56,7 @@
 		
 		<div class="tabcontent">
     		<div class="dotContentWrap">   
-	     		<span id="dotText">My Cash </span> <span id="dotValue"><fmt:formatNumber type="number" maxFractionDigits="3" value="${userCash}"/>원</span> 
+	     		<span id="dotText">My Cash </span> <span id="dotValue"><fmt:formatNumber type="number" maxFractionDigits="3" value="${myCash}"/>원</span> 
 	     	</div> 
 	     	<div class="dotContentWrap">  
 	     		<span id="account">입금 계좌 </span> <span id="accountVal">신한 110-237-583410</span>  
@@ -229,7 +229,7 @@
 					specification:'미승인'
 		          };
 			
-			if(reChargeData.cashAmount > parseInt('${userCash}') ){
+			if(reChargeData.cashAmount > parseInt('${myCash}') ){
 				openAlert("보유 캐시가 부족합니다");
 				closeRecharge();
 				return;

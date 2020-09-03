@@ -2,7 +2,7 @@
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c"%>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/fmt" prefix="fmt"%>
 <%@ taglib uri="http://www.springframework.org/security/tags" prefix="sec" %>
-<%@ include file="../includes/left.jsp"%>
+<%@ include file="../includes/common.jsp"%>
 
 <!DOCTYPE html> 
 <html>
@@ -128,7 +128,7 @@
 		    
 		    var board_num = '<c:out value="${board.board_num}"/>';
 		    
-		    $.getJSON("/board/getAttachList", {board_num: board_num}, function(arr){
+		    $.getJSON("/board/attachList", {board_num: board_num}, function(arr){
 		    
 			      var fileStr ="";
 			      var photoStr ="";
@@ -140,7 +140,7 @@
 					            photoStr += "<li id='"+attach.uuid+"' data-path='"+attach.uploadPath+"'";
 					            photoStr +=" data-uuid='"+attach.uuid+"' data-filename='"+attach.fileName+"' data-type='"+attach.fileType+"'"
 					            photoStr +" >";                
-					            photoStr += "<br><img src='/displayS3?path="+attach.uploadPath+"&filename=s_"+attach.uuid+"_"+attach.fileName+"' data-path='"+attach.uploadPath+"' data-filename='"+attach.uuid+"_"+attach.fileName+"'>";
+					            photoStr += "<br><img src='/s3Image?path="+attach.uploadPath+"&filename=s_"+attach.uuid+"_"+attach.fileName+"' data-path='"+attach.uploadPath+"' data-filename='"+attach.uuid+"_"+attach.fileName+"'>";
 					            photoStr += "<button type='button' data-uuid='"+attach.uuid+"'"
 					            photoStr += "data-type='image' class='btn btn-warning btn-circle'><span class='css-cancel'></span></button>"; 
 					            photoStr +"</li>";
@@ -274,12 +274,12 @@
 				str += "<li id='"+obj.uuid+"' data-path='"+obj.uploadPath+"'";
 				str +=" data-uuid='"+obj.uuid+"' data-filename='"+obj.fileName+"' data-type='"+obj.image+"'"
 				str +" >";            
-				str += "<br><img src='/displayS3?path="+obj.uploadPath+"&filename=s_"+obj.uuid+"_"+obj.fileName+"' data-path='"+obj.uploadPath+"' data-filename='"+obj.uuid+"_"+obj.fileName+"'>";
+				str += "<br><img src='/s3Image?path="+obj.uploadPath+"&filename=s_"+obj.uuid+"_"+obj.fileName+"' data-path='"+obj.uploadPath+"' data-filename='"+obj.uuid+"_"+obj.fileName+"'>";
 				str += "<button type='button' data-uuid='"+obj.uuid+"'"
 				str += "data-type='image' class='btn btn-warning btn-circle'><span class='css-cancel'></span></button>"; 
 				str +"</li>";
 				
-				contentVal += "<img src='/displayS3?path="+obj.uploadPath+"&filename=s_"+obj.uuid+"_"+obj.fileName+"' data-type='image' data-uuid='"+obj.uuid+"' data-path='"+obj.uploadPath+"' data-filename='"+obj.uuid+"_"+obj.fileName+"'>";
+				contentVal += "<img src='/s3Image?path="+obj.uploadPath+"&filename=s_"+obj.uuid+"_"+obj.fileName+"' data-type='image' data-uuid='"+obj.uuid+"' data-path='"+obj.uploadPath+"' data-filename='"+obj.uuid+"_"+obj.fileName+"'>";
 				divContent.html(contentVal);//본문 삽입  
 				
 			}else{//일반파일이라면
@@ -469,7 +469,7 @@
     	    
 			$(".bigPictureWrapper").css("display","flex").show(); 
     	    
-    	    $(".bigPicture").html("<img src='/displayS3?path="+path+"&filename="+filename+"'>");
+    	    $(".bigPicture").html("<img src='/s3Image?path="+path+"&filename="+filename+"'>");
     	    
     	    $("#profileGray").css("display","block");
       }

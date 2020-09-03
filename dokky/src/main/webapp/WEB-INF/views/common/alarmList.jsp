@@ -18,7 +18,7 @@
       </c:otherwise>
 </c:choose>
 </head>
-<%@include file="../includes/left.jsp"%>
+<%@include file="../includes/common.jsp"%>
 
 <body>
 <sec:authentication property="principal" var="userInfo"/>
@@ -26,9 +26,9 @@
 
 	<div id="menuWrap">
 		<div class="tab">  
-			<button class="<c:if test="${pageMaker.cri.order == 0 }">active</c:if>" onclick="location.href='alarmList?userId=${userInfo.username}&order=0'">모든 알림 ${Alltotal}개</button> 
-			<button class="<c:if test="${pageMaker.cri.order == 1 }">active</c:if>" onclick="location.href='alarmList?userId=${userInfo.username}&order=1'">읽은 알림 ${readedTotal}개</button>
-			<button class="<c:if test="${pageMaker.cri.order == 2 }">active</c:if>" onclick="location.href='alarmList?userId=${userInfo.username}&order=2'">읽지 않은 알림 ${notReadedtotal}개</button> 
+			<button class="<c:if test="${pageMaker.cri.order == 0 }">active</c:if>" onclick="location.href='alarmList?userId=${userInfo.username}&order=0'">모든 알림 ${allAlarmCount}개</button> 
+			<button class="<c:if test="${pageMaker.cri.order == 1 }">active</c:if>" onclick="location.href='alarmList?userId=${userInfo.username}&order=1'">읽은 알림 ${alarmCountRead}개</button>
+			<button class="<c:if test="${pageMaker.cri.order == 2 }">active</c:if>" onclick="location.href='alarmList?userId=${userInfo.username}&order=2'">읽지 않은 알림 ${alarmCountNotReaded}개</button> 
 	    </div> 																								
 	</div> 
 	
@@ -73,12 +73,12 @@
 							       <c:when test="${alarm.kind == 0 }"> 
 								        <c:choose>
 										        <c:when test="${fn:length(alarm.commonVar1) gt 13}">
-											        <a href="#" class="getBoard" data-alarm_num="${alarm.alarmNum}" data-board_num="${alarm.commonVar2}">
+											        <a href="#" class="getBoard" data-alarm_num="${alarm.alarmNum}" data-board_num="${alarm.commonVar2}" data-reply_num="${alarm.commonVar3}">
 											        	댓글이 달렸습니다. "<c:out value="${fn:substring(alarm.commonVar1, 0, 13)}"/>....."
 										        	</a>
 										        </c:when>
 										        <c:otherwise>
-											        <a href="#" class="getBoard" data-alarm_num="${alarm.alarmNum}" data-board_num="${alarm.commonVar2}">
+											        <a href="#" class="getBoard" data-alarm_num="${alarm.alarmNum}" data-board_num="${alarm.commonVar2}" data-reply_num="${alarm.commonVar3}">
 											        	댓글이 달렸습니다. "<c:out value="${alarm.commonVar1}"/>"
 										        	</a> 
 										        </c:otherwise>
@@ -187,7 +187,7 @@
 						          		</a>
 							       </c:when>  
 							       
-						           <c:when test="${alarm.kind == 9 }">
+						           <%-- <c:when test="${alarm.kind == 9 }">
 						          			<c:choose>
 										        <c:when test="${fn:length(alarm.commonVar1) gt 15}">
 										        	<a href="#" class="getUserReportList" data-alarm_num="${alarm.alarmNum}">
@@ -200,11 +200,11 @@
 										        	</a> 
 										        </c:otherwise>
 											</c:choose>
-							       </c:when>
+							       </c:when> --%>
 							       
 							       <c:when test="${alarm.kind == 10 }">  
 						          		<a href="#" class="getMyPage" data-alarm_num="${alarm.alarmNum}">
-						          			모든 쓰기 기능이 관리자에 의해 제한되었습니다. 
+						          			관리자에 의해 모든 쓰기 기능이 제한되었습니다. 
 						          		</a>
 							       </c:when>  
 							       
@@ -318,12 +318,12 @@
 				url : '/updateAlarmCheck/'+ alarmNum,
 				success : function(result, status, xhr) {
 					if (callback) {
-						callback(result,xhr);
+						callback(result, status);
 					}
 				},
 				error : function(xhr, status, er) {
 					if (error) {
-						error(xhr,er);
+						error(status);
 					}
 				}
 			});
@@ -356,21 +356,40 @@
 		
 		var commonForm = $("#commonForm");
 		
-		$(".getBoard").on("click",function(e) {//글 상세보기+알람 읽기 체크
+		$(".getBoard").on("click", function(e){//글 상세보기+알람 읽기 체크
+			
 					e.preventDefault();
+		
 					var board_num = $(this).data("board_num");  
-					var alarmNum = $(this).data("alarm_num");  
+					var alarmNum  = $(this).data("alarm_num");
+					var reply_num = $(this).data("reply_num");
 					
-					updateAlarmCheck(alarmNum, function(result){//알람 읽기 체크
-						var checkAlarm = $("#checkAlarm+"+alarmNum);
-							if(result == "success"){
-								
-								checkAlarm.html("");//알림 숫자 1 없애주기
-								
-								commonForm.append("<input type='hidden' name='board_num' value='"+board_num+"'/>");
-								commonForm.submit();//글 상세보기 
+					updateAlarmCheck(alarmNum, 
+							
+						function(result, status){//알람 읽기 체크
+							
+								var checkAlarm = $("#checkAlarm+"+alarmNum);
+						
+								if(status == "success"){
+									
+									checkAlarm.html("");//알림 숫자 1 없애주기
+									
+									//location.href='/board/get?board_num='+board_num+'#reply_contents';
+	
+									commonForm.append("<input type='hidden' name='board_num' value='"+board_num+"'/>");
+									commonForm.append("<input type='hidden' name='reply_num' value='"+reply_num+"'/>");
+									commonForm.submit();
 								}
-				   	  });
+					   	},
+					   	
+					   	function(status){
+				   	    	
+							if(status == "error"){ 
+								
+								openAlert("Server Error(관리자에게 문의해주세요)");
+							}
+			   	    	}
+					);
 		});
 		
 		$(".getMyCashHistory").on("click",function(e) {//알람 읽기 체크+캐시 히스토리 가져오기
@@ -451,7 +470,7 @@
 		  //console.log(checkRow); 
 		  
 		  deleting('정말 삭제 하시겠습니까?', function() {
-			  actionForm.attr("action","/removeAllAlarm").attr("method","post");
+			  actionForm.attr("action","/deleteAllAlarm").attr("method","post");
 			  actionForm.append("<input type='hidden' name='checkRow' value='"+checkRow+"'>");
 			  actionForm.append("<input type='hidden' id='csrf' name='${_csrf.parameterName}' value='${_csrf.token}'/>");
 			  actionForm.submit();

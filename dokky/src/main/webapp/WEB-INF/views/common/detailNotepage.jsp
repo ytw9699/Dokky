@@ -2,7 +2,7 @@
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c"%>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/fmt" prefix="fmt"%>
 <%@ taglib uri="http://www.springframework.org/security/tags" prefix="sec" %>
-<%@ include file="../includes/left.jsp"%>
+<%@ include file="../includes/common.jsp"%>
 
 <!DOCTYPE html>
 <html>
@@ -79,7 +79,7 @@
 									<div id="userMenubar_${note.note_num}" class="userMenubar">
 										<ul class="hideUsermenu">
 											<li class="hideUsermenu"><a href="/userBoardList?userId=${note.to_id}" class="hideUsermenu"><span class="hideUsermenu">게시글보기</span></a></li>
-											<li class="hideUsermenu"><a href="#" class="hideUsermenu"><span class="hideUsermenu">쪽지보내기</span></a></li>
+											<li class="hideUsermenu"><a href="#" class="hideUsermenu" onclick="noteOpen('${note.to_id}','${note.to_nickname}')"><span class="hideUsermenu">쪽지보내기</span></a></li>
 										</ul>      
 								    </div> 
 					          	</div>
@@ -125,30 +125,11 @@
 
 		var popupY= (window.screen.height /2) - (500 / 2);
 	         
-        window.open('/minRegNote?userId='+userId+'&nickname='+nickname, 'ot', 'height=500, width=400, left='+ popupX + ', top='+ popupY + ', screenX='+ popupX + ', screenY= '+ popupY);
+        window.open('/noteForm?userId='+userId+'&nickname='+nickname, 'ot', 'height=500, width=400, left='+ popupX + ', top='+ popupY + ', screenX='+ popupX + ', screenY= '+ popupY);
     } 
 
 	
 	//////////////////////////////////////////////////////////////////////////////
-	
-	function insertNote(noteData, callback, error) {
-			$.ajax({
-				type : 'post',
-				url : '/Note',
-				data : JSON.stringify(noteData),
-				contentType : "application/json; charset=utf-8",
-				success : function(result, status, xhr) {
-					if (callback) { 
-						callback(result);
-					}
-				},
-				error : function(xhr, status, er) {
-					if (error) {
-						error(er);
-					}
-				}
-			})
-	}
 	
 	$("#checkbox").on("change", function(e){
 			
@@ -160,53 +141,12 @@
 	        	$("#to_id").val("");
 	        }
 	});
-	  
-	$("#submitBtn").on("click", function(e){//쪽지 보내기 버튼
-    
-		    e.preventDefault();
-				
-			var to_id = $("#to_id").val();
-	   			to_id = $.trim(to_id);
-			
-			if(to_id == ""){ 
-				
-				openAlert("받는사람 아이디를 입력하세요"); 
-				return false;
-			}
-			
-			var content = $("#content").val();
-			
-				content = $.trim(content);
-			
-			if(content == ""){ 
-				
-			   openAlert("내용을 입력하세요"); 
-			   return false;
-			}
-	
-		    var noteData = {	  	
-		    					content    		: content, 	  //쪽지 내용
-		    					from_nickname   : myNickName, //쪽지 보내는 닉네임
-		    					from_id      	: myId, 	  //쪽지 보내는 아이디
-		    					to_id 	    	: to_id,	  //쪽지 받는 아이디
-		    					read_check 	    : 'NO' 		  //쪽지 읽음 체크
-				 		  };
-		    
-		    insertNote(noteData, function(result){
-				
-			    	$("#content").val("");
-			    	$("#to_id").val(""); 
-					$("#checkbox").prop("checked", false);
-					
-					openAlert(result); 
-	   	    });
-    });
-	
 	
 	$("#deleteBtn").on("click", function() {
-		if(confirm("정말 삭제 하시겠습니까?")){
+		deleting('정말 삭제 하시겠습니까?', function() {
+			
 			$("#actionForm").submit();
-		  }
+		});
 	}); 
 	
 	$(".userMenu").on("click",function(event){//해당 메뉴바 보이기 이벤트
