@@ -19,7 +19,6 @@
 </head> 
 
 <%@include file="../includes/common.jsp"%>
-<c:set var="random"><%= java.lang.Math.round(java.lang.Math.random() * 123456) %></c:set>
 <body> 
 	<div class="userReporWrap">	 
 	 

@@ -25,7 +25,6 @@
 
 <%@include file="../includes/common.jsp"%>
 <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
-<c:set var="random"><%= java.lang.Math.round(java.lang.Math.random() * 123456) %></c:set>
 <body>
 	<div class="bodyWrap">	 
 		<div class="mainLists">
