@@ -304,14 +304,6 @@
 <!-- END 숨겨진 DIV들  -->
 
 <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
-<c:choose>
-   	  <c:when test="${pageContext.request.serverName == 'localhost'}">
-			<script type="text/javascript" src="/resources/js/reply.js"></script> <!--댓글 AJAX통신 -->
-	  </c:when>
-      <c:otherwise>
-    		<script type="text/javascript" src="/ROOT/resources/js/reply.js"></script> <!--댓글 AJAX통신 -->
-      </c:otherwise>
-</c:choose>
 <script>
 	//공통 변수 모음 
 	
@@ -448,7 +440,7 @@
 	
 	function showReplyList(page){//댓글 리스트 가져오기
 		
-	    replyService.readList({board_num:board_num, page: page || 1 }, function(data) {
+	    commonService.readReplyList({board_num:board_num, page: page || 1 }, function(data) {
 	    	var replyList = $(".replyList");//댓글리스트 ul  
 	    	var replyCntVal = $(".replyCntVal");//댓글 갯수 div
 			var str ="";
@@ -557,7 +549,7 @@
 							   + "</div>"
 							   
 							   + "<span class='reply_date'>"
-							   		+ replyService.displayTime(replyDate) 
+							   		+ commonService.displayReplyTime(replyDate) 
 							   + "</span>";
 				  
 					  if(myId){ 
@@ -688,7 +680,7 @@
 							   + "</div>"
 					   
 							   + "<span class='reply_date'>"
-						   			+ replyService.displayTime(replyDate) 
+						   			+ commonService.displayReplyTime(replyDate) 
 						  	   + "</span>"; 
 				
 				  	  if(myId){ 
@@ -900,7 +892,7 @@
 	
 			if(scrapCount != 1){
 				
-				replyService.postScrapData(scrapData, 
+				commonService.postScrapData(scrapData, 
 						
 					function(result, status){
 					
@@ -920,7 +912,7 @@
 				
 			}else if(scrapCount == 1){
 				
-				replyService.deleteScrapData(scrapData,
+				commonService.deleteScrapData(scrapData,
 						
 					function(result, status){
 					
@@ -970,7 +962,7 @@
 						 	alarmVO     : alarmData
 	 					 };
 	    
-	   	replyService.likeBoard(commonData, 
+	   	commonService.likeBoard(commonData, 
 	   			
 		   		function(result, status){
 				
@@ -1026,7 +1018,7 @@
 						 	alarmVO        : alarmData
 			 			 }
 		
-		replyService.disLikeBoard(commonData, 
+		commonService.disLikeBoard(commonData, 
 	   			
 		   		function(result, status){
 				
@@ -1085,7 +1077,7 @@
 							 	alarmVO     : alarmData
 		 					 };
 	
-			replyService.likeReply(commonData,  
+			commonService.likeReply(commonData,  
 					
 				function(result, status){
 					
@@ -1144,7 +1136,7 @@
 							 	   alarmVO     : alarmData
 		 					 };
 			
-			replyService.disLikeReply(commonData,   
+			commonService.disLikeReply(commonData,   
 					
 					function(result, status){
 						
@@ -1209,7 +1201,7 @@
 			return;  
 		}
 		
-		replyService.getMyCash(myId, function(result, status){//나의 잔여 캐시 가져오기
+		commonService.getMyCash(myId, function(result, status){//나의 잔여 캐시 가져오기
 				
 				if(status == "success"){ 
 					
@@ -1247,7 +1239,7 @@
 			return;
 		} 
 		
-		replyService.getMyCash(myId, function(result){
+		commonService.getMyCash(myId, function(result){
 				
 				option = 'reply'; 
 				myCash = parseInt(result); 
@@ -1303,7 +1295,7 @@
 						 	  alarmVO     : alarmData
 						 	}
 			
-			replyService.giveBoardWriterMoney(commonData, 
+			commonService.giveBoardWriterMoney(commonData, 
 					
 					function(result, status){
 					
@@ -1358,7 +1350,7 @@
 								 	alarmVO          : alarmData
 		 						}	
 			
-				replyService.giveReplyWriterMoney(commonData, 
+				commonService.giveReplyWriterMoney(commonData, 
 						
 					function(result, status){
 					
@@ -1468,7 +1460,7 @@
 			 				reason        : reason
 		 				  };
 
-		 replyService.report(reportData, 
+		 commonService.report(reportData, 
 				 
 				function(status){
 				
@@ -1540,7 +1532,7 @@
 							  };
 		 	}
 		 	
-			replyService.create(commonData,
+			commonService.createReply(commonData,
 					
 					function(result, status){
 					
@@ -1646,7 +1638,7 @@
 					 	  		} 
 	          }
 			  
-	     	  replyService.create(commonData, 
+	     	  commonService.createReply(commonData, 
 						
 						function(result, status){
 						
@@ -1705,7 +1697,7 @@
 		originReplyForm = $("#replyLi"+reply_num);
 		originReplyForm.css("display","none");
 		
-	    replyService.get(reply_num, function(Result){//댓글 데이터 한줄 가져오기 
+	    commonService.readReply(reply_num, function(Result){//댓글 데이터 한줄 가져오기 
 			  
 	    	  replyModForm = $("#replyModForm"+reply_num);
 	    
@@ -1725,7 +1717,7 @@
 									  userId		: reply_id //접속자와 댓글작성자의 확인을 위해
 							     };
 				   	  
-			   	     replyService.updateReply(reply, function(result){
+			   	     commonService.updateReply(reply, function(result){
 			   	    	 
 			   	    	if(result == "success"){
 			   	    		
@@ -1751,7 +1743,7 @@
 		
 		if(func_confirm('정말 삭제 하시겠습니까?')){
 			
-				replyService.remove( $(this).data("reply_num"), $(this).data("reply_id"), board_num, function(result){
+				commonService.removeReply( $(this).data("reply_num"), $(this).data("reply_id"), board_num, function(result){
 					
 				  	      showReplyList(pageNum);//삭제후 댓글 페이지 유지하면서 리스트 다시 호출 
 				}); 
@@ -1764,7 +1756,7 @@
 		var reply_id = $(this).data("reply_id"); 
 		
 		deleting('정말 삭제 하시겠습니까?', function() {
-			replyService.remove( reply_num, reply_id, function(){
+			commonService.removeReply( reply_num, reply_id, function(){
 	        showReplyList(pageNum);//삭제후 댓글 페이지 유지하면서 리스트 다시 호출 
 			}); 
 		});
