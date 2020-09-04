@@ -1068,7 +1068,8 @@
 								commonVar2:board_num,
 									  kind:5, 
 								writerNick:myNickName,
-								  writerId:myId
+								  writerId:myId,
+								  commonVar3:reply_num
 				          	};
 			
 			var commonData = {
@@ -1126,7 +1127,8 @@
 								commonVar2:board_num,
 									  kind:6, 
 								writerNick:myNickName,
-								  writerId:myId
+								  writerId:myId,
+								  commonVar3:reply_num
 				          	};
 
 			
@@ -1339,6 +1341,7 @@
 									target:donate_reply_id,
 									commonVar1:donate_reply_content,
 									commonVar2:board_num,
+									commonVar3:donate_reply_num,
 									kind:4,
 									writerNick:myNickName,
 									writerId:myId

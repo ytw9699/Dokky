@@ -6,7 +6,7 @@
 		<title>Dokky-400에러</title>
 		<link href="/resources/css/404errorPage.css" rel="stylesheet" type="text/css"/>
 	</head>
-<%@include file="../includes/left.jsp"%>	
+<%@include file="../includes/common.jsp"%>	
 	<body>
 		<div class="bodyWrap">
 			  <div>400 ERROR</div>

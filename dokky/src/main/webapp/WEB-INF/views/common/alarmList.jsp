@@ -133,12 +133,12 @@
 							       <c:when test="${alarm.kind == 4 }"> 
 						          			<c:choose>
 										        <c:when test="${fn:length(alarm.commonVar1) gt 13}">
-										        	<a href="#" class="getBoard" data-alarm_num="${alarm.alarmNum}" data-board_num="${alarm.commonVar2}">
+										        	<a href="#" class="getBoard" data-alarm_num="${alarm.alarmNum}" data-board_num="${alarm.commonVar2}" data-reply_num="${alarm.commonVar3}">
 										        		다음 댓글에 기부하셨습니다. "<c:out value="${fn:substring(alarm.commonVar1, 0, 13)}"/>....."
 										        	</a>
 										        </c:when>
 										        <c:otherwise>
-										        	<a href="#" class="getBoard" data-alarm_num="${alarm.alarmNum}" data-board_num="${alarm.commonVar2}">
+										        	<a href="#" class="getBoard" data-alarm_num="${alarm.alarmNum}" data-board_num="${alarm.commonVar2}" data-reply_num="${alarm.commonVar3}">
 										        		다음 댓글에 기부하셨습니다. "<c:out value="${alarm.commonVar1}"/>"
 										        	</a> 
 										        </c:otherwise>
@@ -148,12 +148,12 @@
 							       <c:when test="${alarm.kind == 5 }"> 
 						          			<c:choose>
 										        <c:when test="${fn:length(alarm.commonVar1) gt 13}">
-										        	<a href="#" class="getBoard" data-alarm_num="${alarm.alarmNum}" data-board_num="${alarm.commonVar2}">
+										        	<a href="#" class="getBoard" data-alarm_num="${alarm.alarmNum}" data-board_num="${alarm.commonVar2}" data-reply_num="${alarm.commonVar3}">
 										        		다음 댓글에 좋아요 하셨습니다. "<c:out value="${fn:substring(alarm.commonVar1, 0, 13)}"/>....."
 								        			</a>
 										        </c:when>
 										        <c:otherwise>
-										        	<a href="#" class="getBoard" data-alarm_num="${alarm.alarmNum}" data-board_num="${alarm.commonVar2}">
+										        	<a href="#" class="getBoard" data-alarm_num="${alarm.alarmNum}" data-board_num="${alarm.commonVar2}" data-reply_num="${alarm.commonVar3}">
 										        		다음 댓글에 좋아요 하셨습니다. "<c:out value="${alarm.commonVar1}"/>"
 									        		</a>
 										        </c:otherwise>
@@ -163,12 +163,12 @@
 							       <c:when test="${alarm.kind == 6 }">
 							       			<c:choose>
 										        <c:when test="${fn:length(alarm.commonVar1) gt 13}">
-										        	<a href="#" class="getBoard" data-alarm_num="${alarm.alarmNum}" data-board_num="${alarm.commonVar2}">
+										        	<a href="#" class="getBoard" data-alarm_num="${alarm.alarmNum}" data-board_num="${alarm.commonVar2}" data-reply_num="${alarm.commonVar3}">
 										        		다음 댓글에 싫어요 하셨습니다. "<c:out value="${fn:substring(alarm.commonVar1, 0, 13)}"/>....."
 										        	</a>
 										        </c:when>
 										        <c:otherwise>
-									        		<a href="#" class="getBoard" data-alarm_num="${alarm.alarmNum}" data-board_num="${alarm.commonVar2}">
+									        		<a href="#" class="getBoard" data-alarm_num="${alarm.alarmNum}" data-board_num="${alarm.commonVar2}" data-reply_num="${alarm.commonVar3}">
 										        		다음 댓글에 싫어요 하셨습니다. "<c:out value="${alarm.commonVar1}"/>"
 										        	</a>
 										        </c:otherwise>
@@ -377,7 +377,11 @@
 									//location.href='/board/get?board_num='+board_num+'#reply_contents';
 	
 									commonForm.append("<input type='hidden' name='board_num' value='"+board_num+"'/>");
-									commonForm.append("<input type='hidden' name='reply_num' value='"+reply_num+"'/>");
+									
+									if(reply_num != null){
+										commonForm.append("<input type='hidden' name='reply_num' value='"+reply_num+"'/>");	
+									}
+									
 									commonForm.submit();
 								}
 					   	},
