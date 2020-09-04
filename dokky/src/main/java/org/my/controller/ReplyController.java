@@ -45,7 +45,7 @@ public class ReplyController {
 		
 		int result = replyService.getReplyPageNum(replyVO.getBoard_num(), replyVO.getReply_num());
 		
-		String replyPageNum = Integer.toString(result);
+		String replyPageNum = Integer.toString(result);//대댓글 등록시 replyPageNum 사용
 		
 		return insertCount == 1  
 				? new ResponseEntity<>(replyPageNum, HttpStatus.OK)
