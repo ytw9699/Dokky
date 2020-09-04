@@ -104,23 +104,28 @@
 
     function memberCheck(){
 		  
-	     var userId = $('#userId').val();
-	     userId = $.trim(userId);//공백제거
+	    var userId = $('#userId').val();
+	    userId = $.trim(userId);//공백제거
 	     
-			if(userId == ""){ 
-				openAlert("아이디를 입력하세요"); 
-				   return true;
-			}
+		if(userId == ""){ 
+			openAlert("아이디를 입력하세요"); 
+			   return true;
+		}
 	     
-		 var password = $('#password').val();
-		 password = $.trim(password);//공백제거
+		if(userId != "admin"){ 
+			openAlert("슈퍼관리자만 로그인 할 수 있습니다"); 
+			   return true;
+		}
 	     
-			if(password == ""){ 
-				openAlert("비밀번호를 입력하세요"); 
-				  return true;
-			}
+		var password = $('#password').val();
+		password = $.trim(password);//공백제거
+	     
+		if(password == ""){ 
+			openAlert("비밀번호를 입력하세요"); 
+			  return true;
+		}
 		
-		 return false;
+		return false;
     }
 		     
 	  $("#login").on("click", function(e){
