@@ -4,7 +4,7 @@
 
 ## 2. 프로젝트의 목표 및 동기
 
-#### &emsp; [목표 및 동기](https://github.com/ytw9699/Dokky/blob/master/dokky/documents/%EA%B8%B0%ED%83%80%EB%AC%B8%EC%84%9C%EB%93%A4/%ED%94%84%EB%A1%9C%EC%A0%9D%ED%8A%B8%EC%9D%98-%EB%AA%A9%ED%91%9C-%EB%B0%8F-%EB%8F%99%EA%B8%B0.md) 
+#### &emsp; [목표 및 동기](https://github.com/ytw9699/Dokky/blob/master/dokky/documents/%EC%A3%BC%EC%9A%94%EB%AC%B8%EC%84%9C%EB%93%A4/%ED%94%84%EB%A1%9C%EC%A0%9D%ED%8A%B8%EC%9D%98-%EB%AA%A9%ED%91%9C-%EB%B0%8F-%EB%8F%99%EA%B8%B0.md) 
 
 ## 3. 개발 기간
 
@@ -32,23 +32,21 @@
 
 ## 9. 프로젝트 주요 문서
 
-&emsp; [1. Service Architecture](https://github.com/ytw9699/Dokky/blob/master/dokky/documents/%EA%B8%B0%ED%83%80%EB%AC%B8%EC%84%9C%EB%93%A4/Service_Architecture.md)  
-&emsp; [2. 요구사항 명세서](https://github.com/ytw9699/Dokky/blob/master/dokky/documents/%EA%B8%B0%ED%83%80%EB%AC%B8%EC%84%9C%EB%93%A4/%EC%9A%94%EA%B5%AC%EC%82%AC%ED%95%AD-%EB%AA%85%EC%84%B8%EC%84%9C.md)  
-&emsp; [3. 요구사항 변경 관리](https://github.com/ytw9699/Dokky/tree/master/dokky/documents/%EA%B8%B0%ED%83%80%EB%AC%B8%EC%84%9C%EB%93%A4/%EC%9A%94%EA%B5%AC%EC%82%AC%ED%95%AD_%EB%B3%80%EA%B2%BD%EA%B4%80%EB%A6%AC)  
-&emsp; [4. Database 설계](https://github.com/ytw9699/Dokky/blob/master/dokky/documents/%EA%B8%B0%ED%83%80%EB%AC%B8%EC%84%9C%EB%93%A4/DB%EC%84%A4%EA%B3%84.md)     
-&emsp; [5. Use Case Diagram ](https://github.com/ytw9699/Dokky/blob/master/dokky/documents/%EA%B8%B0%ED%83%80%EB%AC%B8%EC%84%9C%EB%93%A4/Use%20Case%20Diagram.md)   
-&emsp; [6. Sequence-Diagram-과-Use-Case-명세서 ](https://github.com/ytw9699/Dokky/blob/master/dokky/documents/%EA%B8%B0%ED%83%80%EB%AC%B8%EC%84%9C%EB%93%A4/Sequence-Diagram-%EA%B3%BC-Use-Case-%EB%AA%85%EC%84%B8%EC%84%9C.md)  
-&emsp; [7. Class Diagram](https://github.com/ytw9699/Dokky/wiki/%EC%9A%94%EA%B5%AC%EC%82%AC%ED%95%AD-%EB%B3%80%EA%B2%BD-%EA%B4%80%EB%A6%AC)  
-&emsp; [8. 데이터 정의](https://github.com/ytw9699/Dokky/blob/master/dokky/documents/%EA%B8%B0%ED%83%80%EB%AC%B8%EC%84%9C%EB%93%A4/%EB%8D%B0%EC%9D%B4%ED%84%B0-%EC%A0%95%EC%9D%98.md)   
-&emsp; [9. API 문서](https://github.com/ytw9699/Dokky/blob/master/dokky/documents/%EA%B8%B0%ED%83%80%EB%AC%B8%EC%84%9C%EB%93%A4/Dokky-API-%EB%AC%B8%EC%84%9C.md) 
+&emsp; [1. Service Architecture](https://github.com/ytw9699/Dokky/blob/master/dokky/documents/%EC%A3%BC%EC%9A%94%EB%AC%B8%EC%84%9C%EB%93%A4/Service_Architecture.md)  
+&emsp; [2. 요구사항 명세서](https://github.com/ytw9699/Dokky/blob/master/dokky/documents/%EC%A3%BC%EC%9A%94%EB%AC%B8%EC%84%9C%EB%93%A4/%EC%9A%94%EA%B5%AC%EC%82%AC%ED%95%AD-%EB%AA%85%EC%84%B8%EC%84%9C.md)  
+&emsp; [3. Database 설계](https://github.com/ytw9699/Dokky/blob/master/dokky/documents/%EC%A3%BC%EC%9A%94%EB%AC%B8%EC%84%9C%EB%93%A4/DB%EC%84%A4%EA%B3%84.md)     
+&emsp; [4. Use Case Diagram ](https://github.com/ytw9699/Dokky/blob/master/dokky/documents/%EC%A3%BC%EC%9A%94%EB%AC%B8%EC%84%9C%EB%93%A4/Use%20Case%20Diagram.md)   
+&emsp; [5. Sequence-Diagram-과-Use-Case-명세서 ](https://github.com/ytw9699/Dokky/blob/master/dokky/documents/%EC%A3%BC%EC%9A%94%EB%AC%B8%EC%84%9C%EB%93%A4/Sequence-Diagram-%EA%B3%BC-Use-Case-%EB%AA%85%EC%84%B8%EC%84%9C.md)    
+&emsp; [6. 데이터 정의](https://github.com/ytw9699/Dokky/blob/master/dokky/documents/%EC%A3%BC%EC%9A%94%EB%AC%B8%EC%84%9C%EB%93%A4/%EB%8D%B0%EC%9D%B4%ED%84%B0-%EC%A0%95%EC%9D%98.md)   
+&emsp; [7. API 문서](https://github.com/ytw9699/Dokky/blob/master/dokky/documents/%EC%A3%BC%EC%9A%94%EB%AC%B8%EC%84%9C%EB%93%A4/Dokky-API-%EB%AC%B8%EC%84%9C.md) 
 
 ## 10. 코드 리뷰 진행
 
-&emsp; [코드 리뷰 리스트](https://github.com/ytw9699/Dokky/blob/master/dokky/documents/%EA%B8%B0%ED%83%80%EB%AC%B8%EC%84%9C%EB%93%A4/%EC%BD%94%EB%93%9C%EB%A6%AC%EB%B7%B0-%EB%A6%AC%EC%8A%A4%ED%8A%B8.md) : 프로젝트에 대해 멘토와 코드 리뷰를 진행해왔습니다.
+&emsp; [코드 리뷰 리스트](https://github.com/ytw9699/Dokky/blob/master/dokky/documents/%EC%A3%BC%EC%9A%94%EB%AC%B8%EC%84%9C%EB%93%A4/%EC%BD%94%EB%93%9C%EB%A6%AC%EB%B7%B0-%EB%A6%AC%EC%8A%A4%ED%8A%B8.md) : 프로젝트에 대해 멘토와 코드 리뷰를 진행해왔습니다.
 
 ## 11. 테스트 코드 작성
 
-&emsp; [테스트 코드 리스트](https://github.com/ytw9699/Dokky/blob/master/dokky/documents/%EA%B8%B0%ED%83%80%EB%AC%B8%EC%84%9C%EB%93%A4/%ED%85%8C%EC%8A%A4%ED%8A%B8-%EC%BD%94%EB%93%9C-%EB%A6%AC%EC%8A%A4%ED%8A%B8.md) 
+&emsp; [테스트 코드 리스트](https://github.com/ytw9699/Dokky/blob/master/dokky/documents/%EC%A3%BC%EC%9A%94%EB%AC%B8%EC%84%9C%EB%93%A4/%ED%85%8C%EC%8A%A4%ED%8A%B8-%EC%BD%94%EB%93%9C-%EB%A6%AC%EC%8A%A4%ED%8A%B8.md) 
 
 ## 12. 이슈 관리
 &emsp; [이슈관리](https://github.com/ytw9699/Dokky/issues) : 프로젝트를 진행중 겪었던 모든 이슈들을 기록하고 관리하였습니다.  
