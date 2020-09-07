@@ -817,16 +817,16 @@ function setDocumentScrollTop(ypos)
  
 9-13) 탈퇴 할 수 있어야 한다. 
 </code></pre> 
-<h3> <a id="10-관리자1일반-관리자와-슈퍼관리자-대상" class="anchor" href="#10-%EA%B4%80%EB%A6%AC%EC%9E%901%EC%9D%BC%EB%B0%98-%EA%B4%80%EB%A6%AC%EC%9E%90%EC%99%80-%EC%8A%88%ED%8D%BC%EA%B4%80%EB%A6%AC%EC%9E%90-%EB%8C%80%EC%83%81" aria-hidden="true"><span aria-hidden="true" class="octicon octicon-link"></span></a>10) 관리자1(일반 관리자와 슈퍼관리자 대상)</h3> 
+<h3> <a id="10-일반-관리자-페이지일반-관리자와-슈퍼관리자-대상" class="anchor" href="#10-%EC%9D%BC%EB%B0%98-%EA%B4%80%EB%A6%AC%EC%9E%90-%ED%8E%98%EC%9D%B4%EC%A7%80%EC%9D%BC%EB%B0%98-%EA%B4%80%EB%A6%AC%EC%9E%90%EC%99%80-%EC%8A%88%ED%8D%BC%EA%B4%80%EB%A6%AC%EC%9E%90-%EB%8C%80%EC%83%81" aria-hidden="true"><span aria-hidden="true" class="octicon octicon-link"></span></a>10) 일반 관리자 페이지(일반 관리자와 슈퍼관리자 대상)</h3> 
 <pre><code>10-1) 사용자의 리스트를 조회 할 수 있어야 한다.
 
 10-2) 사용자의 리스트에서는 최대 10명의 회원씩 페이징되어 보여줘야 한다.
 
-10-3) 사용자를 닉네임,아이디로 분리 or 통합하여 검색 할 수 있어야 한다.
+10-3) 사용자를 닉네임, 아이디로 분리 or 통합하여 검색 할 수 있어야 한다.
 
 10-4) 사용자의 개인정보를 조회 할 수 있어야 한다.
 
-10-5) 사용자의 글쓰기 및 댓글 쓰기를 제한 할 수 있어야 한다.
+10-5) 사용자의 모든 쓰기 기능을 제한 할 수 있어야 한다.
 
 10-6) 사용자의 접속을 제한 할 수 있어야 한다.
 
@@ -834,7 +834,7 @@ function setDocumentScrollTop(ypos)
 
 10-8) 사용자의 캐시내역 리스트를 최대 10개씩 페이징하여 조회 할 수 있어야 한다.
 
-10-9) 사용자의 캐시 충전 요청 내역 리스트를 최대 10개씩 페이징하여 조회 할 수 있어야 한다.
+10-9) 사용자의 캐시 충전, 환전 요청 리스트를 최대 10개씩 페이징하여 조회 할 수 있어야 한다.
 
 10-10) 사용자의 캐시 충전 요청을 승인 할 수 있어야 한다.
 
@@ -842,36 +842,36 @@ function setDocumentScrollTop(ypos)
 
 10-12) 사용자의 신고 리스트를 최대 10개씩 페이징하여 조회 할 수 있어야 한다.
 </code></pre> 
-<h3> <a id="11-관리자2슈퍼관리자만-대상" class="anchor" href="#11-%EA%B4%80%EB%A6%AC%EC%9E%902%EC%8A%88%ED%8D%BC%EA%B4%80%EB%A6%AC%EC%9E%90%EB%A7%8C-%EB%8C%80%EC%83%81" aria-hidden="true"><span aria-hidden="true" class="octicon octicon-link"></span></a>11) 관리자2(슈퍼관리자만 대상)</h3> 
+<h3> <a id="11-슈퍼-관리자-페이지슈퍼관리자만-대상" class="anchor" href="#11-%EC%8A%88%ED%8D%BC-%EA%B4%80%EB%A6%AC%EC%9E%90-%ED%8E%98%EC%9D%B4%EC%A7%80%EC%8A%88%ED%8D%BC%EA%B4%80%EB%A6%AC%EC%9E%90%EB%A7%8C-%EB%8C%80%EC%83%81" aria-hidden="true"><span aria-hidden="true" class="octicon octicon-link"></span></a>11) 슈퍼 관리자 페이지(슈퍼관리자만 대상)</h3> 
 <pre><code>11-1) 일반관리자와 회원 리스트를 구분하여 조회 할 수 있어야 한다.
 
-11-2) 회원에게 일반관리자의 권한을 부여 할 수 있어야 한다.
+11-2) 리스트에서는 최대 10명의 회원씩 페이징되어 보여줘야 한다.
 
-11-3) 일반관리자에게 관리자의 권한을 회수 할 수 있어야 한다.
+11-3) 리스트에서 닉네임, 아이디로 분리 or 통합하여 검색 할 수 있어야 한다.
+
+11-4) 회원에게 일반관리자의 권한을 부여 할 수 있어야 한다.
+
+11-5) 일반관리자에게 관리자의 권한을 회수 할 수 있어야 한다.
 </code></pre> 
-<h3> <a id="12-전체-관점" class="anchor" href="#12-%EC%A0%84%EC%B2%B4-%EA%B4%80%EC%A0%90" aria-hidden="true"><span aria-hidden="true" class="octicon octicon-link"></span></a>12) 전체 관점</h3> 
-<pre><code>12-1,2) 모든 사용자에게 적용
+<h3> <a id="12-전체-사이트-공통적인-부분" class="anchor" href="#12-%EC%A0%84%EC%B2%B4-%EC%82%AC%EC%9D%B4%ED%8A%B8-%EA%B3%B5%ED%86%B5%EC%A0%81%EC%9D%B8-%EB%B6%80%EB%B6%84" aria-hidden="true"><span aria-hidden="true" class="octicon octicon-link"></span></a>12) 전체 사이트 공통적인 부분</h3> 
+<pre><code>12-1) 비회원이던, 회원이던 어떤 화면에서도 사이트 메뉴탭을 왼편에서 볼 수 있다.*
 
-12-1) 어떤 화면에서도 사이트 메뉴탭을 왼편에서 볼 수 있다.*
+12-2) 비회원은 사이트 메뉴탭에서  알림, 쪽지,내정보,로그아웃 버튼은 사라지고 로그인/회원가입 버튼이 보여진다.
 
-12-2) 로그인 하지 않은 상태에서 다른 사용자의 닉네임을 클릭하면 일반 로그인 창을 띄어준다. 
+12-3) 비회원은 특정 회원의 게시글을 볼 수 없고 쪽지도 보낼 수 없다.
 
-12-3,4,5,6) 비회원을 제외한 모든 사용자 에게 적용
+12-3) 회원은 특정 회원의 닉네임을 클릭할시 게시글보기와 쪽지보내기 탭을 볼 수 있다.
 
-12-3) 닉네임을 클릭할시 게시글보기와 쪽지보내기 탭을 볼 수 있다.
+12-4) 회원은 다른 사용자의 게시글보기를 클릭하면  게시글 리스트를 볼 수 있어야 한다.
 
-12-4) 다른 사용자의 게시글보기를 클릭하면  게시글 리스트를 볼 수 있어야 한다.
-
-12-5) 다른 사용자에게 쪽지보내기를 클릭하면 쪽지 보내기 창이 띄어진다.
-
-12-6) 비로그인시 사이트 왼편의 메뉴탭에서  알림, 쪽지,내정보,로그아웃 버튼은 사라지고 로그인/회원가입 버튼이 보여진다.
+12-5) 회원은 다른 사용자에게 쪽지보내기를 클릭하면 쪽지 보내기 창이 띄어진다.
 </code></pre> 
 <h2> <a id="2-비기능적-요구-사항-명세서" class="anchor" href="#2-%EB%B9%84%EA%B8%B0%EB%8A%A5%EC%A0%81-%EC%9A%94%EA%B5%AC-%EC%82%AC%ED%95%AD-%EB%AA%85%EC%84%B8%EC%84%9C" aria-hidden="true"><span aria-hidden="true" class="octicon octicon-link"></span></a>2. 비기능적 요구 사항 명세서</h2> 
 <h3> <a id="1-이식성-요구-사항" class="anchor" href="#1-%EC%9D%B4%EC%8B%9D%EC%84%B1-%EC%9A%94%EA%B5%AC-%EC%82%AC%ED%95%AD" aria-hidden="true"><span aria-hidden="true" class="octicon octicon-link"></span></a>1) 이식성 요구 사항</h3> 
 <pre><code>1-1) 크롬 브라우저에서만 정상적으로 동작할것
 </code></pre> 
 <h3> <a id="2-구현-요구-사항어떤-방법론을-사용할-것인지-어떤-프로그래밍-언어" class="anchor" href="#2-%EA%B5%AC%ED%98%84-%EC%9A%94%EA%B5%AC-%EC%82%AC%ED%95%AD%EC%96%B4%EB%96%A4-%EB%B0%A9%EB%B2%95%EB%A1%A0%EC%9D%84-%EC%82%AC%EC%9A%A9%ED%95%A0-%EA%B2%83%EC%9D%B8%EC%A7%80-%EC%96%B4%EB%96%A4-%ED%94%84%EB%A1%9C%EA%B7%B8%EB%9E%98%EB%B0%8D-%EC%96%B8%EC%96%B4" aria-hidden="true"><span aria-hidden="true" class="octicon octicon-link"></span></a>2) 구현 요구 사항(어떤 방법론을 사용할 것인지, 어떤 프로그래밍 언어)</h3> 
-<pre><code>2-1) 자바,jsp,스프링프레임워크,자바스크립트,ajax,css,html등을 사용할것
+<pre><code>2-1) 자바, jsp, 스프링프레임워크, 자바스크립트, ajax, css, html등을 사용할것
 </code></pre> 
 <h3> <a id="3-상호-운용성-요구-사항" class="anchor" href="#3-%EC%83%81%ED%98%B8-%EC%9A%B4%EC%9A%A9%EC%84%B1-%EC%9A%94%EA%B5%AC-%EC%82%AC%ED%95%AD" aria-hidden="true"><span aria-hidden="true" class="octicon octicon-link"></span></a>3) 상호 운용성 요구 사항</h3> 
 <pre><code>3-1) 구글,네이버 계정으로 로그인을 연동할것
