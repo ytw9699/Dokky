@@ -60,11 +60,13 @@
 		<!-- 어노테이션을 이용하는 스프링 시큐리티 설정 / 어노테이션은 기본으로 ’disabled’되어 있으므로 enabled'로 설정 -->
 		<!-- 어노테이션을 활성화하기 위해서는 스프링 MVC의 설정을 담당하는 servlet-context.xml에 관련 설정이 추가된다는 점 -->
 	
-	<!-- websocket handler -->
-	<beans:bean id="websocketHandler" class="org.my.handler.websocketHandler"/>
-
+	<!-- websocket handlers -->
+	<beans:bean id="commonWebsocketHandler" class="org.my.handler.commonWebsocketHandler"/>
+	<beans:bean id="chatWebsocketHandler" class="org.my.handler.chatWebsocketHandler"/>
+	
 	<websocket:handlers>
-	 <websocket:mapping handler="websocketHandler" path="/websocketHandler" />
+	 <websocket:mapping handler="commonWebsocketHandler" path="/commonWebsocketHandler" />
+	 <websocket:mapping handler="chatWebsocketHandler" path="/chatWebsocketHandler" />
 		 <websocket:handshake-interceptors>
 		      <beans:bean class="org.springframework.web.socket.server.support.HttpSessionHandshakeInterceptor"/>
 		      <!-- 로그인한 유저의 아이디를 알려면 http세션을 써야함, 그러려면 웹소켓 세션에다가 http세션을 올려줘야 접근이 가능함 -->
