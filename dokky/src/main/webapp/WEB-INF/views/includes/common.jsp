@@ -113,6 +113,11 @@
 						알림 <span class="alarmCount"></span>
 				</span>
 			</a>
+			<a href="/myChatRoomList?userId=${userInfo.username}"> 
+				<span class="mypage">
+						채팅 <span class="chatCount"></span>
+				</span>
+			</a> 
 			<a href="/fromNoteList?userId=${userInfo.username}"> 
 				<span class="mypage">
 						쪽지 <span class="noteCount"></span>
