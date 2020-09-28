@@ -1,6 +1,8 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c"%>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/fmt" prefix="fmt"%>
+<%@ taglib uri="http://www.springframework.org/security/tags" prefix="sec" %> 
+<sec:authentication property="principal" var="userInfo"/>
 
 <!DOCTYPE html>
 <html>
@@ -163,6 +165,11 @@
 											<span class="hideUsermenu">쪽지보내기</span> 
 										</a>
 									</li>
+									<li class="hideUsermenu singleChat" data-board_nickname="${board.nickName}" data-board_userid="${board.userId}">
+										<a href="#" class="hideUsermenu">
+											<span class="hideUsermenu">1:1채팅</span>
+										</a>
+									</li>
 								</ul>     
 						     </div> 
 						</td>
@@ -213,6 +220,21 @@
 </form> 
 	
 <script> 
+	
+	var myId;
+	var myNickName;
+	var csrfHeaderName ="${_csrf.headerName}"; 
+	var csrfTokenValue="${_csrf.token}";
+	
+	<sec:authorize access="isAuthenticated()">   
+		myId = '${userInfo.username}';  
+		myNickName = '${userInfo.member.nickName}';
+	</sec:authorize>
+	
+	$(document).ajaxSend(function(e, xhr, options) {  //모든 AJAX전송시 CSRF토큰을 같이 전송하도록 셋팅
+		
+	     xhr.setRequestHeader(csrfHeaderName, csrfTokenValue);
+   }); 
 
 	function checkLength(obj, maxByte) { 
 		 
@@ -432,7 +454,51 @@
 					}
 
 					searchForm.submit();
-				});
+		});
+		
+		$(".singleChat").on("click",function(event){//1:1 채팅 
+
+				var chatRoomData = {   
+										roomOwnerId : myId,
+										roomOwnerNick : myNickName,
+										chat_type : 0
+								   };
+			
+				var chatMemberData = {
+						
+										chat_memberId : $(this).data("board_userid"),
+										chat_memberNick : $(this).data("board_nickname")
+								  	 };
+									
+				var commonData = { 
+									chatRoomVO : chatRoomData,
+									chatMemberVO : chatMemberData
+					 			 };
+				
+				commonService.makeSingleChat(commonData, 
+			   			
+				   		function(result, status){
+						
+							if(status == "success"){ 
+								
+								var popupX = (window.screen.width / 2) - (400 / 2);
+	
+								var popupY= (window.screen.height /2) - (500 / 2);
+								
+								window.open('/chatRoom/'+result+'?userId='+myId, 'ot', 'height=500, width=400, screenX='+ popupX + ', screenY= '+ popupY);
+							}
+				    	},
+					    
+				    	function(status){
+				    	
+							if(status == "error"){ 
+								
+								openAlert("Server Error(관리자에게 문의해주세요)");
+							}
+				    	}
+			   	); 
+		});
+		
 </script>
 	
 </body>
