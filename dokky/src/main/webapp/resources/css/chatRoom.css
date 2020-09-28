@@ -1,0 +1,110 @@
+@charset "utf-8";
+
+	    .bodyWrap {
+			   width: 98%;
+			    display: inline-block;
+			    margin-left: 1%;
+			    margin-top: 1%;
+			    min-height: 480px;
+			    border-color: #dbdbdb;
+			    border-width: 1px;
+			    border-style: solid;
+			    color: #333333;
+			    border-radius: 5px;
+		}
+        
+        .chat_content{
+        
+        		width: 96%;
+			    margin-bottom: 3%;
+			    margin-left: 1%;
+        }
+        
+        #chatTitle{
+        
+       		    width: 96%;
+			    margin-bottom: 1%;
+			    margin-left: -1%;
+			    background-color: white;
+			    position: fixed;
+			    margin-top: -3.5%;
+        }
+        
+        .myChat{
+        
+			    text-align: right;
+        }
+        
+        .notice{
+        
+			    text-align: center;
+        }
+        
+        #leave{
+       		border: none;
+		    padding: 6px;
+		    font-size: 15px;
+		    color: white;
+		    width: 20%;
+		    cursor: pointer;
+		    border-radius: 10px;
+		    background-color: #7151fc;
+        }
+        
+        #chatContents{
+        	
+       	    overflow: auto; 
+		    width: 360px;
+		    min-height: 320px;
+		    border: 1px solid;
+		    margin-top: 16%;
+		    margin-bottom: 26%;
+        	/* background-color : white; */
+        }
+       
+        #messageWrap{
+        
+    	    width: 360px;
+		    min-height: 100px;
+		    border: 1px solid;
+		    position: fixed;
+		    bottom: 0px;
+		    background-color: white;
+        }
+        
+        #sendMessageBtn{
+        
+        	border: none;
+		    padding: 6px;
+		    font-size: 15px;
+		    color: white;
+		    width: 99%;
+		    cursor: pointer;
+		    border-radius: 10px;
+		    background-color: #7151fc;
+        }
+        
+        #message{
+        
+        	min-height: 50px;
+        	width: 265px;
+        }
+        
+        #messgaeInputWrap{
+        
+		    display: inline-block;
+		    width: 74%;
+		    padding: 5px;
+		    margin-left: 1%;
+		    margin-top: 7px;
+        }
+        
+        #sendBtnWrap{
+        
+        	display: inline-block;
+		    width: 16%;
+		    margin-left: 1%;
+		    height: 30px;
+        }
+        
+        
