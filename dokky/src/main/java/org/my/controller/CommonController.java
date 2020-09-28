@@ -189,6 +189,9 @@ public class CommonController {
 		vo.setUserPw(pwencoder.encode(""+Math.random()*10));
 		//패스워드 랜덤 하게 만들어 암호화,이 암호가 없으면 시큐리티인증객체를 못만듬
 		
+		//vo.setBankName(pwencoder.encode(vo.getBankName()));
+		//vo.setAccount(pwencoder.encode(vo.getAccount()));
+
 		if(memberService.registerMembers(vo)){
 			
 			MemberVO memberVO = memberService.readMembers(vo.getUserId());//소셜에서 가져온 프로필에 해당하는 개인정보를 db에서 불러온다
