@@ -27,43 +27,53 @@
 <body>
 	<div class="bodyWrap">
 		<div id="chatTitle">
-			<span>
-				<a href="#">
-					<c:choose>
-					   	  <c:when test="${pageContext.request.serverName == 'localhost'}"> 
-							 	<img src="/resources/img/profile_img/<c:out value="${chatMember.chat_memberId}"  />.png?${random}" onerror="this.src='/resources/img/profile_img/basicProfile.png'" />
-						  </c:when> 
-					      <c:otherwise> 
-					    		<img src="/upload/<c:out value="${chatMember.chat_memberId}"  />.png?${random}" onerror="this.src='/ROOT/resources/img/profile_img/basicProfile.png'" />
-					      </c:otherwise>
-					</c:choose>
-				</a>
-			</span>
-			<span>	 
-				<c:out value="${chatMember.chat_memberNick}" />
-			</span> 
-			<span>	
-				<button id="leave">방 나가기</button>
-			</span>	
+		  <div id="innerTitleWrap">
+				<div class="innerTitle">
+						<c:choose>
+						   	  <c:when test="${pageContext.request.serverName == 'localhost'}"> 
+								 	<img src="/resources/img/profile_img/<c:out value="${chatMember.chat_memberId}"/>.png?${random}" class="memberImage" onerror="this.src='/resources/img/profile_img/basicProfile.png'"/>
+							  </c:when> 
+						      <c:otherwise> 
+						    		<img src="/upload/<c:out value="${chatMember.chat_memberId}"/>.png?${random}" class="memberImage" onerror="this.src='/ROOT/resources/img/profile_img/basicProfile.png'" />
+						      </c:otherwise>
+						</c:choose>
+				</div>
+				<div class="innerTitle">
+					<c:out value="${chatMember.chat_memberNick}" />
+				</div> 
+				<div class="innerTitle">
+					<button id="leave">방 나가기</button>
+				</div>
+		  </div>	
 		</div>
 		<div id="chatContents">
 			<c:forEach items="${chatContents}" var="content">
 				<c:choose>
 					  <c:when test="${content.content_type == 1}"> <!-- 공지내용 -->
-				   	  	 <div class="chat_content notice">
-				              ${content.chat_content}
+				   	  	 <div class="chat_wrap notice">
+			   	  	 		<span class="chat_content">
+				   	  	 		${content.chat_content}
+				   	  	 	</span>
 			             </div>
 					  </c:when>
 				   	  <c:when test="${content.chat_writerId == userInfo.username}"> <!-- 내가 쓴 채팅 내용 -->
-				   	  	 <div class="chat_content myChat">
-			              	<fmt:formatDate value="${content.regDate}" pattern="yyyy-MM-dd HH:mm" />
-				              ${content.chat_content} 
+				   	  	 <div class="chat_wrap myChat">
+				   	  	 	<span class="chat_time">
+				   	  	 		<fmt:formatDate value="${content.regDate}" pattern="yyyy-MM-dd HH:mm"/>
+				   	  	 	</span>
+				   	  	 	<span class="chat_content">
+				   	  	 		${content.chat_content}
+				   	  	 	</span>
 			             </div>
 					  </c:when>
 				      <c:otherwise><!--  타인이 쓴 채팅 내용 -->
-				      	<div class="chat_content">
-			                ${content.chat_writerNick} ${content.chat_content}
-			                <fmt:formatDate value="${content.regDate}" pattern="yyyy-MM-dd HH:mm" />
+				      	<div class="chat_wrap">
+				      		<span class="chat_content">
+				   	  	 		${content.chat_writerNick} ${content.chat_content}
+				   	  	 	</span>
+				   	  	 	<span class="chat_time">
+				   	  	 		<fmt:formatDate value="${content.regDate}" pattern="yyyy-MM-dd HH:mm" />
+				   	  	 	</span>
 			             </div>
 				      </c:otherwise>
 				</c:choose>
@@ -100,6 +110,8 @@
 		
 		$(document).ready(function() {
 			
+        	window.scrollTo(0, $(document).height());
+			
 			var serverName = '${pageContext.request.serverName}'; 
 			
 			if(serverName == 'localhost'){
@@ -124,7 +136,13 @@
 					var chatroom = document.getElementById('chatContents');
 					
 					var obj = JSON.parse(event.data);
-
+					
+					var isBottom;
+					
+					if($(window).scrollTop() + $(window).height() == $(document).height()){//스크롤이 맨 하단에서 감지되는지 여부 저장
+						isBottom = true;
+				    }
+					
 					if(obj.type == 'CHAT'){
 						 
 						 var regDate = parseInt(obj.regDate);
@@ -136,19 +154,40 @@
 						
 						 if(obj.chat_writerNick == myNickName){
 							 
-					        	chatroom.innerHTML = chatroom.innerHTML + "<div class='chat_content myChat'>" + time +" "+ getMessgae + "</div>";
-				        	
+					        	chatroom.innerHTML = chatroom.innerHTML + "<div class='chat_wrap myChat'>"
+					     													+"<span class='chat_time'>" 
+					        													+ time 
+					        												+"</span>"
+					     													+"<span class='chat_content'>"
+					     														+ getMessgae 
+					     													+ "</span>"
+					     												+ "</div>";
 				         }else{
-				        	
-				        	 	chatroom.innerHTML = chatroom.innerHTML + "<div class='chat_content'>" + obj.chat_writerNick +" "+ getMessgae + " "+time+"</div>";
+				             
+				        	 	chatroom.innerHTML = chatroom.innerHTML + "<div class='chat_wrap'>"
+				        	 												+ "<span class='chat_content'>" 
+				        	 											    + obj.chat_writerNick +" "+ getMessgae 
+				        	 												+ "<span>"
+				        	 												+ "<span class='chat_time'>"
+				        	 												+ time 
+				        	 												+ "</span>"
+				        	 											+ "</div>";
 				         }
-						 
+			             
 					}else if(obj.type == 'LEAVE'){
 						
 						 var getMessgae = obj.message;
 						 
-						 chatroom.innerHTML = chatroom.innerHTML + "<div class='chat_content notice'>"+ getMessgae + "</div>";
+						 chatroom.innerHTML = chatroom.innerHTML + "<div class='chat_wrap notice'>"
+						 											+ "<span class='chat_content'>"
+																		 + getMessgae
+																 	+ "</span>"
+						 										 + "</div>";
 					}
+					
+					if(isBottom == true){//스크롤이 맨 하단에서 감지된다면
+						window.scrollTo(0, $(document).height());//스크롤 맨아래로 내리기
+				    }
 				}
 				
 				webSocketChat.onclose = function(){
