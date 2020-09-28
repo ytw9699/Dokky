@@ -1,0 +1,90 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+  PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+  "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="org.my.mapper.ChatMapper">
+	
+	   <select id="hasRoom" resultType="String">
+			select room.chatRoomNum from dk_chat_room room INNER JOIN dk_chat_member member ON room.chatRoomNum = member.chatRoomNum 
+					where room.roomownerid = #{roomOwnerId} and member.chat_memberId = #{chat_memberId} and room.chat_type = 0
+	   </select>
+	   
+       <insert id="createChatRoom">
+       
+	       	<selectKey keyProperty="chatRoomNum" order="BEFORE" resultType="long">
+					select seq_dk_chat_room.nextval from dual
+			</selectKey>
+	
+ 			insert into dk_chat_room (	  chatRoomNum
+							 			, roomOwnerId
+							 			, roomOwnerNick
+							 			, chat_type
+					 			   )
+					 		values(
+						 				 #{chatRoomNum}
+										,#{roomOwnerId}
+										,#{roomOwnerNick}
+										,#{chat_type}				 		
+					 				) 
+       </insert>
+       
+       <insert id="createChatMember">
+	 			insert into dk_chat_member (	  chatRoomNum
+									 			, chat_memberId
+									 			, chat_memberNick
+							 			   )
+							 		values(
+								 				 #{chatRoomNum}
+												,#{chat_memberId}
+												,#{chat_memberNick}
+							 				) 
+       </insert>
+				
+		<select id="getChatContents" resultType="org.my.domain.ChatContentVO"> 
+				  	  select /*+INDEX_ASC(dk_chat_content pk_chat_content) */
+								     								  chat_writerId
+															    	, chat_writerNick
+															    	, chat_content
+															    	, content_type
+															    	, regdate
+								from dk_chat_content 
+								where chatRoomNum = #{chatRoomNum} and chatContentNum > 0
+		</select>
+		
+		<select id="getChatMember" resultType="org.my.domain.ChatMemberVO"> 
+				  select chat_memberId, chat_memberNick from dk_chat_member where chatRoomNum = #{chatRoomNum} and chat_memberId != #{userId}
+		</select>
+		
+		<insert id="createChatContent">
+	 			insert into dk_chat_content (	  chatContentNum
+									 			, chatRoomNum
+									 			, chat_content
+									 			, chat_writerId
+									 			, chat_writerNick
+									 			, regDate
+							 			   )
+							 		values(
+								 				 seq_dk_chat_content.nextval
+												,#{chatRoomNum}
+												,#{chat_content}
+												,#{chat_writerId}
+												,#{chat_writerNick}
+												,#{regDate}
+							 				) 
+       </insert>
+       
+       <insert id="createNoticeContent">
+	 			insert into dk_chat_content (	  chatContentNum
+									 			, chatRoomNum
+									 			, chat_content
+		 										, content_type
+							 			   )
+							 		values(
+								 				 seq_dk_chat_content.nextval
+												,#{chatRoomNum}
+												,#{chat_content}
+												, 1
+							 				) 	
+       </insert>
+       
+</mapper>

@@ -13,4 +13,6 @@ public class commonVO {
 	  private replyDonateVO replyDonateVO;
 	  private ReplyLikeVO replyLikeVO;
 	  private ReplyDisLikeVO replyDisLikeVO;
+	  private ChatRoomVO chatRoomVO;
+	  private ChatMemberVO chatMemberVO;
 }

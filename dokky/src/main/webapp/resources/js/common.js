@@ -355,6 +355,26 @@ var commonService = (function() {
 		})
 	}
 	
+	function makeSingleChat(commonData, callback, error) {
+		
+		$.ajax({
+			type : 'post', 
+			url : '/makeSingleChat',  
+			data : JSON.stringify(commonData), 
+			contentType : "application/json; charset=utf-8",
+			success : function(result, status, xhr) {
+				if (callback) {
+					callback(result, status);
+				}
+			},
+			error : function(xhr, status, er) {
+				if (error) {
+					error(status);
+				}
+			}
+		});
+	}
+	
 	/*function download(path, callback, error) {
 		console.log("download...............");  
 		 
@@ -391,7 +411,8 @@ var commonService = (function() {
 		postScrapData : postScrapData,
 		deleteScrapData : deleteScrapData,
 		insertNote : insertNote,
-		report : report
+		report : report,
+		makeSingleChat : makeSingleChat
 		/*download: download*/
 	};
 

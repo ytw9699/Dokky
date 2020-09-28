@@ -8,7 +8,7 @@
 <meta charset="UTF-8">
 <c:choose>
    	  <c:when test="${pageContext.request.serverName == 'localhost'}">
-			<link href="/resources/css/common.css" rel="stylesheet" type="text/css"/>.
+			<link href="/resources/css/common.css" rel="stylesheet" type="text/css"/>
 			<script type="text/javascript" src="/resources/js/common.js"></script>
 	  </c:when>  
       <c:otherwise>
@@ -113,6 +113,11 @@
 						알림 <span class="alarmCount"></span>
 				</span>
 			</a>
+			<a href="/myChatRoomList?userId=${userInfo.username}"> 
+				<span class="mypage">
+						채팅 <span class="chatCount"></span>
+				</span>
+			</a> 
 			<a href="/fromNoteList?userId=${userInfo.username}"> 
 				<span class="mypage">
 						쪽지 <span class="noteCount"></span>
@@ -188,25 +193,25 @@
 		
 		if(serverName == 'localhost'){
 		
-			webSocket = new WebSocket("ws://localhost:8080/websocketHandler");
-			//webSocket = new SockJS("http://localhost:8080/websocketHandler");
+			webSocket = new WebSocket("ws://localhost:8080/commonWebsocketHandler");
+			//webSocket = new SockJS("http://localhost:8080/commonWebsocketHandler");
 			//최초 접속이 일반 http request를 통해 handshaking과정을 통해 이루어 진다는 점
 			//LoadModule proxy_module modules/mod_proxy.so 
 
 		}else{
-			//webSocket = new SockJS("http://dokky.ga:80/websocketHandler");
-			webSocket = new WebSocket("wss://dokky.ga:443/websocketHandler");
+			//webSocket = new SockJS("http://dokky.ga:80/commonWebsocketHandler");
+			webSocket = new WebSocket("wss://dokky.ga:443/commonWebsocketHandler");
 		}
 		
 		//WebSocket API
 		
 		webSocket.onopen = function (){ //소켓이 연결됬다면
 			
-			console.log("WebSocket is connected");
+			console.log("commonWebsocket is connected");
 		
 			webSocket.onmessage = function(event){//소켓 연결됬는데 메시지가 왔다면
 				
-				console.log("webSocket message");
+				console.log("commonWebsocket message");
 				
  				if(event.data == 'allAlarmUpdateRequestToUser'){
  					
@@ -244,7 +249,7 @@
 			
 			webSocket.onclose = function(){ //소켓 연결됬는데 소켓이 다시 닫힌다면
 				
-				console.log("WebSocket is closed");
+				console.log("commonWebsocket is closed");
 				
 				setTimeout(function() {
 					<sec:authorize access="hasAnyRole('ROLE_ADMIN','ROLE_USER','ROLE_SUPER','ROLE_STOP')">
@@ -255,7 +260,7 @@
 			
 			webSocket.onerror = function(err){//소켓 연결됬는데 에러가 있다면
 				
-				console.log("webSocket error, "+err);
+				console.log("commonWebsocket error, "+err);
 			}
 		}
 	}
