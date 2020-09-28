@@ -348,7 +348,59 @@ create table DK_s3key(
 )
 	
 insert into DK_s3key( accessKey, secretKey) VALUES ('accessKey', 'secretKey')
+
+	
+15. 채팅룸 테이블 -----------------------------------------------------
+
+create table dk_chat_room(
  
+		 chatRoomNum number(10,0), --기본키 pk
+		 chat_title VARCHAR2(50), -- 방 제목
+		 chat_title_type number default 0, -- 방 제목의 타입 (제목 수정 안했으면 0, 수정 했으면 1)
+		 roomOwnerId VARCHAR2(50) NOT NULL, --방장 아이디
+		 roomOwnerNick VARCHAR2(50) NOT NULL, --방장 닉네임
+		 chat_type number NOT NULL, -- 0 = 1:1채팅방 , 1 = 그룹 채팅방
+		 regDate date default sysdate, -- 업데이트 날짜 (채팅이 입력되면 채팅방 날짜를 계속 업데이트)
+		 constraint pk_chat_room PRIMARY KEY(chatRoomNum)
+)
+
+create sequence seq_dk_chat_room;
+
+DROP TABLE dk_chat_room PURGE;
+
+16. 채팅룸의 멤버 테이블 -----------------------------------------------------
+
+create table dk_chat_member(
+ 
+		 chatRoomNum number(10,0) not null,--fk
+		 chat_memberId VARCHAR2(50) NOT NULL, -- 채팅룸 멤버 아이디
+		 chat_memberNick VARCHAR2(50) NOT NULL, -- 채팅룸 멤버 닉네임
+		 constraint fk_chat_member foreign key(chatRoomNum) references dk_chat_room(chatRoomNum)
+)
+
+DROP TABLE dk_chat_member PURGE;
+
+17. 채팅 내용 테이블-----------------------------------------------------
+
+create table dk_chat_content(
+ 
+		 chatContentNum number(10,0), --pk
+		 chatRoomNum number(10,0) not null, --fk
+		 chat_content varchar2(4000) not null, --채팅 내용
+		 chat_writerId VARCHAR2(50), -- 글쓴이 아이디
+		 chat_writerNick VARCHAR2(50), -- 글쓴이 닉네임
+		 content_type number default 0,  -- 채팅 내용 종류 (0 = 일반내용 , 1 = 공지내용)
+		 regdate date default sysdate,
+		 constraint pk_chat_content PRIMARY KEY(chatContentNum),
+		 constraint fk_chat_content foreign key(chatRoomNum) references dk_chat_room(chatRoomNum)
+)
+
+create sequence seq_dk_chat_content;
+
+DROP TABLE dk_chat_content PURGE;
+
+insert into dk_chat_content( chatContentNum, chatRoomNum, chat_content, chat_writerId, chat_writerNick, content_type) 
+					VALUES ( seq_dk_chat_content.nextval, 81, 'chat_content', 'admin', '슈퍼관리자', 0)
 
 14.기타 -----------------------------------------------------
 	컬럼수정
