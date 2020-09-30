@@ -1,4 +1,5 @@
 package org.my.mapper;
+	import java.util.Date;
 	import java.util.List;
 	import org.apache.ibatis.annotations.Param;
 	import org.my.domain.ChatContentVO;
@@ -13,11 +14,15 @@ public interface ChatMapper {
 	
 	int createChatMember(ChatMemberVO chatMemberVO);
 	
-	List<ChatContentVO> getChatContents(Long chatContents);
+	List<ChatContentVO> getChatContents(@Param("chatRoomNum") Long chatRoomNum,  @Param("recentOutDate") Date recentOutDate);
 	
 	ChatMemberVO getChatMember(@Param("chatRoomNum") Long chatRoomNum, @Param("userId") String userId);
 	
 	void createChatContent(ChatContentVO chatContentVO);
 	
 	int createNoticeContent(ChatContentVO chatContentVO);
+
+	void updateOutDate(@Param("chatRoomNum") Long chatRoomNum, @Param("chat_memberId") String chat_memberId);
+
+	Date getRecentOutDate(@Param("chatRoomNum") Long chatRoomNum, @Param("chat_memberId") String chat_memberId);
 }

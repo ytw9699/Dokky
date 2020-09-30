@@ -48,7 +48,15 @@
 															    	, content_type
 															    	, regdate
 								from dk_chat_content 
-								where chatRoomNum = #{chatRoomNum} and chatContentNum > 0
+								where chatRoomNum = #{chatRoomNum}  
+								
+								<if test="recentOutDate != null">
+								
+								and regdate > #{recentOutDate}
+								
+								</if>
+								
+								and chatContentNum > 0
 		</select>
 		
 		<select id="getChatMember" resultType="org.my.domain.ChatMemberVO"> 
@@ -86,5 +94,13 @@
 												, 1
 							 				) 	
        </insert>
+       
+	   <update id="updateOutDate">
+	 	 	update dk_chat_member set recentOutDate = sysdate where chatRoomNum = #{chatRoomNum} and chat_memberId = #{chat_memberId} 
+	   </update>
+	   
+	   <select id="getRecentOutDate" resultType="Date"> 
+			  select recentOutDate from dk_chat_member where chatRoomNum = #{chatRoomNum} and chat_memberId = #{chat_memberId}
+	   </select>
        
 </mapper>

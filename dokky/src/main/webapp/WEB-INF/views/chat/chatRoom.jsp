@@ -238,7 +238,7 @@
 			
 			console.log("chatWebsocket leave");
 			
-			webSocketChat.send(JSON.stringify({chatRoomNum : chatRoomNum, type:'LEAVE', chat_writerId:myId , chat_writerNick: myNickName }));
+			webSocketChat.send(JSON.stringify({chatRoomNum : chatRoomNum, type : 'LEAVE', chat_writerId : myId , chat_writerNick: myNickName }));
 		    
 		}
 		

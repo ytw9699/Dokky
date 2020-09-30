@@ -1,4 +1,5 @@
 package org.my.controller;
+	import java.util.Date;
 	import org.my.domain.commonVO;
 	import org.my.service.ChatService;
 	import org.springframework.beans.factory.annotation.Autowired;
@@ -53,8 +54,12 @@ public class ChatController {
 	public String getChatRoom(@PathVariable Long chatRoomNum, @RequestParam("userId")String userId, Model model){
 	    	
     	log.info("/getChatRoom/"+chatRoomNum);
+    
+    	Date recentOutDate = chatService.getRecentOutDate(chatRoomNum, userId);
     	
-        model.addAttribute("chatContents", chatService.getChatContents(chatRoomNum));//채팅방의 메시지들
+    	log.info("/recentOutDate/"+recentOutDate);
+    	
+    	model.addAttribute("chatContents", chatService.getChatContents(chatRoomNum, recentOutDate));//채팅방의 메시지들
         model.addAttribute("chatMember", chatService.getChatMember(chatRoomNum, userId));//채팅방의 제목에 들어갈 상대방 정보
         model.addAttribute("chatRoomNum", chatRoomNum);
         
