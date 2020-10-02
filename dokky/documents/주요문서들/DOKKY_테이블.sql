@@ -360,6 +360,7 @@ create table dk_chat_room(
 		 roomOwnerId VARCHAR2(50) NOT NULL, --방장 아이디
 		 roomOwnerNick VARCHAR2(50) NOT NULL, --방장 닉네임
 		 chat_type number NOT NULL, -- 0 = 1:1채팅방 , 1 = 그룹 채팅방
+		 headCount number NOT NULL, -- 방의 총 인원수
 		 regDate date default sysdate, -- 업데이트 날짜 (채팅이 입력되면 채팅방 날짜를 계속 업데이트)
 		 constraint pk_chat_room PRIMARY KEY(chatRoomNum)
 )
@@ -376,6 +377,7 @@ create table dk_chat_member(
 		 chat_memberId VARCHAR2(50) NOT NULL, -- 채팅룸 멤버 아이디
 		 chat_memberNick VARCHAR2(50) NOT NULL, -- 채팅룸 멤버 닉네임
 		 recentOutDate date,
+		 present_position number default 0, -- 0 = 안나감 , 1 = 나감
 		 constraint fk_chat_member foreign key(chatRoomNum) references dk_chat_room(chatRoomNum)
 )
 
