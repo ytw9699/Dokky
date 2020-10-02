@@ -9,4 +9,5 @@ public class ChatMemberVO {
 	  private String chat_memberId;
 	  private String chat_memberNick;
 	  private Date recentOutDate;
+	  private int present_position;
 }
