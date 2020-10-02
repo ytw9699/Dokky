@@ -28,4 +28,6 @@ public interface ChatService {
 
 	public Date getRecentOutDate(Long chatRoomNum, String chat_memberId);
 	
+	public boolean updateRoomStatus(Long chatRoomNum, String chat_writerId);
+	
 }

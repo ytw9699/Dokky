@@ -143,5 +143,15 @@ public class ChatServiceImpl implements ChatService {
 			
 			return chatMapper.getRecentOutDate(chatRoomNum, chat_memberId);
 		}	
+		
+		@Transactional
+		@Override
+		public boolean updateRoomStatus(Long chatRoomNum, String chat_writerId){
+	    		
+	    	log.info("updateRoomStatus");
+	    	
+	    	return chatMapper.updateHeadCount(chatRoomNum, -1) == 1 && chatMapper.updatePresent_position(chatRoomNum, 1, chat_writerId) == 1 ;
+		}
+		
 }
 
