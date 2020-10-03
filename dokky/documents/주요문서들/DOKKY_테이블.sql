@@ -376,8 +376,8 @@ create table dk_chat_member(
 		 chatRoomNum number(10,0) not null,--fk
 		 chat_memberId VARCHAR2(50) NOT NULL, -- 채팅룸 멤버 아이디
 		 chat_memberNick VARCHAR2(50) NOT NULL, -- 채팅룸 멤버 닉네임
-		 recentOutDate date,
-		 present_position number default 0, -- 0 = 안나감 , 1 = 나감
+		 recentOutDate date, --방에서 나간 최근 날짜
+		 present_position number default 0, --(현재 멤버의 위치) 0 = 방에서 안나감 , 1 = 방에서 나감
 		 constraint fk_chat_member foreign key(chatRoomNum) references dk_chat_room(chatRoomNum) on delete cascade
 )
 
@@ -393,7 +393,7 @@ create table dk_chat_content(
 		 chat_writerId VARCHAR2(50), -- 글쓴이 아이디
 		 chat_writerNick VARCHAR2(50), -- 글쓴이 닉네임
 		 content_type number default 0,  -- 채팅 내용 종류 (0 = 일반내용 , 1 = 공지내용)
-		 regdate date default sysdate,
+		 regdate date default sysdate, 
 		 constraint pk_chat_content PRIMARY KEY(chatContentNum),
 		 constraint fk_chat_content foreign key(chatRoomNum) references dk_chat_room(chatRoomNum) on delete cascade
 )
