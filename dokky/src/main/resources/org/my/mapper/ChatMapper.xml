@@ -112,5 +112,18 @@
        <update id="updatePresent_position">
 	 	 	update dk_chat_member set present_position = #{changePosition} where chatRoomNum = #{chatRoomNum} and chat_memberId = #{chat_memberId}  
 	   </update>
+	   
+      <select id="getMyRoomStatus" resultType="int"> 
+			  select present_position from dk_chat_member where chatRoomNum = #{chatRoomNum} and chat_memberId = #{myId}
+	   </select>
+	   
+	    <select id="getRoomHeadCount" resultType="int"> 
+			  select headCount from dk_chat_room where chatRoomNum = #{chatRoomNum}
+	   </select>
+	   
+	   <delete id="removeChatRoom">
+       		delete from dk_chat_room where chatRoomNum = #{chatRoomNum}
+       </delete>
+	   
        
 </mapper>

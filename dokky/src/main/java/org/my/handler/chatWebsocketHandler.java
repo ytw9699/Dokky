@@ -56,26 +56,34 @@ public class chatWebsocketHandler extends TextWebSocketHandler {
         	
         	log.info("MessageType.LEAVE");
         	
-        	String leaveMessage = chatMessage.getChat_writerNick()+"님이 나갔습니다.";
-        	
-        	chatMessage.setMessage(leaveMessage);
-        	
-        	ChatContentVO chatContentVO = new ChatContentVO();
-        	
-        	chatContentVO.setChatRoomNum(Long.parseLong(chatMessage.getChatRoomNum()));
-        	chatContentVO.setChat_content(leaveMessage);
-        	
-        	log.info("chatContentVO"+chatContentVO);
-        	
-        	chatService.createNoticeContent(chatContentVO);
-        	
         	Long ChatRoomNum = Long.parseLong(chatMessage.getChatRoomNum());
         	
-        	chatService.updateOutDate(ChatRoomNum, chatMessage.getChat_writerId());
-        	
-        	chatService.updateRoomStatus(ChatRoomNum, chatMessage.getChat_writerId());
-        	
-        	chatRoom = chatService.findChatRoom(chatMessage.getChatRoomNum());
+        	if(chatService.getRoomHeadCount(ChatRoomNum) == 1){//남아있는 방 인원수가 1명이라면
+        		
+        		if(chatService.removeAllChatData(ChatRoomNum)){//해당 채팅방 관련 모든 데이터 삭제 
+        		
+        			return;
+        		}
+        		
+        	}else{
+        		
+        		String leaveMessage = chatMessage.getChat_writerNick()+"님이 나갔습니다.";
+            	
+            	chatMessage.setMessage(leaveMessage);
+            	
+            	ChatContentVO chatContentVO = new ChatContentVO();
+            	
+            	chatContentVO.setChatRoomNum(ChatRoomNum);
+            	chatContentVO.setChat_content(leaveMessage);
+            	
+            	chatService.createNoticeContent(chatContentVO);
+            	
+            	chatService.updateOutDate(ChatRoomNum, chatMessage.getChat_writerId());
+            	
+            	chatService.updateRoomStatus(ChatRoomNum, chatMessage.getChat_writerId(), -1, 1);
+            	
+            	chatRoom = chatService.findChatRoom(chatMessage.getChatRoomNum());
+        	}
         
         }else if(chatMessage.getType() == ChatMessageType.INVITE){
         	

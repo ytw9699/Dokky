@@ -31,19 +31,25 @@ public class ChatController {
 
 		 log.info("/makeSingleChat");
 		 log.info("vo : " + vo);
-		
-		 String chatRoomNum = chatService.hasRoom(vo.getChatRoomVO().getRoomOwnerId(), vo.getChatMemberVO().getChat_memberId());
-		 					  //기존의 1:1채팅방이 있는지 확인
+		 
+		 String myId = vo.getChatRoomVO().getRoomOwnerId();
+		 
+		 String chatRoomNum = chatService.hasRoom(myId, vo.getChatMemberVO().getChat_memberId());//기존의 1:1채팅방이 있는지 확인
+		 					  
 		 if(chatRoomNum != null){
-			
-			return new ResponseEntity<>(chatRoomNum, HttpStatus.OK);
+	        
+			 if(chatService.getMyRoomStatus(Long.parseLong(chatRoomNum), myId)){
+				  chatService.updateRoomStatus(Long.parseLong(chatRoomNum), myId, 1 , 0);
+			 }
+			 
+			 return new ResponseEntity<>(chatRoomNum, HttpStatus.OK);
 		
 		 }else{
 		
-			boolean makeResult = chatService.createSingleChat(vo.getChatRoomVO(), vo.getChatMemberVO());
+			 boolean makeResult = chatService.createSingleChat(vo.getChatRoomVO(), vo.getChatMemberVO());
 											 //1:1채팅방 만들기
 			
-			return makeResult == true  
+			 return makeResult == true  
 					? new ResponseEntity<>(vo.getChatRoomVO().getChatRoomNum().toString(), HttpStatus.OK)
 					: new ResponseEntity<>(HttpStatus.INTERNAL_SERVER_ERROR);
 		 }
