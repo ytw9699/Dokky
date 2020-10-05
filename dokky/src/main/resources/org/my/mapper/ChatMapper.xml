@@ -44,11 +44,13 @@
 				
 		<select id="getChatContents" resultType="org.my.domain.ChatContentVO"> 
 				  	  select /*+INDEX_ASC(dk_chat_content pk_chat_content) */
-								     								  chat_writerId
+				  	  												  chatContentNum	
+								     								, chat_writerId
 															    	, chat_writerNick
 															    	, chat_content
 															    	, content_type
 															    	, regdate
+															    	, readCount
 								from dk_chat_content 
 								where chatRoomNum = #{chatRoomNum}  
 								
@@ -72,6 +74,7 @@
 									 			, chat_writerId
 									 			, chat_writerNick
 									 			, regDate
+									 			, readCount
 							 			   )
 							 		values(
 								 				 seq_dk_chat_content.nextval
@@ -80,6 +83,7 @@
 												,#{chat_writerId}
 												,#{chat_writerNick}
 												,#{regDate}
+												,#{readCount}
 							 				) 
        </insert>
        
@@ -124,6 +128,10 @@
 	   <delete id="removeChatRoom">
        		delete from dk_chat_room where chatRoomNum = #{chatRoomNum}
        </delete>
+       
+       <select id="getHeadCount" resultType="int">
+       		select headCount from dk_chat_room where chatRoomNum = #{chatRoomNum}
+       </select>
 	   
        
 </mapper>

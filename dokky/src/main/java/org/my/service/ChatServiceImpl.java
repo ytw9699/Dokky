@@ -1,11 +1,10 @@
 package org.my.service;
 	import java.util.Date;
-import java.util.LinkedHashMap;
+	import java.util.LinkedHashMap;
 	import java.util.List;
 	import java.util.Map;
-
-import org.apache.ibatis.annotations.Param;
-import org.my.domain.ChatContentVO;
+	import org.apache.ibatis.annotations.Param;
+	import org.my.domain.ChatContentVO;
 	import org.my.domain.ChatMemberVO;
 	import org.my.domain.ChatRoomVO;
 	import org.my.mapper.ChatMapper;
@@ -187,6 +186,14 @@ public class ChatServiceImpl implements ChatService {
 			log.info("getRoomHeadCount");
 			
 			return chatMapper.getRoomHeadCount(chatRoomNum);
+		}
+		
+		@Override
+		public int getHeadCount(Long chatRoomNum){
+			
+			log.info("getHeadCount");
+			
+			return chatMapper.getHeadCount(chatRoomNum);
 		}
 		
 }

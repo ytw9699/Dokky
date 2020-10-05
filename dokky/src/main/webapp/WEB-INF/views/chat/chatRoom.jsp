@@ -42,7 +42,7 @@
 					<c:out value="${chatMember.chat_memberNick}" />
 				</div> 
 				<div class="innerTitle">
-					<button id="leave">방 나가기</button>
+					<button id="leave">방 나가기 </button>
 				</div>
 		  </div>	
 		</div>
@@ -58,6 +58,9 @@
 					  </c:when>
 				   	  <c:when test="${content.chat_writerId == userInfo.username}"> <!-- 내가 쓴 채팅 내용 -->
 				   	  	 <div class="chat_wrap myChat">
+				   	  	 	<span class="chat_readCount" data-content_num="${content.chatContentNum}"> 
+				   	  	 		${content.readCount}
+				   	  	 	</span>
 				   	  	 	<span class="chat_time">
 				   	  	 		<fmt:formatDate value="${content.regDate}" pattern="yyyy-MM-dd HH:mm"/>
 				   	  	 	</span>
@@ -73,6 +76,9 @@
 				   	  	 	</span>
 				   	  	 	<span class="chat_time">
 				   	  	 		<fmt:formatDate value="${content.regDate}" pattern="yyyy-MM-dd HH:mm" />
+				   	  	 	</span>
+				   	  	 	<span class="chat_readCount" data-content_num="${content.chatContentNum}"> 
+				   	  	 		${content.readCount}
 				   	  	 	</span>
 			             </div>
 				      </c:otherwise>
@@ -97,6 +103,7 @@
 		var chatRoomNum = '${chatRoomNum}';
 		var csrfHeaderName ="${_csrf.headerName}"; 
 		var csrfTokenValue="${_csrf.token}";
+		var headCount = "${headCount}";
 		
 		$(document).ajaxSend(function(e, xhr, options) {
 			
@@ -209,7 +216,7 @@
 				
 				console.log("chatWebsocket send");
 				
-		        webSocketChat.send(JSON.stringify({chatRoomNum : chatRoomNum, type:'CHAT', message : messageVal, chat_writerId:myId , chat_writerNick: myNickName }));
+		        webSocketChat.send(JSON.stringify({chatRoomNum : chatRoomNum, type:'CHAT', message : messageVal, chat_writerId:myId , chat_writerNick: myNickName , headCount:headCount}));
 		        
 		        message.val("");
 		        

@@ -66,6 +66,7 @@ public class ChatController {
     	model.addAttribute("chatContents", chatService.getChatContents(chatRoomNum, recentOutDate));//채팅방의 메시지들
         model.addAttribute("chatMember", chatService.getChatMember(chatRoomNum, userId));//채팅방의 제목에 들어갈 상대방 정보
         model.addAttribute("chatRoomNum", chatRoomNum);
+        model.addAttribute("headCount", chatService.getHeadCount(chatRoomNum));
         
         return "chat/chatRoom";
 	}

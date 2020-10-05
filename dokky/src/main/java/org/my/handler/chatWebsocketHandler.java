@@ -106,6 +106,7 @@ public class chatWebsocketHandler extends TextWebSocketHandler {
 	    	chatContentVO.setChat_writerNick(chatMessage.getChat_writerNick());
 	    	chatContentVO.setRegDate(chatMessage.getRegDate());
 	    	chatContentVO.setChatRoomNum(Long.parseLong(chatMessage.getChatRoomNum()));
+	    	chatContentVO.setReadCount(chatMessage.getHeadCount());
 	    	
 	    	log.info("chatContentVO"+chatContentVO);
 	    	

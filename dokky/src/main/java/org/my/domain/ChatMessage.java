@@ -10,6 +10,7 @@ public class ChatMessage {
     private String chat_writerNick;
     private String message;
     private Date regDate;
+    private int headCount;
     private ChatMessageType type;
 }
 

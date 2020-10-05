@@ -35,5 +35,7 @@ public interface ChatService {
 	public boolean getMyRoomStatus(Long chatRoomNum, String myId);
 	
 	public int getRoomHeadCount(Long chatRoomNum);
+
+	public int getHeadCount(Long chatRoomNum);
 	
 }
