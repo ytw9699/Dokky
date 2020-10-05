@@ -114,6 +114,25 @@ public class ChatServiceImpl implements ChatService {
 	    }
 		
 		@Override
+	    public boolean removeAllChatData(Long chatRoomNum){
+	    		
+	    	log.info("removeAllChatData");
+	    	
+	    	if(chatMapper.removeChatRoom(chatRoomNum) == 1){
+	    		
+		    	chatRoomMap.remove(chatRoomNum.toString());
+		    	
+		    	log.info("chatRoomMap.remove");
+
+		    	return true;
+	    	
+	    	}else {
+	    		
+	    		return false;
+	    	}
+	    }
+		
+		@Override
 	    public void createChatContent(ChatContentVO chatContentVO){//채팅 내용 입력
 	    		
 	    	log.info("createChatContent");
@@ -137,11 +156,38 @@ public class ChatServiceImpl implements ChatService {
 	    	chatMapper.updateOutDate(chatRoomNum, chat_memberId);
 		}
 		
+		@Override
 		public Date getRecentOutDate(Long chatRoomNum, String chat_memberId){
 			
 			log.info("getRecentOutDate");
 			
 			return chatMapper.getRecentOutDate(chatRoomNum, chat_memberId);
 		}	
+		
+		@Transactional
+		@Override
+		public boolean updateRoomStatus(Long chatRoomNum, String chat_writerId, int changeCount, int changePosition){
+	    		
+	    	log.info("updateRoomStatus");
+	    	
+	    	return chatMapper.updateHeadCount(chatRoomNum, changeCount) == 1 && chatMapper.updatePresent_position(chatRoomNum, changePosition, chat_writerId) == 1;
+		}
+		
+		@Override
+		public boolean getMyRoomStatus(Long chatRoomNum, String myId){
+			
+			log.info("getMyRoomStatus");
+			
+			return chatMapper.getMyRoomStatus(chatRoomNum, myId) == 1;
+		}
+		
+		@Override
+		public int getRoomHeadCount(Long chatRoomNum){
+			
+			log.info("getRoomHeadCount");
+			
+			return chatMapper.getRoomHeadCount(chatRoomNum);
+		}
+		
 }
 

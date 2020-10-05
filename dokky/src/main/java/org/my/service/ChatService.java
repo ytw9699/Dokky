@@ -20,6 +20,8 @@ public interface ChatService {
 	
 	public ChatRoom findChatRoom(String id);
 	
+	public boolean removeAllChatData(Long chatRoomNum);
+	
 	public void createChatContent(ChatContentVO chatContentVO);
 	
 	public void createNoticeContent(ChatContentVO chatContentVO);
@@ -27,5 +29,11 @@ public interface ChatService {
 	public void updateOutDate(Long chatRoomNum, String chat_memberId);
 
 	public Date getRecentOutDate(Long chatRoomNum, String chat_memberId);
+	
+	public boolean updateRoomStatus(Long chatRoomNum, String chat_writerId, int changeCount, int changePosition);
+
+	public boolean getMyRoomStatus(Long chatRoomNum, String myId);
+	
+	public int getRoomHeadCount(Long chatRoomNum);
 	
 }
