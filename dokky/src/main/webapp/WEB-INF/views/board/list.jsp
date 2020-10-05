@@ -457,7 +457,26 @@
 		});
 		
 		$(".singleChat").on("click",function(event){//1:1 채팅 
-
+				
+				if(isLimited){ 
+			    	  openAlert("쓰기 기능이 제한되어있습니다.");
+			    	  return;
+			    }
+				
+				if(username == null){ 
+					
+					openAlert("로그인 해주세요"); 
+					
+					return;
+				}
+				
+				if(username == $(this).data("board_userid")){ 
+					
+					openAlert("본인과는 채팅 할 수 없습니다");
+					
+					return;
+				}
+			
 				var chatRoomData = {   
 										roomOwnerId : myId,
 										roomOwnerNick : myNickName,

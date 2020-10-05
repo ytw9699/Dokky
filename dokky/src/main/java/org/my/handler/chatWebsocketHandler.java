@@ -69,6 +69,8 @@ public class chatWebsocketHandler extends TextWebSocketHandler {
         	
         	chatService.createNoticeContent(chatContentVO);
         	
+        	chatService.updateOutDate(Long.parseLong(chatMessage.getChatRoomNum()), chatMessage.getChat_writerId());
+        	
         	chatRoom = chatService.findChatRoom(chatMessage.getChatRoomNum());
         
         }else if(chatMessage.getType() == ChatMessageType.INVITE){

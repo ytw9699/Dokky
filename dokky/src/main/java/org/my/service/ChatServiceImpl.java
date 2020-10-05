@@ -1,8 +1,11 @@
 package org.my.service;
-	import java.util.LinkedHashMap;
+	import java.util.Date;
+import java.util.LinkedHashMap;
 	import java.util.List;
 	import java.util.Map;
-	import org.my.domain.ChatContentVO;
+
+import org.apache.ibatis.annotations.Param;
+import org.my.domain.ChatContentVO;
 	import org.my.domain.ChatMemberVO;
 	import org.my.domain.ChatRoomVO;
 	import org.my.mapper.ChatMapper;
@@ -70,11 +73,11 @@ public class ChatServiceImpl implements ChatService {
 		}
 		
 		@Override
-		public List<ChatContentVO> getChatContents(Long ChatContents){
+		public List<ChatContentVO> getChatContents(Long chatRoomNum, Date recentOutDate){
 	    	
 	    	log.info("getChatContents");
 	    	
-	        return chatMapper.getChatContents(ChatContents);
+	        return chatMapper.getChatContents(chatRoomNum, recentOutDate);
 	    }
 		
 		@Override
@@ -125,5 +128,20 @@ public class ChatServiceImpl implements ChatService {
 	    	
 	    	chatMapper.createNoticeContent(chatContentVO);
 	    }
+		
+		@Override
+		public void updateOutDate(Long chatRoomNum, String chat_memberId){
+	    		
+	    	log.info("updateOutDate");
+	    	
+	    	chatMapper.updateOutDate(chatRoomNum, chat_memberId);
+		}
+		
+		public Date getRecentOutDate(Long chatRoomNum, String chat_memberId){
+			
+			log.info("getRecentOutDate");
+			
+			return chatMapper.getRecentOutDate(chatRoomNum, chat_memberId);
+		}	
 }
 

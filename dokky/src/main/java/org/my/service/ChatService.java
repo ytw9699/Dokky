@@ -1,4 +1,5 @@
 package org.my.service;
+	import java.util.Date;
 	import java.util.List;
 	import org.my.domain.ChatMemberVO;
 	import org.my.domain.ChatRoomVO;
@@ -11,7 +12,7 @@ public interface ChatService {
 	
 	public boolean createSingleChat(ChatRoomVO chatRoomVO, ChatMemberVO chatMemberVO);
 	
-	public List<ChatContentVO> getChatContents(Long chatRoomNum);
+	public List<ChatContentVO> getChatContents(Long chatRoomNum, Date recentOutDate);
 	
 	public ChatMemberVO getChatMember(Long chatRoomNum, String userId);
 	
@@ -22,5 +23,9 @@ public interface ChatService {
 	public void createChatContent(ChatContentVO chatContentVO);
 	
 	public void createNoticeContent(ChatContentVO chatContentVO);
+
+	public void updateOutDate(Long chatRoomNum, String chat_memberId);
+
+	public Date getRecentOutDate(Long chatRoomNum, String chat_memberId);
 	
 }

@@ -495,9 +495,7 @@
 		       toNickName	 = data.list[i].toNickName;    
 			   toUserId		 = data.list[i].toUserId;   
 			   reply_content = data.list[i].reply_content; 
-			   replyDate 	 = 1600073165999;
-			   console.log("dd");
-			   console.log(replyDate);
+			   replyDate 	 = data.list[i].replyDate;
 			   /* replyDate 	 = data.list[i].replyDate - 32400000; */
 			   likeCnt 	     = data.list[i].likeCnt;
 			   dislikeCnt 	 = data.list[i].dislikeCnt;

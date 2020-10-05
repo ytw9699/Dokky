@@ -375,6 +375,7 @@ create table dk_chat_member(
 		 chatRoomNum number(10,0) not null,--fk
 		 chat_memberId VARCHAR2(50) NOT NULL, -- 채팅룸 멤버 아이디
 		 chat_memberNick VARCHAR2(50) NOT NULL, -- 채팅룸 멤버 닉네임
+		 recentOutDate date,
 		 constraint fk_chat_member foreign key(chatRoomNum) references dk_chat_room(chatRoomNum)
 )
 
