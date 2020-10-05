@@ -25,4 +25,15 @@ public interface ChatMapper {
 	void updateOutDate(@Param("chatRoomNum") Long chatRoomNum, @Param("chat_memberId") String chat_memberId);
 
 	Date getRecentOutDate(@Param("chatRoomNum") Long chatRoomNum, @Param("chat_memberId") String chat_memberId);
+
+	int updateHeadCount(@Param("chatRoomNum") Long chatRoomNum, @Param("changeCount") int changeCount);
+
+	int updatePresent_position(@Param("chatRoomNum") Long chatRoomNum, @Param("changePosition") int changePosition, @Param("chat_memberId") String chat_memberId);
+
+	int getMyRoomStatus(@Param("chatRoomNum") Long chatRoomNum, @Param("myId") String myId);
+
+	int getRoomHeadCount(Long chatRoomNum);
+
+	int removeChatRoom(Long chatRoomNum);
+
 }
