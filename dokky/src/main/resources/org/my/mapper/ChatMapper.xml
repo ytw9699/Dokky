@@ -68,6 +68,11 @@
 		</select>
 		
 		<insert id="createChatContent">
+		
+		   	<selectKey keyProperty="chatContentNum" order="BEFORE" resultType="long">
+					select seq_dk_chat_content.nextval from dual
+			</selectKey>
+			
 	 			insert into dk_chat_content (	  chatContentNum
 									 			, chatRoomNum
 									 			, chat_content
@@ -77,7 +82,7 @@
 									 			, readCount
 							 			   )
 							 		values(
-								 				 seq_dk_chat_content.nextval
+								 				 #{chatContentNum}
 												,#{chatRoomNum}
 												,#{chat_content}
 												,#{chat_writerId}
@@ -121,7 +126,7 @@
 			  select present_position from dk_chat_member where chatRoomNum = #{chatRoomNum} and chat_memberId = #{myId}
 	   </select>
 	   
-	    <select id="getRoomHeadCount" resultType="int"> 
+	   <select id="getRoomHeadCount" resultType="int"> 
 			  select headCount from dk_chat_room where chatRoomNum = #{chatRoomNum}
 	   </select>
 	   
@@ -132,6 +137,21 @@
        <select id="getHeadCount" resultType="int">
        		select headCount from dk_chat_room where chatRoomNum = #{chatRoomNum}
        </select>
+       
+       <select id="getChatMembers" resultType="String"> 
+			  select chat_memberId from dk_chat_member where chatRoomNum = #{chatRoomNum} and present_position = 0
+	   </select>
 	   
+	   <insert id="createChatReadType">
+	 			insert into dk_chat_read (	  	  chatReadNum
+									 			, chatContentNum
+									 			, chat_memberId
+							 			   )
+							 		values(
+								 				 seq_dk_chat_read.nextval
+												,#{chatContentNum}
+												,#{chat_memberId}
+							 				) 	
+       </insert>
        
 </mapper>

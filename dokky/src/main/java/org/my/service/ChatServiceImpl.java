@@ -11,7 +11,9 @@ package org.my.service;
 	import org.springframework.beans.factory.annotation.Autowired;
 	import org.springframework.stereotype.Service;
 	import org.springframework.transaction.annotation.Transactional;
-	import lombok.Setter;
+import org.springframework.web.socket.WebSocketSession;
+
+import lombok.Setter;
 	import lombok.extern.log4j.Log4j;
 	import org.my.domain.ChatRoom;
 
@@ -131,12 +133,22 @@ public class ChatServiceImpl implements ChatService {
 	    	}
 	    }
 		
+		@Transactional
 		@Override
 	    public void createChatContent(ChatContentVO chatContentVO){//채팅 내용 입력
 	    		
 	    	log.info("createChatContent");
 	    	
 	    	chatMapper.createChatContent(chatContentVO);
+	    	
+	    	String[] members = chatMapper.getChatMembers(chatContentVO.getChatRoomNum());
+	    	
+	    	log.info("createChatReadType");
+	    	
+	    	for(String chat_memberId : members){
+	    		
+	    		chatMapper.createChatReadType(chatContentVO.getChatRoomNum(), chatContentVO.getChatContentNum() , chat_memberId);
+	    	}
 	    }
 		
 		@Override

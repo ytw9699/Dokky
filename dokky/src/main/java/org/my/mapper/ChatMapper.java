@@ -37,5 +37,9 @@ public interface ChatMapper {
 	int removeChatRoom(Long chatRoomNum);
 
 	int getHeadCount(Long chatRoomNum);
+	
+	int createChatReadType(@Param("chatRoomNum") Long chatRoomNum, @Param("chatContentNum") Long chatContentNum, @Param("chat_memberId") String chat_memberId);
+
+	String[] getChatMembers(Long chatRoomNum);
 
 }
