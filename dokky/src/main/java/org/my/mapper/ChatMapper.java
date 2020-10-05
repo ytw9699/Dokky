@@ -36,4 +36,6 @@ public interface ChatMapper {
 
 	int removeChatRoom(Long chatRoomNum);
 
+	int getHeadCount(Long chatRoomNum);
+
 }
