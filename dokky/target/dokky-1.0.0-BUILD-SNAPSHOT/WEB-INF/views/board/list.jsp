@@ -458,17 +458,18 @@
 		
 		$(".singleChat").on("click",function(event){//1:1 채팅 
 				
-				if(isLimited){ 
-			    	  openAlert("쓰기 기능이 제한되어있습니다.");
-			    	  return;
-			    }
-				
 				if(username == null){ 
 					
 					openAlert("로그인 해주세요"); 
 					
 					return;
 				}
+		
+				if(isLimited){ 
+			    	  openAlert("쓰기 기능이 제한되어있습니다.");
+			    	  return;
+			    }
+				
 				
 				if(username == $(this).data("board_userid")){ 
 					
@@ -480,7 +481,8 @@
 				var chatRoomData = {   
 										roomOwnerId : myId,
 										roomOwnerNick : myNickName,
-										chat_type : 0
+										chat_type : 0,
+										headCount : 2
 								   };
 			
 				var chatMemberData = {
