@@ -154,4 +154,12 @@
 							 				) 	
        </insert>
        
+       <update id="updateRead_type">
+	 	 	update dk_chat_read set read_type = 1 where chatContentNum = #{chatContentNum} and chat_memberId = #{chat_memberId}
+	   </update>
+	   
+	   <update id="updateReadCount">
+	 	 	update dk_chat_content set readCount = readCount -1 where chatContentNum = #{chatContentNum}
+	   </update>
+       
 </mapper>

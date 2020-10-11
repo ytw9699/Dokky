@@ -6,14 +6,14 @@ package org.my.service;
 	import org.apache.ibatis.annotations.Param;
 	import org.my.domain.ChatContentVO;
 	import org.my.domain.ChatMemberVO;
+	import org.my.domain.ChatReadVO;
 	import org.my.domain.ChatRoomVO;
 	import org.my.mapper.ChatMapper;
 	import org.springframework.beans.factory.annotation.Autowired;
 	import org.springframework.stereotype.Service;
 	import org.springframework.transaction.annotation.Transactional;
-import org.springframework.web.socket.WebSocketSession;
-
-import lombok.Setter;
+	import org.springframework.web.socket.WebSocketSession;
+	import lombok.Setter;
 	import lombok.extern.log4j.Log4j;
 	import org.my.domain.ChatRoom;
 
@@ -206,6 +206,15 @@ public class ChatServiceImpl implements ChatService {
 			log.info("getHeadCount");
 			
 			return chatMapper.getHeadCount(chatRoomNum);
+		}
+		
+		@Transactional
+		@Override
+		public boolean readChat(ChatReadVO vo){
+			
+			log.info("readChat");
+			
+			return chatMapper.updateRead_type(vo) == 1 && chatMapper.updateReadCount(vo) == 1;
 		}
 		
 }

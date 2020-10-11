@@ -1,5 +1,7 @@
 package org.my.controller;
 	import java.util.Date;
+	import org.my.domain.ChatReadVO;
+	import org.my.domain.ReplyVO;
 	import org.my.domain.commonVO;
 	import org.my.service.ChatService;
 	import org.springframework.beans.factory.annotation.Autowired;
@@ -85,4 +87,20 @@ public class ChatController {
          
         return "chat/chatRoomList";
     } 
+	
+	
+	@PreAuthorize("principal.username == #vo.chat_memberId")
+	@ResponseBody
+	@PostMapping(value = "/readChat", consumes = "application/json", produces = "text/plain; charset=UTF-8")
+	public ResponseEntity<String> readChat(@RequestBody ChatReadVO vo) {
+
+		log.info("/readChat");
+		
+		boolean result = chatService.readChat(vo);
+		
+		return result == true  
+				? new ResponseEntity<>(HttpStatus.OK)
+				: new ResponseEntity<>(HttpStatus.INTERNAL_SERVER_ERROR);
+	}
+	
 }

@@ -49,6 +49,12 @@ public class ChatRoom {
         }else if(chatMessage.getType() == ChatMessageType.CHAT){
         	
         	send(chatMessage);
+        	
+        }else if(chatMessage.getType() == ChatMessageType.READ){
+        	
+        	log.info("READ session = "+session);
+        	
+        	send(chatMessage);
         }
     }
 
@@ -63,11 +69,18 @@ public class ChatRoom {
     								"\", \"chat_writerId\":\""+chatMessage.getChat_writerId()+
     								"\", \"message\":\""+chatMessage.getMessage()+
     								"\", \"type\":\""+chatMessage.getType()+
+    								"\", \"headCount\":\""+chatMessage.getHeadCount()+
+    								"\", \"chatContentNum\":\""+chatMessage.getChatContentNum()+
     								"\", \"regDate\":\""+chatMessage.getRegDate().getTime()+"\"}";
         	
         }else if(chatMessage.getType() == ChatMessageType.LEAVE){
         	
         	customMessage = 	"{\"message\":\""+chatMessage.getMessage()+
+					"\", \"type\":\""+chatMessage.getType()+"\"}";
+        
+        }else if(chatMessage.getType() == ChatMessageType.READ){
+        	
+        	customMessage = 	"{\"chatContentNum\":\""+chatMessage.getChatContentNum()+
 					"\", \"type\":\""+chatMessage.getType()+"\"}";
         }
     	

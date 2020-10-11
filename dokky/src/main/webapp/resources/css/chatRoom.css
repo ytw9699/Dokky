@@ -33,6 +33,12 @@
         	margin-left: 1%;
         }
         
+        .chat_readCount{
+        	font-size: 12px; 
+        	margin-left: 1%;
+        	margin-right: 1%;
+        }
+        
         #chatTitle{
         
      		    width: 96%;

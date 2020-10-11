@@ -112,8 +112,17 @@ public class chatWebsocketHandler extends TextWebSocketHandler {
 	    	
 	    	chatService.createChatContent(chatContentVO);
 	    	
+	    	chatMessage.setChatContentNum(chatContentVO.getChatContentNum());
+	    	
 	    	chatRoom = chatService.findChatRoom(chatMessage.getChatRoomNum());
-	    }
+	    	
+	    }else if(chatMessage.getType() == ChatMessageType.READ){
+	    	
+	    	log.info("MessageType.READ");
+	    	
+	    	chatRoom = chatService.findChatRoom(chatMessage.getChatRoomNum());
+	    	
+        }
         
         chatRoom.handleMessage(session, chatMessage);
     }

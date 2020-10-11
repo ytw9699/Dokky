@@ -104,6 +104,7 @@
 		var csrfHeaderName ="${_csrf.headerName}"; 
 		var csrfTokenValue="${_csrf.token}";
 		var headCount = "${headCount}";
+		var position = "in";
 		
 		$(document).ajaxSend(function(e, xhr, options) {
 			
@@ -158,11 +159,14 @@
 						 
 						 var getMessgae = obj.message;
 						 
-						
-						 if(obj.chat_writerNick == myNickName){
+						 
+						 if(obj.chat_writerId == myId){
 							 
 					        	chatroom.innerHTML = chatroom.innerHTML + "<div class='chat_wrap myChat'>"
-					     													+"<span class='chat_time'>" 
+																        	+"<span id="+obj.chatContentNum+" class='chat_readCount'>" 
+																				+ obj.headCount 
+																			+"</span>"
+					        												+"<span class='chat_time'>" 
 					        													+ time 
 					        												+"</span>"
 					     													+"<span class='chat_content'>"
@@ -170,16 +174,47 @@
 					     													+ "</span>"
 					     												+ "</div>";
 				         }else{
+				        	 chatContentNum
 				             
 				        	 	chatroom.innerHTML = chatroom.innerHTML + "<div class='chat_wrap'>"
 				        	 												+ "<span class='chat_content'>" 
-				        	 											    + obj.chat_writerNick +" "+ getMessgae 
+				        	 											    	+ obj.chat_writerNick +" "+ getMessgae 
 				        	 												+ "<span>"
 				        	 												+ "<span class='chat_time'>"
-				        	 												+ time 
+				        	 													+ time 
 				        	 												+ "</span>"
+				        	 												+"<span id="+obj.chatContentNum+" class='chat_readCount'>" 
+																				+ obj.headCount 
+																			+"</span>"
 				        	 											+ "</div>";
 				         }
+						 
+						 if(position == "in"){//사용자가 채팅방에 머무른다면
+							 
+							 var chatReadData = {  
+									    chat_memberId    : myId,
+									    chatContentNum   : obj.chatContentNum
+					 				  };
+						 
+							 readChat(chatReadData, 
+									 
+										function(result, status){
+										
+											if(status == "success"){
+												
+												webSocketChat.send(JSON.stringify({chatRoomNum : chatRoomNum, type:'READ', chatContentNum : obj.chatContentNum}));
+											}
+								    	},
+								    
+								    	function(status){
+								    	
+											if(status == "error"){ 
+												
+												openAlert("Server Error(관리자에게 문의해주세요)");
+											}
+								    	}
+								 );
+						 }
 			             
 					}else if(obj.type == 'LEAVE'){
 						
@@ -190,6 +225,14 @@
 																		 + getMessgae
 																 	+ "</span>"
 						 										 + "</div>";
+						 										 
+					}else if(obj.type == 'READ'){
+						
+						 var chatContentNum = obj.chatContentNum;
+						 
+						 var chatContent = $("#"+chatContentNum);
+						 
+						 chatContent.html(chatContent.html()-1);
 					}
 					
 					if(isBottom == true){//스크롤이 맨 하단에서 감지된다면
@@ -272,6 +315,39 @@
 			webSocketChat = null;
 			window.close();
 		});
+		
+		window.onblur = blurFunction;//채팅방을 벗어날때
+		window.onfocus = focusFunction;//채팅방에 다시올때
+		
+		function blurFunction(){ 
+			
+			position = "out";
+		}
+		
+		function focusFunction(){ 
+			
+			position = "in";
+		}
+		
+		function readChat(chatReadData, callback, error) {
+			
+			$.ajax({
+				type : 'post', 
+				url : '/readChat',  
+				data : JSON.stringify(chatReadData), 
+				contentType : "application/json; charset=utf-8",
+				success : function(result, status, xhr) {
+					if (callback) {
+						callback(result, status);
+					}
+				},
+				error : function(xhr, status, er) {
+					if (error) {
+						error(status);
+					}
+				}
+			});
+		}
 		
 </script>
 

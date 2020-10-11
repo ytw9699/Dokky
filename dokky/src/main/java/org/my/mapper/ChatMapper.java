@@ -4,6 +4,7 @@ package org.my.mapper;
 	import org.apache.ibatis.annotations.Param;
 	import org.my.domain.ChatContentVO;
 	import org.my.domain.ChatMemberVO;
+	import org.my.domain.ChatReadVO;
 	import org.my.domain.ChatRoomVO;
 
 public interface ChatMapper {
@@ -41,5 +42,9 @@ public interface ChatMapper {
 	int createChatReadType(@Param("chatRoomNum") Long chatRoomNum, @Param("chatContentNum") Long chatContentNum, @Param("chat_memberId") String chat_memberId);
 
 	String[] getChatMembers(Long chatRoomNum);
+
+	int updateRead_type(ChatReadVO vo);
+
+	int updateReadCount(ChatReadVO vo);
 
 }

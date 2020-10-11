@@ -2,6 +2,7 @@ package org.my.service;
 	import java.util.Date;
 	import java.util.List;
 	import org.my.domain.ChatMemberVO;
+	import org.my.domain.ChatReadVO;
 	import org.my.domain.ChatRoomVO;
 	import org.my.domain.ChatContentVO;
 	import org.my.domain.ChatRoom;
@@ -37,5 +38,7 @@ public interface ChatService {
 	public int getRoomHeadCount(Long chatRoomNum);
 
 	public int getHeadCount(Long chatRoomNum);
+
+	public boolean readChat(ChatReadVO vo);
 	
 }
