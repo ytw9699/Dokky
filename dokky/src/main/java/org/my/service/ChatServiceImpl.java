@@ -74,11 +74,11 @@ public class ChatServiceImpl implements ChatService {
 		}
 		
 		@Override
-		public List<ChatContentVO> getChatContents(Long chatRoomNum, Date recentOutDate){
+		public List<ChatContentVO> getChatContents(Long chatRoomNum, Date recentOutDate, String chat_memberId){
 	    	
 	    	log.info("getChatContents");
 	    	
-	        return chatMapper.getChatContents(chatRoomNum, recentOutDate);
+	        return chatMapper.getChatContents(chatRoomNum, recentOutDate, chat_memberId);
 	    }
 		
 		@Override

@@ -15,7 +15,7 @@ public interface ChatMapper {
 	
 	int createChatMember(ChatMemberVO chatMemberVO);
 	
-	List<ChatContentVO> getChatContents(@Param("chatRoomNum") Long chatRoomNum,  @Param("recentOutDate") Date recentOutDate);
+	List<ChatContentVO> getChatContents(@Param("chatRoomNum") Long chatRoomNum,  @Param("recentOutDate") Date recentOutDate, @Param("chat_memberId") String chat_memberId);
 	
 	ChatMemberVO getChatMember(@Param("chatRoomNum") Long chatRoomNum, @Param("userId") String userId);
 	

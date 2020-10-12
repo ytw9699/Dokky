@@ -42,7 +42,7 @@
 							 				) 
        </insert>
 				
-		<select id="getChatContents" resultType="org.my.domain.ChatContentVO"> 
+		<!-- <select id="getChatContents" resultType="org.my.domain.ChatContentVO"> 
 				  	  select /*+INDEX_ASC(dk_chat_content pk_chat_content) */
 				  	  												  chatContentNum	
 								     								, chat_writerId
@@ -61,7 +61,42 @@
 								</if>
 								
 								and chatContentNum > 0
-		</select>
+		</select> -->
+	 	
+	 	<select id="getChatContents" resultType="org.my.domain.ChatContentVO"> 
+	 			
+			select /*+INDEX_ASC(content pk_chat_content) */ content.chatContentNum 
+																			, chat_writerId
+																	    	, chat_writerNick
+																	    	, chat_content
+																	    	, content_type
+																	    	, regdate
+																	    	, readCount
+																	    	, read.read_type
+			
+			from dk_chat_content content LEFT OUTER JOIN dk_chat_read read ON content.chatRoomNum = read.chatRoomNum 
+			where content.chatRoomNum = #{chatRoomNum}
+			
+			<if test="recentOutDate != null">
+										
+				and content.regdate > #{recentOutDate}
+			
+			</if> 
+			
+			and content.chatContentNum > 0
+			
+			and read.chat_memberId = #{chat_memberId} group by content.chatContentNum 
+																			, chat_writerId
+																	    	, chat_writerNick
+																	    	, chat_content
+																	    	, content_type
+																	    	, regdate
+																	    	, readCount
+																	    	, read.read_type
+																	    	
+																	    	order by content.chatContentNum asc
+       
+       	</select>
 		
 		<select id="getChatMember" resultType="org.my.domain.ChatMemberVO"> 
 				  select chat_memberId, chat_memberNick from dk_chat_member where chatRoomNum = #{chatRoomNum} and chat_memberId != #{userId}
@@ -144,13 +179,15 @@
 	   
 	   <insert id="createChatReadType">
 	 			insert into dk_chat_read (	  	  chatReadNum
+	 											, chatRoomNum
 									 			, chatContentNum
 									 			, chat_memberId
 							 			   )
 							 		values(
 								 				 seq_dk_chat_read.nextval
-												,#{chatContentNum}
-												,#{chat_memberId}
+								 				, #{chatRoomNum}
+												, #{chatContentNum}
+												, #{chat_memberId}
 							 				) 	
        </insert>
        

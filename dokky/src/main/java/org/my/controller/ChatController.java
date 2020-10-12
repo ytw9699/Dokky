@@ -1,7 +1,6 @@
 package org.my.controller;
 	import java.util.Date;
 	import org.my.domain.ChatReadVO;
-	import org.my.domain.ReplyVO;
 	import org.my.domain.commonVO;
 	import org.my.service.ChatService;
 	import org.springframework.beans.factory.annotation.Autowired;
@@ -65,7 +64,7 @@ public class ChatController {
     
     	Date recentOutDate = chatService.getRecentOutDate(chatRoomNum, userId);
     	
-    	model.addAttribute("chatContents", chatService.getChatContents(chatRoomNum, recentOutDate));//채팅방의 메시지들
+    	model.addAttribute("chatContents", chatService.getChatContents(chatRoomNum, recentOutDate, userId));//채팅방의 메시지들
         model.addAttribute("chatMember", chatService.getChatMember(chatRoomNum, userId));//채팅방의 제목에 들어갈 상대방 정보
         model.addAttribute("chatRoomNum", chatRoomNum);
         model.addAttribute("headCount", chatService.getHeadCount(chatRoomNum));

@@ -412,10 +412,12 @@ create table dk_chat_read(
  
 		 chatReadNum number(10,0), --pk
 		 chatContentNum number(10,0) NOT NULL, --fk
+		 chatRoomNum number(10,0) NOT NULL, --fk
 		 chat_memberId VARCHAR2(50) NOT NULL, -- 채팅룸 멤버 아이디
  		 read_type number default 0, -- 메시지 읽음 여부 (0 = 읽지않음 , 1 = 읽음)
 		 constraint pk_chat_read PRIMARY KEY(chatReadNum),
-		 constraint fk_chat_read foreign key(chatContentNum) references dk_chat_content(chatContentNum) on delete cascade
+		 constraint fk_chat_read_first foreign key(chatContentNum) references dk_chat_content(chatContentNum) on delete cascade,
+		 constraint fk_chat_read_second foreign key(chatRoomNum) references dk_chat_room(chatRoomNum) on delete cascade
 )
 
 create sequence seq_dk_chat_read;

@@ -13,7 +13,7 @@ public interface ChatService {
 	
 	public boolean createSingleChat(ChatRoomVO chatRoomVO, ChatMemberVO chatMemberVO);
 	
-	public List<ChatContentVO> getChatContents(Long chatRoomNum, Date recentOutDate);
+	public List<ChatContentVO> getChatContents(Long chatRoomNum, Date recentOutDate, String chat_memberId);
 	
 	public ChatMemberVO getChatMember(Long chatRoomNum, String userId);
 	
