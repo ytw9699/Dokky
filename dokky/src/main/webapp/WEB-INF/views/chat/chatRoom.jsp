@@ -58,26 +58,26 @@
 					  </c:when>
 				   	  <c:when test="${content.chat_writerId == userInfo.username}"> <!-- 내가 쓴 채팅 내용 -->
 				   	  	 <div class="chat_wrap myChat">
-				   	  	 	<span class="chat_readCount" data-content_num="${content.chatContentNum}"> 
+				   	  	 	<span id="${content.chatContentNum}" class="chat_readCount" data-content_num="${content.chatContentNum}">
 				   	  	 		${content.readCount}
 				   	  	 	</span>
 				   	  	 	<span class="chat_time">
 				   	  	 		<fmt:formatDate value="${content.regDate}" pattern="yyyy-MM-dd HH:mm"/>
 				   	  	 	</span>
-				   	  	 	<span class="chat_content">
+				   	  	 	<span class="chat_content" data-content_num="${content.chatContentNum}" data-read_type="${content.read_type}"> 
 				   	  	 		${content.chat_content}
 				   	  	 	</span>
 			             </div>
 					  </c:when>
 				      <c:otherwise><!--  타인이 쓴 채팅 내용 -->
 				      	<div class="chat_wrap">
-				      		<span class="chat_content">
+				      		<span class="chat_content" data-content_num="${content.chatContentNum}" data-read_type="${content.read_type}">
 				   	  	 		${content.chat_writerNick} ${content.chat_content}
 				   	  	 	</span>
 				   	  	 	<span class="chat_time">
 				   	  	 		<fmt:formatDate value="${content.regDate}" pattern="yyyy-MM-dd HH:mm" />
 				   	  	 	</span>
-				   	  	 	<span class="chat_readCount" data-content_num="${content.chatContentNum}"> 
+				   	  	 	<span id="${content.chatContentNum}" class="chat_readCount" data-content_num="${content.chatContentNum}"> 
 				   	  	 		${content.readCount}
 				   	  	 	</span>
 			             </div>
@@ -137,6 +137,8 @@
 				
 				webSocketChat.send(JSON.stringify({chatRoomNum : chatRoomNum, type:'OPEN'}));//채팅방 열기
 				
+				//focusFunction();
+				
 				webSocketChat.onmessage = function(event){//웹소켓이 연결됬는데 메시지가 왔다면
 					
 					console.log(event.data);
@@ -159,61 +161,88 @@
 						 
 						 var getMessgae = obj.message;
 						 
-						 
-						 if(obj.chat_writerId == myId){
-							 
-					        	chatroom.innerHTML = chatroom.innerHTML + "<div class='chat_wrap myChat'>"
-																        	+"<span id="+obj.chatContentNum+" class='chat_readCount'>" 
-																				+ obj.headCount 
-																			+"</span>"
-					        												+"<span class='chat_time'>" 
-					        													+ time 
-					        												+"</span>"
-					     													+"<span class='chat_content'>"
-					     														+ getMessgae 
-					     													+ "</span>"
-					     												+ "</div>";
-				         }else{
-				        	 chatContentNum
-				             
-				        	 	chatroom.innerHTML = chatroom.innerHTML + "<div class='chat_wrap'>"
-				        	 												+ "<span class='chat_content'>" 
-				        	 											    	+ obj.chat_writerNick +" "+ getMessgae 
-				        	 												+ "<span>"
-				        	 												+ "<span class='chat_time'>"
-				        	 													+ time 
-				        	 												+ "</span>"
-				        	 												+"<span id="+obj.chatContentNum+" class='chat_readCount'>" 
-																				+ obj.headCount 
-																			+"</span>"
-				        	 											+ "</div>";
-				         }
-						 
 						 if(position == "in"){//사용자가 채팅방에 머무른다면
 							 
-							 var chatReadData = {  
-									    chat_memberId    : myId,
-									    chatContentNum   : obj.chatContentNum
-					 				  };
-						 
-							 readChat(chatReadData, 
+								 if(obj.chat_writerId == myId){
 									 
-										function(result, status){
-										
-											if(status == "success"){
-												
-												webSocketChat.send(JSON.stringify({chatRoomNum : chatRoomNum, type:'READ', chatContentNum : obj.chatContentNum}));
-											}
-								    	},
-								    
-								    	function(status){
-								    	
-											if(status == "error"){ 
-												
-												openAlert("Server Error(관리자에게 문의해주세요)");
-											}
-								    	}
-								 );
+							        	chatroom.innerHTML = chatroom.innerHTML + "<div class='chat_wrap myChat'>"
+																		        	+"<span id="+obj.chatContentNum+" class='chat_readCount' data-content_num="+obj.chatContentNum+">" 
+																						+ obj.headCount 
+																					+"</span>"
+							        												+"<span class='chat_time'>" 
+							        													+ time 
+							        												+"</span>"
+							     													+"<span class='chat_content' data-content_num="+obj.chatContentNum+" data-read_type="+1+">" 
+							     														+ getMessgae 
+							     													+ "</span>"
+							     												+ "</div>";
+						         }else{
+						             
+						        	 	chatroom.innerHTML = chatroom.innerHTML + "<div class='chat_wrap'>"
+						        	 												+"<span class='chat_content' data-content_num="+obj.chatContentNum+" data-read_type="+1+">"
+						        	 											    	+ obj.chat_writerNick +" "+ getMessgae 
+						        	 												+ "<span>"
+						        	 												+ "<span class='chat_time'>"
+						        	 													+ time 
+						        	 												+ "</span>"
+						        	 												+"<span id="+obj.chatContentNum+" class='chat_readCount' data-content_num="+obj.chatContentNum+">" 
+																						+ obj.headCount 
+																					+"</span>"
+						        	 											+ "</div>";
+						         }
+								 
+								 var chatReadData = {  
+										    chat_memberId    : myId,
+										    chatContentNum   : obj.chatContentNum
+						 				  };
+							 
+								 readChat(chatReadData, 
+										 
+											function(result, status){
+											
+												if(status == "success"){
+													
+													webSocketChat.send(JSON.stringify({chatRoomNum : chatRoomNum, type:'READ', chatContentNum : obj.chatContentNum}));
+												}
+									    	},
+									    
+									    	function(status){
+									    	
+												if(status == "error"){ 
+													
+													openAlert("Server Error(관리자에게 문의해주세요)");
+												}
+									    	}
+									 );
+						 }else{//사용자가 채팅방에 머무르지 않는다면
+							 
+								 if(obj.chat_writerId == myId){
+									 
+							        	chatroom.innerHTML = chatroom.innerHTML + "<div class='chat_wrap myChat'>"
+							        												+"<span id="+obj.chatContentNum+" class='chat_readCount' data-content_num="+obj.chatContentNum+">"
+																						+ obj.headCount 
+																					+"</span>"
+							        												+"<span class='chat_time'>" 
+							        													+ time 
+							        												+"</span>"
+							     													+"<span class='chat_content' data-content_num="+obj.chatContentNum+" data-read_type="+0+">"
+							     														+ getMessgae 
+							     													+ "</span>"
+							     												+ "</div>";
+						         }else{
+						             
+						        	 	chatroom.innerHTML = chatroom.innerHTML + "<div class='chat_wrap'>"
+						        	 												+"<span class='chat_content' data-content_num="+obj.chatContentNum+" data-read_type="+0+">"
+						        	 											    	+ obj.chat_writerNick +" "+ getMessgae 
+						        	 												+ "<span>"
+						        	 												+ "<span class='chat_time'>"
+						        	 													+ time 
+						        	 												+ "</span>"
+						        	 												+"<span id="+obj.chatContentNum+" class='chat_readCount' data-content_num="+obj.chatContentNum+">"
+																						+ obj.headCount 
+																					+"</span>"
+						        	 											+ "</div>";
+						         }
 						 }
 			             
 					}else if(obj.type == 'LEAVE'){
@@ -233,6 +262,7 @@
 						 var chatContent = $("#"+chatContentNum);
 						 
 						 chatContent.html(chatContent.html()-1);
+						 
 					}
 					
 					if(isBottom == true){//스크롤이 맨 하단에서 감지된다면
@@ -258,6 +288,8 @@
 			if(webSocketChat != null){
 				
 				console.log("chatWebsocket send");
+				
+				console.log("headCount="+headCount);
 				
 		        webSocketChat.send(JSON.stringify({chatRoomNum : chatRoomNum, type:'CHAT', message : messageVal, chat_writerId:myId , chat_writerNick: myNickName , headCount:headCount}));
 		        
@@ -326,7 +358,63 @@
 		
 		function focusFunction(){ 
 			
+			alert("focusFunction");
+			
 			position = "in";
+			
+			var chat_content = $(".chat_content");
+			
+			for(var i = 0; i < chat_content.length; i++){
+				
+				console.log(chat_content[i]);
+				
+				var content_object = $(chat_content[i]);
+				
+				console.log("content_num="+content_object.data("content_num")+"read_type="+content_object.data("read_type"));
+				
+				if(content_object.data("read_type") == 0){
+										
+						console.log("내가 읽지않음"); 
+						
+						console.log("변경전 read_type="+content_object.data("read_type")+", content_num="+content_object.data("content_num"));
+						
+						content_object.data("read_type", 1);
+						
+						console.log("변경후 read_type="+content_object.data("read_type")+", content_num="+content_object.data("content_num"));
+						
+						if(webSocketChat != null){
+							
+							webSocketChat.send(JSON.stringify({chatRoomNum : chatRoomNum, type:'READ', chatContentNum : content_object.data("content_num")}));
+						}
+					    
+						var chatReadData = {  
+								    chat_memberId    : myId,
+								    chatContentNum   : content_object.data("content_num")
+				 				  };
+					 
+						readChat(chatReadData,
+								 
+									function(result, status){
+									
+										if(status == "success"){
+											
+										}
+							    	},
+							    
+							    	function(status){
+							    	
+										if(status == "error"){
+											
+											openAlert("Server Error(관리자에게 문의해주세요)");
+										}
+							    	}
+						);
+						
+				}else{
+					
+						console.log("내가 읽음");
+				}
+	        }
 		}
 		
 		function readChat(chatReadData, callback, error) {

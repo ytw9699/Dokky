@@ -65,7 +65,7 @@
 	 	
 	 	<select id="getChatContents" resultType="org.my.domain.ChatContentVO"> 
 	 			
-			select /*+INDEX_ASC(content pk_chat_content) */ content.chatContentNum 
+			select content.chatContentNum  
 																			, chat_writerId
 																	    	, chat_writerNick
 																	    	, chat_content
@@ -74,7 +74,7 @@
 																	    	, readCount
 																	    	, read.read_type
 			
-			from dk_chat_content content LEFT OUTER JOIN dk_chat_read read ON content.chatRoomNum = read.chatRoomNum 
+			from dk_chat_content content LEFT OUTER JOIN dk_chat_read read ON content.chatContentNum = read.chatContentNum 
 			where content.chatRoomNum = #{chatRoomNum}
 			
 			<if test="recentOutDate != null">
@@ -83,18 +83,7 @@
 			
 			</if> 
 			
-			and content.chatContentNum > 0
-			
-			and read.chat_memberId = #{chat_memberId} group by content.chatContentNum 
-																			, chat_writerId
-																	    	, chat_writerNick
-																	    	, chat_content
-																	    	, content_type
-																	    	, regdate
-																	    	, readCount
-																	    	, read.read_type
-																	    	
-																	    	order by content.chatContentNum asc
+			and read.chat_memberId = #{chat_memberId} order by content.chatContentNum asc
        
        	</select>
 		

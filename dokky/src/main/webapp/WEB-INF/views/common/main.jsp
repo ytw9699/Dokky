@@ -441,7 +441,8 @@
 		var chatRoomData = {   
 								roomOwnerId : myId,
 								roomOwnerNick : myNickName,
-								chat_type : 0
+								chat_type : 0,
+								headCount : 2
 						   };
 	
 		var chatMemberData = {

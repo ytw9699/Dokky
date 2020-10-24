@@ -12,6 +12,7 @@ public class ChatContentVO {
 	  private String chat_writerNick;
 	  private int content_type;
 	  private int readCount;
+	  private int read_type;
 	  private Date regDate;
 }
 
