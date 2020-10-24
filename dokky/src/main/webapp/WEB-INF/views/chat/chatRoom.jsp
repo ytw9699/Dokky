@@ -376,17 +376,6 @@
 										
 						console.log("내가 읽지않음"); 
 						
-						console.log("변경전 read_type="+content_object.data("read_type")+", content_num="+content_object.data("content_num"));
-						
-						content_object.data("read_type", 1);
-						
-						console.log("변경후 read_type="+content_object.data("read_type")+", content_num="+content_object.data("content_num"));
-						
-						if(webSocketChat != null){
-							
-							webSocketChat.send(JSON.stringify({chatRoomNum : chatRoomNum, type:'READ', chatContentNum : content_object.data("content_num")}));
-						}
-					    
 						var chatReadData = {  
 								    chat_memberId    : myId,
 								    chatContentNum   : content_object.data("content_num")
@@ -398,6 +387,16 @@
 									
 										if(status == "success"){
 											
+											console.log("변경전 read_type="+content_object.data("read_type")+", content_num="+content_object.data("content_num"));
+											
+											content_object.data("read_type", 1);
+											
+											console.log("변경후 read_type="+content_object.data("read_type")+", content_num="+content_object.data("content_num"));
+											
+											if(webSocketChat != null){
+												
+												webSocketChat.send(JSON.stringify({chatRoomNum : chatRoomNum, type:'READ', chatContentNum : content_object.data("content_num")}));
+											}
 										}
 							    	},
 							    
