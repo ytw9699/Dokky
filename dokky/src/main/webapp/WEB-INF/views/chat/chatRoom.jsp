@@ -71,8 +71,11 @@
 					  </c:when>
 				      <c:otherwise><!--  타인이 쓴 채팅 내용 -->
 				      	<div class="chat_wrap">
+				      		<span class="chat_nick">
+				   	  	 		${content.chat_writerNick} 
+				   	  	 	</span>
 				      		<span class="chat_content" data-content_num="${content.chatContentNum}" data-read_type="${content.read_type}">
-				   	  	 		${content.chat_writerNick} ${content.chat_content}
+				   	  	 		${content.chat_content}
 				   	  	 	</span>
 				   	  	 	<span class="chat_time">
 				   	  	 		<fmt:formatDate value="${content.regDate}" pattern="yyyy-MM-dd HH:mm" />
@@ -137,7 +140,7 @@
 				
 				webSocketChat.send(JSON.stringify({chatRoomNum : chatRoomNum, type:'OPEN'}));//채팅방 열기
 				
-				//focusFunction();
+				focusFunction();
 				
 				webSocketChat.onmessage = function(event){//웹소켓이 연결됬는데 메시지가 왔다면
 					
@@ -179,9 +182,12 @@
 						         }else{
 						             
 						        	 	chatroom.innerHTML = chatroom.innerHTML + "<div class='chat_wrap'>"
+																	        	 	+"<span class='chat_nick'>"
+																				    	+ obj.chat_writerNick 
+																					+ "</span>"
 						        	 												+"<span class='chat_content' data-content_num="+obj.chatContentNum+" data-read_type="+1+">"
-						        	 											    	+ obj.chat_writerNick +" "+ getMessgae 
-						        	 												+ "<span>"
+						        	 											    	+ getMessgae 
+						        	 												+ "</span>"
 						        	 												+ "<span class='chat_time'>"
 						        	 													+ time 
 						        	 												+ "</span>"
@@ -230,18 +236,21 @@
 							     													+ "</span>"
 							     												+ "</div>";
 						         }else{
-						             
+						        	 
 						        	 	chatroom.innerHTML = chatroom.innerHTML + "<div class='chat_wrap'>"
-						        	 												+"<span class='chat_content' data-content_num="+obj.chatContentNum+" data-read_type="+0+">"
-						        	 											    	+ obj.chat_writerNick +" "+ getMessgae 
-						        	 												+ "<span>"
-						        	 												+ "<span class='chat_time'>"
-						        	 													+ time 
-						        	 												+ "</span>"
-						        	 												+"<span id="+obj.chatContentNum+" class='chat_readCount' data-content_num="+obj.chatContentNum+">"
-																						+ obj.headCount 
+																	        	 	+"<span class='chat_nick'>"
+																				    	+ obj.chat_writerNick 
+																					+ "</span>"
+																					+"<span class='chat_content' data-content_num="+obj.chatContentNum+" data-read_type="+0+">"
+																				    	+ getMessgae 
+																					+ "</span>"
+																					+ "<span class='chat_time'>"
+																						+ time 
+																					+ "</span>"
+																					+"<span id="+obj.chatContentNum+" class='chat_readCount' data-content_num="+obj.chatContentNum+">" 
+																					+ obj.headCount 
 																					+"</span>"
-						        	 											+ "</div>";
+																				+ "</div>";
 						         }
 						 }
 			             
@@ -364,6 +373,8 @@
 			
 			var chat_content = $(".chat_content");
 			
+			//var chat_content = document.getElementsByClassName('chat_content');
+			
 			for(var i = 0; i < chat_content.length; i++){
 				
 				console.log(chat_content[i]);
@@ -376,6 +387,21 @@
 										
 						console.log("내가 읽지않음"); 
 						
+						console.log("변경전 read_type="+content_object.data("read_type")+", content_num="+content_object.data("content_num"));
+						
+						//content_object.data("read_type", 1);
+						
+						console.log("content_object"+content_object);
+						
+						content_object.replaceWith("<span class='chat_content' data-content_num="+content_object.data("content_num")+" data-read_type="+1+">"+content_object.html()+"</span>");
+						
+						console.log("변경후 read_type="+content_object.data("read_type")+", content_num="+content_object.data("content_num"));
+						
+						if(webSocketChat != null){
+							
+							webSocketChat.send(JSON.stringify({chatRoomNum : chatRoomNum, type:'READ', chatContentNum : content_object.data("content_num")}));
+						}
+					    
 						var chatReadData = {  
 								    chat_memberId    : myId,
 								    chatContentNum   : content_object.data("content_num")
@@ -387,16 +413,6 @@
 									
 										if(status == "success"){
 											
-											console.log("변경전 read_type="+content_object.data("read_type")+", content_num="+content_object.data("content_num"));
-											
-											content_object.data("read_type", 1);
-											
-											console.log("변경후 read_type="+content_object.data("read_type")+", content_num="+content_object.data("content_num"));
-											
-											if(webSocketChat != null){
-												
-												webSocketChat.send(JSON.stringify({chatRoomNum : chatRoomNum, type:'READ', chatContentNum : content_object.data("content_num")}));
-											}
 										}
 							    	},
 							    
