@@ -97,6 +97,13 @@
 				</span>
 		</div>
 	</div>
+	
+	<div id="alertFakeDiv"></div> 
+	<div id="alertDiv">
+			<div id="alertContent"></div>  
+			<input type="button" id="alertConfirm" value="확인" onclick="closeAlert();" /> 
+	</div> 
+	
 </body>
 
 <script>
@@ -345,10 +352,18 @@
 			message = $("#message");
 		
 			var messageVal = message.val();
+			
+			messageVal = $.trim(messageVal);
+			
+			if(messageVal == ""){ 
+				openAlert("내용을 입력하세요"); 
+				   return false;
+			}
 		
 			send(chatRoomNum, messageVal);
 			
 		});
+		
 		
 		$("#leave").on("click", function(event){//방 나가기
 			
@@ -367,7 +382,7 @@
 		
 		function focusFunction(){ 
 			
-			alert("focusFunction");
+			console.log("focusFunction");
 			
 			position = "in";
 			
@@ -384,24 +399,9 @@
 				console.log("content_num="+content_object.data("content_num")+"read_type="+content_object.data("read_type"));
 				
 				if(content_object.data("read_type") == 0){
-										
-						console.log("내가 읽지않음"); 
 						
-						console.log("변경전 read_type="+content_object.data("read_type")+", content_num="+content_object.data("content_num"));
-						
-						//content_object.data("read_type", 1);
-						
-						console.log("content_object"+content_object);
-						
-						content_object.replaceWith("<span class='chat_content' data-content_num="+content_object.data("content_num")+" data-read_type="+1+">"+content_object.html()+"</span>");
-						
-						console.log("변경후 read_type="+content_object.data("read_type")+", content_num="+content_object.data("content_num"));
-						
-						if(webSocketChat != null){
-							
-							webSocketChat.send(JSON.stringify({chatRoomNum : chatRoomNum, type:'READ', chatContentNum : content_object.data("content_num")}));
-						}
-					    
+						console.log("내가 읽지 않음");  
+					
 						var chatReadData = {  
 								    chat_memberId    : myId,
 								    chatContentNum   : content_object.data("content_num")
@@ -413,6 +413,20 @@
 									
 										if(status == "success"){
 											
+											console.log("변경전 read_type="+content_object.data("read_type")+", content_num="+content_object.data("content_num"));
+											
+											//content_object.data("read_type", 1);
+											
+											console.log("content_object"+content_object);
+											
+											content_object.replaceWith("<span class='chat_content' data-content_num="+content_object.data("content_num")+" data-read_type="+1+">"+content_object.html()+"</span>");
+											
+											console.log("변경후 read_type="+content_object.data("read_type")+", content_num="+content_object.data("content_num"));
+											
+											if(webSocketChat != null){
+												
+												webSocketChat.send(JSON.stringify({chatRoomNum : chatRoomNum, type:'READ', chatContentNum : content_object.data("content_num")}));
+											}
 										}
 							    	},
 							    
@@ -436,7 +450,8 @@
 			
 			$.ajax({
 				type : 'post', 
-				url : '/readChat',  
+				url : '/readChat', 
+				async: false,
 				data : JSON.stringify(chatReadData), 
 				contentType : "application/json; charset=utf-8",
 				success : function(result, status, xhr) {
@@ -451,6 +466,27 @@
 				}
 			});
 		}
+		
+		function openAlert(content){
+			
+			var alertFakeDiv = $("#alertFakeDiv");
+			var alertDiv = $("#alertDiv");
+			var alertContent = $("#alertContent");
+			
+			alertContent.html(content); 
+			 
+			alertFakeDiv.css("display","block");
+			alertDiv.css("display","block"); 
+		} 
+		
+		function closeAlert(content){  
+			
+			var alertFakeDiv = $("#alertFakeDiv");
+			var alertDiv = $("#alertDiv");
+			
+			alertFakeDiv.css("display","none");
+			alertDiv.css("display","none"); 
+		}  
 		
 </script>
 
