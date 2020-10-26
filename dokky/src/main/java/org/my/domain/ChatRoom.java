@@ -48,6 +48,8 @@ public class ChatRoom {
         
         }else if(chatMessage.getType() == ChatMessageType.CHAT){
         	
+        	log.info("chat session = "+session);
+        	
         	send(chatMessage);
         	
         }else if(chatMessage.getType() == ChatMessageType.READ){
@@ -89,6 +91,7 @@ public class ChatRoom {
     	for(WebSocketSession session : sessionsSet){
         	
         	log.info("send message");
+        	log.info("textMessage"+textMessage);
     		
     		session.sendMessage(textMessage);//채팅방 모든 사람에게 메시지 보내는것
         }
