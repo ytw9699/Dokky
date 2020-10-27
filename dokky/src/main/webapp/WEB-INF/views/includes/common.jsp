@@ -272,11 +272,6 @@
 	</sec:authorize>
 	
 	var username = null;
-	var isLimited ; // 쓰기 제한된 계정의 true,false 여부
-	
-	<sec:authorize access="hasRole('ROLE_STOP')">
-			isLimited = true;
-	</sec:authorize>
 	
 	<sec:authorize access="isAuthenticated()"> 
 		username = '${userInfo.username}';
@@ -310,70 +305,6 @@
 				$("#leftUsermenuBar").css("display","none");  	
 			} 
 	});   
-	
-	$(".singleChat").on("click",function(event){//1:1 채팅 
-		
-			if(username == null){ 
-				
-				openAlert("로그인 해주세요"); 
-				
-				return;
-			}
-	
-			if(isLimited){ 
-		    	  openAlert("쓰기 기능이 제한되어 있습니다.");
-		    	  return;
-		    }
-			
-			
-			if(username == $(this).data("board_userid")){ 
-				
-				openAlert("본인과는 채팅 할 수 없습니다");
-				
-				return;
-			}
-		
-			var chatRoomData = {   
-									roomOwnerId : myId,
-									roomOwnerNick : myNickName,
-									chat_type : 0,
-									headCount : 2
-							   };
-		
-			var chatMemberData = {
-					
-									chat_memberId : $(this).data("board_userid"),
-									chat_memberNick : $(this).data("board_nickname")
-							  	 };
-								
-			var commonData = { 
-								chatRoomVO : chatRoomData,
-								chatMemberVO : chatMemberData
-				 			 };
-			
-			commonService.makeSingleChat(commonData, 
-		   			
-			   		function(result, status){
-					
-						if(status == "success"){ 
-							
-							var popupX = (window.screen.width / 2) - (400 / 2);
-	
-							var popupY= (window.screen.height /2) - (500 / 2);
-							
-							window.open('/chatRoom/'+result+'?userId='+myId, 'ot', 'height=500, width=400, screenX='+ popupX + ', screenY= '+ popupY);
-						}
-			    	},
-				    
-			    	function(status){
-			    	
-						if(status == "error"){ 
-							
-							openAlert("Server Error(관리자에게 문의해주세요)");
-						}
-			    	}
-		   	); 
-	});
 	
 	function openAlert(content){
 		
@@ -428,8 +359,8 @@
 		
 		$("#leftUsermenuBar").css("display","none"); 
 		
-		if(isLimited){ 
-	    	  openAlert("쓰기 기능이 제한되어있습니다.");
+		if(isLimited()){ 
+	    	  openAlert("쓰기 기능이 제한되어있습니다");
 	    	  return;
 	    }
 		
@@ -500,6 +431,17 @@
 	 	 });
 	} 
 	
+	function isLimited(){
+		
+		var isLimited = false;// 쓰기 제한된 계정의 true,false 여부
+		
+		<sec:authorize access="hasRole('ROLE_STOP')">
+				isLimited = true;
+		</sec:authorize>
+		
+		return isLimited;
+	} 
+	
 	$(document).ready(function() {
 		
 		<sec:authorize access="isAuthenticated()">  
@@ -515,12 +457,11 @@
 				
 				return;
 			}
-	
-			if(isLimited){ 
-		    	  openAlert("쓰기 기능이 제한되어 있습니다.");
+			
+			if(isLimited()){
+		    	  openAlert("쓰기 기능이 제한되어 있습니다");
 		    	  return;
 		    }
-			
 			
 			if(username == $(this).data("board_userid")){ 
 				
@@ -569,7 +510,7 @@
 						}
 			    	}
 		   	); 
-	});
+		});
 		
 	});
 	

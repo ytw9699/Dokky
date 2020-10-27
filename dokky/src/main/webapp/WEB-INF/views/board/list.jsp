@@ -392,8 +392,8 @@
 
 	$("#regBtn").on("click", function() { 
 		
-		if(isLimited){
-	    	  openAlert("쓰기 기능이 제한되어있습니다.");
+		if(isLimited()){
+	    	  openAlert("쓰기 기능이 제한되어있습니다");
 	    	  return;
 	    }
 		
@@ -458,5 +458,4 @@
 		
 </script>
 </body>
-<%@include file="../includes/bottom.jsp"%>
 </html>
