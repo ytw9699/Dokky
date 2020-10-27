@@ -65,7 +65,12 @@
 											<span class="hideUsermenu">쪽지보내기</span> 
 										</a>
 									</li>
-								</ul>      
+									<li class="hideUsermenu singleChat" data-chat_nickname="${alarm.writerNick}" data-chat_userid="${alarm.writerId}">
+										<a href="#" class="hideUsermenu">
+											<span class="hideUsermenu">1:1채팅</span>
+										</a>
+									</li>
+								</ul>    
 						    </div> 
 						</td>
 						<td class="title">
@@ -285,8 +290,16 @@
 	
 <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script> 
 <script> 
+		
+		var myId;
+		var myNickName;
 		var csrfHeaderName ="${_csrf.headerName}"; 
 		var csrfTokenValue="${_csrf.token}";
+	
+		<sec:authorize access="isAuthenticated()">   
+			myId = '${userInfo.username}';  
+			myNickName = '${userInfo.member.nickName}';
+		</sec:authorize>
 		
 		$(document).ajaxSend(function(e, xhr, options) { 
 		    xhr.setRequestHeader(csrfHeaderName, csrfTokenValue);
