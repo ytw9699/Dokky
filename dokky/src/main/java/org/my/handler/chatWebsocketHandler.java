@@ -71,10 +71,13 @@ public class chatWebsocketHandler extends TextWebSocketHandler {
             	
             	chatMessage.setMessage(leaveMessage);
             	
+            	chatMessage.setRegDate(new Date());
+            	
             	ChatContentVO chatContentVO = new ChatContentVO();
             	
             	chatContentVO.setChatRoomNum(ChatRoomNum);
             	chatContentVO.setChat_content(leaveMessage);
+            	chatContentVO.setRegDate(chatMessage.getRegDate());
             	
             	chatService.createNoticeContent(chatContentVO);
             	

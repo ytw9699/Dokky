@@ -157,6 +157,15 @@ public class ChatServiceImpl implements ChatService {
 	    	log.info("createNoticeContent");
 	    	
 	    	chatMapper.createNoticeContent(chatContentVO);
+	    	
+	    	String[] members = chatMapper.getChatMembers(chatContentVO.getChatRoomNum());
+	    	
+	    	log.info("createChatReadType");
+	    	
+	    	for(String chat_memberId : members){
+	    		
+	    		chatMapper.createChatReadType(chatContentVO.getChatRoomNum(), chatContentVO.getChatContentNum() , chat_memberId);
+	    	}
 	    }
 		
 		@Override

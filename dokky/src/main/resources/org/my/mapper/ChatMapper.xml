@@ -117,15 +117,22 @@
        </insert>
        
        <insert id="createNoticeContent">
+       
+	      		<selectKey keyProperty="chatContentNum" order="BEFORE" resultType="long">
+						select seq_dk_chat_content.nextval from dual
+				</selectKey>
+			
 	 			insert into dk_chat_content (	  chatContentNum
 									 			, chatRoomNum
 									 			, chat_content
+									 			, regDate
 		 										, content_type
 							 			   )
 							 		values(
-								 				 seq_dk_chat_content.nextval
+								 				 #{chatContentNum}
 												,#{chatRoomNum}
 												,#{chat_content}
+												,#{regDate}
 												, 1
 							 				) 	
        </insert>

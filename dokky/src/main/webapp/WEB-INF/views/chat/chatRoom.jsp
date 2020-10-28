@@ -47,7 +47,27 @@
 		  </div>	
 		</div>
 		<div id="chatContents">
+						<script>
+							var contentRegDate;
+	 						var saveDate;
+	 					</script>
+	 					
 			<c:forEach items="${chatContents}" var="content">
+			
+			 			 <script>
+				 			 	contentRegDate = '${content.regDate}'.substring(0,10);
+				 			 	
+				 			 	if(saveDate != contentRegDate){
+				 			 		inputValue = true;
+				 			 	}
+				 			 	
+				             	if(inputValue){
+				             		document.write("<div class='chat_wrap todayDate'>"+'<fmt:formatDate value="${content.regDate}" pattern="yyyy년 MM월 dd일 E요일"/>'+"</div>");
+				             		saveDate = contentRegDate;
+				             		inputValue = false;
+				             	}
+			             </script>
+			             
 				<c:choose>
 					  <c:when test="${content.content_type == 1}"> <!-- 공지내용 -->
 				   	  	 <div class="chat_wrap notice">
@@ -115,6 +135,8 @@
 		var csrfTokenValue="${_csrf.token}";
 		var headCount = "${headCount}";
 		var position = "in";
+	 	var inputValue = true;
+	 	var chatroom;
 		
 		$(document).ajaxSend(function(e, xhr, options) {
 			
@@ -153,7 +175,7 @@
 					
 					console.log(event.data);
 				
-					var chatroom = document.getElementById('chatContents');
+					chatroom = document.getElementById('chatContents');
 					
 					var obj = JSON.parse(event.data);
 					
@@ -170,6 +192,8 @@
 						 var time = commonService.displayReplyTime(regDate);
 						 
 						 var getMessgae = obj.message;
+						 
+						 divideDate(regDate);//채팅 내용 사이에 날짜 구분해주기
 						 
 						 if(position == "in"){//사용자가 채팅방에 머무른다면
 							 
@@ -263,6 +287,10 @@
 			             
 					}else if(obj.type == 'LEAVE'){
 						
+						 var regDate = parseInt(obj.regDate);
+						
+						 divideDate(regDate);//채팅 내용 사이에 날짜 구분해주기
+						 
 						 var getMessgae = obj.message;
 						 
 						 chatroom.innerHTML = chatroom.innerHTML + "<div class='chat_wrap notice'>"
@@ -487,6 +515,32 @@
 			alertFakeDiv.css("display","none");
 			alertDiv.css("display","none"); 
 		}  
+		
+		function getTodayLabel(date) {
+		    
+		    var week = new Array('일요일', '월요일', '화요일', '수요일', '목요일', '금요일', '토요일');
+		    
+		    var today = date.getDay();
+		    var todayLabel = week[today];
+		    
+		    return todayLabel;
+		}
+		
+		function divideDate(regDate) {
+			
+			var currentChatDate = new Date(regDate)
+				
+			var substringDate = currentChatDate.toString().substring(0,10);
+			 
+			if(saveDate != substringDate){
+				 
+				chatroom.innerHTML = chatroom.innerHTML + "<div class='chat_wrap todayDate'>" + 
+				
+				currentChatDate.getFullYear()+"년 "+(currentChatDate.getMonth()+1)+"월 " + currentChatDate.getDate()+"일 " +getTodayLabel(currentChatDate) + "</div>";
+				
+				saveDate = substringDate;
+			}
+		}
 		
 </script>
 

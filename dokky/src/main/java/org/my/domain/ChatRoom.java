@@ -32,7 +32,7 @@ public class ChatRoom {
             
         }else if(chatMessage.getType() == ChatMessageType.LEAVE){
         	
-        	log.info("remove session = "+session);
+        	log.info("remove session LEAVE= "+session);
         	
         	sessionsSet.remove(session);
             
@@ -42,7 +42,7 @@ public class ChatRoom {
         	
 	    }else if(chatMessage.getType() == ChatMessageType.OUT){
 	    	
-	    	log.info("remove session = "+session);
+	    	log.info("remove session OUT= "+session);
         	
     		sessionsSet.remove(session);
         
@@ -78,7 +78,8 @@ public class ChatRoom {
         }else if(chatMessage.getType() == ChatMessageType.LEAVE){
         	
         	customMessage = 	"{\"message\":\""+chatMessage.getMessage()+
-					"\", \"type\":\""+chatMessage.getType()+"\"}";
+        							"\", \"type\":\""+chatMessage.getType()+
+				        			"\", \"regDate\":\""+chatMessage.getRegDate().getTime()+"\"}";
         
         }else if(chatMessage.getType() == ChatMessageType.READ){
         	
@@ -87,7 +88,7 @@ public class ChatRoom {
         }
     	
     	TextMessage textMessage = new TextMessage(customMessage); 
-        
+    	
     	for(WebSocketSession session : sessionsSet){
         	
         	log.info("send message");
@@ -95,7 +96,7 @@ public class ChatRoom {
     		
     		session.sendMessage(textMessage);//채팅방 모든 사람에게 메시지 보내는것
         }
-
+    	
         /*for(WebSocketSession session : sessionsSet){
         	
         	if(session.isOpen()) {
