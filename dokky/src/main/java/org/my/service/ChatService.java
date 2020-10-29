@@ -27,7 +27,7 @@ public interface ChatService {
 	
 	public void createNoticeContent(ChatContentVO chatContentVO);
 
-	public void updateOutDate(Long chatRoomNum, String chat_memberId);
+	public void updateOutDate(Long chatRoomNum, String chat_memberId , Date date);
 
 	public Date getRecentOutDate(Long chatRoomNum, String chat_memberId);
 	

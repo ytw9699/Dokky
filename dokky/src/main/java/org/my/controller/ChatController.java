@@ -1,6 +1,11 @@
 package org.my.controller;
+	import java.io.IOException;
 	import java.util.Date;
+	import org.my.domain.ChatContentVO;
+	import org.my.domain.ChatMessage;
+	import org.my.domain.ChatMessageType;
 	import org.my.domain.ChatReadVO;
+	import org.my.domain.ChatRoom;
 	import org.my.domain.commonVO;
 	import org.my.service.ChatService;
 	import org.springframework.beans.factory.annotation.Autowired;
@@ -28,7 +33,7 @@ public class ChatController {
 	@PreAuthorize("principal.username == #vo.chatRoomVO.roomOwnerId")
 	@ResponseBody
 	@PostMapping(value = "/makeSingleChat", consumes = "application/json", produces = "text/plain; charset=UTF-8")
-	public ResponseEntity<String> makeSingleChat(@RequestBody commonVO vo){
+	public ResponseEntity<String> makeSingleChat(@RequestBody commonVO vo) throws IOException{
 
 		 log.info("/makeSingleChat");
 		 log.info("vo : " + vo);
@@ -40,7 +45,28 @@ public class ChatController {
 		 if(chatRoomNum != null){
 	        
 			 if(chatService.getMyRoomStatus(Long.parseLong(chatRoomNum), myId)){
+				 
 				  chatService.updateRoomStatus(Long.parseLong(chatRoomNum), myId, 1 , 0);
+				  
+				  ChatRoom chatRoom = chatService.findChatRoom(chatRoomNum);
+				  
+				  ChatMessage chatMessage = new ChatMessage();
+		          
+		          String reEnterMessage = vo.getChatRoomVO().getRoomOwnerNick()+"님이 들어왔습니다.";
+	            	
+	              chatMessage.setMessage(reEnterMessage);
+	              chatMessage.setRegDate(new Date());
+	              chatMessage.setType(ChatMessageType.IN);
+	              
+	              chatRoom.reEnterChatRoom(chatMessage);
+	            	
+	              ChatContentVO chatContentVO = new ChatContentVO();
+	            	
+	              chatContentVO.setChatRoomNum(Long.parseLong(chatRoomNum));
+	              chatContentVO.setChat_content(reEnterMessage);
+	              chatContentVO.setRegDate(chatMessage.getRegDate());
+	            	
+	              chatService.createNoticeContent(chatContentVO);
 			 }
 			 
 			 return new ResponseEntity<>(chatRoomNum, HttpStatus.OK);

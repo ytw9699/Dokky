@@ -316,6 +316,20 @@
 						 }else{
 							 chatContent.html(chatContent.html()-1);
 						 }
+						 
+					}else if(obj.type == 'IN'){
+						
+						 var regDate = parseInt(obj.regDate);
+						
+						 divideDate(regDate);
+						 
+						 var getMessgae = obj.message;
+						 
+						 chatroom.innerHTML = chatroom.innerHTML + "<div class='chat_wrap notice'>"
+						 											+ "<span class='chat_content'>"
+																		 + getMessgae
+																 	+ "</span>"
+						 										 + "</div>";
 					}
 					
 					if(isBottom == true){//스크롤이 맨 하단에서 감지된다면

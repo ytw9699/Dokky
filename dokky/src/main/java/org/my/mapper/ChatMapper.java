@@ -23,7 +23,7 @@ public interface ChatMapper {
 	
 	int createNoticeContent(ChatContentVO chatContentVO);
 
-	void updateOutDate(@Param("chatRoomNum") Long chatRoomNum, @Param("chat_memberId") String chat_memberId);
+	void updateOutDate(@Param("chatRoomNum") Long chatRoomNum, @Param("chat_memberId") String chat_memberId, @Param("inputDate") Date inputDate);
 
 	Date getRecentOutDate(@Param("chatRoomNum") Long chatRoomNum, @Param("chat_memberId") String chat_memberId);
 

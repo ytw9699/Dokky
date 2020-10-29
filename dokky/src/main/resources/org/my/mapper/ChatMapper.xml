@@ -138,7 +138,7 @@
        </insert>
        
 	   <update id="updateOutDate">
-	 	 	update dk_chat_member set recentOutDate = sysdate where chatRoomNum = #{chatRoomNum} and chat_memberId = #{chat_memberId} 
+	 	 	update dk_chat_member set recentOutDate =  #{inputDate} where chatRoomNum = #{chatRoomNum} and chat_memberId = #{chat_memberId} 
 	   </update>
 	   
 	   <select id="getRecentOutDate" resultType="Date"> 

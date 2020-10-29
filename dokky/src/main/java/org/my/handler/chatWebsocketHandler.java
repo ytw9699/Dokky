@@ -68,7 +68,7 @@ public class chatWebsocketHandler extends TextWebSocketHandler {
         	}else{
         		
         		String leaveMessage = chatMessage.getChat_writerNick()+"님이 나갔습니다.";
-            	
+
             	chatMessage.setMessage(leaveMessage);
             	
             	chatMessage.setRegDate(new Date());
@@ -81,7 +81,7 @@ public class chatWebsocketHandler extends TextWebSocketHandler {
             	
             	chatService.createNoticeContent(chatContentVO);
             	
-            	chatService.updateOutDate(ChatRoomNum, chatMessage.getChat_writerId());
+            	chatService.updateOutDate(ChatRoomNum, chatMessage.getChat_writerId(), new Date());//나간 날짜 기록
             	
             	chatService.updateRoomStatus(ChatRoomNum, chatMessage.getChat_writerId(), -1, 1);
             	

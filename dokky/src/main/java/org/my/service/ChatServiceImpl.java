@@ -174,11 +174,11 @@ public class ChatServiceImpl implements ChatService {
 	    }
 		
 		@Override
-		public void updateOutDate(Long chatRoomNum, String chat_memberId){
+		public void updateOutDate(Long chatRoomNum, String chat_memberId, Date date){
 	    		
 	    	log.info("updateOutDate");
 	    	
-	    	chatMapper.updateOutDate(chatRoomNum, chat_memberId);
+	    	chatMapper.updateOutDate(chatRoomNum, chat_memberId, date);
 		}
 		
 		@Override

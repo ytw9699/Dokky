@@ -59,6 +59,13 @@ public class ChatRoom {
         	send(chatMessage);
         }
     }
+    
+    public void reEnterChatRoom(ChatMessage chatMessage) throws IOException {
+        	
+    	log.info("reEnterChatRoom");
+        	
+    	send(chatMessage);
+    }
 
     private void send(ChatMessage chatMessage) throws IOException {
     	
@@ -76,6 +83,12 @@ public class ChatRoom {
     								"\", \"regDate\":\""+chatMessage.getRegDate().getTime()+"\"}";
         	
         }else if(chatMessage.getType() == ChatMessageType.LEAVE){
+        	
+        	customMessage = 	"{\"message\":\""+chatMessage.getMessage()+
+        							"\", \"type\":\""+chatMessage.getType()+
+				        			"\", \"regDate\":\""+chatMessage.getRegDate().getTime()+"\"}";
+        
+        }else if(chatMessage.getType() == ChatMessageType.IN){
         	
         	customMessage = 	"{\"message\":\""+chatMessage.getMessage()+
         							"\", \"type\":\""+chatMessage.getType()+
