@@ -62,7 +62,12 @@ public class ChatServiceImpl implements ChatService {
 			
 			chatContentVO.setChat_content(chatRoomVO.getRoomOwnerNick()+"님이 "+chatMemberVO.getChat_memberNick()+"님을 초대했습니다");
 			
+			chatContentVO.setRegDate(new Date());
+			
 			int thirdResult = chatMapper.createNoticeContent(chatContentVO);//공지 내용 입력
+	    	
+    		chatMapper.createChatReadType(chatContentVO.getChatRoomNum(), chatContentVO.getChatContentNum() , chatMemberVO.getChat_memberId());//공지라 하더라도 채팅 내용불러올시에 읽음처리 값이 필요함
+    		chatMapper.createChatReadType(chatContentVO.getChatRoomNum(), chatContentVO.getChatContentNum() , chatRoomVO.getRoomOwnerId());
 			
 			chatMemberVO.setChat_memberId(chatRoomVO.getRoomOwnerId());
 			
