@@ -1494,7 +1494,7 @@
 		 	var reply_contents = $("#reply_contents");//기본 댓글 textarea
 		 	var reply_contentsVal = $.trim(reply_contents.val()); 
 		 	
-		 	if(isLimited){
+		 	if(isLimited()){
 		    	  openAlert("쓰기 기능이 제한되어있습니다");
 		    	  return;
 		    }
@@ -1594,7 +1594,7 @@
 		      var alarmData ;
 		      var commonData;
 		      
-		      if(isLimited){
+		      if(isLimited()){
 		    	  openAlert("쓰기 기능이 제한되어있습니다.");
 		    	  return;
 		      }
