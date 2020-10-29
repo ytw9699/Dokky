@@ -79,10 +79,12 @@
 				   	  <c:when test="${content.chat_writerId == userInfo.username}"> <!-- 내가 쓴 채팅 내용 -->
 				   	  	 <div class="chat_wrap myChat">
 				   	  	 	<span id="${content.chatContentNum}" class="chat_readCount" data-content_num="${content.chatContentNum}">
-				   	  	 		${content.readCount}
+				   	  	 		<c:if test="${content.readCount != 0}">
+				   	  	 			${content.readCount}
+				   	  	 		</c:if>
 				   	  	 	</span>
 				   	  	 	<span class="chat_time">
-				   	  	 		<fmt:formatDate value="${content.regDate}" pattern="yyyy-MM-dd HH:mm"/>
+				   	  	 		<fmt:formatDate value="${content.regDate}" pattern="a HH:mm"/>
 				   	  	 	</span>
 				   	  	 	<span class="chat_content" data-content_num="${content.chatContentNum}" data-read_type="${content.read_type}"> 
 				   	  	 		${content.chat_content}
@@ -98,10 +100,12 @@
 				   	  	 		${content.chat_content}
 				   	  	 	</span>
 				   	  	 	<span class="chat_time">
-				   	  	 		<fmt:formatDate value="${content.regDate}" pattern="yyyy-MM-dd HH:mm" />
+				   	  	 		<fmt:formatDate value="${content.regDate}" pattern="a HH:mm"/>
 				   	  	 	</span>
 				   	  	 	<span id="${content.chatContentNum}" class="chat_readCount" data-content_num="${content.chatContentNum}"> 
-				   	  	 		${content.readCount}
+				   	  	 		<c:if test="${content.readCount != 0}">
+				   	  	 			${content.readCount}
+				   	  	 		</c:if>
 				   	  	 	</span>
 			             </div>
 				      </c:otherwise>
@@ -305,8 +309,13 @@
 						 
 						 var chatContent = $("#"+chatContentNum);
 						 
-						 chatContent.html(chatContent.html()-1);
-						 
+						 if(chatContent.html() == 1){
+							 
+							 chatContent.html("");
+							 
+						 }else{
+							 chatContent.html(chatContent.html()-1);
+						 }
 					}
 					
 					if(isBottom == true){//스크롤이 맨 하단에서 감지된다면
