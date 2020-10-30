@@ -52,8 +52,8 @@ public class ChatController {
 				  
 				  ChatMessage chatMessage = new ChatMessage();
 		          
-		          String reEnterMessage = vo.getChatRoomVO().getRoomOwnerNick()+"님이 들어왔습니다.";
-	            	
+		          String reEnterMessage = vo.getChatRoomVO().getRoomOwnerNick()+"님이 들어왔습니다";
+		          
 	              chatMessage.setMessage(reEnterMessage);
 	              chatMessage.setRegDate(new Date());
 	              chatMessage.setType(ChatMessageType.IN);

@@ -67,7 +67,7 @@ public class chatWebsocketHandler extends TextWebSocketHandler {
         		
         	}else{
         		
-        		String leaveMessage = chatMessage.getChat_writerNick()+"님이 나갔습니다.";
+        		String leaveMessage = chatMessage.getChat_writerNick()+"님이 나갔습니다";
 
             	chatMessage.setMessage(leaveMessage);
             	
