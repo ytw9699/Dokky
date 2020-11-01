@@ -179,6 +179,7 @@
 									 			, chatContentNum
 									 			, chat_memberId
 									 			, chat_memberNick
+									 			, read_type
 							 			   )
 							 		values(
 								 				 seq_dk_chat_read.nextval
@@ -186,6 +187,7 @@
 												, #{chatContentNum}
 												, #{chat_memberId}
 												, #{chat_memberNick}
+												, #{read_type}
 							 				) 	
        </insert>
        

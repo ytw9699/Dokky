@@ -64,8 +64,8 @@ public class ChatServiceImpl implements ChatService {
 			
 			int thirdResult = chatMapper.createNoticeContent(chatContentVO);//공지 내용 입력
 	    	
-    		chatMapper.createChatReadType(chatContentVO.getChatRoomNum(), chatContentVO.getChatContentNum() , chatMemberVO.getChat_memberId(), chatMemberVO.getChat_memberNick());//공지라 하더라도 채팅 내용불러올시에 읽음처리 값이 필요함
-    		chatMapper.createChatReadType(chatContentVO.getChatRoomNum(), chatContentVO.getChatContentNum() , chatRoomVO.getRoomOwnerId(), chatRoomVO.getRoomOwnerNick());
+    		chatMapper.createChatReadType(chatContentVO.getChatRoomNum(), chatContentVO.getChatContentNum() , chatMemberVO.getChat_memberId(), chatMemberVO.getChat_memberNick(), 1);//공지라 하더라도 채팅 내용불러올시에 읽음처리 값이 필요함
+    		chatMapper.createChatReadType(chatContentVO.getChatRoomNum(), chatContentVO.getChatContentNum() , chatRoomVO.getRoomOwnerId(), chatRoomVO.getRoomOwnerNick(),1 );
 			
 			chatMemberVO.setChat_memberId(chatRoomVO.getRoomOwnerId());
 			
@@ -150,7 +150,7 @@ public class ChatServiceImpl implements ChatService {
 	    	
 	    	for(ChatMemberVO memberVO : memberList){
 	    		
-	    		chatMapper.createChatReadType(chatContentVO.getChatRoomNum(), chatContentVO.getChatContentNum() , memberVO.getChat_memberId(), memberVO.getChat_memberNick());
+	    		chatMapper.createChatReadType(chatContentVO.getChatRoomNum(), chatContentVO.getChatContentNum() , memberVO.getChat_memberId(), memberVO.getChat_memberNick(), 0);
 	    	}
 	    }
 		
@@ -167,7 +167,7 @@ public class ChatServiceImpl implements ChatService {
 	    	
 	    	for(ChatMemberVO memberVO : memberList){
 	    		
-	    		chatMapper.createChatReadType(chatContentVO.getChatRoomNum(), chatContentVO.getChatContentNum() , memberVO.getChat_memberId(), memberVO.getChat_memberNick());
+	    		chatMapper.createChatReadType(chatContentVO.getChatRoomNum(), chatContentVO.getChatContentNum() , memberVO.getChat_memberId(), memberVO.getChat_memberNick(), 1);
 	    	}
 	    }
 		
