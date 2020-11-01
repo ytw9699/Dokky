@@ -361,9 +361,10 @@ create table dk_chat_room(
 		 roomOwnerNick VARCHAR2(50) NOT NULL, --방장 닉네임
 		 chat_type number NOT NULL, -- 0 = 1:1채팅방 , 1 = 그룹 채팅방
 		 headCount number NOT NULL, -- 방의 총 인원수
-		 regDate date default sysdate, -- 업데이트 날짜 (채팅이 입력되면 채팅방 날짜를 계속 업데이트)
+		 input_content_date date default sysdate, --(채팅내용이 입력되면 날짜를 업데이트)
 		 constraint pk_chat_room PRIMARY KEY(chatRoomNum)
 )
+
 
 create sequence seq_dk_chat_room;
 
@@ -414,6 +415,7 @@ create table dk_chat_read(
 		 chatContentNum number(10,0) NOT NULL, --fk
 		 chatRoomNum number(10,0) NOT NULL, --fk
 		 chat_memberId VARCHAR2(50) NOT NULL, -- 채팅룸 멤버 아이디
+		 chat_memberNick VARCHAR2(50) NOT NULL, -- 채팅룸 멤버 닉네임
  		 read_type number default 0, -- 메시지 읽음 여부 (0 = 읽지않음 , 1 = 읽음)
 		 constraint pk_chat_read PRIMARY KEY(chatReadNum),
 		 constraint fk_chat_read_first foreign key(chatContentNum) references dk_chat_content(chatContentNum) on delete cascade,

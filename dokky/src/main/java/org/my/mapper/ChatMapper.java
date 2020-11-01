@@ -39,9 +39,9 @@ public interface ChatMapper {
 
 	int getHeadCount(Long chatRoomNum);
 	
-	int createChatReadType(@Param("chatRoomNum") Long chatRoomNum, @Param("chatContentNum") Long chatContentNum, @Param("chat_memberId") String chat_memberId);
+	int createChatReadType(@Param("chatRoomNum") Long chatRoomNum, @Param("chatContentNum") Long chatContentNum, @Param("chat_memberId") String chat_memberId, @Param("chat_memberNick") String chat_memberNick);
 
-	String[] getChatMembers(Long chatRoomNum);
+	List<ChatMemberVO> getChatMembers(Long chatRoomNum);
 
 	int updateRead_type(ChatReadVO vo);
 

@@ -169,8 +169,8 @@
        		select headCount from dk_chat_room where chatRoomNum = #{chatRoomNum}
        </select>
        
-       <select id="getChatMembers" resultType="String"> 
-			  select chat_memberId from dk_chat_member where chatRoomNum = #{chatRoomNum} and present_position = 0
+       <select id="getChatMembers" resultType="org.my.domain.ChatMemberVO">
+			  select chat_memberId, chat_memberNick from dk_chat_member where chatRoomNum = #{chatRoomNum} and present_position = 0
 	   </select>
 	   
 	   <insert id="createChatReadType">
@@ -178,12 +178,14 @@
 	 											, chatRoomNum
 									 			, chatContentNum
 									 			, chat_memberId
+									 			, chat_memberNick
 							 			   )
 							 		values(
 								 				 seq_dk_chat_read.nextval
 								 				, #{chatRoomNum}
 												, #{chatContentNum}
 												, #{chat_memberId}
+												, #{chat_memberNick}
 							 				) 	
        </insert>
        

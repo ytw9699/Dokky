@@ -11,5 +11,5 @@ public class ChatRoomVO {
 	  private String roomOwnerNick;
 	  private int chat_type;
 	  private int headCount;
-	  private Date regDate;
+	  private Date input_content_date;
 }

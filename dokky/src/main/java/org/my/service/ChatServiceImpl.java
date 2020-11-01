@@ -3,19 +3,17 @@ package org.my.service;
 	import java.util.LinkedHashMap;
 	import java.util.List;
 	import java.util.Map;
-	import org.apache.ibatis.annotations.Param;
 	import org.my.domain.ChatContentVO;
 	import org.my.domain.ChatMemberVO;
 	import org.my.domain.ChatReadVO;
+	import org.my.domain.ChatRoom;
 	import org.my.domain.ChatRoomVO;
 	import org.my.mapper.ChatMapper;
 	import org.springframework.beans.factory.annotation.Autowired;
 	import org.springframework.stereotype.Service;
 	import org.springframework.transaction.annotation.Transactional;
-	import org.springframework.web.socket.WebSocketSession;
 	import lombok.Setter;
 	import lombok.extern.log4j.Log4j;
-	import org.my.domain.ChatRoom;
 
 @Service
 @Log4j
@@ -66,8 +64,8 @@ public class ChatServiceImpl implements ChatService {
 			
 			int thirdResult = chatMapper.createNoticeContent(chatContentVO);//공지 내용 입력
 	    	
-    		chatMapper.createChatReadType(chatContentVO.getChatRoomNum(), chatContentVO.getChatContentNum() , chatMemberVO.getChat_memberId());//공지라 하더라도 채팅 내용불러올시에 읽음처리 값이 필요함
-    		chatMapper.createChatReadType(chatContentVO.getChatRoomNum(), chatContentVO.getChatContentNum() , chatRoomVO.getRoomOwnerId());
+    		chatMapper.createChatReadType(chatContentVO.getChatRoomNum(), chatContentVO.getChatContentNum() , chatMemberVO.getChat_memberId(), chatMemberVO.getChat_memberNick());//공지라 하더라도 채팅 내용불러올시에 읽음처리 값이 필요함
+    		chatMapper.createChatReadType(chatContentVO.getChatRoomNum(), chatContentVO.getChatContentNum() , chatRoomVO.getRoomOwnerId(), chatRoomVO.getRoomOwnerNick());
 			
 			chatMemberVO.setChat_memberId(chatRoomVO.getRoomOwnerId());
 			
@@ -146,13 +144,13 @@ public class ChatServiceImpl implements ChatService {
 	    	
 	    	chatMapper.createChatContent(chatContentVO);
 	    	
-	    	String[] members = chatMapper.getChatMembers(chatContentVO.getChatRoomNum());
+	    	List<ChatMemberVO> memberList = chatMapper.getChatMembers(chatContentVO.getChatRoomNum());
 	    	
 	    	log.info("createChatReadType");
 	    	
-	    	for(String chat_memberId : members){
+	    	for(ChatMemberVO memberVO : memberList){
 	    		
-	    		chatMapper.createChatReadType(chatContentVO.getChatRoomNum(), chatContentVO.getChatContentNum() , chat_memberId);
+	    		chatMapper.createChatReadType(chatContentVO.getChatRoomNum(), chatContentVO.getChatContentNum() , memberVO.getChat_memberId(), memberVO.getChat_memberNick());
 	    	}
 	    }
 		
@@ -163,13 +161,13 @@ public class ChatServiceImpl implements ChatService {
 	    	
 	    	chatMapper.createNoticeContent(chatContentVO);
 	    	
-	    	String[] members = chatMapper.getChatMembers(chatContentVO.getChatRoomNum());
+	    	List<ChatMemberVO> memberList = chatMapper.getChatMembers(chatContentVO.getChatRoomNum());
 	    	
 	    	log.info("createChatReadType");
 	    	
-	    	for(String chat_memberId : members){
+	    	for(ChatMemberVO memberVO : memberList){
 	    		
-	    		chatMapper.createChatReadType(chatContentVO.getChatRoomNum(), chatContentVO.getChatContentNum() , chat_memberId);
+	    		chatMapper.createChatReadType(chatContentVO.getChatRoomNum(), chatContentVO.getChatContentNum() , memberVO.getChat_memberId(), memberVO.getChat_memberNick());
 	    	}
 	    }
 		
