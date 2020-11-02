@@ -8,12 +8,18 @@ package org.my.service;
 	import org.my.domain.ChatReadVO;
 	import org.my.domain.ChatRoom;
 	import org.my.domain.ChatRoomVO;
+	import org.my.domain.Criteria;
+	import org.my.domain.ReplyPageDTO;
+	import org.my.domain.chatRoomDTO;
 	import org.my.mapper.ChatMapper;
 	import org.springframework.beans.factory.annotation.Autowired;
 	import org.springframework.stereotype.Service;
 	import org.springframework.transaction.annotation.Transactional;
 	import lombok.Setter;
 	import lombok.extern.log4j.Log4j;
+	import org.my.domain.chatRoomDTO;
+	import java.util.List;
+	import java.util.ArrayList;//임포트 해주자
 
 @Service
 @Log4j
@@ -227,6 +233,41 @@ public class ChatServiceImpl implements ChatService {
 			log.info("readChat");
 			
 			return chatMapper.updateRead_type(vo) == 1 && chatMapper.updateReadCount(vo) == 1;
+		}
+		
+		@Override
+		public List<chatRoomDTO> getMyChatRoomList(String userId){
+			
+			log.info("getMyChatRoomList");
+			
+			List<chatRoomDTO> myChatRoomList = new ArrayList<>();
+		    
+			List<ChatRoomVO> myChatRoomVoList = chatMapper.getMyChatRoomVoList(userId);
+			
+			log.info("myChatRoomVoList="+myChatRoomVoList);
+			
+			for(ChatRoomVO ChatRoomVo : myChatRoomVoList) {
+				
+				Long chatRoomNum = ChatRoomVo.getChatRoomNum();
+				
+				log.info("chatRoomNum="+chatRoomNum);
+				
+				ChatContentVO ChatContentVo = chatMapper.getMyChatContentVo(chatRoomNum);
+				
+				log.info("ChatContentVo="+ChatContentVo);
+				
+				List<ChatReadVO> chatReadVoList = chatMapper.getMyChatReadVo(chatRoomNum, userId);
+				
+				log.info("chatReadVoList="+chatReadVoList);
+				
+				int notReadCnt = chatMapper.getNotReadCnt(chatRoomNum, userId);
+				
+				log.info("notReadCnt="+notReadCnt);
+				
+				myChatRoomList.add(new chatRoomDTO(ChatRoomVo, ChatContentVo, chatReadVoList, notReadCnt));
+			}
+			
+			return myChatRoomList;
 		}
 		
 }

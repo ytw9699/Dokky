@@ -4,6 +4,7 @@ package org.my.service;
 	import org.my.domain.ChatMemberVO;
 	import org.my.domain.ChatReadVO;
 	import org.my.domain.ChatRoomVO;
+	import org.my.domain.chatRoomDTO;
 	import org.my.domain.ChatContentVO;
 	import org.my.domain.ChatRoom;
 
@@ -40,5 +41,7 @@ public interface ChatService {
 	public int getHeadCount(Long chatRoomNum);
 
 	public boolean readChat(ChatReadVO vo);
+
+	public List<chatRoomDTO> getMyChatRoomList(String userId);
 	
 }

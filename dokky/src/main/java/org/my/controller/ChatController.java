@@ -1,11 +1,13 @@
 package org.my.controller;
 	import java.io.IOException;
 	import java.util.Date;
+	import java.util.List;
 	import org.my.domain.ChatContentVO;
 	import org.my.domain.ChatMessage;
 	import org.my.domain.ChatMessageType;
 	import org.my.domain.ChatReadVO;
 	import org.my.domain.ChatRoom;
+	import org.my.domain.chatRoomDTO;
 	import org.my.domain.commonVO;
 	import org.my.service.ChatService;
 	import org.springframework.beans.factory.annotation.Autowired;
@@ -100,15 +102,15 @@ public class ChatController {
 	 
 	@PreAuthorize("principal.username == #userId")
 	@GetMapping("/myChatRoomList")
-    public String getMyChatRoomList(Model model, String userId){
+	public String getMyChatRoomList(Model model, String userId){
     	
     	log.info("/myChatRoomList");
     	
-    	//List<ChatroomVO> chatRoomList = chatService.getMyChatRoomList(userId);
+    	List<chatRoomDTO> chatRoomList = chatService.getMyChatRoomList(userId);
     	
-    	//model.addAttribute("chatRoomList", chatRoomList);
+    	model.addAttribute("chatRoomList", chatRoomList);
         
-    	//log.info("chatRoomList = " + chatRoomList);
+    	log.info("chatRoomList = " + chatRoomList);
          
         return "chat/chatRoomList";
     } 

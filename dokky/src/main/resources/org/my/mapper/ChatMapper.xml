@@ -198,5 +198,25 @@
 	   <update id="updateReadCount">
 	 	 	update dk_chat_content set readCount = readCount -1 where chatContentNum = #{chatContentNum}
 	   </update>
+	 
+	   <select id="getMyChatRoomVoList" resultType="org.my.domain.ChatRoomVO">
+	 		select room.chatRoomNum, room.chat_type, room.chat_title from dk_chat_room room left outer join dk_chat_member member on room.chatRoomNum = member.chatRoomNum 
+				where member.chat_memberId = #{userId} and member.present_position = 0 order by room.input_content_date desc 
+	   </select>
+	   
+	   <select id="getMyChatContentVo" resultType="org.my.domain.ChatContentVO">
+	   		<![CDATA[ select /*+INDEX_DESC(DK_CHAT_CONTENT PK_CHAT_CONTENT) */ chat_content, regdate from dk_chat_content where chatRoomNum = #{chatRoomNum} and content_type = 0 and ROWNUM <= 1 ]]>
+	   </select>
+	   
+	   <select id="getMyChatReadVo" resultType="org.my.domain.ChatReadVO">
+	   		select distinct chat_memberId, chat_memberNick from dk_chat_read where chatRoomNum = #{chatRoomNum} and chat_memberId != #{userId}
+	   </select>
+	   
+	   <select id="getNotReadCnt" resultType="int">
+	   		select count(chatReadNum) as notReadCnt from dk_chat_read where chat_memberId = #{userId} and read_type = 0 and chatRoomNum = #{chatRoomNum}
+	   </select>
        
 </mapper>
+
+
+

@@ -47,4 +47,12 @@ public interface ChatMapper {
 
 	int updateReadCount(ChatReadVO vo);
 
+	List<ChatRoomVO> getMyChatRoomVoList(String userId);
+
+	ChatContentVO getMyChatContentVo(Long chatRoomNum);
+
+	List<ChatReadVO> getMyChatReadVo(@Param("chatRoomNum") Long chatRoomNum, @Param("userId") String userId);
+
+	int getNotReadCnt(@Param("chatRoomNum") Long chatRoomNum, @Param("userId") String userId);
+
 }
