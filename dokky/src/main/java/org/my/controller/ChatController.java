@@ -110,8 +110,6 @@ public class ChatController {
     	
     	model.addAttribute("chatRoomList", chatRoomList);
         
-    	log.info("chatRoomList = " + chatRoomList);
-         
         return "chat/chatRoomList";
     } 
 	
