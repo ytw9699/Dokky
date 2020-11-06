@@ -116,6 +116,10 @@
 							 				) 
        </insert>
        
+       <!-- <insert id="updateInput_content_date">
+      		 update dk_chat_room set input_content_date = sysdate where chatRoomNum = #{chatRoomNum}
+       </insert> -->
+       
        <insert id="createNoticeContent">
        
 	      		<selectKey keyProperty="chatContentNum" order="BEFORE" resultType="long">
@@ -200,8 +204,23 @@
 	   </update>
 	 
 	   <select id="getMyChatRoomVoList" resultType="org.my.domain.ChatRoomVO">
-	 		select room.chatRoomNum, room.chat_type, room.chat_title from dk_chat_room room left outer join dk_chat_member member on room.chatRoomNum = member.chatRoomNum 
-				where member.chat_memberId = #{userId} and member.present_position = 0 order by room.input_content_date desc 
+	 		<!-- select room.chatRoomNum, 
+	 			   room.chat_type, 
+	 			   room.chat_title from dk_chat_room room left outer join dk_chat_member member on room.chatRoomNum = member.chatRoomNum 
+				where member.chat_memberId = #{userId} and member.present_position = 0 order by room.input_content_date desc -->
+ 	 
+	 		WITH subTable AS ( select room.chatRoomNum,
+			  					      room.chat_type,
+			  					      room.chat_title,
+			  					      content.chatContentNum
+								  from dk_chat_room room inner join dk_chat_member member on room.chatRoomNum = member.chatRoomNum 
+									  					 inner join dk_chat_content content on member.chatRoomNum = content.chatRoomNum 
+								 where member.chat_memberId = #{userId}  and member.present_position = 0 ) 
+			select chatRoomNum,
+				   chat_type,
+				   chat_title
+			 from subTable where chatContentNum in (select max(chatContentNum)from subTable group by subTable.chatRoomNum) order by subTable.chatContentNum desc
+ 
 	   </select>
 	   
 	   <select id="getMyChatContentVo" resultType="org.my.domain.ChatContentVO">

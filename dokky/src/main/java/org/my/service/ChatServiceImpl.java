@@ -149,6 +149,7 @@ public class ChatServiceImpl implements ChatService {
 	    	log.info("createChatContent");
 	    	
 	    	chatMapper.createChatContent(chatContentVO);
+	    	//chatMapper.updateInput_content_date(chatContentVO.getChatRoomNum());
 	    	
 	    	List<ChatMemberVO> memberList = chatMapper.getChatMembers(chatContentVO.getChatRoomNum());
 	    	
