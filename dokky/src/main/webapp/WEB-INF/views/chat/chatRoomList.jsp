@@ -5,6 +5,7 @@
 <%@ taglib prefix="fn" uri="http://java.sun.com/jsp/jstl/functions"%>
 <%@ include file="../includes/common.jsp"%>
 <c:set var="random"><%= java.lang.Math.round(java.lang.Math.random() * 123456) %></c:set>
+<jsp:useBean id="today" class="java.util.Date" />
 
 <!DOCTYPE html>
 <html>
@@ -63,7 +64,16 @@
 					</div>
 					<div class="thirdWrap">
 						<div class="chatDate">
-							<fmt:formatDate value="${chatRoomDTO.chatContentVo.regDate}" pattern="yy-MM-dd-HH:mm"/>
+							<fmt:formatDate var="nowDate" value="${today}" pattern="yyyy-MM-dd" />
+							<fmt:formatDate var="regDate" value="${chatRoomDTO.chatContentVo.regDate}" pattern="yyyy-MM-dd" />
+							<c:choose>
+						        <c:when test="${nowDate == regDate}">
+						        	<fmt:formatDate value="${chatRoomDTO.chatContentVo.regDate}" pattern="a HH:mm"/>
+						        </c:when>
+						        <c:otherwise>
+						        	<fmt:formatDate value="${chatRoomDTO.chatContentVo.regDate}" pattern="yyyy-MM-dd"/>
+						        </c:otherwise>
+							</c:choose>
 						</div>
 						<c:if test="${chatRoomDTO.notReadCnt != 0 }">
 						 	<div class="chatCnt">
