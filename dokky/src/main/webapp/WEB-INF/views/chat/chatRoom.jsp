@@ -330,6 +330,7 @@
 																		 + getMessgae
 																 	+ "</span>"
 						 										 + "</div>";
+						 headCount = headCount-1;
 						 										 
 					}else if(obj.type == 'READ'){
 						
@@ -358,6 +359,7 @@
 																		 + getMessgae
 																 	+ "</span>"
 						 										 + "</div>";
+						 headCount = headCount+1;
 					}
 					
 					if(isBottom == true){//스크롤이 맨 하단에서 감지된다면
