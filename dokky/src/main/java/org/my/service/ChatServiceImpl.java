@@ -1,4 +1,5 @@
 package org.my.service;
+	import java.util.ArrayList;//임포트 해주자
 	import java.util.Date;
 	import java.util.LinkedHashMap;
 	import java.util.List;
@@ -8,8 +9,7 @@ package org.my.service;
 	import org.my.domain.ChatReadVO;
 	import org.my.domain.ChatRoom;
 	import org.my.domain.ChatRoomVO;
-	import org.my.domain.Criteria;
-	import org.my.domain.ReplyPageDTO;
+	import org.my.domain.MemberVO;
 	import org.my.domain.chatRoomDTO;
 	import org.my.mapper.ChatMapper;
 	import org.springframework.beans.factory.annotation.Autowired;
@@ -17,9 +17,6 @@ package org.my.service;
 	import org.springframework.transaction.annotation.Transactional;
 	import lombok.Setter;
 	import lombok.extern.log4j.Log4j;
-	import org.my.domain.chatRoomDTO;
-	import java.util.List;
-	import java.util.ArrayList;//임포트 해주자
 
 @Service
 @Log4j
@@ -271,5 +268,12 @@ public class ChatServiceImpl implements ChatService {
 			return myChatRoomList;
 		}
 		
+		@Override
+		public List<MemberVO> getChatUserList(){
+			
+			log.info("getChatUserList");
+			
+			return chatMapper.getChatUserList();
+		}
 }
 

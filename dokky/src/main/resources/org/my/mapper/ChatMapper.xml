@@ -234,6 +234,11 @@
 	   <select id="getNotReadCnt" resultType="int">
 	   		select count(chatReadNum) as notReadCnt from dk_chat_read where chat_memberId = #{userId} and read_type = 0 and chatRoomNum = #{chatRoomNum}
 	   </select>
+	   
+	   <select id="getChatUserList" resultType="org.my.domain.MemberVO">
+	   		select userId,nickName from dk_member where enabled = 1 order by nickName asc
+	   </select>
+	   
        
 </mapper>
 

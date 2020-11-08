@@ -28,8 +28,8 @@
 			 <span class="chatTitle">
 				     		채팅리스트
 		     </span>   
-     		 <span class="chatBtn"> 
-      			<button id="chatBtn" type="button">새로운 채팅</button>
+     		 <span class="chatBtn">
+      			<input type="button" id="newChatBtn" value="새로운 채팅"/>
      		 </span>
 	    </div>
 		<div class="chatList">
@@ -85,25 +85,120 @@
 			</c:forEach>
 		</div>
 	</div>
+	
+	<div id="backGround"></div> 
+	<div id="userListWrap">
+			<div id="title">
+				채팅할 회원을 선택해주세요 
+			</div>
+			<div id="searchWrap">
+				<input id="search" type='text' oninput="checkLength(this,30)" placeholder="회원검색" autofocus/> 
+			</div>
+			<div id="userList">
+			
+			</div>
+			<div id="buttonWrap">
+				<div id="chatInviteWrap">
+					<input type="button" id="chatInvite" value="초대" />	
+				</div>
+				<div id="chatCancelWrap">
+					<input type="button" id="chatCancel" value="취소" />				
+				</div>
+			</div>
+	</div>
+	
 </body>
-
 <script>
-
-		var webSocketChat;
-		var chatRoomId;
 		var csrfHeaderName ="${_csrf.headerName}"; 
 		var csrfTokenValue="${_csrf.token}";
+		var backGround = $("#backGround");
+		var userListWrap = $("#userListWrap");
 		
-		<sec:authorize access="isAuthenticated()">   
-		  myId = '${userInfo.username}';  
-		  myNickName = '${userInfo.member.nickName}';
-		</sec:authorize>
+		//myId = '${userInfo.username}';  
 		   
 		$(document).ajaxSend(function(e, xhr, options){
 			
 		     xhr.setRequestHeader(csrfHeaderName, csrfTokenValue);
 	    });
 		
+		$("#newChatBtn").on("click",function(event){
+			openUserList();
+   		}); 
+		
+		$("#chatCancel").on("click", function(event){
+			
+			closeUserList();	
+		});
+		
+		function openUserList(){
+			
+			backGround.css("display","block");
+			userListWrap.css("display","block");
+			
+			getChatUserList( 
+					
+					function(chatUserList, status){
+						
+						if(status == "success"){
+							
+							console.log(chatUserList);
+							var length = chatUserList.length;
+							var userList = $("#userList");
+							var str = "";
+							var nickName; 
+							var userId; 
+							
+							for (var i = 0; i < length || 0; i++){
+								
+							       nickName = chatUserList[i].nickName; 
+							       userId = chatUserList[i].userId;
+							      
+							   	   str +=  "<div id='' class=''>"
+							   	   str +=   	userId
+							   	   str +=  "</div>";  
+							   	   str +=  "<div id='' class=''>"
+							   	   str +=		nickName 
+							   	   str +=  "</div>";  
+							}
+							
+							console.log(str);
+							userList.html(str);
+						}
+			    	},
+			 
+			    	function(status){
+			    	
+						if(status == "error"){ 
+							
+							openAlert("Server Error(관리자에게 문의해주세요)");
+						}
+			    	}
+			);
+		} 
+		
+		function closeUserList(){
+			backGround.css("display","none");
+			userListWrap.css("display","none");
+		}
+		
+		function getChatUserList(callback, error) {
+			
+			$.ajax({
+				type : 'get', 
+				url : '/getChatUserList', 
+				success : function(result, status, xhr) {
+					if (callback) {
+						callback(result, status);
+					}
+				},
+				error : function(xhr, status, er) {
+					if (error) {
+						error(status);
+					}
+				}
+			});
+		}
+		
+		
 </script>
-
 </html>

@@ -6,6 +6,7 @@ package org.my.mapper;
 	import org.my.domain.ChatMemberVO;
 	import org.my.domain.ChatReadVO;
 	import org.my.domain.ChatRoomVO;
+	import org.my.domain.MemberVO;
 
 public interface ChatMapper {
 
@@ -54,5 +55,7 @@ public interface ChatMapper {
 	List<ChatReadVO> getMyChatReadVo(@Param("chatRoomNum") Long chatRoomNum, @Param("userId") String userId);
 
 	int getNotReadCnt(@Param("chatRoomNum") Long chatRoomNum, @Param("userId") String userId);
+
+	List<MemberVO> getChatUserList();
 
 }

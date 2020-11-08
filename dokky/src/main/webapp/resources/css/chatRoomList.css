@@ -160,7 +160,7 @@
 		    height: 30px;
 		}
 
-		#chatBtn {
+		#newChatBtn {
 			border: none;
 		    padding: 6px;
 		    font-size: 15px;
@@ -170,3 +170,91 @@
 		    border-radius: 10px;
 		    background-color: #7151fc;
 		}
+		
+		#backGround{
+		    position: fixed; 
+		    width: 100%; 
+		    height: 100%; 
+		    top: 0; 
+		    left: 0; 
+		    background-color: #000;
+		    opacity: 0.6;
+		    display: none;
+    	}
+    	
+   		#userListWrap{
+   			display: none;
+		    width: 250px;
+		    border-radius: 8px;
+		    position: fixed;
+		    top: 20%;
+		    left: 40%;
+		    padding: 50px;
+		    background-color: white;
+		    min-height: 400px;
+		}
+		
+		#userList{
+			border-style: solid;
+		    border-width: 1px;
+		    border-color: #dbdbdb;
+		    width: 98%;
+	    	min-height: 300px; 
+		}
+		
+		#buttonWrap{
+			border-style: solid;
+		    border-width: 1px;
+		    border-color: #dbdbdb;
+		    width: 98%;
+		    height : 50px;
+		}
+		
+		#chatInviteWrap{
+			border-style: solid;
+		    border-width: 1px;
+		    border-color: #dbdbdb;
+		    width: 48%;
+		    display: inline-block;
+		    height : 50px;
+		}
+		
+		#chatCancelWrap{
+			border-style: solid;
+		    border-width: 1px;
+		    border-color: #dbdbdb;
+		    width: 48%;
+		    display: inline-block;
+		    height : 50px;
+		} 
+		
+		#title{
+			border-style: solid;
+		    border-width: 1px;
+		    border-color: #dbdbdb;
+		    width: 99%;
+		    height : 30px;
+		    margin-bottom: 2%;
+		}
+		
+		#searchWrap{
+			border-style: solid;
+		    border-width: 1px;
+		    border-color: #dbdbdb;
+		    width: 99%;
+		    height : 30px;
+		    margin-bottom: 2%;
+		}
+		
+		#search{
+			box-sizing: border-box;
+			width: 99%;
+			height: 30px; 
+			font-weight: 500;
+			font-size: 20px;
+			color: #333333;  
+			border: 2px solid #7151fc; 
+			border-radius: 5px;
+			margin-top: 2px;
+		}
+			

@@ -442,6 +442,48 @@
 		return isLimited;
 	} 
 	
+	function checkLength(obj, maxByte) { 
+		 
+		if(obj.tagName === "INPUT" || obj.tagName === "TEXTAREA"){ 
+			var str = obj.value; 
+		}else if(obj.tagName === "DIV" ){
+			var str = obj.innerHTML; 
+		} 
+			
+		var stringByteLength = 0;
+		var reStr;
+			
+		stringByteLength = (function(s,b,i,c){
+			
+		    for(b=i=0; c=s.charCodeAt(i++);){
+		    
+			    b+=c>>11?3:c>>7?2:1;
+			    if (b > maxByte) { 
+			    	break;
+			    }
+			    
+			    reStr = str.substring(0,i);
+		    }
+		    
+		    return b
+		    
+		})(str);
+		
+		if(obj.tagName === "INPUT" || obj.tagName === "TEXTAREA"){ 
+			if (stringByteLength > maxByte) {          
+				openAlert(maxByte + " Byte 이상 입력할 수 없습니다");         
+				obj.value = reStr;       
+			}   
+		}else if(obj.tagName === "DIV"){
+			if (stringByteLength > maxByte){          
+				openAlert(maxByte + " Byte 이상 입력할 수 없습니다");         
+				obj.innerHTML = reStr;    
+			}   
+		} 
+		
+		obj.focus();  
+	}
+	
 	$(document).ready(function() {
 		
 		<sec:authorize access="isAuthenticated()">  

@@ -7,11 +7,13 @@ package org.my.controller;
 	import org.my.domain.ChatMessageType;
 	import org.my.domain.ChatReadVO;
 	import org.my.domain.ChatRoom;
+	import org.my.domain.MemberVO;
 	import org.my.domain.chatRoomDTO;
 	import org.my.domain.commonVO;
 	import org.my.service.ChatService;
 	import org.springframework.beans.factory.annotation.Autowired;
 	import org.springframework.http.HttpStatus;
+	import org.springframework.http.MediaType;
 	import org.springframework.http.ResponseEntity;
 	import org.springframework.security.access.prepost.PreAuthorize;
 	import org.springframework.stereotype.Controller;
@@ -126,6 +128,25 @@ public class ChatController {
 		return result == true  
 				? new ResponseEntity<>(HttpStatus.OK)
 				: new ResponseEntity<>(HttpStatus.INTERNAL_SERVER_ERROR);
+	}
+	
+	@PreAuthorize("hasAnyRole('ROLE_ADMIN','ROLE_USER','ROLE_SUPER')")
+	@ResponseBody
+	@GetMapping(value = "/getChatUserList", produces = { MediaType.APPLICATION_JSON_UTF8_VALUE })
+	public ResponseEntity<List<MemberVO>> getChatUserList() {
+		
+		log.info("/getChatUserList");
+		
+		List<MemberVO> chatUserList = chatService.getChatUserList();
+		
+		if(chatUserList != null) {
+			
+			return new ResponseEntity<>(chatUserList, HttpStatus.OK);
+			
+		}else {
+			
+			return new ResponseEntity<>(HttpStatus.INTERNAL_SERVER_ERROR);
+		}
 	}
 	
 }
