@@ -257,4 +257,15 @@
 			border-radius: 5px;
 			margin-top: 2px;
 		}
+		
+		.userWrap{
+			border-style: solid;
+		    border-width: 1px;
+		    border-color: #dbdbdb;
+		    width: 99%; 
+		}
+		
+		.chosenUser{
+			color: #7151fc;
+		}
 			

@@ -91,11 +91,13 @@
 			<div id="title">
 				채팅할 회원을 선택해주세요 
 			</div>
+			<div id="chosenMembers">
+			</div>
 			<div id="searchWrap">
 				<input id="search" type='text' oninput="checkLength(this,30)" placeholder="회원검색" autofocus/> 
 			</div>
 			<div id="userList">
-			
+				<!-- 회원리스트 -->
 			</div>
 			<div id="buttonWrap">
 				<div id="chatInviteWrap">
@@ -111,6 +113,8 @@
 <script>
 		var csrfHeaderName ="${_csrf.headerName}"; 
 		var csrfTokenValue="${_csrf.token}";
+		var serverName = '${pageContext.request.serverName}';
+		var random = Math.random();
 		var backGround = $("#backGround");
 		var userListWrap = $("#userListWrap");
 		
@@ -141,7 +145,6 @@
 						
 						if(status == "success"){
 							
-							console.log(chatUserList);
 							var length = chatUserList.length;
 							var userList = $("#userList");
 							var str = "";
@@ -153,16 +156,42 @@
 							       nickName = chatUserList[i].nickName; 
 							       userId = chatUserList[i].userId;
 							      
-							   	   str +=  "<div id='' class=''>"
-							   	   str +=   	userId
-							   	   str +=  "</div>";  
-							   	   str +=  "<div id='' class=''>"
-							   	   str +=		nickName 
+							   	   str += "<div class='userWrap' data-user_id='"+userId+"' data-nick_name='"+nickName+"'>"
+							   		   str +=  "<span class='userImage'>"; 
+										   if(serverName == 'localhost'){ 
+											   str += "<img src='/resources/img/profile_img/"+userId+".png?"+random+"' class='memberImage hideUsermenu' onerror='this.src=\"/resources/img/profile_img/basicProfile.png\"'/>&nbsp"
+													   
+										   }else{
+											   str += "<img src='/upload/"+userId+".png?"+random+"' class='memberImage hideUsermenu' onerror='this.src=\"/ROOT/resources/img/profile_img/basicProfile.png\"'/>&nbsp"
+										   }
+								   	   str +=  "</span>";  
+								   	   str +=  "<span class='userNickname'>"
+								   	   str +=		nickName
+								   	   str +=  "</span>"; 
 							   	   str +=  "</div>";  
 							}
 							
-							console.log(str);
 							userList.html(str);
+							
+							$(".userWrap").on("click", function(event){
+								
+									var chosenMembers = $("#chosenMembers");
+									var str = $.trim(chosenMembers.html());
+									var user_id = $(this).data("user_id");
+									var nick_name = $(this).data("nick_name");
+									
+									if(str == ""){
+										
+										str +=  "<span class='chosenUser'>"+nick_name;
+										
+									}else{
+										
+										str +=  "<span class='chosenUser'>, "+nick_name;
+									}
+							   	    	str +=  "</span>";
+									
+							   		chosenMembers.html(str);
+							});
 						}
 			    	},
 			 
