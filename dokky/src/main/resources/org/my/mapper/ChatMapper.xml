@@ -236,9 +236,9 @@
 	   </select>
 	   
 	   <select id="getChatUserList" resultType="org.my.domain.MemberVO">
-	   		select userId,nickName from dk_member where enabled = 1 order by nickName asc
+	   		select userId,nickName from dk_member where enabled = 1 order by convert (nickName, 'US8ICL') asc
+	   		<!-- 한글 > 영문 > 숫자의 오름차순 -->
 	   </select>
-	   
        
 </mapper>
 
