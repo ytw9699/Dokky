@@ -16,7 +16,7 @@
 
 ## 5. 프로젝트 도메인 주소
 
-#### &emsp; https://dokky.ga
+#### &emsp; https://dokky.site
 
 ## 6. 프로젝트 실행 후 접속 주소(localhost)
 
