@@ -134,6 +134,20 @@
 			closeUserList();	
 		});
 		
+		$("#chatInvite").on("click", function(event){
+			
+			var chosenUser = $(".chosenUser").get();
+	   		
+	        for ( var i = 0; i < chosenUser.length; i++) {
+				var user_id = $(chosenUser[i]).data("user_id");
+				var nick_name = $(chosenUser[i]).data("nick_name");
+				
+				console.log(user_id);
+				console.log(nick_name);
+	        }
+		});
+		
+		
 		function openUserList(){
 			
 			backGround.css("display","block");
@@ -182,15 +196,16 @@
 									
 									if(str == ""){
 										
-										str +=  "<span class='chosenUser'>"+nick_name;
+										str += "<span id='user"+user_id+"' class='chosenUser' data-user_id='"+user_id+"' data-nick_name='"+nick_name+"'>"+nick_name;
 										
 									}else{
 										
-										str +=  "<span class='chosenUser'>, "+nick_name;
+										str += "<span id='user"+user_id+"' class='chosenUser' data-user_id='"+user_id+"' data-nick_name='"+nick_name+"'>, "+nick_name;
 									}
 							   	    	str +=  "</span>";
 									
 							   		chosenMembers.html(str);
+							   	
 							});
 						}
 			    	},
@@ -206,8 +221,13 @@
 		} 
 		
 		function closeUserList(){
+			
 			backGround.css("display","none");
 			userListWrap.css("display","none");
+			
+			var chosenMembers = $("#chosenMembers");
+			
+			chosenMembers.html("");//선택한 멤버 초기화
 		}
 		
 		function getChatUserList(callback, error) {
