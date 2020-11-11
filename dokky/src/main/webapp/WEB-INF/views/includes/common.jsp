@@ -199,8 +199,8 @@
 			//LoadModule proxy_module modules/mod_proxy.so 
 
 		}else{
-			//webSocket = new SockJS("http://dokky.ga:80/commonWebsocketHandler");
-			webSocket = new WebSocket("wss://dokky.ga:443/commonWebsocketHandler");
+			//webSocket = new SockJS("http://dokky.site:80/commonWebsocketHandler");
+			webSocket = new WebSocket("wss://dokky.site:443/commonWebsocketHandler");
 		}
 		
 		//WebSocket API

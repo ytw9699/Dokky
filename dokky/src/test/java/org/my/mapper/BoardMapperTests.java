@@ -105,7 +105,7 @@ public class BoardMapperTests {
 		for(int i=1; i<6; i++) {
 			
 			log.info(title[i-1]+" 글 리스트 테스트");
-			log.info("https://dokky.ga/board/list?category="+i);
+			log.info("https://dokky.site/board/list?category="+i);
 			
 			cri.setCategory(i);
 			

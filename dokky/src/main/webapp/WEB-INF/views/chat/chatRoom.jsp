@@ -176,7 +176,7 @@
 				
 			}else{
 				
-				webSocketChat = new WebSocket("wss://dokky.ga:443/chatWebsocketHandler");
+				webSocketChat = new WebSocket("wss://dokky.site:443/chatWebsocketHandler");
 			}
 			
 			webSocketChat.onopen = function(){ //웹소켓이 연결됬다면
