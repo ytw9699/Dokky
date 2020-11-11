@@ -6,10 +6,12 @@ package org.my.domain;
 public class ChatMessage {
 	
     private String chatRoomNum;
+    private Long chatContentNum;
     private String chat_writerId;
     private String chat_writerNick;
     private String message;
     private Date regDate;
+    private int headCount;
     private ChatMessageType type;
 }
 

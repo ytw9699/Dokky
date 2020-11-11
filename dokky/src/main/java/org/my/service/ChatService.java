@@ -2,7 +2,10 @@ package org.my.service;
 	import java.util.Date;
 	import java.util.List;
 	import org.my.domain.ChatMemberVO;
+	import org.my.domain.ChatReadVO;
 	import org.my.domain.ChatRoomVO;
+	import org.my.domain.MemberVO;
+	import org.my.domain.chatRoomDTO;
 	import org.my.domain.ChatContentVO;
 	import org.my.domain.ChatRoom;
 
@@ -12,7 +15,7 @@ public interface ChatService {
 	
 	public boolean createSingleChat(ChatRoomVO chatRoomVO, ChatMemberVO chatMemberVO);
 	
-	public List<ChatContentVO> getChatContents(Long chatRoomNum, Date recentOutDate);
+	public List<ChatContentVO> getChatContents(Long chatRoomNum, Date recentOutDate, String chat_memberId);
 	
 	public ChatMemberVO getChatMember(Long chatRoomNum, String userId);
 	
@@ -26,7 +29,7 @@ public interface ChatService {
 	
 	public void createNoticeContent(ChatContentVO chatContentVO);
 
-	public void updateOutDate(Long chatRoomNum, String chat_memberId);
+	public void updateOutDate(Long chatRoomNum, String chat_memberId , Date date);
 
 	public Date getRecentOutDate(Long chatRoomNum, String chat_memberId);
 	
@@ -35,5 +38,13 @@ public interface ChatService {
 	public boolean getMyRoomStatus(Long chatRoomNum, String myId);
 	
 	public int getRoomHeadCount(Long chatRoomNum);
+
+	public int getHeadCount(Long chatRoomNum);
+
+	public boolean readChat(ChatReadVO vo);
+
+	public List<chatRoomDTO> getMyChatRoomList(String userId);
+
+	public List<MemberVO> getChatUserList();
 	
 }

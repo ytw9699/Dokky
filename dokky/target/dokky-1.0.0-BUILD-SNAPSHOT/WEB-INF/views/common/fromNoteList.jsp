@@ -80,6 +80,11 @@
 												<span class="hideUsermenu">쪽지보내기</span>
 											</a>
 										</li>
+										<li class="hideUsermenu singleChat" data-chat_nickname="${note.from_nickname}" data-chat_userid="${note.from_id}">
+											<a href="#" class="hideUsermenu">
+												<span class="hideUsermenu">1:1채팅</span>
+											</a>
+										</li>
 									</ul>      
 							    </div> 
 							</td>
@@ -149,9 +154,15 @@
 
 		var actionForm = $("#actionForm");
 		var userId = '${userInfo.username}';
-		
+		var myId;
+		var myNickName;
 		var csrfHeaderName ="${_csrf.headerName}"; 
 		var csrfTokenValue="${_csrf.token}";
+	
+		<sec:authorize access="isAuthenticated()">   
+			myId = '${userInfo.username}';   
+			myNickName = '${userInfo.member.nickName}';
+		</sec:authorize>
 		
 		$(document).ajaxSend(function(e, xhr, options) { 
 		    xhr.setRequestHeader(csrfHeaderName, csrfTokenValue);

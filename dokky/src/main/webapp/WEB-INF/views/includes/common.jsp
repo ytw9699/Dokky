@@ -199,8 +199,8 @@
 			//LoadModule proxy_module modules/mod_proxy.so 
 
 		}else{
-			//webSocket = new SockJS("http://dokky.ga:80/commonWebsocketHandler");
-			webSocket = new WebSocket("wss://dokky.ga:443/commonWebsocketHandler");
+			//webSocket = new SockJS("http://dokky.site:80/commonWebsocketHandler");
+			webSocket = new WebSocket("wss://dokky.site:443/commonWebsocketHandler");
 		}
 		
 		//WebSocket API
@@ -272,11 +272,6 @@
 	</sec:authorize>
 	
 	var username = null;
-	var isLimited ; // 쓰기 제한된 계정의 true,false 여부
-	
-	<sec:authorize access="hasRole('ROLE_STOP')">
-			isLimited = true;
-	</sec:authorize>
 	
 	<sec:authorize access="isAuthenticated()"> 
 		username = '${userInfo.username}';
@@ -364,8 +359,8 @@
 		
 		$("#leftUsermenuBar").css("display","none"); 
 		
-		if(isLimited){ 
-	    	  openAlert("쓰기 기능이 제한되어있습니다.");
+		if(isLimited()){ 
+	    	  openAlert("쓰기 기능이 제한되어있습니다");
 	    	  return;
 	    }
 		
@@ -436,11 +431,129 @@
 	 	 });
 	} 
 	
+	function isLimited(){
+		
+		var isLimited = false;// 쓰기 제한된 계정의 true,false 여부
+		
+		<sec:authorize access="hasRole('ROLE_STOP')">
+				isLimited = true;
+		</sec:authorize>
+		
+		return isLimited;
+	} 
+	
+	function checkLength(obj, maxByte) { 
+		 
+		if(obj.tagName === "INPUT" || obj.tagName === "TEXTAREA"){ 
+			var str = obj.value; 
+		}else if(obj.tagName === "DIV" ){
+			var str = obj.innerHTML; 
+		} 
+			
+		var stringByteLength = 0;
+		var reStr;
+			
+		stringByteLength = (function(s,b,i,c){
+			
+		    for(b=i=0; c=s.charCodeAt(i++);){
+		    
+			    b+=c>>11?3:c>>7?2:1;
+			    if (b > maxByte) { 
+			    	break;
+			    }
+			    
+			    reStr = str.substring(0,i);
+		    }
+		    
+		    return b
+		    
+		})(str);
+		
+		if(obj.tagName === "INPUT" || obj.tagName === "TEXTAREA"){ 
+			if (stringByteLength > maxByte) {          
+				openAlert(maxByte + " Byte 이상 입력할 수 없습니다");         
+				obj.value = reStr;       
+			}   
+		}else if(obj.tagName === "DIV"){
+			if (stringByteLength > maxByte){          
+				openAlert(maxByte + " Byte 이상 입력할 수 없습니다");         
+				obj.innerHTML = reStr;    
+			}   
+		} 
+		
+		obj.focus();  
+	}
+	
 	$(document).ready(function() {
+		
 		<sec:authorize access="isAuthenticated()">  
 			schedule();
 		 	setInterval(schedule, 60000);//60초마다 알람,쪽지 카운트 불러오기
 		</sec:authorize>
+		
+		$(".singleChat").on("click",function(event){//1:1 채팅 버튼 
+			
+			if(username == null){ 
+				
+				openAlert("로그인 해주세요"); 
+				
+				return;
+			}
+			
+			if(isLimited()){
+		    	  openAlert("쓰기 기능이 제한되어 있습니다");
+		    	  return;
+		    }
+			
+			if(username == $(this).data("board_userid")){ 
+				
+				openAlert("본인과는 채팅 할 수 없습니다");
+				
+				return;
+			}
+		
+			var chatRoomData = {   
+									roomOwnerId : myId,
+									roomOwnerNick : myNickName,
+									chat_type : 0,
+									headCount : 2
+							   };
+		
+			var chatMemberData = {
+					
+									chat_memberId : $(this).data("chat_userid"),
+									chat_memberNick : $(this).data("chat_nickname")
+							  	 };
+								
+			var commonData = { 
+								chatRoomVO : chatRoomData,
+								chatMemberVO : chatMemberData
+				 			 };
+			
+			commonService.makeSingleChat(commonData, 
+		   			
+			   		function(result, status){
+					
+						if(status == "success"){ 
+							
+							var popupX = (window.screen.width / 2) - (400 / 2);
+	
+							var popupY= (window.screen.height /2) - (500 / 2);
+							
+							window.open('/chatRoom/'+result+'?userId='+myId, 'ot', 'height=500, width=400, screenX='+ popupX + ', screenY= '+ popupY);
+						}
+			    	},
+				    
+			    	function(status){
+			    	
+						if(status == "error"){ 
+							
+							openAlert("Server Error(관리자에게 문의해주세요)");
+						}
+			    	}
+		   	); 
+		});
+		
 	});
 	
 	</script>

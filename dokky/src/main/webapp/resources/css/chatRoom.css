@@ -7,11 +7,7 @@
 			    margin-left: 1%;
 			    margin-top: 1%;
 			    min-height: 480px;
-			    border-color: #dbdbdb;
-			    border-width: 1px;
-			    border-style: solid;
 			    color: #333333;
-			    border-radius: 5px;
 		}
         
         .chat_wrap{
@@ -22,15 +18,40 @@
 			    margin-left: 1%;
         }
         
+        .todayDate{
+         	text-align: center;
+         	margin-top: 4%;
+         	font-size: 14px;
+         	color: #7151fc;
+        }
+        
         .chat_content{
         	font-size: 16px;
        	    margin-right: 1%;
        	    margin-left: 1%;
         }
         
+        .chat_nick{
+        	font-size: 14px;
+        }
+        
+        .chat_notice_content{
+        	font-size: 12px;
+       	    margin-right: 1%;
+       	    margin-left: 1%;
+       	    color: #7151fc;
+        }
+        
         .chat_time{
         	font-size: 12px; 
         	margin-left: 1%;
+        }
+        
+        .chat_readCount{
+        	font-size: 12px; 
+        	margin-left: 1%;
+        	margin-right: 1%;
+        	color: #7151fc;
         }
         
         #chatTitle{
@@ -43,6 +64,7 @@
 			    margin-top: -3.5%;
 			    height: 50px;
 			    font-size: 18px;
+		        border-bottom: 3px inset;
         }
         
         .myChat{
@@ -60,20 +82,25 @@
         	 	margin-top: 2%;
         }
         
+        .outChatRoom{
+        	display: inline;
+    		float: right;
+        }
+        
         .memberImage{
         
 				border-radius: 50px;
 				width: 25px; 
 				height: 25px;  
+			    margin-right: 2%;
 		}
 		
         #leave{
-        
 	       		border: none;
 			    padding: 6px;
 			    font-size: 15px;
 			    color: white;
-			    width: 23%;
+			    width: 100%; 
 			    cursor: pointer;
 			    border-radius: 10px;
 			    background-color: #7151fc;
@@ -90,22 +117,19 @@
        	    overflow: auto; 
 		    width: 360px;
 		    min-height: 320px;
-		    border: 1px solid;
 		    margin-top: 10%; 
 		    margin-bottom: 26%;
-        	/* background-color : white; */
         }
        
         #messageWrap{
         
     	    width: 360px;
 		    min-height: 100px;
-		    border: 1px solid;
 		    position: fixed;
 		    bottom: 0px;
 		    background-color: white;
         }
-        
+
         #sendMessageBtn{
         
         	border: none;
@@ -120,8 +144,14 @@
         
         #message{
         
-        	min-height: 50px;
-        	width: 265px;
+        	min-height: 75px;
+   			width: 275px;
+   			border-style: solid;
+		    border-radius: 5px;
+        }
+        
+        #message:focus{
+	         outline: none;
         }
         
         #messgaeInputWrap{
@@ -135,10 +165,56 @@
         
         #sendBtnWrap{
         
-        	display: inline-block;
-		    width: 16%;
-		    margin-left: 1%;
+       	    display: inline-block;
+		    width: 15%;
 		    height: 30px;
+		    float: right;
+		    margin-right: 2%;
+		    margin-top: 17%;
         }
         
-        
+        #alertFakeDiv{
+			display: none;
+		    position: fixed;
+		    width: 100%;
+		    height: 100%;
+		    top: 0;
+		    left: 0;
+		    background-color: #000 !important; 	 
+		    opacity: 0.6;
+		}
+		
+		#alertDiv{
+			display: none;   
+		    width: 180px;
+		    border-radius: 8px;
+		    position: fixed;
+		    top: 30%;
+		    left: 23%;
+		    padding: 20px;
+		    background-color: white;
+		}
+
+		#alertContent{ 
+		    width: 110%;
+		    margin-bottom: 5%;
+		    margin-left: -3%;
+		    text-align: center;
+		    font-size: 16px;
+		    color: #555;
+		    font-weight: 600;
+		}
+		
+		#alertConfirm{ 
+		    font-size: 12px;
+		    border: none;
+		    padding: 8px;
+		    width: 45%;
+		    margin: 0 auto;
+		    margin-top: 15px;
+		    display: block;
+		    border-radius: 8px;
+		    color: white;
+		    background-color: #7151fc;
+		    cursor: pointer;
+		}

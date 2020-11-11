@@ -165,13 +165,13 @@
 											<span class="hideUsermenu">쪽지보내기</span> 
 										</a>
 									</li>
-									<li class="hideUsermenu singleChat" data-board_nickname="${board.nickName}" data-board_userid="${board.userId}">
+									<li class="hideUsermenu singleChat" data-chat_nickname="${board.nickName}" data-chat_userid="${board.userId}">
 										<a href="#" class="hideUsermenu">
 											<span class="hideUsermenu">1:1채팅</span>
 										</a>
 									</li>
 								</ul>     
-						     </div> 
+						     </div>
 						</td>
 						<td id="dateTd" class="regdate${board.board_num}" data-regdate_val='<fmt:formatDate value="${board.regDate}" pattern="yyyy/MM/dd/HH:mm:ss" />'>
 								<script>
@@ -392,8 +392,8 @@
 
 	$("#regBtn").on("click", function() { 
 		
-		if(isLimited){
-	    	  openAlert("쓰기 기능이 제한되어있습니다.");
+		if(isLimited()){
+	    	  openAlert("쓰기 기능이 제한되어있습니다");
 	    	  return;
 	    }
 		
@@ -456,69 +456,6 @@
 					searchForm.submit();
 		});
 		
-		$(".singleChat").on("click",function(event){//1:1 채팅 
-				
-				if(isLimited){ 
-			    	  openAlert("쓰기 기능이 제한되어있습니다.");
-			    	  return;
-			    }
-				
-				if(username == null){ 
-					
-					openAlert("로그인 해주세요"); 
-					
-					return;
-				}
-				
-				if(username == $(this).data("board_userid")){ 
-					
-					openAlert("본인과는 채팅 할 수 없습니다");
-					
-					return;
-				}
-			
-				var chatRoomData = {   
-										roomOwnerId : myId,
-										roomOwnerNick : myNickName,
-										chat_type : 0
-								   };
-			
-				var chatMemberData = {
-						
-										chat_memberId : $(this).data("board_userid"),
-										chat_memberNick : $(this).data("board_nickname")
-								  	 };
-									
-				var commonData = { 
-									chatRoomVO : chatRoomData,
-									chatMemberVO : chatMemberData
-					 			 };
-				
-				commonService.makeSingleChat(commonData, 
-			   			
-				   		function(result, status){
-						
-							if(status == "success"){ 
-								
-								var popupX = (window.screen.width / 2) - (400 / 2);
-	
-								var popupY= (window.screen.height /2) - (500 / 2);
-								
-								window.open('/chatRoom/'+result+'?userId='+myId, 'ot', 'height=500, width=400, screenX='+ popupX + ', screenY= '+ popupY);
-							}
-				    	},
-					    
-				    	function(status){
-				    	
-							if(status == "error"){ 
-								
-								openAlert("Server Error(관리자에게 문의해주세요)");
-							}
-				    	}
-			   	); 
-		});
-		
 </script>
-	
 </body>
 </html>

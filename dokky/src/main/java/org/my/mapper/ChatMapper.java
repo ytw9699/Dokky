@@ -4,7 +4,9 @@ package org.my.mapper;
 	import org.apache.ibatis.annotations.Param;
 	import org.my.domain.ChatContentVO;
 	import org.my.domain.ChatMemberVO;
+	import org.my.domain.ChatReadVO;
 	import org.my.domain.ChatRoomVO;
+	import org.my.domain.MemberVO;
 
 public interface ChatMapper {
 
@@ -14,7 +16,7 @@ public interface ChatMapper {
 	
 	int createChatMember(ChatMemberVO chatMemberVO);
 	
-	List<ChatContentVO> getChatContents(@Param("chatRoomNum") Long chatRoomNum,  @Param("recentOutDate") Date recentOutDate);
+	List<ChatContentVO> getChatContents(@Param("chatRoomNum") Long chatRoomNum,  @Param("recentOutDate") Date recentOutDate, @Param("chat_memberId") String chat_memberId);
 	
 	ChatMemberVO getChatMember(@Param("chatRoomNum") Long chatRoomNum, @Param("userId") String userId);
 	
@@ -22,7 +24,7 @@ public interface ChatMapper {
 	
 	int createNoticeContent(ChatContentVO chatContentVO);
 
-	void updateOutDate(@Param("chatRoomNum") Long chatRoomNum, @Param("chat_memberId") String chat_memberId);
+	void updateOutDate(@Param("chatRoomNum") Long chatRoomNum, @Param("chat_memberId") String chat_memberId, @Param("inputDate") Date inputDate);
 
 	Date getRecentOutDate(@Param("chatRoomNum") Long chatRoomNum, @Param("chat_memberId") String chat_memberId);
 
@@ -35,5 +37,25 @@ public interface ChatMapper {
 	int getRoomHeadCount(Long chatRoomNum);
 
 	int removeChatRoom(Long chatRoomNum);
+
+	int getHeadCount(Long chatRoomNum);
+	
+	int createChatReadType(@Param("chatRoomNum") Long chatRoomNum, @Param("chatContentNum") Long chatContentNum, @Param("chat_memberId") String chat_memberId, @Param("chat_memberNick") String chat_memberNick, @Param("read_type") int read_type );
+
+	List<ChatMemberVO> getChatMembers(Long chatRoomNum);
+
+	int updateRead_type(ChatReadVO vo);
+
+	int updateReadCount(ChatReadVO vo);
+
+	List<ChatRoomVO> getMyChatRoomVoList(String userId);
+
+	ChatContentVO getMyChatContentVo(Long chatRoomNum);
+
+	List<ChatReadVO> getMyChatReadVo(@Param("chatRoomNum") Long chatRoomNum, @Param("userId") String userId);
+
+	int getNotReadCnt(@Param("chatRoomNum") Long chatRoomNum, @Param("userId") String userId);
+
+	List<MemberVO> getChatUserList();
 
 }

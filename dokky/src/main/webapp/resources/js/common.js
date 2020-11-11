@@ -116,15 +116,18 @@ var commonService = (function() {
 	function displayReplyTime(timeValue) {
 
 		var dateObj = new Date(timeValue);
-		var yy = dateObj.getFullYear();
-		var mm = dateObj.getMonth() + 1; // getMonth() is zero-based
-		var dd = dateObj.getDate();
+		//var yy = dateObj.getFullYear();
+		//var mm = dateObj.getMonth() + 1; // getMonth() is zero-based
+		//var dd = dateObj.getDate();
 		var hh = dateObj.getHours();
 		var mi = dateObj.getMinutes();
 		var ss = dateObj.getSeconds();
+		var time = hh < 12 ? "오전" : "오후";
+
+		return time+" " + [(hh > 9 ? '' : '0') + hh, ':', (mi > 9 ? '' : '0') + mi].join('');
 		
-		return [ yy, '-', (mm > 9 ? '' : '0') + mm, '-',
-				(dd > 9 ? '' : '0') + dd, ' ', (hh > 9 ? '' : '0') + hh, ':', (mi > 9 ? '' : '0') + mi].join('');
+		/*return [ yy, '-', (mm > 9 ? '' : '0') + mm, '-',
+				(dd > 9 ? '' : '0') + dd, ' ', (hh > 9 ? '' : '0') + hh, ':', (mi > 9 ? '' : '0') + mi].join('');*/
 	}
 
 	function likeBoard(commonData, callback, error) {//좋아요 업데이트

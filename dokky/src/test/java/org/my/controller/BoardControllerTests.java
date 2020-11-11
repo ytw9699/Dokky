@@ -55,7 +55,7 @@ public class BoardControllerTests {
 	public void test1_Register() throws Exception {//로그인처리후 동작 가능
 		
 		log.info("첨부파일 없는 단순 글 등록 테스트");
-		log.info("https://dokky.ga/board/register");
+		log.info("https://dokky.site/board/register");
 		
 		try {
 			 ModelAndView modelAndView = mockMvc
@@ -98,7 +98,7 @@ public class BoardControllerTests {
 			
 			String board_num = service.getRecentBoard_num().toString();//가장 최근의 글번호
 			
-			log.info("https://dokky.ga/board/get?board_num="+board_num);
+			log.info("https://dokky.site/board/get?board_num="+board_num);
 			
 			BoardVO board = (BoardVO) mockMvc.perform(MockMvcRequestBuilders.get("/board/get").param("board_num", board_num)).andReturn()
 					.getModelAndView().getModel().get("board");
@@ -181,7 +181,7 @@ public class BoardControllerTests {
 		
 		try {
 			
-			log.info("https://dokky.ga/board/allList?category=0");
+			log.info("https://dokky.site/board/allList?category=0");
 			
 			log.info(									  //GET 방식의 호출
 					mockMvc.perform(MockMvcRequestBuilders.get("/board/allList?category=0"))
