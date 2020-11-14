@@ -61,7 +61,7 @@ public class ReplyControllerTests {
 	public void test1_ReplyRegister() throws Exception {//로그인처리후 동작 가능
 		
 		log.info("가장 최근의 자신의 글에 일반적인 댓글 등록 테스트");
-		log.info("https://dokky.ga/replies/new");
+		log.info("https://dokky.site/replies/new");
 		
 		try {
 			
