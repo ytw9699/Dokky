@@ -326,7 +326,7 @@
 						 var getMessgae = obj.message;
 						 
 						 chatroom.innerHTML = chatroom.innerHTML + "<div class='chat_wrap notice'>"
-						 											+ "<span class='chat_content'>"
+						 											+ "<span class='chat_notice_content'>"
 																		 + getMessgae
 																 	+ "</span>"
 						 										 + "</div>";
@@ -355,7 +355,7 @@
 						 var getMessgae = obj.message;
 						 
 						 chatroom.innerHTML = chatroom.innerHTML + "<div class='chat_wrap notice'>"
-						 											+ "<span class='chat_content'>"
+						 											+ "<span class='chat_notice_content'>"
 																		 + getMessgae
 																 	+ "</span>"
 						 										 + "</div>";
