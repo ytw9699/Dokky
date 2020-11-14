@@ -356,12 +356,10 @@ create table dk_chat_room(
  
 		 chatRoomNum number(10,0), --기본키 pk
 		 chat_title VARCHAR2(50), -- 방 제목
-		 chat_title_type number default 0, -- 방 제목의 타입 (제목 수정 안했으면 0, 수정 했으면 1)
 		 roomOwnerId VARCHAR2(50) NOT NULL, --방장 아이디
 		 roomOwnerNick VARCHAR2(50) NOT NULL, --방장 닉네임
 		 chat_type number NOT NULL, -- -- 채팅방의 타입 ( 0 = 1:1채팅방 , 1 = 그룹 채팅방) 
 		 headCount number NOT NULL, -- 방의 총 인원수
-		 input_content_date date default sysdate, --(채팅내용이 입력되면 날짜를 업데이트)
 		 constraint pk_chat_room PRIMARY KEY(chatRoomNum)
 )
 

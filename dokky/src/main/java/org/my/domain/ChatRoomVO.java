@@ -1,5 +1,4 @@
 package org.my.domain;
-	import java.util.Date;
 	import lombok.Data;
 	
 @Data
@@ -11,5 +10,4 @@ public class ChatRoomVO {
 	  private String roomOwnerNick;
 	  private int chat_type;
 	  private int headCount;
-	  private Date input_content_date;
 }
