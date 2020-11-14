@@ -282,3 +282,60 @@ constraint `pk_alarm` PRIMARY KEY (alarmNum)
 
 create sequence `seq_dk_alarm`  
 
+### 17) 채팅룸     
+create table `dk_chat_room`(  
+ 
+`chatRoomNum` number(10,0), --기본키 pk  
+`chat_title` VARCHAR2(50), -- 방 제목  
+`roomOwnerId` VARCHAR2(50) NOT NULL, --방장 아이디  
+`roomOwnerNick` VARCHAR2(50) NOT NULL, --방장 닉네임  
+`chat_type` number NOT NULL, -- -- 채팅방의 타입 ( 0 = 1:1채팅방 , 1 = 그룹 채팅방)   
+`headCount` number NOT NULL, -- 방의 총 인원수  
+constraint `pk_chat_room` PRIMARY KEY(`chatRoomNum`)  
+)  
+
+create sequence `seq_dk_chat_room`;  
+
+### 18) 채팅룸의 멤버     
+create table `dk_chat_member`(  
+ 
+`chatRoomNum` number(10,0) not null,--fk  
+`chat_memberId` VARCHAR2(50) NOT NULL, -- 채팅룸 멤버 아이디  
+`chat_memberNick` VARCHAR2(50) NOT NULL, -- 채팅룸 멤버 닉네임  
+`recentOutDate` date, --방에서 나간 최근 날짜  
+`present_position` number default 0, --(현재 멤버의 위치) 0 = 방에서 안나감 , 1 = 방에서 나감  
+constraint `fk_chat_member` foreign key(`chatRoomNum`) references `dk_chat_room(chatRoomNum)` on delete cascade  
+)  
+
+### 19) 채팅 내용  
+create table `dk_chat_content`(  
+ 
+`chatContentNum` number(10,0), --pk  
+`chatRoomNum` number(10,0) not null, --fk  
+`chat_content` varchar2(4000) not null, --채팅 내용  
+`chat_writerId` VARCHAR2(50), -- 글쓴이 아이디  
+`chat_writerNick` VARCHAR2(50), -- 글쓴이 닉네임  
+`content_type` number default 0,  -- 채팅 내용 종류 (0 = 일반내용 , 1 = 공지내용)  
+`readCount` number,  -- 현재 읽지 않은 인원수  
+`regdate` date default sysdate,  
+constraint `pk_chat_content` PRIMARY KEY(`chatContentNum`),  
+constraint `fk_chat_content` foreign key(`chatRoomNum`) references `dk_chat_room(chatRoomNum)` on delete cascade  
+)  
+
+create sequence seq_dk_chat_content;  
+
+### 20) 채팅 내용 읽음 여부
+create table dk_chat_read(  
+ 
+`chatReadNum` number(10,0), --pk  
+`chatContentNum` number(10,0) NOT NULL, --fk  
+`chatRoomNum` number(10,0) NOT NULL, --fk  
+`chat_memberId` VARCHAR2(50) NOT NULL, -- 채팅룸 멤버 아이디  
+`chat_memberNick` VARCHAR2(50) NOT NULL, -- 채팅룸 멤버 닉네임  
+`read_type` number default 0, -- 메시지 읽음 여부 (0 = 읽지않음 , 1 = 읽음)  
+constraint `pk_chat_read` PRIMARY KEY(chatReadNum),  
+constraint `fk_chat_read_first` foreign key(`chatContentNum`) references `dk_chat_content(chatContentNum)` on delete cascade,  
+constraint `fk_chat_read_second` foreign key(`chatRoomNum`) references `dk_chat_room(chatRoomNum)` on delete cascade  
+)  
+
+create sequence seq_dk_chat_read;  
