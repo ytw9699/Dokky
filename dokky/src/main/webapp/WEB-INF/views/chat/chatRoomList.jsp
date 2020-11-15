@@ -108,7 +108,6 @@
 				</div>
 			</div>
 	</div>
-	
 </body>
 <script>
 		var csrfHeaderName ="${_csrf.headerName}"; 
@@ -196,16 +195,25 @@
 									
 									if(str == ""){
 										
-										str += "<span id='user"+user_id+"' class='chosenUser' data-user_id='"+user_id+"' data-nick_name='"+nick_name+"'>"+nick_name;
+										str += "<span id='user"+user_id+"' class='chosenUser' data-user_id='"+user_id+"' data-nick_name='"+nick_name+"'>"+nick_name+"</span>";
 										
 									}else{
 										
-										str += "<span id='user"+user_id+"' class='chosenUser' data-user_id='"+user_id+"' data-nick_name='"+nick_name+"'>, "+nick_name;
+										var chosenUser = $("#user"+user_id);
+										
+										if(chosenUser.length > 0){
+											
+											chosenUser.remove();
+											chosenMembers = $("#chosenMembers");
+											str = $.trim(chosenMembers.html());
+										
+										}else{
+											
+											str += "<span id='user"+user_id+"' class='chosenUser' data-user_id='"+user_id+"' data-nick_name='"+nick_name+"'> "+nick_name+"</span>";
+										}
 									}
-							   	    	str +=  "</span>";
 									
 							   		chosenMembers.html(str);
-							   	
 							});
 						}
 			    	},
@@ -247,7 +255,6 @@
 				}
 			});
 		}
-		
 		
 </script>
 </html>
