@@ -34,16 +34,16 @@
 	    </div>
 		<div class="chatList">
 			<c:forEach items="${chatRoomList}" var="chatRoomDTO">
-				<div class="listContent singleChat" id="${chatRoomDTO.chatRoomVo.chatRoomNum}" data-chatroom_num="${chatRoomDTO.chatRoomVo.chatRoomNum}" data-chat_nickname="${chatRoomDTO.chatReadVoList[0].chat_memberNick}" data-chat_userid="${chatRoomDTO.chatReadVoList[0].chat_memberId}">
+				<div class="listContent <c:if test='${chatRoomDTO.chatRoomVo.chat_type == 0 }'>singleChat</c:if> <c:if test='${chatRoomDTO.chatRoomVo.chat_type == 1 }'>multiChat</c:if>" id="${chatRoomDTO.chatRoomVo.chatRoomNum}" data-chatroom_num="${chatRoomDTO.chatRoomVo.chatRoomNum}" data-chat_nickname="${chatRoomDTO.chatReadVoList[0].chat_memberNick}" data-chat_userid="${chatRoomDTO.chatReadVoList[0].chat_memberId}">
 					<div class="firstWrap">
 						<c:if test="${chatRoomDTO.chatRoomVo.chat_type == 0 }"> <!-- 1:1채팅방 이라면 -->
 							<c:choose>
-								   	  <c:when test="${pageContext.request.serverName == 'localhost'}"> 
-										 	<img src="/resources/img/profile_img/<c:out value="${chatRoomDTO.chatReadVoList[0].chat_memberId}"/>.png?${random}" class="listMemberImage" onerror="this.src='/resources/img/profile_img/basicProfile.png'"/>
-									  </c:when> 
-								      <c:otherwise> 
-								    		<img src="/upload/<c:out value="${chatRoomDTO.chatReadVoList[0].chat_memberId}"/>.png?${random}" class="listMemberImage" onerror="this.src='/ROOT/resources/img/profile_img/basicProfile.png'" />
-								      </c:otherwise>
+							   	  <c:when test="${pageContext.request.serverName == 'localhost'}"> 
+									 	<img src="/resources/img/profile_img/<c:out value="${chatRoomDTO.chatReadVoList[0].chat_memberId}"/>.png?${random}" class="listMemberImage" onerror="this.src='/resources/img/profile_img/basicProfile.png'"/>
+								  </c:when> 
+							      <c:otherwise> 
+							    		<img src="/upload/<c:out value="${chatRoomDTO.chatReadVoList[0].chat_memberId}"/>.png?${random}" class="listMemberImage" onerror="this.src='/ROOT/resources/img/profile_img/basicProfile.png'" />
+							      </c:otherwise>
 							</c:choose>
 						</c:if>
 					</div>
@@ -53,12 +53,12 @@
 						</div>
 						<div class="chatContent">
 					        <c:choose>
-							        <c:when test="${fn:length(chatRoomDTO.chatContentVo.chat_content) gt 40}">
-							        	<c:out value="${fn:substring(chatRoomDTO.chatContentVo.chat_content, 0, 39)}"/>...
-							        </c:when>
-							        <c:otherwise>
-								        ${chatRoomDTO.chatContentVo.chat_content}
-							        </c:otherwise>
+						        <c:when test="${fn:length(chatRoomDTO.chatContentVo.chat_content) gt 40}">
+						        	<c:out value="${fn:substring(chatRoomDTO.chatContentVo.chat_content, 0, 39)}"/>...
+						        </c:when>
+						        <c:otherwise>
+							        ${chatRoomDTO.chatContentVo.chat_content}
+						        </c:otherwise>
 							</c:choose>
 						</div>
 					</div>
