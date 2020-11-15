@@ -493,7 +493,12 @@
 		
 		$(".singleChat").on("click",function(event){//1:1 채팅 버튼 
 			
-			if(username == null){ 
+			<sec:authorize access="isAuthenticated()">   
+				var myId = '${userInfo.username}';  
+				var myNickName = '${userInfo.member.nickName}';
+			</sec:authorize>
+			
+			if(myId == null){ 
 				
 				openAlert("로그인 해주세요"); 
 				
@@ -501,11 +506,13 @@
 			}
 			
 			if(isLimited()){
-		    	  openAlert("쓰기 기능이 제한되어 있습니다");
-		    	  return;
+		    	 
+				openAlert("쓰기 기능이 제한되어 있습니다");
+		    	
+				return;
 		    }
 			
-			if(username == $(this).data("board_userid")){ 
+			if(myId == $(this).data("chat_userid")){
 				
 				openAlert("본인과는 채팅 할 수 없습니다");
 				
@@ -530,7 +537,7 @@
 								chatMemberVO : chatMemberData
 				 			 };
 			
-			commonService.makeSingleChat(commonData, 
+			commonService.makeSingleChat(commonData,  
 		   			
 			   		function(result, status){
 					
@@ -553,7 +560,6 @@
 			    	}
 		   	); 
 		});
-		
 	});
 	
 	</script>
