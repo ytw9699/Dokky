@@ -34,7 +34,7 @@
 	    </div>
 		<div class="chatList">
 			<c:forEach items="${chatRoomList}" var="chatRoomDTO">
-				<div class="listContent" id="${chatRoomDTO.chatRoomVo.chatRoomNum}" data-chatroom_num="${chatRoomDTO.chatRoomVo.chatRoomNum}">
+				<div class="listContent singleChat" id="${chatRoomDTO.chatRoomVo.chatRoomNum}" data-chatroom_num="${chatRoomDTO.chatRoomVo.chatRoomNum}" data-chat_nickname="${chatRoomDTO.chatReadVoList[0].chat_memberNick}" data-chat_userid="${chatRoomDTO.chatReadVoList[0].chat_memberId}">
 					<div class="firstWrap">
 						<c:if test="${chatRoomDTO.chatRoomVo.chat_type == 0 }"> <!-- 1:1채팅방 이라면 -->
 							<c:choose>
@@ -47,7 +47,7 @@
 							</c:choose>
 						</c:if>
 					</div>
-					<div class="secondWrap">
+					<div class="secondWrap"> 
 						<div class="chatNick">
 							${chatRoomDTO.chatReadVoList[0].chat_memberNick}
 						</div>
