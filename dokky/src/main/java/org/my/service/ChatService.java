@@ -15,6 +15,8 @@ public interface ChatService {
 	
 	public boolean createSingleChat(ChatRoomVO chatRoomVO, ChatMemberVO chatMemberVO);
 	
+	public boolean createMultiChat(ChatRoomVO chatRoomVO, ChatMemberVO[] chatMemberVoArray);
+	
 	public List<ChatContentVO> getChatContents(Long chatRoomNum, Date recentOutDate, String chat_memberId);
 	
 	public ChatMemberVO getChatMember(Long chatRoomNum, String userId);

@@ -86,18 +86,39 @@ public class ChatController {
 		 }
 	}
 	
+	@ResponseBody
+	@PostMapping(value = "/createMultiChat", consumes = "application/json", produces = "text/plain; charset=UTF-8")
+	public ResponseEntity<String> createMultiChat(@RequestBody commonVO vo) throws IOException{
+		
+		log.info("/createMultiChat");
+		log.info(vo);
+		
+		boolean makeResult = chatService.createMultiChat(vo.getChatRoomVO(), vo.getChatMemberVoArray());
+		 //1:1채팅방 만들기
+		
+		return makeResult == true  
+					? new ResponseEntity<>(vo.getChatRoomVO().getChatRoomNum().toString(), HttpStatus.OK)
+					: new ResponseEntity<>(HttpStatus.INTERNAL_SERVER_ERROR);
+	}
+	
 	@PreAuthorize("principal.username == #userId")
 	@GetMapping("/chatRoom/{chatRoomNum}")
-	public String getChatRoom(@PathVariable Long chatRoomNum, @RequestParam("userId")String userId, Model model){
+	public String getChatRoom(@PathVariable Long chatRoomNum, @RequestParam("chat_type")int chat_type, @RequestParam("userId")String userId, Model model){
 	    	
     	log.info("/getChatRoom/"+chatRoomNum);
     
     	Date recentOutDate = chatService.getRecentOutDate(chatRoomNum, userId);
     	
     	model.addAttribute("chatContents", chatService.getChatContents(chatRoomNum, recentOutDate, userId));//채팅방의 메시지들
-        model.addAttribute("chatMember", chatService.getChatMember(chatRoomNum, userId));//채팅방의 제목에 들어갈 상대방 정보
+    	
+    	if(chat_type == 0) {
+    		model.addAttribute("chatMember", chatService.getChatMember(chatRoomNum, userId));//채팅방의 제목에 들어갈 상대방 정보
+    	}else if(chat_type == 1) {
+    	}
+    	
         model.addAttribute("chatRoomNum", chatRoomNum);
         model.addAttribute("headCount", chatService.getHeadCount(chatRoomNum));
+        model.addAttribute("chat_type", chat_type);
         
         return "chat/chatRoom";
 	}
@@ -148,5 +169,7 @@ public class ChatController {
 			return new ResponseEntity<>(HttpStatus.INTERNAL_SERVER_ERROR);
 		}
 	}
+	
+	
 	
 }

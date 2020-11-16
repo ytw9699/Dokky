@@ -15,4 +15,5 @@ public class commonVO {
 	  private ReplyDisLikeVO replyDisLikeVO;
 	  private ChatRoomVO chatRoomVO;
 	  private ChatMemberVO chatMemberVO;
+	  private ChatMemberVO[] chatMemberVoArray;
 }

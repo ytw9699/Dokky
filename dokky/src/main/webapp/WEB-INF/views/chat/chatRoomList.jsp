@@ -136,16 +136,82 @@
 		$("#chatInvite").on("click", function(event){
 			
 			var chosenUser = $(".chosenUser").get();
-	   		
-	        for ( var i = 0; i < chosenUser.length; i++) {
-				var user_id = $(chosenUser[i]).data("user_id");
-				var nick_name = $(chosenUser[i]).data("nick_name");
-				
-				console.log(user_id);
-				console.log(nick_name);
-	        }
+			
+			createMultiChat(chosenUser);
 		});
 		
+		
+		function createMultiChat(chosenUser){
+			
+				<sec:authorize access="isAuthenticated()">   
+					var myId = '${userInfo.username}';  
+					var myNickName = '${userInfo.member.nickName}';
+				</sec:authorize>
+				
+				if(myId == null){ 
+					
+					openAlert("로그인 해주세요"); 
+					
+					return;
+				}
+				
+				if(isLimited()){
+			    	 
+					openAlert("쓰기 기능이 제한되어 있습니다");
+			    	
+					return;
+			    }
+				
+				var chatRoomData = {   
+										roomOwnerId : myId,
+										roomOwnerNick : myNickName,
+										chat_type : 1,
+										headCount : chosenUser.length
+								   };
+				
+				var chatMemberVoArray = new Array(chosenUser.length); 
+				
+			    for ( var i = 0; i < chosenUser.length; i++) {
+		        	
+					 var chatMemberData = {
+							
+											chat_memberId : $(chosenUser[i]).data("user_id"),
+											chat_memberNick : $(chosenUser[i]).data("nick_name")
+									  	};
+					
+					 chatMemberVoArray[i] = chatMemberData;
+		        }
+									
+				var commonData = { 
+									chatRoomVO : chatRoomData,
+									chatMemberVoArray : chatMemberVoArray
+					 			 };
+				
+				commonService.createMultiChat(commonData,  
+						
+				   		function(result, status){
+							
+							if(status == "success"){ 
+								
+								closeUserList();
+								
+								var popupX = (window.screen.width / 2) - (400 / 2);
+		
+								var popupY= (window.screen.height /2) - (500 / 2);
+								
+								window.open('/chatRoom/'+result+'?userId='+myId+'&chat_type=1', 'ot', 'height=500, width=400, screenX='+ popupX + ', screenY= '+ popupY);
+							}
+				    	},
+					    
+				    	function(status){
+				    	
+							if(status == "error"){ 
+								
+								openAlert("Server Error(관리자에게 문의해주세요)");
+							}
+				    	}
+			   	);
+		}
 		
 		function openUserList(){
 			

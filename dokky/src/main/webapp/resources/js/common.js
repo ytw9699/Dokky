@@ -378,6 +378,27 @@ var commonService = (function() {
 		});
 	}
 	
+	function createMultiChat(commonData, callback, error) {
+		
+		$.ajax({
+			type : 'post', 
+			url : '/createMultiChat',  
+			data : JSON.stringify(commonData), 
+			contentType : "application/json; charset=utf-8",
+			success : function(result, status, xhr) {
+				if (callback) {
+					callback(result, status);
+				}
+			},
+			error : function(xhr, status, er) {
+				if (error) {
+					error(status);
+				}
+			}
+		});
+	}
+	
+	
 	/*function download(path, callback, error) {
 		console.log("download...............");  
 		 
@@ -415,7 +436,8 @@ var commonService = (function() {
 		deleteScrapData : deleteScrapData,
 		insertNote : insertNote,
 		report : report,
-		makeSingleChat : makeSingleChat
+		makeSingleChat : makeSingleChat,
+		createMultiChat : createMultiChat
 		/*download: download*/
 	};
 

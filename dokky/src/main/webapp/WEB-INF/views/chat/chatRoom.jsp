@@ -27,24 +27,41 @@
 <body>
 	<div class="bodyWrap">
 		<div id="chatTitle">
-		  <div id="innerTitleWrap">
-				<div class="innerTitle">
-						<c:choose>
-						   	  <c:when test="${pageContext.request.serverName == 'localhost'}"> 
-								 	<img src="/resources/img/profile_img/<c:out value="${chatMember.chat_memberId}"/>.png?${random}" class="memberImage" onerror="this.src='/resources/img/profile_img/basicProfile.png'"/>
-							  </c:when> 
-						      <c:otherwise> 
-						    		<img src="/upload/<c:out value="${chatMember.chat_memberId}"/>.png?${random}" class="memberImage" onerror="this.src='/ROOT/resources/img/profile_img/basicProfile.png'" />
-						      </c:otherwise>
-						</c:choose>
-				</div>
-				<div class="innerTitle">
-					<c:out value="${chatMember.chat_memberNick}" />
-				</div> 
-				<div class="outChatRoom">
-					<button id="leave">방 나가기 </button>
-				</div>
-		  </div>	
+			 <c:choose>
+			   	  <c:when test="${chat_type == 0}"> <!-- 1:1채팅방이라면 -->
+				   	  <div id="innerTitleWrap">
+							<div class="innerTitle">
+									<c:choose>
+									   	  <c:when test="${pageContext.request.serverName == 'localhost'}"> 
+											 	<img src="/resources/img/profile_img/<c:out value="${chatMember.chat_memberId}"/>.png?${random}" class="memberImage" onerror="this.src='/resources/img/profile_img/basicProfile.png'"/>
+										  </c:when> 
+									      <c:otherwise> 
+									    		<img src="/upload/<c:out value="${chatMember.chat_memberId}"/>.png?${random}" class="memberImage" onerror="this.src='/ROOT/resources/img/profile_img/basicProfile.png'" />
+									      </c:otherwise>
+									</c:choose>
+							</div>
+							<div class="innerTitle">
+								<c:out value="${chatMember.chat_memberNick}" />
+							</div> 
+							<div class="outChatRoom">
+								<button id="leave">방 나가기 </button>
+							</div>
+					  </div>
+				  </c:when> 
+			      <c:when test="${chat_type == 1}"> <!-- 멀티채티방이라면 -->
+			        	<div id="innerTitleWrap">
+			        		<div class="innerTitle">
+			        			멀티채팅방
+							</div> 
+							<div class="innerTitle">
+								멀티채팅방
+							</div> 
+							<div class="outChatRoom">
+								<button id="leave">방 나가기 </button>
+							</div>
+			  			</div>
+				  </c:when>
+			</c:choose>
 		</div>
 		<div id="chatContents">
 						<script>

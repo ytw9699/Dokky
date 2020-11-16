@@ -78,6 +78,75 @@ public class ChatServiceImpl implements ChatService {
 			
 			return firstResult == 1 && secondResult == 1 && thirdResult == 1 && fourthResult == 1 ;
 		}
+
+		@Transactional
+		@Override
+		public boolean createMultiChat(ChatRoomVO chatRoomVO, ChatMemberVO[] chatMemberVoArray){
+			
+			log.info("createMultiChat");
+			
+			if(chatMapper.createChatRoom(chatRoomVO) != 1) {//그룹방 만들기
+				
+				return false;
+			}
+			
+			Long chatRoomNum = chatRoomVO.getChatRoomNum();
+			
+			ChatContentVO chatContentVO = new ChatContentVO();
+			
+			chatContentVO.setRegDate(new Date());
+			
+			chatContentVO.setChatRoomNum(chatRoomNum);
+			
+			String chat_content = chatRoomVO.getRoomOwnerNick()+"님이 ";
+			
+			for(ChatMemberVO memberVO : chatMemberVoArray){
+				
+				memberVO.setChatRoomNum(chatRoomNum);
+				
+				if(chatMapper.createChatMember(memberVO) != 1){//채팅 멤버들 입력
+					
+					return false;
+				}
+				
+				chat_content += memberVO.getChat_memberNick()+" ";
+	    	}
+			
+			ChatMemberVO roomOwnerVO = new ChatMemberVO();
+						 roomOwnerVO.setChatRoomNum(chatRoomNum);
+						 roomOwnerVO.setChat_memberId(chatRoomVO.getRoomOwnerId());
+						 roomOwnerVO.setChat_memberNick(chatRoomVO.getRoomOwnerNick());
+			
+			if(chatMapper.createChatMember(roomOwnerVO) != 1 ){//방장 멤버이력
+				return false;
+			}
+			
+			chat_content += "님을 초대했습니다";
+			
+			chatContentVO.setChat_content(chat_content);
+			
+			if(chatMapper.createNoticeContent(chatContentVO) != 1) {//공지 내용 입력
+				
+				return false;
+			}
+			
+			Long chatContentNum =  chatContentVO.getChatContentNum();
+			
+			for(ChatMemberVO memberVO : chatMemberVoArray){
+				
+				if(chatMapper.createChatReadType(chatRoomNum,  chatContentNum, memberVO.getChat_memberId(), memberVO.getChat_memberNick(), 1) != 1){
+					//멤버들 읽음 테이블 입력
+					return false;
+				}
+	    	}
+			
+    		if(chatMapper.createChatReadType(chatRoomNum, chatContentNum , chatRoomVO.getRoomOwnerId(), chatRoomVO.getRoomOwnerNick(), 1) != 1){
+    			//방장도 읽음 테이블 입력
+    			return false;
+    		}
+    		
+    		return true;
+		}
 		
 		@Override
 		public List<ChatContentVO> getChatContents(Long chatRoomNum, Date recentOutDate, String chat_memberId){
