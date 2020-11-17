@@ -47,6 +47,6 @@ public interface ChatService {
 
 	public List<chatRoomDTO> getMyChatRoomList(String userId);
 
-	public List<MemberVO> getChatUserList();
+	public List<MemberVO> getChatUserList(String keyword);
 	
 }

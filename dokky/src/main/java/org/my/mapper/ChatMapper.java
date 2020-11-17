@@ -56,6 +56,6 @@ public interface ChatMapper {
 
 	int getNotReadCnt(@Param("chatRoomNum") Long chatRoomNum, @Param("userId") String userId);
 
-	List<MemberVO> getChatUserList();
+	List<MemberVO> getChatUserList(@Param("keyword") String keyword);
 
 }

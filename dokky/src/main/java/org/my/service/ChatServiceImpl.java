@@ -338,11 +338,11 @@ public class ChatServiceImpl implements ChatService {
 		}
 		
 		@Override
-		public List<MemberVO> getChatUserList(){
+		public List<MemberVO> getChatUserList(String keyword){
 			
 			log.info("getChatUserList");
 			
-			return chatMapper.getChatUserList();
+			return chatMapper.getChatUserList(keyword);
 		}
 }
 

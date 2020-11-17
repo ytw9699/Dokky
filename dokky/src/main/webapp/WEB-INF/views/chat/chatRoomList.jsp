@@ -94,17 +94,17 @@
 			<div id="chosenMembers">
 			</div>
 			<div id="searchWrap">
-				<input id="search" type='text' oninput="checkLength(this,30)" placeholder="회원검색" autofocus/> 
+				<input id="search" type='text' value='' oninput="search(this,30)" placeholder=" 회원검색" autofocus/>
 			</div>
 			<div id="userList">
 				<!-- 회원리스트 -->
 			</div>
 			<div id="buttonWrap">
 				<div id="chatInviteWrap">
-					<input type="button" id="chatInvite" value="초대" />	
+					<input type="button" class="newChatBtn" id="chatInvite" value="초대" />	
 				</div>
 				<div id="chatCancelWrap">
-					<input type="button" id="chatCancel" value="취소" />				
+					<input type="button" class="newChatBtn" id="chatCancel" value="취소" />				
 				</div>
 			</div>
 	</div>
@@ -218,80 +218,7 @@
 			backGround.css("display","block");
 			userListWrap.css("display","block");
 			
-			getChatUserList( 
-					
-					function(chatUserList, status){
-						
-						if(status == "success"){
-							
-							var length = chatUserList.length;
-							var userList = $("#userList");
-							var str = "";
-							var nickName; 
-							var userId; 
-							
-							for (var i = 0; i < length || 0; i++){
-								
-							       nickName = chatUserList[i].nickName; 
-							       userId = chatUserList[i].userId;
-							      
-							   	   str += "<div class='userWrap' data-user_id='"+userId+"' data-nick_name='"+nickName+"'>"
-							   		   str +=  "<span class='userImage'>"; 
-										   if(serverName == 'localhost'){ 
-											   str += "<img src='/resources/img/profile_img/"+userId+".png?"+random+"' class='memberImage hideUsermenu' onerror='this.src=\"/resources/img/profile_img/basicProfile.png\"'/>&nbsp"
-													   
-										   }else{
-											   str += "<img src='/upload/"+userId+".png?"+random+"' class='memberImage hideUsermenu' onerror='this.src=\"/ROOT/resources/img/profile_img/basicProfile.png\"'/>&nbsp"
-										   }
-								   	   str +=  "</span>";  
-								   	   str +=  "<span class='userNickname'>"
-								   	   str +=		nickName
-								   	   str +=  "</span>"; 
-							   	   str +=  "</div>";  
-							}
-							
-							userList.html(str);
-							
-							$(".userWrap").on("click", function(event){
-								
-									var chosenMembers = $("#chosenMembers");
-									var str = $.trim(chosenMembers.html());
-									var user_id = $(this).data("user_id");
-									var nick_name = $(this).data("nick_name");
-									
-									if(str == ""){
-										
-										str += "<span id='user"+user_id+"' class='chosenUser' data-user_id='"+user_id+"' data-nick_name='"+nick_name+"'>"+nick_name+"</span>";
-										
-									}else{
-										
-										var chosenUser = $("#user"+user_id);
-										
-										if(chosenUser.length > 0){
-											
-											chosenUser.remove();
-											chosenMembers = $("#chosenMembers");
-											str = $.trim(chosenMembers.html());
-										
-										}else{
-											
-											str += "<span id='user"+user_id+"' class='chosenUser' data-user_id='"+user_id+"' data-nick_name='"+nick_name+"'> "+nick_name+"</span>";
-										}
-									}
-									
-							   		chosenMembers.html(str);
-							});
-						}
-			    	},
-			 
-			    	function(status){
-			    	
-						if(status == "error"){ 
-							
-							openAlert("Server Error(관리자에게 문의해주세요)");
-						}
-			    	}
-			);
+			getChatUserList( showChatUserList, showError );
 		} 
 		
 		function closeUserList(){
@@ -304,11 +231,11 @@
 			chosenMembers.html("");//선택한 멤버 초기화
 		}
 		
-		function getChatUserList(callback, error) {
+		function getChatUserList(callback, error, keyword ) {
 			
 			$.ajax({
 				type : 'get', 
-				url : '/getChatUserList', 
+				url : '/getChatUserList?keyword='+keyword, 
 				success : function(result, status, xhr) {
 					if (callback) {
 						callback(result, status);
@@ -321,6 +248,113 @@
 				}
 			});
 		}
+		
+		function search(obj, maxByte){
+			
+			checkInputVal(obj,30);
+			getChatUserList( showChatUserList, showError, obj.value );
+		}
+		
+		function checkInputVal(obj, maxByte) { 
+			 
+			var str = obj.value; 
+			var stringByteLength = 0;
+			var reStr;
+				
+			stringByteLength = (function(s,b,i,c){
+				
+			    for(b=i=0; c=s.charCodeAt(i++);){
+			    
+				    b+=c>>11?3:c>>7?2:1;
+				    if (b > maxByte) { 
+				    	break;
+				    }
+				    
+				    reStr = str.substring(0,i);
+			    }
+			    
+			    return b
+			    
+			})(str);
+			
+			if (stringByteLength > maxByte) {          
+				obj.value = reStr;
+			}   
+			
+			obj.focus();  
+		}
+		
+		function showError(status){
+	    	
+			if(status == "error"){ 
+				
+				openAlert("Server Error(관리자에게 문의해주세요)");
+			}
+    	}
+		
+		function showChatUserList(chatUserList, status){
+			
+			if(status == "success"){
+				
+				var length = chatUserList.length;
+				var userList = $("#userList");
+				var str = "";
+				var nickName; 
+				var userId; 
+				
+				for (var i = 0; i < length || 0; i++){
+					
+				       nickName = chatUserList[i].nickName; 
+				       userId = chatUserList[i].userId;
+				      
+				   	   str += "<div class='userWrap' data-user_id='"+userId+"' data-nick_name='"+nickName+"'>"
+				   		   str +=  "<span class='userImage'>"; 
+							   if(serverName == 'localhost'){ 
+								   str += "<img src='/resources/img/profile_img/"+userId+".png?"+random+"' class='memberImage hideUsermenu' onerror='this.src=\"/resources/img/profile_img/basicProfile.png\"'/>&nbsp"
+										   
+							   }else{
+								   str += "<img src='/upload/"+userId+".png?"+random+"' class='memberImage hideUsermenu' onerror='this.src=\"/ROOT/resources/img/profile_img/basicProfile.png\"'/>&nbsp"
+							   }
+					   	   str +=  "</span>";  
+					   	   str +=  "<span class='userNickname'>"
+					   	   str +=		nickName
+					   	   str +=  "</span>"; 
+				   	   str +=  "</div>";  
+				}
+				
+				userList.html(str);
+				
+				$(".userWrap").on("click", function(event){
+					
+						var chosenMembers = $("#chosenMembers");
+						var str = $.trim(chosenMembers.html());
+						var user_id = $(this).data("user_id");
+						var nick_name = $(this).data("nick_name");
+						
+						if(str == ""){
+							
+							str += "<span id='user"+user_id+"' class='chosenUser' data-user_id='"+user_id+"' data-nick_name='"+nick_name+"'>"+nick_name+"</span>";
+							
+						}else{
+							
+							var chosenUser = $("#user"+user_id);
+							
+							if(chosenUser.length > 0){
+								
+								chosenUser.remove();
+								chosenMembers = $("#chosenMembers");
+								str = $.trim(chosenMembers.html());
+							
+							}else{
+								
+								str += "<span id='user"+user_id+"' class='chosenUser' data-user_id='"+user_id+"' data-nick_name='"+nick_name+"'> "+nick_name+"</span>";
+							}
+						}
+						
+				   		chosenMembers.html(str);
+				});
+			}
+    	}
 		
 </script>
 </html>

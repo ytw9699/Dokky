@@ -207,48 +207,39 @@
 		    border-width: 1px;
 		    border-color: #dbdbdb;
 		    width: 98%;
-	    	min-height: 300px; 
+		    min-height: 300px;
+		    border-radius: 10px;
+		    margin-bottom: 4%;
+		    margin-top: 4%;
 		}
 		
 		#buttonWrap{
-			border-style: solid;
-		    border-width: 1px;
-		    border-color: #dbdbdb;
 		    width: 98%;
 		    height : 50px;
 		}
 		
 		#chatInviteWrap{
-			border-style: solid;
-		    border-width: 1px;
-		    border-color: #dbdbdb;
 		    width: 48%;
 		    display: inline-block;
 		    height : 50px;
 		}
 		
 		#chatCancelWrap{
-			border-style: solid;
-		    border-width: 1px;
-		    border-color: #dbdbdb;
 		    width: 48%;
 		    display: inline-block;
 		    height : 50px;
 		} 
 		
 		#title{
-			border-style: solid;
-		    border-width: 1px;
-		    border-color: #dbdbdb;
 		    width: 99%;
 		    height : 30px;
+		    color: #7151fc;
+		    font-size: 19px;
+		    font-weight: 900;
 		    margin-bottom: 2%;
 		}
 		
 		#searchWrap{
-			border-style: solid;
-		    border-width: 1px;
-		    border-color: #dbdbdb;
 		    width: 99%;
 		    height : 30px;
 		    margin-bottom: 2%;
@@ -259,7 +250,7 @@
 			width: 99%;
 			height: 30px; 
 			font-weight: 500;
-			font-size: 20px;
+			font-size: 18px;
 			color: #333333;  
 			border: 2px solid #7151fc; 
 			border-radius: 5px;
@@ -267,13 +258,45 @@
 		}
 		
 		.userWrap{
-			border-style: solid;
-		    border-width: 1px;
-		    border-color: #dbdbdb;
-		    width: 99%; 
+		    width: 96%;
+		    cursor: pointer;
+		    margin-left: 2%;
+		    margin-top: 3%;
+		    border-radius: 5px;
+		    height: 35px;
 		}
+		
+		.userWrap:hover{
+	  		background-color: #7151fc;
+	  		color:white;
+	  	}
 		
 		.chosenUser{
 			color: #7151fc;
 		}
-			
+		
+		.newChatBtn{
+			font-size: 15px;
+		    background-color: #7151fc;
+		    border: 1px solid #7151fc;
+		    color: white;
+		    cursor: pointer;
+		    padding: 4px;
+		    border-radius: 4px;
+		    width: 100%;
+		    margin-left: 1%;
+		}
+		
+		.userImage{
+		  margin-left: 5%;
+	      float: left;
+	      padding-top: 3%;
+		}
+		
+		.userNickname{
+	      float: left;
+	      padding-top: 3%;
+		}
+		
+		
+		

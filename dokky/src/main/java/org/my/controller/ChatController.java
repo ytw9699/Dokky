@@ -154,11 +154,11 @@ public class ChatController {
 	@PreAuthorize("hasAnyRole('ROLE_ADMIN','ROLE_USER','ROLE_SUPER')")
 	@ResponseBody
 	@GetMapping(value = "/getChatUserList", produces = { MediaType.APPLICATION_JSON_UTF8_VALUE })
-	public ResponseEntity<List<MemberVO>> getChatUserList() {
+	public ResponseEntity<List<MemberVO>> getChatUserList(@RequestParam(value = "keyword", required = false )String keyword) {
 		
-		log.info("/getChatUserList");
+		log.info("/getChatUserList?keyword="+keyword);
 		
-		List<MemberVO> chatUserList = chatService.getChatUserList();
+		List<MemberVO> chatUserList= chatService.getChatUserList(keyword);
 		
 		if(chatUserList != null) {
 			
