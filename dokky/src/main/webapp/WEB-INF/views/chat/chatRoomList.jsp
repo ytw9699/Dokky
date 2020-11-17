@@ -229,6 +229,10 @@
 			var chosenMembers = $("#chosenMembers");
 			
 			chosenMembers.html("");//선택한 멤버 초기화
+			
+			var search = $("#search");
+			
+			search.val("");//키워드 초기화
 		}
 		
 		function getChatUserList(callback, error, keyword ) {
