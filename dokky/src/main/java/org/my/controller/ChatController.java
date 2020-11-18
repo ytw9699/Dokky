@@ -10,12 +10,14 @@ package org.my.controller;
 	import org.my.domain.MemberVO;
 	import org.my.domain.chatRoomDTO;
 	import org.my.domain.commonVO;
+	import org.my.security.domain.CustomUser;
 	import org.my.service.ChatService;
 	import org.springframework.beans.factory.annotation.Autowired;
 	import org.springframework.http.HttpStatus;
 	import org.springframework.http.MediaType;
 	import org.springframework.http.ResponseEntity;
 	import org.springframework.security.access.prepost.PreAuthorize;
+	import org.springframework.security.core.Authentication;
 	import org.springframework.stereotype.Controller;
 	import org.springframework.ui.Model;
 	import org.springframework.web.bind.annotation.GetMapping;
@@ -154,11 +156,15 @@ public class ChatController {
 	@PreAuthorize("hasAnyRole('ROLE_ADMIN','ROLE_USER','ROLE_SUPER')")
 	@ResponseBody
 	@GetMapping(value = "/getChatUserList", produces = { MediaType.APPLICATION_JSON_UTF8_VALUE })
-	public ResponseEntity<List<MemberVO>> getChatUserList(@RequestParam(value = "keyword", required = false )String keyword) {
+	public ResponseEntity<List<MemberVO>> getChatUserList(@RequestParam(value = "keyword", required = false )String keyword, Authentication authentication) {
 		
 		log.info("/getChatUserList?keyword="+keyword);
 		
-		List<MemberVO> chatUserList= chatService.getChatUserList(keyword);
+		CustomUser user = (CustomUser)authentication.getPrincipal();
+		
+		String userId = user.getUsername();
+		
+		List<MemberVO> chatUserList= chatService.getChatUserList(keyword,userId);
 		
 		if(chatUserList != null) {
 			

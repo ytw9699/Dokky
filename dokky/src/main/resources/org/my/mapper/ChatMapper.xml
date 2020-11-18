@@ -236,7 +236,7 @@
 	   </select>
 	   
 	   <select id="getChatUserList" resultType="org.my.domain.MemberVO">
-	   		select userId,nickName from dk_member where enabled = 1
+	   		select userId,nickName from dk_member where enabled = 1 and userId != #{userId}
 	   		
 	   		<if test="keyword != null and keyword !='undefined' and keyword !=''">
 				              	   and nickName like '%'||#{keyword}||'%'
