@@ -116,6 +116,7 @@ public class ChatController {
     	if(chat_type == 0) {
     		model.addAttribute("chatMember", chatService.getChatMember(chatRoomNum, userId));//채팅방의 제목에 들어갈 상대방 정보
     	}else if(chat_type == 1) {
+    		//멀티 채팅방의 제목이 있다면, 아이디들을 가지고오고, 제목이없다면 아이디와 닉네임들을 모두 가지고 와야함
     	}
     	
         model.addAttribute("chatRoomNum", chatRoomNum);
