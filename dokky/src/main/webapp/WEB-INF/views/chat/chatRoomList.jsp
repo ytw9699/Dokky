@@ -125,6 +125,12 @@
 	    });
 		
 		$("#newChatBtn").on("click",function(event){
+			
+			if(isLimited()){
+		    	  openAlert("채팅방 생성 권한이 제한되어 있습니다");
+		    	  return;
+		    }
+			
 			openUserList();
    		}); 
 		
