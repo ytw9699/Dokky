@@ -163,7 +163,7 @@
 				
 				if(isLimited()){
 			    	 
-					openAlert("쓰기 기능이 제한되어 있습니다");
+					openAlert("채팅방 생성 기능이 제한되어 있습니다");
 			    	
 					return;
 			    }
@@ -218,6 +218,28 @@
 				    	}
 			   	);
 		}
+		
+		$(".multiChat").on("click",function(event){ 
+			
+			<sec:authorize access="isAuthenticated()">   
+				var myId = '${userInfo.username}';  
+			</sec:authorize>
+			
+			if(myId == null){ 
+				
+				openAlert("로그인 해주세요"); 
+				
+				return;
+			}
+			
+			var chatroom_num = $(this).data("chatroom_num");
+			
+			var popupX = (window.screen.width / 2) - (400 / 2);
+			
+			var popupY= (window.screen.height /2) - (500 / 2);
+			
+			window.open('/chatRoom/'+chatroom_num+'?userId='+myId+'&chat_type=1', 'ot', 'height=500, width=400, screenX='+ popupX + ', screenY= '+ popupY);
+		});
 		
 		function openUserList(){
 			
