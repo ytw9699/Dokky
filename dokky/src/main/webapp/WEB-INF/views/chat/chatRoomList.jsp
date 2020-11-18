@@ -101,7 +101,7 @@
 			</div>
 			<div id="buttonWrap">
 				<div id="chatInviteWrap">
-					<input type="button" class="newChatBtn" id="chatInvite" value="초대" />	
+					<input type="button" class="newChatBtn" id="chatInvite" value="초대" disabled='disabled'/>	
 				</div>
 				<div id="chatCancelWrap">
 					<input type="button" class="newChatBtn" id="chatCancel" value="취소" />				
@@ -362,6 +362,23 @@
 						}
 						
 				   		chosenMembers.html(str);
+				   		
+				   		var chosenUsers = $(".chosenUser");
+				   		
+				   		if(chosenUsers.length > 0 ){
+				   			
+				   			var chatInvite = $("#chatInvite");
+					   			chatInvite.attr("disabled", false);
+					   			chatInvite.css("background-color","#7151fc");
+					   			chatInvite.css("color","white");
+					   			
+				   		}else{
+				   			
+							var chatInvite = $("#chatInvite");
+					   			chatInvite.attr("disabled", true);
+					   			chatInvite.css("background-color","#EAEAEA");
+					   			chatInvite.css("color","gray");
+				   		}
 				});
 			}
     	}

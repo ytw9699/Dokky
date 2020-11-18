@@ -224,6 +224,18 @@
 		    height : 50px;
 		}
 		
+		#chatCancel{
+			font-size: 15px;
+		    background-color: #7151fc;
+		    border: 1px solid #7151fc;
+		    color: white;
+		    cursor: pointer;
+		    padding: 4px;
+		    border-radius: 4px;
+		    width: 100%;
+		    margin-left: 1%;
+		}
+		
 		#chatCancelWrap{
 		    width: 48%;
 		    display: inline-block;
@@ -275,11 +287,11 @@
 			color: #7151fc;
 		}
 		
-		.newChatBtn{
+		#chatInvite{
 			font-size: 15px;
-		    background-color: #7151fc;
-		    border: 1px solid #7151fc;
-		    color: white;
+		    background-color: #EAEAEA;
+		    border: none;
+		    color: gray;
 		    cursor: pointer;
 		    padding: 4px;
 		    border-radius: 4px;
