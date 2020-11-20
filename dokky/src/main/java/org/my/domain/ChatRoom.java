@@ -14,7 +14,7 @@ public class ChatRoom {
     private HashSet<WebSocketSession> sessionsSet = new HashSet<>();//채팅방에 접속해있는 세션들
     
     
-    public void handleMessage(WebSocketSession session, ChatMessage chatMessage) throws IOException{
+    public void handleMessage(WebSocketSession session, ChatMessage chatMessage) throws IOException {
     	
     	log.info("handleMessage");
     	
@@ -67,61 +67,67 @@ public class ChatRoom {
     	send(chatMessage);
     }
 
-    private void send(ChatMessage chatMessage) throws IOException {
+    private void send(ChatMessage chatMessage)  {
     	
-    	String customMessage = null;
-    	
-    	if(chatMessage.getType() == ChatMessageType.CHAT){
+    	try {
+    		String customMessage = null;
         	
-        	customMessage = 	"{\"chatRoomNum\":\""+chatMessage.getChatRoomNum()+
-    								"\", \"chat_writerNick\":\""+chatMessage.getChat_writerNick()+
-    								"\", \"chat_writerId\":\""+chatMessage.getChat_writerId()+
-    								"\", \"message\":\""+chatMessage.getMessage()+
-    								"\", \"type\":\""+chatMessage.getType()+
-    								"\", \"headCount\":\""+chatMessage.getHeadCount()+
-    								"\", \"chatContentNum\":\""+chatMessage.getChatContentNum()+
-    								"\", \"regDate\":\""+chatMessage.getRegDate().getTime()+"\"}";
+        	if(chatMessage.getType() == ChatMessageType.CHAT){
+            	
+            	customMessage = 	"{\"chatRoomNum\":\""+chatMessage.getChatRoomNum()+
+        								"\", \"chat_writerNick\":\""+chatMessage.getChat_writerNick()+
+        								"\", \"chat_writerId\":\""+chatMessage.getChat_writerId()+
+        								"\", \"message\":\""+chatMessage.getMessage()+
+        								"\", \"type\":\""+chatMessage.getType()+
+        								"\", \"headCount\":\""+chatMessage.getHeadCount()+
+        								"\", \"chatContentNum\":\""+chatMessage.getChatContentNum()+
+        								"\", \"regDate\":\""+chatMessage.getRegDate().getTime()+"\"}";
+            	
+            }else if(chatMessage.getType() == ChatMessageType.LEAVE){
+            	
+            	customMessage = 	"{\"message\":\""+chatMessage.getMessage()+
+            							"\", \"type\":\""+chatMessage.getType()+
+    				        			"\", \"regDate\":\""+chatMessage.getRegDate().getTime()+"\"}";
+            
+            }else if(chatMessage.getType() == ChatMessageType.IN){
+            	
+            	customMessage = 	"{\"message\":\""+chatMessage.getMessage()+
+            							"\", \"type\":\""+chatMessage.getType()+
+    				        			"\", \"regDate\":\""+chatMessage.getRegDate().getTime()+"\"}";
+            
+            }else if(chatMessage.getType() == ChatMessageType.READ){
+            	
+            	customMessage = 	"{\"chatContentNum\":\""+chatMessage.getChatContentNum()+
+    					"\", \"type\":\""+chatMessage.getType()+"\"}";
+            }
         	
-        }else if(chatMessage.getType() == ChatMessageType.LEAVE){
+        	TextMessage textMessage = new TextMessage(customMessage); 
         	
-        	customMessage = 	"{\"message\":\""+chatMessage.getMessage()+
-        							"\", \"type\":\""+chatMessage.getType()+
-				        			"\", \"regDate\":\""+chatMessage.getRegDate().getTime()+"\"}";
-        
-        }else if(chatMessage.getType() == ChatMessageType.IN){
-        	
-        	customMessage = 	"{\"message\":\""+chatMessage.getMessage()+
-        							"\", \"type\":\""+chatMessage.getType()+
-				        			"\", \"regDate\":\""+chatMessage.getRegDate().getTime()+"\"}";
-        
-        }else if(chatMessage.getType() == ChatMessageType.READ){
-        	
-        	customMessage = 	"{\"chatContentNum\":\""+chatMessage.getChatContentNum()+
-					"\", \"type\":\""+chatMessage.getType()+"\"}";
-        }
-    	
-    	TextMessage textMessage = new TextMessage(customMessage); 
-    	
-    	for(WebSocketSession session : sessionsSet){
-        	
-        	log.info("send message");
-        	log.info("textMessage"+textMessage);
-    		
-    		session.sendMessage(textMessage);//채팅방 모든 사람에게 메시지 보내는것
-        }
-    	
-        /*for(WebSocketSession session : sessionsSet){
-        	
-        	if(session.isOpen()) {
+        	for(WebSocketSession session : sessionsSet){
+            	
+            	log.info("send message");
+            	log.info("textMessage"+textMessage);
         		
-        		log.info("send message ="+session);
         		session.sendMessage(textMessage);//채팅방 모든 사람에게 메시지 보내는것
+            }
         	
-        	}else{
-        		
-        		log.info("remove session ="+session);
-        		sessionsSet.remove(session);
-        	}
-        }*/
+            /*for(WebSocketSession session : sessionsSet){
+            	
+            	if(session.isOpen()) {
+            		
+            		log.info("send message ="+session);
+            		session.sendMessage(textMessage);//채팅방 모든 사람에게 메시지 보내는것
+            	
+            	}else{
+            		
+            		log.info("remove session ="+session);
+            		sessionsSet.remove(session);
+            	}
+            }*/
+    		
+    	} catch (IOException e) {
+    		System.out.println("오류가 발생했습니다 : ");
+    		e.printStackTrace();
+    	}
     }
 }

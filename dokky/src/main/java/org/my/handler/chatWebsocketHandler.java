@@ -1,5 +1,6 @@
 package org.my.handler;
-	import java.util.Date;
+	import java.io.IOException;
+import java.util.Date;
 	import org.my.domain.ChatMessage;
 	import org.my.domain.ChatRoom;
 	import org.my.domain.ChatMessageType;
@@ -27,107 +28,113 @@ public class chatWebsocketHandler extends TextWebSocketHandler {
 
 	
     @Override
-    protected void handleTextMessage(WebSocketSession session, TextMessage message) throws Exception {
+    protected void handleTextMessage(WebSocketSession session, TextMessage message){
     	
-    	log.info("chatWebsocketHandler 세션 ="+session);
-        
-    	String msg = message.getPayload();
-        
-        ChatMessage chatMessage = objectMapper.readValue(msg, ChatMessage.class);
-        
-        log.info("chatMessage="+chatMessage);
-        
-        ChatRoom chatRoom = null;
-        
-        
-        if(chatMessage.getType() == ChatMessageType.OPEN){
-        	
-        	log.info("MessageType.OPEN");
-        	
-        	chatRoom = chatService.addChatRoom(chatMessage.getChatRoomNum());
-        
-        }else if(chatMessage.getType() == ChatMessageType.CLOSED){
-        	
-        	log.info("MessageType.CLOSED");
-        	
-       	 	chatRoom = chatService.findChatRoom(chatMessage.getChatRoomNum());
-       	 	
-        }else if(chatMessage.getType() == ChatMessageType.LEAVE){
-        	
-        	log.info("MessageType.LEAVE");
-        	
-        	Long ChatRoomNum = Long.parseLong(chatMessage.getChatRoomNum());
-        	
-        	if(chatService.getRoomHeadCount(ChatRoomNum) == 1){//남아있는 방 인원수가 1명이라면
-        		
-        		if(chatService.removeAllChatData(ChatRoomNum)){//해당 채팅방 관련 모든 데이터 삭제 
-        		
-        			return;
-        		}
-        		
-        	}else{
-        		
-        		String leaveMessage = chatMessage.getChat_writerNick()+"님이 나갔습니다";
+    	try {
+    		log.info("chatWebsocketHandler 세션 ="+session);
+            
+        	String msg = message.getPayload();
+            
+            ChatMessage chatMessage = objectMapper.readValue(msg, ChatMessage.class);
+            
+            log.info("chatMessage="+chatMessage);
+            
+            ChatRoom chatRoom = null;
+            
+            
+            if(chatMessage.getType() == ChatMessageType.OPEN){
+            	
+            	log.info("MessageType.OPEN");
+            	
+            	chatRoom = chatService.addChatRoom(chatMessage.getChatRoomNum());
+            
+            }else if(chatMessage.getType() == ChatMessageType.CLOSED){
+            	
+            	log.info("MessageType.CLOSED");
+            	
+           	 	chatRoom = chatService.findChatRoom(chatMessage.getChatRoomNum());
+           	 	
+            }else if(chatMessage.getType() == ChatMessageType.LEAVE){
+            	
+            	log.info("MessageType.LEAVE");
+            	
+            	Long ChatRoomNum = Long.parseLong(chatMessage.getChatRoomNum());
+            	
+            	if(chatService.getRoomHeadCount(ChatRoomNum) == 1){//남아있는 방 인원수가 1명이라면
+            		
+            		if(chatService.removeAllChatData(ChatRoomNum)){//해당 채팅방 관련 모든 데이터 삭제 
+            		
+            			return;
+            		}
+            		
+            	}else{
+            		
+            		String leaveMessage = chatMessage.getChat_writerNick()+"님이 나갔습니다";
 
-            	chatMessage.setMessage(leaveMessage);
+                	chatMessage.setMessage(leaveMessage);
+                	
+                	chatMessage.setRegDate(new Date());
+                	
+                	ChatContentVO chatContentVO = new ChatContentVO();
+                	
+                	chatContentVO.setChatRoomNum(ChatRoomNum);
+                	chatContentVO.setChat_content(leaveMessage);
+                	chatContentVO.setRegDate(chatMessage.getRegDate());
+                	
+                	chatService.createNoticeContent(chatContentVO);
+                	
+                	chatService.updateOutDate(ChatRoomNum, chatMessage.getChat_writerId(), new Date());//나간 날짜 기록
+                	
+                	chatService.updateRoomStatus(ChatRoomNum, chatMessage.getChat_writerId(), -1, 1);
+                	
+                	chatRoom = chatService.findChatRoom(chatMessage.getChatRoomNum());
+            	}
+            
+            }else if(chatMessage.getType() == ChatMessageType.INVITE){
             	
-            	chatMessage.setRegDate(new Date());
-            	
-            	ChatContentVO chatContentVO = new ChatContentVO();
-            	
-            	chatContentVO.setChatRoomNum(ChatRoomNum);
-            	chatContentVO.setChat_content(leaveMessage);
-            	chatContentVO.setRegDate(chatMessage.getRegDate());
-            	
-            	chatService.createNoticeContent(chatContentVO);
-            	
-            	chatService.updateOutDate(ChatRoomNum, chatMessage.getChat_writerId(), new Date());//나간 날짜 기록
-            	
-            	chatService.updateRoomStatus(ChatRoomNum, chatMessage.getChat_writerId(), -1, 1);
-            	
-            	chatRoom = chatService.findChatRoom(chatMessage.getChatRoomNum());
-        	}
-        
-        }else if(chatMessage.getType() == ChatMessageType.INVITE){
+            	log.info("MessageType.INVITE");
+    	    	
+    	    }else if(chatMessage.getType() == ChatMessageType.OUT){
+    	    	
+    	    	log.info("MessageType.OUT");
+    	    	
+            }else if(chatMessage.getType() == ChatMessageType.CHAT){
         	
-        	log.info("MessageType.INVITE");
-	    	
-	    }else if(chatMessage.getType() == ChatMessageType.OUT){
-	    	
-	    	log.info("MessageType.OUT");
-	    	
-        }else if(chatMessage.getType() == ChatMessageType.CHAT){
-    	
-	    	log.info("MessageType.CHAT");
-	    	
-	    	chatMessage.setRegDate(new Date());
-	    	
-	    	ChatContentVO chatContentVO = new ChatContentVO();
-	    	
-	    	chatContentVO.setChat_content(chatMessage.getMessage());
-	    	chatContentVO.setChat_writerId(chatMessage.getChat_writerId());
-	    	chatContentVO.setChat_writerNick(chatMessage.getChat_writerNick());
-	    	chatContentVO.setRegDate(chatMessage.getRegDate());
-	    	chatContentVO.setChatRoomNum(Long.parseLong(chatMessage.getChatRoomNum()));
-	    	chatContentVO.setReadCount(chatMessage.getHeadCount());
-	    	
-	    	log.info("chatContentVO"+chatContentVO);
-	    	
-	    	chatService.createChatContent(chatContentVO);
-	    	
-	    	chatMessage.setChatContentNum(chatContentVO.getChatContentNum());
-	    	
-	    	chatRoom = chatService.findChatRoom(chatMessage.getChatRoomNum());
-	    	
-	    }else if(chatMessage.getType() == ChatMessageType.READ){
-	    	
-	    	log.info("MessageType.READ");
-	    	
-	    	chatRoom = chatService.findChatRoom(chatMessage.getChatRoomNum());
-	    	
-        }
-        
-        chatRoom.handleMessage(session, chatMessage);
+    	    	log.info("MessageType.CHAT");
+    	    	
+    	    	chatMessage.setRegDate(new Date());
+    	    	
+    	    	ChatContentVO chatContentVO = new ChatContentVO();
+    	    	
+    	    	chatContentVO.setChat_content(chatMessage.getMessage());
+    	    	chatContentVO.setChat_writerId(chatMessage.getChat_writerId());
+    	    	chatContentVO.setChat_writerNick(chatMessage.getChat_writerNick());
+    	    	chatContentVO.setRegDate(chatMessage.getRegDate());
+    	    	chatContentVO.setChatRoomNum(Long.parseLong(chatMessage.getChatRoomNum()));
+    	    	chatContentVO.setReadCount(chatMessage.getHeadCount());
+    	    	
+    	    	log.info("chatContentVO"+chatContentVO);
+    	    	
+    	    	chatService.createChatContent(chatContentVO);
+    	    	
+    	    	chatMessage.setChatContentNum(chatContentVO.getChatContentNum());
+    	    	
+    	    	chatRoom = chatService.findChatRoom(chatMessage.getChatRoomNum());
+    	    	
+    	    }else if(chatMessage.getType() == ChatMessageType.READ){
+    	    	
+    	    	log.info("MessageType.READ");
+    	    	
+    	    	chatRoom = chatService.findChatRoom(chatMessage.getChatRoomNum());
+    	    	
+            }
+            
+            chatRoom.handleMessage(session, chatMessage);
+    		
+    	} catch (IOException e) {
+    		System.out.println("오류가 발생했습니다 : ");
+    		e.printStackTrace();
+    	}
     }
     
     @Override
