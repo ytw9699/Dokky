@@ -547,7 +547,9 @@
 	
 							var popupY= (window.screen.height /2) - (500 / 2);
 							
-							window.open('/chatRoom/'+result+'?userId='+myId+'&chat_type=0', 'ot', 'height=500, width=400, screenX='+ popupX + ', screenY= '+ popupY);
+							var random = Math.random();
+							
+							window.open('/chatRoom/'+result+'?userId='+myId+'&chat_type=0', 'newname'+random, 'height=500, width=400, screenX='+ popupX + ', screenY= '+ popupY);
 						}
 			    	},
 				    
