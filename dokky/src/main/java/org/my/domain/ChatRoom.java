@@ -24,6 +24,11 @@ public class ChatRoom {
         	
         	sessionsSet.add(session);
         	
+        	for(WebSocketSession sessions : sessionsSet){
+            	
+            	log.info("session"+sessions);
+            }
+        	
         }else if(chatMessage.getType() == ChatMessageType.CLOSED){
         	
         	log.info("remove session = "+session);
@@ -70,6 +75,7 @@ public class ChatRoom {
     private void send(ChatMessage chatMessage)  {
     	
     	try {
+    		
     		String customMessage = null;
         	
         	if(chatMessage.getType() == ChatMessageType.CHAT){
@@ -105,28 +111,27 @@ public class ChatRoom {
         	
         	for(WebSocketSession session : sessionsSet){
             	
-            	log.info("send message");
-            	log.info("textMessage"+textMessage);
-        		
-        		session.sendMessage(textMessage);//채팅방 모든 사람에게 메시지 보내는것
+            	log.info("session"+session);
             }
-        	
-            /*for(WebSocketSession session : sessionsSet){
+        	 
+            for(WebSocketSession session : sessionsSet){
             	
-            	if(session.isOpen()) {
-            		
-            		log.info("send message ="+session);
-            		session.sendMessage(textMessage);//채팅방 모든 사람에게 메시지 보내는것
-            	
-            	}else{
-            		
-            		log.info("remove session ="+session);
-            		sessionsSet.remove(session);
-            	}
-            }*/
-    		
+	            	log.info(session);
+	            	log.info("textMessage"+textMessage);
+	            	
+	            	if(session.isOpen()) {
+	            		
+	            		log.info("send message ="+session);
+	            		session.sendMessage(textMessage);
+	            		
+	            	}else{
+	            		
+	            		log.info("remove session ="+session);
+	            		sessionsSet.remove(session);
+	            	}
+            }
+            
     	} catch (IOException e) {
-    		System.out.println("오류가 발생했습니다 : ");
     		e.printStackTrace();
     	}
     }

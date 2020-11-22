@@ -62,6 +62,9 @@
 			  			</div>
 				  </c:when>
 			</c:choose>
+			<div class="test">
+				<button id="test">채팅 웹소켓 연결 끊기 </button>
+			</div>
 		</div>
 		<div id="chatContents">
 						<script>
@@ -182,8 +185,12 @@
 		</sec:authorize>
 		
 		$(document).ready(function() {
+			connect();
+		});
+		
+		function connect(){
 			
-        	window.scrollTo(0, $(document).height());
+			window.scrollTo(0, $(document).height());
 			
 			var serverName = '${pageContext.request.serverName}'; 
 			
@@ -202,9 +209,9 @@
 				
 				webSocketChat.send(JSON.stringify({chatRoomNum : chatRoomNum, type:'OPEN'}));//채팅방 열기
 				
-				focusFunction();
-				
 				webSocketChat.onmessage = function(event){//웹소켓이 연결됬는데 메시지가 왔다면
+					
+					console.log("webSocketChat.onmessage");
 					
 					console.log(event.data);
 				
@@ -229,7 +236,7 @@
 						 divideDate(regDate);//채팅 내용 사이에 날짜 구분해주기
 						 
 						 if(position == "in"){//사용자가 채팅방에 머무른다면
-							 
+							 	
 								 if(obj.chat_writerId == myId){
 									 
 									    chatroom.innerHTML += "<div class='chat_wrap myChat'>"
@@ -348,7 +355,7 @@
 																 	+ "</span>"
 						 										 + "</div>";
 						 headCount = headCount-1;
-						 										 
+						 
 					}else if(obj.type == 'READ'){
 						
 						 var chatContentNum = obj.chatContentNum;
@@ -384,18 +391,27 @@
 				    }
 				}
 				
-				webSocketChat.onclose = function(){
+				webSocketChat.onclose = function(){//연결된 소켓이 닫혔다면
 					
-					closed();
+					alert("webSocketChat closed");
+					console.log("webSocketChat closed");
+				
+				    webSocketChat = null;
+					
+					setTimeout(function() {
+						<sec:authorize access="hasAnyRole('ROLE_ADMIN','ROLE_USER','ROLE_SUPER','ROLE_STOP')">
+							connect(); //0.1초후 다시 재연결
+						</sec:authorize>
+					}, 100); 
 				}
 				
 				webSocketChat.onerror = function(err){
 					
 					console.log("chatWebsocket error, "+err);
 				}
-			}
-			
-		});
+				
+			}	
+		}
 		
 		function send(chatRoomNum, messageVal){
 			
@@ -470,6 +486,10 @@
 			window.close();
 		});
 		
+		$("#test").on("click", function(event){
+			webSocketChat.close();
+		});
+		
 		window.onblur = blurFunction;//채팅방을 벗어날때
 		window.onfocus = focusFunction;//채팅방에 다시올때
 		
@@ -479,8 +499,6 @@
 		}
 		
 		function focusFunction(){ 
-			
-			console.log("focusFunction");
 			
 			position = "in";
 			
