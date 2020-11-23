@@ -1,6 +1,7 @@
 package org.my.domain;
 	import java.io.IOException;
 	import java.util.HashSet;
+	import java.util.Iterator;
 	import org.springframework.web.socket.TextMessage;
 	import org.springframework.web.socket.WebSocketSession;
 	import com.fasterxml.jackson.databind.ObjectMapper;
@@ -114,8 +115,12 @@ public class ChatRoom {
             	log.info("session"+session);
             }
         	 
-            for(WebSocketSession session : sessionsSet){
+            Iterator<WebSocketSession> iterator = sessionsSet.iterator();
+            
+            while(iterator.hasNext()){
             	
+	            	WebSocketSession session = iterator.next();
+	            	
 	            	log.info(session);
 	            	log.info("textMessage"+textMessage);
 	            	
@@ -127,7 +132,7 @@ public class ChatRoom {
 	            	}else{
 	            		
 	            		log.info("remove session ="+session);
-	            		sessionsSet.remove(session);
+	            		iterator.remove();
 	            	}
             }
             
