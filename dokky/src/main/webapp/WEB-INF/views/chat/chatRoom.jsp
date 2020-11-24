@@ -504,20 +504,12 @@
 			
 			var chat_content = $(".chat_content");
 			
-			//var chat_content = document.getElementsByClassName('chat_content');
-			
 			for(var i = 0; i < chat_content.length; i++){
-				
-				console.log(chat_content[i]);
 				
 				var content_object = $(chat_content[i]);
 				
-				console.log("content_num="+content_object.data("content_num")+"read_type="+content_object.data("read_type"));
-				
 				if(content_object.data("read_type") == 0){
 						
-						console.log("내가 읽지 않음");  
-					
 						var chatReadData = {  
 								    chat_memberId    : myId,
 								    chatContentNum   : content_object.data("content_num")
@@ -529,19 +521,18 @@
 									
 										if(status == "success"){
 											
-											console.log("변경전 read_type="+content_object.data("read_type")+", content_num="+content_object.data("content_num"));
-											
-											//content_object.data("read_type", 1);
-											
-											console.log("content_object"+content_object);
-											
-											content_object.replaceWith("<span class='chat_content' data-content_num="+content_object.data("content_num")+" data-read_type="+1+">"+content_object.html()+"</span>");
-											
-											console.log("변경후 read_type="+content_object.data("read_type")+", content_num="+content_object.data("content_num"));
-											
-											if(webSocketChat != null){
+											if(result == "0"){//읽지않았다면
 												
-												webSocketChat.send(JSON.stringify({chatRoomNum : chatRoomNum, type:'READ', chatContentNum : content_object.data("content_num")}));
+												content_object.replaceWith("<span class='chat_content' data-content_num="+content_object.data("content_num")+" data-read_type="+1+">"+content_object.html()+"</span>");
+												
+												if(webSocketChat != null){
+													
+													webSocketChat.send(JSON.stringify({chatRoomNum : chatRoomNum, type:'READ', chatContentNum : content_object.data("content_num")}));
+												}
+												
+											}else if(result == "1"){//내가 읽은거라면
+												
+												content_object.replaceWith("<span class='chat_content' data-content_num="+content_object.data("content_num")+" data-read_type="+1+">"+content_object.html()+"</span>");
 											}
 										}
 							    	},
@@ -554,10 +545,6 @@
 										}
 							    	}
 						);
-						
-				}else{
-					
-						console.log("내가 읽음");
 				}
 	        }
 		}

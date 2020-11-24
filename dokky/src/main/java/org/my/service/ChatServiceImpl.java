@@ -295,11 +295,25 @@ public class ChatServiceImpl implements ChatService {
 		
 		@Transactional
 		@Override
-		public boolean readChat(ChatReadVO vo){
+		public int readChat(ChatReadVO vo){
 			
 			log.info("readChat");
 			
-			return chatMapper.updateRead_type(vo) == 1 && chatMapper.updateReadCount(vo) == 1;
+			if(chatMapper.getRead_type(vo) == 0) {//읽지 않음 
+					
+					if(chatMapper.updateRead_type(vo) == 1 && chatMapper.updateReadCount(vo) == 1) {
+						
+						return 0;
+						
+					}else {
+						
+						return 2;
+					}
+					
+			}else{//이미 읽음
+				
+				return 1;
+			}
 		}
 		
 		@Override

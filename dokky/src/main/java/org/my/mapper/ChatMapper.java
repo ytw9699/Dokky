@@ -58,4 +58,6 @@ public interface ChatMapper {
 
 	List<MemberVO> getChatUserList(@Param("keyword") String keyword, @Param("userId") String userId);
 
+	int getRead_type(ChatReadVO vo);
+
 }

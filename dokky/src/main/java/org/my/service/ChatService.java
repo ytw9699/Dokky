@@ -43,7 +43,7 @@ public interface ChatService {
 
 	public int getHeadCount(Long chatRoomNum);
 
-	public boolean readChat(ChatReadVO vo);
+	public int readChat(ChatReadVO vo);
 
 	public List<chatRoomDTO> getMyChatRoomList(String userId);
 

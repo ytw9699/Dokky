@@ -147,11 +147,20 @@ public class ChatController {
 
 		log.info("/readChat");
 		
-		boolean result = chatService.readChat(vo);
+		int result = chatService.readChat(vo);
 		
-		return result == true  
-				? new ResponseEntity<>(HttpStatus.OK)
-				: new ResponseEntity<>(HttpStatus.INTERNAL_SERVER_ERROR);
+		if(result == 0) {
+			
+			return new ResponseEntity<>("0", HttpStatus.OK);
+					
+		}else if(result == 1){
+			
+			return new ResponseEntity<>("1", HttpStatus.OK);
+			
+		}else{
+			
+			return new ResponseEntity<>(HttpStatus.INTERNAL_SERVER_ERROR);
+		}
 	}
 	
 	@PreAuthorize("hasAnyRole('ROLE_ADMIN','ROLE_USER','ROLE_SUPER')")

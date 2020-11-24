@@ -195,6 +195,10 @@
 							 				) 	
        </insert>
        
+       <select id="getRead_type" resultType="int">
+       		select read_type from dk_chat_read where chatContentNum = #{chatContentNum} and chat_memberId = #{chat_memberId}
+       </select>
+       
        <update id="updateRead_type">
 	 	 	update dk_chat_read set read_type = 1 where chatContentNum = #{chatContentNum} and chat_memberId = #{chat_memberId}
 	   </update>
