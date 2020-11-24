@@ -247,13 +247,13 @@
 				}
 			}
 			
-			webSocket.onclose = function(){ //소켓 연결됬는데 소켓이 다시 닫힌다면
+			webSocket.onclose = function(){ //소켓 연결됬는데 소켓이 다시 닫혔다면
 				
 				console.log("commonWebsocket is closed");
 				
 				setTimeout(function() {
 					<sec:authorize access="hasAnyRole('ROLE_ADMIN','ROLE_USER','ROLE_SUPER','ROLE_STOP')">
-						connect(); //1초마다 다시 재연결
+						connect(); //1초후 다시 재연결
 					</sec:authorize>
 				}, 1000); 
 			}
@@ -547,9 +547,7 @@
 	
 							var popupY= (window.screen.height /2) - (500 / 2);
 							
-							var random = Math.random();
-							
-							window.open('/chatRoom/'+result+'?userId='+myId+'&chat_type=0', 'newname'+random, 'height=500, width=400, screenX='+ popupX + ', screenY= '+ popupY);
+							window.open('/chatRoom/'+result+'?userId='+myId+'&chat_type=0', "title"+chatMemberData.chat_memberId, 'height=500, width=400, screenX='+ popupX + ', screenY= '+ popupY);
 						}
 			    	},
 				    
