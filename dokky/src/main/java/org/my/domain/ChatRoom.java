@@ -94,6 +94,7 @@ public class ChatRoom {
             	
             	customMessage = 	"{\"message\":\""+chatMessage.getMessage()+
             							"\", \"type\":\""+chatMessage.getType()+
+            							"\", \"chat_writerId\":\""+chatMessage.getChat_writerId()+
     				        			"\", \"regDate\":\""+chatMessage.getRegDate().getTime()+"\"}";
             
             }else if(chatMessage.getType() == ChatMessageType.IN){

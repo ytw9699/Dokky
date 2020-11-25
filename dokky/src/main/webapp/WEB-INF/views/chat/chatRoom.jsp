@@ -180,8 +180,8 @@
 	    });
 		
 		<sec:authorize access="isAuthenticated()">   
-			  myId = '${userInfo.username}';  
-			  myNickName = '${userInfo.member.nickName}';
+			  var myId = '${userInfo.username}';  
+			  var myNickName = '${userInfo.member.nickName}';
 		</sec:authorize>
 		
 		$(document).ready(function() {
@@ -356,6 +356,11 @@
 						 										 + "</div>";
 						 headCount = headCount-1;
 						 
+						 if(obj.chat_writerId == myId){
+							 closed();	 
+							 window.close();
+						 }
+						 
 					}else if(obj.type == 'READ'){
 						
 						 var chatContentNum = obj.chatContentNum;
@@ -451,7 +456,6 @@
 			console.log("chatWebsocket leave");
 			
 			webSocketChat.send(JSON.stringify({chatRoomNum : chatRoomNum, type : 'LEAVE', chat_writerId : myId , chat_writerNick: myNickName }));
-		    
 		}
 		
 		window.onbeforeunload = function() {//브라우저 종료 및 닫기 감지
