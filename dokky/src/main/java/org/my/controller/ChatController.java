@@ -149,15 +149,15 @@ public class ChatController {
 		
 		int result = chatService.readChat(vo);
 		
-		if(result == 0) {
+		if(result == 0) {//읽지 않았는데 , 디비에서 읽음 처리를 했을때
 			
 			return new ResponseEntity<>("0", HttpStatus.OK);
 					
-		}else if(result == 1){
+		}else if(result == 1){//이미 디비에서 읽음 처리가 되었을때
 			
 			return new ResponseEntity<>("1", HttpStatus.OK);
 			
-		}else{
+		}else{ // 읽지 않아서 디비에서 처리를 하다 실패했을때
 			
 			return new ResponseEntity<>(HttpStatus.INTERNAL_SERVER_ERROR);
 		}
