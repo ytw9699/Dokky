@@ -1,6 +1,7 @@
 package org.my.handler;
 	import java.util.HashMap;
-	import java.util.Map;
+import java.util.LinkedHashMap;
+import java.util.Map;
 	import org.my.security.domain.CustomUser;
 	import org.springframework.security.core.context.SecurityContext;
 	import org.springframework.security.web.context.HttpSessionSecurityContextRepository;
@@ -13,7 +14,7 @@ package org.my.handler;
 @Log4j 
 public class commonWebsocketHandler extends TextWebSocketHandler {
 	
-	Map<String, WebSocketSession> userSessionsMap = new HashMap<>();
+	Map<String, Map<String, WebSocketSession>> userSessionsMap = new LinkedHashMap<>();
 	
 	@Override
 	public void afterConnectionEstablished(WebSocketSession session) throws Exception{//클라이언트가 서버에 접속한후
@@ -22,7 +23,20 @@ public class commonWebsocketHandler extends TextWebSocketHandler {
 		
 		String userId = getUserId(session);
 		
-		userSessionsMap.put(userId, session);//로그인한 유저들의 세션을 (키가 아이디의 값으로) 보관해둔다.
+		Map<String, WebSocketSession> innerMap = userSessionsMap.get(userId);
+		
+		if(innerMap == null) {
+			
+			innerMap = new LinkedHashMap<>();
+			
+			innerMap.put(session.getId(), session);
+			
+			userSessionsMap.put(userId, innerMap);
+			
+		}else {
+			
+			innerMap.put(session.getId(), session);
+		}
 		
 		/*for (String key : userSessionsMap.keySet()) {
 			
@@ -44,35 +58,48 @@ public class commonWebsocketHandler extends TextWebSocketHandler {
 			String kind = strs[0];//요청의 종류
 			String userId = strs[1];//유저의 아이디
 			
-			WebSocketSession userSession = userSessionsMap.get(userId);//유저 아이디에 해당하는 웹소켓 세션을 가져온다.
+			Map<String, WebSocketSession> innerMap = userSessionsMap.get(userId);
 			
-			if(kind.equals("sendAlarmMsg") && userSession != null) {//모든 알람 메시지
-			
-				userSession.sendMessage(new TextMessage("allAlarmUpdateRequestToUser"));
-			
-			}else if(kind.equals("noteAlarm") && userSession != null) {//쪽지를 쓰고 알림 업데이트 요청을 사용자에게 보낸다
+			for(Map.Entry<String, WebSocketSession> entry : innerMap.entrySet()) {
 				
-				userSession.sendMessage(new TextMessage("noteAlarmUpdateRequestToUser"));
-			
-			}else if(kind.equals("limit") && userSession != null){//요청의 종류가 계정 제한 이고 해당 유저의 세션이 존재한다면
+				WebSocketSession userSession = entry.getValue();
 				
-				userSession.sendMessage(new TextMessage("limitAndLogoutSuccessMessageToUser"));//유저에게  메시지를 보낸다
+				if(kind.equals("sendAlarmMsg") && userSession != null) {//모든 알람 메시지
 				
-				session.sendMessage(new TextMessage("limitAndLogoutSuccessMessageToAdmin"));//관리자에게도 메시지를 보낸다
+					userSession.sendMessage(new TextMessage("allAlarmUpdateRequestToUser"));
 				
-			}else if(kind.equals("limit") && userSession == null) {//계정 제한은 하였지만 유저의 세션이 존재하지 않는다면 로그아웃 시키지 않는다.
-				
-				session.sendMessage(new TextMessage("limitSuccessMessageToAdmin"));//관리자에게만 메시지를 보낸다
-			} 
+				}else if(kind.equals("noteAlarm") && userSession != null) {//쪽지를 쓰고 알림 업데이트 요청을 사용자에게 보낸다
+					
+					userSession.sendMessage(new TextMessage("noteAlarmUpdateRequestToUser"));
+					
+				}else if(kind.equals("limit") && userSession != null){//요청의 종류가 계정 제한 이고 해당 유저의 세션이 존재한다면
+					
+					userSession.sendMessage(new TextMessage("limitAndLogoutSuccessMessageToUser"));//유저에게  메시지를 보낸다
+					
+					session.sendMessage(new TextMessage("limitAndLogoutSuccessMessageToAdmin"));//관리자에게도 메시지를 보낸다
+					
+				}else if(kind.equals("limit") && userSession == null) {//계정 제한은 하였지만 유저의 세션이 존재하지 않는다면 로그아웃 시키지 않는다.
+					
+					session.sendMessage(new TextMessage("limitSuccessMessageToAdmin"));//관리자에게만 메시지를 보낸다
+				} 
+			}
 		}
 	}
 	
 	@Override
 	public void afterConnectionClosed(WebSocketSession session, CloseStatus status) throws Exception {//연결이 끊겼을때
 		
-		System.out.println("commonWebsocket afterConnectionClosed:" + session + ":" + status);
+		log.info("commonWebsocket afterConnectionClosed:" + session + ":" + status);
 		
-		userSessionsMap.remove(getUserId(session));//연결이 끊긴 유저의 세션을 맵에서 삭제한다.
+		String userId = getUserId(session);
+		
+		Map<String, WebSocketSession> innerMap = userSessionsMap.get(userId);
+		
+		innerMap.remove(session.getId());
+		
+		if(innerMap.isEmpty()) {
+			userSessionsMap.remove(userId);
+		}
 		
 		/*for (String key : userSessionsMap.keySet()) {
 			
