@@ -1,6 +1,8 @@
 package org.my.handler;
 	import java.io.IOException;
-import java.util.Date;
+	import java.util.Date;
+	import java.util.LinkedHashMap;
+	import java.util.Map;
 	import org.my.domain.ChatMessage;
 	import org.my.domain.ChatRoom;
 	import org.my.domain.ChatMessageType;
@@ -25,12 +27,14 @@ public class chatWebsocketHandler extends TextWebSocketHandler {
 	
 	@Setter(onMethod_ = @Autowired)
     private ObjectMapper objectMapper;
-
+	
+	Map<String, String> chatRoomNumMap = new LinkedHashMap<>();
 	
     @Override
     protected void handleTextMessage(WebSocketSession session, TextMessage message){
     	
     	try {
+    		
     		log.info("chatWebsocketHandler 세션 ="+session);
             
         	String msg = message.getPayload();
@@ -42,19 +46,23 @@ public class chatWebsocketHandler extends TextWebSocketHandler {
             ChatRoom chatRoom = null;
             
             
-            if(chatMessage.getType() == ChatMessageType.OPEN){
+            if(chatMessage.getType() == ChatMessageType.OPEN){//방에 입장할때
             	
             	log.info("MessageType.OPEN");
             	
             	chatRoom = chatService.addChatRoom(chatMessage.getChatRoomNum());
+            	
+            	chatRoomNumMap.put(session.getId(), chatMessage.getChatRoomNum());
             
-            }else if(chatMessage.getType() == ChatMessageType.CLOSED){
+            }else if(chatMessage.getType() == ChatMessageType.CLOSED){//방을 닫을때
             	
             	log.info("MessageType.CLOSED");
             	
            	 	chatRoom = chatService.findChatRoom(chatMessage.getChatRoomNum());
            	 	
-            }else if(chatMessage.getType() == ChatMessageType.LEAVE){
+           	 	chatRoomNumMap.remove(session.getId());
+           	 	
+            }else if(chatMessage.getType() == ChatMessageType.LEAVE){//방에서 나갈때
             	
             	log.info("MessageType.LEAVE");
             	
@@ -88,17 +96,19 @@ public class chatWebsocketHandler extends TextWebSocketHandler {
                 	chatService.updateRoomStatus(ChatRoomNum, chatMessage.getChat_writerId(), -1, 1);
                 	
                 	chatRoom = chatService.findChatRoom(chatMessage.getChatRoomNum());
+                	
+                	chatRoomNumMap.remove(session.getId());
             	}
             
-            }else if(chatMessage.getType() == ChatMessageType.INVITE){
+            }else if(chatMessage.getType() == ChatMessageType.INVITE){//초대할때
             	
             	log.info("MessageType.INVITE");
     	    	
-    	    }else if(chatMessage.getType() == ChatMessageType.OUT){
+    	    }else if(chatMessage.getType() == ChatMessageType.OUT){//강퇴당할때
     	    	
     	    	log.info("MessageType.OUT");
     	    	
-            }else if(chatMessage.getType() == ChatMessageType.CHAT){
+            }else if(chatMessage.getType() == ChatMessageType.CHAT){//채팅할때
         	
     	    	log.info("MessageType.CHAT");
     	    	
@@ -141,12 +151,25 @@ public class chatWebsocketHandler extends TextWebSocketHandler {
 	public void afterConnectionEstablished(WebSocketSession session) throws Exception{
 		
 		log.info("chatWebsocketHandler afterConnectionEstablished:" + session);
+		
 	}
 	
 	@Override
 	public void afterConnectionClosed(WebSocketSession session, CloseStatus status) throws Exception {
 		
 		log.info("chatWebsocketHandler afterConnectionClosed:" + session + ":" + status);
+		
+		if(chatRoomNumMap.containsKey(session.getId())){//정상적으로 웹소켓이 닫힌게 아닌 경우 핸들러가 처리한다.
+			
+			String chatRoomNum = chatRoomNumMap.get(session.getId());
+			
+			ChatRoom chatRoom = chatService.findChatRoom(chatRoomNum);
+			
+			if(chatRoom.removeWebSocketSession(session)){
+				
+				log.info("비정상적인 웹소켓 닫힘이 발생되어, 해당 채팅방에서 웹소켓 객체를 삭제하였습니다.");				
+			}
+		}
 	}
 }
       

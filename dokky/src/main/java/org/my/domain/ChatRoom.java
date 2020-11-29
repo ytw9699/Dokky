@@ -14,7 +14,6 @@ public class ChatRoom {
 	
     private HashSet<WebSocketSession> sessionsSet = new HashSet<>();//채팅방에 접속해있는 세션들
     
-    
     public void handleMessage(WebSocketSession session, ChatMessage chatMessage) throws IOException {
     	
     	log.info("handleMessage");
@@ -113,10 +112,11 @@ public class ChatRoom {
         	
         	for(WebSocketSession session : sessionsSet){
             	
-            	log.info("session"+session);
+            	log.info("session="+session);
+            	session.sendMessage(textMessage);
             }
         	 
-            Iterator<WebSocketSession> iterator = sessionsSet.iterator();
+            /*Iterator<WebSocketSession> iterator = sessionsSet.iterator();
             
             while(iterator.hasNext()){
             	
@@ -135,10 +135,18 @@ public class ChatRoom {
 	            		log.info("remove session ="+session);
 	            		iterator.remove();
 	            	}
-            }
+            }*/
             
     	} catch (IOException e) {
     		e.printStackTrace();
     	}
     }
+
+	public boolean removeWebSocketSession(WebSocketSession session) {
+		
+		log.info("removeWebSocketSession="+session);
+		
+		return sessionsSet.remove(session);
+	}
+	
 }
