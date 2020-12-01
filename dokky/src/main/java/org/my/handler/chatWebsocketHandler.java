@@ -171,6 +171,12 @@ public class chatWebsocketHandler extends TextWebSocketHandler {
 			}
 		}
 	}
+	
+	@Override//Handle an error from the underlying WebSocket message transport. 
+	public void handleTransportError(WebSocketSession session, Throwable exception) throws Exception {
+		log.info("handleTransportError = " + exception.getMessage());
+		log.info("error session = " + session); 
+	}
 }
       
 
