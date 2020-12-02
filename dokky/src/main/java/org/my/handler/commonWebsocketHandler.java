@@ -1,5 +1,6 @@
 package org.my.handler;
-	import java.util.LinkedHashMap;
+	import java.util.ArrayList;
+	import java.util.HashMap;
 	import java.util.Map;
 	import org.my.security.domain.CustomUser;
 	import org.springframework.security.core.context.SecurityContext;
@@ -13,7 +14,7 @@ package org.my.handler;
 @Log4j 
 public class commonWebsocketHandler extends TextWebSocketHandler {
 	
-	Map<String, Map<String, WebSocketSession>> userSessionsMap = new LinkedHashMap<>();
+	Map<String, ArrayList<WebSocketSession>> userSessionsMap = new HashMap<>();//중복된 유저의 웹소켓 객체들을 아이디 별로 맵에 관리 
 	
 	@Override
 	public void afterConnectionEstablished(WebSocketSession session) throws Exception{//클라이언트가 서버에 접속한후
@@ -22,32 +23,27 @@ public class commonWebsocketHandler extends TextWebSocketHandler {
 		
 		String userId = getUserId(session);
 		
-		Map<String, WebSocketSession> innerMap = userSessionsMap.get(userId);
+		ArrayList<WebSocketSession> userSessionList = userSessionsMap.get(userId);
 		
-		if(innerMap == null) {
+		if(userSessionList == null) {
 			
-			innerMap = new LinkedHashMap<>();
+			userSessionList = new ArrayList<>();
 			
-			innerMap.put(session.getId(), session);
+			userSessionList.add(session);
 			
-			userSessionsMap.put(userId, innerMap);
+			userSessionsMap.put(userId, userSessionList);
 			
 		}else {
 			
-			innerMap.put(session.getId(), session);
+			userSessionList.add(session);
 		}
-		
-		/*for (String key : userSessionsMap.keySet()) {
-			
-			log.info("value"+userSessionsMap.get(key));
-	    }*/
 	}
 	
 	@Override
 	protected void handleTextMessage(WebSocketSession session, TextMessage message) throws Exception {//소켓에다가 메시지를 보냈을때
 		
 		log.info("commonWebsocket handleTextMessage:" + session + " : " + message);
-	
+		
 		String msg = message.getPayload();
 		
 		String[] strs = msg.split(",");
@@ -57,11 +53,14 @@ public class commonWebsocketHandler extends TextWebSocketHandler {
 			String kind = strs[0];//요청의 종류
 			String userId = strs[1];//유저의 아이디
 			
-			Map<String, WebSocketSession> innerMap = userSessionsMap.get(userId);
+			ArrayList<WebSocketSession> userSessionList = userSessionsMap.get(userId);
 			
-			for(Map.Entry<String, WebSocketSession> entry : innerMap.entrySet()) {
-				
-				WebSocketSession userSession = entry.getValue();
+			for (WebSocketSession key : userSessionList) {
+			
+				log.info("key"+key);
+		    }
+			
+			for(WebSocketSession userSession : userSessionList) {
 				
 				if(kind.equals("sendAlarmMsg") && userSession != null) {//모든 알람 메시지
 				
@@ -92,20 +91,21 @@ public class commonWebsocketHandler extends TextWebSocketHandler {
 		
 		String userId = getUserId(session);
 		
-		Map<String, WebSocketSession> innerMap = userSessionsMap.get(userId);
+		ArrayList<WebSocketSession> userSessionList = userSessionsMap.get(userId);
 		
-		innerMap.remove(session.getId());
+		userSessionList.remove(session);//해당 유저의 객체를 삭제
 		
-		if(innerMap.isEmpty()) {
+		if(userSessionList.isEmpty()){
 			userSessionsMap.remove(userId);
 		}
-		
-		/*for (String key : userSessionsMap.keySet()) {
-			
-			log.info("value"+userSessionsMap.get(key));
-	    }*/
 	}
-
+	
+	@Override//Handle an error from the underlying WebSocket message transport. 
+	public void handleTransportError(WebSocketSession session, Throwable exception) throws Exception {
+		log.info("commonWebsocket handleTransportError = " + exception.getMessage());
+		log.info("commonWebsocket error session = " + session); 
+	}
+	
 	private String getUserId(WebSocketSession session) {
 		
 		SecurityContext context = (SecurityContext)session.getAttributes().get(HttpSessionSecurityContextRepository.SPRING_SECURITY_CONTEXT_KEY);
