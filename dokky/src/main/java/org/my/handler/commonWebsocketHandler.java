@@ -2,9 +2,6 @@ package org.my.handler;
 	import java.util.ArrayList;
 	import java.util.HashMap;
 	import java.util.Map;
-	import org.my.security.domain.CustomUser;
-	import org.springframework.security.core.context.SecurityContext;
-	import org.springframework.security.web.context.HttpSessionSecurityContextRepository;
 	import org.springframework.web.socket.CloseStatus;
 	import org.springframework.web.socket.TextMessage;
 	import org.springframework.web.socket.WebSocketSession;
@@ -55,31 +52,31 @@ public class commonWebsocketHandler extends TextWebSocketHandler {
 			
 			ArrayList<WebSocketSession> userSessionList = userSessionsMap.get(userId);
 			
-			for (WebSocketSession key : userSessionList) {
-			
-				log.info("key"+key);
-		    }
-			
-			for(WebSocketSession userSession : userSessionList) {
+			if(userSessionList != null) {
 				
-				if(kind.equals("sendAlarmMsg") && userSession != null) {//모든 알람 메시지
-				
-					userSession.sendMessage(new TextMessage("allAlarmUpdateRequestToUser"));
-				
-				}else if(kind.equals("noteAlarm") && userSession != null) {//쪽지를 쓰고 알림 업데이트 요청을 사용자에게 보낸다
+				for(WebSocketSession userSession : userSessionList) {
 					
-					userSession.sendMessage(new TextMessage("noteAlarmUpdateRequestToUser"));
+					log.info("userSession"+userSession);
 					
-				}else if(kind.equals("limit") && userSession != null){//요청의 종류가 계정 제한 이고 해당 유저의 세션이 존재한다면
+					if(kind.equals("sendAlarmMsg") && userSession != null) {//모든 알람 메시지
 					
-					userSession.sendMessage(new TextMessage("limitAndLogoutSuccessMessageToUser"));//유저에게  메시지를 보낸다
+						userSession.sendMessage(new TextMessage("allAlarmUpdateRequestToUser"));
 					
-					session.sendMessage(new TextMessage("limitAndLogoutSuccessMessageToAdmin"));//관리자에게도 메시지를 보낸다
-					
-				}else if(kind.equals("limit") && userSession == null) {//계정 제한은 하였지만 유저의 세션이 존재하지 않는다면 로그아웃 시키지 않는다.
-					
-					session.sendMessage(new TextMessage("limitSuccessMessageToAdmin"));//관리자에게만 메시지를 보낸다
-				} 
+					}else if(kind.equals("noteAlarm") && userSession != null) {//쪽지를 쓰고 알림 업데이트 요청을 사용자에게 보낸다
+						
+						userSession.sendMessage(new TextMessage("noteAlarmUpdateRequestToUser"));
+						
+					}else if(kind.equals("limit") && userSession != null){//요청의 종류가 계정 제한 이고 해당 유저의 세션이 존재한다면
+						
+						userSession.sendMessage(new TextMessage("limitAndLogoutSuccessMessageToUser"));//유저에게  메시지를 보낸다
+						
+						session.sendMessage(new TextMessage("limitAndLogoutSuccessMessageToAdmin"));//관리자에게도 메시지를 보낸다
+						
+					}else if(kind.equals("limit") && userSession == null) {//계정 제한은 하였지만 유저의 세션이 존재하지 않는다면 로그아웃 시키지 않는다.
+						
+						session.sendMessage(new TextMessage("limitSuccessMessageToAdmin"));//관리자에게만 메시지를 보낸다
+					} 
+				}
 			}
 		}
 	}
@@ -93,10 +90,13 @@ public class commonWebsocketHandler extends TextWebSocketHandler {
 		
 		ArrayList<WebSocketSession> userSessionList = userSessionsMap.get(userId);
 		
-		userSessionList.remove(session);//해당 유저의 객체를 삭제
-		
-		if(userSessionList.isEmpty()){
-			userSessionsMap.remove(userId);
+		if(userSessionList != null) {
+			
+			userSessionList.remove(session);//해당 유저의 객체를 삭제
+			
+			if(userSessionList.isEmpty()){
+				userSessionsMap.remove(userId);
+			}
 		}
 	}
 	
@@ -108,12 +108,16 @@ public class commonWebsocketHandler extends TextWebSocketHandler {
 	
 	private String getUserId(WebSocketSession session) {
 		
-		SecurityContext context = (SecurityContext)session.getAttributes().get(HttpSessionSecurityContextRepository.SPRING_SECURITY_CONTEXT_KEY);
+		log.info("session.getAttributes()"+session.getAttributes());
+			
+		//SecurityContext context = (SecurityContext)session.getAttributes().get(HttpSessionSecurityContextRepository.SPRING_SECURITY_CONTEXT_KEY);
 		//SPRING_SECURITY_CONTEXT를 세션에서 꺼내온다.
 		
-		CustomUser user = (CustomUser)context.getAuthentication().getPrincipal();//인증된 유저의 정보를 가져온다.
+		//CustomUser user = (CustomUser)context.getAuthentication().getPrincipal();//인증된 유저의 정보를 가져온다.
 		
-		return user.getUsername();//유저 아이디를 반환한다.
+		//return user.getUsername();//유저 아이디를 반환한다.
+		
+		return (String)session.getAttributes().get("userId");
 	}
 }
       

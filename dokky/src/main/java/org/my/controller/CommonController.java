@@ -140,7 +140,8 @@ public class CommonController {
 		HttpSession session = request.getSession();
 		
 		if (session != null) {
-
+			
+			session.setAttribute("userId", profileId);//웹소켓이 끊겼을때 사용하기 위해 세션에 저장해둔다.
             String redirectUrl = (String)session.getAttribute("preUrl");
             
             if (redirectUrl != null) {
