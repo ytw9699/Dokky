@@ -398,10 +398,10 @@
 				
 				webSocketChat.onclose = function(){//연결된 소켓이 닫혔다면
 					
-					alert("webSocketChat closed");
-					console.log("webSocketChat closed");
+					webSocketChat = null;
 				
-				    webSocketChat = null;
+					openAlert("채팅연결이 끊겼습니다");
+					console.log("webSocketChat closed");
 					
 					setTimeout(function() {
 						<sec:authorize access="hasAnyRole('ROLE_ADMIN','ROLE_USER','ROLE_SUPER','ROLE_STOP')">
@@ -435,6 +435,8 @@
 	        	}, 50);
 
 			}else{
+				
+				openAlert("채팅연결이 끊겼습니다");
 				
 				console.log("chatWebsocket null");
 			}

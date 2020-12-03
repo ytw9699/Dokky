@@ -113,6 +113,7 @@ public class ChatRoom {
         	for(WebSocketSession session : sessionsSet){
             	
             	log.info("session="+session);
+            	log.info("sendmessage");
             	session.sendMessage(textMessage);
             }
         	 
