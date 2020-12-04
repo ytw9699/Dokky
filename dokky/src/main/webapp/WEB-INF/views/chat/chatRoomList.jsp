@@ -261,6 +261,11 @@
 			var search = $("#search");
 			
 			search.val("");//키워드 초기화
+			
+			var chatInvite = $("#chatInvite");//초대버튼 비활성화
+   			chatInvite.attr("disabled", true);
+   			chatInvite.css("background-color","#EAEAEA");
+   			chatInvite.css("color","gray");
 		}
 		
 		function getChatUserList(callback, error, keyword ) {
