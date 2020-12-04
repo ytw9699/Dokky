@@ -414,9 +414,27 @@
 		});
 	}
 	
+	function getChatCount(userId, callback, error) {
+		$.ajax({
+			type : 'get',
+			url : '/chatCount/'+ userId,
+			success : function(result, status, xhr) {
+				if (callback) {
+					callback(result,xhr);
+				}
+			},
+			error : function(xhr, status, er) {
+				if (error) {
+					error(xhr,er);
+				}
+			}
+		});
+	}
+	
 	<sec:authorize access="isAuthenticated()"> 
 		var alarmCount = $(".alarmCount");
 		var noteCount = $(".noteCount");
+		var chatCount = $(".chatCount");
 		var userId = '${userInfo.username}'; 
 	</sec:authorize>
 	
@@ -428,6 +446,10 @@
 	    
 	    getNoteCount(userId, function(result){
 	    	noteCount.html(result);
+	 	 });
+	    
+	    getChatCount(userId, function(result){
+	    	chatCount.html(result);
 	 	 });
 	} 
 	

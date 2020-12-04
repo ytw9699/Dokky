@@ -84,7 +84,7 @@
     	border-top-left-radius: 10px;
 	  }
 	   
-	  .alarmCount, .noteCount {
+	  .alarmCount, .noteCount, .chatCount{
 	 	    background-color: #e80935;
 		    color: white;
 		    border-radius: 30px;

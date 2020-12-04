@@ -666,6 +666,15 @@ public class CommonController {
 		return new ResponseEntity<>(commonService.getNoteCount(userId), HttpStatus.OK);
 	}
 	
+	@GetMapping(value = "/chatCount/{userId}", produces = "text/plain; charset=UTF-8")
+	@ResponseBody
+	public ResponseEntity<String> getChatCount(@PathVariable("userId") String userId) {
+		 
+		log.info("/chatCount...="+userId);
+		
+		return new ResponseEntity<>(commonService.getChatCount(userId), HttpStatus.OK);
+	}
+	
 	@PreAuthorize("hasAnyRole('ROLE_ADMIN','ROLE_SUPER')") 
 	@GetMapping("/admin/authorizationList")//일반 관리자 권한부여 리스트
 	public String getAuthorizationList(Criteria cri, Model model, 
