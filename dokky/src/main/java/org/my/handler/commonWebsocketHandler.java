@@ -41,6 +41,10 @@ public class commonWebsocketHandler extends TextWebSocketHandler {
 						
 						userSession.sendMessage(new TextMessage("noteAlarmUpdateRequestToUser"));
 						
+					}else if(kind.equals("chatAlarm") && userSession != null) {//채팅 메시지를 보내고 알림 업데이트 요청을 사용자에게 보낸다
+						
+						userSession.sendMessage(new TextMessage("chatAlarmUpdateRequestToUser"));
+						
 					}else if(kind.equals("limit") && userSession != null){//요청의 종류가 계정 제한 이고 해당 유저의 세션이 존재한다면
 						
 						userSession.sendMessage(new TextMessage("limitAndLogoutSuccessMessageToUser"));//유저에게  메시지를 보낸다

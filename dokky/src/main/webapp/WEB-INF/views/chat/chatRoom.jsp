@@ -163,6 +163,7 @@
 <script>
 
 		var webSocketChat;
+		var commonWebSocket;
 		var message;
 		var chatRoomNum = '${chatRoomNum}';
 		var csrfHeaderName ="${_csrf.headerName}"; 
@@ -173,7 +174,7 @@
 	 	var chatroom;
 	 	var serverName = '${pageContext.request.serverName}';
 	 	var random = Math.random();
-		
+	 	
 		$(document).ajaxSend(function(e, xhr, options) {
 			
 		     xhr.setRequestHeader(csrfHeaderName, csrfTokenValue);
@@ -186,7 +187,47 @@
 		
 		$(document).ready(function() {
 			connect();
+			commonWebSocketConnect();
 		});
+		
+		function commonWebSocketConnect(){
+			
+			var serverName = '${pageContext.request.serverName}'; 
+			
+			if(serverName == 'localhost'){
+			
+				commonWebSocket = new WebSocket("ws://localhost:8080/commonWebsocketHandler");
+
+			}else{
+				commonWebSocket = new WebSocket("wss://dokky.site:443/commonWebsocketHandler");
+			}
+			
+			commonWebSocket.onopen = function (){ //소켓이 연결됬다면
+				
+				console.log("commonWebsocket is connected");
+			
+				commonWebSocket.onmessage = function(event){//소켓 연결됬는데 메시지가 왔다면
+					
+					console.log("commonWebsocket message");
+				}
+				
+				commonWebSocket.onclose = function(){ //소켓 연결됬는데 소켓이 다시 닫혔다면
+					
+					console.log("commonWebsocket is closed");
+					
+					setTimeout(function() {
+						<sec:authorize access="hasAnyRole('ROLE_ADMIN','ROLE_USER','ROLE_SUPER','ROLE_STOP')">
+							commonWebSocketConnect(); //1초후 다시 재연결
+						</sec:authorize>
+					}, 1000); 
+				}
+				
+				commonWebSocket.onerror = function(err){//소켓 연결됬는데 에러가 있다면
+					
+					console.log("commonWebsocket error, "+err);
+				}
+			}
+		}
 		
 		function connect(){
 			
@@ -435,6 +476,27 @@
 		        setTimeout(function() {
 		        	window.scrollTo(0, $(document).height());//스크롤 맨아래로
 	        	}, 50);
+		        
+		    	setTimeout(function(){ //시간 차이 때문에 조금 늦게 보내야 채팅 카운트 알림이 보내진다.
+		    		
+		    		var chat_memberId="${chatMember.chat_memberId}";
+			    	
+			    	var chat_type = "${chat_type}";
+			    	
+		    		if(commonWebSocket != null){//상대방 채팅 카운트 업데이트 시키기
+				        	
+				        	if(chat_type == 0){//1:1채팅방이라면
+				        		
+				        		console.log("commonWebSocket send");
+				        
+				        		commonWebSocket.send("chatAlarm,"+chat_memberId);
+				        	
+				        	}else if(chat_type == 1){//멀티채팅방이라면
+				        		
+				        	}
+					}
+		    		
+	        	}, 100);
 
 			}else{
 				

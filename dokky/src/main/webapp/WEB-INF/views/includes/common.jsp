@@ -225,6 +225,14 @@
 					    	noteCount.html(result);
 				 	 });
 					
+				}else if(event.data == 'chatAlarmUpdateRequestToUser'){
+					 
+					 console.log("chatAlarmUpdateRequestToUser");
+					
+					 getChatCount(userId, function(result){
+					    	chatCount.html(result);
+				 	 });
+					
 				}else if(event.data == 'limitAndLogoutSuccessMessageToUser'){
 					 
 						openAlert("곧 관리자에 의해 접속 제한(로그아웃) 됩니다");
