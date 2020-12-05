@@ -205,9 +205,11 @@
 			
 			webSocketChat.onopen = function(){ //웹소켓이 연결됬다면
 				
-				console.log("chatWebsocket connected");
-				
+				console.log("chatWebsocket connected"); 
+			
 				webSocketChat.send(JSON.stringify({chatRoomNum : chatRoomNum, type:'OPEN'}));//채팅방 열기
+				
+				focusFunction();//처음에 방에 입장시, 꼭 채팅방 열기 메시지를 보낸후에(위 한줄 로직), 읽지 않은 메시지들이 있다면 읽어주는 처리를 한번해야한다.
 				
 				webSocketChat.onmessage = function(event){//웹소켓이 연결됬는데 메시지가 왔다면
 					
@@ -506,6 +508,8 @@
 		
 		function focusFunction(){ 
 			
+			console.log("focusFunction");
+			
 			position = "in";
 			
 			var chat_content = $(".chat_content");
@@ -527,7 +531,7 @@
 									
 										if(status == "success"){
 											
-											if(result == "0"){//읽지않았다면
+											if(result == "0"){//읽지 않았는데 , 디비에서 읽음 처리를 했을때
 												
 												content_object.replaceWith("<span class='chat_content' data-content_num="+content_object.data("content_num")+" data-read_type="+1+">"+content_object.html()+"</span>");
 												
@@ -536,7 +540,7 @@
 													webSocketChat.send(JSON.stringify({chatRoomNum : chatRoomNum, type:'READ', chatContentNum : content_object.data("content_num")}));
 												}
 												
-											}else if(result == "1"){//내가 읽은거라면
+											}else if(result == "1"){//이미 디비에서 읽음 처리가 되었을때
 												
 												content_object.replaceWith("<span class='chat_content' data-content_num="+content_object.data("content_num")+" data-read_type="+1+">"+content_object.html()+"</span>");
 											}
