@@ -461,13 +461,6 @@
 	 	 });
 	} 
 	
-	function updateChatCount(){ 
-		
-	    getChatCount(userId, function(result){
-	    	chatCount.html(result);
-	 	 });
-	} 
-	
 	function isLimited(){
 		
 		var isLimited = false;// 쓰기 제한된 계정의 true,false 여부

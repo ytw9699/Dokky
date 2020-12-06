@@ -577,7 +577,9 @@
 				}
 	        }
 			
-			opener.updateChatCount();
+			if(opener.webSocket != null){
+				opener.webSocket.send("chatAlarm,"+myId);
+			}
 		}
 		
 		function readChat(chatReadData, callback, error) {
