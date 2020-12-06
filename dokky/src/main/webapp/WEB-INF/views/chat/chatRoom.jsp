@@ -619,6 +619,8 @@
 						);
 				}
 	        }
+			
+			opener.updateChatCount();
 		}
 		
 		function readChat(chatReadData, callback, error) {
