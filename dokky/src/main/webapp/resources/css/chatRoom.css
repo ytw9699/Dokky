@@ -27,12 +27,34 @@
         
         .chat_content{
         	font-size: 16px;
-       	    margin-right: 1%;
-       	    margin-left: 1%;
+		    margin-right: 1%;
+		    margin-left: 1%;
+		    display: inline-block;
+		    max-width: 60%;
+		    word-break: break-all;
+		    text-align: left;
+		    background-color: #cac1f3;
+		    border-radius: 10px;
+		    padding-bottom: 5px;
+		    padding-top: 5px;
+		    padding-right: 10px;
+		    padding-left: 10px;
         }
         
-        .chat_nick{
-        	font-size: 14px;
+         .your_chat_content{
+        	font-size: 16px;
+		    margin-right: 1%;
+		    margin-left: 1%;
+		    display: block;
+		    max-width: 60%;
+		    word-break: break-all;
+		    text-align: left;
+		    background-color: #cac1f3;
+		    border-radius: 10px;
+		    padding-bottom: 5px;
+		    padding-top: 5px;
+		    padding-right: 10px;
+		    padding-left: 10px;
         }
         
         .chat_notice_content{
@@ -42,9 +64,14 @@
        	    color: #7151fc;
         }
         
+        .chat_profile{
+        	 display: block;
+        }
+        
         .chat_time{
         	font-size: 12px; 
         	margin-left: 1%;
+        	display: inline-block;
         }
         
         .chat_readCount{
@@ -52,6 +79,7 @@
         	margin-left: 1%;
         	margin-right: 1%;
         	color: #7151fc;
+        	display: inline-block;
         }
         
         #chatTitle{

@@ -63,7 +63,7 @@
 				  </c:when>
 			</c:choose>
 			<div class="test">
-				<button id="test">채팅 웹소켓 연결 끊기 </button>
+				<button id="test">재연결</button>
 			</div>
 		</div>
 		<div id="chatContents">
@@ -98,22 +98,22 @@
 					  </c:when>
 				   	  <c:when test="${content.chat_writerId == userInfo.username}"> <!-- 내가 쓴 채팅 내용 -->
 				   	  	 <div class="chat_wrap myChat">
-				   	  	 	<span id="${content.chatContentNum}" class="chat_readCount" data-content_num="${content.chatContentNum}">
+				   	  	 	<div id="${content.chatContentNum}" class="chat_readCount" data-content_num="${content.chatContentNum}">
 				   	  	 		<c:if test="${content.readCount != 0}">
 				   	  	 			${content.readCount}
 				   	  	 		</c:if>
-				   	  	 	</span>
-				   	  	 	<span class="chat_time">
+				   	  	 	</div>
+				   	  	 	<div class="chat_time">
 				   	  	 		<fmt:formatDate value="${content.regDate}" pattern="a HH:mm"/>
-				   	  	 	</span>
-				   	  	 	<span class="chat_content" data-content_num="${content.chatContentNum}" data-read_type="${content.read_type}"> 
+				   	  	 	</div>
+				   	  	 	<div class="chat_content" data-content_num="${content.chatContentNum}" data-read_type="${content.read_type}"> 
 				   	  	 		${content.chat_content}
-				   	  	 	</span>
+				   	  	 	</div>
 			             </div>
 					  </c:when>
 				      <c:otherwise><!--  타인이 쓴 채팅 내용 -->
 				      	<div class="chat_wrap">
-				      		<span class="chat_profile">
+				      		<div class="chat_profile">
 									<c:choose>
 									   	  <c:when test="${pageContext.request.serverName == 'localhost'}"> 
 											 	<img src="/resources/img/profile_img/<c:out value="${chatMember.chat_memberId}"/>.png?${random}" class="memberImage" onerror="this.src='/resources/img/profile_img/basicProfile.png'"/>
@@ -122,21 +122,19 @@
 									    		<img src="/upload/<c:out value="${chatMember.chat_memberId}"/>.png?${random}" class="memberImage" onerror="this.src='/ROOT/resources/img/profile_img/basicProfile.png'" />
 									      </c:otherwise>
 									</c:choose>
-							</span>
-				      		<span class="chat_nick">
-				   	  	 		${content.chat_writerNick} 
-				   	  	 	</span>
-				      		<span class="chat_content" data-content_num="${content.chatContentNum}" data-read_type="${content.read_type}">
+									${content.chat_writerNick}
+							</div>
+				      		<div class="chat_content yourContent" data-content_num="${content.chatContentNum}" data-read_type="${content.read_type}">
 				   	  	 		${content.chat_content}
-				   	  	 	</span>
-				   	  	 	<span class="chat_time">
+				   	  	 	</div>
+				   	  	 	<div class="chat_time">
 				   	  	 		<fmt:formatDate value="${content.regDate}" pattern="a HH:mm"/>
-				   	  	 	</span>
-				   	  	 	<span id="${content.chatContentNum}" class="chat_readCount" data-content_num="${content.chatContentNum}"> 
+				   	  	 	</div>
+				   	  	 	<div id="${content.chatContentNum}" class="chat_readCount" data-content_num="${content.chatContentNum}"> 
 				   	  	 		<c:if test="${content.readCount != 0}">
 				   	  	 			${content.readCount}
 				   	  	 		</c:if>
-				   	  	 	</span>
+				   	  	 	</div>
 			             </div>
 				      </c:otherwise>
 				</c:choose>
@@ -144,7 +142,7 @@
 		</div>
 		<div id="messageWrap">
 				<span id="messgaeInputWrap">
-					<textarea id="message" rows="3" placeholder="내용을 입력하세요" autofocus></textarea>
+					<textarea id="message" rows="3" placeholder="내용을 입력하세요" oninput="checkLength(this,2000);" autofocus></textarea>
 				</span>	
 				<span id="sendBtnWrap">
 					<button id="sendMessageBtn">전송</button>
@@ -246,40 +244,41 @@
 								 if(obj.chat_writerId == myId){
 									 
 									    chatroom.innerHTML += "<div class='chat_wrap myChat'>"
-															        	+"<span id="+obj.chatContentNum+" class='chat_readCount' data-content_num="+obj.chatContentNum+">" 
+															        	+"<div id="+obj.chatContentNum+" class='chat_readCount' data-content_num="+obj.chatContentNum+">" 
 																			+ obj.headCount 
-																		+"</span>"
-				        												+"<span class='chat_time'>" 
+																		+"</div>"
+				        												+"<div class='chat_time'>" 
 				        													+ time 
-				        												+"</span>"
-				     													+"<span class='chat_content' data-content_num="+obj.chatContentNum+" data-read_type="+1+">" 
+				        												+"</div>"
+				     													+"<div class='chat_content' data-content_num="+obj.chatContentNum+" data-read_type="+1+">" 
 				     														+ getMessgae 
-				     													+ "</span>"
+				     													+ "</div>"
 		     												+ "</div>";
 						         }else{
-						             
-						        	 	chatroom.innerHTML += "<div class='chat_wrap'>"
-														        	 	+"<span class='chat_profile'>";
-														        	 	if(serverName == 'localhost'){ 
-														        	 		   chatroom.innerHTML += "<img src='/resources/img/profile_img/"+obj.chat_writerId+".png?"+random+"' class='memberImage hideUsermenu' onerror='this.src=\"/resources/img/profile_img/basicProfile.png\"'/>&nbsp"
-																					   
-																		}else{
-																			   chatroom.innerHTML += "<img src='/upload/"+obj.chat_writerId+".png?"+random+"' class='memberImage hideUsermenu' onerror='this.src=\"/ROOT/resources/img/profile_img/basicProfile.png\"'/>&nbsp"
-																		}
-																	    chatroom.innerHTML += "</span>"				        	 	
-											        	 				+"<span class='chat_nick'>"
-																	    	+ obj.chat_writerNick 
-																		+ "</span>"
-			        	 												+"<span class='chat_content' data-content_num="+obj.chatContentNum+" data-read_type="+1+">"
-			        	 											    	+ getMessgae 
-			        	 												+ "</span>"
-			        	 												+ "<span class='chat_time'>"
-			        	 													+ time 
-			        	 												+ "</span>"
-			        	 												+"<span id="+obj.chatContentNum+" class='chat_readCount' data-content_num="+obj.chatContentNum+">" 
-																			+ obj.headCount 
-																		+"</span>"
-	        	 											 + "</div>";
+						        	 	
+							        	 var img;
+		        					     
+			        					 if(serverName == 'localhost'){ 
+			        						 img = "<img src='/resources/img/profile_img/"+obj.chat_writerId+".png?"+random+"' class='memberImage hideUsermenu' onerror='this.src=\"/resources/img/profile_img/basicProfile.png\"'/>&nbsp"
+													   
+										 }else{
+											 img = "<img src='/upload/"+obj.chat_writerId+".png?"+random+"' class='memberImage hideUsermenu' onerror='this.src=\"/ROOT/resources/img/profile_img/basicProfile.png\"'/>&nbsp"
+										 }
+		        					 
+							        	 chatroom.innerHTML += "<div class='chat_wrap'>"
+														        	 	+"<div class='chat_profile'>" 
+														        	 		+ img + obj.chat_writerNick 
+														        	 	+"</div>"
+																		+"<div class='chat_content yourContent' data-content_num="+obj.chatContentNum+" data-read_type="+1+">"
+																	    	+ getMessgae 
+																		+ "</div>"
+																		+ "<div class='chat_time'>"
+																			+ time  
+																		+ "</div>"
+																		+"<div id="+obj.chatContentNum+" class='chat_readCount' data-content_num="+obj.chatContentNum+">" 
+																		+ obj.headCount 
+																		+"</div>"
+																+ "</div>";
 						         }
 								 
 								 var chatReadData = {  
@@ -310,39 +309,39 @@
 								 if(obj.chat_writerId == myId){
 									 
 					 					chatroom.innerHTML += "<div class='chat_wrap myChat'>"
-				        												+"<span id="+obj.chatContentNum+" class='chat_readCount' data-content_num="+obj.chatContentNum+">"
+				        												+"<div id="+obj.chatContentNum+" class='chat_readCount' data-content_num="+obj.chatContentNum+">"
 																			+ obj.headCount 
-																		+"</span>"
-				        												+"<span class='chat_time'>" 
+																		+"</div>"
+				        												+"<div class='chat_time'>" 
 				        													+ time 
-				        												+"</span>"
-				     													+"<span class='chat_content' data-content_num="+obj.chatContentNum+" data-read_type="+0+">"
+				        												+"</div>"
+				     													+"<div class='chat_content' data-content_num="+obj.chatContentNum+" data-read_type="+0+">"
 				     														+ getMessgae 
-				     													+ "</span>"
+				     													+ "</div>"
 			     												+ "</div>";
-		        				 }else{
-			 
+		        				 }else{	
+		        					     var img;
+		        					     
+			        					 if(serverName == 'localhost'){
+			        						 img = "<img src='/resources/img/profile_img/"+obj.chat_writerId+".png?"+random+"' class='memberImage hideUsermenu' onerror='this.src=\"/resources/img/profile_img/basicProfile.png\"'/>&nbsp"
+													   
+										 }else{
+											 img = "<img src='/upload/"+obj.chat_writerId+".png?"+random+"' class='memberImage hideUsermenu' onerror='this.src=\"/ROOT/resources/img/profile_img/basicProfile.png\"'/>&nbsp"
+										 }
+		        					 
 							        	 chatroom.innerHTML += "<div class='chat_wrap'>"
-														        	 	+"<span class='chat_profile'>";
-														        	 	if(serverName == 'localhost'){ 
-														        	 		   chatroom.innerHTML += "<img src='/resources/img/profile_img/"+obj.chat_writerId+".png?"+random+"' class='memberImage hideUsermenu' onerror='this.src=\"/resources/img/profile_img/basicProfile.png\"'/>&nbsp"
-																					   
-																		}else{
-																			   chatroom.innerHTML += "<img src='/upload/"+obj.chat_writerId+".png?"+random+"' class='memberImage hideUsermenu' onerror='this.src=\"/ROOT/resources/img/profile_img/basicProfile.png\"'/>&nbsp"
-																		}
-																	    chatroom.innerHTML += "</span>"	
-														        	 	+"<span class='chat_nick'>"
-																	    	+ obj.chat_writerNick 
-																		+ "</span>"
-																		+"<span class='chat_content' data-content_num="+obj.chatContentNum+" data-read_type="+0+">"
+														        	 	+"<div class='chat_profile'>" 
+														        	 		+ img + obj.chat_writerNick 
+														        	 	+"</div>"
+																		+"<div class='chat_content yourContent' data-content_num="+obj.chatContentNum+" data-read_type="+0+">"
 																	    	+ getMessgae 
-																		+ "</span>"
-																		+ "<span class='chat_time'>"
-																			+ time 
-																		+ "</span>"
-																		+"<span id="+obj.chatContentNum+" class='chat_readCount' data-content_num="+obj.chatContentNum+">" 
+																		+ "</div>"
+																		+ "<div class='chat_time'>"
+																			+ time  
+																		+ "</div>"
+																		+"<div id="+obj.chatContentNum+" class='chat_readCount' data-content_num="+obj.chatContentNum+">" 
 																		+ obj.headCount 
-																		+"</span>"
+																		+"</div>"
 																+ "</div>";
 						         }
 						 }
@@ -597,7 +596,7 @@
 											
 											if(result == "0"){//읽지 않았는데 , 디비에서 읽음 처리를 했을때
 												
-												content_object.replaceWith("<span class='chat_content' data-content_num="+content_object.data("content_num")+" data-read_type="+1+">"+content_object.html()+"</span>");
+												content_object.replaceWith("<div class='chat_content' data-content_num="+content_object.data("content_num")+" data-read_type="+1+">"+content_object.html()+"</div>");
 												
 												if(chatWebSocket != null){
 													
@@ -606,7 +605,7 @@
 												
 											}else if(result == "1"){//이미 디비에서 읽음 처리가 되었을때
 												
-												content_object.replaceWith("<span class='chat_content' data-content_num="+content_object.data("content_num")+" data-read_type="+1+">"+content_object.html()+"</span>");
+												content_object.replaceWith("<div class='chat_content' data-content_num="+content_object.data("content_num")+" data-read_type="+1+">"+content_object.html()+"</div>");
 											}
 										}
 							    	},
@@ -693,6 +692,48 @@
 				
 				saveDate = substringDate;
 			}
+		}
+		
+		function checkLength(obj, maxByte) { 
+			 
+			if(obj.tagName === "INPUT" || obj.tagName === "TEXTAREA"){ 
+				var str = obj.value; 
+			}else if(obj.tagName === "DIV" ){
+				var str = obj.innerHTML; 
+			} 
+				
+			var stringByteLength = 0;
+			var reStr;
+				
+			stringByteLength = (function(s,b,i,c){
+				
+			    for(b=i=0; c=s.charCodeAt(i++);){
+			    
+				    b+=c>>11?2:c>>7?2:1;
+				    if (b > maxByte) { 
+				    	break;
+				    }
+				    
+				    reStr = str.substring(0,i);
+			    }
+			    
+			    return b
+			    
+			})(str);
+			
+			if(obj.tagName === "INPUT" || obj.tagName === "TEXTAREA"){ 
+				if (stringByteLength > maxByte) {// 전체길이를 초과하면          
+					openAlert(maxByte + " Byte 이상 입력할 수 없습니다");         
+					obj.value = reStr;       
+				}   
+			}else if(obj.tagName === "DIV"){
+				if (stringByteLength > maxByte) {// 전체길이를 초과하면          
+					openAlert(maxByte + " Byte 이상 입력할 수 없습니다");         
+					obj.innerHTML = reStr;    
+				}   
+			} 
+			
+			obj.focus();  
 		}
 		
 </script>
