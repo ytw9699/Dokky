@@ -162,7 +162,8 @@
 
 <script>
 
-		var webSocketChat;
+		var chatWebSocket = null;
+		var commonWebSocket = null;
 		var message;
 		var chatRoomNum = '${chatRoomNum}';
 		var csrfHeaderName ="${_csrf.headerName}"; 
@@ -185,10 +186,13 @@
 		</sec:authorize>
 		
 		$(document).ready(function() {
-			connect();
+			<sec:authorize access="isAuthenticated()">
+					commonWebSocketConnect();			
+					chatWebSocketConnect();
+			</sec:authorize>
 		});
 		
-		function connect(){
+		function chatWebSocketConnect(){
 			
 			window.scrollTo(0, $(document).height());
 			
@@ -196,24 +200,24 @@
 			
 			if(serverName == 'localhost'){
 				
-				webSocketChat = new WebSocket("ws://localhost:8080/chatWebsocketHandler");
+				chatWebSocket = new WebSocket("ws://localhost:8080/chatWebsocketHandler");
 				
 			}else{
 				
-				webSocketChat = new WebSocket("wss://dokky.site:443/chatWebsocketHandler");
+				chatWebSocket = new WebSocket("wss://dokky.site:443/chatWebsocketHandler");
 			}
 			
-			webSocketChat.onopen = function(){ //웹소켓이 연결됬다면
+			chatWebSocket.onopen = function(){ //웹소켓이 연결됬다면
 				
 				console.log("chatWebsocket connected"); 
 			
-				webSocketChat.send(JSON.stringify({chatRoomNum : chatRoomNum, type:'OPEN'}));//채팅방 열기
+				chatWebSocket.send(JSON.stringify({chatRoomNum : chatRoomNum, type:'OPEN'}));//채팅방 열기
 				
 				focusFunction();//처음에 방에 입장시, 꼭 채팅방 열기 메시지를 보낸후에(위 한줄 로직), 읽지 않은 메시지들이 있다면 읽어주는 처리를 한번해야한다.
 				
-				webSocketChat.onmessage = function(event){//웹소켓이 연결됬는데 메시지가 왔다면
+				chatWebSocket.onmessage = function(event){//웹소켓이 연결됬는데 메시지가 왔다면
 					
-					console.log("webSocketChat.onmessage");
+					console.log("chatWebSocket.onmessage");
 					
 					console.log(event.data);
 				
@@ -289,7 +293,7 @@
 											
 												if(status == "success"){
 													
-													webSocketChat.send(JSON.stringify({chatRoomNum : chatRoomNum, type:'READ', chatContentNum : obj.chatContentNum}));
+													chatWebSocket.send(JSON.stringify({chatRoomNum : chatRoomNum, type:'READ', chatContentNum : obj.chatContentNum}));
 												}
 									    	},
 									    
@@ -398,21 +402,21 @@
 				    }
 				}
 				
-				webSocketChat.onclose = function(){//연결된 소켓이 닫혔다면
+				chatWebSocket.onclose = function(){//연결된 소켓이 닫혔다면
 					
-					webSocketChat = null;
+					chatWebSocket = null;
 				
 					openAlert("채팅연결이 끊겼습니다");
-					console.log("webSocketChat closed");
+					console.log("chatWebSocket closed");
 					
 					setTimeout(function() {
 						<sec:authorize access="hasAnyRole('ROLE_ADMIN','ROLE_USER','ROLE_SUPER','ROLE_STOP')">
-							connect(); //0.1초후 다시 재연결
+							chatWebSocketConnect(); //0.1초후 다시 재연결
 						</sec:authorize>
 					}, 100); 
 				}
 				
-				webSocketChat.onerror = function(err){
+				chatWebSocket.onerror = function(err){
 					
 					console.log("chatWebsocket error, "+err);
 				}
@@ -420,15 +424,56 @@
 			}	
 		}
 		
+		function commonWebSocketConnect(){
+		
+			var serverName = '${pageContext.request.serverName}'; 
+			
+			if(serverName == 'localhost'){
+			
+				commonWebSocket = new WebSocket("ws://localhost:8080/commonWebsocketHandler");
+
+			}else{
+				
+				commonWebSocket = new WebSocket("wss://dokky.site:443/commonWebsocketHandler");
+			}
+			
+			commonWebSocket.onopen = function (){ //소켓이 연결됬다면
+				
+				console.log("commonWebsocket is connected");
+			
+				commonWebSocket.onmessage = function(event){//소켓 연결됬는데 메시지가 왔다면
+					
+					console.log("commonWebsocket message");
+				}
+				
+				commonWebSocket.onclose = function(){ //소켓 연결됬는데 소켓이 다시 닫혔다면
+					
+					console.log("commonWebsocket is closed");
+					
+					setTimeout(function() {
+						<sec:authorize access="hasAnyRole('ROLE_ADMIN','ROLE_USER','ROLE_SUPER','ROLE_STOP')">
+							commonWebSocketConnect(); //1초후 다시 재연결
+						</sec:authorize>
+					}, 1000); 
+				}
+				
+				commonWebSocket.onerror = function(err){//소켓 연결됬는데 에러가 있다면
+					
+					console.log("commonWebsocket error, "+err);
+				}
+			}
+		}
+		
+		
 		function send(chatRoomNum, messageVal){
 			
-			if(webSocketChat != null){
+			if(chatWebSocket != null){
 				
 				console.log("chatWebsocket send");
 				
 				console.log("headCount="+headCount);
 				
-		        webSocketChat.send(JSON.stringify({chatRoomNum : chatRoomNum, type:'CHAT', message : messageVal, chat_writerId:myId , chat_writerNick: myNickName , headCount:headCount}));
+		        chatWebSocket.send(JSON.stringify({chatRoomNum : chatRoomNum, type:'CHAT', message : messageVal, chat_writerId:myId , chat_writerNick: myNickName , headCount:headCount}));
 		        
 		        message.val("");
 		        
@@ -442,11 +487,11 @@
 			    	
 			    	var chat_type = "${chat_type}";
 			    	
-		    		if(opener.webSocket != null){//상대방 채팅 카운트 업데이트 시키기
+		    		if(commonWebSocket != null){//상대방 채팅 카운트 업데이트 시키기
 				        	
 				        	if(chat_type == 0){//1:1채팅방이라면
 				        		
-				        		opener.webSocket.send("chatAlarm,"+chat_memberId);
+				        		commonWebSocket.send("chatAlarm,"+chat_memberId);
 				        	
 				        	}else if(chat_type == 1){//멀티채팅방이라면
 				        		
@@ -467,23 +512,23 @@
 			
 			console.log("chatWebsocket closed");
 			
-			webSocketChat.send(JSON.stringify({chatRoomNum : chatRoomNum, type:'CLOSED'}));
+			chatWebSocket.send(JSON.stringify({chatRoomNum : chatRoomNum, type:'CLOSED'}));
 			
-		    webSocketChat.close();
+		    chatWebSocket.close();
 		    
-		    webSocketChat = null;
+		    chatWebSocket = null;
 		}
 		
 		function leave(){//방 나가기
 			
 			console.log("chatWebsocket leave");
 			
-			webSocketChat.send(JSON.stringify({chatRoomNum : chatRoomNum, type : 'LEAVE', chat_writerId : myId , chat_writerNick: myNickName }));
+			chatWebSocket.send(JSON.stringify({chatRoomNum : chatRoomNum, type : 'LEAVE', chat_writerId : myId , chat_writerNick: myNickName }));
 		}
 		
 		window.onbeforeunload = function() {//브라우저 종료 및 닫기 감지
 			
-			if(webSocketChat != null){
+			if(chatWebSocket != null){
 				closed();
 			}
 		}
@@ -509,12 +554,12 @@
 		$("#leave").on("click", function(event){//방 나가기
 			
 			leave();
-			webSocketChat = null;
+			chatWebSocket = null;
 			window.close();
 		});
 		
 		$("#test").on("click", function(event){
-			webSocketChat.close();
+			chatWebSocket.close();
 		});
 		
 		window.onblur = blurFunction;//채팅방을 벗어날때
@@ -554,9 +599,9 @@
 												
 												content_object.replaceWith("<span class='chat_content' data-content_num="+content_object.data("content_num")+" data-read_type="+1+">"+content_object.html()+"</span>");
 												
-												if(webSocketChat != null){
+												if(chatWebSocket != null){
 													
-													webSocketChat.send(JSON.stringify({chatRoomNum : chatRoomNum, type:'READ', chatContentNum : content_object.data("content_num")}));
+													chatWebSocket.send(JSON.stringify({chatRoomNum : chatRoomNum, type:'READ', chatContentNum : content_object.data("content_num")}));
 												}
 												
 											}else if(result == "1"){//이미 디비에서 읽음 처리가 되었을때
@@ -577,8 +622,8 @@
 				}
 	        }
 			
-			if(opener.webSocket != null){
-				opener.webSocket.send("chatAlarm,"+myId);
+			if(commonWebSocket != null){
+				commonWebSocket.send("chatAlarm,"+myId);
 			}
 		}
 		
