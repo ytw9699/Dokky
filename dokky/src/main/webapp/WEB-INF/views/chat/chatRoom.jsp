@@ -106,7 +106,7 @@
 				   	  	 	<div class="chat_time">
 				   	  	 		<fmt:formatDate value="${content.regDate}" pattern="a HH:mm"/>
 				   	  	 	</div>
-				   	  	 	<div class="chat_content" data-content_num="${content.chatContentNum}" data-read_type="${content.read_type}"> 
+				   	  	 	<div class="chat_content" data-content_num="${content.chatContentNum}" data-content_writerId="${content.chat_writerId}" data-read_type="${content.read_type}"> 
 				   	  	 		${content.chat_content}
 				   	  	 	</div>
 			             </div>
@@ -114,6 +114,7 @@
 				      <c:otherwise><!--  타인이 쓴 채팅 내용 -->
 				      	<div class="chat_wrap">
 				      		<div class="chat_profile">
+			      				<div class="chat_image">
 									<c:choose>
 									   	  <c:when test="${pageContext.request.serverName == 'localhost'}"> 
 											 	<img src="/resources/img/profile_img/<c:out value="${chatMember.chat_memberId}"/>.png?${random}" class="memberImage" onerror="this.src='/resources/img/profile_img/basicProfile.png'"/>
@@ -122,9 +123,12 @@
 									    		<img src="/upload/<c:out value="${chatMember.chat_memberId}"/>.png?${random}" class="memberImage" onerror="this.src='/ROOT/resources/img/profile_img/basicProfile.png'" />
 									      </c:otherwise>
 									</c:choose>
+								</div>
+								<div class="chat_nick">
 									${content.chat_writerNick}
+								</div>
 							</div>
-				      		<div class="chat_content yourContent" data-content_num="${content.chatContentNum}" data-read_type="${content.read_type}">
+				      		<div class="chat_content yourContent" data-content_num="${content.chatContentNum}" data-content_writerId="${content.chat_writerId}" data-read_type="${content.read_type}">
 				   	  	 		${content.chat_content}
 				   	  	 	</div>
 				   	  	 	<div class="chat_time">
@@ -250,7 +254,7 @@
 				        												+"<div class='chat_time'>" 
 				        													+ time 
 				        												+"</div>"
-				     													+"<div class='chat_content' data-content_num="+obj.chatContentNum+" data-read_type="+1+">" 
+				     													+"<div class='chat_content' data-content_writerId="+obj.chat_writerId+" data-content_num="+obj.chatContentNum+" data-read_type="+1+">"
 				     														+ getMessgae 
 				     													+ "</div>"
 		     												+ "</div>";
@@ -267,9 +271,14 @@
 		        					 
 							        	 chatroom.innerHTML += "<div class='chat_wrap'>"
 														        	 	+"<div class='chat_profile'>" 
-														        	 		+ img + obj.chat_writerNick 
-														        	 	+"</div>"
-																		+"<div class='chat_content yourContent' data-content_num="+obj.chatContentNum+" data-read_type="+1+">"
+															        	 	+"<div class='chat_image'>"
+															        	 		+ img 
+															        	 	+"</div>"
+															        	 	+"<div class='chat_nick'>"
+															        	 		+ obj.chat_writerNick
+															        	 	+"</div>"
+															        	+"</div>"
+														        	 	+"<div class='chat_content yourContent' data-content_writerId="+obj.chat_writerId+" data-content_num="+obj.chatContentNum+" data-read_type="+1+">"
 																	    	+ getMessgae 
 																		+ "</div>"
 																		+ "<div class='chat_time'>"
@@ -315,7 +324,7 @@
 				        												+"<div class='chat_time'>" 
 				        													+ time 
 				        												+"</div>"
-				     													+"<div class='chat_content' data-content_num="+obj.chatContentNum+" data-read_type="+0+">"
+				        												+"<div class='chat_content' data-content_writerId="+obj.chat_writerId+" data-content_num="+obj.chatContentNum+" data-read_type="+0+">"
 				     														+ getMessgae 
 				     													+ "</div>"
 			     												+ "</div>";
@@ -330,10 +339,15 @@
 										 }
 		        					 
 							        	 chatroom.innerHTML += "<div class='chat_wrap'>"
-														        	 	+"<div class='chat_profile'>" 
-														        	 		+ img + obj.chat_writerNick 
-														        	 	+"</div>"
-																		+"<div class='chat_content yourContent' data-content_num="+obj.chatContentNum+" data-read_type="+0+">"
+													        			+"<div class='chat_profile'>" 
+															        	 	+"<div class='chat_image'>"
+															        	 		+ img
+															        	 	+"</div>"
+															        	 	+"<div class='chat_nick'>"
+															        	 		+ obj.chat_writerNick
+															        	 	+"</div>"
+															        	+"</div>"
+														        	 	+"<div class='chat_content yourContent' data-content_writerId="+obj.chat_writerId+" data-content_num="+obj.chatContentNum+" data-read_type="+0+">"
 																	    	+ getMessgae 
 																		+ "</div>"
 																		+ "<div class='chat_time'>"
@@ -594,9 +608,15 @@
 									
 										if(status == "success"){
 											
+											var chat_writerId = content_object.data("content_writerId");
+											
 											if(result == "0"){//읽지 않았는데 , 디비에서 읽음 처리를 했을때
 												
-												content_object.replaceWith("<div class='chat_content' data-content_num="+content_object.data("content_num")+" data-read_type="+1+">"+content_object.html()+"</div>");
+												if(chat_writerId != myId){
+													content_object.replaceWith("<div class='chat_content yourContent' data-content_num="+content_object.data("content_num")+" data-read_type="+1+">"+content_object.html()+"</div>");	
+												}else{
+													content_object.replaceWith("<div class='chat_content' data-content_num="+content_object.data("content_num")+" data-read_type="+1+">"+content_object.html()+"</div>");
+												}
 												
 												if(chatWebSocket != null){
 													
@@ -605,7 +625,11 @@
 												
 											}else if(result == "1"){//이미 디비에서 읽음 처리가 되었을때
 												
-												content_object.replaceWith("<div class='chat_content' data-content_num="+content_object.data("content_num")+" data-read_type="+1+">"+content_object.html()+"</div>");
+												if(chat_writerId != myId){
+													content_object.replaceWith("<div class='chat_content yourContent' data-content_num="+content_object.data("content_num")+" data-read_type="+1+">"+content_object.html()+"</div>");
+												}else{
+													content_object.replaceWith("<div class='chat_content' data-content_num="+content_object.data("content_num")+" data-read_type="+1+">"+content_object.html()+"</div>");
+												}
 											}
 										}
 							    	},

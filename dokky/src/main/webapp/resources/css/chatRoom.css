@@ -41,22 +41,21 @@
 		    padding-left: 10px;
         }
         
-         .your_chat_content{
-        	font-size: 16px;
-		    margin-right: 1%;
-		    margin-left: 1%;
-		    display: block;
-		    max-width: 60%;
-		    word-break: break-all;
-		    text-align: left;
-		    background-color: #cac1f3;
-		    border-radius: 10px;
-		    padding-bottom: 5px;
-		    padding-top: 5px;
-		    padding-right: 10px;
-		    padding-left: 10px;
+        .yourContent{
+			background-color: #FFEBFF;
+		    margin-top: 3%;
+		    margin-left: -10%;    
+        }
+        .chat_image{
+	        display: inline-block;
+		    float: left;
+		    width: 10%;
         }
         
+	     .chat_nick{
+		    display: inline-block;
+         }
+         
         .chat_notice_content{
         	font-size: 12px;
        	    margin-right: 1%;
