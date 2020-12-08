@@ -555,7 +555,7 @@
 			messageVal = $.trim(messageVal);
 			
 			if(messageVal == ""){ 
-				openAlert("내용을 입력하세요"); 
+				openAlert("메시지를 입력하세요"); 
 				   return false;
 			}
 		
