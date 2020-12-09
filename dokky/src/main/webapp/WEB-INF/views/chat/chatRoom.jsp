@@ -30,10 +30,10 @@
 			 <c:choose>
 			   	  <c:when test="${chat_type == 0}"> <!-- 1:1채팅방이라면 -->
 				   	  <div id="innerTitleWrap">
-							<div class="innerTitle">
+							<div class="allMemberImage">
 									<c:choose>
 									   	  <c:when test="${pageContext.request.serverName == 'localhost'}"> 
-											 	<img src="/resources/img/profile_img/<c:out value="${chatMember.chat_memberId}"/>.png?${random}" class="memberImage" onerror="this.src='/resources/img/profile_img/basicProfile.png'"/>
+											 	<img src="/resources/img/profile_img/<c:out value="${chatMember.chat_memberId}"/>.png?${random}" class="singleMemberImage" onerror="this.src='/resources/img/profile_img/basicProfile.png'"/>
 										  </c:when> 
 									      <c:otherwise> 
 									    		<img src="/upload/<c:out value="${chatMember.chat_memberId}"/>.png?${random}" class="memberImage" onerror="this.src='/ROOT/resources/img/profile_img/basicProfile.png'" />
@@ -44,20 +44,45 @@
 								<c:out value="${chatMember.chat_memberNick}" />
 							</div> 
 							<div class="outChatRoom">
-								<button id="leave">방 나가기 </button>
+								<button id="leave">나가기 </button>
 							</div>
 					  </div>
 				  </c:when> 
-			      <c:when test="${chat_type == 1}"> <!-- 멀티채티방이라면 -->
+			      <c:when test="${chat_type == 1}"> <!-- 멀티채팅방이라면 -->
 			        	<div id="innerTitleWrap">
+			        		<div class="allMemberImage">
+										<c:choose>
+										   	  <c:when test="${pageContext.request.serverName == 'localhost'}"> 
+												 	<c:forEach items="${chatMembers}" var="member" begin="0" end="3"> 
+															<img src="/resources/img/profile_img/<c:out value="${member.chat_memberId}"/>.png?${random}" class="memberImage" onerror="this.src='/resources/img/profile_img/basicProfile.png'"/>
+													</c:forEach>
+											  </c:when> 
+										      <c:otherwise> 
+										      		<c:forEach items="${chatMembers}" var="member">
+														<img src="/upload/<c:out value="${member.chat_memberId}"/>.png?${random}" class="memberImage" onerror="this.src='/ROOT/resources/img/profile_img/basicProfile.png'" />
+													</c:forEach>
+										      </c:otherwise>
+										</c:choose>
+							</div>
 			        		<div class="innerTitle">
-			        			멀티채팅방
+			        			<c:if test="${chatTitleInfo.chat_title == null}">
+			        				<c:forEach items="${chatMembers}" var="member" varStatus="status">
+										<c:if test="${!status.last}">
+											${member.chat_memberNick}, 
+										</c:if> 
+										<c:if test="${status.last}">
+											${member.chat_memberNick}
+										</c:if>  
+								 	</c:forEach>
+			        			</c:if>
+			        			<%-- ${chatTitleInfo.roomOwnerId}
+			        			${chatTitleInfo.roomOwnerNick} --%>
 							</div> 
-							<div class="innerTitle">
-								멀티채팅방
-							</div> 
+							<div class="memberCount">
+							 	(${headCount})
+							</div>
 							<div class="outChatRoom">
-								<button id="leave">방 나가기 </button>
+								<button id="leave">나가기 </button>
 							</div>
 			  			</div>
 				  </c:when>

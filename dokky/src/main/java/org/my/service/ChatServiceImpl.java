@@ -11,6 +11,7 @@ package org.my.service;
 	import org.my.domain.ChatRoomVO;
 	import org.my.domain.MemberVO;
 	import org.my.domain.chatRoomDTO;
+	import org.my.domain.multiRoomVO;
 	import org.my.mapper.ChatMapper;
 	import org.springframework.beans.factory.annotation.Autowired;
 	import org.springframework.stereotype.Service;
@@ -357,6 +358,22 @@ public class ChatServiceImpl implements ChatService {
 			log.info("getChatUserList");
 			
 			return chatMapper.getChatUserList(keyword, userId);
+		}
+		
+		@Override
+		public List<ChatMemberVO> getMultiroomMembers(Long chatRoomNum){
+			
+			log.info("getMultiroomMembers");
+			
+			return chatMapper.getMultiroomMembers(chatRoomNum);
+		}
+		
+		@Override
+		public multiRoomVO getChatTitleInfo(Long chatRoomNum){
+			
+			log.info("getChatTitleInfo");
+			
+			return chatMapper.getChatTitleInfo(chatRoomNum);
 		}
 }
 

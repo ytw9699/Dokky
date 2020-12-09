@@ -249,7 +249,15 @@
 	   		order by convert (nickName, 'US8ICL') asc
 	   		<!-- 한글 > 영문 > 숫자의 오름차순 -->
 	   </select>
-       
+	   
+	   <select id="getMultiroomMembers" resultType="org.my.domain.ChatMemberVO">
+	   		select chat_memberId, chat_memberNick from dk_chat_member where chatRoomNum = #{chatRoomNum} and present_position = 0
+	   </select>
+	   
+	   <select id="getChatTitleInfo" resultType="org.my.domain.multiRoomVO">
+	   		select chat_title, roomOwnerId, roomOwnerNick from dk_chat_room where chatRoomNum = #{chatRoomNum}
+	   </select>
+	   
 </mapper>
 
 

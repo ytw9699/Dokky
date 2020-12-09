@@ -172,7 +172,7 @@
 										roomOwnerId : myId,
 										roomOwnerNick : myNickName,
 										chat_type : 1,
-										headCount : chosenUser.length
+										headCount : chosenUser.length + 1
 								   };
 				
 				var chatMemberVoArray = new Array(chosenUser.length); 

@@ -20,7 +20,7 @@
         
         .todayDate{
          	text-align: center;
-         	margin-top: 4%;
+         	margin-top: 7%; 
          	font-size: 14px;
          	color: #7151fc;
         }
@@ -89,7 +89,7 @@
 			    background-color: white;
 			    position: fixed;
 			    margin-top: -3.5%;
-			    height: 50px;
+			    height: 65px;
 			    font-size: 18px;
 		        border-bottom: 3px inset;
         }
@@ -105,13 +105,31 @@
         }
         
         #innerTitleWrap{
-        
-        	 	margin-top: 2%;
+     	 	    margin-top: 2%;
+    			width: 99%;
         }
         
+        .allMemberImage{
+       	    max-width: 18%;
+		    margin-right: 1%;
+		    display: inline-block;
+		    float: left;
+		    height: 55px;
+        }
+        
+        .memberCount {
+	       	width: 8%;
+		    display: inline-block;
+		    float: left;
+		    margin-left: 1%;
+		    font-size: 15px;
+		    margin-top: 4.5%;
+		}
+		
         .outChatRoom{
-        	display: inline;
-    		float: right;
+       	    display: inline-block;
+   			float: right;
+   			margin-top: 3%;
         }
         
         .memberImage{
@@ -119,6 +137,13 @@
 				border-radius: 50px;
 				width: 25px; 
 				height: 25px;  
+			    margin-right: 2%;
+		}
+		
+		.singleMemberImage{
+				border-radius: 50px;
+				width: 50px; 
+				height: 50px;  
 			    margin-right: 2%;
 		}
 		
@@ -134,9 +159,17 @@
         }
         
         .innerTitle{
-        
-		    margin-left: 1%;
-		    display: inline;
+	        margin-left: 1%;
+		    display: inline-block;
+		    font-size: 15px;
+		    max-width: 54%;
+		    margin-right: 1%;
+		    height: 34px;
+		    margin-top: 4.5%;
+		    overflow: hidden;
+		    text-overflow: ellipsis;
+		    white-space: nowrap;
+		    float: left;
         }
         
         #chatContents{
