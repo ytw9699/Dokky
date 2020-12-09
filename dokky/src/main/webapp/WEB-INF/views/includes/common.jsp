@@ -577,7 +577,7 @@
 	
 							var popupY= (window.screen.height /2) - (500 / 2);
 							
-							window.open('/chatRoom/'+result+'?userId='+myId+'&chat_type=0', "title"+chatMemberData.chat_memberId, 'height=500, width=400, screenX='+ popupX + ', screenY= '+ popupY);
+							window.open('/chatRoom/'+result+'?userId='+myId+'&chat_type=0', "title"+result, 'height=500, width=400, screenX='+ popupX + ', screenY= '+ popupY);
 						}
 			    	},
 				    
