@@ -82,6 +82,9 @@
 			        			</c:if>
 							</c:if>
 						</div>
+						<div class="memberCount">
+						 	(${chatRoomDTO.chatRoomVo.headCount})
+						</div>
 						<div class="chatContent">
 					        <c:choose>
 						        <c:when test="${fn:length(chatRoomDTO.chatContentVo.chat_content) gt 40}">

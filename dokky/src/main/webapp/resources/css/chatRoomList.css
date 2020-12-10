@@ -103,14 +103,11 @@
 		}
 		
 		.thirdWrap{
-			display: inline-block; 
-			width: 23%;
-			float: right;
-			min-height: 45px; 
-			margin-top: 2%;
-			/* border-color: red;
-		    border-style: solid;
-		    border-width: 1px; */
+		    display: inline-block;
+		    width: 23%;
+		    float: right;
+		    min-height: 37px;
+		    margin-top: 5%;
 		}       
 		
 		.chatNick{
@@ -118,7 +115,8 @@
 		    overflow: hidden;
 		    text-overflow: ellipsis;
 		    white-space: nowrap;
-		    width: 99%;
+		    max-width: 86%;
+		    display: inline-block; 
 		}
         
         .chatContent{
@@ -128,6 +126,13 @@
         .chatDate{
 			font-size: 13px;
    			margin-bottom: 5%;
+		}
+		
+		 .memberCount {
+	       	width: 3%;
+		    display: inline-block;
+		    margin-left: 1%;
+		    font-size: 15px;
 		}
         
         .chatCnt{

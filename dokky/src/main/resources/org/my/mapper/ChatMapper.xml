@@ -216,13 +216,15 @@
 	 		WITH subTable AS ( select room.chatRoomNum,
 			  					      room.chat_type,
 			  					      room.chat_title,
+			  					      room.headCount,
 			  					      content.chatContentNum
 								  from dk_chat_room room inner join dk_chat_member member on room.chatRoomNum = member.chatRoomNum 
 									  					 inner join dk_chat_content content on member.chatRoomNum = content.chatRoomNum 
 								 where member.chat_memberId = #{userId}  and member.present_position = 0 ) 
 			select chatRoomNum,
 				   chat_type,
-				   chat_title
+				   chat_title,
+				   headCount
 			 from subTable where chatContentNum in (select max(chatContentNum)from subTable group by subTable.chatRoomNum) order by subTable.chatContentNum desc
  
 	   </select>
