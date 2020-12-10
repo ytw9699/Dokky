@@ -338,7 +338,13 @@ public class ChatServiceImpl implements ChatService {
 				
 				log.info("ChatContentVo="+ChatContentVo);
 				
-				List<ChatReadVO> chatReadVoList = chatMapper.getMyChatReadVo(chatRoomNum, userId);
+				List<ChatReadVO> chatReadVoList;
+				
+				if(ChatRoomVo.getChat_type() == 1){//멀티채팅방이라면
+					 chatReadVoList = chatMapper.getMyMultiChatReadVo(chatRoomNum);
+				}else {
+					 chatReadVoList = chatMapper.getMySingleChatReadVo(chatRoomNum, userId);
+				}
 				
 				log.info("chatReadVoList="+chatReadVoList);
 				

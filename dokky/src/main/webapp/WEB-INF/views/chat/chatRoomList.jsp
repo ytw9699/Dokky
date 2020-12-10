@@ -46,10 +46,41 @@
 							      </c:otherwise>
 							</c:choose>
 						</c:if>
+						<c:if test="${chatRoomDTO.chatRoomVo.chat_type == 1 }"><!-- 멀티 채팅방 이라면 -->
+							<c:choose>
+							   	  <c:when test="${pageContext.request.serverName == 'localhost'}"> 
+									 	<c:forEach items="${chatRoomDTO.chatReadVoList}" var="chatReadVO" begin="0" end="3"> 
+												<img src="/resources/img/profile_img/<c:out value="${chatReadVO.chat_memberId}"/>.png?${random}" class="memberImage" onerror="this.src='/resources/img/profile_img/basicProfile.png'"/>
+										</c:forEach>
+								  </c:when> 
+							      <c:otherwise> 
+							      		<c:forEach items="${chatRoomDTO.chatReadVoList}" var="chatReadVO" begin="0" end="3">
+											<img src="/upload/<c:out value="${chatReadVO.chat_memberId}"/>.png?${random}" class="memberImage" onerror="this.src='/ROOT/resources/img/profile_img/basicProfile.png'" />
+										</c:forEach>
+							      </c:otherwise> 
+							</c:choose>
+						</c:if>
 					</div>
 					<div class="secondWrap"> 
 						<div class="chatNick">
-							${chatRoomDTO.chatReadVoList[0].chat_memberNick}
+							<c:if test="${chatRoomDTO.chatRoomVo.chat_type == 0 }">
+								${chatRoomDTO.chatReadVoList[0].chat_memberNick}
+							</c:if>
+							<c:if test="${chatRoomDTO.chatRoomVo.chat_type == 1 }">
+								<c:if test="${chatRoomDTO.chatRoomVo.chat_title != null}">
+		        						${chatRoomDTO.chatRoomVo.chat_title}
+		        				</c:if>
+		        				<c:if test="${chatRoomDTO.chatRoomVo.chat_title == null}">
+			        				<c:forEach items="${chatRoomDTO.chatReadVoList}" var="chatReadVO" varStatus="status">
+										<c:if test="${!status.last}">
+											${chatReadVO.chat_memberNick}, 
+										</c:if> 
+										<c:if test="${status.last}">
+											${chatReadVO.chat_memberNick}
+										</c:if>  
+								 	</c:forEach>
+			        			</c:if>
+							</c:if>
 						</div>
 						<div class="chatContent">
 					        <c:choose>

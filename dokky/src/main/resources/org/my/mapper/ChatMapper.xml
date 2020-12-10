@@ -231,7 +231,11 @@
 	   		<![CDATA[ select /*+INDEX_DESC(DK_CHAT_CONTENT PK_CHAT_CONTENT) */ chat_content, regdate from dk_chat_content where chatRoomNum = #{chatRoomNum} and content_type = 0 and ROWNUM <= 1 ]]>
 	   </select>
 	   
-	   <select id="getMyChatReadVo" resultType="org.my.domain.ChatReadVO">
+	   <select id="getMyMultiChatReadVo" resultType="org.my.domain.ChatReadVO">
+	   		select distinct chat_memberId, chat_memberNick from dk_chat_read where chatRoomNum = #{chatRoomNum} 
+	   </select>
+	   
+	   <select id="getMySingleChatReadVo" resultType="org.my.domain.ChatReadVO">
 	   		select distinct chat_memberId, chat_memberNick from dk_chat_read where chatRoomNum = #{chatRoomNum} and chat_memberId != #{userId}
 	   </select>
 	   

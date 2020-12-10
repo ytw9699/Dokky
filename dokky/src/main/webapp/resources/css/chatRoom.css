@@ -170,6 +170,7 @@
 		    text-overflow: ellipsis;
 		    white-space: nowrap;
 		    float: left;
+		    font-weight: 600;
         }
         
         #chatContents{

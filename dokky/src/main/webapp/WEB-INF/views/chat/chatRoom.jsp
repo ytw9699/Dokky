@@ -58,7 +58,7 @@
 													</c:forEach>
 											  </c:when> 
 										      <c:otherwise> 
-										      		<c:forEach items="${chatMembers}" var="member">
+										      		<c:forEach items="${chatMembers}" var="member" begin="0" end="3">
 														<img src="/upload/<c:out value="${member.chat_memberId}"/>.png?${random}" class="memberImage" onerror="this.src='/ROOT/resources/img/profile_img/basicProfile.png'" />
 													</c:forEach>
 										      </c:otherwise>

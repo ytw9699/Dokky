@@ -53,7 +53,9 @@ public interface ChatMapper {
 
 	ChatContentVO getMyChatContentVo(Long chatRoomNum);
 
-	List<ChatReadVO> getMyChatReadVo(@Param("chatRoomNum") Long chatRoomNum, @Param("userId") String userId);
+	List<ChatReadVO> getMySingleChatReadVo(@Param("chatRoomNum") Long chatRoomNum, @Param("userId") String userId);
+	
+	List<ChatReadVO> getMyMultiChatReadVo(Long chatRoomNum);
 
 	int getNotReadCnt(@Param("chatRoomNum") Long chatRoomNum, @Param("userId") String userId);
 
@@ -64,5 +66,6 @@ public interface ChatMapper {
 	multiRoomVO getChatTitleInfo(@Param("chatRoomNum") Long chatRoomNum);
 
 	List<ChatMemberVO> getMultiroomMembers(Long chatRoomNum);
+
 
 }
