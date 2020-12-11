@@ -87,9 +87,9 @@
 			  			</div>
 				  </c:when>
 			</c:choose>
-			<div class="test">
+			<!-- <div class="test">
 				<button id="test">재연결</button>
-			</div>
+			</div> -->
 		</div>
 		<div id="chatContents">
 						<script>

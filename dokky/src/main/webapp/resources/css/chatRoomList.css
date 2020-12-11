@@ -108,7 +108,7 @@
 		    width: 23%;
 		    float: right;
 		    min-height: 37px;
-		    margin-top: 5%;
+		    margin-top: 4%;
 		}       
 		
 		.chatNick{
@@ -130,7 +130,7 @@
         
         .chatDate{
 			font-size: 13px;
-   			margin-bottom: 5%;
+   			margin-bottom: 0%;
 		}
 		
 		 .memberCount {
