@@ -121,7 +121,11 @@
 		}
         
         .chatContent{
-        	font-size: 15px;
+       	    font-size: 15px;
+		    overflow: hidden;
+		    text-overflow: ellipsis;
+		    white-space: nowrap;
+		    max-width: 86%;
         }
         
         .chatDate{

@@ -11,6 +11,11 @@
 					border: 2px solid #dbdbdb;
 					border-radius: 10px;
 				}
+				
+				#loginLabel {
+				    font-size: 15px;
+				    margin-left: 115px;
+				}
         }
         
         @media screen and (min-width: 501px) and (max-width:1600px){
@@ -23,6 +28,11 @@
 						display: inline-block;
 						border: 2px solid #dbdbdb;
 						border-radius: 10px;
+				}
+				
+				#loginLabel {
+				    font-size: 15px;
+				    margin-left: 115px;
 				}
         }
         
@@ -37,8 +47,13 @@
 					border: 2px solid #dbdbdb;
 					border-radius: 10px;
 			}
+			
+			#loginLabel{
+				font-size: 15px;
+		        margin-left: 75px;
+			} 
         }
-
+			
 		.title{
 			width: 50%;
 		    background-color: white;
@@ -87,10 +102,7 @@
 		    box-sizing: border-box;
 		    text-align: center;
 		}
-		#loginLabel{
-			font-size: 15px;
-	        margin-left: 75px;
-		} 
+		
 		.btn {
 		    font-size: 15px;
 		    background-color: #7151fc;

@@ -11,6 +11,14 @@
 					border: 2px solid #dbdbdb;
 					border-radius: 10px;
 				}
+				
+				.container {
+			       	width: 50%;
+				    display: inline-block;
+				    margin-left: 20%;
+				    margin-top: 4%;
+				    min-height: 270px;
+				}
         }
         
         @media screen and (min-width: 501px) and (max-width:1600px){
@@ -19,10 +27,17 @@
 					    display: inline-block;
 					    margin-left: 17%;
 					    margin-top: 1%;
-					    height: 538px;
+					    height: 575px;
 						display: inline-block;
 						border: 2px solid #dbdbdb;
 						border-radius: 10px;
+				}
+				.container {
+			       	width: 50%;
+				    display: inline-block;
+				    margin-left: 20%;
+				    margin-top: 4%;
+				    min-height: 270px;
 				}
         }
         
@@ -36,6 +51,14 @@
 					display: inline-block;
 					border: 2px solid #dbdbdb;
 					border-radius: 10px;
+			}
+			
+			.container {
+		        width: 50%;
+			    display: inline-block;
+			    margin-left: 17%;
+			    margin-top: 4%;
+			    min-height: 270px;
 			}
         }
 
@@ -55,13 +78,6 @@
 			color: #7151fc;
 		}    
 		
-		.container {
-	        width: 50%;
-		    display: inline-block;
-		    margin-left: 17%;
-		    margin-top: 4%;
-		    min-height: 270px;
-		}
 		.loginGroup{
 		  	margin-top:-10px !important;
 		  }
