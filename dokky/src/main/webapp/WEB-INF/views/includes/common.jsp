@@ -235,7 +235,7 @@
 					
 				}else if(event.data == 'limitAndLogoutSuccessMessageToUser'){
 					 
-						openAlert("곧 관리자에 의해 접속 제한(로그아웃) 됩니다");
+						openAlert("곧 접속 제한 됩니다");
 						
 						setTimeout(function() {
 							
@@ -243,8 +243,26 @@
 							
 							logoutForm.submit();;
 							
-						}, 5000); 
+						}, 4000); 
 						
+				}else if(event.data == 'StopWritingAndLogoutMessageToUser'){
+					 
+					openAlert("글쓰기가 제한됩니다. 재로그인 해주세요");
+					
+					setTimeout(function() {
+						
+						var logoutForm = $(".logoutForm");
+						
+						logoutForm.submit();;
+						
+					}, 4000); 
+					
+				}else if(event.data == 'recoverMessageToUser'){
+					 
+					 console.log("recoverMessageToUser");
+					
+					 openAlert("계정이 복구되었습니다. 재로그인 해주세요");
+					 
 				}else if(event.data == 'limitAndLogoutSuccessMessageToAdmin'){
 					
 						openAlert("해당 사용자를 접속 제한 후 로그아웃 시켰습니다");

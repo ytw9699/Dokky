@@ -54,6 +54,14 @@ public class commonWebsocketHandler extends TextWebSocketHandler {
 					}else if(kind.equals("limit") && userSession == null) {//계정 제한은 하였지만 유저의 세션이 존재하지 않는다면 로그아웃 시키지 않는다.
 						
 						session.sendMessage(new TextMessage("limitSuccessMessageToAdmin"));//관리자에게만 메시지를 보낸다
+					
+					}else if(kind.equals("stopWritingMsg") && userSession != null) {
+						
+						userSession.sendMessage(new TextMessage("StopWritingAndLogoutMessageToUser"));
+					
+					}else if(kind.equals("recoverMsg") && userSession != null) {
+						
+						userSession.sendMessage(new TextMessage("recoverMessageToUser"));
 					} 
 				}
 			}

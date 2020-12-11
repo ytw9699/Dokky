@@ -29,11 +29,6 @@
 						border: 2px solid #dbdbdb;
 						border-radius: 10px;
 				}
-				
-				#loginLabel {
-				    font-size: 15px;
-				    margin-left: 115px;
-				}
         }
         
         @media screen and (min-width: 1601px){    
@@ -47,12 +42,12 @@
 					border: 2px solid #dbdbdb;
 					border-radius: 10px;
 			}
-			
-			#loginLabel{
-				font-size: 15px;
-		        margin-left: 75px;
-			} 
         }
+        
+        #loginLabel {
+		    font-size: 15px;
+		   margin-left: 29%;
+		}
 			
 		.title{
 			width: 50%;
