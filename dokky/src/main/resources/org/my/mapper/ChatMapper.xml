@@ -230,7 +230,7 @@
 	   </select>
 	   
 	   <select id="getMyChatContentVo" resultType="org.my.domain.ChatContentVO">
-	   		<![CDATA[ select /*+INDEX_DESC(DK_CHAT_CONTENT PK_CHAT_CONTENT) */ chat_content, regdate from dk_chat_content where chatRoomNum = #{chatRoomNum} and content_type = 0 and ROWNUM <= 1 ]]>
+	   		<![CDATA[ select /*+INDEX_DESC(DK_CHAT_CONTENT PK_CHAT_CONTENT) */ chat_content, regdate from dk_chat_content where chatRoomNum = #{chatRoomNum} and ROWNUM <= 1 ]]>
 	   </select>
 	   
 	   <select id="getMyMultiChatReadVo" resultType="org.my.domain.ChatReadVO">
