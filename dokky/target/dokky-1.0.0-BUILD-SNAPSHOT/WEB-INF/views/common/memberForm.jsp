@@ -173,7 +173,7 @@
 			    {  
 		   			 return true;
 				}
-	    			        
+			    
 		   return false;
 	     }//END memberCheck
 	 
@@ -183,6 +183,7 @@
 			   if(memberCheck()){ 
 			   	return; 
 			   } 
+			   
 			   
 			   $("form").submit();
 		});
