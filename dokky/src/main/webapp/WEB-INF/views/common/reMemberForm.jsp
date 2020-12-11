@@ -142,8 +142,9 @@
 						}
 					},
 					error : function(xhr, status, er) {
-						if (error) {
-							error(xhr,er);  
+						if(status == "error"){
+							openAlert("ServerErorr입니다.");
+							checkReturn = true; 
 						}
 					}
 				});
@@ -164,7 +165,7 @@
 				}
 					      
 			    if(checkDuplicatedNickname(nickNameVal, userId, function(result){ //닉네임 중복체크
-						if(result == 'success'){ 
+						if(result == 'duplicated'){
 					 		openAlert("닉네임이 중복됩니다"); 
 					 		nickName.focus(); 
 					 		return true; 

@@ -81,9 +81,13 @@ public class CommonServiceImpl implements CommonService {
 		if(userId != null) {
 			
 			if(inputNickname.equals(mapper.getNickname(userId))) {
+				log.info("return false");
 				return false;
 			}
 		}
+		
+		log.info(mapper.getNicknameCheckedVal(inputNickname));
+		log.info("return false2");
 		
 		return mapper.getNicknameCheckedVal(inputNickname) == 1;
 	}

@@ -172,12 +172,16 @@ public class CommonController {
 		log.info("/nickCheckedVal"); 
 		
 		if(commonService.getNicknameCheckedVal(inputNickname, userId)) {//닉네임이 중복된다면
-		
+			
+			log.info("/duplicated"); 
+			
 			return new ResponseEntity<>("duplicated", HttpStatus.OK);
 			
 		}else {
 			
-			return new ResponseEntity<>(HttpStatus.INTERNAL_SERVER_ERROR);
+			log.info("/notDuplicated"); 
+			
+			return new ResponseEntity<>("notDuplicated", HttpStatus.OK);
 		}
 	}
 	
