@@ -39,10 +39,10 @@
 						<c:if test="${chatRoomDTO.chatRoomVo.chat_type == 0 }"> <!-- 1:1채팅방 이라면 -->
 							<c:choose>
 							   	  <c:when test="${pageContext.request.serverName == 'localhost'}"> 
-									 	<img src="/resources/img/profile_img/<c:out value="${chatRoomDTO.chatReadVoList[0].chat_memberId}"/>.png?${random}" class="listMemberImage" onerror="this.src='/resources/img/profile_img/basicProfile.png'"/>
+									 	<img src="/resources/img/profile_img/<c:out value="${chatRoomDTO.chatReadVoList[0].chat_memberId}"/>.png?${random}" class="singleMemberImage" onerror="this.src='/resources/img/profile_img/basicProfile.png'"/>
 								  </c:when> 
 							      <c:otherwise> 
-							    		<img src="/upload/<c:out value="${chatRoomDTO.chatReadVoList[0].chat_memberId}"/>.png?${random}" class="listMemberImage" onerror="this.src='/ROOT/resources/img/profile_img/basicProfile.png'" />
+							    		<img src="/upload/<c:out value="${chatRoomDTO.chatReadVoList[0].chat_memberId}"/>.png?${random}" class="singleMemberImage" onerror="this.src='/ROOT/resources/img/profile_img/basicProfile.png'" />
 							      </c:otherwise>
 							</c:choose>
 						</c:if>
@@ -50,12 +50,12 @@
 							<c:choose>
 							   	  <c:when test="${pageContext.request.serverName == 'localhost'}"> 
 									 	<c:forEach items="${chatRoomDTO.chatReadVoList}" var="chatReadVO" begin="0" end="3"> 
-												<img src="/resources/img/profile_img/<c:out value="${chatReadVO.chat_memberId}"/>.png?${random}" class="memberImage" onerror="this.src='/resources/img/profile_img/basicProfile.png'"/>
+											<img src="/resources/img/profile_img/<c:out value="${chatReadVO.chat_memberId}"/>.png?${random}" class="multiMemberImage" onerror="this.src='/resources/img/profile_img/basicProfile.png'"/>
 										</c:forEach>
 								  </c:when> 
 							      <c:otherwise> 
 							      		<c:forEach items="${chatRoomDTO.chatReadVoList}" var="chatReadVO" begin="0" end="3">
-											<img src="/upload/<c:out value="${chatReadVO.chat_memberId}"/>.png?${random}" class="memberImage" onerror="this.src='/ROOT/resources/img/profile_img/basicProfile.png'" />
+									 		<img src="/upload/<c:out value="${chatReadVO.chat_memberId}"/>.png?${random}" class="multiMemberImage" onerror="this.src='/ROOT/resources/img/profile_img/basicProfile.png'" />
 										</c:forEach>
 							      </c:otherwise> 
 							</c:choose>
@@ -83,7 +83,9 @@
 							</c:if>
 						</div>
 						<div class="memberCount">
-						 	(${chatRoomDTO.chatRoomVo.headCount})
+							<c:if test="${chatRoomDTO.chatRoomVo.chat_type == 1 }">
+								(${chatRoomDTO.chatRoomVo.headCount}) 
+							</c:if>
 						</div>
 						<div class="chatContent">
 					        <c:choose>
