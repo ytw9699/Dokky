@@ -88,14 +88,7 @@
 							</c:if>
 						</div>
 						<div class="chatContent">
-					        <c:choose>
-						        <c:when test="${fn:length(chatRoomDTO.chatContentVo.chat_content) gt 40}">
-						        	<c:out value="${fn:substring(chatRoomDTO.chatContentVo.chat_content, 0, 39)}"/>...
-						        </c:when>
-						        <c:otherwise>
 							        ${chatRoomDTO.chatContentVo.chat_content}
-						        </c:otherwise>
-							</c:choose>
 						</div>
 					</div>
 					<div class="thirdWrap">
@@ -167,7 +160,167 @@
 		    	  return;
 		    }
 			
-			openUserList();
+			getChatRoomList('${userInfo.username}', function(result, status){
+				
+					if(status == "success"){
+						
+						$(".chatList").html("");
+						
+						var str ="";
+						
+						for (var i = 0; i < result.length; i++) {
+						   
+							str +=  "<div class='firstWrap'>";
+							
+							if(result[i].chatRoomVo.chat_type == 0){
+									
+									var userId = result[i].chatReadVoList[0].chat_memberId;
+								
+									if(serverName == 'localhost'){ 
+										
+			 							   str += "<img src='/resources/img/profile_img/"+userId+".png?"+random+"' class='singleMemberImage' onerror='this.src=\"/resources/img/profile_img/basicProfile.png\"'/>"
+												   
+								    }else{
+								    	
+										   str += "<img src='/upload/"+userId+".png?"+random+"' class='singleMemberImage' onerror='this.src=\"/resources/img/profile_img/basicProfile.png\"'/>"
+								    }
+									
+							}else if(result[i].chatRoomVo.chat_type == 1){
+									
+									var length = result[i].chatReadVoList.length;
+								
+									if(serverName == 'localhost'){ 
+										
+											if(length > 3){
+												
+												for (var j = 0; j < 4; j++){
+													
+													 var userId = result[i].chatReadVoList[j].chat_memberId;
+													
+													 str += "<img src='/resources/img/profile_img/"+userId+".png?"+random+"' class='multiMemberImage' onerror='this.src=\"/resources/img/profile_img/basicProfile.png\"'/>"		
+													
+												}
+												
+											}else{
+												
+												for (var j = 0; j < result[i].chatReadVoList.length; j++){
+													
+													 var userId = result[i].chatReadVoList[j].chat_memberId;
+													
+													 str += "<img src='/resources/img/profile_img/"+userId+".png?"+random+"' class='multiMemberImage' onerror='this.src=\"/resources/img/profile_img/basicProfile.png\"'/>"		
+													
+												}
+											}
+												   
+								    }else{
+								    	
+											if(length > 3){
+												
+												for (var j = 0; j < 4; j++){
+													
+										    		var userId = result[i].chatReadVoList[j].chat_memberId;
+													
+													str += "<img src='/upload/"+userId+".png?"+random+"' class='multiMemberImage' onerror='this.src=\"/resources/img/profile_img/basicProfile.png\"'/>"
+												}
+												
+											}else{
+												
+												for (var j = 0; j < result[i].chatReadVoList.length; j++){
+													
+													 var userId = result[i].chatReadVoList[j].chat_memberId;
+													
+													 str += "<img src='/resources/img/profile_img/"+userId+".png?"+random+"' class='multiMemberImage' onerror='this.src=\"/resources/img/profile_img/basicProfile.png\"'/>"		
+												}
+											}
+								    }
+							}
+							
+							str += "</div>";//firstWrap
+							
+							str += "<div class='secondWrap'>";
+							
+								str += "<div class='chatNick'>";
+								
+								if(result[i].chatRoomVo.chat_type == 0){
+									
+									str += result[i].chatReadVoList[0].chat_memberNick;
+									
+								}else if(result[i].chatRoomVo.chat_type == 1){
+									
+									if(result[i].chatRoomVo.chat_title != null){
+										
+										str += result[i].chatRoomVo.chat_title;
+										
+									}else{
+										
+										for (var j = 0; j < result[i].chatReadVoList.length; j++){
+											
+											if(j == result[i].chatReadVoList.length-1){
+												
+												str += result[i].chatReadVoList[j].chat_memberNick;
+												
+											}else{
+												
+												str += result[i].chatReadVoList[j].chat_memberNick+", ";	
+											}
+										}
+									}
+								}
+								
+								str += "</div>";//chatNick
+								
+								str += "<div class='memberCount'>";
+									
+									if(result[i].chatRoomVo.chat_type == 1){
+										
+										str += "(" + result[i].chatRoomVo.headCount + ")";
+									}
+
+								str += "</div>";//memberCount
+										
+								str += "<div class='chatContent'>";
+										str += result[i].chatContentVo.chat_content;
+								str += "</div>";//chatContent
+								
+							str += "</div>";//secondWrap
+							 
+							console.log(result[i].chatRoomVo);
+							console.log(result[i].chatContentVo);
+							console.log(result[i].chatReadVoList);
+							console.log(result[i].notReadCnt);
+							
+							str += "<div class='thirdWrap'>";
+								
+								str += "<div class='chatDate'>2020-12-12";
+								
+								str += "</div>";//chatDate
+								
+								if(result[i].notReadCnt != 0){
+									
+									str += "<div class='chatCnt'>";
+										
+										str +=  result[i].notReadCnt;
+											
+									str += "</div>";//chatCnt
+								}
+								
+							str += "</div>";//thirdWrap
+						}
+						
+						$(".chatList").html(str);
+					}
+		    	},
+		    
+		    	function(status){
+		    	
+					if(status == "error"){ 
+						
+						openAlert("Server Error(관리자에게 문의해주세요)");
+					}
+		    	}
+			);
+			
+			//openUserList();
    		}); 
 		
 		$("#chatCancel").on("click", function(event){
@@ -444,6 +597,24 @@
 				   		}
 				});
 			}
+    	}
+		
+		function getChatRoomList(userId, callback, error){
+			
+			$.ajax({
+				type : 'get', 
+				url : '/getChatRoomList?userId='+userId,
+				success : function(result, status, xhr) {
+					if (callback) {
+						callback(result, status);
+					}
+				},
+				error : function(xhr, status, er) {
+					if (error) {
+						error(status);
+					}
+				}
+			});
     	}
 		
 </script>

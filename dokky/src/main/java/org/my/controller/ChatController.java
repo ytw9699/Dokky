@@ -141,6 +141,10 @@ public class ChatController {
     } 
 	
 	
+	
+	
+	
+	
 	@PreAuthorize("principal.username == #vo.chat_memberId")
 	@ResponseBody
 	@PostMapping(value = "/readChat", consumes = "application/json", produces = "text/plain; charset=UTF-8")
@@ -186,7 +190,24 @@ public class ChatController {
 			return new ResponseEntity<>(HttpStatus.INTERNAL_SERVER_ERROR);
 		}
 	}
-	
-	
+
+	@PreAuthorize("principal.username == #userId")
+	@ResponseBody
+	@GetMapping(value = "/getChatRoomList", produces = { MediaType.APPLICATION_JSON_UTF8_VALUE })
+	public ResponseEntity<List<chatRoomDTO>> getChatRoomList(Model model, String userId){
+    	
+    	log.info("/getChatRoomList");
+    	
+    	List<chatRoomDTO> chatRoomList = chatService.getMyChatRoomList(userId);
+        
+    	if(chatRoomList != null) {
+			
+			return new ResponseEntity<>(chatRoomList, HttpStatus.OK);
+			
+		}else {
+			
+			return new ResponseEntity<>(HttpStatus.INTERNAL_SERVER_ERROR);
+		}
+    } 
 	
 }
