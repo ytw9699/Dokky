@@ -169,7 +169,27 @@
 						var str ="";
 						
 						for (var i = 0; i < result.length; i++) {
-						   
+							
+							var chat_type = result[i].chatRoomVo.chat_type;
+							var chatRoomNum = result[i].chatRoomVo.chatRoomNum;
+							var chat_type_name;
+							
+							if(chat_type == 0){
+								
+								var chat_nickname = result[i].chatReadVoList[0].chat_memberNick;
+								var chat_memberId = result[i].chatReadVoList[0].chat_memberId;
+								
+								chat_type_name = 'singleChat';
+								
+								str += "<div class='listContent "+ chat_type_name+"' id='"+chatRoomNum+"' data-chat_nickname='"+chat_nickname+"' data-chat_userid='"+chat_memberId+"'>";
+								
+							}else if(chat_type == 1){
+								
+								chat_type_name = 'multiChat';
+								
+								str += "<div class='listContent "+ chat_type_name+"' id='"+chatRoomNum+"' data-chatroom_num='"+chatRoomNum+"'>";
+							}
+							
 							str +=  "<div class='firstWrap'>";
 							
 							if(result[i].chatRoomVo.chat_type == 0){
@@ -314,7 +334,7 @@
 									str += "</div>";//chatCnt
 								}
 								
-							str += "</div>";//thirdWrap
+							str += "</div></div>";//thirdWrap
 						}
 						
 						$(".chatList").html(str);
@@ -418,7 +438,7 @@
 			   	);
 		}
 		
-		$(".multiChat").on("click",function(event){ 
+		$(document).on("click",".multiChat", function(event){ 
 			
 			<sec:authorize access="isAuthenticated()">   
 				var myId = '${userInfo.username}';  
