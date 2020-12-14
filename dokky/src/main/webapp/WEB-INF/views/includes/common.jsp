@@ -539,8 +539,8 @@
 		 	setInterval(schedule, 60000);//60초마다 알람,쪽지 카운트 불러오기
 		</sec:authorize>
 		
-		$(".singleChat").on("click",function(event){//1:1 채팅 버튼 
-			
+		$(document).on("click",".singleChat", function(event){ 
+				
 			<sec:authorize access="isAuthenticated()">   
 				var myId = '${userInfo.username}';  
 				var myNickName = '${userInfo.member.nickName}';
