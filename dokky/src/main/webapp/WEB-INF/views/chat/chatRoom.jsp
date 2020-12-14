@@ -262,7 +262,7 @@
 						 
 						 var regDate = parseInt(obj.regDate);
 						 
-						 var time = commonService.displayReplyTime(regDate);
+						 var time = commonService.displayDayTime(regDate);
 						 
 						 var getMessgae = obj.message;
 						 

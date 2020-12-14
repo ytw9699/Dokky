@@ -284,14 +284,24 @@
 								
 							str += "</div>";//secondWrap
 							 
-							console.log(result[i].chatRoomVo);
-							console.log(result[i].chatContentVo);
-							console.log(result[i].chatReadVoList);
-							console.log(result[i].notReadCnt);
-							
 							str += "<div class='thirdWrap'>";
 								
-								str += "<div class='chatDate'>2020-12-12";
+								str += "<div class='chatDate'>";
+								
+								var nowTime = new Date();
+								var lastChatTime = new Date(result[i].chatContentVo.regDate); 
+								var chatDate;
+								
+								if(nowTime.getDate() == lastChatTime.getDate()){
+								
+									chatDate = commonService.displayDayTime(result[i].chatContentVo.regDate);
+								
+								}else{
+									
+									chatDate = commonService.displayYearMonthTime(result[i].chatContentVo.regDate);	
+								}
+								
+								str += chatDate;
 								
 								str += "</div>";//chatDate
 								
