@@ -232,6 +232,11 @@
 					 getChatCount(userId, function(result){
 					    	chatCount.html(result);
 				 	 });
+					 
+					 if( typeof reChatRoomList == 'function' ) {
+						 
+						 reChatRoomList();
+					 }
 					
 				}else if(event.data == 'limitAndLogoutSuccessMessageToUser'){
 					 

@@ -186,7 +186,6 @@
 	</div> 
 	
 </body>
-
 <script>
 
 		var chatWebSocket = null;
@@ -201,6 +200,7 @@
 	 	var chatroom;
 	 	var serverName = '${pageContext.request.serverName}';
 	 	var random = Math.random();
+	 	var chatMembersArray = new Array();
 	 	
 		$(document).ajaxSend(function(e, xhr, options) {
 			
@@ -519,20 +519,23 @@
 		        	window.scrollTo(0, $(document).height());//스크롤 맨아래로
 	        	}, 50);
 		        
-		    	setTimeout(function(){ //시간 차이 때문에 조금 늦게 보내야 채팅 카운트 알림이 보내진다.
+				setTimeout(function(){ //시간 차이 때문에 조금 늦게 보내야 채팅 카운트 알림이 보내진다.
 		    		
-		    		var chat_memberId="${chatMember.chat_memberId}";
-			    	
 			    	var chat_type = "${chat_type}";
 			    	
 		    		if(commonWebSocket != null){//상대방 채팅 카운트 업데이트 시키기
 				        	
 				        	if(chat_type == 0){//1:1채팅방이라면
 				        		
+				        		var chat_memberId="${chatMember.chat_memberId}";
 				        		commonWebSocket.send("chatAlarm,"+chat_memberId);
+				        		commonWebSocket.send("chatAlarm,"+myId);
 				        	
 				        	}else if(chat_type == 1){//멀티채팅방이라면
 				        		
+				        		for(var i=0; i<chatMembersArray.length; i++){ 
+				        			commonWebSocket.send("chatAlarm,"+chatMembersArray[i]);
+				        		}
 				        	}
 					}
 		    		
@@ -787,4 +790,12 @@
 		
 </script>
 
+<c:if test="${chat_type == 1}"><!-- 멀티채팅방이라면 -->
+	<c:forEach items="${chatMembers}" var="member">
+		<script> 
+			chatMembersArray.push("${member.chat_memberId}");
+		</script>
+	</c:forEach>
+</c:if>
+	
 </html>
