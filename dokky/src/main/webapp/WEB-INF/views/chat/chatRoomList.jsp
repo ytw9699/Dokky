@@ -549,7 +549,7 @@
 													
 													 var userId = result[i].chatReadVoList[j].chat_memberId;
 													
-													 str += " <img src='/resources/img/profile_img/"+userId+".png?"+random+"' class='multiMemberImage' onerror='this.src=\"/resources/img/profile_img/basicProfile.png\"'/>"		
+													 str += " <img src='/upload/"+userId+".png?"+random+"' class='multiMemberImage' onerror='this.src=\"/resources/img/profile_img/basicProfile.png\"'/>"		
 												}
 											}
 								    }
