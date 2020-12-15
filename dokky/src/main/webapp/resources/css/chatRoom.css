@@ -20,21 +20,42 @@
         
         .todayDate{
          	text-align: center;
-         	margin-top: 4%;
+         	margin-top: 7%; 
          	font-size: 14px;
          	color: #7151fc;
         }
         
         .chat_content{
         	font-size: 16px;
-       	    margin-right: 1%;
-       	    margin-left: 1%;
+		    margin-right: 1%;
+		    margin-left: 1%;
+		    display: inline-block;
+		    max-width: 56%;
+		    word-break: break-all;
+		    text-align: left;
+		    background-color: #cac1f3;
+		    border-radius: 10px;
+		    padding-bottom: 5px;
+		    padding-top: 5px;
+		    padding-right: 10px;
+		    padding-left: 10px;
         }
         
-        .chat_nick{
-        	font-size: 14px;
+        .yourContent{
+			background-color: #FFEBFF;
+		    margin-top: 3%;
+		    margin-left: -10%;    
+        }
+        .chat_image{
+	        display: inline-block;
+		    float: left;
+		    width: 10%;
         }
         
+	     .chat_nick{
+		    display: inline-block;
+         }
+         
         .chat_notice_content{
         	font-size: 12px;
        	    margin-right: 1%;
@@ -42,9 +63,14 @@
        	    color: #7151fc;
         }
         
+        .chat_profile{
+        	 display: block;
+        }
+        
         .chat_time{
         	font-size: 12px; 
         	margin-left: 1%;
+        	display: inline-block;
         }
         
         .chat_readCount{
@@ -52,6 +78,7 @@
         	margin-left: 1%;
         	margin-right: 1%;
         	color: #7151fc;
+        	display: inline-block;
         }
         
         #chatTitle{
@@ -62,7 +89,7 @@
 			    background-color: white;
 			    position: fixed;
 			    margin-top: -3.5%;
-			    height: 50px;
+			    height: 65px;
 			    font-size: 18px;
 		        border-bottom: 3px inset;
         }
@@ -78,13 +105,31 @@
         }
         
         #innerTitleWrap{
-        
-        	 	margin-top: 2%;
+     	 	    margin-top: 2%;
+    			width: 99%;
         }
         
+        .allMemberImage{
+       	    max-width: 18%;
+		    margin-right: 1%;
+		    display: inline-block;
+		    float: left;
+		    height: 55px;
+        }
+        
+        .memberCount {
+	       	width: 8%;
+		    display: inline-block;
+		    float: left;
+		    margin-left: 1%;
+		    font-size: 15px;
+		    margin-top: 4.5%;
+		}
+		
         .outChatRoom{
-        	display: inline;
-    		float: right;
+       	    display: inline-block;
+   			float: right;
+   			margin-top: 3%;
         }
         
         .memberImage{
@@ -92,6 +137,13 @@
 				border-radius: 50px;
 				width: 25px; 
 				height: 25px;  
+			    margin-right: 2%;
+		}
+		
+		.singleMemberImage{
+				border-radius: 50px;
+				width: 50px; 
+				height: 50px;  
 			    margin-right: 2%;
 		}
 		
@@ -107,9 +159,18 @@
         }
         
         .innerTitle{
-        
-		    margin-left: 1%;
-		    display: inline;
+	        margin-left: 1%;
+		    display: inline-block;
+		    font-size: 15px;
+		    max-width: 54%;
+		    margin-right: 1%;
+		    height: 34px;
+		    margin-top: 4.5%;
+		    overflow: hidden;
+		    text-overflow: ellipsis;
+		    white-space: nowrap;
+		    float: left;
+		    font-weight: 600;
         }
         
         #chatContents{

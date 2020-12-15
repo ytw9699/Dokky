@@ -213,7 +213,7 @@
 					   	openAlert("모든 쓰기 기능을 제한 하였습니다");
 					   	
 					   	if(webSocket != null && alarmData != null ){
-					   		webSocket.send("sendAlarmMsg,"+alarmData.target);
+					   		webSocket.send("stopWritingMsg,"+alarmData.target);
 					   	}		
 					}
 	   	    });
@@ -224,7 +224,7 @@
 		var userId = $(this).data("user_id");
 	
 		if(userId === 'admin'){
-			openAlert("슈퍼관리자의 계정상태를 변경할 수 없습니다");
+			openAlert("슈퍼관리자의 계정상태는 변경할 수 없습니다");
 			return;
 		}
 		
@@ -275,7 +275,7 @@
 			   	openAlert("계정을 정상으로 복구 하였습니다");
 			   	
 				if(webSocket != null && alarmData != null ){
-			   		webSocket.send("sendAlarmMsg,"+alarmData.target);
+			   		webSocket.send("recoverMsg,"+alarmData.target);
 			   	}
 			}
    	    });

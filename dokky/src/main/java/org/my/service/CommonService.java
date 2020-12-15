@@ -68,6 +68,8 @@ public interface CommonService {
 
 	public String getNoteCount(String userId);
 	
+	public String getChatCount(String userId);
+	
 	public int getEnabled(String userId);
 	
 	public boolean setAuthentication(MemberVO memberVO, boolean checkAuth);  
@@ -83,4 +85,5 @@ public interface CommonService {
 	public int getMyNoteCount(Criteria cri);
 	
 	public int insertNote(noteVO note);
+	
 }

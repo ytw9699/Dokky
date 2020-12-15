@@ -81,9 +81,13 @@ public class CommonServiceImpl implements CommonService {
 		if(userId != null) {
 			
 			if(inputNickname.equals(mapper.getNickname(userId))) {
+				log.info("return false");
 				return false;
 			}
 		}
+		
+		log.info(mapper.getNicknameCheckedVal(inputNickname));
+		log.info("return false2");
 		
 		return mapper.getNicknameCheckedVal(inputNickname) == 1;
 	}
@@ -156,6 +160,12 @@ public class CommonServiceImpl implements CommonService {
 		return mapper.getNoteCount(userId);
 	}
 	
+	@Override 
+	public String getChatCount(String userId) {
+		log.info("getChatCount");
+		
+		return mapper.getChatCount(userId);
+	}
 	
 	@Override
 	public List<alarmVO> getAllAlarmList(Criteria cri){

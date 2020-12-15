@@ -60,6 +60,8 @@ public interface CommonMapper {
 	public List<noteVO> getMyNoteList(Criteria cri);
 
 	public String getNoteCount(String userId);
+	
+	public String getChatCount(String userId);
 
 	public int getAlarmCountRead(Criteria cri);
 
@@ -82,5 +84,5 @@ public interface CommonMapper {
 	public int insertNote(noteVO vo);
 	
 	public List<noteVO> getFromNoteList(Criteria cri);
-	
+
 }

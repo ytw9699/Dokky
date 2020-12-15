@@ -34,32 +34,66 @@
 	    </div>
 		<div class="chatList">
 			<c:forEach items="${chatRoomList}" var="chatRoomDTO">
-				<div class="listContent" id="${chatRoomDTO.chatRoomVo.chatRoomNum}" data-chatroom_num="${chatRoomDTO.chatRoomVo.chatRoomNum}">
+				<c:if test="${chatRoomDTO.chatRoomVo.chat_type == 0 }"><!-- 1:1채팅방 이라면 -->
+					<div class="listContent singleChat" id="${chatRoomDTO.chatRoomVo.chatRoomNum}" data-chat_nickname="${chatRoomDTO.chatReadVoList[0].chat_memberNick}" data-chat_userid="${chatRoomDTO.chatReadVoList[0].chat_memberId}">
+				</c:if>
+				<c:if test="${chatRoomDTO.chatRoomVo.chat_type == 1 }"><!-- 멀티 채팅방 이라면 -->
+					<div class="listContent multiChat" id="${chatRoomDTO.chatRoomVo.chatRoomNum}" data-chatroom_num="${chatRoomDTO.chatRoomVo.chatRoomNum}">
+				</c:if>
 					<div class="firstWrap">
-						<c:if test="${chatRoomDTO.chatRoomVo.chat_type == 0 }"> <!-- 1:1채팅방 이라면 -->
+						<c:if test="${chatRoomDTO.chatRoomVo.chat_type == 0 }">
 							<c:choose>
-								   	  <c:when test="${pageContext.request.serverName == 'localhost'}"> 
-										 	<img src="/resources/img/profile_img/<c:out value="${chatRoomDTO.chatReadVoList[0].chat_memberId}"/>.png?${random}" class="listMemberImage" onerror="this.src='/resources/img/profile_img/basicProfile.png'"/>
-									  </c:when> 
-								      <c:otherwise> 
-								    		<img src="/upload/<c:out value="${chatRoomDTO.chatReadVoList[0].chat_memberId}"/>.png?${random}" class="listMemberImage" onerror="this.src='/ROOT/resources/img/profile_img/basicProfile.png'" />
-								      </c:otherwise>
+							   	  <c:when test="${pageContext.request.serverName == 'localhost'}"> 
+									 	<img src="/resources/img/profile_img/<c:out value="${chatRoomDTO.chatReadVoList[0].chat_memberId}"/>.png?${random}" class="singleMemberImage" onerror="this.src='/resources/img/profile_img/basicProfile.png'"/>
+								  </c:when> 
+							      <c:otherwise> 
+							    		<img src="/upload/<c:out value="${chatRoomDTO.chatReadVoList[0].chat_memberId}"/>.png?${random}" class="singleMemberImage" onerror="this.src='/ROOT/resources/img/profile_img/basicProfile.png'" />
+							      </c:otherwise>
+							</c:choose>
+						</c:if>
+						<c:if test="${chatRoomDTO.chatRoomVo.chat_type == 1 }">
+							<c:choose>
+							   	  <c:when test="${pageContext.request.serverName == 'localhost'}"> 
+									 	<c:forEach items="${chatRoomDTO.chatReadVoList}" var="chatReadVO" begin="0" end="3"> 
+											<img src="/resources/img/profile_img/<c:out value="${chatReadVO.chat_memberId}"/>.png?${random}" class="multiMemberImage" onerror="this.src='/resources/img/profile_img/basicProfile.png'"/>
+										</c:forEach>
+								  </c:when> 
+							      <c:otherwise> 
+							      		<c:forEach items="${chatRoomDTO.chatReadVoList}" var="chatReadVO" begin="0" end="3">
+									 		<img src="/upload/<c:out value="${chatReadVO.chat_memberId}"/>.png?${random}" class="multiMemberImage" onerror="this.src='/ROOT/resources/img/profile_img/basicProfile.png'" />
+										</c:forEach>
+							      </c:otherwise> 
 							</c:choose>
 						</c:if>
 					</div>
-					<div class="secondWrap">
+					<div class="secondWrap"> 
 						<div class="chatNick">
-							${chatRoomDTO.chatReadVoList[0].chat_memberNick}
+							<c:if test="${chatRoomDTO.chatRoomVo.chat_type == 0 }">
+								${chatRoomDTO.chatReadVoList[0].chat_memberNick}
+							</c:if>
+							<c:if test="${chatRoomDTO.chatRoomVo.chat_type == 1 }">
+								<c:if test="${chatRoomDTO.chatRoomVo.chat_title != null}">
+		        						${chatRoomDTO.chatRoomVo.chat_title}
+		        				</c:if>
+		        				<c:if test="${chatRoomDTO.chatRoomVo.chat_title == null}">
+			        				<c:forEach items="${chatRoomDTO.chatReadVoList}" var="chatReadVO" varStatus="status">
+										<c:if test="${!status.last}">
+											${chatReadVO.chat_memberNick}, 
+										</c:if> 
+										<c:if test="${status.last}">
+											${chatReadVO.chat_memberNick}
+										</c:if>  
+								 	</c:forEach>
+			        			</c:if>
+							</c:if>
+						</div>
+						<div class="memberCount">
+							<c:if test="${chatRoomDTO.chatRoomVo.chat_type == 1 }">
+								(${chatRoomDTO.chatRoomVo.headCount}) 
+							</c:if>
 						</div>
 						<div class="chatContent">
-					        <c:choose>
-							        <c:when test="${fn:length(chatRoomDTO.chatContentVo.chat_content) gt 40}">
-							        	<c:out value="${fn:substring(chatRoomDTO.chatContentVo.chat_content, 0, 39)}"/>...
-							        </c:when>
-							        <c:otherwise>
-								        ${chatRoomDTO.chatContentVo.chat_content}
-							        </c:otherwise>
-							</c:choose>
+							        ${chatRoomDTO.chatContentVo.chat_content}
 						</div>
 					</div>
 					<div class="thirdWrap">
@@ -94,21 +128,20 @@
 			<div id="chosenMembers">
 			</div>
 			<div id="searchWrap">
-				<input id="search" type='text' oninput="checkLength(this,30)" placeholder="회원검색" autofocus/> 
+				<input id="search" type='text' value='' oninput="search(this,30)" placeholder=" 회원검색" autofocus/>
 			</div>
 			<div id="userList">
 				<!-- 회원리스트 -->
 			</div>
 			<div id="buttonWrap">
 				<div id="chatInviteWrap">
-					<input type="button" id="chatInvite" value="초대" />	
+					<input type="button" class="newChatBtn" id="chatInvite" value="초대" disabled='disabled'/>	
 				</div>
 				<div id="chatCancelWrap">
-					<input type="button" id="chatCancel" value="취소" />				
+					<input type="button" class="newChatBtn" id="chatCancel" value="취소" />				
 				</div>
 			</div>
 	</div>
-	
 </body>
 <script>
 		var csrfHeaderName ="${_csrf.headerName}"; 
@@ -126,6 +159,12 @@
 	    });
 		
 		$("#newChatBtn").on("click",function(event){
+			
+			if(isLimited()){
+		    	  openAlert("채팅방 생성 권한이 제한되어 있습니다");
+		    	  return;
+		    }
+			
 			openUserList();
    		}); 
 		
@@ -137,87 +176,111 @@
 		$("#chatInvite").on("click", function(event){
 			
 			var chosenUser = $(".chosenUser").get();
-	   		
-	        for ( var i = 0; i < chosenUser.length; i++) {
-				var user_id = $(chosenUser[i]).data("user_id");
-				var nick_name = $(chosenUser[i]).data("nick_name");
-				
-				console.log(user_id);
-				console.log(nick_name);
-	        }
+			
+			createMultiChat(chosenUser);
 		});
 		
+		
+		function createMultiChat(chosenUser){
+			
+				<sec:authorize access="isAuthenticated()">   
+					var myId = '${userInfo.username}';  
+					var myNickName = '${userInfo.member.nickName}';
+				</sec:authorize>
+				
+				if(myId == null){ 
+					
+					openAlert("로그인 해주세요"); 
+					
+					return;
+				}
+				
+				if(isLimited()){
+			    	 
+					openAlert("채팅방 생성 기능이 제한되어 있습니다");
+			    	
+					return;
+			    }
+				
+				var chatRoomData = {   
+										roomOwnerId : myId,
+										roomOwnerNick : myNickName,
+										chat_type : 1,
+										headCount : chosenUser.length + 1
+								   };
+				
+				var chatMemberVoArray = new Array(chosenUser.length); 
+				
+			    for ( var i = 0; i < chosenUser.length; i++) {
+		        	
+					 var chatMemberData = {
+							
+											chat_memberId : $(chosenUser[i]).data("user_id"),
+											chat_memberNick : $(chosenUser[i]).data("nick_name")
+									  	};
+					
+					 chatMemberVoArray[i] = chatMemberData;
+		        }
+									
+				var commonData = { 
+									chatRoomVO : chatRoomData,
+									chatMemberVoArray : chatMemberVoArray
+					 			 };
+				
+				commonService.createMultiChat(commonData,  
+						
+				   		function(result, status){
+							
+							if(status == "success"){ 
+								
+								closeUserList();
+								
+								var popupX = (window.screen.width / 2) - (400 / 2);
+		
+								var popupY= (window.screen.height /2) - (500 / 2);
+								
+								window.open('/chatRoom/'+result+'?userId='+myId+'&chat_type=1', "title"+result, 'height=500, width=400, screenX='+ popupX + ', screenY= '+ popupY);
+							}
+				    	},
+					    
+				    	function(status){
+				    	
+							if(status == "error"){ 
+								
+								openAlert("Server Error(관리자에게 문의해주세요)");
+							}
+				    	}
+			   	);
+		}
+		
+		$(document).on("click",".multiChat", function(event){ 
+			
+			<sec:authorize access="isAuthenticated()">   
+				var myId = '${userInfo.username}';  
+			</sec:authorize>
+			
+			if(myId == null){ 
+				
+				openAlert("로그인 해주세요"); 
+				
+				return;
+			}
+			
+			var chatroom_num = $(this).data("chatroom_num");
+			
+			var popupX = (window.screen.width / 2) - (400 / 2);
+			
+			var popupY= (window.screen.height /2) - (500 / 2);
+			
+			window.open('/chatRoom/'+chatroom_num+'?userId='+myId+'&chat_type=1', "title"+chatroom_num, 'height=500, width=400, screenX='+ popupX + ', screenY= '+ popupY);
+		});
 		
 		function openUserList(){
 			
 			backGround.css("display","block");
 			userListWrap.css("display","block");
 			
-			getChatUserList( 
-					
-					function(chatUserList, status){
-						
-						if(status == "success"){
-							
-							var length = chatUserList.length;
-							var userList = $("#userList");
-							var str = "";
-							var nickName; 
-							var userId; 
-							
-							for (var i = 0; i < length || 0; i++){
-								
-							       nickName = chatUserList[i].nickName; 
-							       userId = chatUserList[i].userId;
-							      
-							   	   str += "<div class='userWrap' data-user_id='"+userId+"' data-nick_name='"+nickName+"'>"
-							   		   str +=  "<span class='userImage'>"; 
-										   if(serverName == 'localhost'){ 
-											   str += "<img src='/resources/img/profile_img/"+userId+".png?"+random+"' class='memberImage hideUsermenu' onerror='this.src=\"/resources/img/profile_img/basicProfile.png\"'/>&nbsp"
-													   
-										   }else{
-											   str += "<img src='/upload/"+userId+".png?"+random+"' class='memberImage hideUsermenu' onerror='this.src=\"/ROOT/resources/img/profile_img/basicProfile.png\"'/>&nbsp"
-										   }
-								   	   str +=  "</span>";  
-								   	   str +=  "<span class='userNickname'>"
-								   	   str +=		nickName
-								   	   str +=  "</span>"; 
-							   	   str +=  "</div>";  
-							}
-							
-							userList.html(str);
-							
-							$(".userWrap").on("click", function(event){
-								
-									var chosenMembers = $("#chosenMembers");
-									var str = $.trim(chosenMembers.html());
-									var user_id = $(this).data("user_id");
-									var nick_name = $(this).data("nick_name");
-									
-									if(str == ""){
-										
-										str += "<span id='user"+user_id+"' class='chosenUser' data-user_id='"+user_id+"' data-nick_name='"+nick_name+"'>"+nick_name;
-										
-									}else{
-										
-										str += "<span id='user"+user_id+"' class='chosenUser' data-user_id='"+user_id+"' data-nick_name='"+nick_name+"'>, "+nick_name;
-									}
-							   	    	str +=  "</span>";
-									
-							   		chosenMembers.html(str);
-							   	
-							});
-						}
-			    	},
-			 
-			    	function(status){
-			    	
-						if(status == "error"){ 
-							
-							openAlert("Server Error(관리자에게 문의해주세요)");
-						}
-			    	}
-			);
+			getChatUserList( showChatUserList, showError );
 		} 
 		
 		function closeUserList(){
@@ -228,13 +291,22 @@
 			var chosenMembers = $("#chosenMembers");
 			
 			chosenMembers.html("");//선택한 멤버 초기화
+			
+			var search = $("#search");
+			
+			search.val("");//키워드 초기화
+			
+			var chatInvite = $("#chatInvite");//초대버튼 비활성화
+   			chatInvite.attr("disabled", true); 
+   			chatInvite.css("background-color","#EAEAEA");
+   			chatInvite.css("color","gray");
 		}
 		
-		function getChatUserList(callback, error) {
+		function getChatUserList(callback, error, keyword ) {
 			
 			$.ajax({
 				type : 'get', 
-				url : '/getChatUserList', 
+				url : '/getChatUserList?keyword='+keyword, 
 				success : function(result, status, xhr) {
 					if (callback) {
 						callback(result, status);
@@ -248,6 +320,336 @@
 			});
 		}
 		
+		function search(obj, maxByte){
+			
+			checkInputVal(obj,30);
+			getChatUserList( showChatUserList, showError, obj.value );
+		}
+		
+		function checkInputVal(obj, maxByte) { 
+			 
+			var str = obj.value; 
+			var stringByteLength = 0;
+			var reStr;
+				
+			stringByteLength = (function(s,b,i,c){
+				
+			    for(b=i=0; c=s.charCodeAt(i++);){
+			    
+				    b+=c>>11?3:c>>7?2:1;
+				    if (b > maxByte) { 
+				    	break;
+				    }
+				    
+				    reStr = str.substring(0,i);
+			    }
+			    
+			    return b
+			    
+			})(str);
+			
+			if (stringByteLength > maxByte) {          
+				obj.value = reStr;
+			}   
+			
+			obj.focus();  
+		}
+		
+		function showError(status){
+	    	
+			if(status == "error"){ 
+				
+				openAlert("Server Error(관리자에게 문의해주세요)");
+			}
+    	}
+		
+		function showChatUserList(chatUserList, status){
+			
+			if(status == "success"){
+				
+				var length = chatUserList.length;
+				var userList = $("#userList");
+				var str = "";
+				var nickName; 
+				var userId; 
+				
+				for (var i = 0; i < length || 0; i++){
+					
+				       nickName = chatUserList[i].nickName; 
+				       userId = chatUserList[i].userId;
+				      
+				   	   str += "<div class='userWrap' data-user_id='"+userId+"' data-nick_name='"+nickName+"'>"
+				   		   str +=  "<span class='userImage'>"; 
+							   if(serverName == 'localhost'){ 
+								   str += "<img src='/resources/img/profile_img/"+userId+".png?"+random+"' class='memberImage hideUsermenu' onerror='this.src=\"/resources/img/profile_img/basicProfile.png\"'/>&nbsp"
+										   
+							   }else{
+								   str += "<img src='/upload/"+userId+".png?"+random+"' class='memberImage hideUsermenu' onerror='this.src=\"/ROOT/resources/img/profile_img/basicProfile.png\"'/>&nbsp"
+							   }
+					   	   str +=  "</span>";  
+					   	   str +=  "<span class='userNickname'>"
+					   	   str +=		nickName
+					   	   str +=  "</span>"; 
+				   	   str +=  "</div>";  
+				}
+				
+				userList.html(str);
+				
+				$(".userWrap").on("click", function(event){
+					
+						var chosenMembers = $("#chosenMembers");
+						var str = $.trim(chosenMembers.html());
+						var user_id = $(this).data("user_id");
+						var nick_name = $(this).data("nick_name");
+						
+						if(str == ""){
+							
+							str += "<span id='user"+user_id+"' class='chosenUser' data-user_id='"+user_id+"' data-nick_name='"+nick_name+"'>"+nick_name+"</span>";
+							
+						}else{
+							
+							var chosenUser = $("#user"+user_id);
+							
+							if(chosenUser.length > 0){
+								
+								chosenUser.remove();
+								chosenMembers = $("#chosenMembers");
+								str = $.trim(chosenMembers.html());
+							
+							}else{
+								
+								str += "<span id='user"+user_id+"' class='chosenUser' data-user_id='"+user_id+"' data-nick_name='"+nick_name+"'> "+nick_name+"</span>";
+							}
+						}
+						
+				   		chosenMembers.html(str);
+				   		
+				   		var chosenUsers = $(".chosenUser");
+				   		
+				   		if(chosenUsers.length > 0 ){
+				   			
+				   			var chatInvite = $("#chatInvite");
+					   			chatInvite.attr("disabled", false);
+					   			chatInvite.css("background-color","#7151fc");
+					   			chatInvite.css("color","white");
+					   			
+				   		}else{
+				   			
+							var chatInvite = $("#chatInvite");
+					   			chatInvite.attr("disabled", true);
+					   			chatInvite.css("background-color","#EAEAEA");
+					   			chatInvite.css("color","gray");
+				   		}
+				});
+			}
+    	}
+		
+		function getChatRoomList(userId, callback, error){
+			
+			$.ajax({
+				type : 'get', 
+				url : '/getChatRoomList?userId='+userId,
+				success : function(result, status, xhr) {
+					if (callback) {
+						callback(result, status);
+					}
+				},
+				error : function(xhr, status, er) {
+					if (error) {
+						error(status);
+					}
+				}
+			});
+    	}
+		
+		function reChatRoomList(){
+			
+				getChatRoomList('${userInfo.username}', function(result, status){
+					
+					if(status == "success"){
+						
+						var str =""; 
+						
+						for (var i = 0; i < result.length; i++) {
+							
+							var chat_type = result[i].chatRoomVo.chat_type;
+							var chatRoomNum = result[i].chatRoomVo.chatRoomNum;
+							
+							if(chat_type == 0){
+								
+								var chat_nickname = result[i].chatReadVoList[0].chat_memberNick;
+								var chat_memberId = result[i].chatReadVoList[0].chat_memberId;
+								var chat_type_name = 'singleChat';
+								
+								str += "<div class='listContent "+ chat_type_name+"' id='"+chatRoomNum+"' data-chat_nickname='"+chat_nickname+"' data-chat_userid='"+chat_memberId+"'>";
+								
+							}else if(chat_type == 1){
+								
+								var chat_type_name = 'multiChat';
+								
+								str += "<div class='listContent "+ chat_type_name+"' id='"+chatRoomNum+"' data-chatroom_num='"+chatRoomNum+"'>";
+							}
+							
+							str +=  "<div class='firstWrap'>";
+							
+							if(result[i].chatRoomVo.chat_type == 0){
+									
+									var userId = result[i].chatReadVoList[0].chat_memberId;
+								
+									if(serverName == 'localhost'){ 
+										
+			 							   str += "<img src='/resources/img/profile_img/"+userId+".png?"+random+"' class='singleMemberImage' onerror='this.src=\"/resources/img/profile_img/basicProfile.png\"'/>"
+												   
+								    }else{
+								    	
+										   str += "<img src='/upload/"+userId+".png?"+random+"' class='singleMemberImage' onerror='this.src=\"/resources/img/profile_img/basicProfile.png\"'/>"
+								    }
+									
+							}else if(result[i].chatRoomVo.chat_type == 1){
+									
+									var length = result[i].chatReadVoList.length;
+								
+									if(serverName == 'localhost'){ 
+										
+											if(length > 3){
+												
+												for (var j = 0; j < 4; j++){
+													
+													 var userId = result[i].chatReadVoList[j].chat_memberId;
+													
+													 str += " <img src='/resources/img/profile_img/"+userId+".png?"+random+"' class='multiMemberImage' onerror='this.src=\"/resources/img/profile_img/basicProfile.png\"'/>"		
+													
+												}
+												
+											}else{
+												
+												for (var j = 0; j < result[i].chatReadVoList.length; j++){
+													
+													 var userId = result[i].chatReadVoList[j].chat_memberId;
+													
+													 str += " <img src='/resources/img/profile_img/"+userId+".png?"+random+"' class='multiMemberImage' onerror='this.src=\"/resources/img/profile_img/basicProfile.png\"'/>"		
+													
+												}
+											}
+												   
+								    }else{
+								    	
+											if(length > 3){
+												
+												for (var j = 0; j < 4; j++){
+													
+										    		var userId = result[i].chatReadVoList[j].chat_memberId;
+													
+													str += " <img src='/upload/"+userId+".png?"+random+"' class='multiMemberImage' onerror='this.src=\"/resources/img/profile_img/basicProfile.png\"'/>"
+												}
+												
+											}else{
+												
+												for (var j = 0; j < result[i].chatReadVoList.length; j++){
+													
+													 var userId = result[i].chatReadVoList[j].chat_memberId;
+													
+													 str += " <img src='/resources/img/profile_img/"+userId+".png?"+random+"' class='multiMemberImage' onerror='this.src=\"/resources/img/profile_img/basicProfile.png\"'/>"		
+												}
+											}
+								    }
+							}
+							
+							str += "</div>";//firstWrap
+							
+							str += " <div class='secondWrap'>";
+							
+								str += "<div class='chatNick'>";
+								
+								if(result[i].chatRoomVo.chat_type == 0){
+									
+									str += result[i].chatReadVoList[0].chat_memberNick;
+									
+								}else if(result[i].chatRoomVo.chat_type == 1){
+									
+									if(result[i].chatRoomVo.chat_title != null){
+										
+										str += result[i].chatRoomVo.chat_title;
+										
+									}else{
+										
+										for (var j = 0; j < result[i].chatReadVoList.length; j++){
+											
+											if(j == result[i].chatReadVoList.length-1){
+												
+												str += result[i].chatReadVoList[j].chat_memberNick;
+												
+											}else{
+												
+												str += result[i].chatReadVoList[j].chat_memberNick+", ";	
+											}
+										}
+									}
+								}
+								
+								str += "</div>";//chatNick
+								
+								str += " <div class='memberCount'>";
+									
+									if(result[i].chatRoomVo.chat_type == 1){
+										
+										str += "(" + result[i].chatRoomVo.headCount + ")";
+									}
+	
+								str += "</div>";//memberCount
+										
+								str += "<div class='chatContent'>";
+										str += result[i].chatContentVo.chat_content;
+								str += "</div>";//chatContent
+								
+							str += "</div>";//secondWrap
+							 
+							str += "<div class='thirdWrap'>";
+								
+								str += "<div class='chatDate'>";
+								
+								var nowTime = new Date();
+								var lastChatTime = new Date(result[i].chatContentVo.regDate); 
+								var chatDate;
+								
+								if(nowTime.getDate() == lastChatTime.getDate()){
+								
+									chatDate = commonService.displayDayTime(result[i].chatContentVo.regDate);
+								
+								}else{
+									
+									chatDate = commonService.displayYearMonthTime(result[i].chatContentVo.regDate);	
+								}
+								
+								str += chatDate;
+								
+								str += "</div>";//chatDate
+								
+								if(result[i].notReadCnt != 0){
+									
+									str += "<div class='chatCnt'>";
+										
+										str +=  result[i].notReadCnt;
+											
+									str += "+</div>";//chatCnt
+								}
+								
+							str += "</div></div>";//thirdWrap
+						}
+						
+						$(".chatList").html(str);
+					}
+		    	},
+		    
+		    	function(status){
+		    	
+					if(status == "error"){ 
+						
+						openAlert("Server Error(관리자에게 문의해주세요)");
+					}
+		    	}
+			);
+		}
 		
 </script>
 </html>

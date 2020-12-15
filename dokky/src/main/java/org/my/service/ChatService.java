@@ -1,19 +1,22 @@
 package org.my.service;
 	import java.util.Date;
 	import java.util.List;
+	import org.my.domain.ChatContentVO;
 	import org.my.domain.ChatMemberVO;
 	import org.my.domain.ChatReadVO;
+	import org.my.domain.ChatRoom;
 	import org.my.domain.ChatRoomVO;
 	import org.my.domain.MemberVO;
 	import org.my.domain.chatRoomDTO;
-	import org.my.domain.ChatContentVO;
-	import org.my.domain.ChatRoom;
+	import org.my.domain.multiRoomVO;
 
 public interface ChatService {
 	
 	public String hasRoom(String roomOwnerId, String chat_memberId);
 	
 	public boolean createSingleChat(ChatRoomVO chatRoomVO, ChatMemberVO chatMemberVO);
+	
+	public boolean createMultiChat(ChatRoomVO chatRoomVO, ChatMemberVO[] chatMemberVoArray);
 	
 	public List<ChatContentVO> getChatContents(Long chatRoomNum, Date recentOutDate, String chat_memberId);
 	
@@ -41,10 +44,14 @@ public interface ChatService {
 
 	public int getHeadCount(Long chatRoomNum);
 
-	public boolean readChat(ChatReadVO vo);
+	public int readChat(ChatReadVO vo);
 
 	public List<chatRoomDTO> getMyChatRoomList(String userId);
 
-	public List<MemberVO> getChatUserList();
+	public List<MemberVO> getChatUserList(String keyword, String userId);
+
+	public multiRoomVO getChatTitleInfo(Long chatRoomNum);
+
+	public List<ChatMemberVO> getMultiroomMembers(Long chatRoomNum);
 	
 }

@@ -14,64 +14,9 @@ public class commonWebsocketHandler extends TextWebSocketHandler {
 	Map<String, ArrayList<WebSocketSession>> userSessionsMap = new HashMap<>();//중복된 유저의 웹소켓 객체들을 아이디 별로 맵에 관리 
 	
 	@Override
-	protected void handleTextMessage(WebSocketSession session, TextMessage message) throws Exception {//소켓에다가 메시지를 보냈을때
-		
-		log.info("commonWebsocket handleTextMessage session=" + session + " : message=" + message);
-		
-		String msg = message.getPayload();
-		
-		String[] strs = msg.split(",");
-			
-		if (strs != null) {
-			
-			String kind = strs[0];//요청의 종류
-			String userId = strs[1];//유저의 아이디
-			
-			ArrayList<WebSocketSession> userSessionList = userSessionsMap.get(userId);
-			
-			if(userSessionList != null) {
-				
-				for(WebSocketSession userSession : userSessionList) {
-					
-					if(kind.equals("sendAlarmMsg") && userSession != null) {//모든 알람 메시지
-					
-						userSession.sendMessage(new TextMessage("allAlarmUpdateRequestToUser"));
-					
-					}else if(kind.equals("noteAlarm") && userSession != null) {//쪽지를 쓰고 알림 업데이트 요청을 사용자에게 보낸다
-						
-						userSession.sendMessage(new TextMessage("noteAlarmUpdateRequestToUser"));
-						
-					}else if(kind.equals("chatAlarm") && userSession != null) {//채팅 메시지를 보내고 알림 업데이트 요청을 사용자에게 보낸다
-						
-						userSession.sendMessage(new TextMessage("chatAlarmUpdateRequestToUser"));
-						
-					}else if(kind.equals("limit") && userSession != null){//요청의 종류가 계정 제한 이고 해당 유저의 세션이 존재한다면
-						
-						userSession.sendMessage(new TextMessage("limitAndLogoutSuccessMessageToUser"));//유저에게  메시지를 보낸다
-						
-						session.sendMessage(new TextMessage("limitAndLogoutSuccessMessageToAdmin"));//관리자에게도 메시지를 보낸다
-						
-					}else if(kind.equals("limit") && userSession == null) {//계정 제한은 하였지만 유저의 세션이 존재하지 않는다면 로그아웃 시키지 않는다.
-						
-						session.sendMessage(new TextMessage("limitSuccessMessageToAdmin"));//관리자에게만 메시지를 보낸다
-					
-					}else if(kind.equals("stopWritingMsg") && userSession != null) {
-						
-						userSession.sendMessage(new TextMessage("StopWritingAndLogoutMessageToUser"));
-					
-					}else if(kind.equals("recoverMsg") && userSession != null) {
-						
-						userSession.sendMessage(new TextMessage("recoverMessageToUser"));
-					} 
-				}
-			}
-		}
-	}
-	
-	@Override
 	public void afterConnectionEstablished(WebSocketSession session) throws Exception{//클라이언트가 서버에 접속한후
 		
-		log.info("commonWebsocket afterConnectionEstablished session=" + session);
+		log.info("commonWebsocket afterConnectionEstablished:" + session);
 		
 		String userId = getUserId(session);
 		
@@ -92,9 +37,54 @@ public class commonWebsocketHandler extends TextWebSocketHandler {
 	}
 	
 	@Override
+	protected void handleTextMessage(WebSocketSession session, TextMessage message) throws Exception {//소켓에다가 메시지를 보냈을때
+		
+		log.info("commonWebsocket handleTextMessage:" + session + " : " + message);
+		
+		String msg = message.getPayload();
+		
+		String[] strs = msg.split(",");
+			
+		if (strs != null) {
+			
+			String kind = strs[0];//요청의 종류
+			String userId = strs[1];//유저의 아이디
+			
+			ArrayList<WebSocketSession> userSessionList = userSessionsMap.get(userId);
+			
+			if(userSessionList != null) {
+				
+				for(WebSocketSession userSession : userSessionList) {
+					
+					log.info("userSession"+userSession);
+					
+					if(kind.equals("sendAlarmMsg") && userSession != null) {//모든 알람 메시지
+					
+						userSession.sendMessage(new TextMessage("allAlarmUpdateRequestToUser"));
+					
+					}else if(kind.equals("noteAlarm") && userSession != null) {//쪽지를 쓰고 알림 업데이트 요청을 사용자에게 보낸다
+						
+						userSession.sendMessage(new TextMessage("noteAlarmUpdateRequestToUser"));
+						
+					}else if(kind.equals("limit") && userSession != null){//요청의 종류가 계정 제한 이고 해당 유저의 세션이 존재한다면
+						
+						userSession.sendMessage(new TextMessage("limitAndLogoutSuccessMessageToUser"));//유저에게  메시지를 보낸다
+						
+						session.sendMessage(new TextMessage("limitAndLogoutSuccessMessageToAdmin"));//관리자에게도 메시지를 보낸다
+						
+					}else if(kind.equals("limit") && userSession == null) {//계정 제한은 하였지만 유저의 세션이 존재하지 않는다면 로그아웃 시키지 않는다.
+						
+						session.sendMessage(new TextMessage("limitSuccessMessageToAdmin"));//관리자에게만 메시지를 보낸다
+					} 
+				}
+			}
+		}
+	}
+	
+	@Override
 	public void afterConnectionClosed(WebSocketSession session, CloseStatus status) throws Exception {//연결이 끊겼을때
 		
-		log.info("commonWebsocket afterConnectionClosed session=" + session + ": status=" + status);
+		log.info("commonWebsocket afterConnectionClosed:" + session + ":" + status);
 		
 		String userId = getUserId(session);
 		
@@ -117,6 +107,15 @@ public class commonWebsocketHandler extends TextWebSocketHandler {
 	}
 	
 	private String getUserId(WebSocketSession session) {
+		
+		log.info("session.getAttributes()"+session.getAttributes());
+			
+		//SecurityContext context = (SecurityContext)session.getAttributes().get(HttpSessionSecurityContextRepository.SPRING_SECURITY_CONTEXT_KEY);
+		//SPRING_SECURITY_CONTEXT를 세션에서 꺼내온다.
+		
+		//CustomUser user = (CustomUser)context.getAuthentication().getPrincipal();//인증된 유저의 정보를 가져온다.
+		
+		//return user.getUsername();//유저 아이디를 반환한다.
 		
 		return (String)session.getAttributes().get("userId");
 	}

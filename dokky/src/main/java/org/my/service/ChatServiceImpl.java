@@ -11,6 +11,7 @@ package org.my.service;
 	import org.my.domain.ChatRoomVO;
 	import org.my.domain.MemberVO;
 	import org.my.domain.chatRoomDTO;
+	import org.my.domain.multiRoomVO;
 	import org.my.mapper.ChatMapper;
 	import org.springframework.beans.factory.annotation.Autowired;
 	import org.springframework.stereotype.Service;
@@ -77,6 +78,75 @@ public class ChatServiceImpl implements ChatService {
 			int fourthResult = chatMapper.createChatMember(chatMemberVO);//채팅 방장 멤버 입력
 			
 			return firstResult == 1 && secondResult == 1 && thirdResult == 1 && fourthResult == 1 ;
+		}
+
+		@Transactional
+		@Override
+		public boolean createMultiChat(ChatRoomVO chatRoomVO, ChatMemberVO[] chatMemberVoArray){
+			
+			log.info("createMultiChat");
+			
+			if(chatMapper.createChatRoom(chatRoomVO) != 1) {//그룹방 만들기
+				
+				return false;
+			}
+			
+			Long chatRoomNum = chatRoomVO.getChatRoomNum();
+			
+			ChatContentVO chatContentVO = new ChatContentVO();
+			
+			chatContentVO.setRegDate(new Date());
+			
+			chatContentVO.setChatRoomNum(chatRoomNum);
+			
+			String chat_content = chatRoomVO.getRoomOwnerNick()+"님이 ";
+			
+			for(ChatMemberVO memberVO : chatMemberVoArray){
+				
+				memberVO.setChatRoomNum(chatRoomNum);
+				
+				if(chatMapper.createChatMember(memberVO) != 1){//채팅 멤버들 입력
+					
+					return false;
+				}
+				
+				chat_content += memberVO.getChat_memberNick()+" ";
+	    	}
+			
+			ChatMemberVO roomOwnerVO = new ChatMemberVO();
+						 roomOwnerVO.setChatRoomNum(chatRoomNum);
+						 roomOwnerVO.setChat_memberId(chatRoomVO.getRoomOwnerId());
+						 roomOwnerVO.setChat_memberNick(chatRoomVO.getRoomOwnerNick());
+			
+			if(chatMapper.createChatMember(roomOwnerVO) != 1 ){//방장 멤버이력
+				return false;
+			}
+			
+			chat_content += "님을 초대했습니다";
+			
+			chatContentVO.setChat_content(chat_content);
+			
+			if(chatMapper.createNoticeContent(chatContentVO) != 1) {//공지 내용 입력
+				
+				return false;
+			}
+			
+			Long chatContentNum =  chatContentVO.getChatContentNum();
+			
+			for(ChatMemberVO memberVO : chatMemberVoArray){
+				
+				if(chatMapper.createChatReadType(chatRoomNum,  chatContentNum, memberVO.getChat_memberId(), memberVO.getChat_memberNick(), 1) != 1){
+					//멤버들 읽음 테이블 입력
+					return false;
+				}
+	    	}
+			
+    		if(chatMapper.createChatReadType(chatRoomNum, chatContentNum , chatRoomVO.getRoomOwnerId(), chatRoomVO.getRoomOwnerNick(), 1) != 1){
+    			//방장도 읽음 테이블 입력
+    			return false;
+    		}
+    		
+    		return true;
 		}
 		
 		@Override
@@ -226,11 +296,25 @@ public class ChatServiceImpl implements ChatService {
 		
 		@Transactional
 		@Override
-		public boolean readChat(ChatReadVO vo){
+		public int readChat(ChatReadVO vo){
 			
 			log.info("readChat");
 			
-			return chatMapper.updateRead_type(vo) == 1 && chatMapper.updateReadCount(vo) == 1;
+			if(chatMapper.getRead_type(vo) == 0) {//읽지 않음 
+					
+					if(chatMapper.updateRead_type(vo) == 1 && chatMapper.updateReadCount(vo) == 1) {
+						
+						return 0;
+						
+					}else {
+						
+						return 2;
+					}
+					
+			}else{//이미 읽음
+				
+				return 1;
+			}
 		}
 		
 		@Override
@@ -254,7 +338,13 @@ public class ChatServiceImpl implements ChatService {
 				
 				log.info("ChatContentVo="+ChatContentVo);
 				
-				List<ChatReadVO> chatReadVoList = chatMapper.getMyChatReadVo(chatRoomNum, userId);
+				List<ChatReadVO> chatReadVoList;
+				
+				if(ChatRoomVo.getChat_type() == 1){//멀티채팅방이라면
+					 chatReadVoList = chatMapper.getMyMultiChatReadVo(chatRoomNum);
+				}else {
+					 chatReadVoList = chatMapper.getMySingleChatReadVo(chatRoomNum, userId);
+				}
 				
 				log.info("chatReadVoList="+chatReadVoList);
 				
@@ -269,11 +359,27 @@ public class ChatServiceImpl implements ChatService {
 		}
 		
 		@Override
-		public List<MemberVO> getChatUserList(){
+		public List<MemberVO> getChatUserList(String keyword, String userId){
 			
 			log.info("getChatUserList");
 			
-			return chatMapper.getChatUserList();
+			return chatMapper.getChatUserList(keyword, userId);
+		}
+		
+		@Override
+		public List<ChatMemberVO> getMultiroomMembers(Long chatRoomNum){
+			
+			log.info("getMultiroomMembers");
+			
+			return chatMapper.getMultiroomMembers(chatRoomNum);
+		}
+		
+		@Override
+		public multiRoomVO getChatTitleInfo(Long chatRoomNum){
+			
+			log.info("getChatTitleInfo");
+			
+			return chatMapper.getChatTitleInfo(chatRoomNum);
 		}
 }
 

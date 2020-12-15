@@ -4,6 +4,7 @@ package org.my.security;
 	import javax.servlet.http.HttpServletRequest;
 	import javax.servlet.http.HttpServletResponse;
 	import javax.servlet.http.HttpSession;
+	import org.my.security.domain.CustomUser;
 	import org.springframework.security.core.Authentication;
 	import org.springframework.security.web.authentication.AuthenticationSuccessHandler;
 	import lombok.extern.log4j.Log4j;
@@ -18,6 +19,10 @@ public class CustomLoginSuccessHandler implements AuthenticationSuccessHandler {
 		 log.warn("Login Success");
 		 
 		 HttpSession session = request.getSession();
+		 
+		 CustomUser user = (CustomUser)auth.getPrincipal();//인증된 유저의 정보를 가져온다.
+			
+		 session.setAttribute("userId", user.getUsername());//웹소켓이 끊겼을때 사용하기 위해 세션에 저장해둔다.
 
 		 String redirectUrl = (String)session.getAttribute("preUrl");
          

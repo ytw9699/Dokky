@@ -142,6 +142,10 @@
        <select id="getNoteCount" resultType="String">
 			select count(*) from dk_note where TO_ID = #{userId} and FROM_ID != #{userId} and from_check = 'NO' and read_check = 'NO'
        </select>
+       
+       <select id="getChatCount" resultType="String">
+			select count(*) from dk_chat_read where chat_memberId = #{userId} and read_type = 0
+       </select>
 	  
        <select id="getAllAlarmList" resultType="org.my.domain.alarmVO"> 
 			select alarmNum,

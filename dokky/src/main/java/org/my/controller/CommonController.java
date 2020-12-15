@@ -140,7 +140,8 @@ public class CommonController {
 		HttpSession session = request.getSession();
 		
 		if (session != null) {
-
+			
+			session.setAttribute("userId", profileId);//웹소켓이 끊겼을때 사용하기 위해 세션에 저장해둔다.
             String redirectUrl = (String)session.getAttribute("preUrl");
             
             if (redirectUrl != null) {
@@ -171,12 +172,16 @@ public class CommonController {
 		log.info("/nickCheckedVal"); 
 		
 		if(commonService.getNicknameCheckedVal(inputNickname, userId)) {//닉네임이 중복된다면
-		
+			
+			log.info("/duplicated"); 
+			
 			return new ResponseEntity<>("duplicated", HttpStatus.OK);
 			
 		}else {
 			
-			return new ResponseEntity<>(HttpStatus.INTERNAL_SERVER_ERROR);
+			log.info("/notDuplicated"); 
+			
+			return new ResponseEntity<>("notDuplicated", HttpStatus.OK);
 		}
 	}
 	
@@ -663,6 +668,15 @@ public class CommonController {
 		log.info("/noteCount...="+userId);
 		
 		return new ResponseEntity<>(commonService.getNoteCount(userId), HttpStatus.OK);
+	}
+	
+	@GetMapping(value = "/chatCount/{userId}", produces = "text/plain; charset=UTF-8")
+	@ResponseBody
+	public ResponseEntity<String> getChatCount(@PathVariable("userId") String userId) {
+		 
+		log.info("/chatCount...="+userId);
+		
+		return new ResponseEntity<>(commonService.getChatCount(userId), HttpStatus.OK);
 	}
 	
 	@PreAuthorize("hasAnyRole('ROLE_ADMIN','ROLE_SUPER')") 

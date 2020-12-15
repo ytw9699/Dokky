@@ -225,9 +225,22 @@
 					    	noteCount.html(result);
 				 	 });
 					
+				}else if(event.data == 'chatAlarmUpdateRequestToUser'){
+					 
+					 console.log("chatAlarmUpdateRequestToUser");
+					
+					 getChatCount(userId, function(result){
+					    	chatCount.html(result);
+				 	 });
+					 
+					 if( typeof reChatRoomList == 'function' ) {
+						 
+						 reChatRoomList();
+					 }
+					
 				}else if(event.data == 'limitAndLogoutSuccessMessageToUser'){
 					 
-						openAlert("곧 관리자에 의해 접속 제한(로그아웃) 됩니다");
+						openAlert("곧 접속 제한 됩니다");
 						
 						setTimeout(function() {
 							
@@ -235,8 +248,26 @@
 							
 							logoutForm.submit();;
 							
-						}, 5000); 
+						}, 4000); 
 						
+				}else if(event.data == 'StopWritingAndLogoutMessageToUser'){
+					 
+					openAlert("글쓰기가 제한됩니다. 재로그인 해주세요");
+					
+					setTimeout(function() {
+						
+						var logoutForm = $(".logoutForm");
+						
+						logoutForm.submit();;
+						
+					}, 4000); 
+					
+				}else if(event.data == 'recoverMessageToUser'){
+					 
+					 console.log("recoverMessageToUser");
+					
+					 openAlert("계정이 복구되었습니다. 재로그인 해주세요");
+					 
 				}else if(event.data == 'limitAndLogoutSuccessMessageToAdmin'){
 					
 						openAlert("해당 사용자를 접속 제한 후 로그아웃 시켰습니다");
@@ -247,13 +278,13 @@
 				}
 			}
 			
-			webSocket.onclose = function(){ //소켓 연결됬는데 소켓이 다시 닫힌다면
+			webSocket.onclose = function(){ //소켓 연결됬는데 소켓이 다시 닫혔다면
 				
 				console.log("commonWebsocket is closed");
 				
 				setTimeout(function() {
 					<sec:authorize access="hasAnyRole('ROLE_ADMIN','ROLE_USER','ROLE_SUPER','ROLE_STOP')">
-						connect(); //1초마다 다시 재연결
+						connect(); //1초후 다시 재연결
 					</sec:authorize>
 				}, 1000); 
 			}
@@ -414,9 +445,27 @@
 		});
 	}
 	
+	function getChatCount(userId, callback, error) {
+		$.ajax({
+			type : 'get',
+			url : '/chatCount/'+ userId,
+			success : function(result, status, xhr) {
+				if (callback) {
+					callback(result,xhr);
+				}
+			},
+			error : function(xhr, status, er) {
+				if (error) {
+					error(xhr,er);
+				}
+			}
+		});
+	}
+	
 	<sec:authorize access="isAuthenticated()"> 
 		var alarmCount = $(".alarmCount");
 		var noteCount = $(".noteCount");
+		var chatCount = $(".chatCount");
 		var userId = '${userInfo.username}'; 
 	</sec:authorize>
 	
@@ -428,6 +477,10 @@
 	    
 	    getNoteCount(userId, function(result){
 	    	noteCount.html(result);
+	 	 });
+	    
+	    getChatCount(userId, function(result){
+	    	chatCount.html(result);
 	 	 });
 	} 
 	
@@ -491,9 +544,14 @@
 		 	setInterval(schedule, 60000);//60초마다 알람,쪽지 카운트 불러오기
 		</sec:authorize>
 		
-		$(".singleChat").on("click",function(event){//1:1 채팅 버튼 
+		$(document).on("click",".singleChat", function(event){ 
+				
+			<sec:authorize access="isAuthenticated()">   
+				var myId = '${userInfo.username}';  
+				var myNickName = '${userInfo.member.nickName}';
+			</sec:authorize>
 			
-			if(username == null){ 
+			if(myId == null){ 
 				
 				openAlert("로그인 해주세요"); 
 				
@@ -501,11 +559,13 @@
 			}
 			
 			if(isLimited()){
-		    	  openAlert("쓰기 기능이 제한되어 있습니다");
-		    	  return;
+		    	 
+				openAlert("쓰기 기능이 제한되어 있습니다");
+		    	
+				return;
 		    }
 			
-			if(username == $(this).data("board_userid")){ 
+			if(myId == $(this).data("chat_userid")){
 				
 				openAlert("본인과는 채팅 할 수 없습니다");
 				
@@ -530,7 +590,7 @@
 								chatMemberVO : chatMemberData
 				 			 };
 			
-			commonService.makeSingleChat(commonData, 
+			commonService.makeSingleChat(commonData,  
 		   			
 			   		function(result, status){
 					
@@ -540,7 +600,7 @@
 	
 							var popupY= (window.screen.height /2) - (500 / 2);
 							
-							window.open('/chatRoom/'+result+'?userId='+myId, 'ot', 'height=500, width=400, screenX='+ popupX + ', screenY= '+ popupY);
+							window.open('/chatRoom/'+result+'?userId='+myId+'&chat_type=0', "title"+result, 'height=500, width=400, screenX='+ popupX + ', screenY= '+ popupY);
 						}
 			    	},
 				    
@@ -553,7 +613,6 @@
 			    	}
 		   	); 
 		});
-		
 	});
 	
 	</script>

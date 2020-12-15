@@ -195,6 +195,10 @@
 							 				) 	
        </insert>
        
+       <select id="getRead_type" resultType="int">
+       		select read_type from dk_chat_read where chatContentNum = #{chatContentNum} and chat_memberId = #{chat_memberId}
+       </select>
+       
        <update id="updateRead_type">
 	 	 	update dk_chat_read set read_type = 1 where chatContentNum = #{chatContentNum} and chat_memberId = #{chat_memberId}
 	   </update>
@@ -212,22 +216,28 @@
 	 		WITH subTable AS ( select room.chatRoomNum,
 			  					      room.chat_type,
 			  					      room.chat_title,
+			  					      room.headCount,
 			  					      content.chatContentNum
 								  from dk_chat_room room inner join dk_chat_member member on room.chatRoomNum = member.chatRoomNum 
 									  					 inner join dk_chat_content content on member.chatRoomNum = content.chatRoomNum 
 								 where member.chat_memberId = #{userId}  and member.present_position = 0 ) 
 			select chatRoomNum,
 				   chat_type,
-				   chat_title
+				   chat_title,
+				   headCount
 			 from subTable where chatContentNum in (select max(chatContentNum)from subTable group by subTable.chatRoomNum) order by subTable.chatContentNum desc
  
 	   </select>
 	   
 	   <select id="getMyChatContentVo" resultType="org.my.domain.ChatContentVO">
-	   		<![CDATA[ select /*+INDEX_DESC(DK_CHAT_CONTENT PK_CHAT_CONTENT) */ chat_content, regdate from dk_chat_content where chatRoomNum = #{chatRoomNum} and content_type = 0 and ROWNUM <= 1 ]]>
+	   		<![CDATA[ select /*+INDEX_DESC(DK_CHAT_CONTENT PK_CHAT_CONTENT) */ chat_content, regdate from dk_chat_content where chatRoomNum = #{chatRoomNum} and ROWNUM <= 1 ]]>
 	   </select>
 	   
-	   <select id="getMyChatReadVo" resultType="org.my.domain.ChatReadVO">
+	   <select id="getMyMultiChatReadVo" resultType="org.my.domain.ChatReadVO">
+	   		select distinct chat_memberId, chat_memberNick from dk_chat_read where chatRoomNum = #{chatRoomNum} 
+	   </select>
+	   
+	   <select id="getMySingleChatReadVo" resultType="org.my.domain.ChatReadVO">
 	   		select distinct chat_memberId, chat_memberNick from dk_chat_read where chatRoomNum = #{chatRoomNum} and chat_memberId != #{userId}
 	   </select>
 	   
@@ -236,10 +246,24 @@
 	   </select>
 	   
 	   <select id="getChatUserList" resultType="org.my.domain.MemberVO">
-	   		select userId,nickName from dk_member where enabled = 1 order by convert (nickName, 'US8ICL') asc
+	   		select userId,nickName from dk_member where enabled = 1 and userId != #{userId}
+	   		
+	   		<if test="keyword != null and keyword !='undefined' and keyword !=''">
+				              	   and nickName like '%'||#{keyword}||'%'
+			</if>
+				                
+	   		order by convert (nickName, 'US8ICL') asc
 	   		<!-- 한글 > 영문 > 숫자의 오름차순 -->
 	   </select>
-       
+	   
+	   <select id="getMultiroomMembers" resultType="org.my.domain.ChatMemberVO">
+	   		select chat_memberId, chat_memberNick from dk_chat_member where chatRoomNum = #{chatRoomNum} and present_position = 0
+	   </select>
+	   
+	   <select id="getChatTitleInfo" resultType="org.my.domain.multiRoomVO">
+	   		select chat_title, roomOwnerId, roomOwnerNick from dk_chat_room where chatRoomNum = #{chatRoomNum}
+	   </select>
+	   
 </mapper>
 
 

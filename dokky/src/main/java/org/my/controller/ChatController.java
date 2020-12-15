@@ -10,12 +10,14 @@ package org.my.controller;
 	import org.my.domain.MemberVO;
 	import org.my.domain.chatRoomDTO;
 	import org.my.domain.commonVO;
+	import org.my.security.domain.CustomUser;
 	import org.my.service.ChatService;
 	import org.springframework.beans.factory.annotation.Autowired;
 	import org.springframework.http.HttpStatus;
 	import org.springframework.http.MediaType;
 	import org.springframework.http.ResponseEntity;
 	import org.springframework.security.access.prepost.PreAuthorize;
+	import org.springframework.security.core.Authentication;
 	import org.springframework.stereotype.Controller;
 	import org.springframework.ui.Model;
 	import org.springframework.web.bind.annotation.GetMapping;
@@ -86,18 +88,41 @@ public class ChatController {
 		 }
 	}
 	
+	@ResponseBody
+	@PostMapping(value = "/createMultiChat", consumes = "application/json", produces = "text/plain; charset=UTF-8")
+	public ResponseEntity<String> createMultiChat(@RequestBody commonVO vo) throws IOException{
+		
+		log.info("/createMultiChat");
+		log.info(vo);
+		
+		boolean makeResult = chatService.createMultiChat(vo.getChatRoomVO(), vo.getChatMemberVoArray());
+		 //1:1채팅방 만들기
+		
+		return makeResult == true  
+					? new ResponseEntity<>(vo.getChatRoomVO().getChatRoomNum().toString(), HttpStatus.OK)
+					: new ResponseEntity<>(HttpStatus.INTERNAL_SERVER_ERROR);
+	}
+	
 	@PreAuthorize("principal.username == #userId")
 	@GetMapping("/chatRoom/{chatRoomNum}")
-	public String getChatRoom(@PathVariable Long chatRoomNum, @RequestParam("userId")String userId, Model model){
+	public String getChatRoom(@PathVariable Long chatRoomNum, @RequestParam("chat_type")int chat_type, @RequestParam("userId")String userId, Model model){
 	    	
     	log.info("/getChatRoom/"+chatRoomNum);
     
     	Date recentOutDate = chatService.getRecentOutDate(chatRoomNum, userId);
     	
     	model.addAttribute("chatContents", chatService.getChatContents(chatRoomNum, recentOutDate, userId));//채팅방의 메시지들
-        model.addAttribute("chatMember", chatService.getChatMember(chatRoomNum, userId));//채팅방의 제목에 들어갈 상대방 정보
+    	
+    	if(chat_type == 0) {//1:1채팅방의 경우
+    		model.addAttribute("chatMember", chatService.getChatMember(chatRoomNum, userId));//채팅방의 제목에 들어갈 상대방 정보
+    	}else if(chat_type == 1) {//멀티채팅방의 경우
+    		model.addAttribute("chatTitleInfo", chatService.getChatTitleInfo(chatRoomNum));//멀티 채팅방의 제목,방장 아이디,닉네임
+    		model.addAttribute("chatMembers", chatService.getMultiroomMembers(chatRoomNum));//멀티 채팅방의 멤버들 아이디,닉네임
+    	}
+    	
         model.addAttribute("chatRoomNum", chatRoomNum);
         model.addAttribute("headCount", chatService.getHeadCount(chatRoomNum));
+        model.addAttribute("chat_type", chat_type);
         
         return "chat/chatRoom";
 	}
@@ -116,6 +141,10 @@ public class ChatController {
     } 
 	
 	
+	
+	
+	
+	
 	@PreAuthorize("principal.username == #vo.chat_memberId")
 	@ResponseBody
 	@PostMapping(value = "/readChat", consumes = "application/json", produces = "text/plain; charset=UTF-8")
@@ -123,21 +152,34 @@ public class ChatController {
 
 		log.info("/readChat");
 		
-		boolean result = chatService.readChat(vo);
+		int result = chatService.readChat(vo);
 		
-		return result == true  
-				? new ResponseEntity<>(HttpStatus.OK)
-				: new ResponseEntity<>(HttpStatus.INTERNAL_SERVER_ERROR);
+		if(result == 0) {//읽지 않았는데 , 디비에서 읽음 처리를 했을때
+			
+			return new ResponseEntity<>("0", HttpStatus.OK);
+					
+		}else if(result == 1){//이미 디비에서 읽음 처리가 되었을때
+			
+			return new ResponseEntity<>("1", HttpStatus.OK);
+			
+		}else{ // 읽지 않아서 디비에서 처리를 하다 실패했을때
+			
+			return new ResponseEntity<>(HttpStatus.INTERNAL_SERVER_ERROR);
+		}
 	}
 	
 	@PreAuthorize("hasAnyRole('ROLE_ADMIN','ROLE_USER','ROLE_SUPER')")
 	@ResponseBody
 	@GetMapping(value = "/getChatUserList", produces = { MediaType.APPLICATION_JSON_UTF8_VALUE })
-	public ResponseEntity<List<MemberVO>> getChatUserList() {
+	public ResponseEntity<List<MemberVO>> getChatUserList(@RequestParam(value = "keyword", required = false )String keyword, Authentication authentication) {
 		
-		log.info("/getChatUserList");
+		log.info("/getChatUserList?keyword="+keyword);
 		
-		List<MemberVO> chatUserList = chatService.getChatUserList();
+		CustomUser user = (CustomUser)authentication.getPrincipal();
+		
+		String userId = user.getUsername();
+		
+		List<MemberVO> chatUserList= chatService.getChatUserList(keyword,userId);
 		
 		if(chatUserList != null) {
 			
@@ -148,5 +190,24 @@ public class ChatController {
 			return new ResponseEntity<>(HttpStatus.INTERNAL_SERVER_ERROR);
 		}
 	}
+
+	@PreAuthorize("principal.username == #userId")
+	@ResponseBody
+	@GetMapping(value = "/getChatRoomList", produces = { MediaType.APPLICATION_JSON_UTF8_VALUE })
+	public ResponseEntity<List<chatRoomDTO>> getChatRoomList(Model model, String userId){
+    	
+    	log.info("/getChatRoomList");
+    	
+    	List<chatRoomDTO> chatRoomList = chatService.getMyChatRoomList(userId);
+        
+    	if(chatRoomList != null) {
+			
+			return new ResponseEntity<>(chatRoomList, HttpStatus.OK);
+			
+		}else {
+			
+			return new ResponseEntity<>(HttpStatus.INTERNAL_SERVER_ERROR);
+		}
+    } 
 	
 }
