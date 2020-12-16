@@ -279,3 +279,42 @@
 		    background-color: #7151fc;
 		    cursor: pointer;
 		}
+		
+		#editTitle{
+			display: none;   
+	        width: 63%;
+		    border-radius: 8px;
+		    position: fixed;
+		    top: 15%;
+		    left: 15%;
+		    padding: 20px;
+		    background-color: white;
+		}
+		
+		.editBtn{ 
+		    font-size: 12px;
+		    border: none;
+		    padding: 8px;
+		    width: 45%;
+		    margin: 0 auto;
+		    margin-top: 15px;
+		    display: inline-block;
+		    border-radius: 8px;
+		    color: white;
+		    background-color: #7151fc;
+		    cursor: pointer;
+	        margin-left: 3%;
+		}
+		
+		#inputTitle{
+		    font-size: 16px;
+		    width: 89%;
+		    height: 30px;
+		    border-radius: 5px;
+		    border-style: solid;
+		    border-width: 1px;
+		    outline: none;
+		    margin-left: 5%; 
+	     }
+		
+		

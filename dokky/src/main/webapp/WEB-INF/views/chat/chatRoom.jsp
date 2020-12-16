@@ -64,7 +64,7 @@
 										      </c:otherwise>
 										</c:choose>
 							</div>
-			        		<div class="innerTitle">
+			        		<div class="innerTitle" onclick="openEdit();">
 			        			<c:if test="${chatTitleInfo.chat_title == null}">
 			        				<c:forEach items="${chatMembers}" var="member" varStatus="status">
 										<c:if test="${!status.last}">
@@ -75,8 +75,9 @@
 										</c:if>  
 								 	</c:forEach>
 			        			</c:if>
-			        			<%-- ${chatTitleInfo.roomOwnerId}
-			        			${chatTitleInfo.roomOwnerNick} --%>
+			        			<c:if test="${chatTitleInfo.chat_title != null}">
+			        				${chatTitleInfo.chat_title}
+			        			</c:if>
 							</div> 
 							<div class="memberCount">
 							 	(${headCount})
@@ -185,6 +186,12 @@
 			<input type="button" id="alertConfirm" value="확인" onclick="closeAlert();" /> 
 	</div> 
 	
+	<div id="editTitle"> 
+			<input type="text" id="inputTitle" placeholder="제목을 적어주세요" value="">
+			<input type="button" id="editSubmit" class="editBtn" value="확인" /> 
+			<input type="button" id="editCancle" class="editBtn" value="취소" onclick="editCancle();" />
+	</div>
+							
 </body>
 <script>
 
@@ -217,21 +224,27 @@
 					commonWebSocketConnect();			
 					chatWebSocketConnect();
 					
-					if(commonWebSocket != null){
-			        	
-			        	if(chat_type == 0){//1:1채팅방이라면
-			        		
-			        		var chat_memberId="${chatMember.chat_memberId}";
-			        		commonWebSocket.send("chatAlarm,"+chat_memberId);
-			        		commonWebSocket.send("chatAlarm,"+myId);
-			        	
-			        	}else if(chat_type == 1){//멀티채팅방이라면
-			        		
-			        		for(var i=0; i<chatMembersArray.length; i++){ 
-			        			commonWebSocket.send("chatAlarm,"+chatMembersArray[i]);
-			        		}
-			        	}
-					}
+					setTimeout(function() { 
+						
+						if(commonWebSocket != null){ 
+				        	
+							var chat_type = "${chat_type}";
+							
+				        	if(chat_type == 0){//1:1채팅방이라면
+				        		
+				        		var chat_memberId="${chatMember.chat_memberId}";
+				        		commonWebSocket.send("chatAlarm,"+chat_memberId);
+				        		commonWebSocket.send("chatAlarm,"+myId);
+				        	
+				        	}else if(chat_type == 1){//멀티채팅방이라면
+				        		
+				        		for(var i=0; i<chatMembersArray.length; i++){ 
+				        			commonWebSocket.send("chatAlarm,"+chatMembersArray[i]);
+				        		}
+				        	}
+						}
+						
+					}, 100); 
 						
 			</sec:authorize>
 		});
@@ -460,7 +473,8 @@
 				chatWebSocket.onclose = function(){//연결된 소켓이 닫혔다면
 					
 					chatWebSocket = null;
-				
+					
+					editCancle();
 					openAlert("채팅연결이 끊겼습니다");
 					console.log("chatWebSocket closed");
 					
@@ -805,6 +819,29 @@
 			obj.focus();  
 		}
 		
+		
+		function openEdit(){
+			
+			 var alertFakeDiv = $("#alertFakeDiv");
+			 var inputTitle = $("#inputTitle");
+			 var editTitle = $("#editTitle");
+			 inputTitle.focus();
+			 alertFakeDiv.css("display","block");
+			 editTitle.css("display","block");
+		}
+		
+		function editCancle(){  
+			
+			var alertFakeDiv = $("#alertFakeDiv");
+			var editTitle = $("#editTitle");
+			var inputTitle = $("#inputTitle");
+			 
+			alertFakeDiv.css("display","none");
+			editTitle.css("display","none"); 
+			inputTitle.val("");
+		}  
+		
+			
 </script>
 
 <c:if test="${chat_type == 1}"><!-- 멀티채팅방이라면 -->
