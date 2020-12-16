@@ -216,6 +216,23 @@
 			<sec:authorize access="isAuthenticated()">
 					commonWebSocketConnect();			
 					chatWebSocketConnect();
+					
+					if(commonWebSocket != null){
+			        	
+			        	if(chat_type == 0){//1:1채팅방이라면
+			        		
+			        		var chat_memberId="${chatMember.chat_memberId}";
+			        		commonWebSocket.send("chatAlarm,"+chat_memberId);
+			        		commonWebSocket.send("chatAlarm,"+myId);
+			        	
+			        	}else if(chat_type == 1){//멀티채팅방이라면
+			        		
+			        		for(var i=0; i<chatMembersArray.length; i++){ 
+			        			commonWebSocket.send("chatAlarm,"+chatMembersArray[i]);
+			        		}
+			        	}
+					}
+						
 			</sec:authorize>
 		});
 		
