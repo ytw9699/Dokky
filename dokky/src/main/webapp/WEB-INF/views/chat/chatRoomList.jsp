@@ -550,7 +550,7 @@
 												   
 								    }else{
 								    	
-										   str += "<img src='/upload/"+userId+".png?"+random+"' class='singleMemberImage' onerror='this.src=\"/resources/img/profile_img/basicProfile.png\"'/>"
+										   str += "<img src='/upload/"+userId+".png?"+random+"' class='singleMemberImage' onerror='this.src=\"/ROOT/resources/img/profile_img/basicProfile.png\"'/>"
 								    }
 									
 							}else if(result[i].chatRoomVo.chat_type == 1){
@@ -588,7 +588,7 @@
 													
 										    		var userId = result[i].chatReadVoList[j].chat_memberId;
 													
-													str += " <img src='/upload/"+userId+".png?"+random+"' class='multiMemberImage' onerror='this.src=\"/resources/img/profile_img/basicProfile.png\"'/>"
+													str += " <img src='/upload/"+userId+".png?"+random+"' class='multiMemberImage' onerror='this.src=\"/ROOT/resources/img/profile_img/basicProfile.png\"'/>"
 												}
 												
 											}else{
@@ -597,7 +597,7 @@
 													
 													 var userId = result[i].chatReadVoList[j].chat_memberId;
 													
-													 str += " <img src='/upload/"+userId+".png?"+random+"' class='multiMemberImage' onerror='this.src=\"/resources/img/profile_img/basicProfile.png\"'/>"		
+													 str += " <img src='/upload/"+userId+".png?"+random+"' class='multiMemberImage' onerror='this.src=\"/ROOT/resources/img/profile_img/basicProfile.png\"'/>"		
 												}
 											}
 								    }
@@ -675,7 +675,7 @@
 								
 								if(result[i].notReadCnt != 0){
 									
-									str += "<div class='chatCnt'>";
+									str += "<div class='chatCnt'>"; 
 										
 										str +=  result[i].notReadCnt;
 											
