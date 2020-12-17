@@ -45,11 +45,11 @@ public class ChatRoom {
         
         }else if(chatMessage.getType() == ChatMessageType.INVITE){
         	
-	    }else if(chatMessage.getType() == ChatMessageType.OUT){
+	    }else if(chatMessage.getType() == ChatMessageType.TITLE){
 	    	
-	    	log.info("remove session OUT= "+session);
+	    	log.info("chat session = "+session);
         	
-    		sessionsSet.remove(session);
+        	send(chatMessage);
         
         }else if(chatMessage.getType() == ChatMessageType.CHAT){
         	
@@ -106,7 +106,12 @@ public class ChatRoom {
             	
             	customMessage = 	"{\"chatContentNum\":\""+chatMessage.getChatContentNum()+
     					"\", \"type\":\""+chatMessage.getType()+"\"}";
-            }
+            	
+            }else if(chatMessage.getType() == ChatMessageType.TITLE){
+            	
+            	customMessage = 	"{\"message\":\""+chatMessage.getMessage()+
+				    					"\", \"type\":\""+chatMessage.getType()+"\"}";
+	            }	
         	
         	TextMessage textMessage = new TextMessage(customMessage); 
         	

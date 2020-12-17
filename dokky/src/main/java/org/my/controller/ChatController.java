@@ -7,6 +7,7 @@ package org.my.controller;
 	import org.my.domain.ChatMessageType;
 	import org.my.domain.ChatReadVO;
 	import org.my.domain.ChatRoom;
+	import org.my.domain.ChatRoomVO;
 	import org.my.domain.MemberVO;
 	import org.my.domain.chatRoomDTO;
 	import org.my.domain.commonVO;
@@ -24,6 +25,8 @@ package org.my.controller;
 	import org.springframework.web.bind.annotation.PathVariable;
 	import org.springframework.web.bind.annotation.PostMapping;
 	import org.springframework.web.bind.annotation.RequestBody;
+	import org.springframework.web.bind.annotation.RequestMapping;
+	import org.springframework.web.bind.annotation.RequestMethod;
 	import org.springframework.web.bind.annotation.RequestParam;
 	import org.springframework.web.bind.annotation.ResponseBody;
 	import lombok.Setter;
@@ -210,4 +213,17 @@ public class ChatController {
 		}
     } 
 	
+	@PreAuthorize("principal.username == #chatRoomVO.roomOwnerId")
+	@RequestMapping(method = { RequestMethod.PUT, RequestMethod.PATCH }, 
+					value = "/chatTitle", consumes = "application/json", produces = { MediaType.TEXT_PLAIN_VALUE }) 
+	@ResponseBody
+	public ResponseEntity<String> chatTitle(@RequestBody ChatRoomVO chatRoomVO) {
+
+		log.info("/chatTitle");
+		log.info("ChatRoomVO: " + chatRoomVO);
+
+		return chatService.updateChatTitle(chatRoomVO) == 1 
+				? new ResponseEntity<>("success", HttpStatus.OK)
+				: new ResponseEntity<>(HttpStatus.INTERNAL_SERVER_ERROR);
+	}
 }

@@ -463,8 +463,12 @@
 																 	+ "</span>"
 						 										 + "</div>";
 						 headCount = headCount+1;
+						 
+					}else if(obj.type == 'TITLE'){
+						
+						$(".innerTitle").html(obj.message);
 					}
-					
+			
 					if(isBottom == true){//스크롤이 맨 하단에서 감지된다면
 						window.scrollTo(0, $(document).height());//스크롤 맨아래로 내리기
 				    }
@@ -630,6 +634,61 @@
 			window.close();
 		});
 		
+		$("#editSubmit").on("click", function(event){
+			
+			var title = $("#inputTitle").val();
+			title = $.trim(title);
+				
+			if(title == "" || title == null){
+				
+				editCancle();
+				
+				return;
+			}
+			
+			var chatRoomVO = {
+								chatRoomNum : chatRoomNum,
+								chat_title : title,
+								roomOwnerId : myId
+						  }
+			
+			updateTitle(chatRoomVO, 
+					
+					function(result, status){
+				
+						if(status == "success"){
+							
+							$(".innerTitle").html(title);
+							
+							if(chatWebSocket != null){ 
+								
+								chatWebSocket.send(JSON.stringify({chatRoomNum : chatRoomNum, type:'TITLE', message : title}));
+							}
+							
+							if(commonWebSocket != null){ 
+								
+								for(var i=0; i<chatMembersArray.length; i++){ 
+				        			commonWebSocket.send("chatAlarm,"+chatMembersArray[i]);
+				        		}
+							}
+							
+							editCancle();
+						}
+					},
+				    
+			    	function(status){
+			    	
+						if(status == "error"){
+							
+							editCancle();
+							openAlert("Server Error(관리자에게 문의해주세요)");
+						}
+			    	}
+			
+			);
+			
+		});
+		
 		$("#test").on("click", function(event){
 			chatWebSocket.close();
 		});
@@ -730,6 +789,26 @@
 			});
 		}
 		
+		function updateTitle(chatRoomVO, callback, error) {
+
+			$.ajax({
+					type : 'put',
+					url : '/chatTitle',
+					data : JSON.stringify(chatRoomVO),
+					contentType : "application/json; charset=utf-8",
+					success : function(result, status, xhr) {
+						if (callback) {
+							callback(result, status);
+						}
+					},
+					error : function(xhr, status, er) {
+						if (error) {
+							error(status);
+						}
+					}
+			});
+		}
+		
 		function openAlert(content){
 			
 			var alertFakeDiv = $("#alertFakeDiv");
@@ -822,12 +901,20 @@
 		
 		function openEdit(){
 			
-			 var alertFakeDiv = $("#alertFakeDiv");
-			 var inputTitle = $("#inputTitle");
-			 var editTitle = $("#editTitle");
-			 inputTitle.focus();
-			 alertFakeDiv.css("display","block");
-			 editTitle.css("display","block");
+			 if(myId != "${chatTitleInfo.roomOwnerId}"){
+				
+				 openAlert("제목은 방장만 수정 할 수 있습니다");
+				 
+			 }else{
+				
+				 var alertFakeDiv = $("#alertFakeDiv");
+				 var inputTitle = $("#inputTitle");
+				 var editTitle = $("#editTitle");
+				 inputTitle.focus();
+				 alertFakeDiv.css("display","block");
+				 editTitle.css("display","block");
+				 
+			 }
 		}
 		
 		function editCancle(){  

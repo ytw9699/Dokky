@@ -247,11 +247,11 @@
 		
 		#alertDiv{
 			display: none;   
-		    width: 180px;
+		    width: 64%;
 		    border-radius: 8px;
 		    position: fixed;
 		    top: 30%;
-		    left: 23%;
+		    left: 13%;
 		    padding: 20px;
 		    background-color: white;
 		}

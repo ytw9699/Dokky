@@ -53,5 +53,7 @@ public interface ChatService {
 	public multiRoomVO getChatTitleInfo(Long chatRoomNum);
 
 	public List<ChatMemberVO> getMultiroomMembers(Long chatRoomNum);
+
+	public int updateChatTitle(ChatRoomVO chatRoomVO);
 	
 }

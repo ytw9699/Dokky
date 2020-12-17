@@ -264,6 +264,10 @@
 	   		select chat_title, roomOwnerId, roomOwnerNick from dk_chat_room where chatRoomNum = #{chatRoomNum}
 	   </select>
 	   
+	   <update id="updateChatTitle">
+			update dk_chat_room set chat_title = #{chat_title} where chatRoomNum = #{chatRoomNum}
+	   </update>
+	   
 </mapper>
 
 

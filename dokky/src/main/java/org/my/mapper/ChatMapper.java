@@ -67,5 +67,6 @@ public interface ChatMapper {
 
 	List<ChatMemberVO> getMultiroomMembers(Long chatRoomNum);
 
+	int updateChatTitle(ChatRoomVO chatRoomVO);
 
 }

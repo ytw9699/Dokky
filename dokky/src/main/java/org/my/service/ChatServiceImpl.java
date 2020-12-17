@@ -381,5 +381,13 @@ public class ChatServiceImpl implements ChatService {
 			
 			return chatMapper.getChatTitleInfo(chatRoomNum);
 		}
+		
+		@Override
+		public int updateChatTitle(ChatRoomVO chatRoomVO){
+			
+			log.info("updateChatTitle");
+			
+			return chatMapper.updateChatTitle(chatRoomVO);
+		}
 }
 
