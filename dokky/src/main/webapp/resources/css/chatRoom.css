@@ -126,12 +126,54 @@
 		    margin-top: 4.5%;
 		}
 		
-        .outChatRoom{
-       	    display: inline-block;
-   			float: right;
-   			margin-top: 3%;
+        .chatRoomMenu{
+     	    display: inline-block;
+		    float: right;
+		    margin-top: 1%;
+		    font-size: 30px;
+		    color: #7151fc;
         }
         
+        .chatRoomMenu a{
+		    text-decoration: none;
+		    color: #7151fc;
+        }
+        
+        .chatMenuBtn{
+	  		display: inline-block; 
+		  	width: 90%;
+		}
+		
+		.chatMenu{
+	        font-size: 17px;
+		    width: 92%;
+		    font-weight: 600;
+		    border-radius: 5px;
+		    height: 26px;
+		    padding-left: 5px;
+		}
+		
+		.chatMenu:hover{
+			background-color: #7151fc;
+			border-radius: 2px;     
+			border:1px solid #7151fc;  
+			color: white;
+			cursor: pointer;
+		}
+		
+		.chatMenuBar{
+		    display: none;
+		    border-style: solid;
+		    border-width: 1px;
+		    border-color: #7151fc;
+		    width: 88px;
+		    height: 53px;
+		    position: fixed;
+		    background-color: white;
+		    margin-left: -64px;
+		    border-radius: 5px;
+		}
+	  
         .memberImage{
         
 				border-radius: 50px;
@@ -155,7 +197,7 @@
 			    margin-right: 2%;
 		}
 		
-        #leave{
+      /*   #leave{
 	       		border: none;
 			    padding: 6px;
 			    font-size: 15px;
@@ -164,7 +206,7 @@
 			    cursor: pointer;
 			    border-radius: 10px;
 			    background-color: #7151fc;
-        }
+        } */
         
         .innerTitle{
 	        margin-left: 1%;

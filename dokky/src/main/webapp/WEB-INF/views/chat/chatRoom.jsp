@@ -43,8 +43,14 @@
 							<div class="innerTitle">
 								<c:out value="${chatMember.chat_memberNick}" />
 							</div> 
-							<div class="outChatRoom">
-								<button id="leave">나가기 </button>
+							<div class="chatRoomMenu">
+								<a href="#" class="chatMenuBtn"> 
+									··· 
+								</a>
+								<div class="chatMenuBar hideclass">
+									<div class="chatMenu hideclass"> 초대</div>
+									<div class="chatMenu hideclass" id="leave"> 나가기</div>
+							    </div> 
 							</div>
 					  </div>
 				  </c:when> 
@@ -82,8 +88,14 @@
 							<div class="memberCount">
 							 	(${headCount})
 							</div>
-							<div class="outChatRoom">
-								<button id="leave">나가기 </button>
+							<div class="chatRoomMenu">
+								<a href="#" class="chatMenuBtn"> 
+									··· 
+								</a>
+								<div class="chatMenuBar hideclass">
+									<div class="chatMenu hideclass"> 초대</div>
+									<div class="chatMenu hideclass" id="leave"> 나가기</div>
+							    </div> 
 							</div>
 			  			</div>
 				  </c:when>
@@ -688,6 +700,22 @@
 			);
 			
 		});
+		
+		$(".chatMenuBtn").on("click",function(event){//이동
+			
+			event.preventDefault();
+		
+			$(".chatMenuBar").css("display","block"); 
+		});
+		
+		$('html').click(function(e){
+			
+			if( !$(e.target).is('.hideclass, .chatMenuBtn') ) {  
+				
+				$(".chatMenuBar").css("display","none");  	
+			} 
+		});   
+	
 		
 		$("#test").on("click", function(event){
 			chatWebSocket.close();
