@@ -48,7 +48,7 @@
 									··· 
 								</a>
 								<div class="chatMenuBar hideclass">
-									<div class="chatMenu hideclass"> 초대</div>
+									<div class="chatMenu inviteBtn hideclass"> 초대</div>
 									<div class="chatMenu hideclass" id="leave"> 나가기</div>
 							    </div> 
 							</div>
@@ -202,6 +202,29 @@
 			<input type="text" id="inputTitle" placeholder="제목을 적어주세요" value="">
 			<input type="button" id="editSubmit" class="editBtn" value="확인" /> 
 			<input type="button" id="editCancle" class="editBtn" value="취소" onclick="editCancle();" />
+	</div>
+	
+	<div id="backGround"></div> 
+	<div id="userListWrap">
+			<div id="title">
+				초대할 회원을 선택해주세요 
+			</div>
+			<div id="chosenMembers">
+			</div>
+			<div id="searchWrap">
+				<input id="search" type='text' value='' oninput="search(this,30)" placeholder=" 회원검색" autofocus/>
+			</div>
+			<div id="userList">
+				<!-- 회원리스트 -->
+			</div>
+			<div id="buttonWrap">
+				<div id="chatInviteWrap">
+					<input type="button" class="newChatBtn" id="chatInvite" value="초대" disabled='disabled'/>	
+				</div>
+				<div id="chatCancelWrap">
+					<input type="button" class="newChatBtn" id="chatCancel" value="취소" />				
+				</div>
+			</div>
 	</div>
 							
 </body>
@@ -715,6 +738,11 @@
 				$(".chatMenuBar").css("display","none");  	
 			} 
 		});   
+		
+		$(".inviteBtn").on("click",function(event){
+			
+			openInviteList();
+   		}); 
 	
 		
 		$("#test").on("click", function(event){
@@ -926,7 +954,6 @@
 			obj.focus();  
 		}
 		
-		
 		function openEdit(){
 			
 			 if(myId != "${chatTitleInfo.roomOwnerId}"){
@@ -955,6 +982,46 @@
 			editTitle.css("display","none"); 
 			inputTitle.val("");
 		}  
+		
+		function openInviteList(){
+			
+			var backGround = $("#backGround");
+			var userListWrap = $("#userListWrap");
+				backGround.css("display","block");
+				userListWrap.css("display","block");
+			
+			getChatInviteList( showInviteList, showError, chatRoomNum );
+		} 
+		
+		function getChatInviteList(callback, error, chatRoomNum ) {
+			
+			$.ajax({
+				type : 'get', 
+				url : '/getChatInviteList?chatRoomNum='+chatRoomNum, 
+				success : function(result, status, xhr) {
+					if (callback) {
+						callback(result, status);
+					}
+				},
+				error : function(xhr, status, er) {
+					if (error) {
+						error(status);
+					}
+				}
+			});
+		}
+		
+		function showError(status){
+	    	
+			if(status == "error"){ 
+				
+				openAlert("Server Error(관리자에게 문의해주세요)");
+			}
+    	}
+		
+		function showInviteList(userList, status){
+			
+		}
 		
 			
 </script>
