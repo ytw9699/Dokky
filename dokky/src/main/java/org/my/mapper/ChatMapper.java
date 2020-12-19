@@ -69,4 +69,8 @@ public interface ChatMapper {
 
 	int updateChatTitle(ChatRoomVO chatRoomVO);
 
+	String[] getExceptUsers(Long chatRoomNum);
+
+	List<MemberVO> getChatInviteList(@Param("exceptUsers")String[] exceptUsers, @Param("keyword")String keyword);
+
 }

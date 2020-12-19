@@ -182,7 +182,7 @@ public class ChatController {
 		
 		String userId = user.getUsername();
 		
-		List<MemberVO> chatUserList= chatService.getChatUserList(keyword,userId);
+		List<MemberVO> chatUserList= chatService.getChatUserList(keyword, userId);
 		
 		if(chatUserList != null) {
 			
@@ -225,5 +225,26 @@ public class ChatController {
 		return chatService.updateChatTitle(chatRoomVO) == 1 
 				? new ResponseEntity<>("success", HttpStatus.OK)
 				: new ResponseEntity<>(HttpStatus.INTERNAL_SERVER_ERROR);
+	}
+	
+	@PreAuthorize("hasAnyRole('ROLE_ADMIN','ROLE_USER','ROLE_SUPER')")
+	@ResponseBody
+	@GetMapping(value = "/getChatInviteList", produces = { MediaType.APPLICATION_JSON_UTF8_VALUE })
+	public ResponseEntity<List<MemberVO>> getChatInviteList(@RequestParam("chatRoomNum") Long chatRoomNum, @RequestParam(value = "keyword", required = false )String keyword){
+		
+		log.info("/getChatInviteList");
+		
+		String[] exceptUsers = chatService.getExceptUsers(chatRoomNum);
+		
+		List<MemberVO> chatUserList= chatService.getChatInviteList(exceptUsers, keyword);
+		
+		if(chatUserList != null) {
+			
+			return new ResponseEntity<>(chatUserList, HttpStatus.OK);
+			
+		}else {
+			
+			return new ResponseEntity<>(HttpStatus.INTERNAL_SERVER_ERROR);
+		}
 	}
 }

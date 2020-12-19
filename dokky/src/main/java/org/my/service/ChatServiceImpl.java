@@ -389,5 +389,23 @@ public class ChatServiceImpl implements ChatService {
 			
 			return chatMapper.updateChatTitle(chatRoomVO);
 		}
+		
+		@Override
+		public String[] getExceptUsers(Long chatRoomNum){
+			
+			log.info("getExceptUsers");
+			
+			return chatMapper.getExceptUsers(chatRoomNum);
+		}
+		
+
+		@Override
+		public List<MemberVO> getChatInviteList(String[] exceptUsers, String keyword){
+			
+			log.info("getChatInviteList");
+			
+			return chatMapper.getChatInviteList(exceptUsers, keyword);
+		}
+		
 }
 

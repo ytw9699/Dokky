@@ -268,6 +268,31 @@
 			update dk_chat_room set chat_title = #{chat_title} where chatRoomNum = #{chatRoomNum}
 	   </update>
 	   
+	    <select id="getChatInviteList" resultType="org.my.domain.MemberVO">
+	   		
+	   		select userId, nickName from dk_member 
+	   		
+	   		<trim prefix="where" prefixOverrides="and">
+				<foreach item='userId' collection="exceptUsers">
+					<trim prefix="and">
+						 userId != #{userId}
+					</trim>
+				</foreach>
+			</trim>
+			
+			<if test="keyword != null and keyword !='undefined' and keyword !=''">
+				              	   and nickName like '%'||#{keyword}||'%'
+			</if>
+				                
+	   		order by convert (nickName, 'US8ICL') asc
+	   		<!-- 한글 > 영문 > 숫자의 오름차순 -->
+	   		
+	   </select>
+	   	
+	   <select id="getExceptUsers" resultType="String">
+	   		select chat_memberId from dk_chat_member where chatRoomNum = #{chatRoomNum} and present_position = 0
+	   </select>
+
 </mapper>
 
 

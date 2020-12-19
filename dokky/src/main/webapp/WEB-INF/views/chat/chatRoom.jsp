@@ -48,8 +48,8 @@
 									··· 
 								</a>
 								<div class="chatMenuBar hideclass">
-									<div class="chatMenu inviteBtn hideclass"> 초대</div>
-									<div class="chatMenu hideclass" id="leave"> 나가기</div>
+									<div class="chatMenu inviteBtn hideclass">초대</div>
+									<div class="chatMenu hideclass" id="leave">나가기</div>
 							    </div> 
 							</div>
 					  </div>
@@ -90,11 +90,11 @@
 							</div>
 							<div class="chatRoomMenu">
 								<a href="#" class="chatMenuBtn"> 
-									··· 
+									···
 								</a>
 								<div class="chatMenuBar hideclass">
-									<div class="chatMenu hideclass"> 초대</div>
-									<div class="chatMenu hideclass" id="leave"> 나가기</div>
+									<div class="chatMenu inviteBtn hideclass">초대</div>
+									<div class="chatMenu hideclass" id="leave">나가기</div>
 							    </div> 
 							</div>
 			  			</div>
@@ -212,7 +212,7 @@
 			<div id="chosenMembers">
 			</div>
 			<div id="searchWrap">
-				<input id="search" type='text' value='' oninput="search(this,30)" placeholder=" 회원검색" autofocus/>
+				<input id="search" type='text' value='' oninput="search(this,30)" placeholder=" 회원을 검색해주세요" autofocus/>
 			</div>
 			<div id="userList">
 				<!-- 회원리스트 -->
@@ -724,11 +724,11 @@
 			
 		});
 		
-		$(".chatMenuBtn").on("click",function(event){//이동
+		$(".chatMenuBtn").on("click",function(event){
 			
-			event.preventDefault();
-		
-			$(".chatMenuBar").css("display","block"); 
+				event.preventDefault();
+			
+				$(".chatMenuBar").css("display","block"); 
 		});
 		
 		$('html').click(function(e){
@@ -743,7 +743,18 @@
 			
 			openInviteList();
    		}); 
-	
+
+		$("#chatCancel").on("click", function(event){
+			
+			closeUserList();	
+		});
+		
+		$("#chatInvite").on("click", function(event){
+			
+			var chosenUser = $(".chosenUser").get();
+			
+			inviteUser(chosenUser);
+		});
 		
 		$("#test").on("click", function(event){
 			chatWebSocket.close();
@@ -989,15 +1000,15 @@
 			var userListWrap = $("#userListWrap");
 				backGround.css("display","block");
 				userListWrap.css("display","block");
-			
+				
 			getChatInviteList( showInviteList, showError, chatRoomNum );
 		} 
 		
-		function getChatInviteList(callback, error, chatRoomNum ) {
+		function getChatInviteList(callback, error, chatRoomNum, keyword ) {
 			
 			$.ajax({
 				type : 'get', 
-				url : '/getChatInviteList?chatRoomNum='+chatRoomNum, 
+				url : '/getChatInviteList?chatRoomNum='+chatRoomNum+"&keyword="+keyword, 
 				success : function(result, status, xhr) {
 					if (callback) {
 						callback(result, status);
@@ -1019,10 +1030,146 @@
 			}
     	}
 		
-		function showInviteList(userList, status){
+		function showInviteList(inviteList, status){
 			
+			if(status == "success"){
+				
+				var length = inviteList.length;
+				var userList = $("#userList");
+				var str = "";
+				var nickName; 
+				var userId; 
+				
+				for (var i = 0; i < length || 0; i++){
+					
+				       nickName = inviteList[i].nickName; 
+				       userId = inviteList[i].userId;
+				      
+				   	   str += "<div class='userWrap' data-user_id='"+userId+"' data-nick_name='"+nickName+"'>"
+				   		   str +=  "<span class='userImage'>"; 
+							   if(serverName == 'localhost'){ 
+								   str += "<img src='/resources/img/profile_img/"+userId+".png?"+random+"' class='memberImage hideUsermenu' onerror='this.src=\"/resources/img/profile_img/basicProfile.png\"'/>&nbsp"
+										   
+							   }else{
+								   str += "<img src='/upload/"+userId+".png?"+random+"' class='memberImage hideUsermenu' onerror='this.src=\"/ROOT/resources/img/profile_img/basicProfile.png\"'/>&nbsp"
+							   }
+					   	   str +=  "</span>";  
+					   	   str +=  "<span class='userNickname'>"
+					   	   str +=		nickName
+					   	   str +=  "</span>"; 
+				   	   str +=  "</div>";  
+				}
+				
+				userList.html(str);
+				
+				$(".userWrap").on("click", function(event){
+					
+						var chosenMembers = $("#chosenMembers");
+						var str = $.trim(chosenMembers.html());
+						var user_id = $(this).data("user_id");
+						var nick_name = $(this).data("nick_name");
+						
+						if(str == ""){
+							
+							str += "<span id='user"+user_id+"' class='chosenUser' data-user_id='"+user_id+"' data-nick_name='"+nick_name+"'>"+nick_name+"</span>";
+							
+						}else{
+							
+							var chosenUser = $("#user"+user_id);
+							
+							if(chosenUser.length > 0){
+								
+								chosenUser.remove();
+								chosenMembers = $("#chosenMembers");
+								str = $.trim(chosenMembers.html());
+							
+							}else{
+								
+								str += "<span id='user"+user_id+"' class='chosenUser' data-user_id='"+user_id+"' data-nick_name='"+nick_name+"'> "+nick_name+"</span>";
+							}
+						}
+						
+				   		chosenMembers.html(str);
+				   		
+				   		var chosenUsers = $(".chosenUser");
+				   		
+				   		if(chosenUsers.length > 0 ){
+				   			
+				   			var chatInvite = $("#chatInvite");
+					   			chatInvite.attr("disabled", false);
+					   			chatInvite.css("background-color","#7151fc");
+					   			chatInvite.css("color","white");
+					   			
+				   		}else{
+				   			
+							var chatInvite = $("#chatInvite");
+					   			chatInvite.attr("disabled", true);
+					   			chatInvite.css("background-color","#EAEAEA");
+					   			chatInvite.css("color","gray");
+				   		}
+				});
+			}
+    	}
+		
+		function closeUserList(){
+			
+			var backGround = $("#backGround");
+			var userListWrap = $("#userListWrap");
+			backGround.css("display","none");
+			userListWrap.css("display","none");
+			
+			var chosenMembers = $("#chosenMembers");
+			
+			chosenMembers.html("");//선택한 멤버 초기화
+			
+			var search = $("#search");
+			
+			search.val("");//키워드 초기화
+			
+			var chatInvite = $("#chatInvite");//초대버튼 비활성화
+   			chatInvite.attr("disabled", true); 
+   			chatInvite.css("background-color","#EAEAEA");
+   			chatInvite.css("color","gray");
 		}
 		
+		function checkInputVal(obj, maxByte) { 
+			 
+			var str = obj.value; 
+			var stringByteLength = 0;
+			var reStr;
+				
+			stringByteLength = (function(s,b,i,c){
+				
+			    for(b=i=0; c=s.charCodeAt(i++);){
+			    
+				    b+=c>>11?3:c>>7?2:1;
+				    if (b > maxByte) { 
+				    	break;
+				    }
+				    
+				    reStr = str.substring(0,i);
+			    }
+			    
+			    return b
+			    
+			})(str);
+			
+			if (stringByteLength > maxByte) {          
+				obj.value = reStr;
+			}   
+			
+			obj.focus();  
+		}
+		
+		function search(obj, maxByte){
+			
+			checkInputVal(obj,30);
+			getChatInviteList( showInviteList, showError, chatRoomNum, obj.value );
+		}
+		
+		function inviteUser(chosenUser){
+			console.log(chosenUser);
+		}
 			
 </script>
 
