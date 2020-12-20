@@ -143,11 +143,6 @@ public class ChatController {
         return "chat/chatRoomList";
     } 
 	
-	
-	
-	
-	
-	
 	@PreAuthorize("principal.username == #vo.chat_memberId")
 	@ResponseBody
 	@PostMapping(value = "/readChat", consumes = "application/json", produces = "text/plain; charset=UTF-8")
@@ -247,4 +242,20 @@ public class ChatController {
 			return new ResponseEntity<>(HttpStatus.INTERNAL_SERVER_ERROR);
 		}
 	}
+	
+	@PreAuthorize("isAuthenticated()")
+	@ResponseBody
+	@PostMapping(value = "/inviteChatMembers", consumes = "application/json", produces = "text/plain; charset=UTF-8")
+	public ResponseEntity<String> inviteChatMembers(@RequestBody commonVO vo) throws IOException{
+	
+		log.info("/inviteChatMembers");
+		log.info(vo);
+		
+		boolean result = chatService.inviteChatMembers(vo.getChatMemberVO(), vo.getChatMemberVoArray());
+		
+		return result == true  
+					? new ResponseEntity<>(HttpStatus.OK)
+					: new ResponseEntity<>(HttpStatus.INTERNAL_SERVER_ERROR);
+	}
+	
 }

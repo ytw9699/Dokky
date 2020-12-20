@@ -1168,7 +1168,62 @@
 		}
 		
 		function inviteUser(chosenUser){
-			console.log(chosenUser);
+			
+			<sec:authorize access="isAuthenticated()">   
+				var myId = '${userInfo.username}';  
+				var myNickName = '${userInfo.member.nickName}';
+			</sec:authorize>
+			
+			if(myId == null){ 
+				
+				openAlert("로그인 해주세요"); 
+				
+				return;
+			}
+			
+			var chatRoomData = {   
+									chat_memberId : myId,
+									chat_memberNick : myNickName,
+									chatRoomNum :  chatRoomNum
+							   };
+			
+			var chatMemberVoArray = new Array(chosenUser.length); 
+			
+			for ( var i = 0; i < chosenUser.length; i++) {
+	        	
+				 var chatMemberData = {
+						
+										chat_memberId : $(chosenUser[i]).data("user_id"),
+										chat_memberNick : $(chosenUser[i]).data("nick_name"),
+										chatRoomNum :  chatRoomNum
+								  	};
+				
+				 chatMemberVoArray[i] = chatMemberData;
+	        }
+								
+			var commonData = { 
+								chatMemberVO : chatRoomData,
+								chatMemberVoArray : chatMemberVoArray
+				 			 };
+			
+			commonService.inviteChatMembers(commonData,  
+					
+			   		function(result, status){
+						
+						if(status == "success"){ 
+							
+							closeUserList();
+						}
+			    	},
+				    
+			    	function(status){
+			    	
+						if(status == "error"){ 
+							
+							openAlert("Server Error(관리자에게 문의해주세요)");
+						}
+			    	}
+		   	);
 		}
 			
 </script>

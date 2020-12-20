@@ -73,4 +73,10 @@ public interface ChatMapper {
 
 	List<MemberVO> getChatInviteList(@Param("exceptUsers")String[] exceptUsers, @Param("keyword")String keyword);
 
+	int getChat_type(Long chatRoomNum);
+	
+	int getMember(@Param("chatRoomNum") Long chatRoomNum, @Param("chat_memberId") String chat_memberId);
+
+	int updateChat_typeToMulti(Long chatRoomNum);
+
 }

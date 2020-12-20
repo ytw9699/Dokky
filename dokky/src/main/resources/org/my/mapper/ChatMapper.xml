@@ -292,6 +292,18 @@
 	   <select id="getExceptUsers" resultType="String">
 	   		select chat_memberId from dk_chat_member where chatRoomNum = #{chatRoomNum} and present_position = 0
 	   </select>
+	   
+       <select id="getChat_type" resultType="int">
+	   		select chat_type from dk_chat_room where chatRoomNum = #{chatRoomNum}
+	   </select>
+	   
+	   <select id="getMember" resultType="int">
+	   		select count(*) from dk_chat_member where chatRoomNum = #{chatRoomNum} and chat_memberId = #{chat_memberId}
+	   </select>
+	   
+	   <update id="updateChat_typeToMulti">
+	 	 	update dk_chat_room set chat_type = 1 where chatRoomNum = #{chatRoomNum}
+	   </update>
 
 </mapper>
 
