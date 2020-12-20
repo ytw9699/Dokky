@@ -177,11 +177,11 @@
 			
 			var chosenUser = $(".chosenUser").get();
 			
-			createMultiChat(chosenUser);
+			createChatRoom(chosenUser);
 		});
 		
 		
-		function createMultiChat(chosenUser){
+		function createChatRoom(chosenUser){
 			
 				<sec:authorize access="isAuthenticated()">   
 					var myId = '${userInfo.username}';  
@@ -231,7 +231,7 @@
 											chatMemberVO : chatMemberData
 							 			 };
 						 
-						commonService.makeSingleChat(commonData,  
+						commonService.createSingleChat(commonData,  
 									
 						   		function(result, status){
 								

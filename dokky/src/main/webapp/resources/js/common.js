@@ -384,11 +384,11 @@ var commonService = (function() {
 		})
 	}
 	
-	function makeSingleChat(commonData, callback, error) {
+	function createSingleChat(commonData, callback, error) {
 		
 		$.ajax({
 			type : 'post', 
-			url : '/makeSingleChat',  
+			url : '/createSingleChat',  
 			data : JSON.stringify(commonData), 
 			contentType : "application/json; charset=utf-8",
 			success : function(result, status, xhr) {
@@ -464,7 +464,7 @@ var commonService = (function() {
 		deleteScrapData : deleteScrapData,
 		insertNote : insertNote,
 		report : report,
-		makeSingleChat : makeSingleChat,
+		createSingleChat : createSingleChat,
 		createMultiChat : createMultiChat
 		/*download: download*/
 	};

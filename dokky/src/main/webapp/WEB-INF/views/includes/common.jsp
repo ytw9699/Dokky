@@ -590,7 +590,7 @@
 								chatMemberVO : chatMemberData
 				 			 };
 			
-			commonService.makeSingleChat(commonData,  
+			commonService.createSingleChat(commonData,
 		   			
 			   		function(result, status){
 					

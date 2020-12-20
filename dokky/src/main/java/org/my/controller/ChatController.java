@@ -41,10 +41,10 @@ public class ChatController {
 	
 	@PreAuthorize("principal.username == #vo.chatRoomVO.roomOwnerId")
 	@ResponseBody
-	@PostMapping(value = "/makeSingleChat", consumes = "application/json", produces = "text/plain; charset=UTF-8")
-	public ResponseEntity<String> makeSingleChat(@RequestBody commonVO vo) throws IOException{
+	@PostMapping(value = "/createSingleChat", consumes = "application/json", produces = "text/plain; charset=UTF-8")
+	public ResponseEntity<String> createSingleChat(@RequestBody commonVO vo) throws IOException{
 
-		 log.info("/makeSingleChat");
+		 log.info("/createSingleChat");
 		 log.info("vo : " + vo);
 		 
 		 String myId = vo.getChatRoomVO().getRoomOwnerId();
