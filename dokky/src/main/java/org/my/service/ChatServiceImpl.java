@@ -161,6 +161,7 @@ public class ChatServiceImpl implements ChatService {
 		public ChatMemberVO getChatMember(Long chatRoomNum, String userId){
 	    	
 	    	log.info("getChatMember");
+	    	log.info("getChatMember");
 	    	
 	        return chatMapper.getChatMember(chatRoomNum, userId);
 	    }
@@ -420,15 +421,105 @@ public class ChatServiceImpl implements ChatService {
 				chatContentVO.setChatRoomNum(chatRoomNum);
 				String chat_content = chatMemberVO.getChat_memberNick()+"님이 ";
 				
-				for(ChatMemberVO memberVO : chatMemberVoArray){
+				int headCount = chatMemberVoArray.length;
+	    		
+				if(chatMapper.updateHeadCount(chatRoomNum, headCount) != 1){
+					return false;
+				}	 
+				
+				int chat_type = chatMapper.getChat_type(chatRoomNum);
+				
+				if(chat_type == 0){//1:1채팅방이라면
 					
-					if(chatMapper.createChatMember(memberVO) != 1){//채팅 멤버들 입력
+					if(headCount == 1){
 						
-						return false;
+						if(chatMapper.getMember(chatRoomNum, chatMemberVoArray[0].getChat_memberId()) == 1){
+							//초대한 인원이 기존의 1:1채팅 멤버였다면 1:1채팅방 타입을 유지
+								
+							if(chatMapper.updatePresent_position(chatRoomNum, 0, chatMemberVoArray[0].getChat_memberId()) != 1){
+								
+								return false;
+							}
+							
+						}else{//초대한 인원이 기존의 1:1채팅 멤버가 아님
+							
+							if(chatMapper.createChatMember(chatMemberVoArray[0]) != 1){//채팅 멤버 입력
+								
+								return false;
+							}
+							
+							if(chatMapper.updateChat_typeToMulti(chatRoomNum) != 1){
+								
+								return false;
+							}
+						}
+						
+						chat_content += chatMemberVoArray[0].getChat_memberNick();
+						
+					}else if(headCount > 1){
+						
+						for(int i=0; i<chatMemberVoArray.length; i++){
+							
+							ChatMemberVO memberVO = chatMemberVoArray[i];
+							
+							if(chatMapper.getMember(chatRoomNum, memberVO.getChat_memberId()) == 1){
+								
+								if(chatMapper.updatePresent_position(chatRoomNum, 0, memberVO.getChat_memberId()) != 1){
+									
+									return false;
+								}
+								
+							}else{
+								
+								if(chatMapper.createChatMember(memberVO) != 1){
+									
+									return false;
+								}
+							}
+							
+							if(i != chatMemberVoArray.length-1) {
+								chat_content += memberVO.getChat_memberNick()+" ";
+								
+							}else {
+								chat_content += memberVO.getChat_memberNick();
+							}
+				    	}
+							
+						if(chatMapper.updateChat_typeToMulti(chatRoomNum) != 1){
+							return false;
+						}
 					}
 					
-					chat_content += memberVO.getChat_memberNick()+" ";
-		    	}
+				}else if(chat_type == 1){
+					
+					for(int i=0; i<chatMemberVoArray.length; i++){
+						
+						ChatMemberVO memberVO = chatMemberVoArray[i];
+						
+						if(chatMapper.getMember(chatRoomNum, memberVO.getChat_memberId()) == 1){
+							
+							if(chatMapper.updatePresent_position(chatRoomNum, 0, memberVO.getChat_memberId()) != 1){
+								
+								return false;
+							}
+							
+						}else{
+							
+							if(chatMapper.createChatMember(memberVO) != 1){
+								
+								return false;
+							}
+						}
+								
+						if(i != chatMemberVoArray.length-1) {
+							chat_content += memberVO.getChat_memberNick()+" ";
+							
+						}else {
+							chat_content += memberVO.getChat_memberNick();
+						}
+						
+					}
+				}
 				
 				chat_content += "님을 초대했습니다";
 				
@@ -441,38 +532,26 @@ public class ChatServiceImpl implements ChatService {
 				
 				Long chatContentNum =  chatContentVO.getChatContentNum();	
 				
-				for(ChatMemberVO memberVO : chatMemberVoArray){
+				List<ChatMemberVO> memberList = chatMapper.getChatMembers(chatRoomNum);
+				
+				for(ChatMemberVO memberVO : memberList){
 					
-					if(chatMapper.createChatReadType(chatRoomNum,  chatContentNum, memberVO.getChat_memberId(), memberVO.getChat_memberNick(), 1) != 1){
+					if(chatMapper.createChatReadType(chatRoomNum, chatContentNum, memberVO.getChat_memberId(), memberVO.getChat_memberNick(), 1) != 1){
 						//멤버들 읽음 테이블 입력
 						return false;
 					}
 		    	}
 				
-	    		if(chatMapper.createChatReadType(chatRoomNum, chatContentNum , chatMemberVO.getChat_memberId(), chatMemberVO.getChat_memberNick(), 1) != 1){
-	    			//방장도 읽음 테이블 입력
-	    			return false;
-	    		}
-	    	
-	    		int headCount = chatMemberVoArray.length;
-	    		
-				if(chatMapper.updateHeadCount(chatRoomNum, headCount) != 1){
-					return false;
-				}	 
-				
-				int chat_type = chatMapper.getChat_type(chatRoomNum);
-				
-				if(chat_type == 0){//1:1채팅방이라면
-					if(headCount == 1){
-						if(chatMapper.getMember(chatRoomNum, chatMemberVoArray[0].getChat_memberId()) == 0) {
-							if(chatMapper.updateChat_typeToMulti(chatRoomNum) != 1){
-								return false;
-							}
-						}
-					}
-				}
-				
 				return true;
+		}
+		
+		
+		@Override
+		public int getChat_type(Long chatRoomNum){
+			
+			log.info("getChat_type");
+			
+			return chatMapper.getChat_type(chatRoomNum);
 		}
 }
 
