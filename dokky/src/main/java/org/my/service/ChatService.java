@@ -61,5 +61,7 @@ public interface ChatService {
 	public List<MemberVO> getChatInviteList(String[] exceptUsers, String keyword);
 
 	public boolean inviteChatMembers(ChatMemberVO chatMemberVO, ChatMemberVO[] chatMemberVoArray);
+
+	public int getChat_type(Long chatRoomNum);
 	
 }

@@ -108,16 +108,19 @@ public class ChatController {
 	
 	@PreAuthorize("principal.username == #userId")
 	@GetMapping("/chatRoom/{chatRoomNum}")
-	public String getChatRoom(@PathVariable Long chatRoomNum, @RequestParam("chat_type")int chat_type, @RequestParam("userId")String userId, Model model){
+	public String getChatRoom(@PathVariable Long chatRoomNum, @RequestParam("userId")String userId, Model model){
 	    	
     	log.info("/getChatRoom/"+chatRoomNum);
     
     	Date recentOutDate = chatService.getRecentOutDate(chatRoomNum, userId);
     	
     	model.addAttribute("chatContents", chatService.getChatContents(chatRoomNum, recentOutDate, userId));//채팅방의 메시지들
+
+    	int chat_type = chatService.getChat_type(chatRoomNum);
     	
     	if(chat_type == 0) {//1:1채팅방의 경우
     		model.addAttribute("chatMember", chatService.getChatMember(chatRoomNum, userId));//채팅방의 제목에 들어갈 상대방 정보
+    		
     	}else if(chat_type == 1) {//멀티채팅방의 경우
     		model.addAttribute("chatTitleInfo", chatService.getChatTitleInfo(chatRoomNum));//멀티 채팅방의 제목,방장 아이디,닉네임
     		model.addAttribute("chatMembers", chatService.getMultiroomMembers(chatRoomNum));//멀티 채팅방의 멤버들 아이디,닉네임

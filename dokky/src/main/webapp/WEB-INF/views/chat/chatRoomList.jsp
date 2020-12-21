@@ -243,7 +243,7 @@
 						
 										var popupY= (window.screen.height /2) - (500 / 2);
 										
-										window.open('/chatRoom/'+result+'?userId='+myId+'&chat_type=0', "title"+result, 'height=500, width=400, screenX='+ popupX + ', screenY= '+ popupY);
+										window.open('/chatRoom/'+result+'?userId='+myId, "title"+result, 'height=500, width=400, screenX='+ popupX + ', screenY= '+ popupY);
 									}
 						    	},
 							    
@@ -286,7 +286,7 @@
 				
 										var popupY= (window.screen.height /2) - (500 / 2);
 										
-										window.open('/chatRoom/'+result+'?userId='+myId+'&chat_type=1', "title"+result, 'height=500, width=400, screenX='+ popupX + ', screenY= '+ popupY);
+										window.open('/chatRoom/'+result+'?userId='+myId, "title"+result, 'height=500, width=400, screenX='+ popupX + ', screenY= '+ popupY);
 									}
 						    	},
 							    
@@ -320,7 +320,7 @@
 			
 			var popupY= (window.screen.height /2) - (500 / 2);
 			
-			window.open('/chatRoom/'+chatroom_num+'?userId='+myId+'&chat_type=1', "title"+chatroom_num, 'height=500, width=400, screenX='+ popupX + ', screenY= '+ popupY);
+			window.open('/chatRoom/'+chatroom_num+'?userId='+myId, "title"+chatroom_num, 'height=500, width=400, screenX='+ popupX + ', screenY= '+ popupY);
 		});
 		
 		function openUserList(){
