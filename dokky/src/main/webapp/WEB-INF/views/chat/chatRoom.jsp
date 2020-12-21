@@ -1189,7 +1189,7 @@
 			
 			var chatMemberVoArray = new Array(chosenUser.length); 
 			
-			for ( var i = 0; i < chosenUser.length; i++) {
+			for(var i = 0; i<chosenUser.length; i++) {
 	        	
 				 var chatMemberData = {
 						
@@ -1211,6 +1211,8 @@
 			   		function(result, status){
 						
 						if(status == "success"){ 
+							
+							console.log("invited ChatMembers");
 							
 							closeUserList();
 						}
