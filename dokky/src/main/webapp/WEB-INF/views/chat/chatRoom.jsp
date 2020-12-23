@@ -502,6 +502,32 @@
 					}else if(obj.type == 'TITLE'){
 						
 						$(".innerTitle").html(obj.message);
+						
+					}else if(obj.type == 'INVITE'){
+						
+						var getMessgae = obj.message;
+						
+						chatroom.innerHTML = chatroom.innerHTML + "<div class='chat_wrap notice'>"
+																	+ "<span class='chat_notice_content'>"
+																	 + getMessgae
+															 	+ "</span>"
+																 + "</div>";
+																 
+						headCount = obj.headCount;
+						
+						if(commonWebSocket != null){
+							commonWebSocket.send("chatAlarm,"+myId);
+						}
+						
+						console.log(obj.memberNicks);	
+						console.log(obj.memberIds);	
+						
+					      var memberIdArr = obj.memberIds.split(',');
+					      
+					      for ( var i in memberIdArr ) {
+					    	  console.log(memberIdArr[i]);	
+					      }
+						
 					}
 			
 					if(isBottom == true){//스크롤이 맨 하단에서 감지된다면
@@ -1213,6 +1239,10 @@
 						if(status == "success"){ 
 							
 							console.log("invited ChatMembers");
+							
+							/* if(chatWebSocket != null){
+								chatWebSocket.send(JSON.stringify({chatRoomNum : chatRoomNum, type:'INVITE', message : title}));	
+							} */
 							
 							closeUserList();
 						}

@@ -45,6 +45,8 @@ public class ChatRoom {
         
         }else if(chatMessage.getType() == ChatMessageType.INVITE){
         	
+        	send(chatMessage);
+        	
 	    }else if(chatMessage.getType() == ChatMessageType.TITLE){
 	    	
 	    	log.info("chat session = "+session);
@@ -111,7 +113,14 @@ public class ChatRoom {
             	
             	customMessage = 	"{\"message\":\""+chatMessage.getMessage()+
 				    					"\", \"type\":\""+chatMessage.getType()+"\"}";
-	            }	
+            }else if(chatMessage.getType() == ChatMessageType.INVITE){
+            	
+            	customMessage = 	"{\"message\":\""+chatMessage.getMessage()+
+            							"\", \"headCount\":\""+chatMessage.getHeadCount()+
+            							"\", \"memberNicks\":\""+chatMessage.getMemberNicks()+
+            							"\", \"memberIds\":\""+chatMessage.getMemberIds()+
+				    					"\", \"type\":\""+chatMessage.getType()+"\"}";
+            }		
         	
         	TextMessage textMessage = new TextMessage(customMessage); 
         	

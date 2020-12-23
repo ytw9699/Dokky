@@ -1,4 +1,5 @@
 package org.my.service;
+	import java.io.IOException;
 	import java.util.ArrayList;//임포트 해주자
 	import java.util.Date;
 	import java.util.LinkedHashMap;
@@ -6,6 +7,7 @@ package org.my.service;
 	import java.util.Map;
 	import org.my.domain.ChatContentVO;
 	import org.my.domain.ChatMemberVO;
+	import org.my.domain.ChatMessage;
 	import org.my.domain.ChatReadVO;
 	import org.my.domain.ChatRoom;
 	import org.my.domain.ChatRoomVO;
@@ -18,6 +20,7 @@ package org.my.service;
 	import org.springframework.transaction.annotation.Transactional;
 	import lombok.Setter;
 	import lombok.extern.log4j.Log4j;
+	import org.my.domain.ChatMessageType;
 
 @Service
 @Log4j
@@ -25,7 +28,7 @@ public class ChatServiceImpl implements ChatService {
 	
 		@Setter(onMethod_ = @Autowired)
 		private ChatMapper chatMapper;
-	
+		
 		private Map<String, ChatRoom> chatRoomMap = new LinkedHashMap<>();
 	
 		
@@ -542,9 +545,40 @@ public class ChatServiceImpl implements ChatService {
 					}
 		    	}
 				
+				String memberIds = "";
+				String memberNicks = "";
+				
+				for(int i=0; i<memberList.size(); i++){
+					
+					ChatMemberVO memberVO = memberList.get(i);
+					
+					if(i == memberList.size()-1){
+						memberNicks += memberVO.getChat_memberNick();
+						memberIds += memberVO.getChat_memberId();
+					}else {
+						memberNicks += memberVO.getChat_memberNick()+", ";
+						memberIds += memberVO.getChat_memberId()+",";
+					}
+					
+				}
+				
+				ChatRoom chatRoom = findChatRoom(chatRoomNum.toString());
+				
+				ChatMessage chatMessage = new ChatMessage();
+				chatMessage.setHeadCount(headCount);
+				chatMessage.setType(ChatMessageType.INVITE);
+				chatMessage.setMessage(chat_content);
+				chatMessage.setMemberIds(memberIds);
+				chatMessage.setMemberNicks(memberNicks);
+				
+				try {
+					chatRoom.handleMessage(null, chatMessage);
+				} catch (IOException e) {
+					e.printStackTrace();
+				}
+				
 				return true;
 		}
-		
 		
 		@Override
 		public int getChat_type(Long chatRoomNum){
