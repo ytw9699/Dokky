@@ -261,4 +261,25 @@ public class ChatController {
 					: new ResponseEntity<>(HttpStatus.INTERNAL_SERVER_ERROR);
 	}
 	
+	@GetMapping(value = "/chat_type", produces = MediaType.APPLICATION_JSON_UTF8_VALUE)
+	@ResponseBody
+	public ResponseEntity<String> getChat_type(Long chatRoomNum) {
+	
+		log.info("getChat_type");
+									
+		int chat_type = chatService.getChat_type(chatRoomNum);
+		
+		if(chat_type == 1) {
+			
+			return new ResponseEntity<>("1", HttpStatus.OK);
+			
+		}else if(chat_type == 0){
+			
+			return new ResponseEntity<>("0", HttpStatus.OK);
+			
+		}else {
+			
+			return new ResponseEntity<>(HttpStatus.INTERNAL_SERVER_ERROR);
+		}
+	}
 }

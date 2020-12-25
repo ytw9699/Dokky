@@ -512,22 +512,58 @@
 																	 + getMessgae
 															 	+ "</span>"
 																 + "</div>";
-																 
 						headCount = obj.headCount;
 						
 						if(commonWebSocket != null){
 							commonWebSocket.send("chatAlarm,"+myId);
 						}
 						
-						console.log(obj.memberNicks);	
-						console.log(obj.memberIds);	
-						
-					      var memberIdArr = obj.memberIds.split(',');
-					      
-					      for ( var i in memberIdArr ) {
-					    	  console.log(memberIdArr[i]);	
-					      }
-						
+						commonService.getChat_type(chatRoomNum,  
+								
+						   		function(result, status){
+								
+									if(result == "1"){//멀티채팅방이라면 
+										
+										$(".innerTitle").html(obj.memberNicks);
+									
+									    var memberIdArr = obj.memberIds.split(',');
+									    
+									    var headCount = memberIdArr.length;
+									    
+									    $(".memberCount").html("("+headCount+")");
+									     
+									   	var imgStr ="";
+									   	
+									    for(var i in memberIdArr){
+									    	
+									    	if(i < 4){
+									    		
+										    	if(serverName == 'localhost'){ 
+										    		
+										    		imgStr += "<img src='/resources/img/profile_img/"+memberIdArr[i]+".png?"+random+"' class='multiMemberImage' onerror='this.src=\"/resources/img/profile_img/basicProfile.png\"'/>&nbsp"
+															   
+												}else{
+													
+													imgStr += "<img src='/upload/"+memberIdArr[i]+".png?"+random+"' class='multiMemberImage' onerror='this.src=\"/ROOT/resources/img/profile_img/basicProfile.png\"'/>&nbsp"
+												}	
+									    	}
+									    }
+									    
+									    $(".allMemberImage").html(imgStr);
+									    
+									}else if(result == "0"){//1:1채팅방이라면
+										
+									}
+						    	},
+							    
+						    	function(status){
+						    	
+									if(status == "error"){ 
+										
+										openAlert("Server Error(관리자에게 문의해주세요)");
+									}
+						    	}
+						);
 					}
 			
 					if(isBottom == true){//스크롤이 맨 하단에서 감지된다면

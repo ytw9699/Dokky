@@ -444,6 +444,20 @@ var commonService = (function() {
 		});
 	}
 	
+	function getChat_type(chatRoomNum, callback, error){
+
+		$.get("/chat_type?chatRoomNum=" + chatRoomNum, function(result, status){
+
+			if (callback) {
+				callback(result, status);
+			}
+
+		}).fail(function(xhr, status, err) {
+			if (error) {
+				error(status);
+			}
+		});
+	}
 	
 	/*function download(path, callback, error) {
 		console.log("download...............");  
@@ -486,7 +500,8 @@ var commonService = (function() {
 		report : report,
 		createSingleChat : createSingleChat,
 		createMultiChat : createMultiChat,
-		inviteChatMembers : inviteChatMembers
+		inviteChatMembers : inviteChatMembers,
+		getChat_type : getChat_type
 		/*download: download*/
 	};
 
