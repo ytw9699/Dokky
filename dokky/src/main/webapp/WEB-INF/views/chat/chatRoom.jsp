@@ -550,6 +550,10 @@
 													
 													imgStr += "<img src='/upload/"+memberIdArr[i]+".png?"+random+"' class='multiMemberImage' onerror='this.src=\"/ROOT/resources/img/profile_img/basicProfile.png\"'/>&nbsp"
 												}	
+										    	
+										    	if(commonWebSocket != null){
+									        		commonWebSocket.send("chatAlarm,"+memberIdArr[i]);
+												}
 									    	}
 									    }
 									    
