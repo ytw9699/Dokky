@@ -470,6 +470,12 @@
 							 window.close();
 						 }
 						 
+						 setTimeout(function() {
+								 if(commonWebSocket != null){
+										commonWebSocket.send("chatAlarm,"+myId);
+								 } 
+						 }, 1000);
+						 
 					}else if(obj.type == 'READ'){
 						
 						 var chatContentNum = obj.chatContentNum;
@@ -554,7 +560,7 @@
 									}else if(result == "0"){//1:1채팅방이라면
 										
 										if(commonWebSocket != null){
-											var chat_memberId="${chatMember.chat_memberId}"; 
+											var chat_memberId="${chatMember.chat_memberId}";
 							        		commonWebSocket.send("chatAlarm,"+chat_memberId);
 										}
 									}
@@ -732,6 +738,11 @@
 			
 			leave();
 			chatWebSocket = null;
+			
+			if(commonWebSocket != null){
+				commonWebSocket.send("chatAlarm,"+myId);
+			}
+			
 			window.close();
 		});
 		
