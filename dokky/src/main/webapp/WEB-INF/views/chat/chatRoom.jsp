@@ -553,6 +553,10 @@
 									    
 									}else if(result == "0"){//1:1채팅방이라면
 										
+										if(commonWebSocket != null){
+											var chat_memberId="${chatMember.chat_memberId}"; 
+							        		commonWebSocket.send("chatAlarm,"+chat_memberId);
+										}
 									}
 						    	},
 							    
