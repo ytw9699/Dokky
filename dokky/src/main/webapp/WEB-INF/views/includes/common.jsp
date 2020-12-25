@@ -233,10 +233,14 @@
 					    	chatCount.html(result);
 				 	 });
 					 
-					 if( typeof reChatRoomList == 'function' ) {
-						 
-						 reChatRoomList();
-					 }
+					 setTimeout(function() {
+							
+						 if( typeof reChatRoomList == 'function' ) {
+							 
+							 reChatRoomList();
+						 }
+							
+					 }, 100); 
 					
 				}else if(event.data == 'limitAndLogoutSuccessMessageToUser'){
 					 

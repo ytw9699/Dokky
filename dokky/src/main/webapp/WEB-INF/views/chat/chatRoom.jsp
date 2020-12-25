@@ -470,11 +470,9 @@
 							 window.close();
 						 }
 						 
-						 setTimeout(function() {
-								 if(commonWebSocket != null){
-										commonWebSocket.send("chatAlarm,"+myId);
-								 } 
-						 }, 1000);
+						 if(commonWebSocket != null){
+								commonWebSocket.send("chatAlarm,"+myId);
+						 } 
 						 
 					}else if(obj.type == 'READ'){
 						
@@ -707,6 +705,10 @@
 			console.log("chatWebsocket leave");
 			
 			chatWebSocket.send(JSON.stringify({chatRoomNum : chatRoomNum, type : 'LEAVE', chat_writerId : myId , chat_writerNick: myNickName }));
+			
+		 	if(commonWebSocket != null){
+				commonWebSocket.send("chatAlarm,"+myId);
+			}
 		}
 		
 		window.onbeforeunload = function() {//브라우저 종료 및 닫기 감지
@@ -738,11 +740,6 @@
 			
 			leave();
 			chatWebSocket = null;
-			
-			if(commonWebSocket != null){
-				commonWebSocket.send("chatAlarm,"+myId);
-			}
-			
 			window.close();
 		});
 		

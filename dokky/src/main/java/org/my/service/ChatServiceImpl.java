@@ -271,7 +271,7 @@ public class ChatServiceImpl implements ChatService {
 	    		
 	    	log.info("updateRoomStatus");
 	    	
-	    	return chatMapper.updateHeadCount(chatRoomNum, changeCount) == 1 && chatMapper.updatePresent_position(chatRoomNum, changePosition, chat_writerId) == 1;
+	    	return chatMapper.updatePresent_position(chatRoomNum, changePosition, chat_writerId) == 1 && chatMapper.updateHeadCount(chatRoomNum, changeCount) == 1;
 		}
 		
 		@Override
