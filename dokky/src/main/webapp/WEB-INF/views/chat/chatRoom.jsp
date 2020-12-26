@@ -206,7 +206,7 @@
 	
 	<div id="backGround"></div> 
 	<div id="userListWrap">
-			<div id="title">
+			<div class="title">
 				초대할 회원을 선택해주세요 
 			</div>
 			<div id="chosenMembers">
@@ -217,12 +217,23 @@
 			<div id="userList">
 				<!-- 회원리스트 -->
 			</div>
-			<div id="buttonWrap">
+			<div class="buttonWrap">
 				<div id="chatInviteWrap">
-					<input type="button" class="newChatBtn" id="chatInvite" value="초대" disabled='disabled'/>	
+					<input type="button" id="chatInvite" value="초대" disabled='disabled'/>	
 				</div>
-				<div id="chatCancelWrap">
-					<input type="button" class="newChatBtn" id="chatCancel" value="취소" />				
+				<div class="chatCancelWrap">
+					<input type="button" id="chatCancel" value="취소" />				
+				</div>
+			</div>
+	</div>
+	<div id="chatMemberListWrap">
+			<div id="chatMemberList">
+			</div>
+			<div class="buttonWrap">
+				<div class="chatCancelWrap">
+				</div>
+				<div class="chatCancelWrap">
+					<input type="button" id="memberListCancel" value="닫기" />				
 				</div>
 			</div>
 	</div>
@@ -546,11 +557,11 @@
 													
 													imgStr += "<img src='/upload/"+memberIdArr[i]+".png?"+random+"' class='multiMemberImage' onerror='this.src=\"/ROOT/resources/img/profile_img/basicProfile.png\"'/>&nbsp"
 												}	
-										    	
-										    	if(commonWebSocket != null){
-									        		commonWebSocket.send("chatAlarm,"+memberIdArr[i]);
-												}
 									    	}
+									    	
+									    	if(commonWebSocket != null){
+								        		commonWebSocket.send("chatAlarm,"+memberIdArr[i]);
+											}
 									    }
 									    
 									    $(".allMemberImage").html(imgStr);
@@ -649,8 +660,6 @@
 				
 				console.log("chatWebsocket send");
 				
-				console.log("headCount="+headCount);
-				
 		        chatWebSocket.send(JSON.stringify({chatRoomNum : chatRoomNum, type:'CHAT', message : messageVal, chat_writerId:myId , chat_writerNick: myNickName , headCount:headCount}));
 		        
 		        message.val("");
@@ -713,6 +722,9 @@
 					if(status == "success"){
 						
 						if(commonWebSocket != null){
+							
+							commonWebSocket.send("chatAlarm,"+myId);
+							
 							for(var i in result){
 								commonWebSocket.send("chatAlarm,"+result[i].chat_memberId);	
 							}
@@ -847,6 +859,11 @@
 			var chosenUser = $(".chosenUser").get();
 			
 			inviteUser(chosenUser);
+		});
+		
+		$(".allMemberImage").on("click", function(event){
+			
+			openChatMemberList(); 
 		});
 		
 		$("#test").on("click", function(event){
@@ -1097,6 +1114,34 @@
 			getChatInviteList( showInviteList, showError, chatRoomNum );
 		} 
 		
+		function openChatMemberList(){
+			
+			var backGround = $("#backGround");
+			var chatMemberListWrap = $("#chatMemberListWrap");
+				backGround.css("display","block");
+				chatMemberListWrap.css("display","block");
+				
+			getChatMemberList(chatRoomNum, showChatMemberList, showError);
+		} 
+		
+		function getChatMemberList(chatRoomNum, callback, error) {
+			
+			$.ajax({
+				type : 'get', 
+				url : '/getChatMemberList?chatRoomNum='+chatRoomNum, 
+				success : function(result, status, xhr) {
+					if (callback) {
+						callback(result, status);
+					}
+				},
+				error : function(xhr, status, er) {
+					if (error) {
+						error(status);
+					}
+				}
+			});
+		}
+		
 		function getChatInviteList(callback, error, chatRoomNum, keyword ) {
 			
 			$.ajax({
@@ -1122,6 +1167,10 @@
 				openAlert("Server Error(관리자에게 문의해주세요)");
 			}
     	}
+		
+		function showChatMemberList(result, status){
+			
+		}
 		
 		function showInviteList(inviteList, status){
 			
@@ -1306,10 +1355,6 @@
 						if(status == "success"){ 
 							
 							console.log("invited ChatMembers");
-							
-							/* if(chatWebSocket != null){
-								chatWebSocket.send(JSON.stringify({chatRoomNum : chatRoomNum, type:'INVITE', message : title}));	
-							} */
 							
 							closeUserList();
 						}
