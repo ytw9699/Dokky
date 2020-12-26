@@ -3,6 +3,7 @@ package org.my.controller;
 	import java.util.Date;
 	import java.util.List;
 	import org.my.domain.ChatContentVO;
+	import org.my.domain.ChatMemberVO;
 	import org.my.domain.ChatMessage;
 	import org.my.domain.ChatMessageType;
 	import org.my.domain.ChatReadVO;
@@ -282,4 +283,24 @@ public class ChatController {
 			return new ResponseEntity<>(HttpStatus.INTERNAL_SERVER_ERROR);
 		}
 	}
+	
+	@PreAuthorize("hasAnyRole('ROLE_ADMIN','ROLE_USER','ROLE_SUPER')")
+	@ResponseBody
+	@GetMapping(value = "/getChatRoomMembers", produces = { MediaType.APPLICATION_JSON_UTF8_VALUE })
+	public ResponseEntity<List<ChatMemberVO>> getChatRoomMembers(Long chatRoomNum) {
+		
+		log.info("/getChatRoomMembers");
+		
+		List<ChatMemberVO> chatRoomMembers= chatService.getChatRoomMembers(chatRoomNum);
+		
+		if(chatRoomMembers != null){
+			
+			return new ResponseEntity<>(chatRoomMembers, HttpStatus.OK);
+			
+		}else{
+			
+			return new ResponseEntity<>(HttpStatus.INTERNAL_SERVER_ERROR);
+		}
+	}
+	
 }

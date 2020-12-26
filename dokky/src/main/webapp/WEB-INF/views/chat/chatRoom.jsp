@@ -470,10 +470,6 @@
 							 window.close();
 						 }
 						 
-						 if(commonWebSocket != null){
-								commonWebSocket.send("chatAlarm,"+myId);
-						 } 
-						 
 					}else if(obj.type == 'READ'){
 						
 						 var chatContentNum = obj.chatContentNum;
@@ -710,9 +706,30 @@
 			
 			chatWebSocket.send(JSON.stringify({chatRoomNum : chatRoomNum, type : 'LEAVE', chat_writerId : myId , chat_writerNick: myNickName }));
 			
-		 	if(commonWebSocket != null){
-				commonWebSocket.send("chatAlarm,"+myId);
-			}
+			commonService.getChatRoomMembers(chatRoomNum,
+				
+				function(result, status){
+					
+					if(status == "success"){
+						
+						if(commonWebSocket != null){
+							for(var i in result){
+								commonWebSocket.send("chatAlarm,"+result[i].chat_memberId);	
+							}
+						}
+						
+						window.close();
+					}
+				},
+			    
+		    	function(status){
+		    	
+					if(status == "error"){
+						
+						openAlert("Server Error(관리자에게 문의해주세요)");
+					}
+		    	}		
+			);
 		}
 		
 		window.onbeforeunload = function() {//브라우저 종료 및 닫기 감지
@@ -743,8 +760,6 @@
 		$("#leave").on("click", function(event){//방 나가기
 			
 			leave();
-			chatWebSocket = null;
-			window.close();
 		});
 		
 		$("#editSubmit").on("click", function(event){

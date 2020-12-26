@@ -587,5 +587,12 @@ public class ChatServiceImpl implements ChatService {
 			
 			return chatMapper.getChat_type(chatRoomNum);
 		}
+		
+		@Override
+		public List<ChatMemberVO> getChatRoomMembers(Long chatRoomNum){
+			log.info("getChatRoomMembers");
+			
+			return chatMapper.getChatRoomMembers(chatRoomNum);
+		}
 }
 

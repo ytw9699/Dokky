@@ -304,6 +304,10 @@
 	   <update id="updateChat_typeToMulti">
 	 	 	update dk_chat_room set chat_type = 1 where chatRoomNum = #{chatRoomNum}
 	   </update>
+	   
+	   <select id="getChatRoomMembers" resultType="org.my.domain.ChatMemberVO">
+	   		select chat_memberId, chat_memberNick from dk_chat_member where chatRoomNum = #{chatRoomNum} and present_position = 0
+	   </select>
 
 </mapper>
 

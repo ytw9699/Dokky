@@ -79,4 +79,6 @@ public interface ChatMapper {
 
 	int updateChat_typeToMulti(Long chatRoomNum);
 
+	List<ChatMemberVO> getChatRoomMembers(Long chatRoomNum);
+
 }

@@ -459,6 +459,24 @@ var commonService = (function() {
 		});
 	}
 	
+	function getChatRoomMembers(chatRoomNum, callback, error) {
+		
+		$.ajax({
+			type : 'get', 
+			url : '/getChatRoomMembers?chatRoomNum='+chatRoomNum, 
+			success : function(result, status, xhr) {
+				if (callback) {
+					callback(result, status);
+				}
+			},
+			error : function(xhr, status, er) {
+				if (error) {
+					error(status);
+				}
+			}
+		});
+	}
+	
 	/*function download(path, callback, error) {
 		console.log("download...............");  
 		 
@@ -501,7 +519,8 @@ var commonService = (function() {
 		createSingleChat : createSingleChat,
 		createMultiChat : createMultiChat,
 		inviteChatMembers : inviteChatMembers,
-		getChat_type : getChat_type
+		getChat_type : getChat_type,
+		getChatRoomMembers : getChatRoomMembers
 		/*download: download*/
 	};
 

@@ -63,5 +63,8 @@ public interface ChatService {
 	public boolean inviteChatMembers(ChatMemberVO chatMemberVO, ChatMemberVO[] chatMemberVoArray);
 
 	public int getChat_type(Long chatRoomNum);
+
+	public List<ChatMemberVO> getChatRoomMembers(Long chatRoomNum);
+
 	
 }
