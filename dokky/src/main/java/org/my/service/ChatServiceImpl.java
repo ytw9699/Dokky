@@ -164,7 +164,6 @@ public class ChatServiceImpl implements ChatService {
 		public ChatMemberVO getChatMember(Long chatRoomNum, String userId){
 	    	
 	    	log.info("getChatMember");
-	    	log.info("getChatMember");
 	    	
 	        return chatMapper.getChatMember(chatRoomNum, userId);
 	    }
@@ -590,9 +589,10 @@ public class ChatServiceImpl implements ChatService {
 		
 		@Override
 		public List<ChatMemberVO> getChatRoomMembers(Long chatRoomNum){
+			
 			log.info("getChatRoomMembers");
 			
-			return chatMapper.getChatRoomMembers(chatRoomNum);
+			return chatMapper.getChatMembers(chatRoomNum);
 		}
 }
 

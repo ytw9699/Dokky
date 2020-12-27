@@ -495,6 +495,8 @@
 		    border-radius: 10px;
 		    margin-bottom: 4%;
 		    margin-top: 4%;
+		    max-height: 230px;
+		    overflow-y: scroll;
 		}
 		
 		#memberListCancel{
@@ -508,3 +510,22 @@
 		    width: 100%;
 		    margin-left: 1%;
 		}
+		
+		.chatMemberListTitle{
+			width: 118%;
+		    height: 30px;
+		    color: #7151fc;
+		    font-size: 16px;
+		    font-weight: 900;
+		    margin-bottom: 2%;
+		    margin-left: 22%;
+		}
+		
+		.chatUserWrap{
+			width: 90%;
+		    margin-left: 5%;
+		    margin-top: 2%;
+		}
+		
+		
+		

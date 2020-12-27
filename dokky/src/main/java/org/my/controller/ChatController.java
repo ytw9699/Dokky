@@ -291,7 +291,7 @@ public class ChatController {
 		
 		log.info("/getChatRoomMembers");
 		
-		List<ChatMemberVO> chatRoomMembers= chatService.getChatRoomMembers(chatRoomNum);
+		List<ChatMemberVO> chatRoomMembers = chatService.getChatRoomMembers(chatRoomNum);
 		
 		if(chatRoomMembers != null){
 			
@@ -302,5 +302,6 @@ public class ChatController {
 			return new ResponseEntity<>(HttpStatus.INTERNAL_SERVER_ERROR);
 		}
 	}
+	
 	
 }

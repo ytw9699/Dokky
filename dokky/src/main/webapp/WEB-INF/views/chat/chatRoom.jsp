@@ -227,6 +227,9 @@
 			</div>
 	</div>
 	<div id="chatMemberListWrap">
+			<div class="chatMemberListTitle">
+				채팅방 멤버 
+			</div>
 			<div id="chatMemberList">
 			</div>
 			<div class="buttonWrap">
@@ -410,7 +413,7 @@
 									    	
 												if(status == "error"){ 
 													
-													openAlert("Server Error(관리자에게 문의해주세요)");
+													openAlert("Server Error");
 												}
 									    	}
 									 );
@@ -579,7 +582,7 @@
 						    	
 									if(status == "error"){ 
 										
-										openAlert("Server Error(관리자에게 문의해주세요)");
+										openAlert("Server Error");
 									}
 						    	}
 						);
@@ -738,7 +741,7 @@
 		    	
 					if(status == "error"){
 						
-						openAlert("Server Error(관리자에게 문의해주세요)");
+						openAlert("Server Error");
 					}
 		    	}		
 			);
@@ -821,7 +824,7 @@
 						if(status == "error"){
 							
 							editCancle();
-							openAlert("Server Error(관리자에게 문의해주세요)");
+							openAlert("Server Error");
 						}
 			    	}
 			
@@ -864,6 +867,14 @@
 		$(".allMemberImage").on("click", function(event){
 			
 			openChatMemberList(); 
+		});
+		
+		$("#memberListCancel").on("click", function(event){
+			
+			var backGround = $("#backGround");
+			var chatMemberListWrap = $("#chatMemberListWrap");
+				backGround.css("display","none");
+				chatMemberListWrap.css("display","none");
 		});
 		
 		$("#test").on("click", function(event){
@@ -933,7 +944,7 @@
 							    	
 										if(status == "error"){
 											
-											openAlert("Server Error(관리자에게 문의해주세요)");
+											openAlert("Server Error");
 										}
 							    	}
 						);
@@ -1121,26 +1132,8 @@
 				backGround.css("display","block");
 				chatMemberListWrap.css("display","block");
 				
-			getChatMemberList(chatRoomNum, showChatMemberList, showError);
+			commonService.getChatRoomMembers(chatRoomNum, showChatMemberList, showError);
 		} 
-		
-		function getChatMemberList(chatRoomNum, callback, error) {
-			
-			$.ajax({
-				type : 'get', 
-				url : '/getChatMemberList?chatRoomNum='+chatRoomNum, 
-				success : function(result, status, xhr) {
-					if (callback) {
-						callback(result, status);
-					}
-				},
-				error : function(xhr, status, er) {
-					if (error) {
-						error(status);
-					}
-				}
-			});
-		}
 		
 		function getChatInviteList(callback, error, chatRoomNum, keyword ) {
 			
@@ -1164,12 +1157,43 @@
 	    	
 			if(status == "error"){ 
 				
-				openAlert("Server Error(관리자에게 문의해주세요)");
+				openAlert("Server Error");
 			}
     	}
 		
 		function showChatMemberList(result, status){
 			
+			if(status == "success"){
+				
+				var length = result.length;
+				var chatMemberList = $("#chatMemberList");
+				var str = "";
+				var nickName; 
+				var userId; 
+				
+				for(var i = 0; i < length; i++){
+						
+				       nickName = result[i].chat_memberNick; 
+				       userId = result[i].chat_memberId;
+				      
+						str += "<div class='chatUserWrap' data-user_id='"+userId+"' data-nick_name='"+nickName+"'>"
+				   		   str +=  "<span class='userImage'>"; 
+							   if(serverName == 'localhost'){ 
+								   str += "<img src='/resources/img/profile_img/"+userId+".png?"+random+"' class='memberImage hideUsermenu' onerror='this.src=\"/resources/img/profile_img/basicProfile.png\"'/>&nbsp"
+										   
+							   }else{
+								   str += "<img src='/upload/"+userId+".png?"+random+"' class='memberImage hideUsermenu' onerror='this.src=\"/ROOT/resources/img/profile_img/basicProfile.png\"'/>&nbsp"
+							   }
+					   	   str +=  "</span>";  
+					   	   str +=  "<span class='userNickname'>"
+					   	   str +=		nickName
+					   	   str +=  "</span>"; 
+				   	   str +=  "</div>"; 
+				}
+				
+				console.log(str);
+				chatMemberList.html(str);
+			}
 		}
 		
 		function showInviteList(inviteList, status){
@@ -1364,7 +1388,7 @@
 			    	
 						if(status == "error"){ 
 							
-							openAlert("Server Error(관리자에게 문의해주세요)");
+							openAlert("Server Error");
 						}
 			    	}
 		   	);
