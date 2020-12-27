@@ -527,40 +527,6 @@
 																 + "</div>";
 						headCount = obj.headCount;
 						
-						commonService.getChat_type(chatRoomNum,  
-									
-							   		function(result, status){
-									
-											if(result == "1"){//멀티채팅방이라면 
-												
-												chat_type = 1;
-												
-												chatMembersArray = new Array();
-												
-												commonService.getChatRoomMembers(chatRoomNum,
-														
-														function(result, status){
-															
-															if(status == "success"){
-																
-																for(var i in result){
-																	chatMembersArray.push(result[i].chat_memberId);
-																}
-															}
-														},
-													    
-														showError	
-												);
-												
-											}else if(result == "0"){//1:1채팅방이라면
-												
-												chat_type = 0;
-											}
-							    	},
-								    
-							    	showError
-						);
-					
 						if(commonWebSocket != null){
 							commonWebSocket.send("chatAlarm,"+myId);
 						}
@@ -708,18 +674,39 @@
 		    		
 		    		if(commonWebSocket != null){//상대방 채팅 카운트 업데이트 시키기
 				        	
-				        	if(chat_type == 0){//1:1채팅방이라면
-				        		
-				        		var chat_memberId="${chatMember.chat_memberId}";
-				        		commonWebSocket.send("chatAlarm,"+chat_memberId);
-				        		commonWebSocket.send("chatAlarm,"+myId);
-				        	
-				        	}else if(chat_type == 1){//멀티채팅방이라면
-				        	
-				        		for(var i=0; i<chatMembersArray.length; i++){ 
-				        			commonWebSocket.send("chatAlarm,"+chatMembersArray[i]);
-				        		}
-				        	}
+			    			commonService.getChat_type(chatRoomNum,  
+			    					
+				    			   		function(result, status){
+				    					
+				    							if(result == "1"){//멀티채팅방이라면 
+				    								
+				    								chat_type = 1;
+				    								
+				    								commonService.getChatRoomMembers(chatRoomNum,
+				    										
+				    										function(result, status){
+				    											
+				    											if(status == "success"){
+				    												
+				    												for(var i in result){
+				    													commonWebSocket.send("chatAlarm,"+result[i].chat_memberId);
+				    												}
+				    											}
+				    										},
+				    									    
+				    										showError	
+				    								);
+				    								
+				    							}else if(result == "0"){//1:1채팅방이라면
+				    								
+				    								var chat_memberId="${chatMember.chat_memberId}";
+				    				        		commonWebSocket.send("chatAlarm,"+chat_memberId);
+				    				        		commonWebSocket.send("chatAlarm,"+myId);
+				    							}
+				    			    	},
+				    				    
+				    			    	showError
+				    		);
 					}
 		    		
 	        	}, 100);
