@@ -88,7 +88,7 @@
 	     			<td id="currentState" class="tableValue"> 
 		     			<c:choose>
 		     				<c:when test="${user.authList[0].auth == 'ROLE_STOP'}">
-								모든 글쓰기 제한
+								모든 쓰기 제한
 							</c:when>
 							<c:when test="${user.authList[0].auth == 'ROLE_ADMIN' || user.authList[0].auth == 'ROLE_USER' || user.authList[0].auth == 'ROLE_SUPER'}">
 								정상 
@@ -105,7 +105,7 @@
 	     			</td>
 	     			<td class="tableValue">
 		     			<div class="changeButton">     
-					        <button class="submitInfo" id="stop" data-user_id="${user.userId}">모든 글쓰기 제한</button> 
+					        <button class="submitInfo" id="stop" data-user_id="${user.userId}">모든 쓰기 제한</button> 
 					        <button class="submitInfo" id="limit" data-user_id="${user.userId}">접속 제한</button> 
 					        <button class="submitInfo" id="recovery" data-user_id="${user.userId}">계정 복구</button> 
 			   			 </div>  
@@ -208,7 +208,7 @@
 						
 						var currentState = $("#currentState");
 					   	
-						currentState.html("모든 쓰기 기능 제한");
+						currentState.html("모든 쓰기 제한");
 					   	
 					   	openAlert("모든 쓰기 기능을 제한 하였습니다");
 					   	

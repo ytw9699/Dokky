@@ -545,11 +545,24 @@
 									   	  + "</a>"
 									   + "</li>"
 								   + "</ul>"
-							   + "</div>"
+							   + "</div>";
 							   
-							   + "<span class='reply_date'>"
-							   		+ commonService.displayReplyTime(replyDate) 
-							   + "</span>";
+							   var nowTime = new Date();
+							   var replyTime = new Date(replyDate); 
+							   var chatDate;
+								
+							   if(nowTime.getDate() == replyTime.getDate()){
+								
+									str += "<span class='reply_date'>"
+								   		+ commonService.displayDayTime(replyDate) 
+								    + "</span>";
+								
+							   }else{
+									
+									str += "<span class='reply_date'>"
+									   		+ commonService.displayFullTime(replyDate) 
+									    + "</span>";
+							   }
 				  
 					  if(myId){ 
 						  str += "<span class='replyMenu'>" 
@@ -678,9 +691,22 @@
 								   + "</ul>"
 							   + "</div>"
 					   
-							   + "<span class='reply_date'>"
-						   			+ commonService.displayReplyTime(replyDate) 
-						  	   + "</span>"; 
+							   var nowTime = new Date();
+							   var replyTime = new Date(replyDate); 
+							   var chatDate;
+								
+							   if(nowTime.getDate() == replyTime.getDate()){
+								
+									str += "<span class='reply_date'>"
+								   		+ commonService.displayDayTime(replyDate) 
+								    + "</span>";
+								
+							   }else{
+									
+									str += "<span class='reply_date'>"
+									   		+ commonService.displayFullTime(replyDate) 
+									    + "</span>";
+							   } 
 				
 				  	  if(myId){ 
 						  str += "<span class='replyMenu'>" 

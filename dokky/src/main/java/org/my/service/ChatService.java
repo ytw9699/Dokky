@@ -53,5 +53,18 @@ public interface ChatService {
 	public multiRoomVO getChatTitleInfo(Long chatRoomNum);
 
 	public List<ChatMemberVO> getMultiroomMembers(Long chatRoomNum);
+
+	public int updateChatTitle(ChatRoomVO chatRoomVO);
+
+	public String[] getExceptUsers(Long chatRoomNum);
+
+	public List<MemberVO> getChatInviteList(String[] exceptUsers, String keyword);
+
+	public boolean inviteChatMembers(ChatMemberVO chatMemberVO, ChatMemberVO[] chatMemberVoArray);
+
+	public int getChat_type(Long chatRoomNum);
+
+	public List<ChatMemberVO> getChatRoomMembers(Long chatRoomNum);
+
 	
 }

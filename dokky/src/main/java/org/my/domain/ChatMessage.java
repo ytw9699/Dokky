@@ -12,6 +12,8 @@ public class ChatMessage {
     private String message;
     private Date regDate;
     private int headCount;
+    private String memberIds;
+    private String memberNicks;
     private ChatMessageType type;
 }
 

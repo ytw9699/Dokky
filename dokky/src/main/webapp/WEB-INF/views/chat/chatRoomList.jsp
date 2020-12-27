@@ -177,11 +177,11 @@
 			
 			var chosenUser = $(".chosenUser").get();
 			
-			createMultiChat(chosenUser);
+			createChatRoom(chosenUser);
 		});
 		
 		
-		function createMultiChat(chosenUser){
+		function createChatRoom(chosenUser){
 			
 				<sec:authorize access="isAuthenticated()">   
 					var myId = '${userInfo.username}';  
@@ -211,46 +211,94 @@
 				
 				var chatMemberVoArray = new Array(chosenUser.length); 
 				
-			    for ( var i = 0; i < chosenUser.length; i++) {
-		        	
-					 var chatMemberData = {
-							
-											chat_memberId : $(chosenUser[i]).data("user_id"),
-											chat_memberNick : $(chosenUser[i]).data("nick_name")
-									  	};
-					
-					 chatMemberVoArray[i] = chatMemberData;
-		        }
-									
-				var commonData = { 
-									chatRoomVO : chatRoomData,
-									chatMemberVoArray : chatMemberVoArray
-					 			 };
-				
-				commonService.createMultiChat(commonData,  
+				if(chosenUser.length == 1){
 						
-				   		function(result, status){
+						var chatRoomData = {   
+								roomOwnerId : myId,
+								roomOwnerNick : myNickName,
+								chat_type : 0,
+								headCount : chosenUser.length + 1
+						   };
+					
+						var chatMemberData = {
+								
+								chat_memberId : $(chosenUser[0]).data("user_id"),
+								chat_memberNick : $(chosenUser[0]).data("nick_name")
+					  	};
+											
+						var commonData = { 
+											chatRoomVO : chatRoomData,
+											chatMemberVO : chatMemberData
+							 			 };
+						 
+						commonService.createSingleChat(commonData,  
+									
+						   		function(result, status){
+								
+									if(status == "success"){ 
+										
+										closeUserList();
+										
+										var popupX = (window.screen.width / 2) - (400 / 2);
+						
+										var popupY= (window.screen.height /2) - (500 / 2);
+										
+										window.open('/chatRoom/'+result+'?userId='+myId, "title"+result, 'height=500, width=400, screenX='+ popupX + ', screenY= '+ popupY);
+									}
+						    	},
+							    
+						    	function(status){
+						    	
+									if(status == "error"){ 
+										
+										openAlert("Server Error(관리자에게 문의해주세요)");
+									}
+						    	}
+						);
+						
+				}else{
+					
+					    for ( var i = 0; i < chosenUser.length; i++) {
+				        	
+							 var chatMemberData = {
+									
+													chat_memberId : $(chosenUser[i]).data("user_id"),
+													chat_memberNick : $(chosenUser[i]).data("nick_name")
+											  	};
 							
-							if(status == "success"){ 
+							 chatMemberVoArray[i] = chatMemberData;
+				        }
+											
+						var commonData = { 
+											chatRoomVO : chatRoomData,
+											chatMemberVoArray : chatMemberVoArray
+							 			 };
+						
+						commonService.createMultiChat(commonData,  
 								
-								closeUserList();
-								
-								var popupX = (window.screen.width / 2) - (400 / 2);
-		
-								var popupY= (window.screen.height /2) - (500 / 2);
-								
-								window.open('/chatRoom/'+result+'?userId='+myId+'&chat_type=1', "title"+result, 'height=500, width=400, screenX='+ popupX + ', screenY= '+ popupY);
-							}
-				    	},
-					    
-				    	function(status){
-				    	
-							if(status == "error"){ 
-								
-								openAlert("Server Error(관리자에게 문의해주세요)");
-							}
-				    	}
-			   	);
+						   		function(result, status){
+									
+									if(status == "success"){ 
+										
+										closeUserList();
+										
+										var popupX = (window.screen.width / 2) - (400 / 2);
+				
+										var popupY= (window.screen.height /2) - (500 / 2);
+										
+										window.open('/chatRoom/'+result+'?userId='+myId, "title"+result, 'height=500, width=400, screenX='+ popupX + ', screenY= '+ popupY);
+									}
+						    	},
+							    
+						    	function(status){
+						    	
+									if(status == "error"){ 
+										
+										openAlert("Server Error(관리자에게 문의해주세요)");
+									}
+						    	}
+					   	);
+				}
 		}
 		
 		$(document).on("click",".multiChat", function(event){ 
@@ -272,7 +320,7 @@
 			
 			var popupY= (window.screen.height /2) - (500 / 2);
 			
-			window.open('/chatRoom/'+chatroom_num+'?userId='+myId+'&chat_type=1', "title"+chatroom_num, 'height=500, width=400, screenX='+ popupX + ', screenY= '+ popupY);
+			window.open('/chatRoom/'+chatroom_num+'?userId='+myId, "title"+chatroom_num, 'height=500, width=400, screenX='+ popupX + ', screenY= '+ popupY);
 		});
 		
 		function openUserList(){
@@ -502,7 +550,7 @@
 												   
 								    }else{
 								    	
-										   str += "<img src='/upload/"+userId+".png?"+random+"' class='singleMemberImage' onerror='this.src=\"/resources/img/profile_img/basicProfile.png\"'/>"
+										   str += "<img src='/upload/"+userId+".png?"+random+"' class='singleMemberImage' onerror='this.src=\"/ROOT/resources/img/profile_img/basicProfile.png\"'/>"
 								    }
 									
 							}else if(result[i].chatRoomVo.chat_type == 1){
@@ -540,7 +588,7 @@
 													
 										    		var userId = result[i].chatReadVoList[j].chat_memberId;
 													
-													str += " <img src='/upload/"+userId+".png?"+random+"' class='multiMemberImage' onerror='this.src=\"/resources/img/profile_img/basicProfile.png\"'/>"
+													str += " <img src='/upload/"+userId+".png?"+random+"' class='multiMemberImage' onerror='this.src=\"/ROOT/resources/img/profile_img/basicProfile.png\"'/>"
 												}
 												
 											}else{
@@ -549,7 +597,7 @@
 													
 													 var userId = result[i].chatReadVoList[j].chat_memberId;
 													
-													 str += " <img src='/resources/img/profile_img/"+userId+".png?"+random+"' class='multiMemberImage' onerror='this.src=\"/resources/img/profile_img/basicProfile.png\"'/>"		
+													 str += " <img src='/upload/"+userId+".png?"+random+"' class='multiMemberImage' onerror='this.src=\"/ROOT/resources/img/profile_img/basicProfile.png\"'/>"		
 												}
 											}
 								    }
@@ -627,7 +675,7 @@
 								
 								if(result[i].notReadCnt != 0){
 									
-									str += "<div class='chatCnt'>";
+									str += "<div class='chatCnt'>"; 
 										
 										str +=  result[i].notReadCnt;
 											

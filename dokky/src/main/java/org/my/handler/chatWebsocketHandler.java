@@ -104,9 +104,11 @@ public class chatWebsocketHandler extends TextWebSocketHandler {
             	
             	log.info("MessageType.INVITE");
     	    	
-    	    }else if(chatMessage.getType() == ChatMessageType.OUT){//강퇴당할때
+    	    }else if(chatMessage.getType() == ChatMessageType.TITLE){//제목 바꿀때
     	    	
-    	    	log.info("MessageType.OUT");
+    	    	log.info("MessageType.TITLE");
+    	    	
+    	    	chatRoom = chatService.findChatRoom(chatMessage.getChatRoomNum());
     	    	
             }else if(chatMessage.getType() == ChatMessageType.CHAT){//채팅할때
         	

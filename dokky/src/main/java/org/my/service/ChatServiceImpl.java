@@ -1,4 +1,5 @@
 package org.my.service;
+	import java.io.IOException;
 	import java.util.ArrayList;//임포트 해주자
 	import java.util.Date;
 	import java.util.LinkedHashMap;
@@ -6,6 +7,7 @@ package org.my.service;
 	import java.util.Map;
 	import org.my.domain.ChatContentVO;
 	import org.my.domain.ChatMemberVO;
+	import org.my.domain.ChatMessage;
 	import org.my.domain.ChatReadVO;
 	import org.my.domain.ChatRoom;
 	import org.my.domain.ChatRoomVO;
@@ -18,6 +20,7 @@ package org.my.service;
 	import org.springframework.transaction.annotation.Transactional;
 	import lombok.Setter;
 	import lombok.extern.log4j.Log4j;
+	import org.my.domain.ChatMessageType;
 
 @Service
 @Log4j
@@ -25,7 +28,7 @@ public class ChatServiceImpl implements ChatService {
 	
 		@Setter(onMethod_ = @Autowired)
 		private ChatMapper chatMapper;
-	
+		
 		private Map<String, ChatRoom> chatRoomMap = new LinkedHashMap<>();
 	
 		
@@ -132,7 +135,7 @@ public class ChatServiceImpl implements ChatService {
 			}
 			
 			Long chatContentNum =  chatContentVO.getChatContentNum();
-			
+						 		
 			for(ChatMemberVO memberVO : chatMemberVoArray){
 				
 				if(chatMapper.createChatReadType(chatRoomNum,  chatContentNum, memberVO.getChat_memberId(), memberVO.getChat_memberNick(), 1) != 1){
@@ -267,7 +270,7 @@ public class ChatServiceImpl implements ChatService {
 	    		
 	    	log.info("updateRoomStatus");
 	    	
-	    	return chatMapper.updateHeadCount(chatRoomNum, changeCount) == 1 && chatMapper.updatePresent_position(chatRoomNum, changePosition, chat_writerId) == 1;
+	    	return chatMapper.updatePresent_position(chatRoomNum, changePosition, chat_writerId) == 1 && chatMapper.updateHeadCount(chatRoomNum, changeCount) == 1;
 		}
 		
 		@Override
@@ -380,6 +383,216 @@ public class ChatServiceImpl implements ChatService {
 			log.info("getChatTitleInfo");
 			
 			return chatMapper.getChatTitleInfo(chatRoomNum);
+		}
+		
+		@Override
+		public int updateChatTitle(ChatRoomVO chatRoomVO){
+			
+			log.info("updateChatTitle");
+			
+			return chatMapper.updateChatTitle(chatRoomVO);
+		}
+		
+		@Override
+		public String[] getExceptUsers(Long chatRoomNum){
+			
+			log.info("getExceptUsers");
+			
+			return chatMapper.getExceptUsers(chatRoomNum);
+		}
+		
+
+		@Override
+		public List<MemberVO> getChatInviteList(String[] exceptUsers, String keyword){
+			
+			log.info("getChatInviteList");
+			
+			return chatMapper.getChatInviteList(exceptUsers, keyword);
+		}
+		
+		@Transactional
+		@Override
+		public boolean inviteChatMembers(ChatMemberVO chatMemberVO, ChatMemberVO[] chatMemberVoArray){
+			
+				log.info("inviteChatMembers");
+				
+				Long chatRoomNum = chatMemberVO.getChatRoomNum();
+				
+				ChatContentVO chatContentVO = new ChatContentVO();
+				chatContentVO.setRegDate(new Date());
+				chatContentVO.setChatRoomNum(chatRoomNum);
+				String chat_content = chatMemberVO.getChat_memberNick()+"님이 ";
+				
+				int headCount = chatMemberVoArray.length;
+	    		
+				if(chatMapper.updateHeadCount(chatRoomNum, headCount) != 1){
+					return false;
+				}	 
+				
+				int chat_type = chatMapper.getChat_type(chatRoomNum);
+				
+				if(chat_type == 0){//1:1채팅방이라면
+					
+					if(headCount == 1){
+						
+						if(chatMapper.getMember(chatRoomNum, chatMemberVoArray[0].getChat_memberId()) == 1){
+							//초대한 인원이 기존의 1:1채팅 멤버였다면 1:1채팅방 타입을 유지
+								
+							if(chatMapper.updatePresent_position(chatRoomNum, 0, chatMemberVoArray[0].getChat_memberId()) != 1){
+								
+								return false;
+							}
+							
+						}else{//초대한 인원이 기존의 1:1채팅 멤버가 아님
+							
+							if(chatMapper.createChatMember(chatMemberVoArray[0]) != 1){//채팅 멤버 입력
+								
+								return false;
+							}
+							
+							if(chatMapper.updateChat_typeToMulti(chatRoomNum) != 1){
+								
+								return false;
+							}
+						}
+						
+						chat_content += chatMemberVoArray[0].getChat_memberNick();
+						
+					}else if(headCount > 1){
+						
+						for(int i=0; i<chatMemberVoArray.length; i++){
+							
+							ChatMemberVO memberVO = chatMemberVoArray[i];
+							
+							if(chatMapper.getMember(chatRoomNum, memberVO.getChat_memberId()) == 1){
+								
+								if(chatMapper.updatePresent_position(chatRoomNum, 0, memberVO.getChat_memberId()) != 1){
+									
+									return false;
+								}
+								
+							}else{
+								
+								if(chatMapper.createChatMember(memberVO) != 1){
+									
+									return false;
+								}
+							}
+							
+							if(i != chatMemberVoArray.length-1) {
+								chat_content += memberVO.getChat_memberNick()+" ";
+								
+							}else {
+								chat_content += memberVO.getChat_memberNick();
+							}
+				    	}
+							
+						if(chatMapper.updateChat_typeToMulti(chatRoomNum) != 1){
+							return false;
+						}
+					}
+					
+				}else if(chat_type == 1){
+					
+					for(int i=0; i<chatMemberVoArray.length; i++){
+						
+						ChatMemberVO memberVO = chatMemberVoArray[i];
+						
+						if(chatMapper.getMember(chatRoomNum, memberVO.getChat_memberId()) == 1){
+							
+							if(chatMapper.updatePresent_position(chatRoomNum, 0, memberVO.getChat_memberId()) != 1){
+								
+								return false;
+							}
+							
+						}else{
+							
+							if(chatMapper.createChatMember(memberVO) != 1){
+								
+								return false;
+							}
+						}
+								
+						if(i != chatMemberVoArray.length-1) {
+							chat_content += memberVO.getChat_memberNick()+" ";
+							
+						}else {
+							chat_content += memberVO.getChat_memberNick();
+						}
+						
+					}
+				}
+				
+				chat_content += "님을 초대했습니다";
+				
+				chatContentVO.setChat_content(chat_content);
+				
+				if(chatMapper.createNoticeContent(chatContentVO) != 1) {//공지 내용 입력
+					
+					return false;
+				}
+				
+				Long chatContentNum =  chatContentVO.getChatContentNum();	
+				
+				List<ChatMemberVO> memberList = chatMapper.getChatMembers(chatRoomNum);
+				
+				for(ChatMemberVO memberVO : memberList){
+					
+					if(chatMapper.createChatReadType(chatRoomNum, chatContentNum, memberVO.getChat_memberId(), memberVO.getChat_memberNick(), 1) != 1){
+						//멤버들 읽음 테이블 입력
+						return false;
+					}
+		    	}
+				
+				String memberIds = "";
+				String memberNicks = "";
+				
+				for(int i=0; i<memberList.size(); i++){
+					
+					ChatMemberVO memberVO = memberList.get(i);
+					
+					if(i == memberList.size()-1){
+						memberNicks += memberVO.getChat_memberNick();
+						memberIds += memberVO.getChat_memberId();
+					}else {
+						memberNicks += memberVO.getChat_memberNick()+", ";
+						memberIds += memberVO.getChat_memberId()+",";
+					}
+					
+				}
+				
+				ChatRoom chatRoom = findChatRoom(chatRoomNum.toString());
+				
+				ChatMessage chatMessage = new ChatMessage();
+				chatMessage.setHeadCount(headCount);
+				chatMessage.setType(ChatMessageType.INVITE);
+				chatMessage.setMessage(chat_content);
+				chatMessage.setMemberIds(memberIds);
+				chatMessage.setMemberNicks(memberNicks);
+				
+				try {
+					chatRoom.handleMessage(null, chatMessage);
+				} catch (IOException e) {
+					e.printStackTrace();
+				}
+				
+				return true;
+		}
+		
+		@Override
+		public int getChat_type(Long chatRoomNum){
+			
+			log.info("getChat_type");
+			
+			return chatMapper.getChat_type(chatRoomNum);
+		}
+		
+		@Override
+		public List<ChatMemberVO> getChatRoomMembers(Long chatRoomNum){
+			
+			log.info("getChatRoomMembers");
+			
+			return chatMapper.getChatMembers(chatRoomNum);
 		}
 }
 

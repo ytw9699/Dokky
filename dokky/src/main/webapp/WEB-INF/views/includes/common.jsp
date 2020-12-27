@@ -233,10 +233,14 @@
 					    	chatCount.html(result);
 				 	 });
 					 
-					 if( typeof reChatRoomList == 'function' ) {
-						 
-						 reChatRoomList();
-					 }
+					 setTimeout(function() {
+							
+						 if( typeof reChatRoomList == 'function' ) {
+							 
+							 reChatRoomList();
+						 }
+							
+					 }, 100); 
 					
 				}else if(event.data == 'limitAndLogoutSuccessMessageToUser'){
 					 
@@ -590,7 +594,7 @@
 								chatMemberVO : chatMemberData
 				 			 };
 			
-			commonService.makeSingleChat(commonData,  
+			commonService.createSingleChat(commonData,
 		   			
 			   		function(result, status){
 					
@@ -600,7 +604,7 @@
 	
 							var popupY= (window.screen.height /2) - (500 / 2);
 							
-							window.open('/chatRoom/'+result+'?userId='+myId+'&chat_type=0', "title"+result, 'height=500, width=400, screenX='+ popupX + ', screenY= '+ popupY);
+							window.open('/chatRoom/'+result+'?userId='+myId, "title"+result, 'height=500, width=400, screenX='+ popupX + ', screenY= '+ popupY);
 						}
 			    	},
 				    
