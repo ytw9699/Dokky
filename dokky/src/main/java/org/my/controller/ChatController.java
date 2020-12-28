@@ -50,11 +50,12 @@ public class ChatController {
 		 
 		 String myId = vo.getChatRoomVO().getRoomOwnerId();
 		 
-		 String chatRoomNum = chatService.hasRoom(myId, vo.getChatMemberVO().getChat_memberId());//기존의 1:1채팅방이 있는지 확인
+		 String chatRoomNum = chatService.hasRoom(myId, vo.getChatMemberVO().getChat_memberId());
+		 //상대방과 기존의 1:1채팅방이 있는지 확인
 		 					  
-		 if(chatRoomNum != null){
+		 if(chatRoomNum != null){//기존의 1:1채팅방이 있다면
 	        
-			 if(chatService.getMyRoomStatus(Long.parseLong(chatRoomNum), myId)){//방에서 나가있었다면
+			 if(chatService.getMyRoomStatus(Long.parseLong(chatRoomNum), myId)){//내가 방에서 나가있었다면
 				 
 				  chatService.updateRoomStatus(Long.parseLong(chatRoomNum), myId, 1 , 0);//headcount와 현재 위치를 방에 들어감으로 변경
 				  
