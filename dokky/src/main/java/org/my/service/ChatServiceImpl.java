@@ -2,7 +2,7 @@ package org.my.service;
 	import java.io.IOException;
 	import java.util.ArrayList;//임포트 해주자
 	import java.util.Date;
-	import java.util.LinkedHashMap;
+	import java.util.HashMap;
 	import java.util.List;
 	import java.util.Map;
 	import org.my.domain.ChatContentVO;
@@ -29,7 +29,7 @@ public class ChatServiceImpl implements ChatService {
 		@Setter(onMethod_ = @Autowired)
 		private ChatMapper chatMapper;
 		
-		private Map<String, ChatRoom> chatRoomMap = new LinkedHashMap<>();
+		private Map<String, ChatRoom> chatRoomMap = new HashMap<>();
 	
 		
 	    @Override
