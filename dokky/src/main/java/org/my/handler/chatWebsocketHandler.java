@@ -46,7 +46,7 @@ public class chatWebsocketHandler extends TextWebSocketHandler {
             ChatRoom chatRoom = null;
             
             
-            if(chatMessage.getType() == ChatMessageType.OPEN){//방에 입장할때
+            if(chatMessage.getType() == ChatMessageType.OPEN){//기존의 채팅 방을 열때 or 내가 채팅방을 새롭게 만들때
             	
             	log.info("MessageType.OPEN");
             	

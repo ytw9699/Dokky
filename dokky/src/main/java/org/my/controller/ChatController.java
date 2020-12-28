@@ -54,9 +54,9 @@ public class ChatController {
 		 					  
 		 if(chatRoomNum != null){
 	        
-			 if(chatService.getMyRoomStatus(Long.parseLong(chatRoomNum), myId)){
+			 if(chatService.getMyRoomStatus(Long.parseLong(chatRoomNum), myId)){//방에서 나가있었다면
 				 
-				  chatService.updateRoomStatus(Long.parseLong(chatRoomNum), myId, 1 , 0);
+				  chatService.updateRoomStatus(Long.parseLong(chatRoomNum), myId, 1 , 0);//headcount와 현재 위치를 방에 들어감으로 변경
 				  
 				  ChatRoom chatRoom = chatService.findChatRoom(chatRoomNum);
 				  

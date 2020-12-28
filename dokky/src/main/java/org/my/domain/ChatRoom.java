@@ -1,10 +1,8 @@
 package org.my.domain;
 	import java.io.IOException;
 	import java.util.HashSet;
-	import java.util.Iterator;
 	import org.springframework.web.socket.TextMessage;
 	import org.springframework.web.socket.WebSocketSession;
-	import com.fasterxml.jackson.databind.ObjectMapper;
 	import lombok.Data;
 	import lombok.extern.log4j.Log4j;
 
