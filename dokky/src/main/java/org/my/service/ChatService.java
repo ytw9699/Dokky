@@ -66,5 +66,7 @@ public interface ChatService {
 
 	public List<ChatMemberVO> getChatRoomMembers(Long chatRoomNum);
 
+	public boolean getInChatMember(Long chatRoomNum, String userId);
+
 	
 }

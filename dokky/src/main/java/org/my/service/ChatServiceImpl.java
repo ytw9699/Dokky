@@ -594,5 +594,13 @@ public class ChatServiceImpl implements ChatService {
 			
 			return chatMapper.getChatMembers(chatRoomNum);
 		}
+		
+		@Override
+		public boolean getInChatMember(Long chatRoomNum, String userId){
+			
+			log.info("getInChatMember");
+			
+			return chatMapper.getInChatMember(chatRoomNum, userId) == 0;//멤버가 아니라면 true 반환
+		}
 }
 

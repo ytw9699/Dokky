@@ -79,4 +79,6 @@ public interface ChatMapper {
 
 	int updateChat_typeToMulti(Long chatRoomNum);
 
+	int getInChatMember(@Param("chatRoomNum") Long chatRoomNum, @Param("userId") String userId);
+
 }

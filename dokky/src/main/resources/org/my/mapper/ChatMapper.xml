@@ -304,7 +304,11 @@
 	   <update id="updateChat_typeToMulti">
 	 	 	update dk_chat_room set chat_type = 1 where chatRoomNum = #{chatRoomNum}
 	   </update>
-
+	
+		<select id="getInChatMember" resultType="int">
+			select count(*) from dk_chat_member where chatRoomNum = #{chatRoomNum} and chat_memberId = #{userId} and present_position = 0
+		</select>
+		
 </mapper>
 
 

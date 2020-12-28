@@ -113,7 +113,16 @@ public class ChatController {
 	public String getChatRoom(@PathVariable Long chatRoomNum, @RequestParam("userId")String userId, Model model){
 	    	
     	log.info("/getChatRoom/"+chatRoomNum);
-    
+    	
+    	boolean result = chatService.getInChatMember(chatRoomNum, userId);//채팅방의 멤버가 맞는지 확인
+    	
+    	if(result == true) {
+    		
+    		model.addAttribute("message", "채팅방에 입장할 수 없는 경로입니다.");
+			
+			return "error/commonError";
+    	}
+    	
     	Date recentOutDate = chatService.getRecentOutDate(chatRoomNum, userId);
     	
     	model.addAttribute("chatContents", chatService.getChatContents(chatRoomNum, recentOutDate, userId));//채팅방의 메시지들
