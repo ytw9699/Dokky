@@ -1,7 +1,7 @@
 package org.my.handler;
 	import java.io.IOException;
 	import java.util.Date;
-	import java.util.LinkedHashMap;
+	import java.util.HashMap;
 	import java.util.Map;
 	import org.my.domain.ChatMessage;
 	import org.my.domain.ChatRoom;
@@ -28,7 +28,7 @@ public class chatWebsocketHandler extends TextWebSocketHandler {
 	@Setter(onMethod_ = @Autowired)
     private ObjectMapper objectMapper;
 	
-	Map<String, String> chatRoomNumMap = new LinkedHashMap<>();
+	Map<String, String> chatRoomNumMap = new HashMap<>();
 	
     @Override
     protected void handleTextMessage(WebSocketSession session, TextMessage message){
