@@ -17,7 +17,7 @@
 ## 로그인 테스트 계정
 #### &emsp; https://dokky.site/superAdminLogin
 #### &emsp; 아이디 : admin (슈퍼 관리자)
-#### &emsp; 비밀번호 : ![image](https://user-images.githubusercontent.com/35983608/103285948-bf137900-4a22-11eb-8f1c-6b2db984fcbe.png)
+#### &emsp; 비밀번호 : ![image](https://user-images.githubusercontent.com/35983608/103286772-4f9e8900-4a24-11eb-9a60-39182cabe72b.png)
 
 ## 기술 스택 및 개발 환경
 #### &emsp; Spring-Framework, Spring-Security  
@@ -45,7 +45,7 @@
 &emsp; [5. Sequence-Diagram-과-Use-Case-명세서 ](https://github.com/ytw9699/Dokky/blob/master/dokky/documents/%EC%A3%BC%EC%9A%94%EB%AC%B8%EC%84%9C%EB%93%A4/Sequence-Diagram-%EA%B3%BC-Use-Case-%EB%AA%85%EC%84%B8%EC%84%9C.md)    
 &emsp; [6. 데이터 정의](https://github.com/ytw9699/Dokky/blob/master/dokky/documents/%EC%A3%BC%EC%9A%94%EB%AC%B8%EC%84%9C%EB%93%A4/%EB%8D%B0%EC%9D%B4%ED%84%B0-%EC%A0%95%EC%9D%98.md)   
 &emsp; [7. API 문서](https://github.com/ytw9699/Dokky/blob/master/dokky/documents/%EC%A3%BC%EC%9A%94%EB%AC%B8%EC%84%9C%EB%93%A4/Dokky-API-%EB%AC%B8%EC%84%9C.md)   
-&emsp; [8.코드 리뷰 리스트](https://github.com/ytw9699/Dokky/blob/master/dokky/documents/%EC%A3%BC%EC%9A%94%EB%AC%B8%EC%84%9C%EB%93%A4/%EC%BD%94%EB%93%9C%EB%A6%AC%EB%B7%B0-%EB%A6%AC%EC%8A%A4%ED%8A%B8.md)  
+&emsp; [8. 코드 리뷰 리스트](https://github.com/ytw9699/Dokky/blob/master/dokky/documents/%EC%A3%BC%EC%9A%94%EB%AC%B8%EC%84%9C%EB%93%A4/%EC%BD%94%EB%93%9C%EB%A6%AC%EB%B7%B0-%EB%A6%AC%EC%8A%A4%ED%8A%B8.md)  
 
 			
 
