@@ -17,7 +17,7 @@
 ## 로그인 테스트 계정
 #### &emsp; https://dokky.site/superAdminLogin
 #### &emsp; 아이디 : admin (슈퍼 관리자)
-#### &emsp; 비밀번호 : ![image](https://user-images.githubusercontent.com/35983608/103286772-4f9e8900-4a24-11eb-9a60-39182cabe72b.png)
+#### &emsp; 비밀번호 : ![image](https://user-images.githubusercontent.com/35983608/103286955-aa37e500-4a24-11eb-9b98-ebfb36981272.png)
 
 ## 기술 스택 및 개발 환경
 #### &emsp; Spring-Framework, Spring-Security  
