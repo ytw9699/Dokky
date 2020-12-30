@@ -134,7 +134,7 @@ public class ChatController {
     		
     	}else if(chat_type == 1) {//멀티채팅방의 경우
     		model.addAttribute("chatTitleInfo", chatService.getChatTitleInfo(chatRoomNum));//멀티 채팅방의 제목,방장 아이디,닉네임
-    		model.addAttribute("chatMembers", chatService.getMultiroomMembers(chatRoomNum));//멀티 채팅방의 멤버들 아이디,닉네임
+    		model.addAttribute("chatMembers", chatService.getChatRoomMembers(chatRoomNum));//멀티 채팅방의 멤버들 아이디,닉네임
     	}
     	
         model.addAttribute("chatRoomNum", chatRoomNum);

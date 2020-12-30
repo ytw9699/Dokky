@@ -370,14 +370,6 @@ public class ChatServiceImpl implements ChatService {
 		}
 		
 		@Override
-		public List<ChatMemberVO> getMultiroomMembers(Long chatRoomNum){
-			
-			log.info("getMultiroomMembers");
-			
-			return chatMapper.getMultiroomMembers(chatRoomNum);
-		}
-		
-		@Override
 		public multiRoomVO getChatTitleInfo(Long chatRoomNum){
 			
 			log.info("getChatTitleInfo");
