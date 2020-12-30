@@ -256,7 +256,6 @@
 	 	var chatroom;
 	 	var serverName = '${pageContext.request.serverName}';
 	 	var random = Math.random();
-	 	var chatMembersArray = new Array();
 	 	
 		$(document).ajaxSend(function(e, xhr, options) {
 			
@@ -269,24 +268,39 @@
 		</sec:authorize>
 		
 		$(document).ready(function() {
+			
 			<sec:authorize access="isAuthenticated()">
+			
 					commonWebSocketConnect();			
 					chatWebSocketConnect();
 					
-					setTimeout(function() { 
+					setTimeout(function(){//방을 처음 생성하고 방 인원 모두에게 chatAlarm을 보내 채팅리스트를 업데이트 시키거나
+									      //기존의 방에 입장하여 읽지않은 채팅메시지를 읽고 메시지 숫자를 업데이트 시켜주는 용도 
 						
 						if(commonWebSocket != null){ 
 				        	
 				        	if("${chat_type}" == 0){//1:1채팅방이라면
+				        		
 				        		var chat_memberId="${chatMember.chat_memberId}";
 				        		commonWebSocket.send("chatAlarm,"+chat_memberId);
 				        		commonWebSocket.send("chatAlarm,"+myId);
 				        	
 				        	}else if("${chat_type}" == 1){//멀티채팅방이라면
 				        		
-				        		for(var i=0; i<chatMembersArray.length; i++){ 
-				        			commonWebSocket.send("chatAlarm,"+chatMembersArray[i]);
-				        		}
+				        		commonService.getChatRoomMembers(chatRoomNum,
+										
+										function(result, status){
+											
+											if(status == "success"){
+												
+												for(var i in result){
+													commonWebSocket.send("chatAlarm,"+result[i].chat_memberId);
+												}
+											}
+										},
+									    
+										showError	
+								);
 				        	}
 						}
 						
@@ -818,9 +832,20 @@
 							
 							if(commonWebSocket != null){ 
 								
-								for(var i=0; i<chatMembersArray.length; i++){ 
-				        			commonWebSocket.send("chatAlarm,"+chatMembersArray[i]);
-				        		}
+								commonService.getChatRoomMembers(chatRoomNum,
+										
+										function(result, status){
+											
+											if(status == "success"){
+												
+												for(var i in result){
+													commonWebSocket.send("chatAlarm,"+result[i].chat_memberId);
+												}
+											}
+										},
+									    
+										showError	
+								);
 							}
 							
 							editCancle();
@@ -1403,13 +1428,4 @@
 		}
 			
 </script>
-
-<c:if test="${chat_type == 1}"><!-- 멀티채팅방이라면 -->
-	<c:forEach items="${chatMembers}" var="member">
-		<script> 
-			chatMembersArray.push("${member.chat_memberId}");
-		</script>
-	</c:forEach>
-</c:if>
-	
 </html>
