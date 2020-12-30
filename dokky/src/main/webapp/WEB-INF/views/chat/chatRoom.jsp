@@ -257,7 +257,6 @@
 	 	var serverName = '${pageContext.request.serverName}';
 	 	var random = Math.random();
 	 	var chatMembersArray = new Array();
-	 	var chat_type = "${chat_type}";
 	 	
 		$(document).ajaxSend(function(e, xhr, options) {
 			
@@ -278,13 +277,12 @@
 						
 						if(commonWebSocket != null){ 
 				        	
-				        	if(chat_type == 0){//1:1채팅방이라면
-				        		
+				        	if("${chat_type}" == 0){//1:1채팅방이라면
 				        		var chat_memberId="${chatMember.chat_memberId}";
 				        		commonWebSocket.send("chatAlarm,"+chat_memberId);
 				        		commonWebSocket.send("chatAlarm,"+myId);
 				        	
-				        	}else if(chat_type == 1){//멀티채팅방이라면
+				        	}else if("${chat_type}" == 1){//멀티채팅방이라면
 				        		
 				        		for(var i=0; i<chatMembersArray.length; i++){ 
 				        			commonWebSocket.send("chatAlarm,"+chatMembersArray[i]);
@@ -535,55 +533,49 @@
 								
 						   		function(result, status){
 								
-									if(result == "1"){//멀티채팅방이라면 
-										
-										$(".innerTitle").html(obj.memberNicks);
-									
-									    var memberIdArr = obj.memberIds.split(',');
-									    
-									    var headCount = memberIdArr.length;
-									    
-									    $(".memberCount").html("("+headCount+")");
-									     
-									   	var imgStr ="";
-									   	
-									    for(var i in memberIdArr){
-									    	
-									    	if(i < 4){
-									    		
-										    	if(serverName == 'localhost'){ 
-										    		
-										    		imgStr += "<img src='/resources/img/profile_img/"+memberIdArr[i]+".png?"+random+"' class='multiMemberImage' onerror='this.src=\"/resources/img/profile_img/basicProfile.png\"'/>&nbsp"
-															   
-												}else{
-													
-													imgStr += "<img src='/upload/"+memberIdArr[i]+".png?"+random+"' class='multiMemberImage' onerror='this.src=\"/ROOT/resources/img/profile_img/basicProfile.png\"'/>&nbsp"
-												}	
-									    	}
-									    	
-									    	if(commonWebSocket != null){
-								        		commonWebSocket.send("chatAlarm,"+memberIdArr[i]);
-											}
-									    }
-									    
-									    $(".allMemberImage").html(imgStr);
-									    
-									}else if(result == "0"){//1:1채팅방이라면
-										
-										if(commonWebSocket != null){
-											var chat_memberId="${chatMember.chat_memberId}";
-							        		commonWebSocket.send("chatAlarm,"+chat_memberId);
+										if(result == "1"){//멀티채팅방이라면 
+											
+												$(".innerTitle").html(obj.memberNicks);
+											
+											    var memberIdArr = obj.memberIds.split(',');
+											    
+											    var headCount = memberIdArr.length;
+											    
+											    $(".memberCount").html("("+headCount+")");
+											     
+											   	var imgStr ="";
+											   	
+											    for(var i in memberIdArr){
+											    	
+											    	if(i < 4){
+											    		
+												    	if(serverName == 'localhost'){ 
+												    		
+												    		imgStr += "<img src='/resources/img/profile_img/"+memberIdArr[i]+".png?"+random+"' class='multiMemberImage' onerror='this.src=\"/resources/img/profile_img/basicProfile.png\"'/>&nbsp"
+																	   
+														}else{
+															
+															imgStr += "<img src='/upload/"+memberIdArr[i]+".png?"+random+"' class='multiMemberImage' onerror='this.src=\"/ROOT/resources/img/profile_img/basicProfile.png\"'/>&nbsp"
+														}	
+											    	}
+											    	
+											    	if(commonWebSocket != null){
+										        		commonWebSocket.send("chatAlarm,"+memberIdArr[i]);
+													}
+											    }
+											    
+											    $(".allMemberImage").html(imgStr);
+										    
+										}else if(result == "0"){//1:1채팅방이라면
+											
+												if(commonWebSocket != null){
+													var chat_memberId="${chatMember.chat_memberId}";
+									        		commonWebSocket.send("chatAlarm,"+chat_memberId);
+												}
 										}
-									}
 						    	},
 							    
-						    	function(status){
-						    	
-									if(status == "error"){ 
-										
-										openAlert("Server Error");
-									}
-						    	}
+						    	showError
 						);
 					}
 			
@@ -679,8 +671,6 @@
 				    			   		function(result, status){
 				    					
 				    							if(result == "1"){//멀티채팅방이라면 
-				    								
-				    								chat_type = 1;
 				    								
 				    								commonService.getChatRoomMembers(chatRoomNum,
 				    										
