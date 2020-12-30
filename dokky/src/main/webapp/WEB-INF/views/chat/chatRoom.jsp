@@ -324,7 +324,7 @@
 				chatWebSocket = new WebSocket("wss://dokky.site:443/chatWebsocketHandler");
 			}
 			
-			chatWebSocket.onopen = function(){ //웹소켓이 연결됬다면
+			chatWebSocket.onopen = function(){
 				
 				console.log("chatWebsocket connected"); 
 			
@@ -332,12 +332,10 @@
 				
 				focusFunction();//처음에 방에 입장시, 꼭 채팅방 열기 메시지를 보낸후에(위 한줄 로직), 읽지 않은 메시지들이 있다면 읽어주는 처리를 한번해야한다.
 				
-				chatWebSocket.onmessage = function(event){//웹소켓이 연결됬는데 메시지가 왔다면
+				chatWebSocket.onmessage = function(event){
 					
 					console.log("chatWebSocket.onmessage");
 					
-					console.log(event.data);
-				
 					chatroom = document.getElementById('chatContents');
 					
 					var obj = JSON.parse(event.data);
@@ -356,7 +354,7 @@
 						 
 						 var getMessgae = obj.message;
 						 
-						 divideDate(regDate);//채팅 내용 사이에 날짜 구분해주기
+						 divideDate(regDate);
 						 
 						 if(position == "in"){//사용자가 채팅방에 머무른다면
 							 	
@@ -420,13 +418,7 @@
 												}
 									    	},
 									    
-									    	function(status){
-									    	
-												if(status == "error"){ 
-													
-													openAlert("Server Error");
-												}
-									    	}
+									    	showError
 									 );
 						 }else{//사용자가 채팅방에 머무르지 않는다면
 							 
@@ -479,7 +471,7 @@
 						
 						 var regDate = parseInt(obj.regDate);
 						
-						 divideDate(regDate);//채팅 내용 사이에 날짜 구분해주기
+						 divideDate(regDate);
 						 
 						 var getMessgae = obj.message;
 						 
@@ -593,18 +585,17 @@
 						);
 					}
 			
-					if(isBottom == true){//스크롤이 맨 하단에서 감지된다면
-						window.scrollTo(0, $(document).height());//스크롤 맨아래로 내리기
+					if(isBottom == true){
+						window.scrollTo(0, $(document).height());
 				    }
 				}
 				
-				chatWebSocket.onclose = function(){//연결된 소켓이 닫혔다면
+				chatWebSocket.onclose = function(){
 					
 					chatWebSocket = null;
 					
 					editCancle();
 					openAlert("채팅연결이 끊겼습니다");
-					console.log("chatWebSocket closed");
 					
 					setTimeout(function() {
 						<sec:authorize access="hasAnyRole('ROLE_ADMIN','ROLE_USER','ROLE_SUPER','ROLE_STOP')">
@@ -634,27 +625,27 @@
 				commonWebSocket = new WebSocket("wss://dokky.site:443/commonWebsocketHandler");
 			}
 			
-			commonWebSocket.onopen = function (){ //소켓이 연결됬다면
+			commonWebSocket.onopen = function (){
 				
 				console.log("commonWebsocket is connected");
 			
-				commonWebSocket.onmessage = function(event){//소켓 연결됬는데 메시지가 왔다면
+				commonWebSocket.onmessage = function(event){
 					
 					console.log("commonWebsocket message");
 				}
 				
-				commonWebSocket.onclose = function(){ //소켓 연결됬는데 소켓이 다시 닫혔다면
+				commonWebSocket.onclose = function(){
 					
 					console.log("commonWebsocket is closed");
 					
 					setTimeout(function() {
 						<sec:authorize access="hasAnyRole('ROLE_ADMIN','ROLE_USER','ROLE_SUPER','ROLE_STOP')">
-							commonWebSocketConnect(); //1초후 다시 재연결
+							commonWebSocketConnect();
 						</sec:authorize>
 					}, 1000); 
 				}
 				
-				commonWebSocket.onerror = function(err){//소켓 연결됬는데 에러가 있다면
+				commonWebSocket.onerror = function(err){
 					
 					console.log("commonWebsocket error, "+err);
 				}
@@ -673,12 +664,12 @@
 		        message.val("");
 		        
 		        setTimeout(function() {
-		        	window.scrollTo(0, $(document).height());//스크롤 맨아래로
+		        	window.scrollTo(0, $(document).height());
 	        	}, 50);
 		        
-				setTimeout(function(){ //시간 차이 때문에 조금 늦게 보내야 채팅 카운트 알림이 보내진다.
+				setTimeout(function(){//시간 차이 때문에 조금 늦게 보내야 채팅 카운트 알림이 보내진다.
 		    		
-		    		if(commonWebSocket != null){//상대방 채팅 카운트 업데이트 시키기
+		    		if(commonWebSocket != null){
 				        	
 			    			commonService.getChat_type(chatRoomNum,  
 			    					
@@ -718,8 +709,6 @@
 			}else{
 				
 				openAlert("채팅연결이 끊겼습니다");
-				
-				console.log("chatWebsocket null");
 			}
 	    }
 		
@@ -734,49 +723,14 @@
 		    chatWebSocket = null;
 		}
 		
-		function leave(){//방 나가기
-			
-			console.log("chatWebsocket leave");
-			
-			chatWebSocket.send(JSON.stringify({chatRoomNum : chatRoomNum, type : 'LEAVE', chat_writerId : myId , chat_writerNick: myNickName }));
-			
-			commonService.getChatRoomMembers(chatRoomNum,
-				
-				function(result, status){
-					
-					if(status == "success"){
-						
-						if(commonWebSocket != null){
-							
-							commonWebSocket.send("chatAlarm,"+myId);
-							
-							for(var i in result){
-								commonWebSocket.send("chatAlarm,"+result[i].chat_memberId);	
-							}
-						}
-						
-						window.close();
-					}
-				},
-			    
-		    	function(status){
-		    	
-					if(status == "error"){
-						
-						openAlert("Server Error");
-					}
-		    	}		
-			);
-		}
-		
-		window.onbeforeunload = function() {//브라우저 종료 및 닫기 감지
+		window.onbeforeunload = function(){//브라우저 종료 및 닫기 감지
 			
 			if(chatWebSocket != null){
 				closed();
 			}
 		}
 		
-		$("#sendMessageBtn").on("click", function(event){//메시지 보내기
+		$("#sendMessageBtn").on("click", function(event){
 			
 			message = $("#message");
 		
@@ -796,7 +750,31 @@
 		
 		$("#leave").on("click", function(event){//방 나가기
 			
-			leave();
+				console.log("chatWebsocket leave");
+				
+				chatWebSocket.send(JSON.stringify({chatRoomNum : chatRoomNum, type : 'LEAVE', chat_writerId : myId , chat_writerNick: myNickName }));
+				
+				commonService.getChatRoomMembers(chatRoomNum,
+					
+					function(result, status){
+						
+						if(status == "success"){
+							
+							if(commonWebSocket != null){
+								
+								commonWebSocket.send("chatAlarm,"+myId);
+								
+								for(var i in result){
+									commonWebSocket.send("chatAlarm,"+result[i].chat_memberId);	
+								}
+							}
+							
+							window.close();
+						}
+					},
+				    
+					showError		
+				);
 		});
 		
 		$("#editSubmit").on("click", function(event){
@@ -852,15 +830,7 @@
 						}
 					},
 				    
-			    	function(status){
-			    	
-						if(status == "error"){
-							
-							editCancle();
-							openAlert("Server Error");
-						}
-			    	}
-			
+					showError
 			);
 			
 		});
@@ -924,8 +894,6 @@
 		
 		function focusFunction(){ 
 			
-			console.log("focusFunction");
-			
 			position = "in";
 			
 			var chat_content = $(".chat_content");
@@ -973,13 +941,7 @@
 										}
 							    	},
 							    
-							    	function(status){
-							    	
-										if(status == "error"){
-											
-											openAlert("Server Error");
-										}
-							    	}
+							    	showError
 						);
 				}
 	        }
@@ -1061,7 +1023,7 @@
 		    return todayLabel;
 		}
 		
-		function divideDate(regDate) {
+		function divideDate(regDate){//채팅 내용 사이에 날짜 구분해주기
 			
 			var currentChatDate = new Date(regDate)
 				
@@ -1417,13 +1379,7 @@
 						}
 			    	},
 				    
-			    	function(status){
-			    	
-						if(status == "error"){ 
-							
-							openAlert("Server Error");
-						}
-			    	}
+			    	showError
 		   	);
 		}
 			
