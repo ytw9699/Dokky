@@ -556,7 +556,6 @@ public class ChatServiceImpl implements ChatService {
 				ChatRoom chatRoom = findChatRoom(chatRoomNum.toString());
 				
 				ChatMessage chatMessage = new ChatMessage();
-				chatMessage.setHeadCount(headCount);
 				chatMessage.setType(ChatMessageType.INVITE);
 				chatMessage.setMessage(chat_content);
 				chatMessage.setMemberIds(memberIds);

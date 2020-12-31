@@ -250,7 +250,6 @@
 		var chatRoomNum = '${chatRoomNum}';
 		var csrfHeaderName ="${_csrf.headerName}"; 
 		var csrfTokenValue="${_csrf.token}";
-		var headCount = "${headCount}";
 		var position = "in";
 	 	var inputValue = true;
 	 	var chatroom;
@@ -480,7 +479,6 @@
 																		 + getMessgae
 																 	+ "</span>"
 						 										 + "</div>";
-						 headCount = headCount-1;
 						 
 						 if(obj.chat_writerId == myId){
 							 closed();	 
@@ -491,14 +489,14 @@
 						
 						 var chatContentNum = obj.chatContentNum;
 						 
-						 var chatContent = $("#"+chatContentNum);
+						 var chat_readCount = $("#"+chatContentNum);
 						 
-						 if(chatContent.html() == 1){
+						 if(chat_readCount.html() == 1){
 							 
-							 chatContent.html("");
+							 chat_readCount.html("");
 							 
 						 }else{
-							 chatContent.html(chatContent.html()-1);
+							 chat_readCount.html(chat_readCount.html()-1);
 						 }
 						 
 					}else if(obj.type == 'IN'){
@@ -514,7 +512,6 @@
 																		 + getMessgae
 																 	+ "</span>"
 						 										 + "</div>";
-						 headCount = headCount+1;
 						 
 					}else if(obj.type == 'TITLE'){
 						
@@ -529,7 +526,6 @@
 																	 + getMessgae
 															 	+ "</span>"
 																 + "</div>";
-						headCount = obj.headCount;
 						
 						if(commonWebSocket != null){
 							commonWebSocket.send("chatAlarm,"+myId);
@@ -607,6 +603,7 @@
 				chatWebSocket.onerror = function(err){
 					
 					console.log("chatWebsocket error, "+err);
+					openAlert("채팅연결 에러가 발생했습니다.");
 				}
 				
 			}	
@@ -659,7 +656,7 @@
 				
 				console.log("chatWebsocket send");
 				
-		        chatWebSocket.send(JSON.stringify({chatRoomNum : chatRoomNum, type:'CHAT', message : messageVal, chat_writerId:myId , chat_writerNick: myNickName , headCount:headCount}));
+		        chatWebSocket.send(JSON.stringify({chatRoomNum : chatRoomNum, type:'CHAT', message : messageVal, chat_writerId:myId , chat_writerNick: myNickName}));
 		        
 		        message.val("");
 		        

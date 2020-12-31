@@ -114,7 +114,6 @@ public class ChatRoom {
             }else if(chatMessage.getType() == ChatMessageType.INVITE){
             	
             	customMessage = 	"{\"message\":\""+chatMessage.getMessage()+
-            							"\", \"headCount\":\""+chatMessage.getHeadCount()+
             							"\", \"memberNicks\":\""+chatMessage.getMemberNicks()+
             							"\", \"memberIds\":\""+chatMessage.getMemberIds()+
 				    					"\", \"type\":\""+chatMessage.getType()+"\"}";
