@@ -51,21 +51,21 @@ public class ChatController {
 		 String myId = vo.getChatRoomVO().getRoomOwnerId();
 		 
 		 String chatRoomNum = chatService.hasRoom(myId, vo.getChatMemberVO().getChat_memberId());
-		 //상대방과 기존의 1:1채팅방이 있는지 확인
 		 					  
-		 if(chatRoomNum != null){//기존의 1:1채팅방이 있다면
+		 if(chatRoomNum != null){
 	        
 			 if(chatService.getMyRoomStatus(Long.parseLong(chatRoomNum), myId)){//내가 방에서 나가있었다면
 				 
-				  chatService.updateRoomStatus(Long.parseLong(chatRoomNum), myId, 1 , 0);//headcount와 현재 위치를 방에 들어감으로 변경
+				  chatService.updateRoomStatus(Long.parseLong(chatRoomNum), myId, 1 , 0);
+				  //headcount와 현재 위치를 방에 들어감으로 변경
 				  
 				  ChatRoom chatRoom = chatService.findChatRoom(chatRoomNum);
 				  
 				  ChatMessage chatMessage = new ChatMessage();
 		          
-		          String reEnterMessage = vo.getChatRoomVO().getRoomOwnerNick()+"님이 들어왔습니다";
+		          String message = vo.getChatRoomVO().getRoomOwnerNick()+"님이 들어왔습니다";
 		          
-	              chatMessage.setMessage(reEnterMessage);
+	              chatMessage.setMessage(message);
 	              chatMessage.setRegDate(new Date());
 	              chatMessage.setType(ChatMessageType.IN);
 	              
@@ -74,7 +74,7 @@ public class ChatController {
 	              ChatContentVO chatContentVO = new ChatContentVO();
 	            	
 	              chatContentVO.setChatRoomNum(Long.parseLong(chatRoomNum));
-	              chatContentVO.setChat_content(reEnterMessage);
+	              chatContentVO.setChat_content(message);
 	              chatContentVO.setRegDate(chatMessage.getRegDate());
 	            	
 	              chatService.createNoticeContent(chatContentVO);
@@ -85,7 +85,6 @@ public class ChatController {
 		 }else{
 		
 			 boolean makeResult = chatService.createSingleChat(vo.getChatRoomVO(), vo.getChatMemberVO());
-											 //1:1채팅방 만들기
 			
 			 return makeResult == true  
 					? new ResponseEntity<>(vo.getChatRoomVO().getChatRoomNum().toString(), HttpStatus.OK)
@@ -101,7 +100,6 @@ public class ChatController {
 		log.info(vo);
 		
 		boolean makeResult = chatService.createMultiChat(vo.getChatRoomVO(), vo.getChatMemberVoArray());
-		 //1:1채팅방 만들기
 		
 		return makeResult == true  
 					? new ResponseEntity<>(vo.getChatRoomVO().getChatRoomNum().toString(), HttpStatus.OK)
@@ -112,11 +110,11 @@ public class ChatController {
 	@GetMapping("/chatRoom/{chatRoomNum}")
 	public String getChatRoom(@PathVariable Long chatRoomNum, @RequestParam("userId")String userId, Model model){
 	    	
-    	log.info("/getChatRoom/"+chatRoomNum);
+    	log.info("/chatRoom/"+chatRoomNum);
     	
-    	boolean result = chatService.getInChatMember(chatRoomNum, userId);//채팅방의 멤버가 맞는지 확인
+    	boolean result = chatService.getInChatMember(chatRoomNum, userId);
     	
-    	if(result == true) {
+    	if(result == true){//채팅방의 멤버가 아니라면
     		
     		model.addAttribute("message", "채팅방에 입장할 수 없는 경로입니다.");
 			
@@ -125,14 +123,16 @@ public class ChatController {
     	
     	Date recentOutDate = chatService.getRecentOutDate(chatRoomNum, userId);
     	
-    	model.addAttribute("chatContents", chatService.getChatContents(chatRoomNum, recentOutDate, userId));//채팅방의 메시지들
+    	model.addAttribute("chatContents", chatService.getChatContents(chatRoomNum, recentOutDate, userId));
 
     	int chat_type = chatService.getChat_type(chatRoomNum);
     	
-    	if(chat_type == 0) {//1:1채팅방의 경우
+    	if(chat_type == 0){//1:1채팅방의 경우
+    		
     		model.addAttribute("chatMember", chatService.getChatMember(chatRoomNum, userId));//채팅방의 제목에 들어갈 상대방 정보
     		
     	}else if(chat_type == 1) {//멀티채팅방의 경우
+    		
     		model.addAttribute("chatTitleInfo", chatService.getChatTitleInfo(chatRoomNum));//멀티 채팅방의 제목,방장 아이디,닉네임
     		model.addAttribute("chatMembers", chatService.getChatRoomMembers(chatRoomNum));//멀티 채팅방의 멤버들 아이디,닉네임
     	}
@@ -157,6 +157,25 @@ public class ChatController {
         return "chat/chatRoomList";
     } 
 	
+	@PreAuthorize("principal.username == #userId")
+	@ResponseBody
+	@GetMapping(value = "/getChatRoomList", produces = { MediaType.APPLICATION_JSON_UTF8_VALUE })
+	public ResponseEntity<List<chatRoomDTO>> getChatRoomList(Model model, String userId){
+    	
+    	log.info("/getChatRoomList");
+    	
+    	List<chatRoomDTO> chatRoomList = chatService.getMyChatRoomList(userId);
+        
+    	if(chatRoomList != null) {
+			
+			return new ResponseEntity<>(chatRoomList, HttpStatus.OK);
+			
+		}else {
+			
+			return new ResponseEntity<>(HttpStatus.INTERNAL_SERVER_ERROR);
+		}
+    } 
+	
 	@PreAuthorize("principal.username == #vo.chat_memberId")
 	@ResponseBody
 	@PostMapping(value = "/readChat", consumes = "application/json", produces = "text/plain; charset=UTF-8")
@@ -166,7 +185,7 @@ public class ChatController {
 		
 		int result = chatService.readChat(vo);
 		
-		if(result == 0) {//읽지 않았는데 , 디비에서 읽음 처리를 했을때
+		if(result == 0) {//읽지 않았는데, 디비에서 읽음 처리를 했을때
 			
 			return new ResponseEntity<>("0", HttpStatus.OK);
 					
@@ -174,7 +193,7 @@ public class ChatController {
 			
 			return new ResponseEntity<>("1", HttpStatus.OK);
 			
-		}else{ // 읽지 않아서 디비에서 처리를 하다 실패했을때
+		}else{//읽지 않아서 디비에서 처리를 하다 실패했을때
 			
 			return new ResponseEntity<>(HttpStatus.INTERNAL_SERVER_ERROR);
 		}
@@ -203,25 +222,6 @@ public class ChatController {
 		}
 	}
 
-	@PreAuthorize("principal.username == #userId")
-	@ResponseBody
-	@GetMapping(value = "/getChatRoomList", produces = { MediaType.APPLICATION_JSON_UTF8_VALUE })
-	public ResponseEntity<List<chatRoomDTO>> getChatRoomList(Model model, String userId){
-    	
-    	log.info("/getChatRoomList");
-    	
-    	List<chatRoomDTO> chatRoomList = chatService.getMyChatRoomList(userId);
-        
-    	if(chatRoomList != null) {
-			
-			return new ResponseEntity<>(chatRoomList, HttpStatus.OK);
-			
-		}else {
-			
-			return new ResponseEntity<>(HttpStatus.INTERNAL_SERVER_ERROR);
-		}
-    } 
-	
 	@PreAuthorize("principal.username == #chatRoomVO.roomOwnerId")
 	@RequestMapping(method = { RequestMethod.PUT, RequestMethod.PATCH }, 
 					value = "/chatTitle", consumes = "application/json", produces = { MediaType.TEXT_PLAIN_VALUE }) 
@@ -312,6 +312,5 @@ public class ChatController {
 			return new ResponseEntity<>(HttpStatus.INTERNAL_SERVER_ERROR);
 		}
 	}
-	
 	
 }
