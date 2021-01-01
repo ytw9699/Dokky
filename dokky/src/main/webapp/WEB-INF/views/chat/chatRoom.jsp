@@ -867,10 +867,96 @@
 		
 		$("#memberListCancel").on("click", function(event){
 			
-			var backGround = $("#backGround");
-			var chatMemberListWrap = $("#chatMemberListWrap");
-				backGround.css("display","none");
-				chatMemberListWrap.css("display","none");
+			memberListCancel();
+		});
+		
+		$(document).on("click",".userMenu", function(event){ 
+			
+			event.preventDefault();
+			
+			var	user_id = $(this).data("user_id");
+			var userMenubar = $("#userMenubar_"+user_id);
+			
+			closeUserMenubar();
+			
+			userMenubar.css("display","block"); 
+			userMenubar.addClass('addBlockClass'); 
+		});
+		
+		
+		$(document).on("click",".userBoardList", function(event){ 
+			
+			event.preventDefault();
+			
+			var chat_memberId = $(this).data("chat_userid");
+	
+			window.open('/userBoardList?userId='+chat_memberId);
+			
+			closeUserMenubar();
+			memberListCancel();
+		});
+		
+		$(document).on("click",".singleChat", function(event){ 
+			
+			event.preventDefault();
+			
+			<sec:authorize access="isAuthenticated()">   
+				var myId = '${userInfo.username}';  
+				var myNickName = '${userInfo.member.nickName}';
+			</sec:authorize>
+			
+			if(myId == $(this).data("chat_userid")){
+				
+				openAlert("본인과는 채팅 할 수 없습니다");
+				
+				memberListCancel();
+				
+				return;
+			}
+		
+			var chatRoomData = {   
+									roomOwnerId : myId,
+									roomOwnerNick : myNickName,
+									chat_type : 0,
+									headCount : 2
+							   };
+		
+			var chatMemberData = {
+					
+									chat_memberId : $(this).data("chat_userid"),
+									chat_memberNick : $(this).data("chat_nickname")
+							  	 };
+								
+			var commonData = { 
+								chatRoomVO : chatRoomData,
+								chatMemberVO : chatMemberData
+				 			 };
+			
+			commonService.createSingleChat(commonData,
+		   			
+			   		function(result, status){
+					
+						if(status == "success"){ 
+							
+							var popupX = (window.screen.width / 2) - (400 / 2);
+	
+							var popupY= (window.screen.height /2) - (500 / 2);
+							
+							window.open('/chatRoom/'+result+'?userId='+myId, "title"+result, 'height=500, width=400, screenX='+ popupX + ', screenY= '+ popupY);
+							
+							closeUserMenubar();
+							memberListCancel();
+						}
+			    	},
+				    
+			    	function(status){
+			    	
+						if(status == "error"){ 
+							
+							openAlert("Server Error(관리자에게 문의해주세요)");
+						}
+			    	}
+		   	); 
 		});
 		
 		$("#test").on("click", function(event){
@@ -1164,22 +1250,42 @@
 				       nickName = result[i].chat_memberNick; 
 				       userId = result[i].chat_memberId;
 				      
-						str += "<div class='chatUserWrap' data-user_id='"+userId+"' data-nick_name='"+nickName+"'>"
+					   str += "<div class='chatUserWrap' data-user_id='"+userId+"' data-nick_name='"+nickName+"'>"
 				   		   str +=  "<span class='userImage'>"; 
+							str +=   "<a href='#' class='userMenu' data-user_id='"+userId+"'>"
 							   if(serverName == 'localhost'){ 
 								   str += "<img src='/resources/img/profile_img/"+userId+".png?"+random+"' class='memberImage hideUsermenu' onerror='this.src=\"/resources/img/profile_img/basicProfile.png\"'/>&nbsp"
 										   
 							   }else{
 								   str += "<img src='/upload/"+userId+".png?"+random+"' class='memberImage hideUsermenu' onerror='this.src=\"/ROOT/resources/img/profile_img/basicProfile.png\"'/>&nbsp"
 							   }
+						   str += 	 "</a>"; 
 					   	   str +=  "</span>";  
 					   	   str +=  "<span class='userNickname'>"
 					   	   str +=		nickName
 					   	   str +=  "</span>"; 
-				   	   str +=  "</div>"; 
+						   str += "<div id='userMenubar_"+userId+"' class='userMenubar'>" 
+								str += "<ul class='hideUsermenu'>" 
+									str += "<li class='hideUsermenu userBoardList' data-chat_userid='"+userId+"'>"
+										str += "<a href='#' class='hideUsermenu'>"
+												str += "<span class='hideUsermenu'>게시글보기</span>"
+										str += "</a>"
+									str += "</li>"
+									str += "<li class='hideUsermenu'>"  
+										str += "<a href='#' class='hideUsermenu' onclick=\"noteOpen('"+userId+"','"+nickName+"')\">"
+											str += "<span class='hideUsermenu'>쪽지보내기</span>"
+										str += "</a>"
+									str += "</li>"
+									str += "<li class='hideUsermenu singleChat' data-chat_nickname='"+nickName+"' data-chat_userid='"+userId+"'>"  
+										str += "<a href='#' class='hideUsermenu'>"
+											str += "<span class='hideUsermenu'>1:1채팅</span>"
+										str += "</a>"
+									str += "</li>"
+								str += "</ul>"
+						   str += "</div>";
+					   str += "</div>"; 
 				}
-				
-				console.log(str);
+			
 				chatMemberList.html(str);
 			}
 		}
@@ -1375,6 +1481,35 @@
 			    	showError
 		   	);
 		}
+		
+		function noteOpen(userId,nickname){
+			
+			var popupX = (window.screen.width / 2) - (400 / 2);
+
+			var popupY= (window.screen.height /2) - (500 / 2);
+		         
+	        window.open('/noteForm?userId='+userId+'&nickname='+nickname, 'ot', 'height=500, width=400, screenX='+ popupX + ', screenY= '+ popupY);
+	        
+	        closeUserMenubar();
+	        memberListCancel();
+	    }
+		
+		function memberListCancel(){
+			
+			var backGround = $("#backGround");
+			var chatMemberListWrap = $("#chatMemberListWrap");
+				backGround.css("display","none");
+				chatMemberListWrap.css("display","none");	
+		}
+		
+		function closeUserMenubar(){
+			
+			if($(".addBlockClass").length > 0){
+				$(".addBlockClass").css("display","none");  
+				$(".addBlockClass").removeClass('addBlockClass');
+			}	
+		}
+		
 			
 </script>
 </html>
