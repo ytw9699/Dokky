@@ -9,16 +9,16 @@
 <html>
 <head>
     <meta charset="UTF-8">
-    <title>Dokky - 채팅방</title>
+	<title>Dokky - 채팅방</title>
 	<c:choose>
    	  <c:when test="${pageContext.request.serverName == 'localhost'}">
 			<link href="/resources/css/chatRoom.css" rel="stylesheet" type="text/css">
 			<script type="text/javascript" src="/resources/js/common.js"></script>
 	  </c:when>
-      <c:otherwise>
-    		<link href="/ROOT/resources/css/chatRoom.css" rel="stylesheet" type="text/css">
-    		<script type="text/javascript" src="/ROOT/resources/js/common.js"></script>
-      </c:otherwise>
+	  <c:otherwise>
+			<link href="/ROOT/resources/css/chatRoom.css" rel="stylesheet" type="text/css">
+			<script type="text/javascript" src="/ROOT/resources/js/common.js"></script>
+	  </c:otherwise>
 	</c:choose>
 </head>
 
@@ -27,7 +27,7 @@
 <body>
 	<div class="bodyWrap">
 		<div id="chatTitle">
-			 <c:choose>
+			<c:choose>
 			   	  <c:when test="${chat_type == 0}"> <!-- 1:1채팅방이라면 -->
 				   	  <div id="innerTitleWrap">
 							<div class="allMemberImage">
@@ -54,8 +54,8 @@
 							</div>
 					  </div>
 				  </c:when> 
-			      <c:when test="${chat_type == 1}"> <!-- 멀티채팅방이라면 -->
-			        	<div id="innerTitleWrap">
+				  <c:when test="${chat_type == 1}"> <!-- 멀티채팅방이라면 -->
+						<div id="innerTitleWrap">
 			        		<div class="allMemberImage">
 										<c:choose>
 										   	  <c:when test="${pageContext.request.serverName == 'localhost'}"> 
@@ -97,7 +97,7 @@
 									<div class="chatMenu hideclass" id="leave">나가기</div>
 							    </div> 
 							</div>
-			  			</div>
+					  </div>
 				  </c:when>
 			</c:choose>
 			<!-- <div class="test">
@@ -227,17 +227,13 @@
 			</div>
 	</div>
 	<div id="chatMemberListWrap">
+			<div class="chatCancelWrap">
+				<input type="button" id="memberListCancel" value="X" />				
+			</div>
 			<div class="chatMemberListTitle">
 				채팅방 멤버 
 			</div>
 			<div id="chatMemberList">
-			</div>
-			<div class="buttonWrap">
-				<div class="chatCancelWrap">
-				</div>
-				<div class="chatCancelWrap">
-					<input type="button" id="memberListCancel" value="닫기" />				
-				</div>
 			</div>
 	</div>
 							

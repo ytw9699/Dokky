@@ -429,9 +429,12 @@
 		}
 		
 		.chatCancelWrap{
-		    width: 48%;
+		    width: 13%;
 		    display: inline-block;
-		    height : 50px;
+		    height: 28px;
+		    float: right;
+		    margin-top: -28%;
+		    margin-right: -27%;
 		} 
 		
 		#search{
@@ -500,15 +503,17 @@
 		}
 		
 		#memberListCancel{
-			font-size: 15px;
-		    background-color: #7151fc;
-		    border: 1px solid #7151fc;
-		    color: white;
-		    cursor: pointer;
-		    padding: 4px;
-		    border-radius: 4px;
-		    width: 100%;
-		    margin-left: 1%;
+			    font-size: 15px;
+			    background-color: white;
+			    color: #7151fc;
+			    border-color: none;
+			    border: none;
+			    cursor: pointer;
+			    padding: 4px;
+			    border-radius: 4px;
+			    width: 100%;
+			    margin-left: 1%;
+			    font-weight: 800;
 		}
 		
 		.chatMemberListTitle{
