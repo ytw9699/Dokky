@@ -162,11 +162,11 @@ public class ChatController {
 	@GetMapping(value = "/getChatRoomList", produces = { MediaType.APPLICATION_JSON_UTF8_VALUE })
 	public ResponseEntity<List<chatRoomDTO>> getChatRoomList(Model model, String userId){
     	
-    	log.info("/getChatRoomList");
+		log.info("/getChatRoomList");
     	
-    	List<chatRoomDTO> chatRoomList = chatService.getMyChatRoomList(userId);
-        
-    	if(chatRoomList != null) {
+		List<chatRoomDTO> chatRoomList = chatService.getMyChatRoomList(userId);
+		
+		if(chatRoomList != null) {
 			
 			return new ResponseEntity<>(chatRoomList, HttpStatus.OK);
 			
@@ -174,7 +174,7 @@ public class ChatController {
 			
 			return new ResponseEntity<>(HttpStatus.INTERNAL_SERVER_ERROR);
 		}
-    } 
+	} 
 	
 	@PreAuthorize("principal.username == #vo.chat_memberId")
 	@ResponseBody
