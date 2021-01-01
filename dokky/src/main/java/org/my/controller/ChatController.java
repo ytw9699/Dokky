@@ -110,52 +110,52 @@ public class ChatController {
 	@GetMapping("/chatRoom/{chatRoomNum}")
 	public String getChatRoom(@PathVariable Long chatRoomNum, @RequestParam("userId")String userId, Model model){
 	    	
-    	log.info("/chatRoom/"+chatRoomNum);
-    	
-    	boolean result = chatService.getInChatMember(chatRoomNum, userId);
-    	
-    	if(result == true){//채팅방의 멤버가 아니라면
-    		
-    		model.addAttribute("message", "채팅방에 입장할 수 없는 경로입니다.");
+		log.info("/chatRoom/"+chatRoomNum);
+		
+		boolean result = chatService.getInChatMember(chatRoomNum, userId);
+		
+		if(result == true){//채팅방의 멤버가 아니라면
+			
+			model.addAttribute("message", "채팅방에 입장할 수 없는 경로입니다.");
 			
 			return "error/commonError";
-    	}
-    	
-    	Date recentOutDate = chatService.getRecentOutDate(chatRoomNum, userId);
-    	
-    	model.addAttribute("chatContents", chatService.getChatContents(chatRoomNum, recentOutDate, userId));
-
-    	int chat_type = chatService.getChat_type(chatRoomNum);
-    	
-    	if(chat_type == 0){//1:1채팅방의 경우
-    		
-    		model.addAttribute("chatMember", chatService.getChatMember(chatRoomNum, userId));//채팅방의 제목에 들어갈 상대방 정보
-    		
-    	}else if(chat_type == 1) {//멀티채팅방의 경우
-    		
-    		model.addAttribute("chatTitleInfo", chatService.getChatTitleInfo(chatRoomNum));//멀티 채팅방의 제목,방장 아이디,닉네임
-    		model.addAttribute("chatMembers", chatService.getChatRoomMembers(chatRoomNum));//멀티 채팅방의 멤버들 아이디,닉네임
-    	}
-    	
-        model.addAttribute("chatRoomNum", chatRoomNum);
-        model.addAttribute("headCount", chatService.getHeadCount(chatRoomNum));
-        model.addAttribute("chat_type", chat_type);
-        
-        return "chat/chatRoom";
+		}
+		
+		Date recentOutDate = chatService.getRecentOutDate(chatRoomNum, userId);
+		
+		model.addAttribute("chatContents", chatService.getChatContents(chatRoomNum, recentOutDate, userId));
+		
+		int chat_type = chatService.getChat_type(chatRoomNum);
+		
+		if(chat_type == 0){//1:1채팅방의 경우
+			
+			model.addAttribute("chatMember", chatService.getChatMember(chatRoomNum, userId));//채팅방의 제목에 들어갈 상대방 정보
+			
+		}else if(chat_type == 1) {//멀티채팅방의 경우
+			
+			model.addAttribute("chatTitleInfo", chatService.getChatTitleInfo(chatRoomNum));//멀티 채팅방의 제목,방장 아이디,닉네임
+			model.addAttribute("chatMembers", chatService.getChatRoomMembers(chatRoomNum));//멀티 채팅방의 멤버들 아이디,닉네임
+		}
+		
+		model.addAttribute("chatRoomNum", chatRoomNum);
+		model.addAttribute("headCount", chatService.getHeadCount(chatRoomNum));
+		model.addAttribute("chat_type", chat_type);
+		
+		return "chat/chatRoom";
 	}
 	 
 	@PreAuthorize("principal.username == #userId")
 	@GetMapping("/myChatRoomList")
 	public String getMyChatRoomList(Model model, String userId){
-    	
-    	log.info("/myChatRoomList");
-    	
-    	List<chatRoomDTO> chatRoomList = chatService.getMyChatRoomList(userId);
-    	
-    	model.addAttribute("chatRoomList", chatRoomList);
-        
-        return "chat/chatRoomList";
-    } 
+		
+		log.info("/myChatRoomList");
+		
+		List<chatRoomDTO> chatRoomList = chatService.getMyChatRoomList(userId);
+		
+		model.addAttribute("chatRoomList", chatRoomList);
+		
+		return "chat/chatRoomList";
+	} 
 	
 	@PreAuthorize("principal.username == #userId")
 	@ResponseBody
