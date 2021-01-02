@@ -579,5 +579,22 @@
 		    color: white;
 		}
 		
+		#hidingMessage{
+				width: 89%;
+			    border-radius: 8px;
+			    position: fixed;
+			    margin-bottom: 26%;
+			    display: none;
+			    top: 72%;
+			    left: 4.5%;
+			    color: white;
+			    padding: 7px;
+			    font-color: white;
+			    background-color: #7151fc;
+			    cursor: pointer;
+			    overflow: hidden;
+			    text-overflow: ellipsis;
+			    white-space: nowrap;
+		}
 		
 		

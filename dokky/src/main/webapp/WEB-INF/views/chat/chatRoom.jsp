@@ -182,6 +182,8 @@
 				</c:choose>
 		    </c:forEach>
 		</div>
+		<div id="hidingMessage">
+		</div>
 		<div id="messageWrap">
 				<span id="messgaeInputWrap">
 					<textarea id="message" rows="3" placeholder="내용을 입력하세요" oninput="checkLength(this,2000);" autofocus></textarea>
@@ -339,6 +341,8 @@
 					
 					if($(window).scrollTop() + $(window).height() == $(document).height()){//스크롤이 맨 하단에서 감지되는지 여부 저장
 						isBottom = true;
+				    }else{
+				    	isBottom = false;
 				    }
 					
 					if(obj.type == 'CHAT'){
@@ -350,6 +354,24 @@
 						 var getMessgae = obj.message;
 						 
 						 divideDate(regDate);
+						 
+						 if(!isBottom){
+							 
+							 if(obj.chat_writerId != myId){
+								 
+								 var hidingMessage = $("#hidingMessage");
+								 
+								 hidingMessage.html(obj.chat_writerNick + " : " +getMessgae);
+								 
+								 hidingMessage.css("display","block");
+								 
+								 hidingMessage.on("click", function(event){
+										
+									 hidingMessage.css("display","none");
+									 $('html').scrollTop(document.body.scrollHeight);
+								 });
+							 }
+						 }
 						 
 						 if(position == "in"){//사용자가 채팅방에 머무른다면
 							 	
