@@ -425,10 +425,14 @@
 		#chatInviteWrap{
 		    width: 48%;
 		    display: inline-block;
-		    height : 50px;
 		}
 		
 		.chatCancelWrap{
+		    width: 48%;
+		    display: inline-block;
+		} 
+		
+		.memberListCancelWrap{
 		    width: 13%;
 		    display: inline-block;
 		    height: 28px;

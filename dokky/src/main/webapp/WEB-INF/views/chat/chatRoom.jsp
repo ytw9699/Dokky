@@ -229,7 +229,7 @@
 			</div>
 	</div>
 	<div id="chatMemberListWrap">
-			<div class="chatCancelWrap">
+			<div class="memberListCancelWrap">
 				<input type="button" id="memberListCancel" value="X" />				
 			</div>
 			<div class="chatMemberListTitle">
