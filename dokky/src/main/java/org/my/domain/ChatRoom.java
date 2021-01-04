@@ -22,11 +22,6 @@ public class ChatRoom {
         	
         	sessionsSet.add(session);
         	
-        	for(WebSocketSession sessions : sessionsSet){
-            	
-            	log.info("session"+sessions);
-            }
-        	
         }else if(chatMessage.getType() == ChatMessageType.CLOSED){
         	
         	log.info("remove session = "+session);
