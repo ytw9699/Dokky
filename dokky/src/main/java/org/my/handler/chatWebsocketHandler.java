@@ -163,13 +163,17 @@ public class chatWebsocketHandler extends TextWebSocketHandler {
 		
 		log.info("chatWebsocketHandler afterConnectionClosed:" + session + ":" + status);
 		
-		if(chatRoomNumMap.containsKey(session.getId())){//정상적으로 웹소켓이 닫힌게 아닌 경우 핸들러가 처리한다.
+		String sessionId = session.getId();
+		
+		if(chatRoomNumMap.containsKey(sessionId)){//정상적으로 웹소켓이 닫힌게 아닌 경우 핸들러가 처리한다.
 			
-			String chatRoomNum = chatRoomNumMap.get(session.getId());
+			String chatRoomNum = chatRoomNumMap.get(sessionId);
 			
 			ChatRoom chatRoom = chatService.findChatRoom(chatRoomNum);
 			
-			if(chatRoom.removeWebSocketSession(session)){
+			chatRoomNumMap.remove(sessionId);
+			
+			if(chatRoom.removeWebSocketSession(session)) {
 				
 				log.info("비정상적인 웹소켓 닫힘이 발생되어, 해당 채팅방에서 웹소켓 객체를 삭제하였습니다.");				
 			}
