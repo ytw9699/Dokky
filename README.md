@@ -31,10 +31,10 @@
 
 ## 개발 주요 사항
 #### &emsp; 스프링 MVC + REST 개발
-#### &emsp; WebSocket 실시간 서비스 개발
+#### &emsp; WebSocket 실시간 통신 개발
 #### &emsp; AWS 클라우드 인프라 구축(EC2, RDS, S3 서버 분리)
-#### &emsp; Oauth2 소셜 로그인 + 시큐리티 연동
-#### &emsp; HTTPS통신을 위한 SSL인증 적용
+#### &emsp; Oauth2 소셜 로그인 + 시큐리티(인증,인가) 연동
+#### &emsp; HTTPS 암호화 통신을 위한 SSL인증 적용
 
 ## 프로젝트 주요 문서
 
