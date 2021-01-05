@@ -65,8 +65,6 @@ public interface ChatMapper {
 
 	multiRoomVO getChatTitleInfo(@Param("chatRoomNum") Long chatRoomNum);
 
-	List<ChatMemberVO> getMultiroomMembers(Long chatRoomNum);
-
 	int updateChatTitle(ChatRoomVO chatRoomVO);
 
 	String[] getExceptUsers(Long chatRoomNum);
@@ -78,5 +76,7 @@ public interface ChatMapper {
 	int getMember(@Param("chatRoomNum") Long chatRoomNum, @Param("chat_memberId") String chat_memberId);
 
 	int updateChat_typeToMulti(Long chatRoomNum);
+
+	int getInChatMember(@Param("chatRoomNum") Long chatRoomNum, @Param("userId") String userId);
 
 }

@@ -256,10 +256,6 @@
 	   		<!-- 한글 > 영문 > 숫자의 오름차순 -->
 	   </select>
 	   
-	   <select id="getMultiroomMembers" resultType="org.my.domain.ChatMemberVO">
-	   		select chat_memberId, chat_memberNick from dk_chat_member where chatRoomNum = #{chatRoomNum} and present_position = 0
-	   </select>
-	   
 	   <select id="getChatTitleInfo" resultType="org.my.domain.multiRoomVO">
 	   		select chat_title, roomOwnerId, roomOwnerNick from dk_chat_room where chatRoomNum = #{chatRoomNum}
 	   </select>
@@ -304,7 +300,11 @@
 	   <update id="updateChat_typeToMulti">
 	 	 	update dk_chat_room set chat_type = 1 where chatRoomNum = #{chatRoomNum}
 	   </update>
-
+	
+		<select id="getInChatMember" resultType="int">
+			select count(*) from dk_chat_member where chatRoomNum = #{chatRoomNum} and chat_memberId = #{userId} and present_position = 0
+		</select>
+		
 </mapper>
 
 

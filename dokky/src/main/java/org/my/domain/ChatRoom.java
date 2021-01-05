@@ -1,10 +1,8 @@
 package org.my.domain;
 	import java.io.IOException;
 	import java.util.HashSet;
-	import java.util.Iterator;
 	import org.springframework.web.socket.TextMessage;
 	import org.springframework.web.socket.WebSocketSession;
-	import com.fasterxml.jackson.databind.ObjectMapper;
 	import lombok.Data;
 	import lombok.extern.log4j.Log4j;
 
@@ -23,11 +21,6 @@ public class ChatRoom {
         	log.info("add session = "+session);
         	
         	sessionsSet.add(session);
-        	
-        	for(WebSocketSession sessions : sessionsSet){
-            	
-            	log.info("session"+sessions);
-            }
         	
         }else if(chatMessage.getType() == ChatMessageType.CLOSED){
         	
@@ -116,7 +109,6 @@ public class ChatRoom {
             }else if(chatMessage.getType() == ChatMessageType.INVITE){
             	
             	customMessage = 	"{\"message\":\""+chatMessage.getMessage()+
-            							"\", \"headCount\":\""+chatMessage.getHeadCount()+
             							"\", \"memberNicks\":\""+chatMessage.getMemberNicks()+
             							"\", \"memberIds\":\""+chatMessage.getMemberIds()+
 				    					"\", \"type\":\""+chatMessage.getType()+"\"}";

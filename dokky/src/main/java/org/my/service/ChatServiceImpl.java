@@ -2,7 +2,7 @@ package org.my.service;
 	import java.io.IOException;
 	import java.util.ArrayList;//임포트 해주자
 	import java.util.Date;
-	import java.util.LinkedHashMap;
+	import java.util.HashMap;
 	import java.util.List;
 	import java.util.Map;
 	import org.my.domain.ChatContentVO;
@@ -29,7 +29,7 @@ public class ChatServiceImpl implements ChatService {
 		@Setter(onMethod_ = @Autowired)
 		private ChatMapper chatMapper;
 		
-		private Map<String, ChatRoom> chatRoomMap = new LinkedHashMap<>();
+		private Map<String, ChatRoom> chatRoomMap = new HashMap<>();
 	
 		
 	    @Override
@@ -370,14 +370,6 @@ public class ChatServiceImpl implements ChatService {
 		}
 		
 		@Override
-		public List<ChatMemberVO> getMultiroomMembers(Long chatRoomNum){
-			
-			log.info("getMultiroomMembers");
-			
-			return chatMapper.getMultiroomMembers(chatRoomNum);
-		}
-		
-		@Override
 		public multiRoomVO getChatTitleInfo(Long chatRoomNum){
 			
 			log.info("getChatTitleInfo");
@@ -564,7 +556,6 @@ public class ChatServiceImpl implements ChatService {
 				ChatRoom chatRoom = findChatRoom(chatRoomNum.toString());
 				
 				ChatMessage chatMessage = new ChatMessage();
-				chatMessage.setHeadCount(headCount);
 				chatMessage.setType(ChatMessageType.INVITE);
 				chatMessage.setMessage(chat_content);
 				chatMessage.setMemberIds(memberIds);
@@ -593,6 +584,14 @@ public class ChatServiceImpl implements ChatService {
 			log.info("getChatRoomMembers");
 			
 			return chatMapper.getChatMembers(chatRoomNum);
+		}
+		
+		@Override
+		public boolean getInChatMember(Long chatRoomNum, String userId){
+			
+			log.info("getInChatMember");
+			
+			return chatMapper.getInChatMember(chatRoomNum, userId) == 0;//멤버가 아니라면 true 반환
 		}
 }
 

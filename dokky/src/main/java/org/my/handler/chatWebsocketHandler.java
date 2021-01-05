@@ -1,7 +1,7 @@
 package org.my.handler;
 	import java.io.IOException;
 	import java.util.Date;
-	import java.util.LinkedHashMap;
+	import java.util.HashMap;
 	import java.util.Map;
 	import org.my.domain.ChatMessage;
 	import org.my.domain.ChatRoom;
@@ -28,7 +28,7 @@ public class chatWebsocketHandler extends TextWebSocketHandler {
 	@Setter(onMethod_ = @Autowired)
     private ObjectMapper objectMapper;
 	
-	Map<String, String> chatRoomNumMap = new LinkedHashMap<>();
+	Map<String, String> chatRoomNumMap = new HashMap<>();
 	
     @Override
     protected void handleTextMessage(WebSocketSession session, TextMessage message){
@@ -46,7 +46,7 @@ public class chatWebsocketHandler extends TextWebSocketHandler {
             ChatRoom chatRoom = null;
             
             
-            if(chatMessage.getType() == ChatMessageType.OPEN){//방에 입장할때
+            if(chatMessage.getType() == ChatMessageType.OPEN){//기존의 채팅 방을 열때 or 내가 채팅방을 새롭게 만들때
             	
             	log.info("MessageType.OPEN");
             	
@@ -114,19 +114,21 @@ public class chatWebsocketHandler extends TextWebSocketHandler {
         	
     	    	log.info("MessageType.CHAT");
     	    	
+    	    	Long ChatRoomNum = Long.parseLong(chatMessage.getChatRoomNum());
+    	    	
+    	    	int headCount = chatService.getHeadCount(ChatRoomNum);
+    	    	
+    	    	chatMessage.setHeadCount(headCount);
     	    	chatMessage.setRegDate(new Date());
     	    	
     	    	ChatContentVO chatContentVO = new ChatContentVO();
-    	    	
-    	    	chatContentVO.setChat_content(chatMessage.getMessage());
-    	    	chatContentVO.setChat_writerId(chatMessage.getChat_writerId());
-    	    	chatContentVO.setChat_writerNick(chatMessage.getChat_writerNick());
-    	    	chatContentVO.setRegDate(chatMessage.getRegDate());
-    	    	chatContentVO.setChatRoomNum(Long.parseLong(chatMessage.getChatRoomNum()));
-    	    	chatContentVO.setReadCount(chatMessage.getHeadCount());
-    	    	
-    	    	log.info("chatContentVO"+chatContentVO);
-    	    	
+			    	    	  chatContentVO.setChat_content(chatMessage.getMessage());
+			    	    	  chatContentVO.setChat_writerId(chatMessage.getChat_writerId());
+			    	    	  chatContentVO.setChat_writerNick(chatMessage.getChat_writerNick());
+			    	    	  chatContentVO.setRegDate(chatMessage.getRegDate());
+			    	    	  chatContentVO.setChatRoomNum(ChatRoomNum);
+			    	    	  chatContentVO.setReadCount(headCount);
+			    	    	
     	    	chatService.createChatContent(chatContentVO);
     	    	
     	    	chatMessage.setChatContentNum(chatContentVO.getChatContentNum());

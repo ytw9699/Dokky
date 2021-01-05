@@ -342,7 +342,7 @@
 		}
 		
 		.editBtn{ 
-		    font-size: 12px;
+		    font-size: 14px;
 		    border: none;
 		    padding: 8px;
 		    width: 45%;
@@ -425,13 +425,20 @@
 		#chatInviteWrap{
 		    width: 48%;
 		    display: inline-block;
-		    height : 50px;
 		}
 		
 		.chatCancelWrap{
 		    width: 48%;
 		    display: inline-block;
-		    height : 50px;
+		} 
+		
+		.memberListCancelWrap{
+		    width: 13%;
+		    display: inline-block;
+		    height: 28px;
+		    float: right;
+		    margin-top: -28%;
+		    margin-right: -27%;
 		} 
 		
 		#search{
@@ -500,15 +507,17 @@
 		}
 		
 		#memberListCancel{
-			font-size: 15px;
-		    background-color: #7151fc;
-		    border: 1px solid #7151fc;
-		    color: white;
-		    cursor: pointer;
-		    padding: 4px;
-		    border-radius: 4px;
-		    width: 100%;
-		    margin-left: 1%;
+			    font-size: 15px;
+			    background-color: white;
+			    color: #7151fc;
+			    border-color: none;
+			    border: none;
+			    cursor: pointer;
+			    padding: 4px;
+			    border-radius: 4px;
+			    width: 100%;
+			    margin-left: 1%;
+			    font-weight: 800;
 		}
 		
 		.chatMemberListTitle{
@@ -527,5 +536,69 @@
 		    margin-top: 2%;
 		}
 		
+		.userMenu{
+			color:#333333; 
+			text-decoration: none;
+		}	
+		
+		.userMenubar{
+			    display: none; 
+		        border-style: solid;
+			    border-width: 1px;
+			    border-color: #7151fc; 
+			    width: 88px;
+			    height: 80px;
+			    position: fixed;
+			    background-color: white;
+			    margin-left: 30px;
+			    border-radius: 5px;
+			    position: absolute;
+		}
+		.userMenubar ul {
+		    margin: auto;
+		}
+		 
+		.userMenubar ul li{
+		    list-style: none;
+		    width: 86px;
+		    margin-left: -83%; 
+		    margin-bottom: 3px;
+		    height: 25px; 
+		}
+		.userMenubar ul li a{
+	        text-decoration: none;
+		    color: #7151fc;
+		    margin-left: 3px;
+		    font-size: 16px;
+		}
+		 
+		.userMenubar ul li:hover{ 
+			background-color: #7151fc;
+			border-radius: 2px;     
+			border:1px solid #7151fc;  
+		}
+		.userMenubar ul li a:hover{
+			text-decoration: none;
+			background-color: #7151fc;
+		    color: white;
+		}
+		
+		#hidingMessage{
+				width: 89%;
+			    border-radius: 8px;
+			    position: fixed;
+			    margin-bottom: 26%;
+			    display: none;
+			    top: 72%;
+			    left: 4.5%;
+			    color: white;
+			    padding: 7px;
+			    font-color: white;
+			    background-color: #7151fc;
+			    cursor: pointer;
+			    overflow: hidden;
+			    text-overflow: ellipsis;
+			    white-space: nowrap;
+		}
 		
 		

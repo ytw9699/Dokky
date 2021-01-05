@@ -7,6 +7,7 @@ package org.my.controller;
 	import org.my.domain.MemberVO;
 	import org.my.domain.PageDTO;
 	import org.my.domain.cashVO;
+	import org.my.domain.checkPwVO;
 	import org.my.service.BoardService;
 	import org.my.service.CommonService;
 	import org.my.service.MemberService;
@@ -345,51 +346,65 @@ public class MypageController {
 			}
 	}
 	
-	/*
-	 * 아래는 현재쓰이지 않는 로직 주석
-	 * @PreAuthorize("isAuthenticated()") 
-	@PostMapping(value = "/checkPassword", consumes = "application/json", produces = "text/plain; charset=UTF-8")
-	@ResponseBody
-	public ResponseEntity<String> checkPassword(@RequestBody checkVO vo) {//나의 패스워드 체크
-		
-		log.info("/mypage/checkPassword");
-		log.info("checkVO.."+vo);
-		
-		String getPw = service.getMemberPW(vo.getUserId());
-		
-		if(!pwencoder.matches(vo.getUserPw(), getPw)) {//비밀번호 일치하지 않는다면
-			
-			return new ResponseEntity<>(HttpStatus.NOT_FOUND);//404
-			
-	    }else {
-			
-	    	return new ResponseEntity<>("success",HttpStatus.OK);//200
-	    }
-	}
-	
-	@PreAuthorize("isAuthenticated()") 
- 	@GetMapping("/rePasswordForm")  
-	public String rePasswordForm(@RequestParam("userId") String userId, Model model) { //내 패스워드 변경폼
+	@PreAuthorize("principal.username == #userId and hasRole('ROLE_SUPER')")
+ 	@GetMapping("/rePasswordForm")//슈퍼관리자의 경우만 패스워드 변경폼을 가져올 수 있다.
+	public String rePasswordForm(@RequestParam("userId") String userId) {
 		
 		log.info("/mypage/rePasswordForm");
 		
 		return "mypage/myRepasswordForm";
 	}
 	
-	@PreAuthorize("isAuthenticated()") 
-	@PostMapping("/MyPassword")
-	public String updateMyPassword(@RequestParam("userId") String userId, @RequestParam("newPw") String newPw , Model model) {//패스워드 변경
+	@PreAuthorize("principal.username == #vo.userId and hasRole('ROLE_SUPER')")
+	@PostMapping(value = "/checkPassword", consumes = "application/json", produces = "text/plain; charset=UTF-8")
+	@ResponseBody
+	public ResponseEntity<String> checkPassword(@RequestBody checkPwVO vo) {
 		
-		log.info("/mypage/MyPassword");
-
-		String userPw = pwencoder.encode(newPw);//패스워드 암호화
+		log.info("/mypage/checkPassword");
+		log.info("checkPwVO = "+vo);
 		
-		if(mypageService.updateMyPassword(userId,userPw)) {
-			model.addAttribute("update", "complete");
+		String myPassword = mypageService.getMemberPW(vo.getUserId());
+		
+		if(myPassword == null) {
+			
+			return new ResponseEntity<>(HttpStatus.INTERNAL_SERVER_ERROR);
 			
 		}else {
-			model.addAttribute("update", "notComplete");
+			
+			if(!pwencoder.matches(vo.getUserPw(), myPassword)) {
+				
+				return new ResponseEntity<>("fail", HttpStatus.OK);
+				
+		    }else{
+				
+		    	return new ResponseEntity<>("success", HttpStatus.OK);
+		    }
 		}
-			return "mypage/myRepasswordForm";
-	}*/
+	}
+	
+	@PreAuthorize("principal.username == #vo.userId and hasRole('ROLE_SUPER')")
+	@PostMapping(value = "/changeMyPassword", consumes = "application/json", produces = "text/plain; charset=UTF-8")
+	@ResponseBody
+	public ResponseEntity<String> changeMyPassword(@RequestBody checkPwVO vo) {
+		
+		log.info("/mypage/changeMyPassword");
+
+		String encodedPw = pwencoder.encode(vo.getUserPw());
+		
+		if(encodedPw == null) {
+			
+			return new ResponseEntity<>(HttpStatus.INTERNAL_SERVER_ERROR);
+			
+		}else {
+			
+			if(mypageService.changeMyPassword(vo.getUserId(), encodedPw)){
+				
+				return new ResponseEntity<>(HttpStatus.OK);
+				
+			}else {
+				
+				return new ResponseEntity<>(HttpStatus.INTERNAL_SERVER_ERROR);
+			}
+		}
+	}
 }
