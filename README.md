@@ -30,7 +30,6 @@
 #### &emsp; Git, SourceTree, Maven  
 
 ## 개발 주요 사항
-#### &emsp; 스프링 MVC + REST 개발
 #### &emsp; WebSocket 실시간 통신 개발
 #### &emsp; AWS 클라우드 인프라 구축(EC2, RDS, S3 서버 분리)
 #### &emsp; Oauth2 소셜 로그인 + 시큐리티(인증,인가) 연동
