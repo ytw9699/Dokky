@@ -327,7 +327,7 @@
 			
 				chatWebSocket.send(JSON.stringify({chatRoomNum : chatRoomNum, type:'OPEN'}));//채팅방 열기
 				
-				focusFunction();//처음에 방에 입장시, 꼭 채팅방 열기 메시지를 보낸후에(위 한줄 로직), 읽지 않은 메시지들이 있다면 읽어주는 처리를 한번해야한다.
+				inChatRoom();//처음에 방에 입장시, 꼭 채팅방 열기 메시지를 보낸후에(위 한줄 로직), 읽지 않은 메시지들이 있다면 읽어주는 처리를 한번해야한다.
 				
 				chatWebSocket.onmessage = function(event){
 					
@@ -985,15 +985,15 @@
 			chatWebSocket.close();
 		});
 		
-		window.onblur = blurFunction;//채팅방을 벗어날때
-		window.onfocus = focusFunction;//채팅방에 다시올때
+		window.onblur = outChatRoom;//채팅방에서 포커스가 벗어날때
+		window.onfocus = inChatRoom;//채팅방에 포커스가 잡힐때
 		
-		function blurFunction(){ 
+		function outChatRoom(){ 
 			
 			position = "out";
 		}
-		
-		function focusFunction(){ 
+		 
+		function inChatRoom(){ 
 			
 			position = "in";
 			
