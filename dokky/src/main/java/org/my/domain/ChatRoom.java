@@ -24,7 +24,7 @@ public class ChatRoom {
         	
         }else if(chatMessage.getType() == ChatMessageType.CLOSED){
         	
-        	log.info("remove session = "+session);
+        	log.info("remove session CLOSED = "+session);
         	
     		sessionsSet.remove(session);
             
