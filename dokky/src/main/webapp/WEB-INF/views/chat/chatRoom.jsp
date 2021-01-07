@@ -102,7 +102,7 @@
 			</c:choose>
 			<!-- <div class="test">
 				<button id="test">재연결</button>
-			</div> -->
+			</div>  -->
 		</div>
 		<div id="chatContents">
 						<script>
@@ -604,7 +604,10 @@
 				    }
 				}
 				
-				chatWebSocket.onclose = function(){
+				chatWebSocket.onclose = function(event){
+					
+					console.log("chatWebSocket onclose");
+					console.log(event);
 					
 					chatWebSocket = null;
 					
@@ -613,14 +616,15 @@
 					
 					setTimeout(function() {
 						<sec:authorize access="hasAnyRole('ROLE_ADMIN','ROLE_USER','ROLE_SUPER','ROLE_STOP')">
-							chatWebSocketConnect(); //0.1초후 다시 재연결
+							chatWebSocketConnect();
 						</sec:authorize>
-					}, 100); 
+					}, 100);//0.1초
 				}
 				
 				chatWebSocket.onerror = function(err){
 					
-					console.log("chatWebsocket error, "+err);
+					console.log("chatWebsocket error");
+					console.log(err);
 					openAlert("채팅연결 에러가 발생했습니다.");
 				}
 				
