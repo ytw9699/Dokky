@@ -153,14 +153,14 @@ public class chatWebsocketHandler extends TextWebSocketHandler {
     	}
     }
     
-    @Override
+    @Override//웹소켓 클라이언트가 연결되면 호출된다.
 	public void afterConnectionEstablished(WebSocketSession session) throws Exception{
 		
 		log.info("chatWebsocketHandler afterConnectionEstablished:" + session);
 		
 	}
 	
-	@Override
+	@Override//웹소켓 클라이언트가 언결을 직접 끊거나 서버에서 타임아웃이 발생해서 연결을 끊을때 호출된다.
 	public void afterConnectionClosed(WebSocketSession session, CloseStatus status) throws Exception {
 		
 		log.info("chatWebsocketHandler afterConnectionClosed:" + session + ":" + status);
@@ -178,6 +178,7 @@ public class chatWebsocketHandler extends TextWebSocketHandler {
 	            BufferedWriter fw = new BufferedWriter(new FileWriter(fileName, true));
 	            
 	            fw.write("비정상적인 웹소켓 끊김이 발생되었습니다");
+	            fw.write(session.getId());
 	            
 	            fw.flush();
 	            fw.close();
@@ -201,7 +202,7 @@ public class chatWebsocketHandler extends TextWebSocketHandler {
 		}
 	}
 	
-	@Override//Handle an error from the underlying WebSocket message transport. 
+	@Override//Handle an error from the underlying WebSocket message transport. 웹소켓 클라이언트와의 연결에 문세가 발생하면 호출된다.
 	public void handleTransportError(WebSocketSession session, Throwable exception) throws Exception {
 		log.info("handleTransportError = " + exception.getMessage());
 		log.info("error session = " + session); 
