@@ -100,9 +100,9 @@
 					  </div>
 				  </c:when>
 			</c:choose>
-			<!-- <div class="test">
+			<div class="test">
 				<button id="test">재연결</button>
-			</div>  -->
+			</div> 
 		</div>
 		<div id="chatContents">
 						<script>
@@ -268,7 +268,7 @@
 			
 			<sec:authorize access="isAuthenticated()">
 			
-					commonWebSocketConnect();			
+					commonWebSocketConnect();		
 					chatWebSocketConnect();
 					
 					setTimeout(function(){//방을 처음 생성하고 방 인원 모두에게 chatAlarm을 보내 채팅리스트를 업데이트 시키거나
@@ -661,7 +661,7 @@
 						<sec:authorize access="hasAnyRole('ROLE_ADMIN','ROLE_USER','ROLE_SUPER','ROLE_STOP')">
 							commonWebSocketConnect();
 						</sec:authorize>
-					}, 1000); 
+					}, 1000);
 				}
 				
 				commonWebSocket.onerror = function(err){
@@ -693,6 +693,7 @@
 			    			commonService.getChat_type(chatRoomNum,  
 			    					
 				    			   		function(result, status){
+			    				
 				    					
 				    							if(result == "1"){//멀티채팅방이라면 
 				    								
@@ -733,20 +734,22 @@
 		
 		function closed(){//방 닫기
 			
-			console.log("chatWebsocket closed");
-			
-			chatWebSocket.send(JSON.stringify({chatRoomNum : chatRoomNum, type:'CLOSED'}));
-			
-		    chatWebSocket.close();
-		    
-		    chatWebSocket = null;
+			if(chatWebSocket != null){
+				
+				console.log("chatWebsocket closed");
+				
+				chatWebSocket.send(JSON.stringify({chatRoomNum : chatRoomNum, type:'CLOSED'}));
+			    chatWebSocket.close();
+			    chatWebSocket = null;
+			    
+			}else{
+				
+				console.log("chatWebSocket is null");
+			}		    
 		}
 		
 		window.onbeforeunload = function(){//브라우저 종료 및 닫기 감지
-			
-			if(chatWebSocket != null){
 				closed();
-			}
 		}
 		
 		$("#sendMessageBtn").on("click", function(event){
@@ -986,7 +989,8 @@
 		});
 		
 		$("#test").on("click", function(event){
-			chatWebSocket.close();
+			closed();
+			/* chatWebSocket.close(); */
 		});
 		
 		window.onblur = outChatRoom;//채팅방에서 포커스가 벗어날때
@@ -998,6 +1002,8 @@
 		}
 		 
 		function inChatRoom(){ 
+			
+			console.log("in");
 			
 			position = "in";
 			
