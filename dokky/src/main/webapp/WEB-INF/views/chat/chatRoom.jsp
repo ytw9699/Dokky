@@ -486,6 +486,10 @@
 			             
 					}else if(obj.type == 'LEAVE'){
 						
+						 if(obj.chat_writerId == myId){
+							 closed();	 
+						 }
+						
 						 var regDate = parseInt(obj.regDate);
 						
 						 divideDate(regDate);
@@ -497,10 +501,6 @@
 																		 + getMessgae
 																 	+ "</span>"
 						 										 + "</div>";
-						 
-						 if(obj.chat_writerId == myId){
-							 closed();	 
-						 }
 						 
 					}else if(obj.type == 'READ'){
 						
