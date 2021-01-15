@@ -500,7 +500,6 @@
 						 
 						 if(obj.chat_writerId == myId){
 							 closed();	 
-							 window.close();
 						 }
 						 
 					}else if(obj.type == 'READ'){
@@ -746,6 +745,8 @@
 				
 				console.log("chatWebSocket is null");
 			}		    
+		
+			window.close();
 		}
 		
 		window.onbeforeunload = function(){//브라우저 종료 및 닫기 감지
@@ -783,8 +784,6 @@
 						if(status == "success"){
 							
 							if(commonWebSocket != null){
-								
-								commonWebSocket.send("chatAlarm,"+myId);
 								
 								for(var i in result){
 									commonWebSocket.send("chatAlarm,"+result[i].chat_memberId);	
