@@ -487,20 +487,43 @@
 					}else if(obj.type == 'LEAVE'){
 						
 						 if(obj.chat_writerId == myId){
+							 
+							 commonService.getChatRoomMembers(chatRoomNum,
+										
+									function(result, status){
+										
+										if(status == "success"){
+											
+											if(commonWebSocket != null){
+												
+												for(var i in result){
+													commonWebSocket.send("chatAlarm,"+result[i].chat_memberId);	
+												}
+											}
+											
+											window.close();
+										}
+									},
+								    
+									showError		
+							 );
+							 
 							 closed();	 
+							 
+						 }else{
+							 
+							 var regDate = parseInt(obj.regDate);
+								
+							 divideDate(regDate);
+							 
+							 var getMessgae = obj.message;
+							 
+							 chatroom.innerHTML = chatroom.innerHTML + "<div class='chat_wrap notice'>"
+							 											+ "<span class='chat_notice_content'>"
+																			 + getMessgae
+																	 	+ "</span>"
+							 										 + "</div>";
 						 }
-						
-						 var regDate = parseInt(obj.regDate);
-						
-						 divideDate(regDate);
-						 
-						 var getMessgae = obj.message;
-						 
-						 chatroom.innerHTML = chatroom.innerHTML + "<div class='chat_wrap notice'>"
-						 											+ "<span class='chat_notice_content'>"
-																		 + getMessgae
-																 	+ "</span>"
-						 										 + "</div>";
 						 
 					}else if(obj.type == 'READ'){
 						
@@ -773,29 +796,22 @@
 		
 		$("#leave").on("click", function(event){//방 나가기
 			
-				console.log("chatWebsocket leave");
-				
-				chatWebSocket.send(JSON.stringify({chatRoomNum : chatRoomNum, type : 'LEAVE', chat_writerId : myId , chat_writerNick: myNickName }));
-				
-				commonService.getChatRoomMembers(chatRoomNum,
+				if(chatWebSocket != null){
 					
-					function(result, status){
-						
-						if(status == "success"){
-							
-							if(commonWebSocket != null){
-								
-								for(var i in result){
-									commonWebSocket.send("chatAlarm,"+result[i].chat_memberId);	
-								}
-							}
-							
-							window.close();
-						}
-					},
+					console.log("chatWebsocket leave");
+					
+					chatWebSocket.send(JSON.stringify({chatRoomNum : chatRoomNum, type : 'LEAVE', chat_writerId : myId , chat_writerNick: myNickName }));
 				    
-					showError		
-				);
+				}else{
+					
+					console.log("chatWebSocket is null");
+					
+					openAlert("채팅 연결이 끊겨 재연결중입니다.");
+					
+					<sec:authorize access="hasAnyRole('ROLE_ADMIN','ROLE_USER','ROLE_SUPER','ROLE_STOP')">
+						chatWebSocketConnect();
+					</sec:authorize>
+				}	
 		});
 		
 		$("#editSubmit").on("click", function(event){
