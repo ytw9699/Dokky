@@ -32,9 +32,9 @@ public class ChatRoom {
         	
         	log.info("remove session LEAVE= "+session);
         	
-        	sessionsSet.remove(session);
-            
             send(chatMessage);
+            
+            sessionsSet.remove(session);
         
         }else if(chatMessage.getType() == ChatMessageType.INVITE){
         	

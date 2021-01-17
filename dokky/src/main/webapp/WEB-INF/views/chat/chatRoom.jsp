@@ -497,19 +497,22 @@
 											if(commonWebSocket != null){
 												
 												for(var i in result){
+													
 													commonWebSocket.send("chatAlarm,"+result[i].chat_memberId);	
 												}
+												
+												commonWebSocket.send("chatAlarm,"+myId);
 											}
-											
-											window.close();
 										}
 									},
 								    
 									showError		
 							 );
 							 
-							 closed();	 
-							 
+							 setTimeout(function() {
+								 closed();	
+							 }, 100);//0.1초 
+								
 						 }else{
 							 
 							 var regDate = parseInt(obj.regDate);
