@@ -88,6 +88,8 @@ public class ChatRoom {
             	
             	customMessage = 	"{\"message\":\""+chatMessage.getMessage()+
             							"\", \"type\":\""+chatMessage.getType()+
+            							"\", \"memberNicks\":\""+chatMessage.getMemberNicks()+
+            							"\", \"memberIds\":\""+chatMessage.getMemberIds()+
             							"\", \"chat_writerId\":\""+chatMessage.getChat_writerId()+
     				        			"\", \"regDate\":\""+chatMessage.getRegDate().getTime()+"\"}";
             
@@ -100,12 +102,13 @@ public class ChatRoom {
             }else if(chatMessage.getType() == ChatMessageType.READ){
             	
             	customMessage = 	"{\"chatContentNum\":\""+chatMessage.getChatContentNum()+
-    					"\", \"type\":\""+chatMessage.getType()+"\"}";
+    								 	"\", \"type\":\""+chatMessage.getType()+"\"}";
             	
             }else if(chatMessage.getType() == ChatMessageType.TITLE){
             	
             	customMessage = 	"{\"message\":\""+chatMessage.getMessage()+
 				    					"\", \"type\":\""+chatMessage.getType()+"\"}";
+            	
             }else if(chatMessage.getType() == ChatMessageType.INVITE){
             	
             	customMessage = 	"{\"message\":\""+chatMessage.getMessage()+

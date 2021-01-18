@@ -1,11 +1,11 @@
 package org.my.handler;
-	import java.io.BufferedWriter;
-	import java.io.FileWriter;
 	import java.io.IOException;
 	import java.util.Date;
 	import java.util.HashMap;
+	import java.util.List;
 	import java.util.Map;
 	import org.my.domain.ChatContentVO;
+	import org.my.domain.ChatMemberVO;
 	import org.my.domain.ChatMessage;
 	import org.my.domain.ChatMessageType;
 	import org.my.domain.ChatRoom;
@@ -97,16 +97,36 @@ public class chatWebsocketHandler extends TextWebSocketHandler {
                 	
                 	chatService.updateRoomStatus(ChatRoomNum, chatMessage.getChat_writerId(), -1, 1);
                 	
+                	List<ChatMemberVO> memberList = chatService.getChatRoomMembers(ChatRoomNum);
+                	
+                	String memberIds = "";
+    				String memberNicks = "";
+    				
+    				for(int i=0; i<memberList.size(); i++){
+    					
+    					ChatMemberVO memberVO = memberList.get(i);
+    					
+    					if(i == memberList.size()-1){
+    						
+    						memberNicks += memberVO.getChat_memberNick();
+    						memberIds += memberVO.getChat_memberId();
+    						
+    					}else {
+    						
+    						memberNicks += memberVO.getChat_memberNick()+", ";
+    						memberIds += memberVO.getChat_memberId()+",";
+    					}
+    				}
+    				
+    				chatMessage.setMemberIds(memberIds);
+    				chatMessage.setMemberNicks(memberNicks);
+                	
                 	chatRoom = chatService.findChatRoom(chatMessage.getChatRoomNum());
                 	
                 	chatRoomNumMap.remove(session.getId());
             	}
             
-            }else if(chatMessage.getType() == ChatMessageType.INVITE){//초대할때
-            	
-            	log.info("MessageType.INVITE");
-    	    	
-    	    }else if(chatMessage.getType() == ChatMessageType.TITLE){//제목 바꿀때
+            }else if(chatMessage.getType() == ChatMessageType.TITLE){//제목 바꿀때
     	    	
     	    	log.info("MessageType.TITLE");
     	    	

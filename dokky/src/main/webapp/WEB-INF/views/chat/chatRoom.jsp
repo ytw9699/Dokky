@@ -523,6 +523,44 @@
 																			 + getMessgae
 																	 	+ "</span>"
 							 										 + "</div>";
+							 										 
+							 commonService.getChat_type(chatRoomNum,  
+										
+								   		function(result, status){
+										
+												if(result == "1"){//멀티채팅방이라면 
+													
+														$(".innerTitle").html(obj.memberNicks);
+													
+													    var memberIdArr = obj.memberIds.split(',');
+													    
+													    var headCount = memberIdArr.length;
+													    
+													    $(".memberCount").html("("+headCount+")");
+													     
+													   	var imgStr ="";
+													   	
+													    for(var i in memberIdArr){
+													    	
+													    	if(i < 4){
+													    		
+														    	if(serverName == 'localhost'){ 
+														    		
+														    		imgStr += "<img src='/resources/img/profile_img/"+memberIdArr[i]+".png?"+random+"' class='multiMemberImage' onerror='this.src=\"/resources/img/profile_img/basicProfile.png\"'/>&nbsp"
+																			   
+																}else{
+																	
+																	imgStr += "<img src='/upload/"+memberIdArr[i]+".png?"+random+"' class='multiMemberImage' onerror='this.src=\"/ROOT/resources/img/profile_img/basicProfile.png\"'/>&nbsp"
+																}	
+													    	}
+													    }
+													    
+													    $(".allMemberImage").html(imgStr);
+												}
+								    	},
+									    
+								    	showError
+							 );
 						 }
 						 
 					}else if(obj.type == 'READ'){
