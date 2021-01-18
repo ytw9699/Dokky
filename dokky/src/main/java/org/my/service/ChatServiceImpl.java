@@ -537,17 +537,17 @@ public class ChatServiceImpl implements ChatService {
 		    	}
 				
 				String memberIds = "";
-				String memberNicks = "";
+				String chatTitle = "";
 				
 				for(int i=0; i<memberList.size(); i++){
 					
 					ChatMemberVO memberVO = memberList.get(i);
 					
 					if(i == memberList.size()-1){
-						memberNicks += memberVO.getChat_memberNick();
+						chatTitle += memberVO.getChat_memberNick();
 						memberIds += memberVO.getChat_memberId();
 					}else {
-						memberNicks += memberVO.getChat_memberNick()+", ";
+						chatTitle += memberVO.getChat_memberNick()+", ";
 						memberIds += memberVO.getChat_memberId()+",";
 					}
 					
@@ -559,7 +559,7 @@ public class ChatServiceImpl implements ChatService {
 				chatMessage.setType(ChatMessageType.INVITE);
 				chatMessage.setMessage(chat_content);
 				chatMessage.setMemberIds(memberIds);
-				chatMessage.setMemberNicks(memberNicks);
+				chatMessage.setChatTitle(chatTitle);
 				
 				try {
 					chatRoom.handleMessage(null, chatMessage);

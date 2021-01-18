@@ -100,7 +100,7 @@ public class chatWebsocketHandler extends TextWebSocketHandler {
                 	List<ChatMemberVO> memberList = chatService.getChatRoomMembers(ChatRoomNum);
                 	
                 	String memberIds = "";
-    				String memberNicks = "";
+    				String chatTitle = "";
     				
     				for(int i=0; i<memberList.size(); i++){
     					
@@ -108,18 +108,18 @@ public class chatWebsocketHandler extends TextWebSocketHandler {
     					
     					if(i == memberList.size()-1){
     						
-    						memberNicks += memberVO.getChat_memberNick();
+    						chatTitle += memberVO.getChat_memberNick();
     						memberIds += memberVO.getChat_memberId();
     						
     					}else {
     						
-    						memberNicks += memberVO.getChat_memberNick()+", ";
+    						chatTitle += memberVO.getChat_memberNick()+", ";
     						memberIds += memberVO.getChat_memberId()+",";
     					}
     				}
     				
     				chatMessage.setMemberIds(memberIds);
-    				chatMessage.setMemberNicks(memberNicks);
+    				chatMessage.setChatTitle(chatTitle);
                 	
                 	chatRoom = chatService.findChatRoom(chatMessage.getChatRoomNum());
                 	

@@ -530,7 +530,7 @@
 										
 												if(result == "1"){//멀티채팅방이라면 
 													
-														$(".innerTitle").html(obj.memberNicks);
+														$(".innerTitle").html(obj.chatTitle);
 													
 													    var memberIdArr = obj.memberIds.split(',');
 													    
@@ -615,7 +615,7 @@
 								
 										if(result == "1"){//멀티채팅방이라면 
 											
-												$(".innerTitle").html(obj.memberNicks);
+												$(".innerTitle").html(obj.chatTitle);
 											
 											    var memberIdArr = obj.memberIds.split(',');
 											    
