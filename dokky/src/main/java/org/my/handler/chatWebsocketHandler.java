@@ -167,27 +167,7 @@ public class chatWebsocketHandler extends TextWebSocketHandler {
 		
 		String sessionId = session.getId();
 		
-		if(chatRoomNumMap.containsKey(sessionId)){//정상적으로 웹소켓이 닫힌게 아닌 경우 핸들러가 처리한다.
-			
-			log.info("비정상적인 웹소켓 끊김이 발생되었습니다");
-			
-			String fileName = "C:\\Users\\champ\\Downloads\\log_"+Math.random()+".txt"; 
-			 
-	        try {
-	            
-	            BufferedWriter fw = new BufferedWriter(new FileWriter(fileName, true));
-	            
-	            fw.write("비정상적인 웹소켓 끊김이 발생되었습니다");
-	            fw.write(session.getId());
-	            
-	            fw.flush();
-	            fw.close();
-	        
-	        }catch (Exception e) { 
-	            
-	            log.error(e.getMessage());
-	            
-	        } 
+		if(chatRoomNumMap.containsKey(sessionId)){//웹소켓이 끊기면 핸들러가 처리한다.
 			
 			String chatRoomNum = chatRoomNumMap.get(sessionId);
 			
@@ -197,7 +177,7 @@ public class chatWebsocketHandler extends TextWebSocketHandler {
 			
 			if(chatRoom.removeWebSocketSession(session)) {
 				
-				log.info("비정상적인 웹소켓 끊김이 발생되어, 해당 채팅방에서 웹소켓 객체를 삭제하였습니다.");				
+				log.info("해당 채팅방에서 웹소켓 객체를 삭제하였습니다.");				
 			}
 		}
 	}
