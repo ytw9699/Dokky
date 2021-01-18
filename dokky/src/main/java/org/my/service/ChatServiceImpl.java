@@ -546,6 +546,7 @@ public class ChatServiceImpl implements ChatService {
 					if(i == memberList.size()-1){
 						chatTitle += memberVO.getChat_memberNick();
 						memberIds += memberVO.getChat_memberId();
+						
 					}else {
 						chatTitle += memberVO.getChat_memberNick()+", ";
 						memberIds += memberVO.getChat_memberId()+",";

@@ -529,9 +529,13 @@
 								   		function(result, status){
 										
 												if(result == "1"){//멀티채팅방이라면 
-													
-														$(".innerTitle").html(obj.chatTitle);
-													
+														
+														if("${chatTitleInfo.chat_title}" == null){
+															
+															$(".innerTitle").html(obj.chatTitle);
+															
+														}
+														
 													    var memberIdArr = obj.memberIds.split(',');
 													    
 													    var headCount = memberIdArr.length;
@@ -613,9 +617,13 @@
 								
 						   		function(result, status){
 								
-										if(result == "1"){//멀티채팅방이라면 
+										if(result == "1"){//멀티채팅방이라면
 											
-												$(".innerTitle").html(obj.chatTitle);
+												if("${chatTitleInfo.chat_title}" == null){
+													
+													$(".innerTitle").html(obj.chatTitle);
+													
+												}
 											
 											    var memberIdArr = obj.memberIds.split(',');
 											    
