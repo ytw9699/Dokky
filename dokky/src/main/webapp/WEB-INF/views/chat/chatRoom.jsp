@@ -100,9 +100,6 @@
 					  </div>
 				  </c:when>
 			</c:choose>
-			<div class="test">
-				<button id="test">재연결</button>
-			</div> 
 		</div>
 		<div id="chatContents">
 						<script>
@@ -1006,11 +1003,6 @@
 		   	); 
 		});
 		
-		$("#test").on("click", function(event){
-			closed();
-			/* chatWebSocket.close(); */
-		});
-		
 		window.onblur = outChatRoom;//채팅방에서 포커스가 벗어날때
 		window.onfocus = inChatRoom;//채팅방에 포커스가 잡힐때
 		
@@ -1020,8 +1012,6 @@
 		}
 		 
 		function inChatRoom(){ 
-			
-			console.log("in");
 			
 			position = "in";
 			
