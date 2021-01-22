@@ -1,6 +1,9 @@
 package org.my.domain;
 	import java.io.IOException;
+	import java.util.Collections;
 	import java.util.HashSet;
+	import java.util.Set;
+	import java.util.concurrent.ConcurrentHashMap;
 	import org.springframework.web.socket.TextMessage;
 	import org.springframework.web.socket.WebSocketSession;
 	import lombok.Data;
@@ -10,7 +13,9 @@ package org.my.domain;
 @Data
 public class ChatRoom {
 	
-    private HashSet<WebSocketSession> sessionsSet = new HashSet<>();//채팅방에 접속해있는 세션들
+    //private HashSet<WebSocketSession> sessionsSet = new HashSet<>();//채팅방에 접속해있는 세션들
+    //private Set<WebSocketSession> sessionsSet = Collections.synchronizedSet(new HashSet<WebSocketSession>());
+	private Set<WebSocketSession> sessionsSet = ConcurrentHashMap.newKeySet();
     
     public void handleMessage(WebSocketSession session, ChatMessage chatMessage) throws IOException {
     	
@@ -151,12 +156,20 @@ public class ChatRoom {
     		e.printStackTrace();
     	}
     }
-
+    
 	public boolean removeWebSocketSession(WebSocketSession session) {
 		
 		log.info("removeWebSocketSession="+session);
 		
 		return sessionsSet.remove(session);
+	}
+
+	public void testReadWebSocketSession() {
+
+    	for(WebSocketSession session : sessionsSet){
+        	
+        	log.info("session="+session);
+        }
 	}
 	
 }
