@@ -243,6 +243,13 @@
 			<scope>test</scope>
 		</dependency> 
 		
+		<!-- https://mvnrepository.com/artifact/org.apache.tomcat.embed/tomcat-embed-websocket -->
+		<dependency>
+		    <groupId>org.apache.tomcat.embed</groupId>
+		    <artifactId>tomcat-embed-websocket</artifactId>
+		    <version>9.0.16</version>
+		</dependency>
+				
 		<dependency>
 	      <groupId>org.springframework</groupId>
 	      <artifactId>spring-test</artifactId>
