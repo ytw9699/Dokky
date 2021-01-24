@@ -13,6 +13,7 @@ package org.my.controller;
 	import org.my.mapper.BoardMapper;
 	import org.my.service.BoardService;
 	import org.springframework.beans.factory.annotation.Autowired;
+	import org.springframework.security.test.context.support.WithMockUser;
 	import org.springframework.test.context.ContextConfiguration;
 	import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 	import org.springframework.test.context.web.WebAppConfiguration;
@@ -32,6 +33,7 @@ package org.my.controller;
 })
 @Log4j
 @FixMethodOrder(MethodSorters.NAME_ASCENDING)
+@WithMockUser(username="admin", roles={"ADMIN"})
 public class BoardControllerTests {
 
 	@Setter(onMethod_ = { @Autowired })
