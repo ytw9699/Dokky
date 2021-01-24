@@ -106,6 +106,14 @@
 			    <artifactId>spring-security-taglibs</artifactId>
 			    <version>5.0.13.RELEASE</version>
 			</dependency>
+			
+			<!-- https://mvnrepository.com/artifact/org.springframework.security/spring-security-test -->
+			<dependency>
+			    <groupId>org.springframework.security</groupId>
+			    <artifactId>spring-security-test</artifactId>
+			    <version>5.0.13.RELEASE</version>
+			    <scope>test</scope>
+			</dependency>
 		<!-- 시큐리티  -->
 	
 		<!-- 스케쥴링 -->
