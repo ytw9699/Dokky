@@ -8,8 +8,8 @@ package org.my.handler;
 
 public class MyWebSocketClient{
 
-    private static final String WS_URI = "";
-    
+    private static final String WS_URI = "wss://dokky.site:8443/commonWebsocketHandler";
+	
     public static void main(String[] args) throws IOException, InterruptedException {
     	
         StandardWebSocketClient client = new StandardWebSocketClient();
