@@ -38,26 +38,6 @@
 							</div> 
 						</td> 	
 					</tr>
-					<tr>
-						<td class="tableText">
-							은행명(선택) 
-						</td>
-						<td class="tableValue">
-							<div class="memberProfile">
-								<input type="text" name="bankName" class="inputInfo" oninput="checkLength(this,21);"/>
-							</div> 
-						</td> 	
-					</tr>
-					<tr>
-						<td class="tableText">
-							계좌번호(선택)
-						</td>
-						<td class="tableValue">
-							<div class="memberProfile">
-								<input type="text" name="account" class="inputInfo" oninput="checkLength(this,21);"/>
-							</div> 
-						</td> 	
-					</tr>
 			  	</table> 
 				
 				<div class="nextWrap">
