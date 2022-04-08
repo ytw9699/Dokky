@@ -1,4 +1,4 @@
-package org.my.security;
+/*package org.my.security;
 	import static org.junit.Assert.assertNotNull;
 	import static org.junit.Assert.fail;
 	import java.util.ArrayList;
@@ -91,3 +91,4 @@ public class setAuthenticationTest {
 	
 
 
+*/
