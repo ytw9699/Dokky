@@ -122,21 +122,27 @@
 	    display: none;
     }
 	
-	#chargeCash{display: none;   width: 250px;
-    border-radius: 8px;
-    position: fixed;
-    top: 25%;
-    left: 35%;
-    padding: 50px;
-    background-color: white;}
+	#chargeCash{
+		display: none;   
+		width: 260px;
+	    border-radius: 8px;
+	    position: fixed;
+	    top: 25%;
+	    left: 35%;
+	    padding: 50px;
+	    background-color: white;
+    }
     
-    #reChargeCash{display: none;   width: 250px;
-    border-radius: 8px;
-    position: fixed;
-    top: 25%;
-    left: 35%;
-    padding: 50px;
-    background-color: white;}
+    #reChargeCash{
+	    display: none;   
+	    width: 260px;
+	    border-radius: 8px;
+	    position: fixed;
+	    top: 25%;
+	    left: 35%;
+	    padding: 50px;
+	    background-color: white;
+    }
     
     .chargeWon{
 	    font-size: 40px;

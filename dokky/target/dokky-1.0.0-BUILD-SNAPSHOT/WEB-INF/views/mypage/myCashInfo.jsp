@@ -59,11 +59,11 @@
 	     		<span id="dotText">My Cash </span> <span id="dotValue"><fmt:formatNumber type="number" maxFractionDigits="3" value="${myCash}"/>원</span> 
 	     	</div> 
 	     	<div class="dotContentWrap">  
-	     		<span id="account">입금 계좌 </span> <span id="accountVal">신한 110-237-583410</span>  
+	     		<span id="account">Dokky 계좌 </span> <span id="accountVal">신한 110-237-583410</span>  
 	     	</div> 
 	     	<div class="dotButtonWrap"> 
-		     	<input type="button" id="charging" class="dotButtons" value="충전하기"/>
-		     	<input type="button" id="recharging" class="dotButtons" value="환전하기" />
+		     	<input type="button" id="charging" class="dotButtons" value="충전 요청"/>
+		     	<input type="button" id="recharging" class="dotButtons" value="환전 요청" />
 		     	<input type="button" class="dotButtons" value="내역보기" onclick="location.href='myCashHistory?userId=${userInfo.username}'">
 	     	</div>
     	</div>
