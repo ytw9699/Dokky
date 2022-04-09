@@ -57,7 +57,7 @@ public class UpDownController {
 			
 			for (MultipartFile multipartFile : uploadFile) {
 				
-				result = nowS3Util.upload(multipartFile.getBytes(), multipartFile, multipartFile.getOriginalFilename(), uploadKind);
+				result = nowS3Util.upload(multipartFile.getInputStream(), multipartFile, multipartFile.getOriginalFilename(), uploadKind);
 				
 				list.add(result);
 			}

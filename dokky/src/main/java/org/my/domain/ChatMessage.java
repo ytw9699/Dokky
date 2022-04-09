@@ -13,7 +13,7 @@ public class ChatMessage {
     private Date regDate;
     private int headCount;
     private String memberIds;
-    private String memberNicks;
+    private String chatTitle;
     private ChatMessageType type;
 }
 

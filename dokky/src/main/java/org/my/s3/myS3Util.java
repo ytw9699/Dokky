@@ -6,7 +6,8 @@ package org.my.s3;
 	import java.io.File;
 	import java.io.FileNotFoundException;
 	import java.io.IOException;
-	import java.io.OutputStream;
+import java.io.InputStream;
+import java.io.OutputStream;
 	import java.net.URLEncoder;
 	import java.text.SimpleDateFormat;
 	import java.util.Calendar;
@@ -39,7 +40,7 @@ package org.my.s3;
 @Component
 public class myS3Util { 
 	
-	private static final String bucket_name = "dokky-bucket";//자신의 S3 버킷 이름을 입력하세요
+	private static final String bucket_name = "dokky2-bucket";//자신의 S3 버킷 이름을 입력하세요
 	private static final String ACCESS_KEY = "";//자신의 S3 ACCESS_KEY를 입력하세요
 	private static final String SECRET_KEY = "";//자신의 S3 SECRET_KEY를 입력하세요
 	
@@ -79,7 +80,7 @@ public class myS3Util {
 				    build();
     }
 	
-	public AttachFileDTO upload(byte[] fileData, MultipartFile multipartFile,
+	public AttachFileDTO upload(InputStream inputStream, MultipartFile multipartFile,
 						String fileName, String uploadKind) throws FileNotFoundException {//사진 및 파일 업로드
 			
 			createFolder();
@@ -102,9 +103,7 @@ public class myS3Util {
 			
 			//metaData.setContentLength(fileData.length);//원래는 128kB, 파일크기만큼 버퍼를 설정시켰다.
 		   
-			ByteArrayInputStream byteArrayInputStream = new ByteArrayInputStream(fileData);
-			
-		    s3.putObject(bucket_name + "/" + folder_name, fileName, byteArrayInputStream, metaData);//s3 권한 퍼블릭 없이 디폴트로 설정해서 업로드
+		    s3.putObject(bucket_name + "/" + folder_name, fileName, inputStream, metaData);//s3 권한 퍼블릭 없이 디폴트로 설정해서 업로드
 		    
 	    	if(uploadKind.equals("photo")) {//이미지라면 썸네일 만들자 
 				

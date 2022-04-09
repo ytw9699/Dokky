@@ -22,7 +22,7 @@ public class JDBCTests {//데이터베이스 연결 테스트,Java와 JDBC 드�
 		try(Connection con = DriverManager.getConnection(
 				"jdbc:log4jdbc:oracle:thin:@dokkyrds.ckzbvzytxsry.ap-northeast-2.rds.amazonaws.com:1521:ORCL",
 				"DokkyRdsAdmin",
-				"cgdeveloper9865"
+				"비밀번호"
 			)) {
 			
 			log.info("데이터베이스 연결 테스트, 정상시 Connection객체 출력");

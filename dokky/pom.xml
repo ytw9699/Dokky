@@ -106,6 +106,14 @@
 			    <artifactId>spring-security-taglibs</artifactId>
 			    <version>5.0.13.RELEASE</version>
 			</dependency>
+			
+			<!-- https://mvnrepository.com/artifact/org.springframework.security/spring-security-test -->
+			<dependency>
+			    <groupId>org.springframework.security</groupId>
+			    <artifactId>spring-security-test</artifactId>
+			    <version>5.0.13.RELEASE</version>
+			    <scope>test</scope>
+			</dependency>
 		<!-- 시큐리티  -->
 	
 		<!-- 스케쥴링 -->
@@ -243,6 +251,13 @@
 			<scope>test</scope>
 		</dependency> 
 		
+		<!-- https://mvnrepository.com/artifact/org.apache.tomcat.embed/tomcat-embed-websocket -->
+		<dependency>
+		    <groupId>org.apache.tomcat.embed</groupId>
+		    <artifactId>tomcat-embed-websocket</artifactId>
+		    <version>9.0.16</version>
+		</dependency>
+				
 		<dependency>
 	      <groupId>org.springframework</groupId>
 	      <artifactId>spring-test</artifactId>
@@ -318,6 +333,18 @@
 	    <version>1.11.267</version>
 	</dependency> -->
 	
+	<dependency>   
+		<groupId>org.jsoup</groupId>  
+	 	<artifactId>jsoup</artifactId>
+	 	<version>1.11.3</version> 
+	</dependency>
+	
+	<!-- <dependency>
+			<groupId>org.apache.commons</groupId>
+			<artifactId>commons-lang3</artifactId>
+			<version>3.8.1</version> 
+	</dependency> -->
+
 	<!-- aws s3 관련 sdk -->
 	<dependency>
 	    <groupId>com.amazonaws</groupId>
@@ -378,10 +405,8 @@
 		        <artifactId>tomcat-maven-plugin</artifactId>
 		        <version>1.1</version>
 		        <configuration>
-    				<url>http://13.125.253.147:8080/manager/text</url>
-		            <!-- <url>http://52.79.82.204:8080/manager/text</url> -->
+    				<url>http://52.79.82.204:8080/manager/text</url>
 		            <path>/</path>
-		            <!-- <path>/dokky</path> -->
 		            <username>admin</username>
 		            <password>dokky</password>
 		        </configuration>	

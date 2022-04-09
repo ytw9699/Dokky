@@ -100,9 +100,6 @@
 					  </div>
 				  </c:when>
 			</c:choose>
-			<!-- <div class="test">
-				<button id="test">재연결</button>
-			</div> -->
 		</div>
 		<div id="chatContents">
 						<script>
@@ -268,7 +265,7 @@
 			
 			<sec:authorize access="isAuthenticated()">
 			
-					commonWebSocketConnect();			
+					commonWebSocketConnect();		
 					chatWebSocketConnect();
 					
 					setTimeout(function(){//방을 처음 생성하고 방 인원 모두에게 chatAlarm을 보내 채팅리스트를 업데이트 시키거나
@@ -327,7 +324,7 @@
 			
 				chatWebSocket.send(JSON.stringify({chatRoomNum : chatRoomNum, type:'OPEN'}));//채팅방 열기
 				
-				focusFunction();//처음에 방에 입장시, 꼭 채팅방 열기 메시지를 보낸후에(위 한줄 로직), 읽지 않은 메시지들이 있다면 읽어주는 처리를 한번해야한다.
+				inChatRoom();//처음에 방에 입장시, 꼭 채팅방 열기 메시지를 보낸후에(위 한줄 로직), 읽지 않은 메시지들이 있다면 읽어주는 처리를 한번해야한다.
 				
 				chatWebSocket.onmessage = function(event){
 					
@@ -486,21 +483,88 @@
 			             
 					}else if(obj.type == 'LEAVE'){
 						
-						 var regDate = parseInt(obj.regDate);
-						
-						 divideDate(regDate);
-						 
-						 var getMessgae = obj.message;
-						 
-						 chatroom.innerHTML = chatroom.innerHTML + "<div class='chat_wrap notice'>"
-						 											+ "<span class='chat_notice_content'>"
-																		 + getMessgae
-																 	+ "</span>"
-						 										 + "</div>";
-						 
 						 if(obj.chat_writerId == myId){
-							 closed();	 
-							 window.close();
+							 
+							 commonService.getChatRoomMembers(chatRoomNum,
+										
+									function(result, status){
+										
+										if(status == "success"){
+											
+											if(commonWebSocket != null){
+												
+												for(var i in result){
+													
+													commonWebSocket.send("chatAlarm,"+result[i].chat_memberId);	
+												}
+												
+												commonWebSocket.send("chatAlarm,"+myId);
+											}
+										}
+									},
+								    
+									showError		
+							 );
+							 
+							 setTimeout(function() {
+								 closed();	
+							 }, 100);//0.1초 
+								
+						 }else{
+							 
+							 var regDate = parseInt(obj.regDate);
+								
+							 divideDate(regDate);
+							 
+							 var getMessgae = obj.message;
+							 
+							 chatroom.innerHTML = chatroom.innerHTML + "<div class='chat_wrap notice'>"
+							 											+ "<span class='chat_notice_content'>"
+																			 + getMessgae
+																	 	+ "</span>"
+							 										 + "</div>";
+							 										 
+							 commonService.getChat_type(chatRoomNum,  
+										
+								   		function(result, status){
+										
+												if(result == "1"){//멀티채팅방이라면 
+														
+														if("${chatTitleInfo.chat_title}" == null){
+															
+															$(".innerTitle").html(obj.chatTitle);
+															
+														}
+														
+													    var memberIdArr = obj.memberIds.split(',');
+													    
+													    var headCount = memberIdArr.length;
+													    
+													    $(".memberCount").html("("+headCount+")");
+													     
+													   	var imgStr ="";
+													   	
+													    for(var i in memberIdArr){
+													    	
+													    	if(i < 4){
+													    		
+														    	if(serverName == 'localhost'){ 
+														    		
+														    		imgStr += "<img src='/resources/img/profile_img/"+memberIdArr[i]+".png?"+random+"' class='multiMemberImage' onerror='this.src=\"/resources/img/profile_img/basicProfile.png\"'/>&nbsp"
+																			   
+																}else{
+																	
+																	imgStr += "<img src='/upload/"+memberIdArr[i]+".png?"+random+"' class='multiMemberImage' onerror='this.src=\"/ROOT/resources/img/profile_img/basicProfile.png\"'/>&nbsp"
+																}	
+													    	}
+													    }
+													    
+													    $(".allMemberImage").html(imgStr);
+												}
+								    	},
+									    
+								    	showError
+							 );
 						 }
 						 
 					}else if(obj.type == 'READ'){
@@ -553,9 +617,13 @@
 								
 						   		function(result, status){
 								
-										if(result == "1"){//멀티채팅방이라면 
+										if(result == "1"){//멀티채팅방이라면
 											
-												$(".innerTitle").html(obj.memberNicks);
+												if("${chatTitleInfo.chat_title}" == null){
+													
+													$(".innerTitle").html(obj.chatTitle);
+													
+												}
 											
 											    var memberIdArr = obj.memberIds.split(',');
 											    
@@ -604,7 +672,10 @@
 				    }
 				}
 				
-				chatWebSocket.onclose = function(){
+				chatWebSocket.onclose = function(event){
+					
+					console.log("chatWebSocket onclose");
+					console.log(event);
 					
 					chatWebSocket = null;
 					
@@ -613,14 +684,15 @@
 					
 					setTimeout(function() {
 						<sec:authorize access="hasAnyRole('ROLE_ADMIN','ROLE_USER','ROLE_SUPER','ROLE_STOP')">
-							chatWebSocketConnect(); //0.1초후 다시 재연결
+							chatWebSocketConnect();
 						</sec:authorize>
-					}, 100); 
+					}, 100);//0.1초
 				}
 				
 				chatWebSocket.onerror = function(err){
 					
-					console.log("chatWebsocket error, "+err);
+					console.log("chatWebsocket error");
+					console.log(err);
 					openAlert("채팅연결 에러가 발생했습니다.");
 				}
 				
@@ -657,7 +729,7 @@
 						<sec:authorize access="hasAnyRole('ROLE_ADMIN','ROLE_USER','ROLE_SUPER','ROLE_STOP')">
 							commonWebSocketConnect();
 						</sec:authorize>
-					}, 1000); 
+					}, 1000);
 				}
 				
 				commonWebSocket.onerror = function(err){
@@ -689,6 +761,7 @@
 			    			commonService.getChat_type(chatRoomNum,  
 			    					
 				    			   		function(result, status){
+			    				
 				    					
 				    							if(result == "1"){//멀티채팅방이라면 
 				    								
@@ -729,20 +802,24 @@
 		
 		function closed(){//방 닫기
 			
-			console.log("chatWebsocket closed");
-			
-			chatWebSocket.send(JSON.stringify({chatRoomNum : chatRoomNum, type:'CLOSED'}));
-			
-		    chatWebSocket.close();
-		    
-		    chatWebSocket = null;
+			if(chatWebSocket != null){
+				
+				console.log("chatWebsocket closed");
+				
+				chatWebSocket.send(JSON.stringify({chatRoomNum : chatRoomNum, type:'CLOSED'}));
+			    chatWebSocket.close();
+			    chatWebSocket = null;
+			    
+			}else{
+				
+				console.log("chatWebSocket is null");
+			}		    
+		
+			window.close();
 		}
 		
 		window.onbeforeunload = function(){//브라우저 종료 및 닫기 감지
-			
-			if(chatWebSocket != null){
 				closed();
-			}
 		}
 		
 		$("#sendMessageBtn").on("click", function(event){
@@ -765,31 +842,22 @@
 		
 		$("#leave").on("click", function(event){//방 나가기
 			
-				console.log("chatWebsocket leave");
-				
-				chatWebSocket.send(JSON.stringify({chatRoomNum : chatRoomNum, type : 'LEAVE', chat_writerId : myId , chat_writerNick: myNickName }));
-				
-				commonService.getChatRoomMembers(chatRoomNum,
+				if(chatWebSocket != null){
 					
-					function(result, status){
-						
-						if(status == "success"){
-							
-							if(commonWebSocket != null){
-								
-								commonWebSocket.send("chatAlarm,"+myId);
-								
-								for(var i in result){
-									commonWebSocket.send("chatAlarm,"+result[i].chat_memberId);	
-								}
-							}
-							
-							window.close();
-						}
-					},
+					console.log("chatWebsocket leave");
+					
+					chatWebSocket.send(JSON.stringify({chatRoomNum : chatRoomNum, type : 'LEAVE', chat_writerId : myId , chat_writerNick: myNickName }));
 				    
-					showError		
-				);
+				}else{
+					
+					console.log("chatWebSocket is null");
+					
+					openAlert("채팅 연결이 끊겨 재연결중입니다.");
+					
+					<sec:authorize access="hasAnyRole('ROLE_ADMIN','ROLE_USER','ROLE_SUPER','ROLE_STOP')">
+						chatWebSocketConnect();
+					</sec:authorize>
+				}	
 		});
 		
 		$("#editSubmit").on("click", function(event){
@@ -981,19 +1049,15 @@
 		   	); 
 		});
 		
-		$("#test").on("click", function(event){
-			chatWebSocket.close();
-		});
+		window.onblur = outChatRoom;//채팅방에서 포커스가 벗어날때
+		window.onfocus = inChatRoom;//채팅방에 포커스가 잡힐때
 		
-		window.onblur = blurFunction;//채팅방을 벗어날때
-		window.onfocus = focusFunction;//채팅방에 다시올때
-		
-		function blurFunction(){ 
+		function outChatRoom(){ 
 			
 			position = "out";
 		}
-		
-		function focusFunction(){ 
+		 
+		function inChatRoom(){ 
 			
 			position = "in";
 			

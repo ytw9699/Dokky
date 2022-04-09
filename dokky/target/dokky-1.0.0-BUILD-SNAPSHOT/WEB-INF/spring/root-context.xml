@@ -22,7 +22,10 @@
 	
 	<bean id="hikariConfig" class="com.zaxxer.hikari.HikariConfig">
 		<property name="driverClassName" value="net.sf.log4jdbc.sql.jdbcapi.DriverSpy"/>
-		<property name="jdbcUrl" value="jdbc:log4jdbc:oracle:thin:@dokkyrds.ckzbvzytxsry.ap-northeast-2.rds.amazonaws.com:1521:ORCL"/>
+		<property name="jdbcUrl" value="jdbc:log4jdbc:oracle:thin:@dokkyrds.cydizxz7exjx.ap-northeast-2.rds.amazonaws.com:1521:ORCL"/>
+		<!-- 도키 서버 2 -->
+		<!-- <property name="jdbcUrl" value="jdbc:log4jdbc:oracle:thin:@dokkyrds.ckzbvzytxsry.ap-northeast-2.rds.amazonaws.com:1521:ORCL"/> -->
+		<!-- 도키 서버 1 -->
 		<property name="username" value="DokkyRdsAdmin"/>
 		<property name="password" value="cgdeveloper9865"/>
 	</bean>
@@ -33,21 +36,12 @@
 		<property name="username" value="shop9699"/>
 		<property name="password" value="dpwm9865cgdeveloper568954"/>
 	</bean> -->
+	
 	<!--  HikariCP configuration 커넥션풀 설정  -->
 	<bean id="dataSource" class="com.zaxxer.hikari.HikariDataSource" destroy-method="close">
 		<constructor-arg ref="hikariConfig"/>
 	</bean>
-	<!-- 일반적으로 여러 명의 사용자를 동시에 처리해야 하는 웹 애플리케이션의 경우 데이터베
-	이스 연결을 이용할 때는 커넥션 풀(Connection Pool)을 이용하므로，아예 스프링에 커
-	넥션 풀을 등록해서 사용하는 것이 좋음. Java에서는 DataSource라는 인터페이스
-	를 통해서 커넥션 풀을 사용 DataSource를 통해 매번 데이터베이스와 연결하는
-	방식이 아닌，미리 연결을 맺어주고 반환하는 구조를 이용하여 성능 향상을 꾀함
-	커넥션 풀은 여러 종류가 있고，spring-jdbc 라이브러리를 이용하는 방식도 있지만,프로젝트는 최근 유행하는 HikariCP이용 . -->
 	
-	<!--
-	 스프링과 연동 작업을 처리하는 mybatis-spring 라이브러리 
-		sqlSessionFactory는 SQLSession을 만들어냄,SQLSession을 통해서 Connection을 생성하거나 원하는 SQL을 전달하고，결과를 리턴 받는 구조로 개발할것
-	-->
 	<bean id="sqlSessionFactory" class="org.mybatis.spring.SqlSessionFactoryBean">
 		<property name="dataSource" ref="dataSource"/>
 	</bean>
@@ -103,7 +97,7 @@
 		<constructor-arg ref="naverRedirectUrl"/>
 	</bean>
 	
-	<bean id="googleClientID" class="java.lang.String">
+	<!-- <bean id="googleClientID" class="java.lang.String">
 		<constructor-arg value="123548667758-a8l1055mkvte3f4fr3592hrt4jhaapgn.apps.googleusercontent.com"/>
 	</bean>
 	
@@ -113,9 +107,9 @@
 	
 	<bean id="googleRedirectUrl" class="java.lang.String">
 		<constructor-arg value="http://localhost:8080/auth/google/callback"/>
-	</bean>
+	</bean> -->
 		
-	<!-- <bean id="googleClientID" class="java.lang.String">
+	<bean id="googleClientID" class="java.lang.String">
 		   <constructor-arg value="749898735018-a2kvi2854s1v85pfel1097as260uivu2.apps.googleusercontent.com" />
 	    </bean>
 	    
@@ -124,7 +118,7 @@
 	</bean>
 	<bean id="googleRedirectUrl" class="java.lang.String">
 		<constructor-arg value="https://dokky.site/auth/google/callback" />
-	</bean> -->
+	</bean>
 	
 	<bean id="googleSns" class="org.my.auth.SnsValue">
 		<constructor-arg value="google"/>

@@ -1,6 +1,9 @@
 package org.my.domain;
 	import java.io.IOException;
+	import java.util.Collections;
 	import java.util.HashSet;
+	import java.util.Set;
+	import java.util.concurrent.ConcurrentHashMap;
 	import org.springframework.web.socket.TextMessage;
 	import org.springframework.web.socket.WebSocketSession;
 	import lombok.Data;
@@ -10,7 +13,9 @@ package org.my.domain;
 @Data
 public class ChatRoom {
 	
-    private HashSet<WebSocketSession> sessionsSet = new HashSet<>();//채팅방에 접속해있는 세션들
+    //private HashSet<WebSocketSession> sessionsSet = new HashSet<>();//채팅방에 접속해있는 세션들
+    //private Set<WebSocketSession> sessionsSet = Collections.synchronizedSet(new HashSet<WebSocketSession>());
+	private Set<WebSocketSession> sessionsSet = ConcurrentHashMap.newKeySet();
     
     public void handleMessage(WebSocketSession session, ChatMessage chatMessage) throws IOException {
     	
@@ -24,7 +29,7 @@ public class ChatRoom {
         	
         }else if(chatMessage.getType() == ChatMessageType.CLOSED){
         	
-        	log.info("remove session = "+session);
+        	log.info("remove session CLOSED = "+session);
         	
     		sessionsSet.remove(session);
             
@@ -32,9 +37,9 @@ public class ChatRoom {
         	
         	log.info("remove session LEAVE= "+session);
         	
-        	sessionsSet.remove(session);
-            
             send(chatMessage);
+            
+            sessionsSet.remove(session);
         
         }else if(chatMessage.getType() == ChatMessageType.INVITE){
         	
@@ -88,6 +93,8 @@ public class ChatRoom {
             	
             	customMessage = 	"{\"message\":\""+chatMessage.getMessage()+
             							"\", \"type\":\""+chatMessage.getType()+
+            							"\", \"chatTitle\":\""+chatMessage.getChatTitle()+
+            							"\", \"memberIds\":\""+chatMessage.getMemberIds()+
             							"\", \"chat_writerId\":\""+chatMessage.getChat_writerId()+
     				        			"\", \"regDate\":\""+chatMessage.getRegDate().getTime()+"\"}";
             
@@ -100,16 +107,17 @@ public class ChatRoom {
             }else if(chatMessage.getType() == ChatMessageType.READ){
             	
             	customMessage = 	"{\"chatContentNum\":\""+chatMessage.getChatContentNum()+
-    					"\", \"type\":\""+chatMessage.getType()+"\"}";
+    								 	"\", \"type\":\""+chatMessage.getType()+"\"}";
             	
             }else if(chatMessage.getType() == ChatMessageType.TITLE){
             	
             	customMessage = 	"{\"message\":\""+chatMessage.getMessage()+
 				    					"\", \"type\":\""+chatMessage.getType()+"\"}";
+            	
             }else if(chatMessage.getType() == ChatMessageType.INVITE){
             	
             	customMessage = 	"{\"message\":\""+chatMessage.getMessage()+
-            							"\", \"memberNicks\":\""+chatMessage.getMemberNicks()+
+            							"\", \"chatTitle\":\""+chatMessage.getChatTitle()+
             							"\", \"memberIds\":\""+chatMessage.getMemberIds()+
 				    					"\", \"type\":\""+chatMessage.getType()+"\"}";
             }		
@@ -148,12 +156,20 @@ public class ChatRoom {
     		e.printStackTrace();
     	}
     }
-
+    
 	public boolean removeWebSocketSession(WebSocketSession session) {
 		
 		log.info("removeWebSocketSession="+session);
 		
 		return sessionsSet.remove(session);
+	}
+
+	public void testReadWebSocketSession() {
+
+    	for(WebSocketSession session : sessionsSet){
+        	
+        	log.info("session="+session);
+        }
 	}
 	
 }

@@ -173,10 +173,6 @@
        		select headCount from dk_chat_room where chatRoomNum = #{chatRoomNum}
        </select>
        
-       <select id="getChatMembers" resultType="org.my.domain.ChatMemberVO">
-			  select chat_memberId, chat_memberNick from dk_chat_member where chatRoomNum = #{chatRoomNum} and present_position = 0
-	   </select>
-	   
 	   <insert id="createChatReadType">
 	 			insert into dk_chat_read (	  	  chatReadNum
 	 											, chatRoomNum
@@ -234,7 +230,11 @@
 	   </select>
 	   
 	   <select id="getMyMultiChatReadVo" resultType="org.my.domain.ChatReadVO">
-	   		select distinct chat_memberId, chat_memberNick from dk_chat_read where chatRoomNum = #{chatRoomNum} 
+	   		select chat_memberId, chat_memberNick from dk_chat_member where chatRoomNum = #{chatRoomNum} and present_position = 0 
+	   </select>
+	   
+	    <select id="getChatMembers" resultType="org.my.domain.ChatMemberVO">
+			  select chat_memberId, chat_memberNick from dk_chat_member where chatRoomNum = #{chatRoomNum} and present_position = 0
 	   </select>
 	   
 	   <select id="getMySingleChatReadVo" resultType="org.my.domain.ChatReadVO">

@@ -89,6 +89,11 @@
 							<span class="hideUsermenu">쪽지보내기</span>
 						</a>
 					</li>
+					<li class="hideUsermenu singleChat" data-chat_nickname="${board.nickName}" data-chat_userid="${board.userId}">
+						<a href="#" class="hideUsermenu">
+							<span class="hideUsermenu"> 1:1채팅ㅤ</span>  
+						</a>
+					</li>
 				</ul>    
 		    </div> 
 	</div>
@@ -544,6 +549,12 @@
 										   	+ "<span class='hideUsermenu'>쪽지보내기</span>"
 									   	  + "</a>"
 									   + "</li>"
+									   
+									   + "<li class='hideUsermenu singleChat' data-chat_nickname='"+nickName+"' data-chat_userid='"+userId+"'>"  
+									   	  + "<a href='#' class='hideUsermenu'>"
+										   	+ "<span class='hideUsermenu'>1:1채팅</span>"
+									   	  + "</a>"
+									   + "</li>"
 								   + "</ul>"
 							   + "</div>";
 							   
@@ -644,10 +655,19 @@
 								   }
 								   	   str += nickName
 								   + "</a>"
-							   + "</span>" 
+							   + "</span>";
 							   
-						   	   + "<div id='userMenubar_reply_from_"+reply_nums+"' class='userMenubar'>" 
-								   + "<ul class='hideUsermenu'>" 
+								   if(depth == 1){ 
+									   str += "<div id='userMenubar_reply_from_"+reply_nums+"' class='userMenubar firstUserMenu'>"
+								   }else if(depth == 2){ 
+									   str += "<div id='userMenubar_reply_from_"+reply_nums+"' class='userMenubar secondUserMenu'>"
+								   }else if(depth == 3){ 
+									   str += "<div id='userMenubar_reply_from_"+reply_nums+"' class='userMenubar thirdUserMenu'>"
+								   }else{
+									   str += "<div id='userMenubar_reply_from_"+reply_nums+"' class='userMenubar otherUserMenu'>"
+								   }
+						     
+						   		str += "<ul class='hideUsermenu'>" 
 									   + "<li class='hideUsermenu'>"
 								   		   + "<a href='/userBoardList?userId="+userId+"' class='hideUsermenu'>"
 								   				+ "<span class='hideUsermenu'>게시글보기</span>"
@@ -657,6 +677,11 @@
 									   + "<li class='hideUsermenu'>"
 									   	  + "<a href='#' class='hideUsermenu' onclick=\"noteOpen('"+userId+"','"+nickName+"')\">"
 										   	+ "<span class='hideUsermenu'>쪽지보내기</span>"
+									   	  + "</a>"
+									   + "</li>"
+									   + "<li class='hideUsermenu singleChat' data-chat_nickname='"+nickName+"' data-chat_userid='"+userId+"'>"  
+									   	  + "<a href='#' class='hideUsermenu'>"
+										   	+ "<span class='hideUsermenu'>1:1채팅</span>"
 									   	  + "</a>"
 									   + "</li>"
 								   + "</ul>"
@@ -674,7 +699,7 @@
 								   	   str += toNickName
 								   + "</a>"
 							   + "</span>" 
-				   	   		   
+							   
 				   	   		   + "<div id='userMenubar_reply_to_"+reply_nums+"' class='userMenubar to'>" 
 								   + "<ul class='hideUsermenu'>" 
 									   + "<li class='hideUsermenu'>"
@@ -688,8 +713,13 @@
 										   	+ "<span class='hideUsermenu'>쪽지보내기</span>"
 									   	  + "</a>"
 									   + "</li>"
+									   + "<li class='hideUsermenu singleChat' data-chat_nickname='"+nickName+"' data-chat_userid='"+userId+"'>"  
+									   	  + "<a href='#' class='hideUsermenu'>"
+										   	+ "<span class='hideUsermenu'>1:1채팅</span>"
+									   	  + "</a>"
+									   + "</li>"
 								   + "</ul>"
-							   + "</div>"
+							   + "</div>";
 					   
 							   var nowTime = new Date();
 							   var replyTime = new Date(replyDate); 

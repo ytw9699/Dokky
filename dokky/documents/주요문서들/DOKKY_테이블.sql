@@ -476,3 +476,24 @@ EX) INSERT INTO TB_BOARD_TEMP (NUM, TITLE, CONTENTS) SELECT NUM, TITLE, CONTENTS
 
 7. 카운트 구하기
 select count(*) from dk_board
+
+8. 데이터베이스 통째로 복사
+
+https://parkpurong.tistory.com/156
+
+SELECT * FROM USER_SEQUENCES --시퀀스 전체 조회
+
+select seq_dk_chat_read.nextval from dual -- 시퀀스 증가분 만큼 증가하기
+
+SELECT seq_dk_chat_read.CURRVAL FROM DUAL; -- 시퀀스 현재 값 조회
+
+ALTER SEQUENCE seq_dk_chat_read INCREMENT BY 10652; -- 시퀀스 증가분 변경 특정값으로
+ALTER SEQUENCE seq_dk_chat_read INCREMENT BY 1; -- 시퀀스 증가분 변경 다시 1로
+
+--특정 증가분으로 변경시켜 증가시킨후에 다시 1로원위치 시키기
+
+select * from dk_chat_content order by member_NUM desc -- 값 조회해보기
+
+
+
+

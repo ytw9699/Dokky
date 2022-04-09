@@ -39,7 +39,7 @@
 				
 				<div class="form-group loginGroup">
 					<button class="btn" id="login" >로그인</button>
-					<button class="btn" id="join">관리자 회원가입</button> 
+					<!-- <button class="btn" id="join">관리자 회원가입</button> --> 
 				</div>
 				
 			<input type="hidden" name="${_csrf.parameterName}" value="${_csrf.token}" />
@@ -112,9 +112,10 @@
 			   return true;
 		}
 	     
-		if(userId != "admin"){ 
-			openAlert("슈퍼관리자만 로그인 할 수 있습니다"); 
-			   return true;
+		if(!(userId == "admin" || userId == "test" || userId == "dokky")){ 
+			   
+		   openAlert("슈퍼관리자만 로그인 할 수 있습니다"); 
+		   return true;
 		}
 	     
 		var password = $('#password').val();
@@ -143,15 +144,15 @@
 		    $("form").submit();
 	  });
 	  
-	  $("#join").on("click", function(e){
+	/*   $("#join").on("click", function(e){
 
 		  	e.preventDefault();
 		    
 	    	openAlert("슈퍼관리자로 현재 가입 할 수 없습니다"); 
 	    	return; 
-		    
+		     
 		    location.href='/adminMemberForm'; 
-	  });
+	  }); */
 	  
 </script>
 
