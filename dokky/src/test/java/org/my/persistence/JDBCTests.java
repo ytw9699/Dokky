@@ -1,4 +1,4 @@
-package org.zerock.persistence;
+package org.my.persistence;
 	import static org.junit.Assert.assertNotNull;
 	import static org.junit.Assert.fail;
 	import java.sql.Connection;
