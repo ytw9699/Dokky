@@ -26,7 +26,7 @@ package org.my.controller;
 	import lombok.extern.log4j.Log4j;
 
 @RunWith(SpringJUnit4ClassRunner.class)
-@WebAppConfiguration//WebApplicationContext를 이용하기 위해서
+@WebAppConfiguration
 @ContextConfiguration({ "file:src/main/webapp/WEB-INF/spring/root-context.xml",
 	"file:src/main/webapp/WEB-INF/spring/appServlet/servlet-context.xml", 
 	"file:src/main/webapp/WEB-INF/spring/security-context.xml"	
@@ -37,7 +37,7 @@ package org.my.controller;
 public class BoardControllerTests {
 
 	@Setter(onMethod_ = { @Autowired })
-	private WebApplicationContext ctx;//스프링 객체 컨테이너
+	private WebApplicationContext ctx;
 	
 	@Setter(onMethod_ = { @Autowired })
 	private BoardService service;
@@ -45,10 +45,9 @@ public class BoardControllerTests {
 	@Setter(onMethod_ = @Autowired)
 	private BoardMapper mapper;
 	
-	private MockMvc mockMvc; // 가짜 mvc라고 생각
-							 // 가짜로URL과 파라미터 등을 브라우저에서 사용하는 것처럼 만들어서 Controller를 실행
+	private MockMvc mockMvc; 
 
-	@Before//모든 테스트 전에 매번 실행되는 메서드
+	@Before
 	public void setup() {
 		this.mockMvc = MockMvcBuilders.webAppContextSetup(ctx).build();
 	}
