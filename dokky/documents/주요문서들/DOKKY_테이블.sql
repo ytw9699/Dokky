@@ -14,7 +14,7 @@
 		  dislikeCnt number(10,0) default 0, --싫어요 수
 		  MONEY number(10,0) default 0, -- 기부금액
 		  HITCNT number(10,0) default 0, -- 조회수
-		  REPLYCNT number(10,0) default 0, -- 댓글수
+		  REPLYCNT number(10,0) default 0, -- 댓글수 (게시물 목록조회는 많이 일어나기 때문에, 댓글수를 조인을 통해가져오기 보다는 컬럼을 추가해준것이다. 역정규화)
 		  constraint PK_DK_BOARD primary key(BOARD_NUM) --PK
 	);
 	
