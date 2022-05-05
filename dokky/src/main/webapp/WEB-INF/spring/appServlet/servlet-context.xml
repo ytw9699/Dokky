@@ -33,8 +33,8 @@
 	
     <beans:bean id="DownloadView" class="org.my.utils.DownloadView"/>
 	
-	<beans:bean id="multipartResolver"
-		class="org.springframework.web.multipart.support.StandardServletMultipartResolver">
+	<beans:bean id="multipartResolver" class="org.springframework.web.multipart.support.StandardServletMultipartResolver">
+	<!-- 스프링에서 업로드 처리 : multipartResolver 라는 타입의 객체를 빈으로 등록해야 가능하다. -->
 	</beans:bean>
 	
 	<mvc:interceptors>
