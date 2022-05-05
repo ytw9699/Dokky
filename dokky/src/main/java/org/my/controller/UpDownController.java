@@ -48,7 +48,7 @@ public class UpDownController {
 			
 			nowS3Util = new myS3Util(commonService);
 			
-		}else {
+		}else{
 			
 			nowS3Util = s3Util;
 		}
@@ -96,7 +96,7 @@ public class UpDownController {
 	@PostMapping("/downloadS3File")		
 	public ModelAndView downloadS3File(HttpServletRequest request) throws Exception {
 		
-		return new ModelAndView("DownloadView", "temp", "temp");//root-context.xml
+		return new ModelAndView("DownloadView", "temp", "temp");//servlet-context.xml
 	}
 	
 	@PreAuthorize("isAuthenticated()")
