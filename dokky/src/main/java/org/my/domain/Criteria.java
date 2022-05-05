@@ -36,7 +36,7 @@ public class Criteria {
   }
   
   public String getListLink() {
-
+	    //GET 방식 등의 파라미 터 전송에 시용되는 문자열(쿼리스트링 )을 손쉽게 처리할 수 있는 클래스
 		UriComponentsBuilder builder = UriComponentsBuilder.fromPath("")
 							.queryParam("category", this.category)
 							.queryParam("pageNum", this.pageNum)
