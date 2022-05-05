@@ -11,7 +11,8 @@ package org.my.exception;
 @Log4j
 public class CommonExceptionAdvice {
 
-	@ExceptionHandler(Exception.class)//ExceptionHandler는 해당 메서드가 () 들어가는 예외 타입을 처리한다는 것을 의미, 지금 설정은 모든예외에 대한 처리가 except()만을 이용해서 처리
+	@ExceptionHandler(Exception.class)//내가 처리하고 싶은 Exception을 지정한것
+	//지금 설정은 모든예외에 대한 처리가 except()만을 이용해서 처리 되게 만든것이다.
 	//@ResponseStatus(아무코드를 지정안하면 200이 날라가게된다..)
 	public String except(Exception ex, Model model) {
 
