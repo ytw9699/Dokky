@@ -1,4 +1,4 @@
-/*package org.my.security;
+package org.my.security;
 	import static org.junit.Assert.fail;
 	import static org.springframework.security.test.web.servlet.request.SecurityMockMvcRequestBuilders.formLogin;
 	import org.junit.Before;
@@ -13,9 +13,8 @@
 	import org.springframework.test.web.servlet.MockMvc;
 	import org.springframework.test.web.servlet.setup.MockMvcBuilders;
 	import org.springframework.web.context.WebApplicationContext;
-import org.springframework.web.socket.client.WebSocketClient;
-
-import lombok.Setter;
+	import org.springframework.web.socket.client.WebSocketClient;
+	import lombok.Setter;
 	import lombok.extern.log4j.Log4j;
 	
 @RunWith(SpringJUnit4ClassRunner.class)
@@ -59,6 +58,3 @@ public class adminLoginTest {
 		}
 	}
 }
-
-
-*/
