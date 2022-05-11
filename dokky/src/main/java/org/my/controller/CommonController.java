@@ -23,7 +23,8 @@ package org.my.controller;
 	import org.springframework.http.HttpStatus;
 	import org.springframework.http.ResponseEntity;
 	import org.springframework.security.access.prepost.PreAuthorize;
-	import org.springframework.security.core.Authentication;
+import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
+import org.springframework.security.core.Authentication;
 	import org.springframework.security.crypto.password.PasswordEncoder;
 	import org.springframework.stereotype.Controller;
 	import org.springframework.ui.Model;
@@ -192,7 +193,7 @@ public class CommonController {
 		log.info("/members: vo" + vo); 
 		
 		vo.setUserPw(pwencoder.encode(""+Math.random()*10));
-		//패스워드 랜덤 하게 만들어 암호화,이 암호가 없으면 시큐리티인증객체를 못만듬
+		//패스워드 랜덤 하게 만들어 암호화,이 암호가 없으면 시큐리티인증객체토큰 중(UsernamePasswordAuthenticationToken을)못 만드는것 같다.
 		
 		if(memberService.registerMembers(vo)){
 			
