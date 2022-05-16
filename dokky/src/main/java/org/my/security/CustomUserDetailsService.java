@@ -1,7 +1,12 @@
+/*
+1. 사용자의 정보와 권한을 DB에서 조회해서 AuthenticationProvider로 반환
+2. 접속제한자를 체크해서 해당하는 경우 예외 발생
+3. 사용자의 마지막 로긴 시간 업데이트
+*/
 package org.my.security;
 	import org.my.security.domain.CustomUser;
-import org.my.service.CommonService;
-import org.my.service.MemberService;
+	import org.my.service.CommonService;
+	import org.my.service.MemberService;
 	import org.springframework.beans.factory.annotation.Autowired;
 	import org.springframework.security.authentication.BadCredentialsException;
 	import org.springframework.security.core.userdetails.UserDetails;
@@ -10,7 +15,6 @@ import org.my.service.MemberService;
 	import java.util.List;
 	import org.my.domain.AuthVO;
 	import org.my.domain.MemberVO;
-	import org.my.mapper.MemberMapper;
 	import lombok.Setter;
 	import lombok.extern.log4j.Log4j;
 
@@ -26,16 +30,17 @@ public class CustomUserDetailsService implements UserDetailsService {
 	@Override
 	public UserDetails loadUserByUsername(String userName) throws UsernameNotFoundException {
 		
-		log.warn("Load User By UserName(userId) : " + userName);// userName means userId
+		log.warn("Load User By UserName(userId) : " + userName);
 		
-		MemberVO vo = memberService.readMembers(userName);// userName means userId
+		MemberVO vo = memberService.readMembers(userName);
 				
-		log.warn("queried by member mapper: " + vo);
+		log.warn("MemberVO = " + vo);
 		
-		if(vo == null ) {
+		if(vo == null){
+		
 			throw new BadCredentialsException("NULL");
-		}
-		else if(vo != null) { 
+		
+		}else if(vo != null){ 
 			
 			List<AuthVO> AuthList = vo.getAuthList(); 
 			
@@ -44,12 +49,6 @@ public class CustomUserDetailsService implements UserDetailsService {
 					throw new BadCredentialsException("limit");
 			}
 		}
-		
-		log.warn("queried by member mapper:11111 ");
-		
-		commonService.updateLoginDate(userName); //로긴날짜찍기
-		
-		log.warn("queried by member mapper:2222 ");
 		
 		return new CustomUser(vo);
 	} 
