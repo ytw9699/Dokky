@@ -1,7 +1,6 @@
 /*
-1. 사용자의 정보와 권한을 DB에서 조회해서 AuthenticationProvider로 반환
-2. 접속제한자를 체크해서 해당하는 경우 예외 발생
-3. 사용자의 마지막 로긴 시간 업데이트
+- 마지막 업데이트 2022-05-17 
+- 사용자의 정보와 권한을 DB에서 조회해서 AuthenticationProvider로 반환
 */
 package org.my.security;
 	import org.my.security.domain.CustomUser;
@@ -51,6 +50,7 @@ public class CustomUserDetailsService implements UserDetailsService {
 		}
 		
 		return new CustomUser(vo);
+		
 	} 
 }
 
