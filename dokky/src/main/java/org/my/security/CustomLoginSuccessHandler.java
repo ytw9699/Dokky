@@ -6,16 +6,17 @@ package org.my.security;
 	import javax.servlet.http.HttpSession;
 	import org.my.security.domain.CustomUser;
 	import org.my.service.CommonService;
+	import org.springframework.beans.factory.annotation.Autowired;
 	import org.springframework.security.core.Authentication;
 	import org.springframework.security.web.authentication.AuthenticationSuccessHandler;
-	import lombok.RequiredArgsConstructor;
+	import lombok.Setter;
 	import lombok.extern.log4j.Log4j;
 
-@RequiredArgsConstructor
 @Log4j
 public class CustomLoginSuccessHandler implements AuthenticationSuccessHandler {
 	
-	private final CommonService commonService;
+	@Setter(onMethod_ = @Autowired)
+	private CommonService commonService;
 	
 	@Override
 	public void onAuthenticationSuccess(HttpServletRequest request, HttpServletResponse response, Authentication auth)
