@@ -89,30 +89,17 @@
 	      regDate date default sysdate, 
 	      preLoginDate date default sysdate, --가장 마지막 이전의 로그인 날짜
 	      lastLoginDate date default sysdate, -- 가장 마지막 로그인날짜
-	      enabled char(1) default '1'--enabled는 스프링 시큐리티에서 사용하는 값. 현재 사용자 계정이 유효한가를 의미
+	      enabled char(1) default '1'-- 계정의 활성 비활성 여부 
+	      accountNonLocked char(1) default '1'-- 계정의 잠금 여부
 	);
+	
+	https://codedragon.tistory.com/6159
 	
 	create sequence seq_dk_member
 	
 	drop table dk_member purge 
 	
 	insert into dk_member(member_num, userId, userPw, nickName) values (seq_dk_member.nextval, 'admin', 'admin', '슈퍼관리자')
-	
-	create table dk_member(--구 회원 테이블
-	
-		  member_num number(10,0) unique,
-	      userId varchar2(50) primary key,
-	      userPw varchar2(100) not null,
-	      nickName varchar2(100) not null unique,
-	      email varchar2(100) not null unique,
-	      phoneNum varchar2(50),
-	      cash number(10,0) default 0,
-	      bankName varchar2(50),
-	      account varchar2(50),
-	      regDate date default sysdate, 
-	      loginDate date default sysdate,
-	      enabled char(1) default '1'--enabled는 스프링 시큐리티에서 사용하는 값. 현재 사용자 계정이 유효한가를 의미
-	);
 	
 	5.------------------------------------------------------------------------------------------
 	create table dk_member_auth (--권한 테이블
