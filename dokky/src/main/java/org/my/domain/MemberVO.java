@@ -9,13 +9,12 @@ public class MemberVO {
 	private String userId;
 	private String userPw;
 	private String nickName;
-	private String email;
-	private String phoneNum;
 	private String account;
 	private String bankName;
 	private Date regDate;
 	private Date preLoginDate;
 	private Date lastLoginDate;
 	private boolean enabled;
+	private boolean accountNonLocked;
 	private List<AuthVO> authList;
 }

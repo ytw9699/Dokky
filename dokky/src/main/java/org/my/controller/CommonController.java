@@ -246,30 +246,10 @@ public class CommonController {
 		return "redirect:/socialLogin";
 	}
 	
-	@GetMapping("/superAdminLogin")
-	public String superAdminLogin(Model model, HttpServletRequest request, 
-								  String error, String logout, String check) throws UnsupportedEncodingException {
-	
+	@RequestMapping(value="/superAdminLogin", method = {RequestMethod.GET, RequestMethod.POST})
+	public String superAdminLogin(){
+
 		log.info("/superAdminLogin");
-		
-		if (check != null) {
-			if(check.equals("notId") ) {
-				model.addAttribute("check", "아이디가 없습니다");
-			}else if(check.equals("notPassword") ) {
-				model.addAttribute("check", "비밀번호가 틀립니다");
-			}
-			else if(check.equals("limit") ) {
-				model.addAttribute("check", "차단된 아이디입니다. 관리자에게 문의해주세요");
-			}
-		}
-		
-		/*if (error != null) {
-		model.addAttribute("error", "Login Error Check Your Account");
-		}
-		
-		if (logout != null) {
-			model.addAttribute("logout", "Logout!!");
-		}*/
 		
 		return "common/superAdminLogin";   
 	}
