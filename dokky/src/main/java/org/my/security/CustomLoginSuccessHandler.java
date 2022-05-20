@@ -1,3 +1,10 @@
+/*
+- 마지막 업데이트 2022-05-18
+- 인증 성공시 후처리 핸들링
+- 1. 인증후 사용자 로긴 날짜 업데이트
+- 2. 로그인전의 마지막 페이지로 인증후 이동
+- 3. 인증후 웹소켓 세션 관리를 위한 사용자별 아이디 저장
+*/
 package org.my.security;
 	import java.io.IOException;
 	import javax.servlet.ServletException;
