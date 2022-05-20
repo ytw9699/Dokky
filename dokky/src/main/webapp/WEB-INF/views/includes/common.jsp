@@ -152,7 +152,7 @@
 		</sec:authorize>
     
 		<sec:authorize access="hasRole('ROLE_SUPER')">
-			<a href="/admin/authorizationList">
+			<a href="/superAdmin/authorizationList">
 	    		<span class="mypage">SuperAdmin</span>
 			</a>
 		</sec:authorize>

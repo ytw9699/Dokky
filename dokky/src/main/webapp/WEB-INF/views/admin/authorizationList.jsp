@@ -25,12 +25,12 @@
 	 
 		 <div id="menuWrap"> 
 				<div class="tab">      
-					<button class="active" onclick="location.href='/admin/authorizationList'">관리자 권한관리</button> 
+					<button class="active" onclick="location.href='/superAdmin/authorizationList'">관리자 권한관리</button> 
 			    </div>
 		 </div>    
 		  
 		 <div class="searchWrapper">  
-			<form id='searchForm' action="/admin/authorizationList" method='get'>
+			<form id='searchForm' action="/superAdmin/authorizationList" method='get'>
 				<select id="option" name='type'>
 					<option value="N"
 						<c:out value="${pageMaker.cri.type eq 'N'?'selected':''}"/>>닉네임</option>
@@ -111,7 +111,7 @@
 				</ul>
 		 </div>
 		 
-		 <form id='actionForm' action="/admin/authorizationList" method='get'>  
+		 <form id='actionForm' action="/superAdmin/authorizationList" method='get'>  
 			<input type='hidden' name='pageNum' value='${pageMaker.cri.pageNum}'>
 			<input type='hidden' name='amount' value='${pageMaker.cri.amount}'>
 			<input type='hidden' name='type' value='<c:out value="${ pageMaker.cri.type }"/>'> 

@@ -55,7 +55,7 @@ public class CustomLoginSuccessHandler implements AuthenticationSuccessHandler {
               
          }else {
         	 
-        	 response.sendRedirect("/admin/authorizationList");
+        	 response.sendRedirect("/superAdmin/authorizationList");
          }
 	}
 }

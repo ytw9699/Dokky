@@ -23,8 +23,7 @@ package org.my.controller;
 	import org.springframework.http.HttpStatus;
 	import org.springframework.http.ResponseEntity;
 	import org.springframework.security.access.prepost.PreAuthorize;
-import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
-import org.springframework.security.core.Authentication;
+	import org.springframework.security.core.Authentication;
 	import org.springframework.security.crypto.password.PasswordEncoder;
 	import org.springframework.stereotype.Controller;
 	import org.springframework.ui.Model;
@@ -245,15 +244,7 @@ public class CommonController {
 			
 		return "redirect:/socialLogin";
 	}
-	
-	@RequestMapping(value="/superAdminLogin", method = {RequestMethod.GET, RequestMethod.POST})
-	public String superAdminLogin(){
-
-		log.info("/superAdminLogin");
 		
-		return "common/superAdminLogin";   
-	}
-	
 	@RequestMapping(value = "/main", method = RequestMethod.GET)
 	public String main(Model model) {
 		
@@ -657,46 +648,19 @@ public class CommonController {
 		return new ResponseEntity<>(commonService.getChatCount(userId), HttpStatus.OK);
 	}
 	
-	@PreAuthorize("hasAnyRole('ROLE_ADMIN','ROLE_SUPER')") 
-	@GetMapping("/admin/authorizationList")//일반 관리자 권한부여 리스트
-	public String getAuthorizationList(Criteria cri, Model model, 
-									   Authentication authentication, HttpSession session) {
+	@RequestMapping(value="/superAdminLogin", method = {RequestMethod.GET, RequestMethod.POST})
+	public String superAdminLogin(){
+
+		log.info("/superAdminLogin");
 		
-		log.info("/admin/authorizationList");
-		log.info("cri"+cri);
+		return "common/superAdminLogin";   
+	}	
+	
+	@PreAuthorize("hasAnyRole('ROLE_SUPER')") 
+	@GetMapping("/superAdmin/authorizationList")
+	public String getAuthorizationList(Criteria cri, Model model) {
 		
-		/*if(authentication == null) {//인증이 안됬다면
-			//request.getRequestURL();
-			//SavedRequest aa = new SavedRequest();
-			
-			//SavedRequest saveRequest = new SavedRequest();
-			//(Object)"DefaultSavedRequest[http://localhost:8080/admin/authorizationList]";
-			//session.setAttribute("SPRING_SECURITY_SAVED_REQUEST", saveRequest);
-			
-			return "redirect:/superAdminLogin";
-		}*/
-		
-		CustomUser user = (CustomUser)authentication.getPrincipal();
-		
-		MemberVO vo = user.getMember();
-		
-		List<AuthVO> AuthList = vo.getAuthList();//사용자의 권한 정보만 list로 가져온다
-		
-		Iterator<AuthVO> it = AuthList.iterator();
-		
-		while (it.hasNext()) {
-			
-			AuthVO authVO = it.next(); 
-			
-			String auth = authVO.getAuth();
-			
-			if(!auth.equals("ROLE_SUPER")) {
-				
-				return "redirect:/superAdminError";//일반관리자는 접근 못하고 슈퍼관리자만 접근할 수 있음
-				//return "redirect:/superAdminLogin";
-			}
-			
-        }
+		log.info("/superAdmin/authorizationList");
 		
 		model.addAttribute("authorizationList", adminService.getUserList(cri));
 		
@@ -706,6 +670,27 @@ public class CommonController {
 		
 		return "admin/authorizationList"; 
 	}
+	
+	@GetMapping("/accessError")//접근 권한 에러
+	public String accessDenied(Model model, @RequestParam(value = "authorization") String authorization){
+		
+		log.info("/accessError");
+		
+		if(authorization.equals("superAdmin")){
+			
+			model.addAttribute("message", "슈퍼관리자만 접근 가능합니다.");
+			
+		}else if(authorization.equals("admin")){
+			
+			model.addAttribute("message", "관리자만 접근 가능합니다.");
+			
+		}else {
+			
+			model.addAttribute("message", "접근 권한이 없습니다.");
+		}
+		
+		return "error/commonError";
+	}  
 	
 	@GetMapping("/serverError")
 	public String serverError(Model model) {//serverError페이지
@@ -717,36 +702,5 @@ public class CommonController {
 		return "error/commonError";  
 	}
 	
-	@GetMapping("/adminError")
-	public String adminError(Model model) {//관리자 리스트 접근 제한 에러페이지
-
-		log.info("/adminError");
-		
-		model.addAttribute("message", "관리자만 접근 가능합니다.");
-		
-		return "error/commonError";  
-	}
-	
-	@GetMapping("/superAdminError")
-	public String superAdminError(Model model) {//관리자 리스트 접근 제한 에러페이지
-
-		log.info("/superAdminError");
-		
-		model.addAttribute("message", "Super-관리자만 접근 가능합니다.");
-		
-		return "error/commonError";  
-	}
-
-	@GetMapping("/accessError")//공통 접근제한 에러페이지
-	public String accessDenied(Authentication auth, Model model) {//Authentication 타입의 파라미터를 받도록 설계해서 필요한 경우에 사용자의 정보를 확인할 수 있도록
-		
-		log.info("/accessError");
-		
-		log.info("access Denied : " + auth); 
- 
-		model.addAttribute("message", "접근 권한이 없습니다. 관리자에게 문의해주세요.");
-		
-		return "error/commonError";
-	}  
 }
 		 	
