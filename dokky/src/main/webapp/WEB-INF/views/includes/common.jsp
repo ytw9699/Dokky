@@ -28,7 +28,6 @@
 				Dokky
 			</span> 
 		</a>
-		
 	  <sec:authorize access="isAuthenticated()">
 		<div class="mypage topMypage">  
 					<a href="#" class="leftUsermenu"> 
@@ -58,34 +57,32 @@
 								</li>
 							</ul> 
 				    </div> 
-					<!-- <form id="logoutForm" method='post' action="/customLogout"> -->
 		</div>
 	  </sec:authorize>
-		
-	  <sec:authorize access="isAnonymous()">  
-		  <a href="/socialLogin"> 
-		  	<span class="mypage topMypage">로그인/회원가입</span>
-	  	  </a> 
-	  	  <!-- <a href="/memberForm">
-		  	<span class="mypage">회원가입</span>
-	  	  </a> -->
-	  </sec:authorize>
 	  
-   	  <sec:authorize access="hasAnyRole('ROLE_ADMIN','ROLE_USER','ROLE_STOP')">
-	  		<span class="mypage">
-		  		<form class="logoutForm" method='post' action="/logout">
-				    <input class="logoutBtn" type="submit" value="로그아웃">  
-				    <input type="hidden" name="${_csrf.parameterName}" value="${_csrf.token}"/>
-				</form> 
-			</span>
-	   </sec:authorize>
-	   <sec:authorize access="hasRole('ROLE_SUPER')">
-	  		<span class="mypage">
-		  		<form class="logoutForm" method='post' action="/customLogout">
-				    <input class="logoutBtn" type="submit" value="로그아웃">
-				    <input type="hidden" name="${_csrf.parameterName}" value="${_csrf.token}"/>
-				</form> 
-			</span>
+	<c:if test="${userInfo == null || userInfo == 'anonymousUser'}">
+		<a href="/socialLogin"> 
+		  	<span class="mypage topMypage">로그인/회원가입</span>
+		</a> 
+	</c:if>
+	  
+   	  <sec:authorize access="hasAnyRole('ROLE_ADMIN','ROLE_USER')">
+   	 		<sec:authorize access="!hasRole('ROLE_SUPER')">
+		  		<span class="mypage">
+			  		<form class="logoutForm" method='post' action="/logout">
+					    <input class="logoutBtn" type="submit" value="로그아웃">  
+					    <input type="hidden" name="${_csrf.parameterName}" value="${_csrf.token}"/>
+					</form> 
+				</span>
+			</sec:authorize>
+			<sec:authorize access="hasRole('ROLE_SUPER')">
+		  		<span class="mypage">
+			  		<form class="logoutForm" method='post' action="/customLogout">
+					    <input class="logoutBtn" type="submit" value="로그아웃">
+					    <input type="hidden" name="${_csrf.parameterName}" value="${_csrf.token}"/>
+					</form> 
+				</span>
+	  		</sec:authorize>
 	   </sec:authorize>
 	   
 		  <a href="/board/allList?category=0&order=0">
@@ -126,36 +123,17 @@
 			<a href="/mypage/myInfoForm?userId=${userInfo.username}">
 				<span class="mypage">내 정보</span>
 			</a>
-			
 		</sec:authorize>
 		
 			<a href="/admin/userList">
-		    	<span class="mypage">Admin</span>
+		    	<span class="mypage">관리자</span>
 			</a>
 		
-		<%-- <sec:authorize access="hasAnyRole('ROLE_ADMIN','ROLE_SUPER')">
-			<a href="/admin/userList">
-		    	<span class="mypage">Admin</span>
-			</a>
-		</sec:authorize> --%>
-		
-		<%-- <sec:authorize access="!hasAnyRole('ROLE_ADMIN','ROLE_SUPER')">
-			<a href="/socialLogin">
-		    	<span class="mypage">Admin</span>
-			</a>
-		</sec:authorize> --%>
-		
-		<sec:authorize access="!hasRole('ROLE_SUPER')">
+		<c:if test="${userInfo == null || userInfo == 'anonymousUser'}">
 			<a href="/superAdminLogin">
-	    		<span class="mypage">SuperAdmin</span>
+	    		<span class="mypage">SuperAdminLogin</span>
 			</a>
-		</sec:authorize>
-    
-		<sec:authorize access="hasRole('ROLE_SUPER')">
-			<a href="/superAdmin/authorizationList">
-	    		<span class="mypage">SuperAdmin</span>
-			</a>
-		</sec:authorize>
+		</c:if>
 		
 		<div class="visitCount">
 			<div>
@@ -253,32 +231,6 @@
 							logoutForm.submit();;
 							
 						}, 4000); 
-						
-				}else if(event.data == 'StopWritingAndLogoutMessageToUser'){
-					 
-					openAlert("글쓰기가 제한됩니다. 재로그인 해주세요");
-					
-					setTimeout(function() {
-						
-						var logoutForm = $(".logoutForm");
-						
-						logoutForm.submit();;
-						
-					}, 4000); 
-					
-				}else if(event.data == 'recoverMessageToUser'){
-					 
-					 console.log("recoverMessageToUser");
-					
-					 openAlert("계정이 복구되었습니다. 재로그인 해주세요");
-					 
-				}else if(event.data == 'limitAndLogoutSuccessMessageToAdmin'){
-					
-						openAlert("해당 사용자를 접속 제한 후 로그아웃 시켰습니다");
-						
-				}else if(event.data == 'limitSuccessMessageToAdmin'){
-					
-						openAlert("해당 사용자를 접속 제한 하였습니다");//
 				}
 			}
 			
