@@ -80,7 +80,7 @@
 	create table dk_member(--뉴 회원 테이블
 	
 		  member_num number(10,0) unique,
-	      userId varchar2(50) primary key,
+	      userId varchar2(50),
 	      userPw varchar2(100) not null,
 	      nickName varchar2(100) not null unique,
 	      cash number(10,0) default 0,
@@ -89,8 +89,9 @@
 	      regDate date default sysdate, 
 	      preLoginDate date default sysdate, --가장 마지막 이전의 로그인 날짜
 	      lastLoginDate date default sysdate, -- 가장 마지막 로그인날짜
-	      enabled char(1) default '1'-- 계정의 활성 비활성 여부 
-	      accountNonLocked char(1) default '1'-- 계정의 잠금 여부
+	      enabled char(1) default '1',-- 계정의 활성 비활성 여부 
+	      accountNonLocked char(1) default '1',-- 계정의 잠금 여부
+	      constraint PK_DK_MEMBER primary key(userId) --PK
 	);
 	
 	https://codedragon.tistory.com/6159
@@ -106,9 +107,11 @@
 	
 	     userId varchar2(50) not null,
 	     auth varchar2(50) default 'ROLE_USER',
-	     constraint fk_member_auth foreign key(userId) references dk_member(userId)
+	     constraint pk_member_auth PRIMARY KEY(userId, auth),
+	     constraint fk_member_auth foreign key(userId) references dk_member(userId) on delete cascade
 	);
-	
+
+
 	insert into dk_member_auth(userId, auth) values ('admin','ROLE_SUPER');
 	
 	drop table dk_member_auth purge 
