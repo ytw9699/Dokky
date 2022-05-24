@@ -24,7 +24,7 @@
 		 <div id="menuWrap"> 
 				<div class="tab">      
 					<button class="active" onclick="location.href='/admin/userList'">계정관리</button>
-					<button onclick="location.href='/admin/cashRequestList'">결제관리</button> 
+					<button onclick="location.href='/admin/cashRequestList'">캐시관리</button> 
 					<button onclick="location.href='/admin/userReportList'">신고관리</button>
 			    </div>
 		 </div>    
