@@ -1,4 +1,20 @@
-<%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
+<!-- 
+	@PreAuthorize("hasAnyRole('ROLE_SUPER')") 
+	@GetMapping("/superAdmin/authorizationList")
+	public String getAuthorizationList(Criteria cri, Model model) {
+		
+		log.info("/superAdmin/authorizationList");
+		
+		model.addAttribute("authorizationList", adminService.getUserList(cri));
+		
+		int total = adminService.getMemberTotalCount(cri);
+		
+		model.addAttribute("pageMaker", new PageDTO(cri, total));
+		
+		return "admin/authorizationList"; 
+	} -->
+	
+<%-- <%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c"%>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/fmt" prefix="fmt"%>
 <%@ taglib uri="http://www.springframework.org/security/tags" prefix="sec" %> 
@@ -50,10 +66,10 @@
 		 
 		 <div class="infoWrap"> 
 			<c:forEach items="${authorizationList}" var="user">
-				<%-- <div class="memberInfoWrap" onclick="location.href='userForm?userId=<c:out value="${user.userId}" />'" > --%>
+				<div class="memberInfoWrap" onclick="location.href='userForm?userId=<c:out value="${user.userId}" />'" >
 				<div class="memberInfoWrap">
 					<div class="memberProfile">
-						<%-- <img src="/resources/img/profile_img/<c:out value="${user.userId}"/>.png" id="memberProfile" onerror="this.src='/resources/img/profile_img/basicProfile.png'" /> --%>
+						<img src="/resources/img/profile_img/<c:out value="${user.userId}"/>.png" id="memberProfile" onerror="this.src='/resources/img/profile_img/basicProfile.png'" />
 						<c:choose>
 						   	  <c:when test="${pageContext.request.serverName == 'localhost'}">
 									<img src="/resources/img/profile_img/<c:out value="${user.userId}"  />.png?${random}" id="memberProfile" onerror="this.src='/resources/img/profile_img/basicProfile.png'" />
@@ -274,4 +290,4 @@
 
 	</script>
 </body>
-</html>
+</html> --%>
