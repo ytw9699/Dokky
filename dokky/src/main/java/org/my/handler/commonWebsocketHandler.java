@@ -33,39 +33,24 @@ public class commonWebsocketHandler extends TextWebSocketHandler {
 				
 				for(WebSocketSession userSession : userSessionList) {
 					
-					if(kind.equals("sendAlarmMsg") && userSession != null) {//모든 알람 메시지
+					if(kind.equals("sendAlarmMsg") && userSession != null){//모든 알람 메시지
 					
 						userSession.sendMessage(new TextMessage("allAlarmUpdateRequestToUser"));
 					
-					}else if(kind.equals("noteAlarm") && userSession != null) {//쪽지를 쓰고 알림 업데이트 요청을 사용자에게 보낸다
+					}else if(kind.equals("noteAlarm") && userSession != null){//쪽지를 쓰고 알림 업데이트 요청을 사용자에게 보낸다
 						
 						userSession.sendMessage(new TextMessage("noteAlarmUpdateRequestToUser"));
 						
-					}else if(kind.equals("chatAlarm") && userSession != null) {//채팅 메시지를 보내고 알림 업데이트 요청을 사용자에게 보낸다
+					}else if(kind.equals("chatAlarm") && userSession != null){//채팅 메시지를 보내고 알림 업데이트 요청을 사용자에게 보낸다
 						
 						userSession.sendMessage(new TextMessage("chatAlarmUpdateRequestToUser"));
 						
-					}else if(kind.equals("limit") && userSession != null){//요청의 종류가 계정 제한 이고 해당 유저의 세션이 존재한다면
-						
-						userSession.sendMessage(new TextMessage("limitAndLogoutSuccessMessageToUser"));//유저에게  메시지를 보낸다
-						
-						session.sendMessage(new TextMessage("limitAndLogoutSuccessMessageToAdmin"));//관리자에게도 메시지를 보낸다
-						
-					}else if(kind.equals("limit") && userSession == null) {//계정 제한은 하였지만 유저의 세션이 존재하지 않는다면 로그아웃 시키지 않는다.
-						
-						session.sendMessage(new TextMessage("limitSuccessMessageToAdmin"));//관리자에게만 메시지를 보낸다
-					
-					}else if(kind.equals("stopWritingMsg") && userSession != null) {
-						
-						userSession.sendMessage(new TextMessage("StopWritingAndLogoutMessageToUser"));
-					
-					}else if(kind.equals("recoverMsg") && userSession != null) {
-						
-						userSession.sendMessage(new TextMessage("recoverMessageToUser"));
-					} 
+					}else if(kind.equals("limit") && userSession != null) {//접속 제한
+							userSession.sendMessage(new TextMessage("limitAndLogoutSuccessMessageToUser"));//유저에게 메시지를 보낸다
+						}
+					}
 				}
 			}
-		}
 	}
 	
 	@Override
@@ -117,7 +102,7 @@ public class commonWebsocketHandler extends TextWebSocketHandler {
 	}
 	
 	private String getUserId(WebSocketSession session) {
-		
+		log.info("commonWebsocket getUserId="+(String)session.getAttributes().get("userId")); 
 		return (String)session.getAttributes().get("userId");
 	}
 }
