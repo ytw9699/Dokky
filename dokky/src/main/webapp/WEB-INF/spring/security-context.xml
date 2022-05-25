@@ -10,18 +10,18 @@
 	
 	<bean id="bcryptPasswordEncoder" class="org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder" />
 	
-	<bean id="customUserDetailsService" class="org.my.security.CustomUserDetailsService"></bean>
+	<bean id="customUserDetailsService" class="org.my.security.CustomUserDetailsService" />
 	
 	<bean id="customAuthenticationProvider" class="org.my.security.CustomAuthenticationProvider">
 		<constructor-arg ref="bcryptPasswordEncoder"/>
 		<constructor-arg ref="customUserDetailsService"/>
 	</bean>
 	
-	<bean id="customLoginSuccess" class="org.my.security.CustomLoginSuccessHandler"></bean>
+	<bean id="customLoginSuccess" class="org.my.security.CustomLoginSuccessHandler" />
 	
-	<bean id="loginFailHandler" class="org.my.security.CustomLoginFailHandler"></bean>
+	<bean id="loginFailHandler" class="org.my.security.CustomLoginFailHandler" />
 	
-	<bean id="customAccessDenied" class="org.my.security.CustomAccessDeniedHandler"></bean>
+	<bean id="customAccessDenied" class="org.my.security.CustomAccessDeniedHandler" />
 
 	<security:http>
 	
