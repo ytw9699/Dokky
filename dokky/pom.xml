@@ -97,7 +97,7 @@
 			<dependency>
 			    <groupId>org.springframework.security</groupId>
 			    <artifactId>spring-security-core</artifactId>
-			    <version>5.0.13.RELEASE</version>
+			    <version>5.5.7</version>
 			</dependency>
 			
 			<!-- JSP에서는 스프링 시큐리티 관련된 태그 라이브러리를 활용할 수 있도록 springsecurity-taglib 을 추가 -->
