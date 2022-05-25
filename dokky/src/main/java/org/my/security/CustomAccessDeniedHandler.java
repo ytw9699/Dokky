@@ -24,17 +24,18 @@ public class CustomAccessDeniedHandler implements AccessDeniedHandler {
     
     String URI = request.getRequestURI();
     
-    if(URI.contains("superAdmin")) {//슈퍼 관리자 페이지 접근 권한 에러
+    log.error("Access Denied Handlers");
+    
+    if(URI.contains("superAdmin")){//슈퍼 관리자 권한 접근 에러
     	
     	response.sendRedirect("/accessError?authorization=superAdmin");
     	
-    }else if(URI.contains("admin")){//일반 관리자 페이지 접근 권한 에러
+    }else if(URI.contains("admin")){//일반 관리자 권한 접근 에러
     	
     	response.sendRedirect("/accessError?authorization=admin");
     	
-    }else {//일반 사용자 페이지 접근 권한 에러
-    	
-    	response.sendRedirect("/accessError");
+    }else {//그외 모든 권한 접근 에러
+    	response.sendRedirect("/accessError?authorization=common");
     }
   }
 }
