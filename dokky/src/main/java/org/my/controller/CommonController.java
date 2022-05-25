@@ -1,6 +1,5 @@
 package org.my.controller;
 	import java.io.UnsupportedEncodingException;
-	import java.util.Iterator;
 	import java.util.List;
 	import java.util.Locale;
 	import javax.servlet.http.HttpServletRequest;
@@ -8,13 +7,11 @@ package org.my.controller;
 	import javax.servlet.http.HttpSession;
 	import org.my.auth.SNSLogin;
 	import org.my.auth.SnsValue;
-	import org.my.domain.AuthVO;
 	import org.my.domain.BoardVO;
 	import org.my.domain.Criteria;
 	import org.my.domain.MemberVO;
 	import org.my.domain.PageDTO;
 	import org.my.domain.noteVO;
-	import org.my.security.domain.CustomUser;
 	import org.my.service.AdminService;
 	import org.my.service.CommonService;
 	import org.my.service.MemberService;
@@ -649,32 +646,22 @@ public class CommonController {
 	}
 	
 	@RequestMapping(value="/superAdminLogin", method = {RequestMethod.GET, RequestMethod.POST})
-	public String superAdminLogin(){
+	public String superAdminLogin(HttpServletRequest request, HttpServletResponse response, Authentication authentication){
 
 		log.info("/superAdminLogin");
 		
-		return "common/superAdminLogin";   
+		return "common/superAdminLogin";
 	}	
 	
-	@PreAuthorize("hasAnyRole('ROLE_SUPER')") 
-	@GetMapping("/superAdmin/authorizationList")
-	public String getAuthorizationList(Criteria cri, Model model) {
-		
-		log.info("/superAdmin/authorizationList");
-		
-		model.addAttribute("authorizationList", adminService.getUserList(cri));
-		
-		int total = adminService.getMemberTotalCount(cri);
-		
-		model.addAttribute("pageMaker", new PageDTO(cri, total));
-		
-		return "admin/authorizationList"; 
-	}
-	
 	@GetMapping("/accessError")//접근 권한 에러
-	public String accessDenied(Model model, @RequestParam(value = "authorization") String authorization){
+	public String accessDenied(HttpServletResponse response, HttpServletRequest request, Model model, @RequestParam(value = "authorization",
+	required=false, defaultValue = "common" ) String authorization){
 		
 		log.info("/accessError");
+		
+		if( "true".equals(request.getHeader("AJAX"))) {
+			response.setHeader("Location", "/accessError?authorization="+authorization);
+		}
 		
 		if(authorization.equals("superAdmin")){
 			
@@ -682,7 +669,7 @@ public class CommonController {
 			
 		}else if(authorization.equals("admin")){
 			
-			model.addAttribute("message", "관리자만 접근 가능합니다.");
+			model.addAttribute("message", "일반 관리자만 접근 가능합니다.");
 			
 		}else {
 			
