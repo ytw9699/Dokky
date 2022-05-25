@@ -1,5 +1,9 @@
+/*
+- 마지막 업데이트 2022-05-25
+*/
 package org.my.mapper;
 	import java.util.List;
+	import org.apache.ibatis.annotations.Param;
 	import org.my.domain.Criteria;
 	import org.my.domain.MemberVO;
 	import org.my.domain.cashVO;
@@ -21,13 +25,13 @@ public interface AdminMapper {
 	
 	public MemberVO getUserForm(String userId);
 	
-	public int updateRoleLimit(String userId);
+	public int updateAccountNonLocked(@Param("userId") String userId, @Param("accountNonLocked") int accountNonLocked);
 	
-	public int updateRoleStop(String userId);
-
-	public int updateRoleUser(String userId);
-
-	public int updateRoleAdmin(String userId);
+	public int insertRole(@Param("userId") String userId, @Param("role") String role);
+	
+	public int deleteRole(@Param("userId") String userId, @Param("role") String role);
+	
+	public int updatePermitLogin(String userId);
 
 	public int approveCash(Long cash_num);
 
