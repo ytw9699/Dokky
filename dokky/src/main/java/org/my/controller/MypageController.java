@@ -8,11 +8,11 @@ package org.my.controller;
 	import org.my.domain.PageDTO;
 	import org.my.domain.cashVO;
 	import org.my.domain.checkPwVO;
+	import org.my.service.AdminService;
 	import org.my.service.BoardService;
 	import org.my.service.CommonService;
 	import org.my.service.MemberService;
 	import org.my.service.MypageService;
-	import org.springframework.beans.factory.annotation.Autowired;
 	import org.springframework.http.HttpStatus;
 	import org.springframework.http.ResponseEntity;
 	import org.springframework.security.access.prepost.PreAuthorize;
@@ -29,30 +29,21 @@ package org.my.controller;
 	import org.springframework.web.multipart.MultipartFile;
 	import org.springframework.web.multipart.MultipartHttpServletRequest;
 	import org.springframework.web.servlet.mvc.support.RedirectAttributes;
-	import lombok.AllArgsConstructor;
-	import lombok.Setter;
+	import lombok.RequiredArgsConstructor;
 	import lombok.extern.log4j.Log4j;
 	
 @Controller
 @Log4j
 @RequestMapping("/mypage/*")
-@AllArgsConstructor
+@RequiredArgsConstructor
 public class MypageController {
 	
-	@Setter(onMethod_ = @Autowired)
-	private MypageService mypageService;
-	
-	@Setter(onMethod_ = @Autowired)
-	private BoardService boardService;
-	
-	@Setter(onMethod_ = @Autowired)
-	private MemberService memberService;
-	
-	@Setter(onMethod_ = @Autowired)
-	private CommonService commonService;
-	
-	@Setter(onMethod_ = @Autowired)
-	private PasswordEncoder pwencoder;
+	private final MypageService mypageService;
+	private final AdminService adminService;
+	private final CommonService commonService;
+	private final MemberService memberService;
+	private final BoardService boardService;
+	private final PasswordEncoder bcryptPasswordEncoder;
 	
 	@PreAuthorize("principal.username == #userId") 
  	@GetMapping("/myInfoForm")  //내 개인정보 변경폼
@@ -60,7 +51,7 @@ public class MypageController {
 
 		log.info("/mypage/myInfoForm");
 		
-		model.addAttribute("myInfo", mypageService.getMyInfo(userId));
+		model.addAttribute("myInfo", adminService.getUserForm(userId));
 		
 		return "mypage/myInfoForm";
 	} 
@@ -371,7 +362,7 @@ public class MypageController {
 			
 		}else {
 			
-			if(!pwencoder.matches(vo.getUserPw(), myPassword)) {
+			if(!bcryptPasswordEncoder.matches(vo.getUserPw(), myPassword)) {
 				
 				return new ResponseEntity<>("fail", HttpStatus.OK);
 				
@@ -389,7 +380,7 @@ public class MypageController {
 		
 		log.info("/mypage/changeMyPassword");
 
-		String encodedPw = pwencoder.encode(vo.getUserPw());
+		String encodedPw = bcryptPasswordEncoder.encode(vo.getUserPw());
 		
 		if(encodedPw == null) {
 			
