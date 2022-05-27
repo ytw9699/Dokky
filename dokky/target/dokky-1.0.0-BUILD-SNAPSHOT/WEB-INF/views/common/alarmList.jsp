@@ -1,3 +1,7 @@
+<!--
+마지막 업데이트 2022-05-24
+알람 종류에 따라 보여줄 리스트
+-->
 <%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c"%>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/fmt" prefix="fmt"%>
@@ -207,36 +211,42 @@
 											</c:choose>
 							       </c:when> --%>
 							       
-							       <c:when test="${alarm.kind == 10 }">  
+						          <c:when test="${alarm.kind == 11 }">  
 						          		<a href="#" class="getMyPage" data-alarm_num="${alarm.alarmNum}">
-						          			관리자에 의해 모든 쓰기 기능이 제한되었습니다. 
-						          		</a>
-							       </c:when>  
-							       
-							       <c:when test="${alarm.kind == 11 }">  
-						          		<a href="#" class="getMyPage" data-alarm_num="${alarm.alarmNum}">
-						          			관리자에 의해 계정이 복구되었습니다. 
+						          			접속이 제한 되었습니다. 
 						          		</a>
 							       </c:when>  
 							       
 							       <c:when test="${alarm.kind == 12 }">  
 						          		<a href="#" class="getMyPage" data-alarm_num="${alarm.alarmNum}">
-						          			관리자에 의해 접속 제한 되었습니다. 
+						          			접속 제한이 풀렸습니다.
 						          		</a>
 							       </c:when>  
 							       
 							       <c:when test="${alarm.kind == 13 }">
 						          		<a href="#" class="getMyPage" data-alarm_num="${alarm.alarmNum}">
-						          			사용자 계정으로 변경 되었습니다.  
+						          			일반 유저 권한이 부여되었습니다.  
 						          		</a>
 							       </c:when>  
 							       
-							       <c:when test="${alarm.kind == 14 }">   
+							       <c:when test="${alarm.kind == 14 }">
 						          		<a href="#" class="getMyPage" data-alarm_num="${alarm.alarmNum}">
-						          			관리자 계정으로 변경 되었습니다.
+						          			일반 유저 권한이 삭제되었습니다.
 						          		</a>
 							       </c:when> 
 							       
+							       <c:when test="${alarm.kind == 15 }">   
+						          		<a href="#" class="getMyPage" data-alarm_num="${alarm.alarmNum}">
+						          			일반 관리자 권한이 부여되었습니다.
+						          		</a>
+							       </c:when> 
+							       
+							       <c:when test="${alarm.kind == 16 }">   
+						          		<a href="#" class="getMyPage" data-alarm_num="${alarm.alarmNum}">
+						          			일반 관리자 권한이 삭제되었습니다.
+						          		</a>
+							       </c:when> 
+							        
 						        </c:choose>  
 					        <c:if test="${alarm.checking == 'NO'}">
 					        	<span class="readCheck checkAlarm${alarm.alarmNum}">1</span> 

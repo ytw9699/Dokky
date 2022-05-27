@@ -26,11 +26,11 @@
 	<div class="container"> 
 		<form role="form" method='post' action="/login">
 				<div class="form-group">
-					<input id="userId" class="form-control" placeholder="아이디를 입력하세요." name="username" type="text" oninput="checkLength(this,20);" autofocus/>
-				</div>
+					<input id="userId" class="form-control" placeholder="아이디를 입력하세요." name="username" type="text" value="${param.username}" oninput="checkLength(this,20);" autofocus/>
+				</div>	
 				
 				<div class="form-group">
-					<input id="password" class="form-control" placeholder="비밀번호를 입력하세요." name="password" type="password" value="" oninput="checkLength(this,20);"/>
+					<input id="password" class="form-control" placeholder="비밀번호를 입력하세요." name="password" type="password" value="${param.password}" oninput="checkLength(this,20);"/>
 				</div>
 				
 				<div class="form-group"> 
@@ -112,12 +112,6 @@
 			   return true;
 		}
 	     
-		if(!(userId == "admin" || userId == "test" || userId == "dokky")){ 
-			   
-		   openAlert("슈퍼관리자만 로그인 할 수 있습니다"); 
-		   return true;
-		}
-	     
 		var password = $('#password').val();
 		password = $.trim(password);//공백제거
 	     
@@ -136,11 +130,6 @@
 		    	return; 
 		    }
 		    
-		    /* if($('#userId').val() != 'admin'){ 
-		    	openAlert("아이디를 다시 확인해주세요");
-		    	return; 
-		    } */
-		    
 		    $("form").submit();
 	  });
 	  
@@ -156,18 +145,10 @@
 	  
 </script>
 
-	<c:if test="${param.error != null}">
+	<c:if test="${AuthenticationFailureMsg != null}">
 	      <script>
 		      $(document).ready(function(){
-		      	openAlert("관리자에게 문의해주세요");
-		      });
-	      </script>
-	</c:if>  
-	 
-	<c:if test="${check != null}"> 
-	      <script>
-		      $(document).ready(function(){
-		      	openAlert('${check}'); 
+		      	openAlert('${AuthenticationFailureMsg}'); 
 		      });
 	      </script>
 	</c:if>  

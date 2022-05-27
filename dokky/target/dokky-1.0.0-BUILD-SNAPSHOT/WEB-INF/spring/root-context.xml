@@ -48,9 +48,9 @@
 	
 	<bean id="transactionManager" class="org.springframework.jdbc.datasource.DataSourceTransactionManager">
 		<property name="dataSource" ref="dataSource"/>
-	</bean>
+	</bean><!-- 트랜잭션 관리하는 빈(객체)등록-->
 	
-	<tx:annotation-driven/>
+	<tx:annotation-driven/> <!-- 어노테이션 기반으로 트랜잭션을 설정할 수 있도록 -->
 	
 	<mybatis-spring:scan base-package="org.my.mapper"/>
 	<!--

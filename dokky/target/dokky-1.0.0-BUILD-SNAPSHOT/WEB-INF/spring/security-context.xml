@@ -2,57 +2,43 @@
 <beans xmlns="http://www.springframework.org/schema/beans"
 	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
 	xmlns:security="http://www.springframework.org/schema/security"
+	xmlns:context="http://www.springframework.org/schema/context"
 	xsi:schemaLocation="http://www.springframework.org/schema/security http://www.springframework.org/schema/security/spring-security.xsd
-		http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd">
+		http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd
+		http://www.springframework.org/schema/context http://www.springframework.org/schema/context/spring-context-4.3.xsd">
 
-	<bean id="customAccessDenied" class="org.my.security.CustomAccessDeniedHandler"></bean>
 	
 	<bean id="bcryptPasswordEncoder" class="org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder" />
 	
-	<bean id="customUserDetailsService" class="org.my.security.CustomUserDetailsService"></bean>
+	<bean id="customUserDetailsService" class="org.my.security.CustomUserDetailsService" />
 	
-	<bean id="loginFailHandler" class="org.my.security.CustomLoginFailHandler"></bean>
-															<!-- 로그인 실패시 -->
-	<bean id="customLoginSuccess" class="org.my.security.CustomLoginSuccessHandler"></bean>
-		<!-- 로그인 성공시 --> 
+	<bean id="customAuthenticationProvider" class="org.my.security.CustomAuthenticationProvider">
+		<constructor-arg ref="bcryptPasswordEncoder"/>
+		<constructor-arg ref="customUserDetailsService"/>
+	</bean>
+	
+	<bean id="customLoginSuccess" class="org.my.security.CustomLoginSuccessHandler" />
+	
+	<bean id="loginFailHandler" class="org.my.security.CustomLoginFailHandler" />
+	
+	<bean id="customAccessDenied" class="org.my.security.CustomAccessDeniedHandler" />
 
 	<security:http>
 	
 		<security:access-denied-handler ref="customAccessDenied" />
-		<!-- 접근제한이 된경우 AccessDeniedHandler 인터페이스를 구현하여 처리 --> 
 		
-		<!-- <security:form-login login-page="/customLogin" authentication-failure-handler-ref="loginFailHandler"/> -->
 		<security:form-login login-page="/socialLogin" authentication-failure-handler-ref="loginFailHandler" authentication-success-handler-ref="customLoginSuccess"/>
-	 	<!-- form-login: 
-		 	1. 인증된 사용자만 허용되는 자원(경로)에 접근할 때，로그인 폼(커스톰 로그인 페이지 지정)을 보여준다(스프링 시큐리티의 시작 지점이 필요)
-		 	2. 로그인 폼에서 아이디/암호를 전송하면，로그인(인증) 처리를 한다.
-		 	3. 기본적으로 사용자가 원래 보려고 했던 페이지의 정보를 유지해서 로그인 후에 다시 원했던 페이지로 이동하는 방식
-		 	4. UsernamePasswordAuthenticationFilter생성
-	 	-->
 	 	
 	 	<security:remember-me data-source-ref="dataSource" token-validity-seconds="604800" />
 		<!-- 자동 로그인에서 데이터베이스를 이용하는 설정은 별도의 설정 없이 data—source-ref만을 지정 , 쿠키의 유효시간 604800 지정-->
 		
 		<security:logout logout-url="/customLogout" invalidate-session="true" delete-cookies="remember-me,JSESSIONID" logout-success-url="/superAdminLogin"/>
-		<!-- 로그아웃을 하면 세션무효화, 자동 로그인 에 사용하는 쿠키도 삭제,로그아웃시 자동으로 로그인페이지 이동됨 ,LogoutFilter 필터를 생성,로그아웃시 이동 url-->
-		
-		<!-- <security:csrf disabled="true"/> -->
-		
-		<!-- <security:headers>
-		         <security:frame-options disabled="true"></security:frame-options>
-		       	  스마트에디터와 스프링 시큐리티 충돌문제 해결
-			</security:headers> -->
+		<!-- LogoutFilter필터 생성 : 로그아웃시 사용자 세션무효화, 자동 로그인 에 사용하는 remember-me 쿠키도 삭제, 로그아웃시 자동으로 관리자 로그인 페이지 이동 설정-->
 		
 	</security:http>
 	
 	<security:authentication-manager>
-	<!-- 스프링 시큐리티는 AuthenticationManager를 사용해서 인증을 처 리하는데, 이 AuthenticationManager가 입력으로 받는 값의 타입이 Authentication이다 -->
-		<security:authentication-provider user-service-ref="customUserDetailsService">
-		<!-- authentication-provider는 인증제공자,실제 인증 작업 진행, customUserDetailsService는 권한에 대한 정보같이 전달,인증과 권한에 대한 실제처리도함 -->
-			<security:password-encoder ref="bcryptPasswordEncoder" />
-			
-		</security:authentication-provider> 
-
+		<security:authentication-provider ref="customAuthenticationProvider" />
 	</security:authentication-manager>
 
 </beans>
