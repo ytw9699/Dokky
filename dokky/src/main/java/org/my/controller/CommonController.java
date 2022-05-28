@@ -66,13 +66,12 @@ public class CommonController {
 	@Setter(onMethod_ = @Autowired)
 	private AdminService adminService;
 	
-	
-	@GetMapping("/socialLogin")//커스텀 로그인 페이지는 반드시 get방식 이어야 한다. 스프링 시큐리티의 특성임
-	public String getSocialLogin(String error, String logout, String check, Model model) throws UnsupportedEncodingException {
+	@RequestMapping(value="/commonLogin", method = {RequestMethod.GET, RequestMethod.POST})
+	public String getCommonLogin(HttpServletRequest request, HttpServletResponse response, Model model) throws UnsupportedEncodingException {
 		
-		log.info("/socialLogin");
+		log.info("/commonLogin");
 		 
-		SNSLogin naverLogin = new SNSLogin(naverSns);//소셜로그인
+		SNSLogin naverLogin = new SNSLogin(naverSns);
 		
 		model.addAttribute("naver_url", naverLogin.getAuthURL());
 		
@@ -80,7 +79,7 @@ public class CommonController {
 		
 		model.addAttribute("google_url", googleLogin.getAuthURL());
 		
-		return "common/socialLogin";  
+		return "common/commonLogin";  
 	}
 	
 	@GetMapping("/auth/{snsService}/callback")
@@ -91,7 +90,7 @@ public class CommonController {
 		log.info("/auth/"+snsService+"/callback");
 		
 		if(error.equals("access_denied")) {//정보동의 수락안하고 취소눌를시
-			return "redirect:/socialLogin";
+			return "redirect:/commonLogin";
 		}
 		
 		SnsValue sns = null; 
@@ -131,8 +130,8 @@ public class CommonController {
 		
 		if(!result){
 			
-			rttr.addFlashAttribute("check", "접속 제한된 아이디입니다."); 
-			return "redirect:/socialLogin";
+			rttr.addFlashAttribute("errormsg", "접속 제한된 아이디입니다."); 
+			return "redirect:/commonLogin";
 		}
 		
 		commonService.updateLoginDate(profileId); //로긴날짜찍기
@@ -206,9 +205,9 @@ public class CommonController {
 			
 		}else {
 		
-			rttr.addFlashAttribute("check", "가입실패 하였습니다 관리자에게 문의주세요.");
+			rttr.addFlashAttribute("errormsg", "가입실패 하였습니다 관리자에게 문의주세요.");
 			
-			return "redirect:/socialLogin";
+			return "redirect:/commonLogin";
 		}
 	}
 	
@@ -229,9 +228,9 @@ public class CommonController {
 			
 		}else {
 		
-			rttr.addFlashAttribute("check", "재가입실패 하였습니다 관리자에게 문의주세요.");
+			rttr.addFlashAttribute("errormsg", "재가입실패 하였습니다 관리자에게 문의주세요.");
 			
-			return "redirect:/socialLogin";
+			return "redirect:/commonLogin";
 		}
 	}
 	
@@ -242,7 +241,7 @@ public class CommonController {
 		
 		commonService.logout(request, response, authentication);
 			
-		return "redirect:/socialLogin";
+		return "redirect:/commonLogin";
 	}
 		
 	@RequestMapping(value = "/main", method = RequestMethod.GET)
@@ -647,14 +646,6 @@ public class CommonController {
 		
 		return new ResponseEntity<>(commonService.getChatCount(userId), HttpStatus.OK);
 	}
-	
-	@RequestMapping(value="/superAdminLogin", method = {RequestMethod.GET, RequestMethod.POST})
-	public String superAdminLogin(HttpServletRequest request, HttpServletResponse response, Authentication authentication){
-
-		log.info("/superAdminLogin");
-		
-		return "common/superAdminLogin";
-	}	
 	
 	@GetMapping("/accessError")//접근 권한 에러
 	public String accessDenied(HttpServletResponse response, HttpServletRequest request, Model model, @RequestParam(value = "authorization",

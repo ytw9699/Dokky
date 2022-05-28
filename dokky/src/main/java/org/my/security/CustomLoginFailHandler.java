@@ -48,7 +48,7 @@ public class CustomLoginFailHandler extends SimpleUrlAuthenticationFailureHandle
     	  errormsg = "로그인 할 수 없습니다. 관리자에게 문의해주세요";
       }
 	
-	  request.setAttribute("AuthenticationFailureMsg", errormsg);
-	  request.getRequestDispatcher("/superAdminLogin").forward(request, response);
+	  request.setAttribute("errormsg", errormsg);
+	  request.getRequestDispatcher("/commonLogin").forward(request, response);
 	}
 } 

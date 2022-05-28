@@ -61,7 +61,7 @@
 	  </sec:authorize>
 	  
 	<c:if test="${userInfo == null || userInfo == 'anonymousUser'}">
-		<a href="/socialLogin"> 
+		<a href="/commonLogin"> 
 		  	<span class="mypage topMypage">로그인/회원가입</span>
 		</a> 
 	</c:if>
@@ -128,12 +128,6 @@
 			<a href="/admin/userList">
 		    	<span class="mypage">관리자</span>
 			</a>
-		
-		<c:if test="${userInfo == null || userInfo == 'anonymousUser'}">
-			<a href="/superAdminLogin">
-	    		<span class="mypage">SuperAdminLogin</span>
-			</a>
-		</c:if>
 		
 		<div class="visitCount">
 			<div>

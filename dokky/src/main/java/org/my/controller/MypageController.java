@@ -327,7 +327,7 @@ public class MypageController {
 					
 					log.info("/logout");
 					
-					return "redirect:/socialLogin";
+					return "redirect:/commonLogin";
 				
 			}else {
 				

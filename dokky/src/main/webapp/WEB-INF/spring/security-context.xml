@@ -27,12 +27,12 @@
 	
 		<security:access-denied-handler ref="customAccessDenied" />
 		
-		<security:form-login login-page="/socialLogin" authentication-failure-handler-ref="loginFailHandler" authentication-success-handler-ref="customLoginSuccess"/>
+		<security:form-login login-page="/commonLogin" authentication-failure-handler-ref="loginFailHandler" authentication-success-handler-ref="customLoginSuccess"/>
 	 	
 	 	<security:remember-me data-source-ref="dataSource" token-validity-seconds="604800" />
 		<!-- 자동 로그인에서 데이터베이스를 이용하는 설정은 별도의 설정 없이 data—source-ref만을 지정 , 쿠키의 유효시간 604800 지정-->
 		
-		<security:logout logout-url="/customLogout" invalidate-session="true" delete-cookies="remember-me,JSESSIONID" logout-success-url="/superAdminLogin"/>
+		<security:logout logout-url="/customLogout" invalidate-session="true" delete-cookies="remember-me,JSESSIONID" logout-success-url="/commonLogin"/>
 		<!-- LogoutFilter필터 생성 : 로그아웃시 사용자 세션무효화, 자동 로그인 에 사용하는 remember-me 쿠키도 삭제, 로그아웃시 자동으로 관리자 로그인 페이지 이동 설정-->
 		
 	</security:http>
