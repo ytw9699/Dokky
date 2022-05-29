@@ -70,7 +70,10 @@ public class MypageController {
 			
 			MemberVO authMemberVO = memberService.readMembers(userId);
 			
-			commonService.setAuthentication(authMemberVO, false);//다시 인증 처리
+			if(commonService.setAuthentication(authMemberVO) == false){//다시 인증 처리
+				rttr.addFlashAttribute("errormsg", "다시 로그인 해주세요."); 
+				return "redirect:/commonLogin";
+			}
 			
 			rttr.addFlashAttribute("update", "complete");
 			

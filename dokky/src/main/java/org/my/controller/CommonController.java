@@ -1,5 +1,5 @@
 /*
-- 마지막 업데이트 2022-05-25
+- 마지막 업데이트 2022-05-29
 */
 package org.my.controller;
 	import java.io.UnsupportedEncodingException;
@@ -116,6 +116,11 @@ public class CommonController {
 		
 		MemberVO memberVO = memberService.readMembers(profileId);//소셜에서 가져온 프로필에 해당하는 개인정보를 db에서 불러온다
 		
+		if(!memberVO.isAccountNonLocked()){
+			rttr.addFlashAttribute("errormsg", "접속 제한된 아이디입니다."); 
+			return "redirect:/commonLogin";
+		}
+		
 		if(!memberVO.isEnabled()){//탈퇴한 회원 이라면
 			
 			model.addAttribute("id", profileId);
@@ -126,11 +131,8 @@ public class CommonController {
 			return "common/reMemberForm";//재가입 폼 이동
 		}
 		
-		Boolean result = commonService.setAuthentication(memberVO, true);//인증하면서 권한도 체크 true
-		
-		if(!result){
-			
-			rttr.addFlashAttribute("errormsg", "접속 제한된 아이디입니다."); 
+		if(commonService.setAuthentication(memberVO) == false){//인증처리
+			rttr.addFlashAttribute("errormsg", "로그인 할 수 없습니다."); 
 			return "redirect:/commonLogin";
 		}
 		
@@ -197,7 +199,10 @@ public class CommonController {
 			
 			MemberVO memberVO = memberService.readMembers(vo.getUserId());//소셜에서 가져온 프로필에 해당하는 개인정보를 db에서 불러온다
 			
-			commonService.setAuthentication(memberVO, false);//인증하면서 권한은 미체크 false
+			if(commonService.setAuthentication(memberVO) == false){//인증처리
+				rttr.addFlashAttribute("errormsg", "다시 로그인 해주세요."); 
+				return "redirect:/commonLogin";
+			}
 			
 			rttr.addFlashAttribute("check", "가입완료 되었습니다.");
 				
@@ -212,15 +217,18 @@ public class CommonController {
 	}
 	
 	@PostMapping("/remembers") 
-	public String postReMembers(MemberVO vo, Model model, RedirectAttributes rttr) {//재 회원가입
+	public String reRegisterMembers(MemberVO vo, Model model, RedirectAttributes rttr){//재 회원가입
 		
 		log.info("/remembers: vo" + vo); 
 		
 		if(memberService.reRegisterMembers(vo)){
 			
-			MemberVO memberVO = memberService.readMembers(vo.getUserId());//소셜에서 가져온 프로필에 해당하는 개인정보를 db에서 불러온다
+			MemberVO memberVO = memberService.readMembers(vo.getUserId());
 			
-			commonService.setAuthentication(memberVO, false);//인증하면서 권한은 미체크 false
+			if(commonService.setAuthentication(memberVO) == false){//인증처리
+				rttr.addFlashAttribute("errormsg", "다시 로그인 해주세요."); 
+				return "redirect:/commonLogin";
+			}
 			
 			rttr.addFlashAttribute("check", "재가입완료 되었습니다.");
 			

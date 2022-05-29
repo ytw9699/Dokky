@@ -258,42 +258,34 @@ public class CommonServiceImpl implements CommonService {
 	}
 	
 	@Override 
-	public boolean setAuthentication(MemberVO memberVO, boolean checkAuth){  
+	public boolean setAuthentication(MemberVO memberVO){  
 		
 		log.info("setAuthentication");
-		
-		List<AuthVO> AuthList = memberVO.getAuthList();//사용자의 권한 정보만 list로 가져온다
-		
-		List<GrantedAuthority> roles = new ArrayList<>(1);// 인증해줄 권한 리스트를 만든다
-		
-		Iterator<AuthVO> it = AuthList.iterator();
-		
-		if(checkAuth == false) {//권한 체크를 안한다면
+			
+		try {    
+			  
+			List<AuthVO> AuthList = memberVO.getAuthList();//사용자의 권한 정보만 list로 가져온다
+			
+			List<GrantedAuthority> roles = new ArrayList<>(1);// 인증해줄 권한 리스트를 만든다
+			
+			Iterator<AuthVO> it = AuthList.iterator();
 			
 			while (it.hasNext()) {
 				AuthVO authVO = it.next(); 
-				roles.add(new SimpleGrantedAuthority(authVO.getAuth()));// 가져온 사용자의 권한을 리스트에 담아준다
+				roles.add(new SimpleGrantedAuthority(authVO.getAuth()));
 	        }
-			
-		}else{//권한 체크를 한다면
-			
-			while (it.hasNext()) {
-				
-				AuthVO authVO = it.next(); 
-				
-				String auth = authVO.getAuth();
-				
-				if(auth.equals("ROLE_LIMIT")) {
-					return false; 
-				}
-				
-				roles.add(new SimpleGrantedAuthority(auth));// 가져온 사용자의 권한을 리스트에 담아준다
-	        }
-		}
 
-		Authentication auth = new UsernamePasswordAuthenticationToken(new CustomUser(memberVO), null, roles);//사용자의 인증객체를 만든다
-		
-		SecurityContextHolder.getContext().setAuthentication(auth);//Authentication 인증객체를 SecurityContext에 보관
+			Authentication auth = new UsernamePasswordAuthenticationToken(new CustomUser(memberVO), null, roles);
+			
+			SecurityContextHolder.getContext().setAuthentication(auth);
+			
+				
+		}catch(Exception e) {
+			
+				e.printStackTrace();
+				
+			    return false;
+		}
 		
 		return true;
 	}

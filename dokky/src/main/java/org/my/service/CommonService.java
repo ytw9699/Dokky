@@ -72,7 +72,7 @@ public interface CommonService {
 	
 	public int getEnabled(String userId);
 	
-	public boolean setAuthentication(MemberVO memberVO, boolean checkAuth);  
+	public boolean setAuthentication(MemberVO memberVO);  
 	
 	public String getAccessKey();
 
