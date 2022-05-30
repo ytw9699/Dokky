@@ -326,9 +326,9 @@ public class MypageController {
 			
 			if(mypageService.myWithdrawal(userId)) {//db에서 회원탈퇴 처리가 되었다면 로그아웃 처리 하기
 				
-					commonService.logout(request, response, authentication);
+					commonService.customLogout(request, response, authentication);
 					
-					log.info("/logout");
+					log.info("/customLogout");
 					
 					return "redirect:/commonLogin";
 				

@@ -33,12 +33,11 @@ public class CommonServiceImpl implements CommonService {
 	private CommonMapper mapper;
 	
 	@Override 
-	public void logout(HttpServletRequest request, HttpServletResponse response, Authentication authentication) {  
+	public void customLogout(HttpServletRequest request, HttpServletResponse response, Authentication authentication) {  
 		
-		log.info("/logout"); 
+		log.info("/customLogout"); 
 		
 		if(authentication != null) {
-			//log.info(SecurityContextHolder.getContext().getAuthentication().getPrincipal());
 			SecurityContextHolder.getContext().setAuthentication(null);//인증 풀기
 		}
 		

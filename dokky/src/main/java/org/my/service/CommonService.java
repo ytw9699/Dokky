@@ -12,7 +12,7 @@ package org.my.service;
 
 public interface CommonService {
 	
-	public void logout(HttpServletRequest request, HttpServletResponse response, Authentication authentication);
+	public void customLogout(HttpServletRequest request, HttpServletResponse response, Authentication authentication);
 	
 	public List<BoardVO> getRealtimeBoardList();
 

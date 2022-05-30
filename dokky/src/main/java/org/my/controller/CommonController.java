@@ -70,7 +70,7 @@ public class CommonController {
 	public String getCommonLogin(HttpServletRequest request, HttpServletResponse response, Model model) throws UnsupportedEncodingException {
 		
 		log.info("/commonLogin");
-		 
+		
 		SNSLogin naverLogin = new SNSLogin(naverSns);
 		
 		model.addAttribute("naver_url", naverLogin.getAuthURL());
@@ -242,12 +242,12 @@ public class CommonController {
 		}
 	}
 	
-	@PostMapping("/logout")//사용자 직접구현 로그아웃
-	public String logout(HttpServletRequest request, HttpServletResponse response, Authentication authentication) {
+	@PostMapping("/customLogout")//사용자 직접구현 로그아웃
+	public String customLogout(HttpServletRequest request, HttpServletResponse response, Authentication authentication) {
 		
-		log.info("/logout");
+		log.info("/customLogout");
 		
-		commonService.logout(request, response, authentication);
+		commonService.customLogout(request, response, authentication);
 			
 		return "redirect:/commonLogin";
 	}
