@@ -22,7 +22,7 @@ public class CustomLoginFailHandler extends SimpleUrlAuthenticationFailureHandle
 	 public void onAuthenticationFailure(HttpServletRequest request, HttpServletResponse response,
 	   AuthenticationException exception) throws IOException, ServletException {
 		
-	  log.error("==========================================");
+	  log.error("===========CustomLoginFailHandler============");
 	  log.error(exception.getStackTrace());
 	  
 	  String errormsg;

@@ -24,8 +24,6 @@ public class CustomAccessDeniedHandler implements AccessDeniedHandler {
     
     String URI = request.getRequestURI();
     
-    log.error("Access Denied Handlers");
-    
     if(URI.contains("superAdmin")){//슈퍼 관리자 권한 접근 에러
     	
     	response.sendRedirect("/accessError?authorization=superAdmin");
