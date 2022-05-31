@@ -85,8 +85,8 @@ public class CommonController {
 		String preUrl  = request.getHeader("referer");
 		
 		if(preUrl != null){
-			if(!preUrl.contains("commonLogin") || !preUrl.contains("accessError")){
-				request.getSession().setAttribute("preUrl", request.getHeader("referer"));
+			if(!(preUrl.contains("commonLogin")) && !(preUrl.contains("login")) && !(preUrl.contains("accessError"))){
+				request.getSession().setAttribute("preUrl", preUrl);
 			}
 		}
 		
