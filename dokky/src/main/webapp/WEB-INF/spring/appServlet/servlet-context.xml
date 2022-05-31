@@ -37,22 +37,6 @@
 	<!-- 스프링에서 업로드 처리 : multipartResolver 라는 타입의 객체를 빈으로 등록해야 가능하다. -->
 	</beans:bean>
 	
-	<mvc:interceptors>
-		<!-- 몇개의 지정경로만도 설정가능-->
-		<mvc:interceptor>
-				<mvc:mapping path="/board/get/**"/>
-				<mvc:mapping path="/board/list/**"/>
-				<mvc:mapping path="/board/allList/**"/>
-				<mvc:mapping path="/board/register/**"/>
-				<mvc:mapping path="/userBoardList/**"/>
-				<mvc:mapping path="/main"/>
-				<mvc:mapping path="/admin/**"/>
-			<beans:bean id ="preUrlInterceptor" class="org.my.utils.preUrlInterceptor"/>
-		</mvc:interceptor>
-		<!-- 지정경로 설정 -->
-	</mvc:interceptors>
-	
-	
 	<context:component-scan base-package="org.my.controller" />
 	<!-- <context:component-scan base-package="org.my.exception" /> CommonExceptionAdvice 예외처리하려면 스캔해야함 -->
 	

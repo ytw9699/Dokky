@@ -7,7 +7,6 @@ package org.my.controller;
 	import java.util.Locale;
 	import javax.servlet.http.HttpServletRequest;
 	import javax.servlet.http.HttpServletResponse;
-	import javax.servlet.http.HttpSession;
 	import org.my.auth.SNSLogin;
 	import org.my.auth.SnsValue;
 	import org.my.domain.BoardVO;
@@ -27,6 +26,7 @@ package org.my.controller;
 	import org.springframework.security.crypto.password.PasswordEncoder;
 	import org.springframework.stereotype.Controller;
 	import org.springframework.ui.Model;
+	import org.springframework.web.bind.annotation.DeleteMapping;
 	import org.springframework.web.bind.annotation.GetMapping;
 	import org.springframework.web.bind.annotation.ModelAttribute;
 	import org.springframework.web.bind.annotation.PathVariable;
@@ -66,10 +66,29 @@ public class CommonController {
 	@Setter(onMethod_ = @Autowired)
 	private AdminService adminService;
 	
+	@ResponseBody
+ 	@DeleteMapping(value = "/SavedRequest")
+	public ResponseEntity<String> deleteSavedRequestSession(HttpServletRequest request){
+		
+		log.info("/deleteSavedRequestSession:... ");
+		
+		request.getSession().removeAttribute("SPRING_SECURITY_SAVED_REQUEST");
+		
+		return new ResponseEntity<>("success", HttpStatus.OK);
+	}
+	
 	@RequestMapping(value="/commonLogin", method = {RequestMethod.GET, RequestMethod.POST})
 	public String getCommonLogin(HttpServletRequest request, HttpServletResponse response, Model model) throws UnsupportedEncodingException {
 		
 		log.info("/commonLogin");
+		 
+		String preUrl  = request.getHeader("referer");
+		
+		if(preUrl != null){
+			if(!preUrl.contains("commonLogin") || !preUrl.contains("accessError")){
+				request.getSession().setAttribute("preUrl", request.getHeader("referer"));
+			}
+		}
 		
 		SNSLogin naverLogin = new SNSLogin(naverSns);
 		
@@ -136,26 +155,9 @@ public class CommonController {
 			return "redirect:/commonLogin";
 		}
 		
-		commonService.updateLoginDate(profileId); //로긴날짜찍기
+		String redirectURL = commonService.CustomAuthLoginSuccessHandler(profileId, request);
 		
-		HttpSession session = request.getSession();
-		
-		if (session != null) {
-			
-			session.setAttribute("userId", profileId);//웹소켓이 끊겼을때 사용하기 위해 세션에 저장해둔다.
-            String redirectUrl = (String)session.getAttribute("preUrl");
-            
-            if (redirectUrl != null) {
-          	   
-            	 log.info("redirectUrl="+redirectUrl);
-              	 
-                 session.removeAttribute("preUrl");
-                  
-                 return "redirect:"+redirectUrl;
-            }
-        }
-		
-		return "redirect:/main";
+		return "redirect:"+redirectURL;
 	}
 	
 	@GetMapping("/memberForm")

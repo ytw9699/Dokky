@@ -75,7 +75,27 @@
 
 <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
 <script>
-		
+	
+	var csrfHeaderName ="${_csrf.headerName}"; 
+	var csrfTokenValue="${_csrf.token}";
+
+	$(document).ajaxSend(function(e, xhr, options) { 
+	    xhr.setRequestHeader(csrfHeaderName, csrfTokenValue);
+	});
+
+	var delteSavedRequest = function(){
+		$.ajax({
+				type : 'delete',
+				url : '/SavedRequest'
+			});
+	}
+	
+	var onbeforeunload = function() {   
+		delteSavedRequest();
+	} 
+	
+	window.onbeforeunload = onbeforeunload;
+
 	function checkLength(obj, maxByte) { 
 		 
 		if(obj.tagName === "INPUT" || obj.tagName === "TEXTAREA"){ 
@@ -142,13 +162,16 @@
 	}
 		     
 	  $("#login").on("click", function(e){
-		    e.preventDefault();
-		    
-		    if(memberCheck()){
-		    	return; 
-		    }
-		    
-		    $("form").submit();
+		  
+			e.preventDefault();
+			  
+			if(memberCheck()){
+				return; 
+			}
+			
+			delteSavedRequest = null;
+			
+			$("form").submit();
 	  });
 	  
 	/*   $("#join").on("click", function(e){
@@ -163,13 +186,13 @@
 	  
 	  $("#naver").on("click", function(e){
 		    e.preventDefault();
-		    
+		    delteSavedRequest = null;
 		    location.href='${naver_url}';
 	  });
 	  
 	  $("#google").on("click", function(e){
 		    e.preventDefault();
-		    
+		    delteSavedRequest = null;
 		    location.href='${google_url}';
 	  });
 	  

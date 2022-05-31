@@ -86,4 +86,6 @@ public interface CommonService {
 	
 	public int insertNote(noteVO note);
 	
+	public String CustomAuthLoginSuccessHandler(String profileId, HttpServletRequest request);
+	
 }

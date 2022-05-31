@@ -5,6 +5,7 @@ package org.my.service;
 	import javax.servlet.http.Cookie;
 	import javax.servlet.http.HttpServletRequest;
 	import javax.servlet.http.HttpServletResponse;
+	import javax.servlet.http.HttpSession;
 	import org.my.domain.AuthVO;
 	import org.my.domain.BoardVO;
 	import org.my.domain.Criteria;
@@ -20,6 +21,7 @@ package org.my.service;
 	import org.springframework.security.core.GrantedAuthority;
 	import org.springframework.security.core.authority.SimpleGrantedAuthority;
 	import org.springframework.security.core.context.SecurityContextHolder;
+	import org.springframework.security.web.savedrequest.SavedRequest;
 	import org.springframework.stereotype.Service;
 	import org.springframework.transaction.annotation.Transactional;
 	import lombok.Setter;
@@ -31,6 +33,79 @@ public class CommonServiceImpl implements CommonService {
 
 	@Setter(onMethod_ = @Autowired)
 	private CommonMapper mapper;
+	
+	@Override 
+	public boolean setAuthentication(MemberVO memberVO){  
+		
+		log.info("setAuthentication");
+			
+		try {    
+			  
+			List<AuthVO> AuthList = memberVO.getAuthList();//사용자의 권한 정보만 list로 가져온다
+			
+			List<GrantedAuthority> roles = new ArrayList<>(1);// 인증해줄 권한 리스트를 만든다
+			
+			Iterator<AuthVO> it = AuthList.iterator();
+			
+			while (it.hasNext()) {
+				AuthVO authVO = it.next(); 
+				roles.add(new SimpleGrantedAuthority(authVO.getAuth()));
+	        }
+
+			Authentication auth = new UsernamePasswordAuthenticationToken(new CustomUser(memberVO), null, roles);
+			
+			SecurityContextHolder.getContext().setAuthentication(auth);
+			
+				
+		}catch(Exception e) {
+			
+				e.printStackTrace();
+				
+			    return false;
+		}
+		
+		return true;
+	}
+	
+	@Override
+	public String CustomAuthLoginSuccessHandler(String profileId, HttpServletRequest request){
+		
+		log.info("CustomAuthLoginSuccessHandler");
+		
+		updateLoginDate(profileId);
+		
+		HttpSession session = request.getSession();
+		
+		if (session != null) {
+			
+			session.setAttribute("userId", profileId);//웹소켓이 끊겼을때 사용하기 위해 세션에 저장해둔다.
+            
+			String preUrl = (String)session.getAttribute("preUrl");
+          
+            String securitySavedUrl = null;
+            
+            SavedRequest saveRequest = (SavedRequest)session.getAttribute("SPRING_SECURITY_SAVED_REQUEST");
+			 
+			if(saveRequest != null) {
+				 securitySavedUrl = saveRequest.getRedirectUrl();
+			}
+            
+			if(securitySavedUrl != null) {
+				 
+				 session.removeAttribute("SPRING_SECURITY_SAVED_REQUEST");
+				 session.removeAttribute("preUrl");
+				 return securitySavedUrl;
+			
+			 }else if (preUrl != null) {
+              	 
+                 session.removeAttribute("preUrl");
+                 return preUrl;
+                 
+            }
+        }
+		
+		return "/main";
+	}
 	
 	@Override 
 	public void customLogout(HttpServletRequest request, HttpServletResponse response, Authentication authentication) {  
@@ -254,39 +329,6 @@ public class CommonServiceImpl implements CommonService {
 		log.info("getEnabled : " + userId); 
 		
 		return mapper.getEnabled(userId);
-	}
-	
-	@Override 
-	public boolean setAuthentication(MemberVO memberVO){  
-		
-		log.info("setAuthentication");
-			
-		try {    
-			  
-			List<AuthVO> AuthList = memberVO.getAuthList();//사용자의 권한 정보만 list로 가져온다
-			
-			List<GrantedAuthority> roles = new ArrayList<>(1);// 인증해줄 권한 리스트를 만든다
-			
-			Iterator<AuthVO> it = AuthList.iterator();
-			
-			while (it.hasNext()) {
-				AuthVO authVO = it.next(); 
-				roles.add(new SimpleGrantedAuthority(authVO.getAuth()));
-	        }
-
-			Authentication auth = new UsernamePasswordAuthenticationToken(new CustomUser(memberVO), null, roles);
-			
-			SecurityContextHolder.getContext().setAuthentication(auth);
-			
-				
-		}catch(Exception e) {
-			
-				e.printStackTrace();
-				
-			    return false;
-		}
-		
-		return true;
 	}
 	
 	@Override 
