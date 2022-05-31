@@ -66,23 +66,13 @@
 		</a> 
 	</c:if>
 	  
-   	  <sec:authorize access="hasAnyRole('ROLE_ADMIN','ROLE_USER')">
-   	 		<sec:authorize access="!hasRole('ROLE_SUPER')">
-		  		<span class="mypage">
-			  		<form class="logoutForm" method='post' action="/customLogout">
-					    <input class="logoutBtn" type="submit" value="로그아웃">  
-					    <input type="hidden" name="${_csrf.parameterName}" value="${_csrf.token}"/>
-					</form> 
-				</span>
-			</sec:authorize>
-			<sec:authorize access="hasRole('ROLE_SUPER')">
-		  		<span class="mypage">
-			  		<form class="logoutForm" method='post' action="/logout">
-					    <input class="logoutBtn" type="submit" value="로그아웃">
-					    <input type="hidden" name="${_csrf.parameterName}" value="${_csrf.token}"/>
-					</form> 
-				</span>
-	  		</sec:authorize>
+   	  <sec:authorize access="isAuthenticated()">
+   	 		<span class="mypage">
+		  		<form class="logoutForm" method='post' action="/logout">
+				    <input class="logoutBtn" type="submit" value="로그아웃">
+				    <input type="hidden" name="${_csrf.parameterName}" value="${_csrf.token}"/>
+				</form> 
+			</span>
 	   </sec:authorize>
 	   
 		  <a href="/board/allList?category=0&order=0">
