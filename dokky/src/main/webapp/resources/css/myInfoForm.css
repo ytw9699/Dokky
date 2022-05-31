@@ -71,9 +71,10 @@
 		}
 	
 		.tableText{
-			width: 5%; 
-			font-size: 18px;  
-			color: #333333;
+		    width: 5%;
+		    font-size: 19px;
+		    color: #333333;
+		    font-weight: 600;
 	    }
 	    
 		.tableValue{    
