@@ -85,7 +85,7 @@ public class CommonController {
 		String preUrl  = request.getHeader("referer");
 		
 		if(preUrl != null){
-			if(!(preUrl.contains("ogin")) && !(preUrl.contains("accessError"))){//login또는 error 페이지 제외
+			if(!(preUrl.contains("ogin")) && !(preUrl.contains("rror"))){//login 또는 error 페이지들 모두 제외
 				request.getSession().setAttribute("preUrl", preUrl);
 			}
 		}
