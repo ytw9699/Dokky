@@ -1,7 +1,7 @@
 # Created by https://www.gitignore.io/api/java,eclipse
 # Edit at https://www.gitignore.io/?templates=java,eclipse
 
-database.properties
+*.properties
 root-context.xml
 
 */target/*
