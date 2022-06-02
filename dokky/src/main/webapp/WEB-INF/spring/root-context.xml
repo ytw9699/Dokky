@@ -1,0 +1,86 @@
+<beans xmlns="http://www.springframework.org/schema/beans" 
+		xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" 
+		xmlns:mybatis-spring="http://mybatis.org/schema/mybatis-spring" 
+		xmlns:context="http://www.springframework.org/schema/context" 
+		xmlns:tx="http://www.springframework.org/schema/tx"
+		xmlns:task="http://www.springframework.org/schema/task"
+		xmlns:mvc="http://www.springframework.org/schema/mvc" 
+		xsi:schemaLocation="http://mybatis.org/schema/mybatis-spring http://mybatis.org/schema/mybatis-spring-1.2.xsd http://www.springframework.org/schema/task http://www.springframework.org/schema/task/spring-task-4.3.xsd http://www.springframework.org/schema/mvc http://www.springframework.org/schema/mvc/spring-mvc-4.3.xsd http://www.springframework.org/schema/beans https://www.springframework.org/schema/beans/spring-beans.xsd http://www.springframework.org/schema/context http://www.springframework.org/schema/context/spring-context-4.3.xsd http://www.springframework.org/schema/tx http://www.springframework.org/schema/tx/spring-tx-4.3.xsd">
+
+<context:property-placeholder location="classpath:/properties/auth.properties, classpath:/properties/database.properties" />
+
+	<bean id="hikariConfig" class="com.zaxxer.hikari.HikariConfig">
+		<property name="driverClassName" value="${db.driverClassName}"/>
+		<property name="jdbcUrl" value="${db.jdbcUrl}"/>
+		<property name="username" value="${db.username}"/>
+		<property name="password" value="${db.password}"/>
+	</bean>
+	
+	<!--  HikariCP configuration 커넥션풀 설정  -->
+	<bean id="dataSource" class="com.zaxxer.hikari.HikariDataSource" destroy-method="close">
+		<constructor-arg ref="hikariConfig"/>
+	</bean>
+	
+	<bean id="sqlSessionFactory" class="org.mybatis.spring.SqlSessionFactoryBean">
+		<property name="dataSource" ref="dataSource"/>
+	</bean>
+	
+	<bean id="transactionManager" class="org.springframework.jdbc.datasource.DataSourceTransactionManager">
+		<property name="dataSource" ref="dataSource"/>
+	</bean><!-- 트랜잭션 관리하는 빈(객체)등록-->
+	
+	<tx:annotation-driven/> <!-- 어노테이션 기반으로 트랜잭션을 설정할 수 있도록 -->
+	
+	<mybatis-spring:scan base-package="org.my.mapper"/>
+	<!--
+	 Mapper인터페이스+Mapper.xml을 작성해 주었다면 MyBatis가 동작할 때 Mapper를 인식할 수 있도록 스캔설정
+		MyBatis-Spring은 Mapper 인터페이스를 이용해서 실제 SQL 처리가 되는 클래스를 자동으로 생성
+		그래서 인터페이스와 SQL만을 작성하는 방식으로도 모든 JDBC 처리를 끝낼 수 있음.
+	-->
+	<context:component-scan base-package="org.my.service"/>
+	
+	<context:component-scan base-package="org.my.task"/>
+	<!--  스케쥴러 task작업처리 빈 등록  -->
+	<context:component-scan base-package="org.my.s3"/>
+	
+	<task:annotation-driven/>
+	<!--  스케쥴러 어노테이션 이용 위해  -->
+	
+	<!--  social outh2 login  -->
+	
+ 	<bean id="naverClientID" class="java.lang.String">
+	   <constructor-arg value="${auth.naverClientID}" />
+    </bean>
+    
+	<bean id="naverClientSecret" class="java.lang.String">
+		<constructor-arg value="${auth.naverClientSecret}" />
+	</bean>
+	<bean id="naverRedirectUrl" class="java.lang.String">
+		<constructor-arg value="${auth.naverRedirectUrl}" />
+	</bean> 
+	 
+	<bean id="naverSns" class="org.my.auth.SnsValue">  
+		<constructor-arg value="naver"/>
+		<constructor-arg ref="naverClientID"/>
+		<constructor-arg ref="naverClientSecret"/>
+		<constructor-arg ref="naverRedirectUrl"/>
+	</bean>
+
+	<bean id="googleClientID" class="java.lang.String">
+		   <constructor-arg value="${auth.googleClientID}" />
+	    </bean>
+	    
+	<bean id="googleClientSecret" class="java.lang.String">
+		<constructor-arg value="${auth.googleClientSecret}" />
+	</bean>
+	<bean id="googleRedirectUrl" class="java.lang.String">
+		<constructor-arg value="${auth.googleRedirectUrl}" />
+	</bean>
+	
+	<bean id="googleSns" class="org.my.auth.SnsValue">
+		<constructor-arg value="google"/>
+		<constructor-arg ref="googleClientID"/>
+		<constructor-arg ref="googleClientSecret"/>
+		<constructor-arg ref="googleRedirectUrl"/>
+	</bean>
+</beans>
