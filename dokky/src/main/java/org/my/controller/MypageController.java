@@ -1,8 +1,10 @@
+/*
+- 마지막 업데이트 2022-06-02
+*/
 package org.my.controller;
 	import java.io.File;
 	import java.io.IOException;
 	import javax.servlet.http.HttpServletRequest;
-	import javax.servlet.http.HttpServletResponse;
 	import org.my.domain.Criteria;
 	import org.my.domain.MemberVO;
 	import org.my.domain.PageDTO;
@@ -16,7 +18,6 @@ package org.my.controller;
 	import org.springframework.http.HttpStatus;
 	import org.springframework.http.ResponseEntity;
 	import org.springframework.security.access.prepost.PreAuthorize;
-	import org.springframework.security.core.Authentication;
 	import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 	import org.springframework.stereotype.Controller;
 	import org.springframework.ui.Model;
@@ -318,17 +319,14 @@ public class MypageController {
 	}
 	
 	@PreAuthorize("principal.username == #userId")  
-	@PostMapping("/myWithdrawal")  
-	public String myWithdrawal(@RequestParam("userId") String userId, Model model,
-		HttpServletRequest request, HttpServletResponse response, Authentication authentication) {//탈퇴 하기 메소드
+	@PostMapping("/myWithdrawal")  //탈퇴
+	public String myWithdrawal(@RequestParam("userId") String userId, Model model, HttpServletRequest request) {
 		
 			log.info("/mypage/myWithdrawal");
 			
-			if(mypageService.myWithdrawal(userId)) {//db에서 회원탈퇴 처리가 되었다면 로그아웃 처리 하기
+			if(mypageService.myWithdrawal(userId)) {
 				
-					commonService.customLogout(request, response, authentication);
-					
-					log.info("/customLogout");
+					request.getSession().invalidate();
 					
 					return "redirect:/commonLogin";
 				

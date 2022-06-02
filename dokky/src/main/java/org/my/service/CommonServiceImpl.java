@@ -1,10 +1,11 @@
+/*
+- 마지막 업데이트 2022-06-02
+*/
 package org.my.service;
 	import java.util.ArrayList;
 	import java.util.Iterator;
 	import java.util.List;
-	import javax.servlet.http.Cookie;
 	import javax.servlet.http.HttpServletRequest;
-	import javax.servlet.http.HttpServletResponse;
 	import javax.servlet.http.HttpSession;
 	import org.my.domain.AuthVO;
 	import org.my.domain.BoardVO;
@@ -105,24 +106,6 @@ public class CommonServiceImpl implements CommonService {
         }
 		
 		return "/main";
-	}
-	
-	@Override 
-	public void customLogout(HttpServletRequest request, HttpServletResponse response, Authentication authentication) {  
-		
-		log.info("/customLogout"); 
-		
-		if(authentication != null) {
-			SecurityContextHolder.getContext().setAuthentication(null);//인증 풀기
-		}
-		
-		request.getSession().invalidate();//세션무효화
-
-		Cookie JSESSIONID = new Cookie("JSESSIONID", null);
-
-		JSESSIONID.setMaxAge(0);
-
-		response.addCookie(JSESSIONID);//쿠키 삭제
 	}
 	
 	@Override

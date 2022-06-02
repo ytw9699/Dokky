@@ -1,18 +1,14 @@
 package org.my.service;
 	import java.util.List;
 	import javax.servlet.http.HttpServletRequest;
-	import javax.servlet.http.HttpServletResponse;
 	import org.my.domain.BoardVO;
 	import org.my.domain.Criteria;
 	import org.my.domain.MemberVO;
 	import org.my.domain.VisitCountVO;
 	import org.my.domain.alarmVO;
 	import org.my.domain.noteVO;
-	import org.springframework.security.core.Authentication;
 
 public interface CommonService {
-	
-	public void customLogout(HttpServletRequest request, HttpServletResponse response, Authentication authentication);
 	
 	public List<BoardVO> getRealtimeBoardList();
 

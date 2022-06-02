@@ -1,5 +1,5 @@
 /*
-- 마지막 업데이트 2022-05-29
+- 마지막 업데이트 2022-06-02
 */
 package org.my.controller;
 	import java.io.UnsupportedEncodingException;
@@ -22,7 +22,6 @@ package org.my.controller;
 	import org.springframework.http.HttpStatus;
 	import org.springframework.http.ResponseEntity;
 	import org.springframework.security.access.prepost.PreAuthorize;
-	import org.springframework.security.core.Authentication;
 	import org.springframework.security.crypto.password.PasswordEncoder;
 	import org.springframework.stereotype.Controller;
 	import org.springframework.ui.Model;
@@ -242,16 +241,6 @@ public class CommonController {
 			
 			return "redirect:/commonLogin";
 		}
-	}
-	
-	@PostMapping("/customLogout")//사용자 직접구현 로그아웃
-	public String customLogout(HttpServletRequest request, HttpServletResponse response, Authentication authentication) {
-		
-		log.info("/customLogout");
-		
-		commonService.customLogout(request, response, authentication);
-			
-		return "redirect:/commonLogin";
 	}
 		
 	@RequestMapping(value = "/main", method = RequestMethod.GET)
