@@ -2,7 +2,6 @@
 # Edit at https://www.gitignore.io/?templates=java,eclipse
 
 *.properties
-root-context.xml
 
 */target/*
 
