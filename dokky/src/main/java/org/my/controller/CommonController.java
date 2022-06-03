@@ -1,5 +1,5 @@
 /*
-- 마지막 업데이트 2022-06-02
+- 마지막 업데이트 2022-06-03
 */
 package org.my.controller;
 	import java.io.UnsupportedEncodingException;
@@ -14,15 +14,13 @@ package org.my.controller;
 	import org.my.domain.MemberVO;
 	import org.my.domain.PageDTO;
 	import org.my.domain.noteVO;
-	import org.my.service.AdminService;
 	import org.my.service.CommonService;
 	import org.my.service.MemberService;
 	import org.my.service.MypageService;
-	import org.springframework.beans.factory.annotation.Autowired;
 	import org.springframework.http.HttpStatus;
 	import org.springframework.http.ResponseEntity;
 	import org.springframework.security.access.prepost.PreAuthorize;
-	import org.springframework.security.crypto.password.PasswordEncoder;
+	import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 	import org.springframework.stereotype.Controller;
 	import org.springframework.ui.Model;
 	import org.springframework.web.bind.annotation.DeleteMapping;
@@ -37,33 +35,21 @@ package org.my.controller;
 	import org.springframework.web.bind.annotation.RequestParam;
 	import org.springframework.web.bind.annotation.ResponseBody;
 	import org.springframework.web.servlet.mvc.support.RedirectAttributes;
-	import lombok.Setter;
+	import lombok.RequiredArgsConstructor;
 	import lombok.extern.log4j.Log4j;
 		
+@RequiredArgsConstructor
 @Controller
 @Log4j 
 public class CommonController {
 	
-	@Setter(onMethod_ = @Autowired)
-	private CommonService commonService;
+	private final CommonService commonService;
+	private final MemberService memberService;
+	private final MypageService mypageService;
+	private final BCryptPasswordEncoder bcryptPasswordEncoder;
+	private final SnsValue naverSns;
+	private final SnsValue googleSns; 
 	
-	@Setter(onMethod_ = @Autowired)
-	private MemberService memberService;
-	
-	@Setter(onMethod_ = @Autowired)
-	private MypageService mypageService;
-	
-	@Setter(onMethod_ = @Autowired)
-	private PasswordEncoder pwencoder;
-	
-	@Setter(onMethod_ = @Autowired)
-	private SnsValue naverSns;
-	
-	@Setter(onMethod_ = @Autowired)
-	private SnsValue googleSns;
-	
-	@Setter(onMethod_ = @Autowired)
-	private AdminService adminService;
 	
 	@ResponseBody
  	@DeleteMapping(value = "/SavedRequest")
@@ -193,7 +179,7 @@ public class CommonController {
 		
 		log.info("/members: vo" + vo); 
 		
-		vo.setUserPw(pwencoder.encode(""+Math.random()*10));
+		vo.setUserPw(bcryptPasswordEncoder.encode(""+Math.random()*10));
 		//패스워드 랜덤 하게 만들어 암호화,이 암호가 없으면 시큐리티인증객체토큰 중(UsernamePasswordAuthenticationToken을)못 만드는것 같다.
 		
 		if(memberService.registerMembers(vo)){
