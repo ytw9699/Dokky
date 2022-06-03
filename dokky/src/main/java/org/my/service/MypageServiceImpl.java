@@ -171,7 +171,7 @@ public class MypageServiceImpl implements MypageService {
 
 		log.info("myWithdrawal...");
 		
-		mapper.deleteRememberMeToken(userId);//리멤버미 토큰 삭제시 삭제 
+		mapper.deleteRememberMeToken(userId);//리멤버미 토큰 삭제 
 		
 		return mapper.updateEnabled(userId) == 1;
 	}
