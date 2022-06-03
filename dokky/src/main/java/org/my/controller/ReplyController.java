@@ -20,16 +20,16 @@ package org.my.controller;
 	import org.springframework.web.bind.annotation.RequestMethod;
 	import org.springframework.web.bind.annotation.RequestParam;
 	import org.springframework.web.bind.annotation.ResponseBody;
-	import lombok.AllArgsConstructor;
+	import lombok.RequiredArgsConstructor;
 	import lombok.extern.log4j.Log4j;
 			
 @RequestMapping("/replies/")
 @Controller
 @Log4j
-@AllArgsConstructor
+@RequiredArgsConstructor
 public class ReplyController {
 	
-	private ReplyService replyService;
+	private final ReplyService replyService;
 	
 	@PreAuthorize("principal.username == #vo.replyVO.userId")
 	@ResponseBody

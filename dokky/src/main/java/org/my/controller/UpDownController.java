@@ -6,7 +6,6 @@ package org.my.controller;
 	import org.my.domain.AttachFileDTO;
 	import org.my.s3.myS3Util;
 	import org.my.service.CommonService;
-	import org.springframework.beans.factory.annotation.Autowired;
 	import org.springframework.http.HttpStatus;
 	import org.springframework.http.MediaType;
 	import org.springframework.http.ResponseEntity;
@@ -17,18 +16,16 @@ package org.my.controller;
 	import org.springframework.web.bind.annotation.ResponseBody;
 	import org.springframework.web.multipart.MultipartFile;
 	import org.springframework.web.servlet.ModelAndView;
-	import lombok.Setter;
+	import lombok.RequiredArgsConstructor;
 	import lombok.extern.log4j.Log4j;
 	
+@RequiredArgsConstructor
 @Controller
 @Log4j
 public class UpDownController {
 	
-	@Setter(onMethod_ = @Autowired)
-	private myS3Util s3Util;
-	
-	@Setter(onMethod_ = @Autowired)
-	private CommonService commonService;
+	private final CommonService commonService;
+	private final myS3Util s3Util;
 	
 	@PreAuthorize("isAuthenticated()")
 	@PostMapping(value = "/s3upload", produces = MediaType.APPLICATION_JSON_UTF8_VALUE)

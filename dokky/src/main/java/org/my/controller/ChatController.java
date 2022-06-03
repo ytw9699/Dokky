@@ -14,7 +14,6 @@ package org.my.controller;
 	import org.my.domain.commonVO;
 	import org.my.security.domain.CustomUser;
 	import org.my.service.ChatService;
-	import org.springframework.beans.factory.annotation.Autowired;
 	import org.springframework.http.HttpStatus;
 	import org.springframework.http.MediaType;
 	import org.springframework.http.ResponseEntity;
@@ -30,15 +29,15 @@ package org.my.controller;
 	import org.springframework.web.bind.annotation.RequestMethod;
 	import org.springframework.web.bind.annotation.RequestParam;
 	import org.springframework.web.bind.annotation.ResponseBody;
-	import lombok.Setter;
+	import lombok.RequiredArgsConstructor;
 	import lombok.extern.log4j.Log4j;
 
 @Log4j
+@RequiredArgsConstructor
 @Controller
 public class ChatController {
 	
-	@Setter(onMethod_ = @Autowired)
-	private ChatService chatService;
+	private final ChatService chatService;
 	
 	@PreAuthorize("principal.username == #vo.chatRoomVO.roomOwnerId")
 	@ResponseBody

@@ -32,21 +32,19 @@ package org.my.controller;
 	import org.springframework.web.bind.annotation.ResponseBody;
 	import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 	import lombok.AllArgsConstructor;
-	import lombok.extern.log4j.Log4j;
+import lombok.RequiredArgsConstructor;
+import lombok.extern.log4j.Log4j;
 
 @Controller
 @Log4j
 @RequestMapping("/board/*")
-@AllArgsConstructor
+@RequiredArgsConstructor
 public class BoardController {
 
-	private BoardService boardService;
-	
-	private myS3Util s3Util;
-	
-	private CommonService commonService;
-	
-	private ReplyService replyService;
+	private final BoardService boardService;
+	private final CommonService commonService;
+	private final ReplyService replyService;
+	private final myS3Util s3Util;
 	
 	@GetMapping("/list")
 	public String getList(Criteria cri, Model model) {
