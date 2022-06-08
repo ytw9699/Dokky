@@ -1,5 +1,6 @@
 package org.my.exception;
 	import org.springframework.http.HttpStatus;
+	import org.springframework.security.access.AccessDeniedException;
 	import org.springframework.ui.Model;
 	import org.springframework.web.bind.annotation.ControllerAdvice;
 	import org.springframework.web.bind.annotation.ExceptionHandler;
@@ -31,6 +32,15 @@ public class CommonExceptionAdvice {
 	public String handle404(NoHandlerFoundException ex) {
 
 		return "error/404errorPage";
+	}
+	
+	@ExceptionHandler(AccessDeniedException.class)//AccessDeniedExceptiond은 CustomAccessDeniedHandler에서 예외 처리하는중이니 시큐리티에게 던지자.
+	public void handleAccessDeniedException(AccessDeniedException ex) throws AccessDeniedException {
+		
+		log.error("handleAccessDeniedException .......");
+		ex.printStackTrace();
+		
+		throw ex;
 	}
 
 }
