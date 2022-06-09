@@ -173,7 +173,17 @@
 			border-radius: 5px;
 			margin-top: 2px;
 		}
-		#search{ 
+		
+		#localSearch{ 
+			background: url(/resources/img/main_searchcon.png) 50% 50% no-repeat;
+		    width: 35px;
+		    height: 35px;
+		    border: none;
+		    float: right;
+		    margin-right: 10px;
+		}
+		
+		#dokkySearch{ 
 			background: url(/ROOT/resources/img/main_searchcon.png) 50% 50% no-repeat;
 		    width: 35px;
 		    height: 35px;
