@@ -91,6 +91,7 @@ public class ChatController {
 		 }
 	}
 	
+	@PreAuthorize("hasRole('ROLE_USER')")
 	@ResponseBody
 	@PostMapping(value = "/createMultiChat", consumes = "application/json", produces = "text/plain; charset=UTF-8")
 	public ResponseEntity<String> createMultiChat(@RequestBody commonVO vo) throws IOException{
@@ -198,7 +199,7 @@ public class ChatController {
 		}
 	}
 	
-	@PreAuthorize("hasAnyRole('ROLE_ADMIN','ROLE_USER','ROLE_SUPER')")
+	@PreAuthorize("hasRole('ROLE_USER')")
 	@ResponseBody
 	@GetMapping(value = "/getChatUserList", produces = { MediaType.APPLICATION_JSON_UTF8_VALUE })
 	public ResponseEntity<List<MemberVO>> getChatUserList(@RequestParam(value = "keyword", required = false )String keyword, Authentication authentication) {
@@ -235,7 +236,7 @@ public class ChatController {
 				: new ResponseEntity<>(HttpStatus.INTERNAL_SERVER_ERROR);
 	}
 	
-	@PreAuthorize("hasAnyRole('ROLE_ADMIN','ROLE_USER','ROLE_SUPER')")
+	@PreAuthorize("hasRole('ROLE_USER')")
 	@ResponseBody
 	@GetMapping(value = "/getChatInviteList", produces = { MediaType.APPLICATION_JSON_UTF8_VALUE })
 	public ResponseEntity<List<MemberVO>> getChatInviteList(@RequestParam("chatRoomNum") Long chatRoomNum, @RequestParam(value = "keyword", required = false )String keyword){
@@ -256,7 +257,7 @@ public class ChatController {
 		}
 	}
 	
-	@PreAuthorize("isAuthenticated()")
+	@PreAuthorize("hasRole('ROLE_USER')")
 	@ResponseBody
 	@PostMapping(value = "/inviteChatMembers", consumes = "application/json", produces = "text/plain; charset=UTF-8")
 	public ResponseEntity<String> inviteChatMembers(@RequestBody commonVO vo) throws IOException{
@@ -271,6 +272,7 @@ public class ChatController {
 					: new ResponseEntity<>(HttpStatus.INTERNAL_SERVER_ERROR);
 	}
 	
+	@PreAuthorize("hasRole('ROLE_USER')")
 	@GetMapping(value = "/chat_type", produces = MediaType.APPLICATION_JSON_UTF8_VALUE)
 	@ResponseBody
 	public ResponseEntity<String> getChat_type(Long chatRoomNum) {
@@ -293,7 +295,7 @@ public class ChatController {
 		}
 	}
 	
-	@PreAuthorize("hasAnyRole('ROLE_ADMIN','ROLE_USER','ROLE_SUPER')")
+	@PreAuthorize("hasRole('ROLE_USER')")
 	@ResponseBody
 	@GetMapping(value = "/getChatRoomMembers", produces = { MediaType.APPLICATION_JSON_UTF8_VALUE })
 	public ResponseEntity<List<ChatMemberVO>> getChatRoomMembers(Long chatRoomNum) {
