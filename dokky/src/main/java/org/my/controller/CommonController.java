@@ -3,13 +3,10 @@
 */
 package org.my.controller;
 	import java.io.UnsupportedEncodingException;
-	import java.util.List;
-	import java.util.Locale;
 	import javax.servlet.http.HttpServletRequest;
 	import javax.servlet.http.HttpServletResponse;
 	import org.my.auth.SNSLogin;
 	import org.my.auth.SnsValue;
-	import org.my.domain.BoardVO;
 	import org.my.domain.Criteria;
 	import org.my.domain.MemberVO;
 	import org.my.domain.PageDTO;
@@ -50,6 +47,19 @@ public class CommonController {
 	private final SnsValue naverSns;
 	private final SnsValue googleSns; 
 	
+	@GetMapping(value = {"/main", "/"})
+	public String main(Model model) {
+		
+		log.info("/main, /");
+		
+		model.addAttribute("realtimeBoardList", commonService.getRealtimeBoardList());//실시간 게시글
+		
+		model.addAttribute("monthlyBoardList", commonService.getMonthlyBoardList());//한달 인기글
+		
+		model.addAttribute("donationBoardList", commonService.getDonationBoardList());//한달 최다 기부글
+		
+		return "common/main";
+	}
 	
 	@ResponseBody
  	@DeleteMapping(value = "/SavedRequest")
@@ -173,7 +183,6 @@ public class CommonController {
 		}
 	}
 	
-	
 	@PostMapping("/members") 
 	public String postMembers(MemberVO vo, Model model, RedirectAttributes rttr) {//회원가입
 		
@@ -229,40 +238,6 @@ public class CommonController {
 		}
 	}
 		
-	@RequestMapping(value = "/main", method = RequestMethod.GET)
-	public String main(Model model) {
-		
-		log.info("/main");
-		
-		List<BoardVO> realtimeBoardList = commonService.getRealtimeBoardList();
-		List<BoardVO> monthlyBoardList = commonService.getMonthlyBoardList();
-		List<BoardVO> donationBoardList = commonService.getDonationBoardList();
-		
-		model.addAttribute("realtimeBoardList", realtimeBoardList);//실시간 게시글
-		
-		model.addAttribute("monthlyBoardList", monthlyBoardList);//한달 인기글
-		
-		model.addAttribute("donationBoardList", donationBoardList);//한달 최다 기부글
-		
-		return "common/main";
-	}
-	
-	@RequestMapping(value = "/", method = RequestMethod.GET)
-	public String home(Locale locale, Model model) {
-		
-		List<BoardVO> realtimeBoardList = commonService.getRealtimeBoardList();
-		List<BoardVO> monthlyBoardList = commonService.getMonthlyBoardList();
-		List<BoardVO> donationBoardList = commonService.getDonationBoardList();
-		
-		model.addAttribute("realtimeBoardList", realtimeBoardList);//실시간 게시글
-		
-		model.addAttribute("monthlyBoardList", monthlyBoardList);//한달 인기글
-		
-		model.addAttribute("donationBoardList", donationBoardList);//한달 최다 기부글
-		
-		return "common/main";
-	}
-	
 	@PreAuthorize("isAuthenticated()")
  	@GetMapping("/userBoardList")
 	public String getUserBoardList(Criteria cri, Model model, 
