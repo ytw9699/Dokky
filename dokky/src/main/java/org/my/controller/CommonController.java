@@ -66,7 +66,7 @@ public class CommonController {
 	public String getCommonLogin(HttpServletRequest request, HttpServletResponse response, Model model) throws UnsupportedEncodingException {
 		
 		log.info("/commonLogin");
-		 
+		
 		String preUrl  = request.getHeader("referer");
 		
 		if(preUrl != null){
@@ -83,7 +83,7 @@ public class CommonController {
 		
 		model.addAttribute("google_url", googleLogin.getAuthURL());
 		
-		return "common/commonLogin";  
+		return "common/commonLogin";
 	}
 	
 	@GetMapping("/auth/{snsService}/callback")
@@ -315,7 +315,7 @@ public class CommonController {
 		}
 	} 
 	
-	@PreAuthorize("hasAnyRole('ROLE_ADMIN','ROLE_USER','ROLE_SUPER')")
+	@PreAuthorize("hasRole('ROLE_USER')")
 	@GetMapping("/noteForm")
 	public String getNoteForm(@RequestParam("userId")String userId, @RequestParam("nickname")String nickname, Model model) {
 		
@@ -326,7 +326,7 @@ public class CommonController {
 		return "common/noteForm";
 	}
 	
-	@PreAuthorize("hasAnyRole('ROLE_ADMIN','ROLE_USER','ROLE_SUPER')")
+	@PreAuthorize("hasRole('ROLE_USER')")
 	@GetMapping("/myNoteForm")
 	public String getMyNoteForm(Criteria cri, Model model) {
 		
@@ -358,7 +358,7 @@ public class CommonController {
 		}
 	}
 	
-	@PreAuthorize("isAuthenticated()")
+	@PreAuthorize("principal.username == #cri.userId")
 	@GetMapping("/fromNoteList")
 	public String getFromNoteList(Criteria cri, Model model) {//받은쪽지함
 		
@@ -379,7 +379,7 @@ public class CommonController {
 			return "common/fromNoteList";
 	}
 	
-	@PreAuthorize("isAuthenticated()")
+	@PreAuthorize("principal.username == #cri.userId")
 	@GetMapping("/toNoteList")  
 	public String getToNoteList(Criteria cri, Model model) {//보낸쪽지함
 		
@@ -400,7 +400,7 @@ public class CommonController {
 			return "common/toNoteList";
 	}
 	
-	@PreAuthorize("isAuthenticated()")
+	@PreAuthorize("principal.username == #cri.userId")
 	@GetMapping("/myNoteList")
 	public String getMyNoteList(Criteria cri, Model model) {//내게쓴 쪽지함
 		
@@ -444,6 +444,7 @@ public class CommonController {
 		return "common/detailNotepage";
 	}
 	 
+	@PreAuthorize("principal.username == #cri.userId")
 	@PostMapping("/deleteNote")//쪽지 삭제
 	public String deleteNote(@RequestParam("note_num") Long note_num, 
 							 @RequestParam("note_kind") String note_kind, Criteria cri){
@@ -663,7 +664,7 @@ public class CommonController {
 
 		log.info("/serverError");
 		
-		model.addAttribute("message", "ServerError입니다 관리자에게 문의해주세요.");
+		model.addAttribute("message", "서버에러입니다 관리자에게 문의해주세요.");
 		
 		return "error/commonError";  
 	}
