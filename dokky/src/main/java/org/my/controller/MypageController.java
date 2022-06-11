@@ -1,5 +1,5 @@
 /*
-- 마지막 업데이트 2022-06-02
+- 마지막 업데이트 2022-06-11
 */
 package org.my.controller;
 	import java.io.File;
@@ -338,8 +338,8 @@ public class MypageController {
 			}
 	}
 	
-	@PreAuthorize("principal.username == #userId and hasRole('ROLE_SUPER')")
- 	@GetMapping("/rePasswordForm")//슈퍼관리자의 경우만 패스워드 변경폼을 가져올 수 있다.
+	@PreAuthorize("principal.username == #userId")
+ 	@GetMapping("/rePasswordForm")
 	public String rePasswordForm(@RequestParam("userId") String userId) {
 		
 		log.info("/mypage/rePasswordForm");
@@ -347,7 +347,7 @@ public class MypageController {
 		return "mypage/myRepasswordForm";
 	}
 	
-	@PreAuthorize("principal.username == #vo.userId and hasRole('ROLE_SUPER')")
+	@PreAuthorize("principal.username == #vo.userId") 
 	@PostMapping(value = "/checkPassword", consumes = "application/json", produces = "text/plain; charset=UTF-8")
 	@ResponseBody
 	public ResponseEntity<String> checkPassword(@RequestBody checkPwVO vo) {
@@ -374,7 +374,7 @@ public class MypageController {
 		}
 	}
 	
-	@PreAuthorize("principal.username == #vo.userId and hasRole('ROLE_SUPER')")
+	@PreAuthorize("principal.username == #vo.userId")
 	@PostMapping(value = "/changeMyPassword", consumes = "application/json", produces = "text/plain; charset=UTF-8")
 	@ResponseBody
 	public ResponseEntity<String> changeMyPassword(@RequestBody checkPwVO vo) {
