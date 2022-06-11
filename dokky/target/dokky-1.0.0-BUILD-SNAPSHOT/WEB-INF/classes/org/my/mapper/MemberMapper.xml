@@ -38,16 +38,12 @@
 		 					   member_num,
 		 					   userid,
 		 					   userpw,
-		 					   nickName,
-		 					   bankname, 
-		 					   account
+		 					   nickName
 		 					   ) values(
 		 					   			seq_dk_member.nextval,
 		 					   			#{userId},
  					   				    #{userPw},
- 					   				    #{nickName},
- 					   				    #{bankName},
- 					   				    #{account}
+ 					   				    #{nickName}
 					   				   )
 	 </insert>
 	 
@@ -66,8 +62,6 @@
 	 <!-- 재 회원가입 -->
      <update id="reRegisterMembers">
 			update dk_member set nickName= #{nickName},
-								 bankname= #{bankName},
-								 account=#{account},
 								 regDate = sysdate,
 								 preLoginDate = sysdate,
 								 lastLoginDate = sysdate,

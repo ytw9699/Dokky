@@ -287,6 +287,10 @@
 	<update id="updateEnabled">
 		update DK_MEMBER set enabled = 0 where userId = #{userId}
 	</update>
+	
+	<delete id="deleteRememberMeToken">
+		delete from persistent_logins where username = #{userId}
+	</delete>
 		   
 	 <select id="getMemberPW" resultType="String">
 		select userpw from DK_MEMBER where userId = #{userId}

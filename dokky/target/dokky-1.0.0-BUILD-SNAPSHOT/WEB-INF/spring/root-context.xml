@@ -6,36 +6,15 @@
 		xmlns:task="http://www.springframework.org/schema/task"
 		xmlns:mvc="http://www.springframework.org/schema/mvc" 
 		xsi:schemaLocation="http://mybatis.org/schema/mybatis-spring http://mybatis.org/schema/mybatis-spring-1.2.xsd http://www.springframework.org/schema/task http://www.springframework.org/schema/task/spring-task-4.3.xsd http://www.springframework.org/schema/mvc http://www.springframework.org/schema/mvc/spring-mvc-4.3.xsd http://www.springframework.org/schema/beans https://www.springframework.org/schema/beans/spring-beans.xsd http://www.springframework.org/schema/context http://www.springframework.org/schema/context/spring-context-4.3.xsd http://www.springframework.org/schema/tx http://www.springframework.org/schema/tx/spring-tx-4.3.xsd">
-	<!--
-	 Root Context: defines shared resources visible to all other web components 
-	-->
-	<!--
-	 <bean id="hikariConfig" class="com.zaxxer.hikari.HikariConfig">
-			<property name="driverClassName"
-				value="net.sf.log4jdbc.sql.jdbcapi.DriverSpy"></property>
-			<property name="jdbcUrl"
-				value="jdbc:log4jdbc:oracle:thin:@localhost:1521:XE"></property>
-			<property name="username" value="dokky_ex"></property>
-			<property name="password" value="cgdeveloper9865"></property>
-		</bean> 
-	-->
-	
+
+<context:property-placeholder location="classpath:/properties/auth.properties, classpath:/properties/database.properties" />
+
 	<bean id="hikariConfig" class="com.zaxxer.hikari.HikariConfig">
-		<property name="driverClassName" value="net.sf.log4jdbc.sql.jdbcapi.DriverSpy"/>
-		<property name="jdbcUrl" value="jdbc:log4jdbc:oracle:thin:@dokkyrds.cydizxz7exjx.ap-northeast-2.rds.amazonaws.com:1521:ORCL"/>
-		<!-- 도키 서버 2 -->
-		<!-- <property name="jdbcUrl" value="jdbc:log4jdbc:oracle:thin:@dokkyrds.ckzbvzytxsry.ap-northeast-2.rds.amazonaws.com:1521:ORCL"/> -->
-		<!-- 도키 서버 1 -->
-		<property name="username" value="DokkyRdsAdmin"/>
-		<property name="password" value="cgdeveloper9865"/>
+		<property name="driverClassName" value="${db.driverClassName}"/>
+		<property name="jdbcUrl" value="${db.jdbcUrl}"/>
+		<property name="username" value="${db.username}"/>
+		<property name="password" value="${db.password}"/>
 	</bean>
-	
-	<!-- <bean id="hikariConfig" class="com.zaxxer.hikari.HikariConfig">
-		<property name="driverClassName" value="net.sf.log4jdbc.sql.jdbcapi.DriverSpy"/>
-		<property name="jdbcUrl" value="jdbc:log4jdbc:oracle:thin:@shop.cndlt88yvvsy.ap-northeast-2.rds.amazonaws.com:1521:ORCL"/>
-		<property name="username" value="shop9699"/>
-		<property name="password" value="dpwm9865cgdeveloper568954"/>
-	</bean> -->
 	
 	<!--  HikariCP configuration 커넥션풀 설정  -->
 	<bean id="dataSource" class="com.zaxxer.hikari.HikariDataSource" destroy-method="close">
@@ -67,27 +46,17 @@
 	<task:annotation-driven/>
 	<!--  스케쥴러 어노테이션 이용 위해  -->
 	
-	<!--  oauth2 login  -->
-	
-	<!-- <bean id="naverClientID" class="java.lang.String">
-		<constructor-arg value="15QBonnYF5rFHRp1TNAQ"/>
-	</bean>
-	<bean id="naverClientSecret" class="java.lang.String">
-		<constructor-arg value="ElYOoc7Kb9"/>
-	</bean>
-	<bean id="naverRedirectUrl" class="java.lang.String">
-		<constructor-arg value="http://localhost:8080/auth/naver/callback"/>
-	</bean> -->
+	<!--  social outh2 login  -->
 	
  	<bean id="naverClientID" class="java.lang.String">
-	   <constructor-arg value="vmV7HxEjedT067PqFzSV" />
+	   <constructor-arg value="${auth.naverClientID}" />
     </bean>
     
 	<bean id="naverClientSecret" class="java.lang.String">
-		<constructor-arg value="xTLq0lZlNA" />
+		<constructor-arg value="${auth.naverClientSecret}" />
 	</bean>
 	<bean id="naverRedirectUrl" class="java.lang.String">
-		<constructor-arg value="https://dokky.site/auth/naver/callback" />
+		<constructor-arg value="${auth.naverRedirectUrl}" />
 	</bean> 
 	 
 	<bean id="naverSns" class="org.my.auth.SnsValue">  
@@ -96,28 +65,16 @@
 		<constructor-arg ref="naverClientSecret"/>
 		<constructor-arg ref="naverRedirectUrl"/>
 	</bean>
-	
-	<!-- <bean id="googleClientID" class="java.lang.String">
-		<constructor-arg value="123548667758-a8l1055mkvte3f4fr3592hrt4jhaapgn.apps.googleusercontent.com"/>
-	</bean>
-	
-	<bean id="googleClientSecret" class="java.lang.String">
-		<constructor-arg value="fu1A6USqVOoZOhIxLYRj6eD5"/>
-	</bean>
-	
-	<bean id="googleRedirectUrl" class="java.lang.String">
-		<constructor-arg value="http://localhost:8080/auth/google/callback"/>
-	</bean> -->
-		
+
 	<bean id="googleClientID" class="java.lang.String">
-		   <constructor-arg value="749898735018-a2kvi2854s1v85pfel1097as260uivu2.apps.googleusercontent.com" />
+		   <constructor-arg value="${auth.googleClientID}" />
 	    </bean>
 	    
 	<bean id="googleClientSecret" class="java.lang.String">
-		<constructor-arg value="vj6QvX2mlwTT6i8Jcut4mh0M" />
+		<constructor-arg value="${auth.googleClientSecret}" />
 	</bean>
 	<bean id="googleRedirectUrl" class="java.lang.String">
-		<constructor-arg value="https://dokky.site/auth/google/callback" />
+		<constructor-arg value="${auth.googleRedirectUrl}" />
 	</bean>
 	
 	<bean id="googleSns" class="org.my.auth.SnsValue">
