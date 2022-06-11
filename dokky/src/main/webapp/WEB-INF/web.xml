@@ -45,7 +45,6 @@
 			<max-request-size>41943040</max-request-size><!-- 40MB  한번에 올릴 수 있는 최대 크기 -->
 			<file-size-threshold>20971520</file-size-threshold> <!-- 20MB 특정 사이즈의 메모리 사용 -->
 		</multipart-config>
-		
 	</servlet>
 
 	<servlet-mapping>
@@ -53,22 +52,22 @@
 		<url-pattern>/</url-pattern> <!-- 슬러시로 설정함.모든 요청은 DispatcherServlet을 거치게 되는것임. -->
 	</servlet-mapping>
 	<!-- 한글처리때매 아래 필터의 순서는 바뀌면 안됨 -->
-  <filter>
-    <filter-name>encodingFilter</filter-name>
-    <filter-class>org.springframework.web.filter.CharacterEncodingFilter</filter-class>
-    <init-param>
-      <param-name>encoding</param-name>
-      <param-value>UTF-8</param-value>
-    </init-param>
-  </filter>
+	<filter>
+	  <filter-name>encodingFilter</filter-name>
+	  	<filter-class>org.springframework.web.filter.CharacterEncodingFilter</filter-class>
+	  <init-param>
+	    <param-name>encoding</param-name>
+	    <param-value>UTF-8</param-value>
+	  </init-param>
+	</filter>
 
-  <filter-mapping>
-    <filter-name>encodingFilter</filter-name>
-    <url-pattern>/*</url-pattern>
-  </filter-mapping>
+	<filter-mapping>
+		<filter-name>encodingFilter</filter-name>
+		<url-pattern>/*</url-pattern>
+	</filter-mapping>
   
- 	<!--  스프링 시큐리티가 스프링 MVC에서 사용되기 위해서는 필터를 이용해서 스프링 동작에 관여하도록 설정 -->
-  	<filter>
+	<!--  스프링 시큐리티가 스프링 MVC에서 사용되기 위해서는 필터를 이용해서 스프링 동작에 관여하도록 설정 -->
+	<filter>
 		<filter-name>springSecurityFilterChain</filter-name>
 		<filter-class>org.springframework.web.filter.DelegatingFilterProxy</filter-class>
 	</filter>
@@ -78,12 +77,11 @@
 		<url-pattern>/*</url-pattern>
 	</filter-mapping>
 	<!--  필터의 순서는 바뀌면 안됨 -->
-
+	
 	<error-page>
 	    <error-code>404</error-code>
 	    <location>/WEB-INF/views/error/404errorPage.jsp</location>
 	</error-page>
-	
 	
 	<error-page>
 	    <error-code>400</error-code>
@@ -94,6 +92,5 @@
 	    <error-code>500</error-code>
 	    <location>/WEB-INF/views/error/500errorPage.jsp</location>
 	</error-page>
-	
 	
 </web-app>
