@@ -1,3 +1,6 @@
+/*
+- 마지막 업데이트 2022-06-11
+*/
 package org.my.controller;
 	import org.my.domain.Criteria;
 	import org.my.domain.ReplyDisLikeVO;
@@ -31,7 +34,7 @@ public class ReplyController {
 	
 	private final ReplyService replyService;
 	
-	@PreAuthorize("principal.username == #vo.replyVO.userId")
+	@PreAuthorize("hasRole('ROLE_USER') and principal.username == #vo.replyVO.userId")
 	@ResponseBody
 	@PostMapping(value = "/reply", consumes = "application/json", produces = "text/plain; charset=UTF-8")
 	public ResponseEntity<String> createReply(@RequestBody commonVO vo) {
@@ -110,7 +113,7 @@ public class ReplyController {
 	 	return "redirect:/mypage/myReplylist?userId="+userId+"&pageNum="+cri.getPageNum()+"&amount="+cri.getAmount();
 	}
 
-	@PreAuthorize("principal.username == #vo.userId")
+	@PreAuthorize("hasRole('ROLE_USER') and principal.username == #vo.userId")
 	@RequestMapping(method = { RequestMethod.PUT, RequestMethod.PATCH }, 
 					value = "/reply", consumes = "application/json", produces = { MediaType.TEXT_PLAIN_VALUE }) 
 	@ResponseBody
@@ -124,6 +127,7 @@ public class ReplyController {
 				: new ResponseEntity<>("fail", HttpStatus.INTERNAL_SERVER_ERROR);
 	}
 	
+	@PreAuthorize("principal.username == #vo.replyDonateVO.userId")
 	@PostMapping(value = "/giveReplyWriterMoney", consumes = "application/json", produces = "text/plain; charset=UTF-8")
 	@ResponseBody
 	public ResponseEntity<String> giveReplyWriterMoney(@RequestBody commonVO vo) {//댓글 작성자에게 기부
@@ -143,11 +147,13 @@ public class ReplyController {
 			}
 	}
 	
+	@PreAuthorize("principal.username == #vo.replyLikeVO.userId")
 	@PostMapping(value = "/likeReply", consumes = "application/json", produces = "text/plain; charset=UTF-8")
 	@ResponseBody
 	public ResponseEntity<String> likeReply(@RequestBody commonVO vo) {//댓글 좋아요 누르기 및 취소
 		
 			log.info("/replies/likeReply");
+			log.info("replyLikeVO = : " + vo);
 			
 			ReplyLikeVO replyLikeVO = vo.getReplyLikeVO();
 			
@@ -172,12 +178,14 @@ public class ReplyController {
 					: new ResponseEntity<>(HttpStatus.INTERNAL_SERVER_ERROR);
 	}
 	
+	@PreAuthorize("principal.username == #vo.replyDisLikeVO.userId")
 	@PostMapping(value = "/disLikeReply", consumes = "application/json", produces = "text/plain; charset=UTF-8")
 	@ResponseBody
 	public ResponseEntity<String> disLikeReply(@RequestBody commonVO vo) {//댓글 싫어요 누르기 및 취소
 			
 			log.info("/replies/disLikeReply");
-		
+			log.info("replyDisLikeVO = : " + vo);
+			
 			ReplyDisLikeVO replyDislikeVO = vo.getReplyDisLikeVO();
 			
 			boolean CheckResult = replyService.checkReplyDislikeButton(replyDislikeVO);//버튼 누름 여부 확인
