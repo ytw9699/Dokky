@@ -1,5 +1,5 @@
 /*
-- 마지막 업데이트 2022-05-24
+- 마지막 업데이트 2022-06-12
 */
 package org.my.service;
 	import java.util.List;
@@ -11,21 +11,18 @@ package org.my.service;
 	import org.my.domain.reportVO;
 	import org.my.mapper.AdminMapper;
 	import org.my.mapper.CommonMapper;
-	import org.springframework.beans.factory.annotation.Autowired;
 	import org.springframework.stereotype.Service;
 	import org.springframework.transaction.annotation.Transactional;
-	import lombok.Setter;
+	import lombok.RequiredArgsConstructor;
 	import lombok.extern.log4j.Log4j;
 
+@RequiredArgsConstructor
 @Log4j
 @Service
 public class AdminServiceImpl implements AdminService {
 
-	@Setter(onMethod_ = @Autowired)
-	private AdminMapper adminMapper;
-	
-	@Setter(onMethod_ = @Autowired)
-	private CommonMapper commonMapper;
+	private final AdminMapper adminMapper;
+	private final CommonMapper commonMapper;
 	
 	@Override
 	public List<MemberVO> getUserList(Criteria cri) {

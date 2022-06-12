@@ -1,3 +1,6 @@
+/*
+- 마지막 업데이트 2022-06-12
+*/
 package org.my.service;
 	import java.util.List;
 	import org.my.domain.Criteria;
@@ -11,24 +14,19 @@ package org.my.service;
 	import org.my.mapper.BoardMapper;
 	import org.my.mapper.CommonMapper;
 	import org.my.mapper.ReplyMapper;
-	import org.springframework.beans.factory.annotation.Autowired;
 	import org.springframework.stereotype.Service;
 	import org.springframework.transaction.annotation.Transactional;
-	import lombok.Setter;
+	import lombok.RequiredArgsConstructor;
 	import lombok.extern.log4j.Log4j;
 
+@RequiredArgsConstructor
 @Service
 @Log4j
 public class ReplyServiceImpl implements ReplyService {
   
-	@Setter(onMethod_ = @Autowired)
-	private ReplyMapper replyMapper;
-
-	@Setter(onMethod_ = @Autowired)
-	private BoardMapper boardMapper;
-	
-	@Setter(onMethod_ = @Autowired)
-	private CommonMapper commonMapper;
+	private final ReplyMapper replyMapper;
+	private final BoardMapper boardMapper;
+	private final CommonMapper commonMapper;
 		
 	@Transactional
 	@Override

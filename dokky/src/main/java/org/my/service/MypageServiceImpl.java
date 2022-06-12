@@ -1,3 +1,6 @@
+/*
+- 마지막 업데이트 2022-06-12
+*/
 package org.my.service;
 	import java.util.List;
 	import org.my.domain.BoardVO;
@@ -7,22 +10,17 @@ package org.my.service;
 	import org.my.domain.cashVO;
 	import org.my.domain.scrapVO;
 	import org.my.mapper.MypageMapper;
-	import org.springframework.beans.factory.annotation.Autowired;
-	import org.springframework.security.crypto.password.PasswordEncoder;
 	import org.springframework.stereotype.Service;
 	import org.springframework.transaction.annotation.Transactional;
-	import lombok.Setter;
+	import lombok.RequiredArgsConstructor;
 	import lombok.extern.log4j.Log4j;
 
+@RequiredArgsConstructor
 @Log4j 
 @Service
 public class MypageServiceImpl implements MypageService {
-
-	@Setter(onMethod_ = @Autowired)
-	private MypageMapper mapper;
 	
-	@Setter(onMethod_ = @Autowired)
-	private PasswordEncoder pwencoder;
+	private final MypageMapper mapper;
 	
 	@Override
 	public MemberVO getMyInfo(String userId) {

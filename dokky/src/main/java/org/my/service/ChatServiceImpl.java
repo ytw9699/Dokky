@@ -1,3 +1,6 @@
+/*
+- 마지막 업데이트 2022-06-12
+*/
 package org.my.service;
 	import java.io.IOException;
 	import java.util.ArrayList;//임포트 해주자
@@ -15,22 +18,19 @@ package org.my.service;
 	import org.my.domain.chatRoomDTO;
 	import org.my.domain.multiRoomVO;
 	import org.my.mapper.ChatMapper;
-	import org.springframework.beans.factory.annotation.Autowired;
 	import org.springframework.stereotype.Service;
 	import org.springframework.transaction.annotation.Transactional;
-	import lombok.Setter;
+	import lombok.RequiredArgsConstructor;
 	import lombok.extern.log4j.Log4j;
 	import org.my.domain.ChatMessageType;
-
+	
+@RequiredArgsConstructor
 @Service
 @Log4j
 public class ChatServiceImpl implements ChatService {
 	
-		@Setter(onMethod_ = @Autowired)
-		private ChatMapper chatMapper;
-		
+		private final ChatMapper chatMapper;
 		private Map<String, ChatRoom> chatRoomMap = new HashMap<>();
-	
 		
 	    @Override
 	    public String hasRoom(String roomOwnerId, String chat_memberId) {

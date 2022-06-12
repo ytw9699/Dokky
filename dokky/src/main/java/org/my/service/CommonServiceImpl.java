@@ -1,5 +1,5 @@
 /*
-- 마지막 업데이트 2022-06-02
+- 마지막 업데이트 2022-06-12
 */
 package org.my.service;
 	import java.util.ArrayList;
@@ -16,7 +16,6 @@ package org.my.service;
 	import org.my.domain.noteVO;
 	import org.my.mapper.CommonMapper;
 	import org.my.security.domain.CustomUser;
-	import org.springframework.beans.factory.annotation.Autowired;
 	import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 	import org.springframework.security.core.Authentication;
 	import org.springframework.security.core.GrantedAuthority;
@@ -25,15 +24,15 @@ package org.my.service;
 	import org.springframework.security.web.savedrequest.SavedRequest;
 	import org.springframework.stereotype.Service;
 	import org.springframework.transaction.annotation.Transactional;
-	import lombok.Setter;
+	import lombok.RequiredArgsConstructor;
 	import lombok.extern.log4j.Log4j;
 
+@RequiredArgsConstructor
 @Log4j
 @Service
 public class CommonServiceImpl implements CommonService {
 
-	@Setter(onMethod_ = @Autowired)
-	private CommonMapper mapper;
+	private final CommonMapper mapper;
 	
 	@Override 
 	public boolean setAuthentication(MemberVO memberVO){  

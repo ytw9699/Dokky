@@ -1,3 +1,6 @@
+/*
+- 마지막 업데이트 2022-06-12
+*/
 package org.my.service;
 	import java.util.List;
 	import org.my.domain.BoardAttachVO;
@@ -5,32 +8,25 @@ package org.my.service;
 	import org.my.domain.BoardLikeVO;
 	import org.my.domain.BoardVO;
 	import org.my.domain.Criteria;
-	import org.my.domain.ReplyLikeVO;
-	import org.my.domain.ReplyVO;
 	import org.my.domain.commonVO;
 	import org.my.domain.donateVO;
 	import org.my.domain.reportVO;
 	import org.my.mapper.BoardAttachMapper;
 	import org.my.mapper.BoardMapper;
 	import org.my.mapper.CommonMapper;
-	import org.springframework.beans.factory.annotation.Autowired;
 	import org.springframework.stereotype.Service;
 	import org.springframework.transaction.annotation.Transactional;
-	import lombok.Setter;
+	import lombok.RequiredArgsConstructor;
 	import lombok.extern.log4j.Log4j;
 
+@RequiredArgsConstructor
 @Log4j
 @Service//비즈니스 영역담당 어노테이션
 public class BoardServiceImpl implements BoardService {
 
-	@Setter(onMethod_ = @Autowired)
-	private BoardMapper boardMapper;
-	
-	@Setter(onMethod_ = @Autowired)
-	private BoardAttachMapper attachMapper;
-	
-	@Setter(onMethod_ = @Autowired)
-	private CommonMapper commonMapper;
+	private final BoardMapper boardMapper;
+	private final BoardAttachMapper attachMapper;
+	private final CommonMapper commonMapper;
 	
 	@Override
 	public List<BoardVO> getList(Criteria cri) {
@@ -334,6 +330,4 @@ public class BoardServiceImpl implements BoardService {
 		
 		return boardMapper.getRecentBoard_num();
 	}
-	
-	
 }
