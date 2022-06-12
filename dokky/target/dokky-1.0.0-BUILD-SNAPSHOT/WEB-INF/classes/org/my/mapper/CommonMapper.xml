@@ -366,14 +366,6 @@
 			select enabled from dk_member where userId = #{userId}
        </select>
        
-		<select id="getAccessKey" resultType="String">
-			select accessKey from DK_s3key where <![CDATA[ rownum <=1 ]]>
-		</select>
-		
-		<select id="getSecretKey" resultType="String">
-			select secretKey from DK_s3key where <![CDATA[ rownum <=1 ]]>
-		</select>
-		
 		<select id="getFromNoteCount" resultType="int">
 			select count(*) from dk_note where TO_ID = #{userId} and FROM_ID != #{userId} and from_check = 'NO'
        </select>
