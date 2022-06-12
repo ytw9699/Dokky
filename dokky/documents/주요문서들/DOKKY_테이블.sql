@@ -14,7 +14,7 @@
 		  dislikeCnt number(10,0) default 0, --싫어요 수
 		  MONEY number(10,0) default 0, -- 기부금액
 		  HITCNT number(10,0) default 0, -- 조회수
-		  REPLYCNT number(10,0) default 0, -- 댓글수
+		  REPLYCNT number(10,0) default 0, -- 댓글수 (게시물 목록조회는 많이 일어나기 때문에, 댓글수를 조인을 통해가져오기 보다는 컬럼을 추가해준것이다. 역정규화)
 		  constraint PK_DK_BOARD primary key(BOARD_NUM) --PK
 	);
 	
@@ -80,7 +80,7 @@
 	create table dk_member(--뉴 회원 테이블
 	
 		  member_num number(10,0) unique,
-	      userId varchar2(50) primary key,
+	      userId varchar2(50),
 	      userPw varchar2(100) not null,
 	      nickName varchar2(100) not null unique,
 	      cash number(10,0) default 0,
@@ -89,8 +89,12 @@
 	      regDate date default sysdate, 
 	      preLoginDate date default sysdate, --가장 마지막 이전의 로그인 날짜
 	      lastLoginDate date default sysdate, -- 가장 마지막 로그인날짜
-	      enabled char(1) default '1'--enabled는 스프링 시큐리티에서 사용하는 값. 현재 사용자 계정이 유효한가를 의미
+	      enabled char(1) default '1',-- 계정의 활성 비활성 여부 
+	      accountNonLocked char(1) default '1',-- 계정의 잠금 여부
+	      constraint PK_DK_MEMBER primary key(userId) --PK
 	);
+	
+	https://codedragon.tistory.com/6159
 	
 	create sequence seq_dk_member
 	
@@ -98,30 +102,16 @@
 	
 	insert into dk_member(member_num, userId, userPw, nickName) values (seq_dk_member.nextval, 'admin', 'admin', '슈퍼관리자')
 	
-	create table dk_member(--구 회원 테이블
-	
-		  member_num number(10,0) unique,
-	      userId varchar2(50) primary key,
-	      userPw varchar2(100) not null,
-	      nickName varchar2(100) not null unique,
-	      email varchar2(100) not null unique,
-	      phoneNum varchar2(50),
-	      cash number(10,0) default 0,
-	      bankName varchar2(50),
-	      account varchar2(50),
-	      regDate date default sysdate, 
-	      loginDate date default sysdate,
-	      enabled char(1) default '1'--enabled는 스프링 시큐리티에서 사용하는 값. 현재 사용자 계정이 유효한가를 의미
-	);
-	
 	5.------------------------------------------------------------------------------------------
 	create table dk_member_auth (--권한 테이블
 	
 	     userId varchar2(50) not null,
 	     auth varchar2(50) default 'ROLE_USER',
-	     constraint fk_member_auth foreign key(userId) references dk_member(userId)
+	     constraint pk_member_auth PRIMARY KEY(userId, auth),
+	     constraint fk_member_auth foreign key(userId) references dk_member(userId) on delete cascade
 	);
-	
+
+
 	insert into dk_member_auth(userId, auth) values ('admin','ROLE_SUPER');
 	
 	drop table dk_member_auth purge 
@@ -340,16 +330,6 @@ create sequence seq_dk_alarm
 drop table dk_alarm purge
 
 
-15.s3 키관리 테이블 -----------------------------------------------------
-create table DK_s3key(
-	
-		accessKey varchar2(50),
-		secretKey varchar2(50)
-)
-	
-insert into DK_s3key( accessKey, secretKey) VALUES ('accessKey', 'secretKey')
-
-	
 15. 채팅룸 테이블 -----------------------------------------------------
 
 create table dk_chat_room(
@@ -495,5 +475,15 @@ ALTER SEQUENCE seq_dk_chat_read INCREMENT BY 1; -- 시퀀스 증가분 변경 �
 select * from dk_chat_content order by member_NUM desc -- 값 조회해보기
 
 
+삭제된 테이블
+15.s3 키관리 테이블 삭제함---------------------------------------------------- 
+create table DK_s3key(
+	
+		accessKey varchar2(50),
+		secretKey varchar2(50)
+)
+	
+drop table DK_s3key purge
 
+insert into DK_s3key( accessKey, secretKey) VALUES ('accessKey', 'secretKey')
 

@@ -165,10 +165,13 @@ public class MypageServiceImpl implements MypageService {
 		return getResult;
 	}
 	
+	@Transactional
 	@Override 
 	public boolean myWithdrawal(String userId){
 
 		log.info("myWithdrawal...");
+		
+		mapper.deleteRememberMeToken(userId);//리멤버미 토큰 삭제 
 		
 		return mapper.updateEnabled(userId) == 1;
 	}

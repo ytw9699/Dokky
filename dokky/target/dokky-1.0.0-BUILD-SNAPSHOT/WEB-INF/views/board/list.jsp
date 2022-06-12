@@ -103,8 +103,15 @@
 					<input type='hidden' name='pageNum' value='<c:out value="${pageMaker.cri.pageNum}"/>' /> 
 					<input type='hidden' name='amount' value='<c:out value="${pageMaker.cri.amount}"/>' />
 					<input type='hidden' name='category' value='${pageMaker.cri.category}'>
+					<c:choose>
+					   	  <c:when test="${pageContext.request.serverName == 'localhost'}">
+								<button id='localSearch'></button> 
+						  </c:when>
+					      <c:otherwise>
+					    		<button id='dokkySearch'></button> 
+					      </c:otherwise>
+					</c:choose>
 					
-					<button id='search'></button> 
 				</form> 
 			</div> 
 			

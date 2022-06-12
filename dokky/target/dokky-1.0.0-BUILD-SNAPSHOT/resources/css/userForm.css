@@ -79,8 +79,9 @@
 	
 	.tableText{
 		width: 5%;
-    	font-size: 18px;
+    	font-size: 20px;
     	color: #333333;
+    	font-weight: 600;
     }
 	.tableValue{    
 		width: 24%;
@@ -99,10 +100,10 @@
 	    height: 28px;
 	 }
 	 .submitInfo{  
-	 	font-size: 15px;
+	 	font-size: 16px;
 	    background-color: #7151fc;
 	    border: 1px solid #7151fc;
-	    color: white;
+	    color: white; 
 	    cursor: pointer;
 	    padding: 8px;
 	    border-radius: 8px;

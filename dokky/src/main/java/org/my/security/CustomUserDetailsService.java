@@ -1,58 +1,34 @@
+/*
+- 마지막 업데이트 2022-05-18
+- UserDetailsService 사용자의 정보와 권한을 DB에서 조회해서 AuthenticationProvider로 반환하는 역할
+*/
 package org.my.security;
 	import org.my.security.domain.CustomUser;
-import org.my.service.CommonService;
-import org.my.service.MemberService;
+	import org.my.service.MemberService;
 	import org.springframework.beans.factory.annotation.Autowired;
-	import org.springframework.security.authentication.BadCredentialsException;
 	import org.springframework.security.core.userdetails.UserDetails;
 	import org.springframework.security.core.userdetails.UserDetailsService;
 	import org.springframework.security.core.userdetails.UsernameNotFoundException;
-	import java.util.List;
-	import org.my.domain.AuthVO;
 	import org.my.domain.MemberVO;
-	import org.my.mapper.MemberMapper;
 	import lombok.Setter;
 	import lombok.extern.log4j.Log4j;
 
 @Log4j
-public class CustomUserDetailsService implements UserDetailsService {
+public class CustomUserDetailsService implements UserDetailsService  {
 
 	@Setter(onMethod_ = @Autowired)
 	private MemberService memberService;
-	
-	@Setter(onMethod_ = @Autowired)
-	private CommonService commonService;
 
 	@Override
 	public UserDetails loadUserByUsername(String userName) throws UsernameNotFoundException {
 		
-		log.warn("Load User By UserName(userId) : " + userName);// userName means userId
+		log.warn("Load User By UserName : " + userName);
 		
-		MemberVO vo = memberService.readMembers(userName);// userName means userId
+		MemberVO vo = memberService.readMembers(userName);
 				
-		log.warn("queried by member mapper: " + vo);
+		log.warn("MemberVO = " + vo);
 		
-		if(vo == null ) {
-			throw new BadCredentialsException("NULL");
-		}
-		else if(vo != null) { 
-			
-			List<AuthVO> AuthList = vo.getAuthList(); 
-			
-			for(AuthVO authvo : AuthList){
-				if(authvo.getAuth().equals("ROLE_LIMIT"))
-					throw new BadCredentialsException("limit");
-			}
-		}
+		return vo == null ? null : new CustomUser(vo);
 		
-		log.warn("queried by member mapper:11111 ");
-		
-		commonService.updateLoginDate(userName); //로긴날짜찍기
-		
-		log.warn("queried by member mapper:2222 ");
-		
-		return new CustomUser(vo);
 	} 
 }
-
-  

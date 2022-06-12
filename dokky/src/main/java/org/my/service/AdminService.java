@@ -1,3 +1,6 @@
+/*
+- 마지막 업데이트 2022-05-24
+*/
 package org.my.service;
 	import java.util.List;
 	import org.my.domain.Criteria;
@@ -23,13 +26,13 @@ public interface AdminService {
 	
 	public MemberVO getUserForm(String userId);
 	
-	public int updateRoleLimit(String userId , alarmVO vo);
+	public int limitLogin(String userId , alarmVO vo);
 	
-	public int updateRoleStop(String userId, alarmVO vo);
+	public int permitLogin(String userId , alarmVO vo);
 
-	public int updateRoleUser(String userId, alarmVO vo);
-
-	public int updateRoleAdmin(String userId, alarmVO vo);
+	public int insertRole(String userId, String role, alarmVO vo);
 	
+	public int deleteRole(String userId, String role, alarmVO vo);
+
 	public int approveCash(commonVO vo);
 }

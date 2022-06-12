@@ -18,8 +18,8 @@ public class VisitSessionListener implements HttpSessionListener{
 		
 	 //@Setter(onMethod_ = @Autowired)
 	 private CommonService service;
-	 //세션이 생성될 때 호출
-	 @Override
+	
+	 @Override //세션이 생성될 때 호출
 	 public void sessionCreated(HttpSessionEvent sessionEvent) {
 		
 		 log.info("sessionCreated");
@@ -29,33 +29,30 @@ public class VisitSessionListener implements HttpSessionListener{
 		 
 		  HttpSession session = sessionEvent.getSession(); 	
 		  WebApplicationContext ctx = WebApplicationContextUtils.getWebApplicationContext(session.getServletContext());
-		  //service =  (CommonService) ctx.getBean("CommonServiceImpl"); 
 		  service =  (CommonService) ctx.getBean("commonServiceImpl");
 		   
 		  HttpServletRequest request = ((ServletRequestAttributes)RequestContextHolder.currentRequestAttributes()).getRequest();
 			
 		  VisitCountVO vo = new VisitCountVO();
-		  
-			  //vo.setIp(request.getRemoteAddr());//정확한 아이피 못가져옴
-			  vo.setIp(getClientIpAddr(request));
-		      vo.setAgent(request.getHeader("User-Agent"));//브라우저 정보
-		      vo.setRefer(request.getHeader("referer"));//접속 전 사이트 정보
+					   vo.setIp(getClientIpAddr(request));
+				       vo.setAgent(request.getHeader("User-Agent"));
+				       vo.setRefer(request.getHeader("referer"));
 	      
 	      service.insertVisitor(vo);
 	       
-	      todayCount = service.getVisitTodayCount();//0
+	      todayCount = service.getVisitTodayCount();
 	      totalCount = service.getVisitTotalCount();
           
 	      session.setAttribute("totalCount", totalCount); 
 	      session.setAttribute("todayCount", todayCount);
 	 }
 	 
-	 @Override  //세션이 파괴될 때 호출
+	 @Override  //세션이 폐기될 때 호출
 	 public void sessionDestroyed(HttpSessionEvent sessionEvent) {
 		 log.info("sessionDestroyed");
 	 }
 	 
-	 public String getClientIpAddr(HttpServletRequest request) {  //아이피가 정확히 안나올시
+	 public String getClientIpAddr(HttpServletRequest request) {//아이피가 정확히 안나올시
 	        String ip = request.getHeader("X-Forwarded-For"); 
 	        if (ip == null || ip.length() == 0 || "unknown".equalsIgnoreCase(ip)) {  
 	            ip = request.getHeader("Proxy-Client-IP");  
@@ -74,8 +71,6 @@ public class VisitSessionListener implements HttpSessionListener{
 	        }  
 	        return ip;  
 	    }
-
-	 
 }
 	
 

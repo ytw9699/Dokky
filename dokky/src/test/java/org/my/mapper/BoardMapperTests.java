@@ -6,7 +6,6 @@ package org.my.mapper;
 	import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 	import org.my.domain.BoardVO;
 	import org.my.domain.Criteria;
-	import lombok.Setter;
 	import lombok.extern.log4j.Log4j;
 
 @RunWith(SpringJUnit4ClassRunner.class)
@@ -17,7 +16,7 @@ package org.my.mapper;
 @Log4j
 public class BoardMapperTests {
 
-	@Setter(onMethod_ = @Autowired)
+	@Autowired 
 	private BoardMapper mapper;//BoardMapper 인터페이스의 구현체를 주입받아서 동작
 	
 	//Long board_num;

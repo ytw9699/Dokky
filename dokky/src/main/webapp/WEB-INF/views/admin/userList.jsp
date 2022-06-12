@@ -24,7 +24,7 @@
 		 <div id="menuWrap"> 
 				<div class="tab">      
 					<button class="active" onclick="location.href='/admin/userList'">계정관리</button>
-					<button onclick="location.href='/admin/cashRequestList'">결제관리</button> 
+					<button onclick="location.href='/admin/cashRequestList'">캐시관리</button> 
 					<button onclick="location.href='/admin/userReportList'">신고관리</button>
 			    </div>
 		 </div>    
@@ -44,7 +44,14 @@
 				<input type='hidden' name='pageNum' value='<c:out value="${pageMaker.cri.pageNum}"/>' /> 
 				<input type='hidden' name='amount'  value='<c:out value="${pageMaker.cri.amount}"/>' />
 						 
-				<button id='search' class='btn btn-default'></button> 
+				<c:choose>
+				   	  <c:when test="${pageContext.request.serverName == 'localhost'}">
+							<button id='localSearch' class='btn btn-default'></button> 
+					  </c:when>
+				      <c:otherwise>
+				    		<button id='dokkySearch' class='btn btn-default'></button> 
+				      </c:otherwise>
+				</c:choose> 
 			</form>
 		 </div>
 		 

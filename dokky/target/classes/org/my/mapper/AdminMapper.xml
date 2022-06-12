@@ -2,19 +2,20 @@
 <!DOCTYPE mapper
   PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
   "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<!-- 마지막 업데이트 2022.05.24 -->
 <mapper namespace="org.my.mapper.AdminMapper">
-		
+
 	  <resultMap id="memberMap" type="org.my.domain.MemberVO" >
 		    <id property="userId" column="userId"/>
 			    <result property="userId" column="userid"/>
 			    <result property="userPw" column="userpw"/>
 			    <result property="nickName" column="nickname"/>
-			    <result property="email" column="email"/>
-			    <result property="phoneNum" column="phoneNum"/>
 			    <result property="bankName" column="bankName"/>
 			    <result property="account" column="account"/>
 			    <result property="regDate" column="regdate"/>
 			    <result property="preLoginDate" column="preLoginDate"/>
+			    <result property="accountNonLocked" column="accountNonLocked"/>
+			    <result property="enabled" column="enabled"/>
 		    <collection property="authList" resultMap="authMap"></collection> 
 	  </resultMap>
 	  
@@ -22,14 +23,30 @@
 		   	<result property="userId" column="userid"/>
 		   	<result property="auth" column="auth"/>
 	  </resultMap>
-		
+		 
+	<!-- 나의 정보 한줄 가져오기 -->
+	<select id="getUserForm" resultMap="memberMap">
+		 SELECT mem.userid
+			  , nickname
+			  , bankName
+			  , account
+			  , regdate
+			  , preLoginDate
+			  , auth
+			  , accountNonLocked
+			  , enabled
+		 FROM 
+		  	dk_member mem LEFT OUTER JOIN dk_member_auth auth on mem.userid = auth.userid 
+		 WHERE mem.userid = #{userId} 
+	</select>
+	   
 	  <sql id="criteria">
 			<trim prefix="" suffix="and" prefixOverrides="OR">
 				<foreach item='type' collection="typeArr">
 					<trim prefix="OR">
 						<choose>
 							<when test="type == 'I'.toString()">
-								mem.userId like '%'||#{keyword}||'%'
+								userId like '%'||#{keyword}||'%'
 							</when>
 							<when test="type == 'N'.toString()">
 							 	nickName like '%'||#{keyword}||'%'
@@ -40,20 +57,15 @@
 			</trim>
 	  </sql>
 	
-	  <select id="getUserList" resultMap="memberMap">
+	  <select id="getUserList" resultType="org.my.domain.MemberVO">
 		 <![CDATA[  
 				select userId
 					 , nickName 
-					 , auth
 				 from 
-					( 
-						SELECT /*+INDEX_DESC(dk_member seq_dk_member) */ rownum rn
-																	   , mem.userid
+					( SELECT /*+INDEX_DESC(dk_member PK_DK_MEMBER) */ rownum rn
+																	   , userid
 																	   , nickname
-																	   , auth
-				 FROM dk_member mem LEFT OUTER JOIN dk_member_auth auth on mem.userid = auth.userid  
-					
-					where ]]> <include refid ="criteria"></include> 
+				 FROM dk_member where ]]> <include refid ="criteria"></include> 
 					
 				  <![CDATA[  
 				      rownum <= #{pageNum} * #{amount}
@@ -140,35 +152,21 @@
 			    where rn > (#{pageNum} -1) * #{amount}  
 			]]>
 	   </select>
+	   
+		<update id="insertRole"> 
+				insert into dk_member_auth(userId, auth) values ( #{userId}, #{role})
+		</update>
 	
-		<!-- 나의 정보 한줄 가져오기 -->
-	   <select id="getUserForm" resultMap="memberMap">
-				 SELECT mem.userid
-					  , nickname
-					  , bankName
-					  , account
-					  , regdate
-					  , preLoginDate
-					  , auth
-				 FROM 
-				  	dk_member mem LEFT OUTER JOIN dk_member_auth auth on mem.userid = auth.userid 
-				 WHERE mem.userid = #{userId} 
-	   </select>
-	  
-		<update id="updateRoleLimit"> 
-				update dk_member_auth set auth = 'ROLE_LIMIT' WHERE USERID = #{userId}  
+		<delete id="deleteRole"> 
+       			delete from dk_member_auth where userId = #{userId} and auth = #{role}
+        </delete>
+	
+		<update id="updateAccountNonLocked"> 
+				update dk_member set accountNonLocked = #{accountNonLocked} WHERE USERID = #{userId}  
 		</update>
 		
-		<update id="updateRoleStop"> 
-				update dk_member_auth set auth = 'ROLE_STOP' WHERE USERID = #{userId}  
-		</update>
-		
-		<update id="updateRoleUser"> 
-				update dk_member_auth set auth = 'ROLE_USER' WHERE USERID = #{userId}  
-		</update>
-		
-		<update id="updateRoleAdmin"> 
-				update dk_member_auth set auth = 'ROLE_ADMIN' WHERE USERID = #{userId}  
+		<update id="updatePermitLogin"> 
+				update dk_member set accountNonLocked = '1' WHERE USERID = #{userId}  
 		</update>
 		
 		<update id="updatePluscash">

@@ -1,3 +1,6 @@
+/*
+- 마지막 업데이트 2022-06-12
+*/
 package org.my.controller;
 	import java.util.List;
 	import javax.servlet.http.HttpServletRequest;
@@ -12,7 +15,6 @@ package org.my.controller;
 	import org.my.s3.myS3Util;
 	import org.my.security.domain.CustomUser;
 	import org.my.service.BoardService;
-	import org.my.service.CommonService;
 	import org.my.service.ReplyService;
 	import org.springframework.http.HttpStatus;
 	import org.springframework.http.MediaType;
@@ -31,22 +33,18 @@ package org.my.controller;
 	import org.springframework.web.bind.annotation.RequestParam;
 	import org.springframework.web.bind.annotation.ResponseBody;
 	import org.springframework.web.servlet.mvc.support.RedirectAttributes;
-	import lombok.AllArgsConstructor;
+	import lombok.RequiredArgsConstructor;
 	import lombok.extern.log4j.Log4j;
 
 @Controller
 @Log4j
 @RequestMapping("/board/*")
-@AllArgsConstructor
+@RequiredArgsConstructor
 public class BoardController {
 
-	private BoardService boardService;
-	
-	private myS3Util s3Util;
-	
-	private CommonService commonService;
-	
-	private ReplyService replyService;
+	private final BoardService boardService;
+	private final ReplyService replyService;
+	private final myS3Util myS3Util;
 	
 	@GetMapping("/list")
 	public String getList(Criteria cri, Model model) {
@@ -90,7 +88,7 @@ public class BoardController {
 		return "board/list";
 	}
 	
-	@PreAuthorize("hasAnyRole('ROLE_ADMIN','ROLE_USER','ROLE_SUPER')")
+	@PreAuthorize("hasRole('ROLE_USER')")
 	@GetMapping("/registerForm")
 	public String getRegisterForm(@ModelAttribute("category") int category){
 
@@ -99,7 +97,7 @@ public class BoardController {
 		return "board/register";
 	}
 	
-	@PreAuthorize("hasAnyRole('ROLE_ADMIN','ROLE_USER','ROLE_SUPER')")
+	@PreAuthorize("hasRole('ROLE_USER')")
 	@PostMapping("/register")
 	public String registerBoard(BoardVO board, RedirectAttributes rttr) {
 
@@ -156,7 +154,7 @@ public class BoardController {
 			return "board/get";
 	}
 	
-	@PreAuthorize("principal.username == #cri.userId")
+	@PreAuthorize("hasRole('ROLE_USER') and principal.username == #cri.userId")
 	@GetMapping("/modifyForm")
 	public String getModifyForm(@RequestParam("board_num") Long board_num, 
 							  @ModelAttribute("cri") Criteria cri, Model model){
@@ -168,7 +166,7 @@ public class BoardController {
 		return "board/modify";
 	}
 	
-	@PreAuthorize("principal.username == #board.userId")
+	@PreAuthorize("hasRole('ROLE_USER') and principal.username == #board.userId")
 	@PostMapping("/modify")
 	public String modifyBoard(BoardVO board, Criteria cri, RedirectAttributes rttr, Model model) {
 		 
@@ -195,7 +193,7 @@ public class BoardController {
 		 
 		 return "redirect:/board/get";
 	}
-
+	
 	@PreAuthorize("principal.username == #userId")   
 	@PostMapping("/remove")//삭제시 글+댓글+첨부파일 모두 삭제
 	public String removeBoard(@RequestParam("board_num") Long board_num,
@@ -279,17 +277,6 @@ public class BoardController {
 		    log.info("deleteS3Files........");
 		    log.info(attachList);
 		    
-		    myS3Util nowS3Util;
-			
-			if(request.getServerName().equals("localhost")){
-				
-				nowS3Util = new myS3Util(commonService);
-				
-			}else {
-				
-				nowS3Util = s3Util;
-			}
-		    
 		    attachList.forEach(attach -> {
 		    
 			      String path = attach.getUploadPath();
@@ -297,11 +284,11 @@ public class BoardController {
 		    	
 			      try {    
 			    	  
-			    		if(nowS3Util.deleteObject(path, filename)) {
+			    		if(myS3Util.deleteObject(path, filename)) {
 			    			
 							if (attach.isFileType()) {//만약 이미지파일이었다면
 								
-								nowS3Util.deleteObject(path, "s_"+filename);//썸네일도 삭제
+								myS3Util.deleteObject(path, "s_"+filename);//썸네일도 삭제
 							}
 			    		}
 			    		
@@ -312,6 +299,7 @@ public class BoardController {
 		    });
 	}
 	
+	@PreAuthorize("hasRole('ROLE_USER')")
 	@PostMapping(value = "/likeBoard", consumes = "application/json", produces = "text/plain; charset=UTF-8")
 	@ResponseBody
 	public ResponseEntity<String> likeBoard(@RequestBody commonVO vo) {//게시글 좋아요 누르기 및 취소
@@ -341,6 +329,7 @@ public class BoardController {
 				: new ResponseEntity<>(HttpStatus.INTERNAL_SERVER_ERROR);
 	}
 	
+	@PreAuthorize("hasRole('ROLE_USER')")
 	@PostMapping(value = "/disLikeBoard", consumes = "application/json", produces = "text/plain; charset=UTF-8")
 	@ResponseBody
 	public ResponseEntity<String> disLikeBoard(@RequestBody commonVO vo) {//게시글 싫어요 누르기 및 취소

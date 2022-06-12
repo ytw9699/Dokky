@@ -1,32 +1,26 @@
+/*
+- 마지막 업데이트 2022-06-03
+*/
 package org.my.controller;
 	import java.io.UnsupportedEncodingException;
-	import java.util.Iterator;
-	import java.util.List;
-	import java.util.Locale;
 	import javax.servlet.http.HttpServletRequest;
 	import javax.servlet.http.HttpServletResponse;
-	import javax.servlet.http.HttpSession;
 	import org.my.auth.SNSLogin;
 	import org.my.auth.SnsValue;
-	import org.my.domain.AuthVO;
-	import org.my.domain.BoardVO;
 	import org.my.domain.Criteria;
 	import org.my.domain.MemberVO;
 	import org.my.domain.PageDTO;
 	import org.my.domain.noteVO;
-	import org.my.security.domain.CustomUser;
-	import org.my.service.AdminService;
 	import org.my.service.CommonService;
 	import org.my.service.MemberService;
 	import org.my.service.MypageService;
-	import org.springframework.beans.factory.annotation.Autowired;
 	import org.springframework.http.HttpStatus;
 	import org.springframework.http.ResponseEntity;
 	import org.springframework.security.access.prepost.PreAuthorize;
-	import org.springframework.security.core.Authentication;
-	import org.springframework.security.crypto.password.PasswordEncoder;
+	import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 	import org.springframework.stereotype.Controller;
 	import org.springframework.ui.Model;
+	import org.springframework.web.bind.annotation.DeleteMapping;
 	import org.springframework.web.bind.annotation.GetMapping;
 	import org.springframework.web.bind.annotation.ModelAttribute;
 	import org.springframework.web.bind.annotation.PathVariable;
@@ -38,41 +32,60 @@ package org.my.controller;
 	import org.springframework.web.bind.annotation.RequestParam;
 	import org.springframework.web.bind.annotation.ResponseBody;
 	import org.springframework.web.servlet.mvc.support.RedirectAttributes;
-	import lombok.Setter;
+	import lombok.RequiredArgsConstructor;
 	import lombok.extern.log4j.Log4j;
 		
+@RequiredArgsConstructor
 @Controller
 @Log4j 
 public class CommonController {
 	
-	@Setter(onMethod_ = @Autowired)
-	private CommonService commonService;
+	private final CommonService commonService;
+	private final MemberService memberService;
+	private final MypageService mypageService;
+	private final BCryptPasswordEncoder bcryptPasswordEncoder;
+	private final SnsValue naverSns;
+	private final SnsValue googleSns; 
 	
-	@Setter(onMethod_ = @Autowired)
-	private MemberService memberService;
-	
-	@Setter(onMethod_ = @Autowired)
-	private MypageService mypageService;
-	
-	@Setter(onMethod_ = @Autowired)
-	private PasswordEncoder pwencoder;
-	
-	@Setter(onMethod_ = @Autowired)
-	private SnsValue naverSns;
-	
-	@Setter(onMethod_ = @Autowired)
-	private SnsValue googleSns;
-	
-	@Setter(onMethod_ = @Autowired)
-	private AdminService adminService;
-	
-	
-	@GetMapping("/socialLogin")//커스텀 로그인 페이지는 반드시 get방식 이어야 한다. 스프링 시큐리티의 특성임
-	public String getSocialLogin(String error, String logout, String check, Model model) throws UnsupportedEncodingException {
+	@GetMapping(value = {"/main", "/"})
+	public String main(Model model) {
 		
-		log.info("/socialLogin");
-		 
-		SNSLogin naverLogin = new SNSLogin(naverSns);//소셜로그인
+		log.info("/main, /");
+		
+		model.addAttribute("realtimeBoardList", commonService.getRealtimeBoardList());//실시간 게시글
+		
+		model.addAttribute("monthlyBoardList", commonService.getMonthlyBoardList());//한달 인기글
+		
+		model.addAttribute("donationBoardList", commonService.getDonationBoardList());//한달 최다 기부글
+		
+		return "common/main";
+	}
+	
+	@ResponseBody
+ 	@DeleteMapping(value = "/SavedRequest")
+	public ResponseEntity<String> deleteSavedRequestSession(HttpServletRequest request){
+		
+		log.info("/deleteSavedRequestSession:... ");
+		
+		request.getSession().removeAttribute("SPRING_SECURITY_SAVED_REQUEST");
+		
+		return new ResponseEntity<>("success", HttpStatus.OK);
+	}
+	
+	@RequestMapping(value="/commonLogin", method = {RequestMethod.GET, RequestMethod.POST})
+	public String getCommonLogin(HttpServletRequest request, HttpServletResponse response, Model model) throws UnsupportedEncodingException {
+		
+		log.info("/commonLogin");
+		
+		String preUrl  = request.getHeader("referer");
+		
+		if(preUrl != null){
+			if(!(preUrl.contains("ogin")) && !(preUrl.contains("rror"))){//login 또는 error 페이지들 모두 제외
+				request.getSession().setAttribute("preUrl", preUrl);
+			}
+		}
+		
+		SNSLogin naverLogin = new SNSLogin(naverSns);
 		
 		model.addAttribute("naver_url", naverLogin.getAuthURL());
 		
@@ -80,7 +93,7 @@ public class CommonController {
 		
 		model.addAttribute("google_url", googleLogin.getAuthURL());
 		
-		return "common/socialLogin";  
+		return "common/commonLogin";
 	}
 	
 	@GetMapping("/auth/{snsService}/callback")
@@ -91,7 +104,7 @@ public class CommonController {
 		log.info("/auth/"+snsService+"/callback");
 		
 		if(error.equals("access_denied")) {//정보동의 수락안하고 취소눌를시
-			return "redirect:/socialLogin";
+			return "redirect:/commonLogin";
 		}
 		
 		SnsValue sns = null; 
@@ -117,6 +130,11 @@ public class CommonController {
 		
 		MemberVO memberVO = memberService.readMembers(profileId);//소셜에서 가져온 프로필에 해당하는 개인정보를 db에서 불러온다
 		
+		if(!memberVO.isAccountNonLocked()){
+			rttr.addFlashAttribute("errormsg", "접속 제한된 아이디입니다."); 
+			return "redirect:/commonLogin";
+		}
+		
 		if(!memberVO.isEnabled()){//탈퇴한 회원 이라면
 			
 			model.addAttribute("id", profileId);
@@ -127,34 +145,14 @@ public class CommonController {
 			return "common/reMemberForm";//재가입 폼 이동
 		}
 		
-		Boolean result = commonService.setAuthentication(memberVO, true);//인증하면서 권한도 체크 true
-		
-		if(!result){
-			
-			rttr.addFlashAttribute("check", "접속 제한된 아이디입니다."); 
-			return "redirect:/socialLogin";
+		if(commonService.setAuthentication(memberVO) == false){//인증처리
+			rttr.addFlashAttribute("errormsg", "로그인 할 수 없습니다."); 
+			return "redirect:/commonLogin";
 		}
 		
-		commonService.updateLoginDate(profileId); //로긴날짜찍기
+		String redirectURL = commonService.CustomAuthLoginSuccessHandler(profileId, request);
 		
-		HttpSession session = request.getSession();
-		
-		if (session != null) {
-			
-			session.setAttribute("userId", profileId);//웹소켓이 끊겼을때 사용하기 위해 세션에 저장해둔다.
-            String redirectUrl = (String)session.getAttribute("preUrl");
-            
-            if (redirectUrl != null) {
-          	   
-            	 log.info("redirectUrl="+redirectUrl);
-              	 
-                 session.removeAttribute("preUrl");
-                  
-                 return "redirect:"+redirectUrl;
-            }
-        }
-		
-		return "redirect:/main";
+		return "redirect:"+redirectURL;
 	}
 	
 	@GetMapping("/memberForm")
@@ -185,20 +183,22 @@ public class CommonController {
 		}
 	}
 	
-	
 	@PostMapping("/members") 
 	public String postMembers(MemberVO vo, Model model, RedirectAttributes rttr) {//회원가입
 		
 		log.info("/members: vo" + vo); 
 		
-		vo.setUserPw(pwencoder.encode(""+Math.random()*10));
-		//패스워드 랜덤 하게 만들어 암호화,이 암호가 없으면 시큐리티인증객체를 못만듬
+		vo.setUserPw(bcryptPasswordEncoder.encode(""+Math.random()*10));
+		//패스워드 랜덤 하게 만들어 암호화,이 암호가 없으면 시큐리티인증객체토큰 중(UsernamePasswordAuthenticationToken을)못 만드는것 같다.
 		
 		if(memberService.registerMembers(vo)){
 			
 			MemberVO memberVO = memberService.readMembers(vo.getUserId());//소셜에서 가져온 프로필에 해당하는 개인정보를 db에서 불러온다
 			
-			commonService.setAuthentication(memberVO, false);//인증하면서 권한은 미체크 false
+			if(commonService.setAuthentication(memberVO) == false){//인증처리
+				rttr.addFlashAttribute("errormsg", "다시 로그인 해주세요."); 
+				return "redirect:/commonLogin";
+			}
 			
 			rttr.addFlashAttribute("check", "가입완료 되었습니다.");
 				
@@ -206,22 +206,25 @@ public class CommonController {
 			
 		}else {
 		
-			rttr.addFlashAttribute("check", "가입실패 하였습니다 관리자에게 문의주세요.");
+			rttr.addFlashAttribute("errormsg", "가입실패 하였습니다 관리자에게 문의주세요.");
 			
-			return "redirect:/socialLogin";
+			return "redirect:/commonLogin";
 		}
 	}
 	
 	@PostMapping("/remembers") 
-	public String postReMembers(MemberVO vo, Model model, RedirectAttributes rttr) {//재 회원가입
+	public String reRegisterMembers(MemberVO vo, Model model, RedirectAttributes rttr){//재 회원가입
 		
 		log.info("/remembers: vo" + vo); 
 		
 		if(memberService.reRegisterMembers(vo)){
 			
-			MemberVO memberVO = memberService.readMembers(vo.getUserId());//소셜에서 가져온 프로필에 해당하는 개인정보를 db에서 불러온다
+			MemberVO memberVO = memberService.readMembers(vo.getUserId());
 			
-			commonService.setAuthentication(memberVO, false);//인증하면서 권한은 미체크 false
+			if(commonService.setAuthentication(memberVO) == false){//인증처리
+				rttr.addFlashAttribute("errormsg", "다시 로그인 해주세요."); 
+				return "redirect:/commonLogin";
+			}
 			
 			rttr.addFlashAttribute("check", "재가입완료 되었습니다.");
 			
@@ -229,84 +232,12 @@ public class CommonController {
 			
 		}else {
 		
-			rttr.addFlashAttribute("check", "재가입실패 하였습니다 관리자에게 문의주세요.");
+			rttr.addFlashAttribute("errormsg", "재가입실패 하였습니다 관리자에게 문의주세요.");
 			
-			return "redirect:/socialLogin";
+			return "redirect:/commonLogin";
 		}
 	}
-	
-	@PostMapping("/logout")//사용자 직접구현 로그아웃
-	public String logout(HttpServletRequest request, HttpServletResponse response, Authentication authentication) {
 		
-		log.info("/logout");
-		
-		commonService.logout(request, response, authentication);
-			
-		return "redirect:/socialLogin";
-	}
-	
-	@GetMapping("/superAdminLogin")
-	public String superAdminLogin(Model model, HttpServletRequest request, 
-								  String error, String logout, String check) throws UnsupportedEncodingException {
-	
-		log.info("/superAdminLogin");
-		
-		if (check != null) {
-			if(check.equals("notId") ) {
-				model.addAttribute("check", "아이디가 없습니다");
-			}else if(check.equals("notPassword") ) {
-				model.addAttribute("check", "비밀번호가 틀립니다");
-			}
-			else if(check.equals("limit") ) {
-				model.addAttribute("check", "차단된 아이디입니다. 관리자에게 문의해주세요");
-			}
-		}
-		
-		/*if (error != null) {
-		model.addAttribute("error", "Login Error Check Your Account");
-		}
-		
-		if (logout != null) {
-			model.addAttribute("logout", "Logout!!");
-		}*/
-		
-		return "common/superAdminLogin";   
-	}
-	
-	@RequestMapping(value = "/main", method = RequestMethod.GET)
-	public String main(Model model) {
-		
-		log.info("/main");
-		
-		List<BoardVO> realtimeBoardList = commonService.getRealtimeBoardList();
-		List<BoardVO> monthlyBoardList = commonService.getMonthlyBoardList();
-		List<BoardVO> donationBoardList = commonService.getDonationBoardList();
-		
-		model.addAttribute("realtimeBoardList", realtimeBoardList);//실시간 게시글
-		
-		model.addAttribute("monthlyBoardList", monthlyBoardList);//한달 인기글
-		
-		model.addAttribute("donationBoardList", donationBoardList);//한달 최다 기부글
-		
-		return "common/main";
-	}
-	
-	@RequestMapping(value = "/", method = RequestMethod.GET)
-	public String home(Locale locale, Model model) {
-		
-		List<BoardVO> realtimeBoardList = commonService.getRealtimeBoardList();
-		List<BoardVO> monthlyBoardList = commonService.getMonthlyBoardList();
-		List<BoardVO> donationBoardList = commonService.getDonationBoardList();
-		
-		model.addAttribute("realtimeBoardList", realtimeBoardList);//실시간 게시글
-		
-		model.addAttribute("monthlyBoardList", monthlyBoardList);//한달 인기글
-		
-		model.addAttribute("donationBoardList", donationBoardList);//한달 최다 기부글
-		
-		return "common/main";
-	}
-	
 	@PreAuthorize("isAuthenticated()")
  	@GetMapping("/userBoardList")
 	public String getUserBoardList(Criteria cri, Model model, 
@@ -359,7 +290,7 @@ public class CommonController {
 		}
 	} 
 	
-	@PreAuthorize("hasAnyRole('ROLE_ADMIN','ROLE_USER','ROLE_SUPER')")
+	@PreAuthorize("hasRole('ROLE_USER')")
 	@GetMapping("/noteForm")
 	public String getNoteForm(@RequestParam("userId")String userId, @RequestParam("nickname")String nickname, Model model) {
 		
@@ -370,7 +301,7 @@ public class CommonController {
 		return "common/noteForm";
 	}
 	
-	@PreAuthorize("hasAnyRole('ROLE_ADMIN','ROLE_USER','ROLE_SUPER')")
+	@PreAuthorize("hasRole('ROLE_USER')")
 	@GetMapping("/myNoteForm")
 	public String getMyNoteForm(Criteria cri, Model model) {
 		
@@ -402,7 +333,7 @@ public class CommonController {
 		}
 	}
 	
-	@PreAuthorize("isAuthenticated()")
+	@PreAuthorize("principal.username == #cri.userId")
 	@GetMapping("/fromNoteList")
 	public String getFromNoteList(Criteria cri, Model model) {//받은쪽지함
 		
@@ -423,7 +354,7 @@ public class CommonController {
 			return "common/fromNoteList";
 	}
 	
-	@PreAuthorize("isAuthenticated()")
+	@PreAuthorize("principal.username == #cri.userId")
 	@GetMapping("/toNoteList")  
 	public String getToNoteList(Criteria cri, Model model) {//보낸쪽지함
 		
@@ -444,7 +375,7 @@ public class CommonController {
 			return "common/toNoteList";
 	}
 	
-	@PreAuthorize("isAuthenticated()")
+	@PreAuthorize("principal.username == #cri.userId")
 	@GetMapping("/myNoteList")
 	public String getMyNoteList(Criteria cri, Model model) {//내게쓴 쪽지함
 		
@@ -488,6 +419,7 @@ public class CommonController {
 		return "common/detailNotepage";
 	}
 	 
+	@PreAuthorize("principal.username == #cri.userId")
 	@PostMapping("/deleteNote")//쪽지 삭제
 	public String deleteNote(@RequestParam("note_num") Long note_num, 
 							 @RequestParam("note_kind") String note_kind, Criteria cri){
@@ -676,96 +608,41 @@ public class CommonController {
 		return new ResponseEntity<>(commonService.getChatCount(userId), HttpStatus.OK);
 	}
 	
-	@PreAuthorize("hasAnyRole('ROLE_ADMIN','ROLE_SUPER')") 
-	@GetMapping("/admin/authorizationList")//일반 관리자 권한부여 리스트
-	public String getAuthorizationList(Criteria cri, Model model, 
-									   Authentication authentication, HttpSession session) {
+	@GetMapping("/accessError")//접근 권한 에러
+	public String accessDenied(HttpServletResponse response, HttpServletRequest request, Model model, @RequestParam(value = "authorization",
+	required=false, defaultValue = "common" ) String authorization){
 		
-		log.info("/admin/authorizationList");
-		log.info("cri"+cri);
+		log.info("/accessError");
 		
-		/*if(authentication == null) {//인증이 안됬다면
-			//request.getRequestURL();
-			//SavedRequest aa = new SavedRequest();
+		if( "true".equals(request.getHeader("AJAX"))) {
+			response.setHeader("Location", "/accessError?authorization="+authorization);
+		}
+		
+		if(authorization.equals("superAdmin")){
 			
-			//SavedRequest saveRequest = new SavedRequest();
-			//(Object)"DefaultSavedRequest[http://localhost:8080/admin/authorizationList]";
-			//session.setAttribute("SPRING_SECURITY_SAVED_REQUEST", saveRequest);
+			model.addAttribute("message", "슈퍼관리자만 접근 가능합니다.");
 			
-			return "redirect:/superAdminLogin";
-		}*/
-		
-		CustomUser user = (CustomUser)authentication.getPrincipal();
-		
-		MemberVO vo = user.getMember();
-		
-		List<AuthVO> AuthList = vo.getAuthList();//사용자의 권한 정보만 list로 가져온다
-		
-		Iterator<AuthVO> it = AuthList.iterator();
-		
-		while (it.hasNext()) {
+		}else if(authorization.equals("admin")){
 			
-			AuthVO authVO = it.next(); 
+			model.addAttribute("message", "일반 관리자만 접근 가능합니다.");
 			
-			String auth = authVO.getAuth();
+		}else {
 			
-			if(!auth.equals("ROLE_SUPER")) {
-				
-				return "redirect:/superAdminError";//일반관리자는 접근 못하고 슈퍼관리자만 접근할 수 있음
-				//return "redirect:/superAdminLogin";
-			}
-			
-        }
+			model.addAttribute("message", "접근 권한이 없습니다.");
+		}
 		
-		model.addAttribute("authorizationList", adminService.getUserList(cri));
-		
-		int total = adminService.getMemberTotalCount(cri);
-		
-		model.addAttribute("pageMaker", new PageDTO(cri, total));
-		
-		return "admin/authorizationList"; 
-	}
+		return "error/commonError";
+	}  
 	
 	@GetMapping("/serverError")
 	public String serverError(Model model) {//serverError페이지
 
 		log.info("/serverError");
 		
-		model.addAttribute("message", "ServerError입니다 관리자에게 문의해주세요.");
+		model.addAttribute("message", "서버에러입니다 관리자에게 문의해주세요.");
 		
 		return "error/commonError";  
 	}
 	
-	@GetMapping("/adminError")
-	public String adminError(Model model) {//관리자 리스트 접근 제한 에러페이지
-
-		log.info("/adminError");
-		
-		model.addAttribute("message", "관리자만 접근 가능합니다.");
-		
-		return "error/commonError";  
-	}
-	
-	@GetMapping("/superAdminError")
-	public String superAdminError(Model model) {//관리자 리스트 접근 제한 에러페이지
-
-		log.info("/superAdminError");
-		
-		model.addAttribute("message", "Super-관리자만 접근 가능합니다.");
-		
-		return "error/commonError";  
-	}
-
-	@GetMapping("/accessError")//공통 접근제한 에러페이지
-	public String accessDenied(Authentication auth, Model model) {//Authentication 타입의 파라미터를 받도록 설계해서 필요한 경우에 사용자의 정보를 확인할 수 있도록
-		
-		log.info("/accessError");
-		
-		log.info("access Denied : " + auth); 
- 
-		model.addAttribute("message", "접근 권한이 없습니다. 관리자에게 문의해주세요.");
-		
-		return "error/commonError";
-	}  
 }
 		 	

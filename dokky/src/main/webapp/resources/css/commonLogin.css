@@ -6,17 +6,25 @@
 				    display: inline-block;
 				    margin-left: 15%;
 				    margin-top: 1%;
-				    height: 538px;
+				    height: 620px;
 					display: inline-block;
 					border: 2px solid #dbdbdb;
 					border-radius: 10px;
 				}
 				
-				.container {
+				.socialContainer {
 			       	width: 50%;
 				    display: inline-block;
 				    margin-left: 20%;
-				    margin-top: 4%;
+				  	margin-top: 0%;
+				    min-height: 270px;
+				}
+				
+				.superContainer {
+			       	width: 50%;
+				    display: inline-block;
+				    margin-left: 20%;
+				    margin-top: 0%;
 				    min-height: 270px;
 				}
         }
@@ -27,16 +35,24 @@
 					    display: inline-block;
 					    margin-left: 17%;
 					    margin-top: 1%;
-					    height: 575px;
+					    height: 620px;
 						display: inline-block;
 						border: 2px solid #dbdbdb;
 						border-radius: 10px;
 				}
-				.container {
+				.socialContainer {
 			       	width: 50%;
 				    display: inline-block;
 				    margin-left: 20%;
-				    margin-top: 4%;
+				    margin-top: 0%;
+				    min-height: 270px;
+				}
+				
+				.superContainer {
+			       	width: 50%;
+				    display: inline-block;
+				    margin-left: 20%;
+				    margin-top: 0%;
 				    min-height: 270px;
 				}
         }
@@ -47,36 +63,55 @@
 				    display: inline-block;
 				    margin-left: 29%;
 				    margin-top: 1%;
-				    height: 538px; 
+				    height: 620px;
 					display: inline-block;
 					border: 2px solid #dbdbdb;
 					border-radius: 10px;
 			}
 			
-			.container {
-		        width: 50%;
-			    display: inline-block;
-			    margin-left: 17%;
-			    margin-top: 4%;
-			    min-height: 270px;
-			}
+				.socialContainer {
+			       	width: 50%;
+				    display: inline-block;
+				    margin-left: 20%;
+				    margin-top: 0%;
+				    min-height: 270px;
+				}
+				
+				.superContainer {
+			       	width: 50%;
+				    display: inline-block;
+				    margin-left: 20%;
+				    margin-top: 0%;
+				    min-height: 270px;
+				}
         }
-
-		.title{
-			width: 50%;
+        
+		.socialTitle{
+			width: 55%;
 		    background-color: white;
 		    font-size: 45px;
 		    font-weight: 900;
-		    margin-left: 21%;
+		    margin-left: 30%;
 		    margin-top: 8%;
-		    margin-bottom: 2%;
+		    margin-bottom: 7%;
 		    text-align: center;
 		    color: #7151fc;
 		}
-		.title a{
-			text-decoration:none; 
-			color: #7151fc;
-		}    
+		
+		.superTitle{
+		    width: 74%;
+		    background-color: white;
+		    font-size: 40px;
+		    font-weight: 900;
+		    margin-left: 22%;
+		    margin-top: 8%;
+		    margin-bottom: 5%;
+		    text-align: center;
+		    color: #7151fc;
+		}
+		
+		.admin-group{
+		}
 		
 		.loginGroup{
 		  	margin-top:-10px !important;
@@ -84,7 +119,7 @@
 		  
 		.form-group {
 		        margin-top: 1%;
-			    margin-left: 23%;
+			    margin-left: 29%;
 			    width: 60%;
 			    height: 50px;
 			    font-size: 20px;
@@ -138,9 +173,9 @@
 			border-radius: 9px;
 		}
 		.footer{
-		    width: 96%;
+		  	width: 100%;
 		    padding: 1%;
-		    margin: 1%;
+		    margin: 3%;
 		}
 		.info{
 			font-size: 11px;
@@ -150,22 +185,4 @@
 		    text-align: center;
 		    font-weight: 600;
 		}
-		.superAdmin{
-		    text-align: right;
-		    font-weight: 600;
-		    padding: 0%;
-		    margin: 0%;
-		    margin-top: -4%;
-		    font-size: 16px;
-		    width: 98%;
-		    color: #7151fc;
-    		cursor: pointer;
-		}
-		
-		.superAdmin a{
-			text-decoration: none;
-			color: #7151fc;
-		}
-		
-		
 		

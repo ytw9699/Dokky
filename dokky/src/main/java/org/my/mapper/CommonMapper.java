@@ -71,10 +71,6 @@ public interface CommonMapper {
 
 	public int getEnabled(String userId);
 	
-	public String getAccessKey();
-	
-	public String getSecretKey();
-	
 	public int getFromNoteCount(Criteria cri);
 	
 	public int getToNoteCount(Criteria cri);

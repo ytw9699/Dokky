@@ -1,36 +1,41 @@
 package org.my.persistence;
+	import static org.junit.Assert.assertNotNull;
 	import static org.junit.Assert.fail;
 	import java.sql.Connection;
 	import java.sql.DriverManager;
+	import java.sql.SQLException;
 	import org.junit.Test;
 	import lombok.extern.log4j.Log4j;
-	
-@Log4j
-public class JDBCTests {//데이터베이스 연결 테스트,Java와 JDBC 드라이버만으로 구현해서 먼저 테스트
 
-	static {
+@Log4j
+public class JDBCTests {
+	//JDBC 드라이버만으로 구현해서 먼저 테스트
+		static{//클래스 초기화 블럭 , 생성자보다 먼저 호출
 		try {
-			Class.forName("oracle.jdbc.driver.OracleDriver");
+			Class clz = Class.forName("oracle.jdbc.driver.OracleDriver");//먼저 oracle 드라이버 정상 로딩 확인
+			
+			log.info(clz);
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
 	}
-	
-	@Test
-	public void testConnection() {
 
-		try(Connection con = DriverManager.getConnection(
-				"jdbc:log4jdbc:oracle:thin:@dokkyrds.ckzbvzytxsry.ap-northeast-2.rds.amazonaws.com:1521:ORCL",
-				"DokkyRdsAdmin",
-				"비밀번호"
-			)) {
-			
-			log.info("데이터베이스 연결 테스트, 정상시 Connection객체 출력");
-			log.info(con);//net.sf.log4jdbc.sql.jdbcapi.ConnectionSpy@41e36e46
-			log.info("데이터베이스 연결 테스트, 정상시 Connection객체 출력");
+	@Test
+	public void testConnection() throws SQLException {//간단 jdbc oracle 연결 테스트
+		
+		Connection con = null;
+		
+		try {
+			   con = DriverManager.getConnection("jdbc:oracle:thin:@localhost:1521:XE", "book_ex",
+					"book_ex");
+			   
+			   log.info(con);
+			   assertNotNull(con);
 			
 		} catch (Exception e) {
 			fail(e.getMessage());
+		}finally {
+			con.close();
 		}
 	}
 }

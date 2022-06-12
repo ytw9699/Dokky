@@ -1,23 +1,24 @@
+/*
+- 마지막 업데이트 2022-06-11
+*/
 package org.my.controller;
 	import java.io.File;
 	import java.io.IOException;
 	import javax.servlet.http.HttpServletRequest;
-	import javax.servlet.http.HttpServletResponse;
 	import org.my.domain.Criteria;
 	import org.my.domain.MemberVO;
 	import org.my.domain.PageDTO;
 	import org.my.domain.cashVO;
 	import org.my.domain.checkPwVO;
+	import org.my.service.AdminService;
 	import org.my.service.BoardService;
 	import org.my.service.CommonService;
 	import org.my.service.MemberService;
 	import org.my.service.MypageService;
-	import org.springframework.beans.factory.annotation.Autowired;
 	import org.springframework.http.HttpStatus;
 	import org.springframework.http.ResponseEntity;
 	import org.springframework.security.access.prepost.PreAuthorize;
-	import org.springframework.security.core.Authentication;
-	import org.springframework.security.crypto.password.PasswordEncoder;
+	import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 	import org.springframework.stereotype.Controller;
 	import org.springframework.ui.Model;
 	import org.springframework.web.bind.annotation.GetMapping;
@@ -29,30 +30,21 @@ package org.my.controller;
 	import org.springframework.web.multipart.MultipartFile;
 	import org.springframework.web.multipart.MultipartHttpServletRequest;
 	import org.springframework.web.servlet.mvc.support.RedirectAttributes;
-	import lombok.AllArgsConstructor;
-	import lombok.Setter;
+	import lombok.RequiredArgsConstructor;
 	import lombok.extern.log4j.Log4j;
 	
 @Controller
 @Log4j
 @RequestMapping("/mypage/*")
-@AllArgsConstructor
+@RequiredArgsConstructor
 public class MypageController {
 	
-	@Setter(onMethod_ = @Autowired)
-	private MypageService mypageService;
-	
-	@Setter(onMethod_ = @Autowired)
-	private BoardService boardService;
-	
-	@Setter(onMethod_ = @Autowired)
-	private MemberService memberService;
-	
-	@Setter(onMethod_ = @Autowired)
-	private CommonService commonService;
-	
-	@Setter(onMethod_ = @Autowired)
-	private PasswordEncoder pwencoder;
+	private final MypageService mypageService;
+	private final AdminService adminService;
+	private final CommonService commonService;
+	private final MemberService memberService;
+	private final BoardService boardService;
+	private final BCryptPasswordEncoder bcryptPasswordEncoder;
 	
 	@PreAuthorize("principal.username == #userId") 
  	@GetMapping("/myInfoForm")  //내 개인정보 변경폼
@@ -60,7 +52,7 @@ public class MypageController {
 
 		log.info("/mypage/myInfoForm");
 		
-		model.addAttribute("myInfo", mypageService.getMyInfo(userId));
+		model.addAttribute("myInfo", adminService.getUserForm(userId));
 		
 		return "mypage/myInfoForm";
 	} 
@@ -79,7 +71,10 @@ public class MypageController {
 			
 			MemberVO authMemberVO = memberService.readMembers(userId);
 			
-			commonService.setAuthentication(authMemberVO, false);//다시 인증 처리
+			if(commonService.setAuthentication(authMemberVO) == false){//다시 인증 처리
+				rttr.addFlashAttribute("errormsg", "다시 로그인 해주세요."); 
+				return "redirect:/commonLogin";
+			}
 			
 			rttr.addFlashAttribute("update", "complete");
 			
@@ -324,19 +319,16 @@ public class MypageController {
 	}
 	
 	@PreAuthorize("principal.username == #userId")  
-	@PostMapping("/myWithdrawal")  
-	public String myWithdrawal(@RequestParam("userId") String userId, Model model,
-		HttpServletRequest request, HttpServletResponse response, Authentication authentication) {//탈퇴 하기 메소드
+	@PostMapping("/myWithdrawal")  //탈퇴
+	public String myWithdrawal(@RequestParam("userId") String userId, Model model, HttpServletRequest request) {
 		
 			log.info("/mypage/myWithdrawal");
 			
-			if(mypageService.myWithdrawal(userId)) {//db에서 회원탈퇴 처리가 되었다면 로그아웃 처리 하기
+			if(mypageService.myWithdrawal(userId)) {
 				
-					commonService.logout(request, response, authentication);
+					request.getSession().invalidate();
 					
-					log.info("/logout");
-					
-					return "redirect:/socialLogin";
+					return "redirect:/commonLogin";
 				
 			}else {
 				
@@ -346,8 +338,8 @@ public class MypageController {
 			}
 	}
 	
-	@PreAuthorize("principal.username == #userId and hasRole('ROLE_SUPER')")
- 	@GetMapping("/rePasswordForm")//슈퍼관리자의 경우만 패스워드 변경폼을 가져올 수 있다.
+	@PreAuthorize("principal.username == #userId")
+ 	@GetMapping("/rePasswordForm")
 	public String rePasswordForm(@RequestParam("userId") String userId) {
 		
 		log.info("/mypage/rePasswordForm");
@@ -355,7 +347,7 @@ public class MypageController {
 		return "mypage/myRepasswordForm";
 	}
 	
-	@PreAuthorize("principal.username == #vo.userId and hasRole('ROLE_SUPER')")
+	@PreAuthorize("principal.username == #vo.userId") 
 	@PostMapping(value = "/checkPassword", consumes = "application/json", produces = "text/plain; charset=UTF-8")
 	@ResponseBody
 	public ResponseEntity<String> checkPassword(@RequestBody checkPwVO vo) {
@@ -371,7 +363,7 @@ public class MypageController {
 			
 		}else {
 			
-			if(!pwencoder.matches(vo.getUserPw(), myPassword)) {
+			if(!bcryptPasswordEncoder.matches(vo.getUserPw(), myPassword)) {
 				
 				return new ResponseEntity<>("fail", HttpStatus.OK);
 				
@@ -382,14 +374,14 @@ public class MypageController {
 		}
 	}
 	
-	@PreAuthorize("principal.username == #vo.userId and hasRole('ROLE_SUPER')")
+	@PreAuthorize("principal.username == #vo.userId")
 	@PostMapping(value = "/changeMyPassword", consumes = "application/json", produces = "text/plain; charset=UTF-8")
 	@ResponseBody
 	public ResponseEntity<String> changeMyPassword(@RequestBody checkPwVO vo) {
 		
 		log.info("/mypage/changeMyPassword");
 
-		String encodedPw = pwencoder.encode(vo.getUserPw());
+		String encodedPw = bcryptPasswordEncoder.encode(vo.getUserPw());
 		
 		if(encodedPw == null) {
 			

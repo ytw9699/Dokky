@@ -1,10 +1,12 @@
+/*
+- 마지막 업데이트 2022-06-02
+*/
 package org.my.service;
 	import java.util.ArrayList;
 	import java.util.Iterator;
 	import java.util.List;
-	import javax.servlet.http.Cookie;
 	import javax.servlet.http.HttpServletRequest;
-	import javax.servlet.http.HttpServletResponse;
+	import javax.servlet.http.HttpSession;
 	import org.my.domain.AuthVO;
 	import org.my.domain.BoardVO;
 	import org.my.domain.Criteria;
@@ -20,6 +22,7 @@ package org.my.service;
 	import org.springframework.security.core.GrantedAuthority;
 	import org.springframework.security.core.authority.SimpleGrantedAuthority;
 	import org.springframework.security.core.context.SecurityContextHolder;
+	import org.springframework.security.web.savedrequest.SavedRequest;
 	import org.springframework.stereotype.Service;
 	import org.springframework.transaction.annotation.Transactional;
 	import lombok.Setter;
@@ -33,22 +36,76 @@ public class CommonServiceImpl implements CommonService {
 	private CommonMapper mapper;
 	
 	@Override 
-	public void logout(HttpServletRequest request, HttpServletResponse response, Authentication authentication) {  
+	public boolean setAuthentication(MemberVO memberVO){  
 		
-		log.info("/logout"); 
-		
-		if(authentication != null) {
-			//log.info(SecurityContextHolder.getContext().getAuthentication().getPrincipal());
-			SecurityContextHolder.getContext().setAuthentication(null);//인증 풀기
+		log.info("setAuthentication");
+			
+		try {    
+			  
+			List<AuthVO> AuthList = memberVO.getAuthList();//사용자의 권한 정보만 list로 가져온다
+			
+			List<GrantedAuthority> roles = new ArrayList<>(1);// 인증해줄 권한 리스트를 만든다
+			
+			Iterator<AuthVO> it = AuthList.iterator();
+			
+			while (it.hasNext()) {
+				AuthVO authVO = it.next(); 
+				roles.add(new SimpleGrantedAuthority(authVO.getAuth()));
+	        }
+
+			Authentication auth = new UsernamePasswordAuthenticationToken(new CustomUser(memberVO), null, roles);
+			
+			SecurityContextHolder.getContext().setAuthentication(auth);
+			
+				
+		}catch(Exception e) {
+			
+				e.printStackTrace();
+				
+			    return false;
 		}
 		
-		request.getSession().invalidate();//세션무효화
-
-		Cookie JSESSIONID = new Cookie("JSESSIONID", null);
-
-		JSESSIONID.setMaxAge(0);
-
-		response.addCookie(JSESSIONID);//쿠키 삭제
+		return true;
+	}
+	
+	@Override
+	public String CustomAuthLoginSuccessHandler(String profileId, HttpServletRequest request){
+		
+		log.info("CustomAuthLoginSuccessHandler");
+		
+		updateLoginDate(profileId);
+		
+		HttpSession session = request.getSession();
+		
+		if (session != null) {
+			
+			session.setAttribute("userId", profileId);//웹소켓이 끊겼을때 사용하기 위해 세션에 저장해둔다.
+            
+			String preUrl = (String)session.getAttribute("preUrl");
+          
+            String securitySavedUrl = null;
+            
+            SavedRequest saveRequest = (SavedRequest)session.getAttribute("SPRING_SECURITY_SAVED_REQUEST");
+			 
+			if(saveRequest != null) {
+				 securitySavedUrl = saveRequest.getRedirectUrl();
+			}
+            
+			if(securitySavedUrl != null) {
+				 
+				 session.removeAttribute("SPRING_SECURITY_SAVED_REQUEST");
+				 session.removeAttribute("preUrl");
+				 return securitySavedUrl;
+			
+			 }else if (preUrl != null) {
+              	 
+                 session.removeAttribute("preUrl");
+                 return preUrl;
+                 
+            }
+        }
+		
+		return "/main";
 	}
 	
 	@Override
@@ -255,63 +312,6 @@ public class CommonServiceImpl implements CommonService {
 		log.info("getEnabled : " + userId); 
 		
 		return mapper.getEnabled(userId);
-	}
-	
-	@Override 
-	public boolean setAuthentication(MemberVO memberVO, boolean checkAuth){  
-		
-		log.info("setAuthentication");
-		
-		List<AuthVO> AuthList = memberVO.getAuthList();//사용자의 권한 정보만 list로 가져온다
-		
-		List<GrantedAuthority> roles = new ArrayList<>(1);// 인증해줄 권한 리스트를 만든다
-		
-		Iterator<AuthVO> it = AuthList.iterator();
-		
-		if(checkAuth == false) {//권한 체크를 안한다면
-			
-			while (it.hasNext()) {
-				AuthVO authVO = it.next(); 
-				roles.add(new SimpleGrantedAuthority(authVO.getAuth()));// 가져온 사용자의 권한을 리스트에 담아준다
-	        }
-			
-		}else{//권한 체크를 한다면
-			
-			while (it.hasNext()) {
-				
-				AuthVO authVO = it.next(); 
-				
-				String auth = authVO.getAuth();
-				
-				if(auth.equals("ROLE_LIMIT")) {
-					return false; 
-				}
-				
-				roles.add(new SimpleGrantedAuthority(auth));// 가져온 사용자의 권한을 리스트에 담아준다
-	        }
-		}
-
-		Authentication auth = new UsernamePasswordAuthenticationToken(new CustomUser(memberVO), null, roles);//사용자의 인증객체를 만든다
-		
-		SecurityContextHolder.getContext().setAuthentication(auth);//Authentication 인증객체를 SecurityContext에 보관
-		
-		return true;
-	}
-	
-	@Override 
-	public String getAccessKey() {
-		
-		log.info("getAccessKey");
-		
-		return mapper.getAccessKey();
-	}
-	
-	@Override 
-	public String getSecretKey() {
-		
-		log.info("getSecretKey");
-		
-		return mapper.getSecretKey();
 	}
 	
 	@Override 

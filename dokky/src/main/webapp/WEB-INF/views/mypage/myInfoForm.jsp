@@ -121,15 +121,9 @@
 	     		</tr>
 	     		<tr>
 	     			<td class="tableText">
-	     				계정상태
+	     				부여 권한
 	     			</td> 
-	     			<td class="tableValue"> 
-					    <sec:authorize access="hasAnyRole('ROLE_ADMIN','ROLE_USER','ROLE_SUPER')">
-					  		정상 
-					    </sec:authorize>
-					    <sec:authorize access="hasRole('ROLE_STOP')">
-							모든 쓰기 제한
-					    </sec:authorize>	     		
+	     			<td id="authState" class="tableValue"> 
 	     			</td>
 	     		</tr>
 	     		<tr>
@@ -156,6 +150,46 @@
 </div> 
 <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
 	<script>
+	
+	var updateAuthState = function(status){
+		
+		var authState = "";
+		var count = 0;
+		
+		<c:forEach items="${myInfo.authList}" var="AuthVO">
+			<c:choose>
+				<c:when test="${AuthVO.auth == 'ROLE_USER'}">
+						if(count > 0){
+							authState += ", 일반 유저";
+						}else{
+							authState += "일반 유저";	
+						}
+						count++;
+				</c:when>
+					<c:when test="${AuthVO.auth == 'ROLE_ADMIN'}">
+						if(count > 0){
+							authState += ", 일반 관리자";
+						}else{
+							authState += "일반 관리자";	
+						}
+						count++;
+				</c:when>
+				<c:when test="${AuthVO.auth == 'ROLE_SUPER'}">
+						if(count > 0){
+							authState += ", 슈퍼 관리자";
+						}else{
+							authState += "슈퍼 관리자";	
+						}
+						count++;
+				</c:when>
+			</c:choose>  
+		</c:forEach> 
+		
+		$("#authState").html(authState);
+   	}
+	
+	updateAuthState();
+	
 	function checkLength(obj, maxByte) { 
 		 
 		if(obj.tagName === "INPUT" || obj.tagName === "TEXTAREA"){ 

@@ -12,6 +12,8 @@
 		http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd
 		http://www.springframework.org/schema/context http://www.springframework.org/schema/context/spring-context.xsd">
 
+<!-- 마지막 업데이트 2022 05-31 -->
+
 	<!-- DispatcherServlet Context: defines this servlet's request-processing infrastructure -->
 	
 	<!-- Enables the Spring MVC @Controller programming model -->
@@ -37,8 +39,25 @@
 	<!-- 스프링에서 업로드 처리 : multipartResolver 라는 타입의 객체를 빈으로 등록해야 가능하다. -->
 	</beans:bean>
 	
+	<mvc:interceptors>
+		<!-- 지정경로 설정 -->
+		<mvc:interceptor>
+				<mvc:mapping path="/board/get/**"/>
+				<mvc:mapping path="/board/list/**"/>
+				<mvc:mapping path="/board/allList/**"/>
+				<!-- <mvc:mapping path="/board/registerForm/**"/>
+				<mvc:mapping path="/userBoardList/**"/>
+				<mvc:mapping path="/userReplylist/**"/>
+				<mvc:mapping path="/admin/userList/**"/>
+				<mvc:mapping path="/admin/cashRequestList/**"/>
+				<mvc:mapping path="/admin/userReportList/**"/> -->
+			<beans:bean id ="preUrlInterceptor" class="org.my.utils.preUrlInterceptor"/>
+		</mvc:interceptor>
+	</mvc:interceptors>
+	
+	
 	<context:component-scan base-package="org.my.controller" />
-	<context:component-scan base-package="org.my.exception" />
+	<!-- <context:component-scan base-package="org.my.exception" /> CommonExceptionAdvice 예외처리하려면 스캔해야함 -->
 	
 	<security:global-method-security pre-post-annotations="enabled" secured-annotations="enabled" />
 		<!-- 어노테이션을 이용하는 스프링 시큐리티 설정 / 어노테이션은 기본으로 ’disabled’되어 있으므로 enabled'로 설정 -->

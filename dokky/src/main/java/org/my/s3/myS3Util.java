@@ -1,3 +1,6 @@
+/*
+- 마지막 업데이트 2022-06-12
+*/
 package org.my.s3;
 	import java.awt.Graphics2D;
 	import java.awt.image.BufferedImage;
@@ -6,8 +9,8 @@ package org.my.s3;
 	import java.io.File;
 	import java.io.FileNotFoundException;
 	import java.io.IOException;
-import java.io.InputStream;
-import java.io.OutputStream;
+	import java.io.InputStream;
+	import java.io.OutputStream;
 	import java.net.URLEncoder;
 	import java.text.SimpleDateFormat;
 	import java.util.Calendar;
@@ -18,11 +21,9 @@ import java.io.OutputStream;
 	import javax.servlet.http.HttpServletRequest;
 	import javax.servlet.http.HttpServletResponse;
 	import org.my.domain.AttachFileDTO;
-	import org.my.service.CommonService;
 	import org.springframework.stereotype.Component;
 	import org.springframework.web.multipart.MultipartFile;
 	import com.amazonaws.AmazonServiceException;
-	import com.amazonaws.auth.AWSCredentials;
 	import com.amazonaws.auth.AWSStaticCredentialsProvider;
 	import com.amazonaws.auth.BasicAWSCredentials;
 	import com.amazonaws.regions.Regions;
@@ -39,55 +40,40 @@ import java.io.OutputStream;
 @Log4j
 @Component
 public class myS3Util { 
-	
-	private static final String bucket_name = "dokky2-bucket";//자신의 S3 버킷 이름을 입력하세요
-	private static final String ACCESS_KEY = "";//자신의 S3 ACCESS_KEY를 입력하세요
-	private static final String SECRET_KEY = "";//자신의 S3 SECRET_KEY를 입력하세요
-	
-	String folder_name;
-	AmazonS3 s3;
-	
-    //private AmazonS3 amazonS3;
-	 
-	public myS3Util() {
-		
-				 s3 = AmazonS3ClientBuilder.
-						 		 standard().
-		 withRegion(Regions.AP_NORTHEAST_2).
-									build();
-	}
-	    
-    public myS3Util(CommonService commonService) {
+
+	private String bucket_name;
+	private String access_key;
+	private String secret_key;
+			String folder_name;
+			AmazonS3 s3;
+			
+    public myS3Util(String bucket_name, String access_key, String secret_key, String environment) {
     	
-    	AWSCredentials awsCredentials;
+    	this.bucket_name = bucket_name;
+    	this.access_key = access_key;
+    	this.secret_key = secret_key;
     	
-    	String accessKey = commonService.getAccessKey();
-		
-		String secretKey = commonService.getSecretKey();
-    	
-    	if(accessKey == null || secretKey == null) {
+    	if(environment.equals("operation")) {
     		
-    		 awsCredentials = new BasicAWSCredentials(ACCESS_KEY, SECRET_KEY);//직접 입력한 키로 인증 객체를 생성한다.
-    		 
-    	}else {
+    		 s3 = AmazonS3ClientBuilder.standard().withRegion(Regions.AP_NORTHEAST_2).build();
     		
-    		 awsCredentials = new BasicAWSCredentials(accessKey, secretKey);//디비에서 가져온 키로 인증 객체를 생성한다.
-    	}
-		 
-		s3  = AmazonS3ClientBuilder.standard().
+    	}else if(environment.equals("development")){
+    		
+    		s3  = AmazonS3ClientBuilder.standard().
 	                withRegion(Regions.AP_NORTHEAST_2).
-	                withCredentials(new AWSStaticCredentialsProvider(awsCredentials)).
+	                withCredentials(new AWSStaticCredentialsProvider(new BasicAWSCredentials(access_key, secret_key))).
 				    build();
+    	}
     }
 	
 	public AttachFileDTO upload(InputStream inputStream, MultipartFile multipartFile,
 						String fileName, String uploadKind) throws FileNotFoundException {//사진 및 파일 업로드
 			
-			createFolder();
+			createFolder();//folder_name 값도 만들어줌
 			
 			AttachFileDTO attachDTO = new AttachFileDTO();
 			
-			fileName = fileName.substring(fileName.lastIndexOf("\\") + 1);//ie의경우 짤라줌
+			fileName = fileName.substring(fileName.lastIndexOf("\\") + 1);//ie의 경우 짤라줌
 			
 			attachDTO.setFileName(fileName);//오리지날 이름 저장
 			
@@ -128,6 +114,7 @@ public class myS3Util {
 					g.drawImage(originalImg, 0, 0, width, height, null);
 					
 					ImageIO.write(thumbnailImg, "jpg", thumbnailFile);
+
 				} 
 				
 				catch (Exception e) { 

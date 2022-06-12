@@ -55,6 +55,8 @@ public interface MypageMapper {
 	public int getMyCashHistoryCount(String userId);
 	
 	public int updateEnabled(String userId);
+	
+	public int deleteRememberMeToken(String userId);
 
 	public String getMemberPW(String userId);
 	

@@ -9,8 +9,8 @@
 	<version>1.0.0-BUILD-SNAPSHOT</version>
 	<properties>
 		<java-version>1.8</java-version>
-		<org.springframework-version>5.2.4.RELEASE</org.springframework-version>
-		<org.aspectj-version>1.6.10</org.aspectj-version>
+		<org.springframework-version>5.0.7.RELEASE</org.springframework-version>
+		<org.aspectj-version>1.6.10</org.aspectj-version> <!-- 스프링의 AOP는 AspectJ 라는 라이브러리의 도움을 많이 받는다.-->
 		<org.slf4j-version>1.6.6</org.slf4j-version>
 	</properties>
 	<dependencies>
@@ -106,6 +106,14 @@
 			    <artifactId>spring-security-taglibs</artifactId>
 			    <version>5.0.13.RELEASE</version>
 			</dependency>
+			
+			<!-- https://mvnrepository.com/artifact/org.springframework.security/spring-security-test -->
+			<dependency>
+			    <groupId>org.springframework.security</groupId>
+			    <artifactId>spring-security-test</artifactId>
+			    <version>5.0.13.RELEASE</version>
+			    <scope>test</scope>
+			</dependency>
 		<!-- 시큐리티  -->
 	
 		<!-- 스케쥴링 -->
@@ -176,11 +184,18 @@
 		</dependency>
 				
 		<!-- AspectJ -->
+		<!-- AOP 설정과 관련해서 가장 중요한 라이브러리,-->
 		<dependency>
 			<groupId>org.aspectj</groupId>
 			<artifactId>aspectjrt</artifactId>
 			<version>${org.aspectj-version}</version>
 		</dependency>	
+		<!-- 스프링은 AOP 처리가 된 객체를 생성할 때 AspectJ Weaver 라이브러리의 도움을 받아서 동작  -->
+		<dependency>
+			<groupId>org.aspectj</groupId>
+			<artifactId>aspectjweaver</artifactId>
+			<version>${org.aspectj-version}</version>
+		</dependency>
 		
 		<!-- Logging -->
 		<dependency>
@@ -215,7 +230,7 @@
 		</dependency>
 			
 		<!-- Servlet -->
-		<!-- 3.0이상 버젼은 자바설정이용에 더좋음, 업로드도 이것으로 사용  -->
+		<!-- 3.0이상 버젼은 자바설정이용에 더좋고, 자체적인 파일 업로드 처리가 API 상에서 지원하니 이것으로 사용한다. -->
 			<dependency>
 			  <groupId>javax.servlet</groupId>
 			  <artifactId>javax.servlet-api</artifactId>
@@ -243,6 +258,13 @@
 			<scope>test</scope>
 		</dependency> 
 		
+		<!-- https://mvnrepository.com/artifact/org.apache.tomcat.embed/tomcat-embed-websocket -->
+		<dependency>
+		    <groupId>org.apache.tomcat.embed</groupId>
+		    <artifactId>tomcat-embed-websocket</artifactId>
+		    <version>9.0.16</version>
+		</dependency>
+				
 		<dependency>
 	      <groupId>org.springframework</groupId>
 	      <artifactId>spring-test</artifactId>
@@ -290,7 +312,7 @@
 		  <version>1.3.2</version>
 		</dependency>
 		<!-- 이것은 SQL을 변환해서 PreparedStatement에 사용된 '?’가 어떤 값으로 처리되었는지 확인하는 기능 -->
-		<dependency><!-- db관련 로그를 정확히 찍어보기 위해 필요 -->
+		<dependency><!-- db관련 로그를 정확히 찍어보기 위해 필요 이곳 버전을 바꾸지 말도록 주의 오래된 것이라 호환 잘 안됨-->
 		  <groupId>org.bgee.log4jdbc-log4j2</groupId>
 		  <artifactId>log4jdbc-log4j2-jdbc4</artifactId>
 		  <version>1.16</version>
@@ -318,6 +340,18 @@
 	    <version>1.11.267</version>
 	</dependency> -->
 	
+	<dependency>   
+		<groupId>org.jsoup</groupId>  
+	 	<artifactId>jsoup</artifactId>
+	 	<version>1.11.3</version> 
+	</dependency>
+	
+	<!-- <dependency>
+			<groupId>org.apache.commons</groupId>
+			<artifactId>commons-lang3</artifactId>
+			<version>3.8.1</version> 
+	</dependency> -->
+
 	<!-- aws s3 관련 sdk -->
 	<dependency>
 	    <groupId>com.amazonaws</groupId>
@@ -378,12 +412,10 @@
 		        <artifactId>tomcat-maven-plugin</artifactId>
 		        <version>1.1</version>
 		        <configuration>
-    				<url>http://13.125.253.147:8080/manager/text</url>
-		            <!-- <url>http://52.79.82.204:8080/manager/text</url> -->
+    				<url></url>
 		            <path>/</path>
-		            <!-- <path>/dokky</path> -->
-		            <username>admin</username>
-		            <password>dokky</password>
+		            <username></username>
+		            <password></password>
 		        </configuration>	
 		    </plugin>
         </plugins>

@@ -14,7 +14,6 @@ package org.my.controller;
 	import org.my.domain.commonVO;
 	import org.my.security.domain.CustomUser;
 	import org.my.service.ChatService;
-	import org.springframework.beans.factory.annotation.Autowired;
 	import org.springframework.http.HttpStatus;
 	import org.springframework.http.MediaType;
 	import org.springframework.http.ResponseEntity;
@@ -30,15 +29,15 @@ package org.my.controller;
 	import org.springframework.web.bind.annotation.RequestMethod;
 	import org.springframework.web.bind.annotation.RequestParam;
 	import org.springframework.web.bind.annotation.ResponseBody;
-	import lombok.Setter;
+	import lombok.RequiredArgsConstructor;
 	import lombok.extern.log4j.Log4j;
 
 @Log4j
+@RequiredArgsConstructor
 @Controller
 public class ChatController {
 	
-	@Setter(onMethod_ = @Autowired)
-	private ChatService chatService;
+	private final ChatService chatService;
 	
 	@PreAuthorize("principal.username == #vo.chatRoomVO.roomOwnerId")
 	@ResponseBody
@@ -92,6 +91,7 @@ public class ChatController {
 		 }
 	}
 	
+	@PreAuthorize("hasRole('ROLE_USER')")
 	@ResponseBody
 	@PostMapping(value = "/createMultiChat", consumes = "application/json", produces = "text/plain; charset=UTF-8")
 	public ResponseEntity<String> createMultiChat(@RequestBody commonVO vo) throws IOException{
@@ -199,7 +199,7 @@ public class ChatController {
 		}
 	}
 	
-	@PreAuthorize("hasAnyRole('ROLE_ADMIN','ROLE_USER','ROLE_SUPER')")
+	@PreAuthorize("hasRole('ROLE_USER')")
 	@ResponseBody
 	@GetMapping(value = "/getChatUserList", produces = { MediaType.APPLICATION_JSON_UTF8_VALUE })
 	public ResponseEntity<List<MemberVO>> getChatUserList(@RequestParam(value = "keyword", required = false )String keyword, Authentication authentication) {
@@ -236,7 +236,7 @@ public class ChatController {
 				: new ResponseEntity<>(HttpStatus.INTERNAL_SERVER_ERROR);
 	}
 	
-	@PreAuthorize("hasAnyRole('ROLE_ADMIN','ROLE_USER','ROLE_SUPER')")
+	@PreAuthorize("hasRole('ROLE_USER')")
 	@ResponseBody
 	@GetMapping(value = "/getChatInviteList", produces = { MediaType.APPLICATION_JSON_UTF8_VALUE })
 	public ResponseEntity<List<MemberVO>> getChatInviteList(@RequestParam("chatRoomNum") Long chatRoomNum, @RequestParam(value = "keyword", required = false )String keyword){
@@ -257,7 +257,7 @@ public class ChatController {
 		}
 	}
 	
-	@PreAuthorize("isAuthenticated()")
+	@PreAuthorize("hasRole('ROLE_USER')")
 	@ResponseBody
 	@PostMapping(value = "/inviteChatMembers", consumes = "application/json", produces = "text/plain; charset=UTF-8")
 	public ResponseEntity<String> inviteChatMembers(@RequestBody commonVO vo) throws IOException{
@@ -272,6 +272,7 @@ public class ChatController {
 					: new ResponseEntity<>(HttpStatus.INTERNAL_SERVER_ERROR);
 	}
 	
+	@PreAuthorize("hasRole('ROLE_USER')")
 	@GetMapping(value = "/chat_type", produces = MediaType.APPLICATION_JSON_UTF8_VALUE)
 	@ResponseBody
 	public ResponseEntity<String> getChat_type(Long chatRoomNum) {
@@ -294,7 +295,7 @@ public class ChatController {
 		}
 	}
 	
-	@PreAuthorize("hasAnyRole('ROLE_ADMIN','ROLE_USER','ROLE_SUPER')")
+	@PreAuthorize("hasRole('ROLE_USER')")
 	@ResponseBody
 	@GetMapping(value = "/getChatRoomMembers", produces = { MediaType.APPLICATION_JSON_UTF8_VALUE })
 	public ResponseEntity<List<ChatMemberVO>> getChatRoomMembers(Long chatRoomNum) {

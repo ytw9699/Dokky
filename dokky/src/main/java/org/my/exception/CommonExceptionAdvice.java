@@ -1,35 +1,76 @@
 package org.my.exception;
 	import org.springframework.http.HttpStatus;
+	import org.springframework.jdbc.BadSqlGrammarException;
 	import org.springframework.ui.Model;
 	import org.springframework.web.bind.annotation.ControllerAdvice;
 	import org.springframework.web.bind.annotation.ExceptionHandler;
 	import org.springframework.web.bind.annotation.ResponseStatus;
 	import org.springframework.web.servlet.NoHandlerFoundException;
+	import lombok.RequiredArgsConstructor;
 	import lombok.extern.log4j.Log4j;
-
-@ControllerAdvice//@ControllerAdvice는 해당 객체가 스프링의 컨트롤러에서 발생하는 예외를 처리하는 존재임을 명시하는 용도로 사용
+	import org.springframework.security.access.AccessDeniedException;
+	import org.springframework.validation.BindException;
+	
+@RequiredArgsConstructor
+@ControllerAdvice
 @Log4j
 public class CommonExceptionAdvice {
+	
+	@ExceptionHandler(NoHandlerFoundException.class)
+	@ResponseStatus(HttpStatus.NOT_FOUND) 
+	public String handleNoHandlerFoundException(NoHandlerFoundException ex, Model model) {
+		
+		log.error("handleNoHandlerFoundException .......");
+		ex.printStackTrace();
+		
+		model.addAttribute("message", "해당 URL은 존재하지 않습니다.");
 
-	@ExceptionHandler(Exception.class)//ExceptionHandler는 해당 메서드가 () 들어가는 예외 타입을 처리한다는 것을 의미, 지금 설정은 모든예외에 대한 처리가 except()만을 이용해서 처리
-	//@ResponseStatus(아무코드를 지정안하면 200이 날라가게된다..)
-	public String except(Exception ex, Model model) {
-
-		log.error("Exception ......." + ex.getMessage());
-		
-		model.addAttribute("exception", ex);
-		
-		log.error(model);
-		
-		return "error/errorPage";  
-		
+		return "error/commonError";
 	}
+	
+	@ExceptionHandler(BindException.class)
+	@ResponseStatus(HttpStatus.BAD_REQUEST) 
+	public String handleBindException(BindException ex, Model model) {
+		
+		log.error("handleBindException .......");
+		ex.printStackTrace();
+	
+		model.addAttribute("message", "잘못된 요청입니다.");
 
-	@ExceptionHandler(NoHandlerFoundException.class)//잘못된 URL을 호출할 때 보이는 404 에러 메시지의 경우는 위와는 조금 다르게 처리하는 것이 좋다.
-	@ResponseStatus(HttpStatus.NOT_FOUND) //404코드를 강제로 지정해주는것
-	public String handle404(NoHandlerFoundException ex) {
-
-		return "error/404errorPage";
+		return "error/commonError";  
 	}
+	
+	@ExceptionHandler(BadSqlGrammarException.class)
+	@ResponseStatus(HttpStatus.INTERNAL_SERVER_ERROR) 
+	public String handleBadSqlGrammarException(BadSqlGrammarException ex, Model model) {
+		
+		log.error("handleBadSqlGrammarException .......");
+		ex.printStackTrace();
+	
+		model.addAttribute("message", "서버 에러 입니다.");
 
+		return "error/commonError";  
+	}
+	
+	@ExceptionHandler(AccessDeniedException.class)//AccessDeniedExceptiond은 CustomAccessDeniedHandler에서 예외 처리하는중이니 시큐리티에게 던지자.
+	public void handleAccessDeniedException(AccessDeniedException ex) throws AccessDeniedException {
+		
+		log.error("handleAccessDeniedException .......");
+		ex.printStackTrace();
+		
+		throw ex;
+	}
+	
+	@ExceptionHandler(Exception.class)
+	@ResponseStatus(HttpStatus.INTERNAL_SERVER_ERROR) 
+	public String handleException(Exception ex, Model model) {
+		
+		log.error("handleException .......");
+		ex.printStackTrace();
+	
+		model.addAttribute("message", "서버 에러 입니다.");
+
+		return "error/commonError";  
+	}
 }
+

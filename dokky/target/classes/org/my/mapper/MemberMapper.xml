@@ -22,6 +22,7 @@
 	    <result property="userPw" column="userpw"/>
 	    <result property="nickName" column="nickname"/>
 	    <result property="enabled" column="enabled" />
+	    <result property="accountNonLocked" column="accountnonlocked" />
     <collection property="authList" resultMap="authMap"></collection> 
   </resultMap>
 	<!--    회원 정보는 MemberVO 하나이고，AuthVO는 2개가 되어야 하는
@@ -37,16 +38,12 @@
 		 					   member_num,
 		 					   userid,
 		 					   userpw,
-		 					   nickName,
-		 					   bankname, 
-		 					   account
+		 					   nickName
 		 					   ) values(
 		 					   			seq_dk_member.nextval,
 		 					   			#{userId},
  					   				    #{userPw},
- 					   				    #{nickName},
- 					   				    #{bankName},
- 					   				    #{account}
+ 					   				    #{nickName}
 					   				   )
 	 </insert>
 	 
@@ -56,7 +53,7 @@
 	 
 	  <select id="readMembers" resultMap="memberMap">
 		SELECT 
-		  mem.userid, userpw, nickname, enabled, auth
+		  mem.userid, userpw, nickname, enabled, accountNonLocked, auth
 		FROM 
 		  dk_member mem LEFT OUTER JOIN dk_member_auth auth on mem.userid = auth.userid 
 		WHERE mem.userid = #{userId} 
@@ -65,8 +62,6 @@
 	 <!-- 재 회원가입 -->
      <update id="reRegisterMembers">
 			update dk_member set nickName= #{nickName},
-								 bankname= #{bankName},
-								 account=#{account},
 								 regDate = sysdate,
 								 preLoginDate = sysdate,
 								 lastLoginDate = sysdate,

@@ -1,3 +1,6 @@
+/*
+- 마지막 업데이트 2022-05-24
+*/
 package org.my.service;
 	import java.util.List;
 	import org.my.domain.Criteria;
@@ -82,54 +85,54 @@ public class AdminServiceImpl implements AdminService {
 	
 	@Transactional
 	@Override
-	public int updateRoleLimit(String userId, alarmVO vo) {
+	public int limitLogin(String userId, alarmVO vo) {
 		
 		log.info("insertAlarm");
 		
 		commonMapper.insertAlarm(vo);
 		
-		log.info("updateRoleLimit :"+userId);
-		
-		return adminMapper.updateRoleLimit(userId);
+		log.info("limitLogin :"+userId);
+		 
+		return adminMapper.updateAccountNonLocked(userId, 0);
 	}
 	
 	@Transactional
 	@Override
-	public int updateRoleStop(String userId,alarmVO vo) {
+	public int permitLogin(String userId, alarmVO vo) {
 		
 		log.info("insertAlarm");
 		
 		commonMapper.insertAlarm(vo);
 		
-		log.info("updateRoleStop :"+userId);
-		
-		return adminMapper.updateRoleStop(userId);
+		log.info("limitLogin :"+userId);
+		 
+		return adminMapper.updateAccountNonLocked(userId, 1);
 	}
 	
 	@Transactional
 	@Override
-	public int updateRoleUser(String userId, alarmVO vo) {
+	public int insertRole(String userId, String role, alarmVO vo) {
 		
 		log.info("insertAlarm");
 		
 		commonMapper.insertAlarm(vo);
 		
-		log.info("updateRoleUser :"+userId);
+		log.info("insertRole :"+userId);
 		
-		return adminMapper.updateRoleUser(userId);
+		return adminMapper.insertRole(userId, role);
 	}
 	
 	@Transactional
 	@Override
-	public int updateRoleAdmin(String userId, alarmVO vo) {
+	public int deleteRole(String userId, String role, alarmVO vo) {
 		
 		log.info("insertAlarm");
 		
 		commonMapper.insertAlarm(vo);
 		
-		log.info("updateRoleAdmin : "+userId);
+		log.info("deleteRole :"+userId);
 		
-		return adminMapper.updateRoleAdmin(userId);
+		return adminMapper.deleteRole(userId, role);
 	}
 	
 	@Transactional

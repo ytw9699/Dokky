@@ -1,18 +1,14 @@
 package org.my.service;
 	import java.util.List;
 	import javax.servlet.http.HttpServletRequest;
-	import javax.servlet.http.HttpServletResponse;
 	import org.my.domain.BoardVO;
 	import org.my.domain.Criteria;
 	import org.my.domain.MemberVO;
 	import org.my.domain.VisitCountVO;
 	import org.my.domain.alarmVO;
 	import org.my.domain.noteVO;
-	import org.springframework.security.core.Authentication;
 
 public interface CommonService {
-	
-	public void logout(HttpServletRequest request, HttpServletResponse response, Authentication authentication);
 	
 	public List<BoardVO> getRealtimeBoardList();
 
@@ -72,11 +68,7 @@ public interface CommonService {
 	
 	public int getEnabled(String userId);
 	
-	public boolean setAuthentication(MemberVO memberVO, boolean checkAuth);  
-	
-	public String getAccessKey();
-
-	public String getSecretKey();
+	public boolean setAuthentication(MemberVO memberVO);  
 	
 	public int getFromNoteCount(Criteria cri);
 
@@ -85,5 +77,7 @@ public interface CommonService {
 	public int getMyNoteCount(Criteria cri);
 	
 	public int insertNote(noteVO note);
+	
+	public String CustomAuthLoginSuccessHandler(String profileId, HttpServletRequest request);
 	
 }

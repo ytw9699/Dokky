@@ -7,7 +7,7 @@
 <html>
 <head>
 <meta charset="UTF-8">
-	<title>Dokky - 결제관리</title>  
+	<title>Dokky - 캐시관리</title>  
 <c:choose>
    	  <c:when test="${pageContext.request.serverName == 'localhost'}">
 			<link href="/resources/css/cashRequestList.css" rel="stylesheet" type="text/css"/>
@@ -24,9 +24,9 @@
  <div class="cashRequestWrap">	 
 	 
 	 <div id="menuWrap"> 
-		<div class="tab">      
+		<div class="tab">
 			<button onclick="location.href='/admin/userList'">계정관리</button>
-			<button class="active" onclick="location.href='/admin/cashRequestList'">결제관리</button> 
+			<button class="active" onclick="location.href='/admin/cashRequestList'">캐시관리</button> 
 			<button onclick="location.href='/admin/userReportList'">신고관리</button>
 	    </div>
 	 </div> 
@@ -121,7 +121,6 @@
 		     });
 	 
 			 function approve(commonData, callback, error) {
-				 console.log(commonData); 
 				 
 					$.ajax({
 						type : 'put',
