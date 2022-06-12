@@ -70,10 +70,6 @@ public interface CommonService {
 	
 	public boolean setAuthentication(MemberVO memberVO);  
 	
-	public String getAccessKey();
-
-	public String getSecretKey();
-	
 	public int getFromNoteCount(Criteria cri);
 
 	public int getToNoteCount(Criteria cri);

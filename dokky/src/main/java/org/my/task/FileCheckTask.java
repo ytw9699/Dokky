@@ -1,10 +1,12 @@
+/*
+- 마지막 업데이트 2022-06-12
+*/
 package org.my.task;
 	import java.util.ArrayList;
 	import java.util.List;
 	import org.my.domain.BoardAttachVO;
 	import org.my.mapper.BoardAttachMapper;
 	import org.my.s3.myS3Util;
-	import org.my.service.CommonService;
 	import org.springframework.beans.factory.annotation.Autowired;
 	import org.springframework.scheduling.annotation.Scheduled;
 	import org.springframework.stereotype.Component;
@@ -20,33 +22,14 @@ public class FileCheckTask {//task 작업 처리 ,스케쥴러
 	private BoardAttachMapper attachMapper;
 	
 	@Setter(onMethod_ = @Autowired)
-	private myS3Util s3Util;
-
-	@Setter(onMethod_ = @Autowired)
-	private CommonService commonService;
+	private myS3Util myS3Util;
 	
 	@Scheduled(cron = "0 0 9 * * *")//매일 9시 동작
 	public void checkFiles() throws Exception {
 		
-		boolean type;//파일의 타입
+		log.info("checkFiles"); 
 		
-		myS3Util nowS3Util;
-			
-		String osName = System.getProperty("os.name");
-			
-		//if(request.getServerName().equals("localhost")){//로컬호스트라면
-		if( osName.matches(".*Windows.*")){//윈도우 라면
-			
-			log.info("osName == Windows");//본인의 테스트 환경에 맞는 os로 바꿔주세요
-			
-			nowS3Util = new myS3Util(commonService);
-			
-		}else {
-			
-			log.info("osName != Windows");
-			
-			nowS3Util = s3Util;//ec2의 경우라면 
-		}
+		boolean type;//파일의 타입
 		
 		ArrayList<String> dbUploadList = new ArrayList<String>();//어제 날짜 최종 디비의 업로드 목록
 		
@@ -72,7 +55,7 @@ public class FileCheckTask {//task 작업 처리 ,스케쥴러
             log.info("dbUploadList "+dbUploadList.get(i)); 
         }*/
         
-    	List<S3ObjectSummary> objects = nowS3Util.getObjectsList();//s3의 업로드 목록
+    	List<S3ObjectSummary> objects = myS3Util.getObjectsList();//s3의 업로드 목록
             	
     	for (int i = 1; i < objects.size(); i++) {
     		
@@ -85,7 +68,7 @@ public class FileCheckTask {//task 작업 처리 ,스케쥴러
     			String filename = S3key.substring(S3key.lastIndexOf("/")+1);
             	String path = S3key.substring(0, S3key.lastIndexOf("/"));
             
-            	nowS3Util.deleteObject(path, filename);//삭제를 해준다//즉 디비와 S3의 업로드파일을 동기화시키는것
+            	myS3Util.deleteObject(path, filename);//삭제를 해준다//즉 디비와 S3의 업로드파일을 동기화시키는것
     		}
         }
     	

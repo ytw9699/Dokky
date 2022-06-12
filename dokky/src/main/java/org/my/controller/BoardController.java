@@ -1,5 +1,5 @@
 /*
-- 마지막 업데이트 2022-06-11
+- 마지막 업데이트 2022-06-12
 */
 package org.my.controller;
 	import java.util.List;
@@ -15,7 +15,6 @@ package org.my.controller;
 	import org.my.s3.myS3Util;
 	import org.my.security.domain.CustomUser;
 	import org.my.service.BoardService;
-	import org.my.service.CommonService;
 	import org.my.service.ReplyService;
 	import org.springframework.http.HttpStatus;
 	import org.springframework.http.MediaType;
@@ -44,9 +43,8 @@ package org.my.controller;
 public class BoardController {
 
 	private final BoardService boardService;
-	private final CommonService commonService;
 	private final ReplyService replyService;
-	private final myS3Util s3Util;
+	private final myS3Util myS3Util;
 	
 	@GetMapping("/list")
 	public String getList(Criteria cri, Model model) {
@@ -279,17 +277,6 @@ public class BoardController {
 		    log.info("deleteS3Files........");
 		    log.info(attachList);
 		    
-		    myS3Util nowS3Util;
-			
-			if(request.getServerName().equals("localhost")){
-				
-				nowS3Util = new myS3Util(commonService);
-				
-			}else {
-				
-				nowS3Util = s3Util;
-			}
-		    
 		    attachList.forEach(attach -> {
 		    
 			      String path = attach.getUploadPath();
@@ -297,11 +284,11 @@ public class BoardController {
 		    	
 			      try {    
 			    	  
-			    		if(nowS3Util.deleteObject(path, filename)) {
+			    		if(myS3Util.deleteObject(path, filename)) {
 			    			
 							if (attach.isFileType()) {//만약 이미지파일이었다면
 								
-								nowS3Util.deleteObject(path, "s_"+filename);//썸네일도 삭제
+								myS3Util.deleteObject(path, "s_"+filename);//썸네일도 삭제
 							}
 			    		}
 			    		

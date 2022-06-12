@@ -1,3 +1,6 @@
+/*
+- 마지막 업데이트 2022-06-12
+*/
 package org.my.utils;
 	import java.util.Map;
 	import javax.servlet.http.HttpServletRequest;
@@ -13,7 +16,7 @@ package org.my.utils;
 public class DownloadView extends AbstractView {//AbstractView를 상속
 	
 	@Setter(onMethod_ = @Autowired)
-	private myS3Util s3Util;
+	private myS3Util myS3Util;
 	
 	@Setter(onMethod_ = @Autowired)
 	private CommonService commonService;
@@ -26,15 +29,6 @@ public class DownloadView extends AbstractView {//AbstractView를 상속
 	protected void renderMergedOutputModel(Map<String, Object> model, HttpServletRequest request, HttpServletResponse response)
 			throws Exception {
 		
-		if(request.getServerName().equals("localhost")){//테스트 환경이 로컬호스트라면
-			
-			myS3Util localS3Util = new myS3Util(commonService);
-			
-			localS3Util.fileDownload(request, response, getContentType());
-			
-		}else {
-			
-			s3Util.fileDownload(request, response , getContentType());
-		}
+		myS3Util.fileDownload(request, response , getContentType());
 	}
 }

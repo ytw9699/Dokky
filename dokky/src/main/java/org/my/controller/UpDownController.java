@@ -1,3 +1,6 @@
+/*
+- 마지막 업데이트 2022-06-12
+*/
 package org.my.controller;
 	import java.io.IOException;
 	import java.util.ArrayList;
@@ -5,7 +8,6 @@ package org.my.controller;
 	import javax.servlet.http.HttpServletRequest;
 	import org.my.domain.AttachFileDTO;
 	import org.my.s3.myS3Util;
-	import org.my.service.CommonService;
 	import org.springframework.http.HttpStatus;
 	import org.springframework.http.MediaType;
 	import org.springframework.http.ResponseEntity;
@@ -24,8 +26,7 @@ package org.my.controller;
 @Log4j
 public class UpDownController {
 	
-	private final CommonService commonService;
-	private final myS3Util s3Util;
+	private final myS3Util myS3Util;
 	
 	@PreAuthorize("isAuthenticated()")
 	@PostMapping(value = "/s3upload", produces = MediaType.APPLICATION_JSON_UTF8_VALUE)
@@ -39,22 +40,11 @@ public class UpDownController {
 		
 		List<AttachFileDTO> list = new ArrayList<>();
 		
-		myS3Util nowS3Util;
-		
-		if(request.getServerName().equals("localhost")){
-			
-			nowS3Util = new myS3Util(commonService);
-			
-		}else{
-			
-			nowS3Util = s3Util;
-		}
-		
 		try {
 			
 			for (MultipartFile multipartFile : uploadFile) {
 				
-				result = nowS3Util.upload(multipartFile.getInputStream(), multipartFile, multipartFile.getOriginalFilename(), uploadKind);
+				result = myS3Util.upload(multipartFile.getInputStream(), multipartFile, multipartFile.getOriginalFilename(), uploadKind);
 				
 				list.add(result);
 			}
@@ -73,18 +63,7 @@ public class UpDownController {
 		
 		log.info("/s3Image");
 		
-		myS3Util nowS3Util;
-		
-		if(request.getServerName().equals("localhost")){
-			
-			nowS3Util = new myS3Util(commonService);
-			
-		}else {
-			
-			nowS3Util = s3Util;
-		}
-		
-		ResponseEntity<byte[]> result = new ResponseEntity<>(nowS3Util.downloadImage(path, filename), HttpStatus.OK);
+		ResponseEntity<byte[]> result = new ResponseEntity<>(myS3Util.downloadImage(path, filename), HttpStatus.OK);
 		
 		return result;
 	}
@@ -103,22 +82,11 @@ public class UpDownController {
 		
 		log.info("/s3File: " + path+filename);
 		
-		myS3Util nowS3Util;
-		
-		if(request.getServerName().equals("localhost")){
-			
-			nowS3Util = new myS3Util(commonService);
-			
-		}else {
-			
-			nowS3Util = s3Util;
-		}
-		
-		if(nowS3Util.deleteObject(path, filename)) {
+		if(myS3Util.deleteObject(path, filename)) {
 			
 			if (type.equals("image")) {//만약 이미지파일이었다면
 
-				nowS3Util.deleteObject(path, "s_"+filename);//썸네일도 삭제
+				myS3Util.deleteObject(path, "s_"+filename);//썸네일도 삭제
 			}
 			
 			return new ResponseEntity<String>("success", HttpStatus.OK);
