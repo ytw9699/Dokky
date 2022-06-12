@@ -7,8 +7,8 @@
 		xmlns:mvc="http://www.springframework.org/schema/mvc" 
 		xsi:schemaLocation="http://mybatis.org/schema/mybatis-spring http://mybatis.org/schema/mybatis-spring-1.2.xsd http://www.springframework.org/schema/task http://www.springframework.org/schema/task/spring-task-4.3.xsd http://www.springframework.org/schema/mvc http://www.springframework.org/schema/mvc/spring-mvc-4.3.xsd http://www.springframework.org/schema/beans https://www.springframework.org/schema/beans/spring-beans.xsd http://www.springframework.org/schema/context http://www.springframework.org/schema/context/spring-context-4.3.xsd http://www.springframework.org/schema/tx http://www.springframework.org/schema/tx/spring-tx-4.3.xsd">
 
-	<!-- <context:property-placeholder location="classpath:/properties/auth.properties, classpath:/properties/database.properties, classpath:/properties/aws.properties" /> -->
-	<context:property-placeholder location="classpath:/properties/localAuth.properties, classpath:/properties/database.properties, classpath:/properties/localAws.properties" />
+	<context:property-placeholder location="classpath:/properties/auth.properties, classpath:/properties/database.properties, classpath:/properties/aws.properties" />
+	<!-- <context:property-placeholder location="classpath:/properties/localAuth.properties, classpath:/properties/database.properties, classpath:/properties/localAws.properties" /> -->
 	
 	<bean id="hikariConfig" class="com.zaxxer.hikari.HikariConfig">
 		<property name="driverClassName" value="${db.driverClassName}"/>
@@ -54,7 +54,6 @@
 	<!--  스케쥴러 어노테이션 이용 위해  -->
 	
 	<!--  social outh2 login  -->
-	
  	<bean id="naverClientID" class="java.lang.String">
 	   <constructor-arg value="${auth.naverClientID}" />
     </bean>
@@ -62,6 +61,7 @@
 	<bean id="naverClientSecret" class="java.lang.String">
 		<constructor-arg value="${auth.naverClientSecret}" />
 	</bean>
+	
 	<bean id="naverRedirectUrl" class="java.lang.String">
 		<constructor-arg value="${auth.naverRedirectUrl}" />
 	</bean> 
@@ -74,12 +74,13 @@
 	</bean>
 
 	<bean id="googleClientID" class="java.lang.String">
-		   <constructor-arg value="${auth.googleClientID}" />
-	    </bean>
+	   <constructor-arg value="${auth.googleClientID}" />
+    </bean>
 	    
 	<bean id="googleClientSecret" class="java.lang.String">
 		<constructor-arg value="${auth.googleClientSecret}" />
 	</bean>
+	
 	<bean id="googleRedirectUrl" class="java.lang.String">
 		<constructor-arg value="${auth.googleRedirectUrl}" />
 	</bean>
