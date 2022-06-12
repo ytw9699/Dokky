@@ -330,16 +330,6 @@ create sequence seq_dk_alarm
 drop table dk_alarm purge
 
 
-15.s3 키관리 테이블 -----------------------------------------------------
-create table DK_s3key(
-	
-		accessKey varchar2(50),
-		secretKey varchar2(50)
-)
-	
-insert into DK_s3key( accessKey, secretKey) VALUES ('accessKey', 'secretKey')
-
-	
 15. 채팅룸 테이블 -----------------------------------------------------
 
 create table dk_chat_room(
@@ -485,5 +475,15 @@ ALTER SEQUENCE seq_dk_chat_read INCREMENT BY 1; -- 시퀀스 증가분 변경 �
 select * from dk_chat_content order by member_NUM desc -- 값 조회해보기
 
 
+삭제된 테이블
+15.s3 키관리 테이블 삭제함---------------------------------------------------- 
+create table DK_s3key(
+	
+		accessKey varchar2(50),
+		secretKey varchar2(50)
+)
+	
+drop table DK_s3key purge
 
+insert into DK_s3key( accessKey, secretKey) VALUES ('accessKey', 'secretKey')
 
