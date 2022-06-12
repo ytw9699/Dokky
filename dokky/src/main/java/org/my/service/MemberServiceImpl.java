@@ -35,7 +35,6 @@ public class MemberServiceImpl implements MemberService {
 		return mapper.readMembers(userId);
 	}
 	
-	@Transactional
 	@Override 
 	public boolean reRegisterMembers(MemberVO vo) {
 

@@ -193,6 +193,7 @@ public class ChatServiceImpl implements ChatService {
 	        return chatRoomMap.get(chatRoomNum);
 	    }
 		
+		@Transactional
 		@Override
 	    public boolean removeAllChatData(Long chatRoomNum){
 	    		
@@ -231,6 +232,7 @@ public class ChatServiceImpl implements ChatService {
 	    	}
 	    }
 		
+		@Transactional
 		@Override
 	    public void createNoticeContent(ChatContentVO chatContentVO){//공지 내용 입력
 	    		
@@ -393,7 +395,6 @@ public class ChatServiceImpl implements ChatService {
 			return chatMapper.getExceptUsers(chatRoomNum);
 		}
 		
-
 		@Override
 		public List<MemberVO> getChatInviteList(String[] exceptUsers, String keyword){
 			

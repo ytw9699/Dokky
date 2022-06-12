@@ -291,7 +291,6 @@ public class BoardServiceImpl implements BoardService {
 		return boardMapper.getBoardMoney(donateVO);
 	}
 	    
-	@Transactional
 	@Override
 	public boolean createReportdata(reportVO vo) {//신고
 
