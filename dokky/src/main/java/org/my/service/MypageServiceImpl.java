@@ -130,9 +130,7 @@ public class MypageServiceImpl implements MypageService {
 		
 		log.info("insertChargeData");
 		
-		boolean insertResult = mapper.insertChargeData(vo) == 1; 
-		
-		return insertResult;
+		return mapper.insertChargeData(vo) == 1;
 	}
 	
 	@Override
@@ -140,9 +138,7 @@ public class MypageServiceImpl implements MypageService {
 		
 		log.info("insertReChargeData");
 		
-		boolean insertResult = mapper.insertReChargeData(vo) == 1; 
-		
-		return insertResult;
+		return mapper.insertReChargeData(vo) == 1;
 	}
 	
 	@Override
@@ -158,9 +154,7 @@ public class MypageServiceImpl implements MypageService {
 		
 		log.info("getMyCashHistoryCount");
 		
-		int getResult = mapper.getMyCashHistoryCount(userId); 
-		
-		return getResult;
+		return mapper.getMyCashHistoryCount(userId);
 	}
 	
 	@Transactional

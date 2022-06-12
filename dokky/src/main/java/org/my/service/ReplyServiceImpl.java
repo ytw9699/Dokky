@@ -119,7 +119,6 @@ public class ReplyServiceImpl implements ReplyService {
 		
 		  return new ReplyPageDTO(replyMapper.getReplyCnt(board_num), 
 	    						  replyMapper.readReplyListWithPaging(cri, board_num));
-		  
 	}
 
 	@Override
@@ -128,7 +127,6 @@ public class ReplyServiceImpl implements ReplyService {
 	    log.info("update......" + vo);
 	
 	    return replyMapper.update(vo);
-	
 	}
 
     @Transactional
