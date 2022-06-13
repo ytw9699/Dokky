@@ -1,5 +1,5 @@
 /*
-- 마지막 업데이트 2022-05-25
+- 마지막 업데이트 2022-06-13
 */
 package org.my.controller;
 	import org.my.domain.Criteria;
@@ -117,43 +117,39 @@ public class AdminController {
 			: new ResponseEntity<>("fail", HttpStatus.INTERNAL_SERVER_ERROR);
 	}
 	
-	@PreAuthorize("hasRole('ROLE_SUPER')")
-	@PostMapping(value = "superAdmin/createRoleAdmin/{userId}/{role}", produces = "text/plain; charset=UTF-8")
+	@PreAuthorize("hasRole('ROLE_ADMIN')")
+	@PostMapping(value = "/admin/createRoleUser/{userId}", produces = "text/plain; charset=UTF-8")
 	@ResponseBody
-	public ResponseEntity<String> createRoleAdmin(@PathVariable("userId") String userId,
-					@PathVariable("role") String role, @RequestBody alarmVO vo) {
+	public ResponseEntity<String> createRoleUser(@PathVariable("userId") String userId, @RequestBody alarmVO vo) {
 		
-		return adminService.insertRole(userId, role, vo) == 1 ? new ResponseEntity<>("success", HttpStatus.OK)
-				: new ResponseEntity<>("fail", HttpStatus.INTERNAL_SERVER_ERROR);
-	}
-	
-	@PreAuthorize("hasRole('ROLE_SUPER')")
-	@PostMapping(value = "superAdmin/deleteRoleAdmin/{userId}/{role}", produces = "text/plain; charset=UTF-8")
-	@ResponseBody
-	public ResponseEntity<String> deleteRoleAdmin(@PathVariable("userId") String userId,
-					@PathVariable("role") String role, @RequestBody alarmVO vo) {
-		
-		return adminService.deleteRole(userId, role, vo) == 1 ? new ResponseEntity<>("success", HttpStatus.OK)
+		return adminService.insertRole(userId, "ROLE_USER", vo) == 1 ? new ResponseEntity<>("success", HttpStatus.OK)
 				: new ResponseEntity<>("fail", HttpStatus.INTERNAL_SERVER_ERROR);
 	}
 	
 	@PreAuthorize("hasRole('ROLE_ADMIN')")
-	@PostMapping(value = "/admin/createRoleUser/{userId}/{role}", produces = "text/plain; charset=UTF-8")
+	@PostMapping(value = "/admin/deleteRoleUser/{userId}", produces = "text/plain; charset=UTF-8")
 	@ResponseBody
-	public ResponseEntity<String> createRoleUser(@PathVariable("userId") String userId,
-					@PathVariable("role") String role, @RequestBody alarmVO vo) {
+	public ResponseEntity<String> deleteRoleUser(@PathVariable("userId") String userId, @RequestBody alarmVO vo) {
 		
-		return adminService.insertRole(userId, role, vo) == 1 ? new ResponseEntity<>("success", HttpStatus.OK)
+		return adminService.deleteRole(userId, "ROLE_USER", vo) == 1 ? new ResponseEntity<>("success", HttpStatus.OK)
 				: new ResponseEntity<>("fail", HttpStatus.INTERNAL_SERVER_ERROR);
 	}
 	
-	@PreAuthorize("hasRole('ROLE_ADMIN')")
-	@PostMapping(value = "/admin/deleteRoleUser/{userId}/{role}", produces = "text/plain; charset=UTF-8")
+	@PreAuthorize("hasRole('ROLE_SUPER')")
+	@PostMapping(value = "superAdmin/createRoleAdmin/{userId}", produces = "text/plain; charset=UTF-8")
 	@ResponseBody
-	public ResponseEntity<String> deleteRoleUser(@PathVariable("userId") String userId,
-					@PathVariable("role") String role, @RequestBody alarmVO vo) {
+	public ResponseEntity<String> createRoleAdmin(@PathVariable("userId") String userId, @RequestBody alarmVO vo) {
 		
-		return adminService.deleteRole(userId, role, vo) == 1 ? new ResponseEntity<>("success", HttpStatus.OK)
+		return adminService.insertRole(userId, "ROLE_ADMIN", vo) == 1 ? new ResponseEntity<>("success", HttpStatus.OK)
+				: new ResponseEntity<>("fail", HttpStatus.INTERNAL_SERVER_ERROR);
+	}
+	
+	@PreAuthorize("hasRole('ROLE_SUPER')")
+	@PostMapping(value = "superAdmin/deleteRoleAdmin/{userId}", produces = "text/plain; charset=UTF-8")
+	@ResponseBody
+	public ResponseEntity<String> deleteRoleAdmin(@PathVariable("userId") String userId, @RequestBody alarmVO vo) {
+		
+		return adminService.deleteRole(userId, "ROLE_ADMIN", vo) == 1 ? new ResponseEntity<>("success", HttpStatus.OK)
 				: new ResponseEntity<>("fail", HttpStatus.INTERNAL_SERVER_ERROR);
 	}
 	
@@ -163,10 +159,9 @@ public class AdminController {
 		
 		log.info("/userCashHistory");
 		
-		int total = mypageService.getMyCashHistoryCount(cri.getUserId());
-		log.info("getUserCashHistoryCount");
-		
 		model.addAttribute("userCashHistory", mypageService.getMyCashHistory(cri));
+		
+		int total = mypageService.getMyCashHistoryCount(cri.getUserId());
 		
 		model.addAttribute("pageMaker", new PageDTO(cri, total));
 		

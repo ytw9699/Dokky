@@ -1,5 +1,5 @@
 /*
-- 마지막 업데이트 2022-05-25
+-  마지막 업데이트 2022-06-13
 */
 package org.my.mapper;
 	import java.util.List;
@@ -31,13 +31,9 @@ public interface AdminMapper {
 	
 	public int deleteRole(@Param("userId") String userId, @Param("role") String role);
 	
-	public int updatePermitLogin(String userId);
-
-	public int approveCash(Long cash_num);
-
 	public void updatePluscash(cashVO vo);
 
 	public void updateMinuscash(cashVO vo);
-
-	public int insertReportdata(reportVO vo);
+	
+	public int approveCash(Long cash_num);
 }

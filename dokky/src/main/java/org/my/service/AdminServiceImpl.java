@@ -1,5 +1,5 @@
 /*
-- 마지막 업데이트 2022-06-12
+-  마지막 업데이트 2022-06-13
 */
 package org.my.service;
 	import java.util.List;
@@ -136,8 +136,6 @@ public class AdminServiceImpl implements AdminService {
 	@Override
 	public int approveCash(commonVO vo) {
 
-		log.info(vo);
-		
 		cashVO cashVO = vo.getCashVO();
 		
 		if(cashVO.getCashKind().equals("충전")) {
@@ -156,7 +154,6 @@ public class AdminServiceImpl implements AdminService {
 		log.info("insertAlarm");
 		commonMapper.insertAlarm(vo.getAlarmVO());
 		
-		log.info("updateApprove");
 		return adminMapper.approveCash(cashVO.getCash_num());
 	}
 }
