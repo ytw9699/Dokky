@@ -1,3 +1,6 @@
+/*
+- 마지막 업데이트 2022-06-13
+*/
 package org.my.mapper;
 	import java.util.List;
 	import org.apache.ibatis.annotations.Param;
@@ -57,7 +60,7 @@ public interface MypageMapper {
 	public int updateEnabled(String userId);
 	
 	public int deleteRememberMeToken(String userId);
-
+	
 	public String getMemberPW(String userId);
 	
 	public int changeMyPassword(@Param("userId") String userId, @Param("userPw") String userPw);

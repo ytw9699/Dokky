@@ -1,3 +1,6 @@
+/*
+- 마지막 업데이트 2022-06-13
+*/
 package org.my.service;
 	import java.util.List;
 	import org.my.domain.BoardVO;
@@ -9,14 +12,12 @@ package org.my.service;
 
 public interface MypageService {
 
-	public MemberVO getMyInfo(String userId);
-
 	public boolean updateMyInfo(MemberVO vo);
-
+	
 	public List<BoardVO> getMyBoardList(Criteria cri);
 
 	public int getMyBoardCount(Criteria cri);
-
+	
 	public List<ReplyVO> getMyReplylist(Criteria cri);
 
 	public int getMyReplyCount(Criteria cri);

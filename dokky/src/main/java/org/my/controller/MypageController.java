@@ -1,5 +1,5 @@
 /*
-- 마지막 업데이트 2022-06-11
+- 마지막 업데이트 2022-06-13
 */
 package org.my.controller;
 	import java.io.File;
@@ -47,7 +47,7 @@ public class MypageController {
 	private final BCryptPasswordEncoder bcryptPasswordEncoder;
 	
 	@PreAuthorize("principal.username == #userId") 
- 	@GetMapping("/myInfoForm")  //내 개인정보 변경폼
+ 	@GetMapping("/myInfoForm")
 	public String myInfoForm(@RequestParam("userId") String userId, Model model) { 
 
 		log.info("/mypage/myInfoForm");
@@ -59,7 +59,7 @@ public class MypageController {
 	
 	@PreAuthorize("principal.username == #memberVO.userId")
 	@PostMapping("/myInfo")
-	public String updateMyInfo(MemberVO memberVO, RedirectAttributes rttr) {//내 개인정보 변경하기
+	public String updateMyInfo(MemberVO memberVO, HttpServletRequest request, RedirectAttributes rttr) {
 		
 		log.info("/mypage/myInfo");
 		
@@ -67,12 +67,12 @@ public class MypageController {
 		
 		if(mypageService.updateMyInfo(memberVO)) {
 			
-			rttr.addFlashAttribute("myInfo", mypageService.getMyInfo(userId));//내정보 한줄 가져오기
-			
 			MemberVO authMemberVO = memberService.readMembers(userId);
 			
-			if(commonService.setAuthentication(authMemberVO) == false){//다시 인증 처리
+			if(commonService.setAuthentication(authMemberVO) == false){
+				
 				rttr.addFlashAttribute("errormsg", "다시 로그인 해주세요."); 
+				
 				return "redirect:/commonLogin";
 			}
 			
@@ -163,7 +163,7 @@ public class MypageController {
 	
 	@PreAuthorize("principal.username == #cri.userId")
  	@GetMapping("/myBoardList") 
-	public String myBoardList(Criteria cri, Model model) { //내 게시글 가져오기
+	public String myBoardList(Criteria cri, Model model) {
 		
 		model.addAttribute("MyBoard", mypageService.getMyBoardList(cri));
 		
@@ -179,15 +179,13 @@ public class MypageController {
 	
 	@PreAuthorize("principal.username == #cri.userId")
  	@GetMapping("/myReplylist")  
-	public String myReplylist(Criteria cri, Model model) {//내 댓글 가져오기
+	public String myReplylist(Criteria cri, Model model) {
 		
 		log.info("/mypage/myReplylist...cri "+cri);
 		
 		model.addAttribute("myReply", mypageService.getMyReplylist(cri));
 		
 		int total = mypageService.getMyReplyCount(cri);
-		
-		log.info("pageMaker");
 		
 		model.addAttribute("pageMaker", new PageDTO(cri, total)); 
 		model.addAttribute("total", total);
@@ -197,7 +195,7 @@ public class MypageController {
 	
 	@PreAuthorize("principal.username == #cri.userId")
  	@GetMapping("/myScraplist")  
-	public String myScraplist(Criteria cri, Model model) { //내 스크랩 글 가져오기
+	public String myScraplist(Criteria cri, Model model) {
 		
 		log.info("/mypage/myScraplist");
 		log.info("myScraplist "+cri);
@@ -212,8 +210,8 @@ public class MypageController {
 	} 
 	
 	@PreAuthorize("principal.username == #userId")  
-	@PostMapping("/removeAllScrap")//스크랩 다중삭제
-	public String removeAllScrap(@RequestParam("checkRow") String checkRow , @RequestParam("userId") String userId, Criteria cri) {
+	@PostMapping("/removeAllScrap")
+	public String removeAllScrap(@RequestParam("checkRow") String checkRow , @RequestParam("userId") String userId, Criteria cri){
 		 
 		log.info("/mypage/removeAllScrap");
 		log.info("checkRow..." + checkRow);
@@ -234,11 +232,11 @@ public class MypageController {
 	
 	@PreAuthorize("principal.username == #userId")  
  	@GetMapping("/myCashInfo")  
-	public String myCashInfo(@RequestParam("userId") String userId, Model model) { //내 캐시정보
+	public String myCashInfo(@RequestParam("userId") String userId, Model model){
 		
 		log.info("/mypage/myCashInfo");
 		
-		String myCash = boardService.getMyCash(userId);//나의 잔여캐시 가져오기
+		String myCash = boardService.getMyCash(userId);
 		
 		if(myCash == null) {
 
@@ -296,7 +294,7 @@ public class MypageController {
 	
 	@PreAuthorize("principal.username == #cri.userId")
  	@GetMapping("/myCashHistory")  
-	public String myCashHistory(Criteria cri, Model model) { //내 캐시 내역 리스트
+	public String myCashHistory(Criteria cri, Model model) {
 		
 		log.info("/mypage/myCashHistory");
 		
@@ -311,7 +309,7 @@ public class MypageController {
 	
 	@PreAuthorize("principal.username == #userId")  
  	@GetMapping("/myWithdrawalForm")  
-	public String myWithdrawalForm(@RequestParam("userId") String userId) { //탈퇴 하기 폼 가져오기
+	public String myWithdrawalForm(@RequestParam("userId") String userId) {//탈퇴 하기 폼 가져오기
 		
 		log.info("/mypage/myWithdrawalForm");
 		

@@ -1,5 +1,5 @@
 /*
-- 마지막 업데이트 2022-06-12
+- 마지막 업데이트 2022-06-13
 */
 package org.my.service;
 	import java.util.List;
@@ -22,14 +22,6 @@ public class MypageServiceImpl implements MypageService {
 	
 	private final MypageMapper mapper;
 	
-	@Override
-	public MemberVO getMyInfo(String userId) {
-
-		log.info("getMyInfo");
-
-		return mapper.getMyInfo(userId);
-	}
-	
 	@Transactional
 	@Override
 	public boolean updateMyInfo(MemberVO board) {
@@ -40,31 +32,29 @@ public class MypageServiceImpl implements MypageService {
 		
 		String userId = board.getUserId();
 		
-		boolean nickNameResult = nickName.equals(mapper.getMyNickName(userId));//현재 나의 닉네임과 폼에서 입력한 닉네임이 같은지
+		boolean nickNameResult = nickName.equals(mapper.getMyNickName(userId));
 		
-		if(!nickNameResult) {//닉네임을 변경한다면 
+		if(!nickNameResult) { 
 			
-			mapper.updateBoardNickName(userId, nickName);//게시글 닉네임 변경처리
+			mapper.updateBoardNickName(userId, nickName);
 			
-			mapper.updateReplyNickName(userId, nickName);//댓글 닉네임 변경처리
+			mapper.updateReplyNickName(userId, nickName);
 			
-			mapper.updateNoteFromNickName(userId, nickName);//쪽지 받는이 닉네임 변경처리
+			mapper.updateNoteFromNickName(userId, nickName);
 			
-			mapper.updateNoteToNickName(userId, nickName);//쪽지 보낸이 닉네임 변경처리
+			mapper.updateNoteToNickName(userId, nickName);
 			
-			mapper.updateReportedNickName(userId, nickName);//신고 당한자 닉네임 변경처리 
+			mapper.updateReportedNickName(userId, nickName); 
 			
-			mapper.updateReportingNickName(userId, nickName);//신고 하는자 닉네임 변경처리
+			mapper.updateReportingNickName(userId, nickName);
 			
-			mapper.updateAlarmNickName(userId, nickName);//알림 닉네임 변경처리
+			mapper.updateAlarmNickName(userId, nickName);
 			
-			mapper.updateCashlistNickName(userId, nickName);//캐시 내역 닉네임 변경처리
+			mapper.updateCashlistNickName(userId, nickName);
 			
 		}
 		
-		boolean updateResult = mapper.updateMyInfo(board) == 1; //회원테이블 변경처리
-		
-		return updateResult;
+		return mapper.updateMyInfo(board) == 1;
 	}
 	
 	@Override
