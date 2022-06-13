@@ -321,7 +321,8 @@ public class ChatServiceImpl implements ChatService {
 				return 1;
 			}
 		}
-		
+
+		@Transactional(readOnly=true)
 		@Override
 		public List<chatRoomDTO> getMyChatRoomList(String userId){
 			
