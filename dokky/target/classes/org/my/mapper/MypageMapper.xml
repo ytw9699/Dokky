@@ -3,12 +3,8 @@
   PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
   "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="org.my.mapper.MypageMapper">
+<!-- - 마지막 업데이트 2022-06-14 -->
 	
-	<!-- 나의 정보 한줄 가져오기 -->
-	<select id="getMyInfo" resultType="org.my.domain.MemberVO">
-			select * from DK_MEMBER where userId = #{userId}
-	</select>
-
 	<!-- 나의 정보 변경하기 -->
 	<update id="updateMyInfo">
 			update DK_MEMBER set 
@@ -43,16 +39,6 @@
 		update dk_note set TO_NICKNAME = #{nickName} where TO_ID = #{userId}
 	</update>
 	
-	<!-- 알림 닉네임 변경처리 -->
-	<update id="updateAlarmNickName">
-		update dk_alarm set writerNick = #{nickName} where writerId = #{userId}
-	</update>
-	
-	<!-- 캐시 내역 닉네임 변경처리 -->
-	<update id="updateCashlistNickName">
-		update dk_cash set nickName = #{nickName} where userId = #{userId}
-	</update>
-
 	<!-- 신고 당한자 닉네임 변경처리 -->
 	<update id="updateReportedNickName">
 		update dk_report set reportedNick = #{nickName} where reportedId = #{userId}
@@ -61,6 +47,16 @@
 	<!--  신고 하는자 닉네임 변경처리 -->
 	<update id="updateReportingNickName">
 		update dk_report set reportingNick = #{nickName} where reportingId = #{userId}
+	</update>
+	
+	<!-- 알림 닉네임 변경처리 -->
+	<update id="updateAlarmNickName">
+		update dk_alarm set writerNick = #{nickName} where writerId = #{userId}
+	</update>
+	
+	<!-- 캐시 내역 닉네임 변경처리 -->
+	<update id="updateCashlistNickName">
+		update dk_cash set nickName = #{nickName} where userId = #{userId}
 	</update>
 	
 	<select id="getMyBoardList" resultType="org.my.domain.BoardVO"> 
@@ -250,48 +246,11 @@
 		]]>
 	</select> 
 	
-	<!-- <select id="getMyCashHistory" resultType="org.my.domain.cashVO"> 
-		<![CDATA[
-		   select 
-		   		  cashKind,
-		   		  cashAmount,
-		   		  specification,
-		   		  regDate,
-		   		  board_num,
-		   		  reply_content,
-		   		  title,
-		   		  cash_num
-			 from 
-			   ( SELECT
-				  rownum rn,
-				  cash.cashKind,
-				  cash.cashAmount,
-				  cash.specification,
-				  cash.regDate,
-				  cash.board_num, 
-				  reply.reply_content,
-				  board.title,
-				  cash.cash_num
-			FROM 
-				  dk_cash cash inner JOIN dk_board board on board.num = cash.board_num 
-				  
-				  inner JOIN dk_reply reply on reply.reply_num = cash.reply_num 
-				  
-			WHERE cash.userid = #{userId} and rownum <= #{pageNum} * #{amount} order by cash.cash_num desc)
-			
-			where rn > (#{pageNum} -1) * #{amount}
-		]]>
-	</select> -->
-	
 	<!-- 회원탈퇴 : 나의 enabled 값 변경하기 -->
 	<update id="updateEnabled">
 		update DK_MEMBER set enabled = 0 where userId = #{userId}
 	</update>
 	
-	<delete id="deleteRememberMeToken">
-		delete from persistent_logins where username = #{userId}
-	</delete>
-		   
 	 <select id="getMemberPW" resultType="String">
 		select userpw from DK_MEMBER where userId = #{userId}
 	</select>

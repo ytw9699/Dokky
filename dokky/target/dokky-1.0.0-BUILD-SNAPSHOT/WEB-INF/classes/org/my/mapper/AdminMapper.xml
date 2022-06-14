@@ -2,7 +2,7 @@
 <!DOCTYPE mapper
   PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
   "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
-<!-- 마지막 업데이트 2022.05.24 -->
+<!-- 마지막 업데이트 2022.06.13 -->
 <mapper namespace="org.my.mapper.AdminMapper">
 
 	  <resultMap id="memberMap" type="org.my.domain.MemberVO" >
@@ -120,10 +120,6 @@
 		select count(*) from dk_cash where specification = '미승인' or specification = '승인완료'
 	  </select>
 	
-	  <select id="getUserReportCount" resultType="int">
-		 select count(*) from dk_report
-	  </select>
-	
 	  <select id="getUserReportList" resultType="org.my.domain.reportVO">
 			select  report_num
 				  , reportKind
@@ -153,6 +149,14 @@
 			]]>
 	   </select>
 	   
+		<select id="getUserReportCount" resultType="int">
+			select count(*) from dk_report
+		</select>
+	
+		<update id="updateAccountNonLocked"> 
+				update dk_member set accountNonLocked = #{accountNonLocked} WHERE USERID = #{userId}  
+		</update>
+		
 		<update id="insertRole"> 
 				insert into dk_member_auth(userId, auth) values ( #{userId}, #{role})
 		</update>
@@ -160,14 +164,6 @@
 		<delete id="deleteRole"> 
        			delete from dk_member_auth where userId = #{userId} and auth = #{role}
         </delete>
-	
-		<update id="updateAccountNonLocked"> 
-				update dk_member set accountNonLocked = #{accountNonLocked} WHERE USERID = #{userId}  
-		</update>
-		
-		<update id="updatePermitLogin"> 
-				update dk_member set accountNonLocked = '1' WHERE USERID = #{userId}  
-		</update>
 		
 		<update id="updatePluscash">
 		    update dk_member set cash = cash + #{cashAmount} where userId = #{userId}

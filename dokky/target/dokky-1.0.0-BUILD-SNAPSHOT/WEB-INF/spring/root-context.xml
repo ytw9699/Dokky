@@ -54,7 +54,6 @@
 	<!--  스케쥴러 어노테이션 이용 위해  -->
 	
 	<!--  social outh2 login  -->
-	
  	<bean id="naverClientID" class="java.lang.String">
 	   <constructor-arg value="${auth.naverClientID}" />
     </bean>
@@ -62,6 +61,7 @@
 	<bean id="naverClientSecret" class="java.lang.String">
 		<constructor-arg value="${auth.naverClientSecret}" />
 	</bean>
+	
 	<bean id="naverRedirectUrl" class="java.lang.String">
 		<constructor-arg value="${auth.naverRedirectUrl}" />
 	</bean> 
@@ -74,12 +74,13 @@
 	</bean>
 
 	<bean id="googleClientID" class="java.lang.String">
-		   <constructor-arg value="${auth.googleClientID}" />
-	    </bean>
+	   <constructor-arg value="${auth.googleClientID}" />
+    </bean>
 	    
 	<bean id="googleClientSecret" class="java.lang.String">
 		<constructor-arg value="${auth.googleClientSecret}" />
 	</bean>
+	
 	<bean id="googleRedirectUrl" class="java.lang.String">
 		<constructor-arg value="${auth.googleRedirectUrl}" />
 	</bean>

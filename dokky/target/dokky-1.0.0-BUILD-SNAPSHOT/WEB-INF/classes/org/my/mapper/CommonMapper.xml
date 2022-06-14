@@ -3,7 +3,8 @@
   PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
   "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="org.my.mapper.CommonMapper">
-		
+<!-- 마지막 업데이트 2022-06-14 -->
+
 	<select id="getRealtimeBoardList" resultType="org.my.domain.BoardVO"> 
 		 SELECT /*+INDEX_DESC(DK_BOARD PK_DK_BOARD) */ money,
 		 											   replyCnt,
@@ -397,5 +398,9 @@
 								 		,#{read_check}
 					 				) 
        </insert>
+       
+       <delete id="deleteRememberMeToken">
+			delete from persistent_logins where username = #{userId}
+		</delete>
 		   
 </mapper>
