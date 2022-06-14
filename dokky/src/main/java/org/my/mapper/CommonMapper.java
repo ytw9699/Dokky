@@ -1,3 +1,6 @@
+/*
+- 마지막 업데이트 2022-06-14
+*/
 package org.my.mapper;
 	import java.util.List;
 	import org.apache.ibatis.annotations.Param;
@@ -81,4 +84,5 @@ public interface CommonMapper {
 	
 	public List<noteVO> getFromNoteList(Criteria cri);
 
+	public int deleteRememberMeToken(String userId);
 }

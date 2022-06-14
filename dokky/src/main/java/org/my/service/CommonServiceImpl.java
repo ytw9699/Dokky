@@ -1,5 +1,5 @@
 /*
-- 마지막 업데이트 2022-06-12
+- 마지막 업데이트 2022-06-14
 */
 package org.my.service;
 	import java.util.ArrayList;
@@ -358,4 +358,14 @@ public class CommonServiceImpl implements CommonService {
 		
 		return mapper.getToNoteList(cri);
 	}
+	
+	@Override
+	public void customLogout(String userId, HttpSession session){
+		
+		log.info("customLogout");
+		
+		session.invalidate();
+		
+		mapper.deleteRememberMeToken(userId);
+	}	
 }

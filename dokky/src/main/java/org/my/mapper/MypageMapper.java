@@ -1,5 +1,5 @@
 /*
-- 마지막 업데이트 2022-06-13
+- 마지막 업데이트 2022-06-14
 */
 package org.my.mapper;
 	import java.util.List;
@@ -58,8 +58,6 @@ public interface MypageMapper {
 	public int getMyCashHistoryCount(String userId);
 	
 	public int updateEnabled(String userId);
-	
-	public int deleteRememberMeToken(String userId);
 	
 	public String getMemberPW(String userId);
 	

@@ -1,5 +1,5 @@
 /*
-- 마지막 업데이트 2022-06-13
+- 마지막 업데이트 2022-06-14
 */
 package org.my.service;
 	import java.util.List;
@@ -147,13 +147,10 @@ public class MypageServiceImpl implements MypageService {
 		return mapper.getMyCashHistoryCount(userId);
 	}
 	
-	@Transactional
 	@Override 
 	public boolean myWithdrawal(String userId){
 
 		log.info("myWithdrawal...");
-		
-		mapper.deleteRememberMeToken(userId);//리멤버미 토큰 삭제 
 		
 		return mapper.updateEnabled(userId) == 1;
 	}

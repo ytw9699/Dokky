@@ -1,6 +1,10 @@
+/*
+- 마지막 업데이트 2022-06-14
+*/
 package org.my.service;
 	import java.util.List;
 	import javax.servlet.http.HttpServletRequest;
+	import javax.servlet.http.HttpSession;
 	import org.my.domain.BoardVO;
 	import org.my.domain.Criteria;
 	import org.my.domain.MemberVO;
@@ -79,5 +83,7 @@ public interface CommonService {
 	public int insertNote(noteVO note);
 	
 	public String CustomAuthLoginSuccessHandler(String profileId, HttpServletRequest request);
+
+	public void customLogout(String userId, HttpSession session);
 	
 }

@@ -3,7 +3,7 @@
   PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
   "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="org.my.mapper.MypageMapper">
-<!-- - 마지막 업데이트 2022-06-13 -->
+<!-- - 마지막 업데이트 2022-06-14 -->
 	
 	<!-- 나의 정보 변경하기 -->
 	<update id="updateMyInfo">
@@ -251,10 +251,6 @@
 		update DK_MEMBER set enabled = 0 where userId = #{userId}
 	</update>
 	
-	<delete id="deleteRememberMeToken">
-		delete from persistent_logins where username = #{userId}
-	</delete>
-		   
 	 <select id="getMemberPW" resultType="String">
 		select userpw from DK_MEMBER where userId = #{userId}
 	</select>

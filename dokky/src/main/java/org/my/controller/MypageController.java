@@ -1,5 +1,5 @@
 /*
-- 마지막 업데이트 2022-06-13
+- 마지막 업데이트 2022-06-14
 */
 package org.my.controller;
 	import java.io.File;
@@ -70,6 +70,8 @@ public class MypageController {
 			MemberVO authMemberVO = memberService.readMembers(userId);
 			
 			if(commonService.setAuthentication(authMemberVO) == false){
+				
+				commonService.customLogout(userId, request.getSession());
 				
 				rttr.addFlashAttribute("errormsg", "다시 로그인 해주세요."); 
 				
@@ -324,7 +326,7 @@ public class MypageController {
 			
 			if(mypageService.myWithdrawal(userId)) {
 				
-					request.getSession().invalidate();
+					commonService.customLogout(userId, request.getSession());
 					
 					return "redirect:/commonLogin";
 				
