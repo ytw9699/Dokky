@@ -124,13 +124,13 @@ public class BoardController {
 				model.addAttribute("scrapCount", boardService.getScrapCnt(board_num, userId));
 			}
 			
-			BoardVO board = boardService.getBoard(board_num, true);//조회수증가 + 한줄 글 상세 데이터 가져오기
+			BoardVO board = boardService.getBoard(board_num, true);
 			
 			if(board == null) {
 				
 				log.info("/getBoardError");
 				
-				model.addAttribute("msg", "글이 삭제되었습니다.");
+				model.addAttribute("message", "해당하는 글이 없습니다.");
 				
 				return "error/commonError"; 
 			}   
@@ -173,7 +173,7 @@ public class BoardController {
 				
 				log.info("/error/commonError");
 				
-				model.addAttribute("msg", "글을 수정 할 수 없습니다.");
+				model.addAttribute("message", "글을 수정 할 수 없습니다.");
 				
 				return "error/commonError";
 		 }   
