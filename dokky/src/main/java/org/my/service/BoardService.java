@@ -1,8 +1,6 @@
 package org.my.service;
 	import java.util.List;
 	import org.my.domain.BoardAttachVO;
-	import org.my.domain.BoardDisLikeVO;
-	import org.my.domain.BoardLikeVO;
 	import org.my.domain.BoardVO;
 	import org.my.domain.Criteria;
 	import org.my.domain.commonVO;
@@ -29,37 +27,25 @@ public interface BoardService {
 	public BoardVO getBoard(Long board_num, Boolean hitChoice);
 	
 	public boolean modifyBoard(BoardVO board);
+	
+	public List<BoardAttachVO> getAttachList(Long board_num);
 
 	public boolean removeBoard(Long board_num, boolean hasAttach);
 	
-	public boolean checkBoardLikeButton(BoardLikeVO vo);
+	public String likeBoard(commonVO vo);
 	
-	public boolean checkBoardDisLikeButton(BoardDisLikeVO vo);
+	public String disLikeBoard(commonVO vo);
 	
-	public boolean pushBoardLikeButton(commonVO vo);
-	
-	public boolean pushBoardDisLikeButton(commonVO vo);
-	
-	public boolean pullBoardLikeButton(commonVO vo);
-	
-	public boolean pullBoardDisLikeButton(commonVO vo);
-	
-	public String getLikeCount(Long board_num);
-	
-	public String getDisLikeCount(Long board_num);
-
 	public String getMyCash(String userId);
 
 	public String giveBoardWriterMoney(commonVO vo);
 
 	public boolean createReportdata(reportVO vo);
-	
-	public List<BoardAttachVO> getAttachList(Long board_num);
 
 	public int postScrapData(int board_num, String userId);
 	
 	public int deleteScrapData(int board_num, String userId);
 
-	public Long getRecentBoard_num();
+	public Long getRecentBoard_num();//테스트 코드용
 
 }

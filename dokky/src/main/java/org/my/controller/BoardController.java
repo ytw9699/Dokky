@@ -1,12 +1,10 @@
 /*
-- 마지막 업데이트 2022-06-12
+- 마지막 업데이트 2022-06-15
 */
 package org.my.controller;
 	import java.util.List;
 	import javax.servlet.http.HttpServletRequest;
 	import org.my.domain.BoardAttachVO;
-	import org.my.domain.BoardDisLikeVO;
-	import org.my.domain.BoardLikeVO;
 	import org.my.domain.BoardVO;
 	import org.my.domain.Criteria;
 	import org.my.domain.PageDTO;
@@ -60,9 +58,9 @@ public class BoardController {
 			model.addAttribute("list", boardService.getListWithOrder(cri));
 		}
 		
-		int total = boardService.getTotalCount(cri);//total은 특정 게시판의 총 게시물수
+		int total = boardService.getTotalCount(cri);
 		
-		model.addAttribute("pageMaker", new PageDTO(cri, total));//페이징
+		model.addAttribute("pageMaker", new PageDTO(cri, total));
 	
 		return "board/list";
 	}
@@ -94,7 +92,7 @@ public class BoardController {
 
 		log.info("/board/registerForm");
 		
-		return "board/register";
+		return "board/registerForm";
 	}
 	
 	@PreAuthorize("hasRole('ROLE_USER')")
@@ -102,10 +100,6 @@ public class BoardController {
 	public String registerBoard(BoardVO board, RedirectAttributes rttr) {
 
 		log.info("/board/register: " + board);
-		
-		/*if (board.getAttachList() != null) {
-			board.getAttachList().forEach(attach -> log.info(attach));
-		}*/
 		
 		boardService.register(board);
 
@@ -158,20 +152,20 @@ public class BoardController {
 	@GetMapping("/modifyForm")
 	public String getModifyForm(@RequestParam("board_num") Long board_num, 
 							  @ModelAttribute("cri") Criteria cri, Model model){
-
-		log.info("/modifyForm");
+		
+		log.info("/board/modifyForm");
 		
 		model.addAttribute("board", boardService.getBoard(board_num, false));
 		
-		return "board/modify";
+		return "board/modifyForm";
 	}
 	
 	@PreAuthorize("hasRole('ROLE_USER') and principal.username == #board.userId")
 	@PostMapping("/modify")
 	public String modifyBoard(BoardVO board, Criteria cri, RedirectAttributes rttr, Model model) {
 		 
-		 log.info("/modifyBoard BoardVO:" + board);
-		 log.info("/modifyBoard Criteria:" + cri);
+		 log.info("/board/modify BoardVO :" + board);
+		 log.info("/board/modify Criteria :" + cri);
 		
 		 Boolean result = boardService.modifyBoard(board);
 		 
@@ -195,10 +189,11 @@ public class BoardController {
 	}
 	
 	@PreAuthorize("principal.username == #userId")   
-	@PostMapping("/remove")//삭제시 글+댓글+첨부파일 모두 삭제
-	public String removeBoard(@RequestParam("board_num") Long board_num,
-						 	  @RequestParam("userId")String userId, Criteria cri, 
-						 	  						 RedirectAttributes rttr, HttpServletRequest request) {
+	@PostMapping("/remove")//게시글 삭제시 글+댓글+첨부파일 모두 삭제
+	public String removeBoard(@RequestParam("board_num") Long board_num, @RequestParam("userId")String userId, 
+								Model model, Criteria cri, RedirectAttributes rttr, HttpServletRequest request) {
+		
+			log.info("/board/remove");
 
 		 	log.info("/getAttachList..." + board_num);
 		 	
@@ -208,34 +203,30 @@ public class BoardController {
 				
 		 		if(boardService.removeBoard(board_num, false)){//첨부파일 디비 삭제 + 글삭제
 					
-					log.info("/remove..." + board_num);
-					
 					return "redirect:/board/list" + cri.getListLink();
 				}
 				
 		    }else {
 		    	
-		    	if(boardService.removeBoard(board_num, true)){//첨부파일 디비 삭제 + 글삭제
-					
-					log.info("/remove..." + board_num);
+		    	if(boardService.removeBoard(board_num, true)){
 					
 					deleteS3Files(attachList , request); //실제 첨부파일 모두 삭제
 					
 					return "redirect:/board/list" + cri.getListLink();
 				}
 		    }
+		 	
+		 	model.addAttribute("message", "서버에러로 삭제할 수 없습니다.");
 			
-			return "redirect:/serverError";
+			return "error/commonError";  
 	}
 	
 	@PreAuthorize("principal.username == #userId")   
-	@PostMapping("/removeBoards")//다중삭제
-	public String removeBoards(@RequestParam("checkRow") String checkRow , 
-						    @RequestParam("userId")String userId, Criteria cri , HttpServletRequest request){
+	@PostMapping("/removeBoards")//게시글 다중삭제
+	public String removeBoards(@RequestParam("checkRow") String checkRow , @RequestParam("userId")String userId, 
+									Model model, Criteria cri , HttpServletRequest request){
 		 	
-		 	log.info("/removeBoards...");
-		 
-		 	log.info("checkRow..." + checkRow);
+			log.info("/board/removeBoards");
 		 	
 		 	String[] arrIdx = checkRow.split(",");
 		 	
@@ -252,7 +243,10 @@ public class BoardController {
 				 			log.info("remove...board_num=" + board_num);
 				 			
 						}else {
-							return "redirect:/serverError";
+							
+							model.addAttribute("message", "서버에러로 삭제할 수 없습니다.");
+							
+							return "error/commonError";  
 						}
 					
 			     }else {
@@ -262,7 +256,10 @@ public class BoardController {
 				 			log.info("remove...board_num=" + board_num);
 				 			
 						}else {
-							return "redirect:/serverError";
+							
+							model.addAttribute("message", "서버에러로 삭제할 수 없습니다.");
+							
+							return "error/commonError";  
 						}
 	
 				    	deleteS3Files(attachList , request); //실제 첨부파일 모두 삭제
@@ -279,23 +276,16 @@ public class BoardController {
 		    
 		    attachList.forEach(attach -> {
 		    
-			      String path = attach.getUploadPath();
-			      String filename = attach.getUuid()+"_"+attach.getFileName();
-		    	
-			      try {    
-			    	  
-			    		if(myS3Util.deleteObject(path, filename)) {
-			    			
-							if (attach.isFileType()) {//만약 이미지파일이었다면
-								
-								myS3Util.deleteObject(path, "s_"+filename);//썸네일도 삭제
-							}
-			    		}
-			    		
-			      }catch(Exception e) {
-			    	  
-			    	    log.error("deleteS3Files error" + e.getMessage());
-			      }
+				String path = attach.getUploadPath();
+				String filename = attach.getUuid()+"_"+attach.getFileName();
+							    	  
+				if(myS3Util.deleteObject(path, filename)) {
+					
+					if (attach.isFileType()) {//만약 이미지파일이었다면
+						
+						myS3Util.deleteObject(path, "s_"+filename);//썸네일도 삭제
+					}
+				}
 		    });
 	}
 	
@@ -307,25 +297,9 @@ public class BoardController {
 		log.info("/board/likeBoard");
 		log.info("vo: " +vo);
 		
-		BoardLikeVO boardLikeVO = vo.getBoardLikeVO();
+		String likeCount = boardService.likeBoard(vo);
 		
-		boolean CheckResult = boardService.checkBoardLikeButton(boardLikeVO);
-		
-		boolean returnVal = false;
-		
-		if(CheckResult == false){ 
-			
-			log.info("pushBoardLikeButton..." );
-			returnVal = boardService.pushBoardLikeButton(vo);//글 좋아요 누르기
-			
-		}else if(CheckResult == true){ 
-			
-			log.info("pullBoardLikeButton...");
-			returnVal = boardService.pullBoardLikeButton(vo);//글 좋아요 당기기(취소)
-			
-		}
-		
-		return returnVal == true ? new ResponseEntity<>(boardService.getLikeCount(boardLikeVO.getBoard_num()), HttpStatus.OK)
+		return likeCount != null ? new ResponseEntity<>(likeCount, HttpStatus.OK)
 				: new ResponseEntity<>(HttpStatus.INTERNAL_SERVER_ERROR);
 	}
 	
@@ -333,29 +307,13 @@ public class BoardController {
 	@PostMapping(value = "/disLikeBoard", consumes = "application/json", produces = "text/plain; charset=UTF-8")
 	@ResponseBody
 	public ResponseEntity<String> disLikeBoard(@RequestBody commonVO vo) {//게시글 싫어요 누르기 및 취소
-	
+		
 		log.info("/board/disLikeBoard");
 		log.info("vo: " +vo);
 		
-		BoardDisLikeVO boardDisLikeVO = vo.getBoardDisLikeVO();
+		String disLikeCount = boardService.disLikeBoard(vo);
 		
-		boolean CheckResult = boardService.checkBoardDisLikeButton(boardDisLikeVO);
-		
-		boolean returnVal = false;
-		
-		if(CheckResult == false){ 
-			
-			log.info("pushBoardDisLikeButton..." );
-			returnVal = boardService.pushBoardDisLikeButton(vo);//글 싫어요 누르기
-			 
-		}else if(CheckResult == true){ 
-			
-			log.info("pullBoardDisLikeButton...");
-			returnVal = boardService.pullBoardDisLikeButton(vo);//글 싫어요 당기기(취소)
-			
-		}
-		
-		return returnVal == true ? new ResponseEntity<>(boardService.getDisLikeCount(boardDisLikeVO.getBoard_num()), HttpStatus.OK)
+		return disLikeCount != null ? new ResponseEntity<>(disLikeCount, HttpStatus.OK)
 				: new ResponseEntity<>(HttpStatus.INTERNAL_SERVER_ERROR);
 	}
 	
@@ -376,9 +334,9 @@ public class BoardController {
 	@PreAuthorize("principal.username == #vo.donateVO.userId")
 	@PostMapping(value = "/giveBoardWriterMoney", consumes = "application/json", produces = "text/plain; charset=UTF-8")
 	@ResponseBody
-	public ResponseEntity<String> giveBoardWriterMoney(@RequestBody commonVO vo) {//글 작성자에게 기부
+	public ResponseEntity<String> giveBoardWriterMoney(@RequestBody commonVO vo){
 		
-		log.info("/giveBoardWriterMoney");
+		log.info("/board/giveBoardWriterMoney");
 		log.info("commonVO: " + vo);
 		
 		String BoardMoney = boardService.giveBoardWriterMoney(vo);
@@ -396,7 +354,7 @@ public class BoardController {
 	@PreAuthorize("principal.username == #vo.reportingId")
 	@PostMapping(value = "/report", consumes = "application/json", produces = "text/plain; charset=UTF-8")
 	@ResponseBody
-	public ResponseEntity<String> report(@RequestBody reportVO vo) {//게시글의 게시글 or 댓글 신고
+	public ResponseEntity<String> report(@RequestBody reportVO vo) {//게시글 or 댓글 신고
 		
 		log.info("/board/report");
 		
@@ -433,7 +391,6 @@ public class BoardController {
 				return new ResponseEntity<>(HttpStatus.OK);
 			
 		}else {
-		
 				return new ResponseEntity<>(HttpStatus.INTERNAL_SERVER_ERROR);
 		}
 	}
@@ -450,7 +407,6 @@ public class BoardController {
 				return new ResponseEntity<>("success",HttpStatus.OK);
 			
 		}else {
-		
 				return new ResponseEntity<>("fail",HttpStatus.OK);
 		}
 	}

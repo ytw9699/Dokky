@@ -9,14 +9,13 @@
 	<head>
 		<meta charset="UTF-8">
 		<script src="//code.jquery.com/jquery-1.11.3.min.js"></script>
-		<!-- <script type="text/javascript" src="/resources/SmartEditor/js/HuskyEZCreator.js" charset="utf-8" ></script> -->
 		<title>Dokky - 새 글쓰기</title>  
 		<c:choose>
 		   	  <c:when test="${pageContext.request.serverName == 'localhost'}">
-					<link href="/resources/css/register.css" rel="stylesheet" type="text/css">
+					<link href="/resources/css/registerForm.css" rel="stylesheet" type="text/css">
 			  </c:when>
 		      <c:otherwise>
-		    		<link href="/ROOT/resources/css/register.css" rel="stylesheet" type="text/css">
+		    		<link href="/ROOT/resources/css/registerForm.css" rel="stylesheet" type="text/css">
 		      </c:otherwise>
 		</c:choose> 
 	</head>
@@ -37,7 +36,7 @@
 			      <div class="row">
 					<select id="selectId" name="category" class="">
 						   <option value=0>게시판을 선택해 주세요.</option>
-							   <sec:authorize access="hasAnyRole('ROLE_ADMIN','ROLE_SUPER')">
+							   <sec:authorize access="hasRole('ROLE_ADMIN')">
 		   		 					<option value=1>공지사항</option>
 			   		 		   </sec:authorize>
 	                       <option value=2>자유게시판</option>
@@ -93,22 +92,6 @@
 		
 	$(document).ready(function(e){
 		 $("#selectId option[value='${category}']").attr('selected','selected');
-		
-		/* 스마트 에디터 */
-		/* var oEditors = [];
-		
-		nhn.husky.EZCreator.createInIFrame({  
-		 oAppRef: oEditors, // 전역변수 명과 동일해야 함
-		 elPlaceHolder: "ir1",// 에디터가 그려질 textarea ID 값과 동일 해야 함
-		 sSkinURI: "/resources/SmartEditor/SmartEditor2Skin.html",
-		 fCreator: "createSEditor2", // SE2BasicCreator.js 메소드명이니 변경 금지
-		 htParams : {
-	        bUseToolbar : true,        // 툴바 사용 여부 (true:사용/ false:사용하지 않음)
-	        bUseVerticalResizer : true,// 입력창 크기 조절바 사용 여부 (true:사용/ false:사용하지 않음)
-	        bUseModeChanger : true // 모드 탭(Editor | HTML | TEXT) 사용 여부 (true:사용/ false:사용하지 않음)
-	      }
-		}); */
-		/* 스마트 에디터 */ 
 	});
 	
 	function checkLength(obj, maxByte) { 
@@ -340,14 +323,11 @@
 			if(e.keyCode === 8){ 
 				
 				e.stopPropagation();
-		
-				//console.log("backspace"); 
 				
 				var sel = window.getSelection();
-				//console.log(sel);
 		
 				var range = sel.getRangeAt(0).cloneRange(); 
-				//console.log(range); 
+				
 		      	range.collapse(true);
 		
 		     	range.setStart($(this).get(0), 0);
@@ -517,7 +497,6 @@
 				   return false;
 			}
 		    
-		    //oEditors.getById["ir1"].exec("UPDATE_CONTENTS_FIELD", []);// 스마트 에디터 - textarea에 값 옮겨주기
 		    
 		    var str = "";
 		    var photoLi = $(".photoUploadResult ul li");
@@ -525,18 +504,14 @@
 		    var UploadLis = $.merge(photoLi, fileLi);   
 		     
 		    UploadLis.each(function(i, arr){ 
-		    		 var jobj = $(arr); 
-				     /*  console.dir(jobj);
-				      console.log("-------------------------"); 
-				      console.log(jobj.data("filename")); */
+		    	
+		    		  var jobj = $(arr); 
+		    		 
 				      str += "<input type='hidden' name='attachList["+i+"].fileName' value='"+jobj.data("filename")+"'>";
 				      str += "<input type='hidden' name='attachList["+i+"].uuid' value='"+jobj.data("uuid")+"'>";
 				      str += "<input type='hidden' name='attachList["+i+"].uploadPath' value='"+jobj.data("path")+"'>";
 				      str += "<input type='hidden' name='attachList["+i+"].fileType' value='"+ jobj.data("type")+"'>";
-				      
 			    });
-		     
-		    //console.log(str);
 		    
 		    var formObj = $("form[role='form']"); 
 		    

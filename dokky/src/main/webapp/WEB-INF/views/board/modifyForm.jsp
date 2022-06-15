@@ -11,10 +11,10 @@
 	<title>Dokky - 수정하기</title> 
 	<c:choose>
 	   	  <c:when test="${pageContext.request.serverName == 'localhost'}">
-				<link href="/resources/css/modify.css" rel="stylesheet" type="text/css">
+				<link href="/resources/css/modifyForm.css" rel="stylesheet" type="text/css">
 		  </c:when>
 	      <c:otherwise>
-	    		<link href="/ROOT/resources/css/modify.css" rel="stylesheet" type="text/css">
+	    		<link href="/ROOT/resources/css/modifyForm.css" rel="stylesheet" type="text/css">
 	      </c:otherwise>
 	</c:choose>   
 </head>  
@@ -93,13 +93,6 @@
 		         	  <label for="inputFile" class="inputButton" >파일</label>    
 			          <input type="file" id="inputFile" name='uploadFile' multiple>
 			      </li> 
-			       <%--  <sec:authentication property="principal" var="userInfo"/>
-				 
-				 	<sec:authorize access="isAuthenticated()">
-				        <c:if test="${userInfo.username eq board.userId}">
-				       		 <button type="submit">수정완료</button>
-				        </c:if>
-			        </sec:authorize> --%> 
 		          <li class="submit">
 		          	<button type="submit" class="submitButton">등록</button> 
 		          </li>
@@ -188,7 +181,7 @@
 			
 		    for(b=i=0; c=s.charCodeAt(i++);){
 		    
-			    b+=c>>11?2:c>>7?2:1;//register.jsp와 byte같음 
+			    b+=c>>11?2:c>>7?2:1;
 			    
 			    if (b > maxByte) { 
 			    	break;
@@ -197,7 +190,7 @@
 			    reStr = str.substring(0,i);
 		    }
 		    
-		    return b //b는 바이트수 의미
+		    return b
 		    
 		})(str);
 		
