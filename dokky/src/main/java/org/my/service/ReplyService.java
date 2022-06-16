@@ -4,11 +4,11 @@ package org.my.service;
 	import org.my.domain.ReplyLikeVO;
 	import org.my.domain.ReplyPageDTO;
 	import org.my.domain.ReplyVO;
-	import org.my.domain.commonVO;
+	import org.my.domain.CommonVO;
 
 public interface ReplyService {
 
-	public int create(commonVO vo);
+	public int create(CommonVO vo);
 
 	public ReplyVO read(Long reply_num);
 	
@@ -18,19 +18,19 @@ public interface ReplyService {
 	
 	public int delete(Long reply_num);
 	
-	public String giveReplyWriterMoney(commonVO vo);
+	public String giveReplyWriterMoney(CommonVO vo);
 	
 	public boolean checkReplyLikeButton(ReplyLikeVO vo);
 	
 	public boolean checkReplyDislikeButton(ReplyDisLikeVO vo);
 	
-	public boolean pushReplyLikeButton(commonVO vo);
+	public boolean pushReplyLikeButton(CommonVO vo);
 	
-	public boolean pushReplyDislikeButton(commonVO vo);
+	public boolean pushReplyDislikeButton(CommonVO vo);
 	
-	public boolean pullReplyLikeButton(commonVO vo);
+	public boolean pullReplyLikeButton(CommonVO vo);
 	
-	public boolean pullReplyDislikeButton(commonVO vo);
+	public boolean pullReplyDislikeButton(CommonVO vo);
 
 	public String getLikeCount(Long reply_num);
 	

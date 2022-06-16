@@ -8,7 +8,7 @@ package org.my.controller;
 	import org.my.domain.BoardVO;
 	import org.my.domain.Criteria;
 	import org.my.domain.PageDTO;
-	import org.my.domain.commonVO;
+	import org.my.domain.CommonVO;
 	import org.my.domain.ReportVO;
 	import org.my.security.domain.CustomUser;
 	import org.my.service.BoardService;
@@ -233,7 +233,7 @@ public class BoardController {
 	@PreAuthorize("hasRole('ROLE_USER')")
 	@PostMapping(value = "/likeBoard", consumes = "application/json", produces = "text/plain; charset=UTF-8")
 	@ResponseBody
-	public ResponseEntity<String> likeBoard(@RequestBody commonVO vo) {//게시글 좋아요 누르기 및 취소
+	public ResponseEntity<String> likeBoard(@RequestBody CommonVO vo) {//게시글 좋아요 누르기 및 취소
 		
 		log.info("/board/likeBoard");
 		log.info("vo: " +vo);
@@ -247,7 +247,7 @@ public class BoardController {
 	@PreAuthorize("hasRole('ROLE_USER')")
 	@PostMapping(value = "/disLikeBoard", consumes = "application/json", produces = "text/plain; charset=UTF-8")
 	@ResponseBody
-	public ResponseEntity<String> disLikeBoard(@RequestBody commonVO vo) {//게시글 싫어요 누르기 및 취소
+	public ResponseEntity<String> disLikeBoard(@RequestBody CommonVO vo) {//게시글 싫어요 누르기 및 취소
 		
 		log.info("/board/disLikeBoard");
 		log.info("vo: " +vo);
@@ -275,10 +275,10 @@ public class BoardController {
 	@PreAuthorize("principal.username == #vo.DonateVO.userId")
 	@PostMapping(value = "/giveBoardWriterMoney", consumes = "application/json", produces = "text/plain; charset=UTF-8")
 	@ResponseBody
-	public ResponseEntity<String> giveBoardWriterMoney(@RequestBody commonVO vo){
+	public ResponseEntity<String> giveBoardWriterMoney(@RequestBody CommonVO vo){
 		
 		log.info("/board/giveBoardWriterMoney");
-		log.info("commonVO: " + vo);
+		log.info("CommonVO: " + vo);
 		
 		String BoardMoney = boardService.giveBoardWriterMoney(vo);
 		

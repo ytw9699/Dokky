@@ -7,7 +7,7 @@ package org.my.service;
 	import org.my.domain.MemberVO;
 	import org.my.domain.AlarmVO;
 	import org.my.domain.CashVO;
-	import org.my.domain.commonVO;
+	import org.my.domain.CommonVO;
 	import org.my.domain.ReportVO;
 	import org.my.mapper.AdminMapper;
 	import org.my.mapper.CommonMapper;
@@ -134,7 +134,7 @@ public class AdminServiceImpl implements AdminService {
 	
 	@Transactional
 	@Override
-	public int approveCash(commonVO vo) {
+	public int approveCash(CommonVO vo) {
 
 		CashVO cashVO = vo.getCashVO();
 		

@@ -7,7 +7,7 @@ package org.my.controller;
 	import org.my.domain.ReplyLikeVO;
 	import org.my.domain.ReplyPageDTO;
 	import org.my.domain.ReplyVO;
-	import org.my.domain.commonVO;
+	import org.my.domain.CommonVO;
 	import org.my.service.ReplyService;
 	import org.springframework.http.HttpStatus;
 	import org.springframework.http.MediaType;
@@ -37,7 +37,7 @@ public class ReplyController {
 	@PreAuthorize("hasRole('ROLE_USER') and principal.username == #vo.replyVO.userId")
 	@ResponseBody
 	@PostMapping(value = "/reply", consumes = "application/json", produces = "text/plain; charset=UTF-8")
-	public ResponseEntity<String> createReply(@RequestBody commonVO vo) {
+	public ResponseEntity<String> createReply(@RequestBody CommonVO vo) {
 
 		log.info("/replies/reply");
 		log.info("vo : " + vo);
@@ -130,7 +130,7 @@ public class ReplyController {
 	@PreAuthorize("principal.username == #vo.ReplyDonateVO.userId")
 	@PostMapping(value = "/giveReplyWriterMoney", consumes = "application/json", produces = "text/plain; charset=UTF-8")
 	@ResponseBody
-	public ResponseEntity<String> giveReplyWriterMoney(@RequestBody commonVO vo) {//댓글 작성자에게 기부
+	public ResponseEntity<String> giveReplyWriterMoney(@RequestBody CommonVO vo) {//댓글 작성자에게 기부
 		
 			log.info("/replies/giveReplyWriterMoney");
 			log.info("ReplyDonateVO: " + vo);
@@ -150,7 +150,7 @@ public class ReplyController {
 	@PreAuthorize("principal.username == #vo.replyLikeVO.userId")
 	@PostMapping(value = "/likeReply", consumes = "application/json", produces = "text/plain; charset=UTF-8")
 	@ResponseBody
-	public ResponseEntity<String> likeReply(@RequestBody commonVO vo) {//댓글 좋아요 누르기 및 취소
+	public ResponseEntity<String> likeReply(@RequestBody CommonVO vo) {//댓글 좋아요 누르기 및 취소
 		
 			log.info("/replies/likeReply");
 			log.info("replyLikeVO = : " + vo);
@@ -181,7 +181,7 @@ public class ReplyController {
 	@PreAuthorize("principal.username == #vo.replyDisLikeVO.userId")
 	@PostMapping(value = "/disLikeReply", consumes = "application/json", produces = "text/plain; charset=UTF-8")
 	@ResponseBody
-	public ResponseEntity<String> disLikeReply(@RequestBody commonVO vo) {//댓글 싫어요 누르기 및 취소
+	public ResponseEntity<String> disLikeReply(@RequestBody CommonVO vo) {//댓글 싫어요 누르기 및 취소
 			
 			log.info("/replies/disLikeReply");
 			log.info("replyDisLikeVO = : " + vo);

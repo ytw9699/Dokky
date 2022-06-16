@@ -10,7 +10,7 @@ package org.my.service;
 	import org.my.domain.BoardVO;
 	import org.my.domain.Criteria;
 	import org.my.domain.AlarmVO;
-	import org.my.domain.commonVO;
+	import org.my.domain.CommonVO;
 	import org.my.domain.DonateVO;
 	import org.my.domain.ReportVO;
 	import org.my.mapper.BoardAttachMapper;
@@ -242,7 +242,7 @@ public class BoardServiceImpl implements BoardService {
 		
 	@Transactional
 	@Override
-	public String likeBoard(commonVO vo) {
+	public String likeBoard(CommonVO vo) {
 		
 		BoardLikeVO boardLikeVO = vo.getBoardLikeVO();
 		
@@ -277,7 +277,7 @@ public class BoardServiceImpl implements BoardService {
 	
 	@Transactional
 	@Override
-	public String disLikeBoard(commonVO vo) {
+	public String disLikeBoard(CommonVO vo) {
 		
 		BoardDisLikeVO boardDisLikeVO = vo.getBoardDisLikeVO();
 		
@@ -320,7 +320,7 @@ public class BoardServiceImpl implements BoardService {
 	
 	@Transactional
 	@Override 
-	public String giveBoardWriterMoney(commonVO vo) {
+	public String giveBoardWriterMoney(CommonVO vo) {
 		  
 		DonateVO donateVO = vo.getDonateVO();
 		

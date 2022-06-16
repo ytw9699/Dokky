@@ -2,7 +2,7 @@ package org.my.domain;
 	import lombok.Data;
 	
 @Data
-public class commonVO { 
+public class CommonVO { 
 	  private CashVO cashVO;
 	  private AlarmVO alarmVO;
 	  private ReplyVO replyVO;

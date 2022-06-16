@@ -7,7 +7,7 @@ package org.my.service;
 	import org.my.domain.BoardAttachVO;
 	import org.my.domain.BoardVO;
 	import org.my.domain.Criteria;
-	import org.my.domain.commonVO;
+	import org.my.domain.CommonVO;
 	import org.my.domain.ReportVO;
 
 public interface BoardService {
@@ -38,13 +38,13 @@ public interface BoardService {
 	
 	public boolean removeBoards(String checkRow, HttpServletRequest request);
 	
-	public String likeBoard(commonVO vo);
+	public String likeBoard(CommonVO vo);
 	
-	public String disLikeBoard(commonVO vo);
+	public String disLikeBoard(CommonVO vo);
 	
 	public String getMyCash(String userId);
 
-	public String giveBoardWriterMoney(commonVO vo);
+	public String giveBoardWriterMoney(CommonVO vo);
 
 	public boolean createReportdata(ReportVO vo);
 

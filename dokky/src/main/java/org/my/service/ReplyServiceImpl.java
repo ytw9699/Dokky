@@ -9,7 +9,7 @@ package org.my.service;
 	import org.my.domain.ReplyPageDTO;
 	import org.my.domain.ReplyVO;
 	import org.my.domain.AlarmVO;
-	import org.my.domain.commonVO;
+	import org.my.domain.CommonVO;
 	import org.my.domain.ReplyDonateVO;
 	import org.my.mapper.BoardMapper;
 	import org.my.mapper.CommonMapper;
@@ -30,7 +30,7 @@ public class ReplyServiceImpl implements ReplyService {
 		
 	@Transactional
 	@Override
-	public int create(commonVO vo) {
+	public int create(CommonVO vo) {
 		
 		int returnVal;
 		
@@ -145,7 +145,7 @@ public class ReplyServiceImpl implements ReplyService {
 	  
 	@Transactional
 	@Override 
-	public String giveReplyWriterMoney(commonVO vo) {
+	public String giveReplyWriterMoney(CommonVO vo) {
 		
 		ReplyDonateVO replyDonateVO = vo.getReplyDonateVO();
 		
@@ -189,7 +189,7 @@ public class ReplyServiceImpl implements ReplyService {
 		
 	@Transactional
 	@Override
-	public boolean pushReplyLikeButton(commonVO vo) {//댓글 좋아요 버튼 누르기
+	public boolean pushReplyLikeButton(CommonVO vo) {//댓글 좋아요 버튼 누르기
 		
 		log.info("pushReplyLikeButton...." + vo);
 		
@@ -204,7 +204,7 @@ public class ReplyServiceImpl implements ReplyService {
 	
 	@Transactional
 	@Override
-	public boolean pushReplyDislikeButton(commonVO vo) {//댓글 싫어요 버튼 누르기
+	public boolean pushReplyDislikeButton(CommonVO vo) {//댓글 싫어요 버튼 누르기
 		
 		log.info("pushReplyDislikeButton...." + vo);
 		
@@ -219,7 +219,7 @@ public class ReplyServiceImpl implements ReplyService {
 		
 	@Transactional
 	@Override
-	public boolean pullReplyLikeButton(commonVO vo) {//댓글 좋아요 당기기(취소)
+	public boolean pullReplyLikeButton(CommonVO vo) {//댓글 좋아요 당기기(취소)
 		
 		log.info("pullReplyLikeButton...." + vo);
 		
@@ -234,7 +234,7 @@ public class ReplyServiceImpl implements ReplyService {
 	
 	@Transactional
 	@Override
-	public boolean pullReplyDislikeButton(commonVO vo) {//댓글 싫어요 당기기(취소)
+	public boolean pullReplyDislikeButton(CommonVO vo) {//댓글 싫어요 당기기(취소)
 		
 		log.info("pullReplyDislikeButton...." + vo);
 		

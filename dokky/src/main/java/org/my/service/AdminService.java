@@ -6,7 +6,7 @@ package org.my.service;
 	import org.my.domain.Criteria;
 	import org.my.domain.MemberVO;
 	import org.my.domain.CashVO;
-	import org.my.domain.commonVO;
+	import org.my.domain.CommonVO;
 	import org.my.domain.ReportVO;
 	import org.my.domain.AlarmVO;
 
@@ -34,5 +34,5 @@ public interface AdminService {
 	
 	public int deleteRole(String userId, String role, AlarmVO vo);
 
-	public int approveCash(commonVO vo);
+	public int approveCash(CommonVO vo);
 }

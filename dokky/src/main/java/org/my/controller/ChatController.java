@@ -11,7 +11,7 @@ package org.my.controller;
 	import org.my.domain.ChatRoomVO;
 	import org.my.domain.MemberVO;
 	import org.my.domain.ChatRoomDTO;
-	import org.my.domain.commonVO;
+	import org.my.domain.CommonVO;
 	import org.my.security.domain.CustomUser;
 	import org.my.service.ChatService;
 	import org.springframework.http.HttpStatus;
@@ -42,7 +42,7 @@ public class ChatController {
 	@PreAuthorize("principal.username == #vo.chatRoomVO.roomOwnerId")
 	@ResponseBody
 	@PostMapping(value = "/createSingleChat", consumes = "application/json", produces = "text/plain; charset=UTF-8")
-	public ResponseEntity<String> createSingleChat(@RequestBody commonVO vo) throws IOException{
+	public ResponseEntity<String> createSingleChat(@RequestBody CommonVO vo) throws IOException{
 
 		 log.info("/createSingleChat");
 		 log.info("vo : " + vo);
@@ -94,7 +94,7 @@ public class ChatController {
 	@PreAuthorize("hasRole('ROLE_USER')")
 	@ResponseBody
 	@PostMapping(value = "/createMultiChat", consumes = "application/json", produces = "text/plain; charset=UTF-8")
-	public ResponseEntity<String> createMultiChat(@RequestBody commonVO vo) throws IOException{
+	public ResponseEntity<String> createMultiChat(@RequestBody CommonVO vo) throws IOException{
 		
 		log.info("/createMultiChat");
 		log.info(vo);
@@ -260,7 +260,7 @@ public class ChatController {
 	@PreAuthorize("hasRole('ROLE_USER')")
 	@ResponseBody
 	@PostMapping(value = "/inviteChatMembers", consumes = "application/json", produces = "text/plain; charset=UTF-8")
-	public ResponseEntity<String> inviteChatMembers(@RequestBody commonVO vo) throws IOException{
+	public ResponseEntity<String> inviteChatMembers(@RequestBody CommonVO vo) throws IOException{
 	
 		log.info("/inviteChatMembers");
 		log.info(vo);

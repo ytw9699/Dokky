@@ -5,7 +5,7 @@ package org.my.controller;
 	import org.my.domain.Criteria;
 	import org.my.domain.PageDTO;
 	import org.my.domain.AlarmVO;
-	import org.my.domain.commonVO;
+	import org.my.domain.CommonVO;
 	import org.my.service.AdminService;
 	import org.my.service.MypageService;
 	import org.springframework.http.HttpStatus;
@@ -172,10 +172,10 @@ public class AdminController {
 	@RequestMapping(method = { RequestMethod.PUT, RequestMethod.PATCH }, 
 					value = "/admin/approveCash", consumes = "application/json", produces = "text/plain; charset=UTF-8")
 	@ResponseBody
-	public ResponseEntity<String> approveCash(@RequestBody commonVO vo){
+	public ResponseEntity<String> approveCash(@RequestBody CommonVO vo){
 		
 		log.info("/approveCash");
-		log.info("commonVO...="+vo);
+		log.info("CommonVO...="+vo);
 		
 		return adminService.approveCash(vo) == 1 ? new ResponseEntity<>("success", HttpStatus.OK)
 				: new ResponseEntity<>("fail", HttpStatus.INTERNAL_SERVER_ERROR);
