@@ -8,7 +8,7 @@ package org.my.service;
 	import org.my.domain.ChatRoomVO;
 	import org.my.domain.MemberVO;
 	import org.my.domain.ChatRoomDTO;
-	import org.my.domain.multiRoomVO;
+	import org.my.domain.MultiRoomVO;
 
 public interface ChatService {
 	
@@ -50,7 +50,7 @@ public interface ChatService {
 
 	public List<MemberVO> getChatUserList(String keyword, String userId);
 
-	public multiRoomVO getChatTitleInfo(Long chatRoomNum);
+	public MultiRoomVO getChatTitleInfo(Long chatRoomNum);
 
 	public int updateChatTitle(ChatRoomVO chatRoomVO);
 

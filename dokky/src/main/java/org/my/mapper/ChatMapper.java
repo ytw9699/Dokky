@@ -7,7 +7,7 @@ package org.my.mapper;
 	import org.my.domain.ChatReadVO;
 	import org.my.domain.ChatRoomVO;
 	import org.my.domain.MemberVO;
-	import org.my.domain.multiRoomVO;
+	import org.my.domain.MultiRoomVO;
 
 public interface ChatMapper {
 
@@ -63,7 +63,7 @@ public interface ChatMapper {
 
 	int getRead_type(ChatReadVO vo);
 
-	multiRoomVO getChatTitleInfo(@Param("chatRoomNum") Long chatRoomNum);
+	MultiRoomVO getChatTitleInfo(@Param("chatRoomNum") Long chatRoomNum);
 
 	int updateChatTitle(ChatRoomVO chatRoomVO);
 

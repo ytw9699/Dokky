@@ -256,7 +256,7 @@
 	   		<!-- 한글 > 영문 > 숫자의 오름차순 -->
 	   </select>
 	   
-	   <select id="getChatTitleInfo" resultType="org.my.domain.multiRoomVO">
+	   <select id="getChatTitleInfo" resultType="org.my.domain.MultiRoomVO">
 	   		select chat_title, roomOwnerId, roomOwnerNick from dk_chat_room where chatRoomNum = #{chatRoomNum}
 	   </select>
 	   

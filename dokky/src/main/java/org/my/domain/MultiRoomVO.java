@@ -2,7 +2,7 @@ package org.my.domain;
 	import lombok.Data;
 
 @Data
-public class multiRoomVO {
+public class MultiRoomVO {
 	
 	  private String chat_title;//제목
 	  private String roomOwnerId;//방장 아이디

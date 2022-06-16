@@ -16,7 +16,7 @@ package org.my.service;
 	import org.my.domain.ChatRoomVO;
 	import org.my.domain.MemberVO;
 	import org.my.domain.ChatRoomDTO;
-	import org.my.domain.multiRoomVO;
+	import org.my.domain.MultiRoomVO;
 	import org.my.mapper.ChatMapper;
 	import org.springframework.stereotype.Service;
 	import org.springframework.transaction.annotation.Transactional;
@@ -373,7 +373,7 @@ public class ChatServiceImpl implements ChatService {
 		}
 		
 		@Override
-		public multiRoomVO getChatTitleInfo(Long chatRoomNum){
+		public MultiRoomVO getChatTitleInfo(Long chatRoomNum){
 			
 			log.info("getChatTitleInfo");
 			
