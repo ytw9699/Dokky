@@ -4,8 +4,8 @@
 package org.my.controller;
 	import java.util.List;
 	import javax.servlet.http.HttpServletRequest;
-	import org.my.domain.BoardAttachVO;
 	import org.my.domain.board.BoardVO;
+	import org.my.domain.board.BoardAttachVO;
 	import org.my.domain.Criteria;
 	import org.my.domain.PageDTO;
 	import org.my.domain.CommonVO;

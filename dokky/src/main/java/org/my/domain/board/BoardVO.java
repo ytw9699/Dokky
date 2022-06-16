@@ -1,7 +1,6 @@
 package org.my.domain.board;
 	import java.util.Date;
 	import java.util.List;
-	import org.my.domain.BoardAttachVO;
 	import lombok.Data;
 	
 @Data//생성자와 getter/setter, toString()

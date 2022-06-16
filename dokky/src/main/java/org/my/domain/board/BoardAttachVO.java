@@ -1,4 +1,4 @@
-package org.my.domain;
+package org.my.domain.board;
 	import lombok.Data;
 
 @Data

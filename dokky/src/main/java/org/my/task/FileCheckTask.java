@@ -4,7 +4,7 @@
 package org.my.task;
 	import java.util.ArrayList;
 	import java.util.List;
-	import org.my.domain.BoardAttachVO;
+	import org.my.domain.board.BoardAttachVO;
 	import org.my.mapper.BoardAttachMapper;
 	import org.my.s3.myS3Util;
 	import org.springframework.beans.factory.annotation.Autowired;

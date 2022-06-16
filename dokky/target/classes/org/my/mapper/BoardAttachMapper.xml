@@ -27,11 +27,11 @@
 			delete from dk_attach where uuid = #{uuid}
 	</delete>
 
-	<select id="getAttachList" resultType="org.my.domain.BoardAttachVO">
+	<select id="getAttachList" resultType="org.my.domain.board.BoardAttachVO">
 			select * from dk_attach where board_num = #{board_num}
 	</select>
 
-	<select id="getYesterdayFiles" resultType="org.my.domain.BoardAttachVO">
+	<select id="getYesterdayFiles" resultType="org.my.domain.board.BoardAttachVO">
 			select * from dk_attach where uploadpath = 'upload' || to_char(sysdate -1 ,'/yyyy/mm/dd')
 			<!-- 어제 날짜 모든첨부파일 목록 가져오기 -->
 	</select>
