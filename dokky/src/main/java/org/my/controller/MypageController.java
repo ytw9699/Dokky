@@ -9,7 +9,7 @@ package org.my.controller;
 	import org.my.domain.MemberVO;
 	import org.my.domain.PageDTO;
 	import org.my.domain.CashVO;
-	import org.my.domain.checkPwVO;
+	import org.my.domain.CheckPwVO;
 	import org.my.service.AdminService;
 	import org.my.service.BoardService;
 	import org.my.service.CommonService;
@@ -350,7 +350,7 @@ public class MypageController {
 	@PreAuthorize("principal.username == #vo.userId") 
 	@PostMapping(value = "/checkPassword", consumes = "application/json", produces = "text/plain; charset=UTF-8")
 	@ResponseBody
-	public ResponseEntity<String> checkPassword(@RequestBody checkPwVO vo) {
+	public ResponseEntity<String> checkPassword(@RequestBody CheckPwVO vo) {
 		
 		log.info("/mypage/checkPassword");
 		log.info("checkPwVO = "+vo);
@@ -377,7 +377,7 @@ public class MypageController {
 	@PreAuthorize("principal.username == #vo.userId")
 	@PostMapping(value = "/changeMyPassword", consumes = "application/json", produces = "text/plain; charset=UTF-8")
 	@ResponseBody
-	public ResponseEntity<String> changeMyPassword(@RequestBody checkPwVO vo) {
+	public ResponseEntity<String> changeMyPassword(@RequestBody CheckPwVO vo) {
 		
 		log.info("/mypage/changeMyPassword");
 
