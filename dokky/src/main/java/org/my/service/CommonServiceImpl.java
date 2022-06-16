@@ -12,7 +12,7 @@ package org.my.service;
 	import org.my.domain.Criteria;
 	import org.my.domain.MemberVO;
 	import org.my.domain.VisitCountVO;
-	import org.my.domain.alarmVO;
+	import org.my.domain.AlarmVO;
 	import org.my.domain.noteVO;
 	import org.my.mapper.CommonMapper;
 	import org.my.security.domain.CustomUser;
@@ -220,21 +220,21 @@ public class CommonServiceImpl implements CommonService {
 	}
 	
 	@Override
-	public List<alarmVO> getAllAlarmList(Criteria cri){
+	public List<AlarmVO> getAllAlarmList(Criteria cri){
 		log.info("getAllAlarmList");
 		
 		return mapper.getAllAlarmList(cri);
 	}
 	
 	@Override
-	public List<alarmVO> getAlarmListRead(Criteria cri){
+	public List<AlarmVO> getAlarmListRead(Criteria cri){
 		log.info("getAlarmListRead");
 		
 		return mapper.getAlarmListRead(cri);
 	}
 	
 	@Override
-	public List<alarmVO> getAlarmListNotRead(Criteria cri){
+	public List<AlarmVO> getAlarmListNotRead(Criteria cri){
 		log.info("getAlarmListNotRead");
 		
 		return mapper.getAlarmListNotRead(cri);
@@ -258,7 +258,7 @@ public class CommonServiceImpl implements CommonService {
 	}
 	
 	@Override 
-	public int insertAlarm(alarmVO vo) {  
+	public int insertAlarm(AlarmVO vo) {  
 
 		log.info("insertAlarm..." + vo); 
 		 

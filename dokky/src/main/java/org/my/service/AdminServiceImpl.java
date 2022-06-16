@@ -5,7 +5,7 @@ package org.my.service;
 	import java.util.List;
 	import org.my.domain.Criteria;
 	import org.my.domain.MemberVO;
-	import org.my.domain.alarmVO;
+	import org.my.domain.AlarmVO;
 	import org.my.domain.cashVO;
 	import org.my.domain.commonVO;
 	import org.my.domain.reportVO;
@@ -82,7 +82,7 @@ public class AdminServiceImpl implements AdminService {
 	
 	@Transactional
 	@Override
-	public int limitLogin(String userId, alarmVO vo) {
+	public int limitLogin(String userId, AlarmVO vo) {
 		
 		log.info("insertAlarm");
 		
@@ -95,7 +95,7 @@ public class AdminServiceImpl implements AdminService {
 	
 	@Transactional
 	@Override
-	public int permitLogin(String userId, alarmVO vo) {
+	public int permitLogin(String userId, AlarmVO vo) {
 		
 		log.info("insertAlarm");
 		
@@ -108,7 +108,7 @@ public class AdminServiceImpl implements AdminService {
 	
 	@Transactional
 	@Override
-	public int insertRole(String userId, String role, alarmVO vo) {
+	public int insertRole(String userId, String role, AlarmVO vo) {
 		
 		log.info("insertAlarm");
 		
@@ -121,7 +121,7 @@ public class AdminServiceImpl implements AdminService {
 	
 	@Transactional
 	@Override
-	public int deleteRole(String userId, String role, alarmVO vo) {
+	public int deleteRole(String userId, String role, AlarmVO vo) {
 		
 		log.info("insertAlarm");
 		

@@ -8,7 +8,7 @@ package org.my.service;
 	import org.my.domain.cashVO;
 	import org.my.domain.commonVO;
 	import org.my.domain.reportVO;
-	import org.my.domain.alarmVO;
+	import org.my.domain.AlarmVO;
 
 public interface AdminService {
 	
@@ -26,13 +26,13 @@ public interface AdminService {
 	
 	public MemberVO getUserForm(String userId);
 	
-	public int limitLogin(String userId , alarmVO vo);
+	public int limitLogin(String userId , AlarmVO vo);
 	
-	public int permitLogin(String userId , alarmVO vo);
+	public int permitLogin(String userId , AlarmVO vo);
 
-	public int insertRole(String userId, String role, alarmVO vo);
+	public int insertRole(String userId, String role, AlarmVO vo);
 	
-	public int deleteRole(String userId, String role, alarmVO vo);
+	public int deleteRole(String userId, String role, AlarmVO vo);
 
 	public int approveCash(commonVO vo);
 }

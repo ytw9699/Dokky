@@ -8,7 +8,7 @@ package org.my.service;
 	import org.my.domain.ReplyLikeVO;
 	import org.my.domain.ReplyPageDTO;
 	import org.my.domain.ReplyVO;
-	import org.my.domain.alarmVO;
+	import org.my.domain.AlarmVO;
 	import org.my.domain.commonVO;
 	import org.my.domain.replyDonateVO;
 	import org.my.mapper.BoardMapper;
@@ -36,7 +36,7 @@ public class ReplyServiceImpl implements ReplyService {
 		
 		log.info("create......reply " + vo);
 		ReplyVO replyVO = vo.getReplyVO();
-		alarmVO alarmVO = vo.getAlarmVO();
+		AlarmVO alarmVO = vo.getAlarmVO();
 
 		log.info("updateReplyCnt......" + vo);
 		boardMapper.updateReplyCnt(replyVO.getBoard_num(), 1);

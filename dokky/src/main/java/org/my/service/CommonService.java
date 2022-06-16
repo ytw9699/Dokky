@@ -9,7 +9,7 @@ package org.my.service;
 	import org.my.domain.Criteria;
 	import org.my.domain.MemberVO;
 	import org.my.domain.VisitCountVO;
-	import org.my.domain.alarmVO;
+	import org.my.domain.AlarmVO;
 	import org.my.domain.noteVO;
 
 public interface CommonService {
@@ -36,13 +36,13 @@ public interface CommonService {
 	
 	public int getAlarmCountRead(Criteria cri);
 
-	public List<alarmVO> getAllAlarmList(Criteria cri);
+	public List<AlarmVO> getAllAlarmList(Criteria cri);
 	
-	public List<alarmVO> getAlarmListRead(Criteria cri);
+	public List<AlarmVO> getAlarmListRead(Criteria cri);
 
-	public List<alarmVO> getAlarmListNotRead(Criteria cri);
+	public List<AlarmVO> getAlarmListNotRead(Criteria cri);
 	
-	public int insertAlarm(alarmVO vo);
+	public int insertAlarm(AlarmVO vo);
 
 	public int getAlarmCountNotRead(String userId);
 	

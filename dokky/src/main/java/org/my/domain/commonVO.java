@@ -4,7 +4,7 @@ package org.my.domain;
 @Data
 public class commonVO { 
 	  private cashVO cashVO;
-	  private alarmVO alarmVO;
+	  private AlarmVO alarmVO;
 	  private ReplyVO replyVO;
 	  private reportVO reportVO;
 	  private BoardLikeVO boardLikeVO;

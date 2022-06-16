@@ -4,7 +4,7 @@
 package org.my.controller;
 	import org.my.domain.Criteria;
 	import org.my.domain.PageDTO;
-	import org.my.domain.alarmVO;
+	import org.my.domain.AlarmVO;
 	import org.my.domain.commonVO;
 	import org.my.service.AdminService;
 	import org.my.service.MypageService;
@@ -94,7 +94,7 @@ public class AdminController {
 	@PreAuthorize("hasRole('ROLE_ADMIN')")
 	@PostMapping(value = "/admin/limitLogin/{userId}", produces = "text/plain; charset=UTF-8")
 	@ResponseBody
-	public ResponseEntity<String> limitLogin(@PathVariable("userId") String userId, @RequestBody alarmVO vo) {
+	public ResponseEntity<String> limitLogin(@PathVariable("userId") String userId, @RequestBody AlarmVO vo) {
 	
 		log.info("admin/limitLogin");
 		log.info("userId...="+userId);
@@ -107,7 +107,7 @@ public class AdminController {
 	@PreAuthorize("hasRole('ROLE_ADMIN')")
 	@PostMapping(value = "/admin/permitLogin/{userId}", produces = "text/plain; charset=UTF-8")
 	@ResponseBody
-	public ResponseEntity<String> permitLogin(@PathVariable("userId") String userId , @RequestBody alarmVO vo) {
+	public ResponseEntity<String> permitLogin(@PathVariable("userId") String userId , @RequestBody AlarmVO vo) {
 	
 		log.info("admin/permitLogin");
 		log.info("userId...="+userId);
@@ -120,7 +120,7 @@ public class AdminController {
 	@PreAuthorize("hasRole('ROLE_ADMIN')")
 	@PostMapping(value = "/admin/createRoleUser/{userId}", produces = "text/plain; charset=UTF-8")
 	@ResponseBody
-	public ResponseEntity<String> createRoleUser(@PathVariable("userId") String userId, @RequestBody alarmVO vo) {
+	public ResponseEntity<String> createRoleUser(@PathVariable("userId") String userId, @RequestBody AlarmVO vo) {
 		
 		return adminService.insertRole(userId, "ROLE_USER", vo) == 1 ? new ResponseEntity<>("success", HttpStatus.OK)
 				: new ResponseEntity<>("fail", HttpStatus.INTERNAL_SERVER_ERROR);
@@ -129,7 +129,7 @@ public class AdminController {
 	@PreAuthorize("hasRole('ROLE_ADMIN')")
 	@PostMapping(value = "/admin/deleteRoleUser/{userId}", produces = "text/plain; charset=UTF-8")
 	@ResponseBody
-	public ResponseEntity<String> deleteRoleUser(@PathVariable("userId") String userId, @RequestBody alarmVO vo) {
+	public ResponseEntity<String> deleteRoleUser(@PathVariable("userId") String userId, @RequestBody AlarmVO vo) {
 		
 		return adminService.deleteRole(userId, "ROLE_USER", vo) == 1 ? new ResponseEntity<>("success", HttpStatus.OK)
 				: new ResponseEntity<>("fail", HttpStatus.INTERNAL_SERVER_ERROR);
@@ -138,7 +138,7 @@ public class AdminController {
 	@PreAuthorize("hasRole('ROLE_SUPER')")
 	@PostMapping(value = "superAdmin/createRoleAdmin/{userId}", produces = "text/plain; charset=UTF-8")
 	@ResponseBody
-	public ResponseEntity<String> createRoleAdmin(@PathVariable("userId") String userId, @RequestBody alarmVO vo) {
+	public ResponseEntity<String> createRoleAdmin(@PathVariable("userId") String userId, @RequestBody AlarmVO vo) {
 		
 		return adminService.insertRole(userId, "ROLE_ADMIN", vo) == 1 ? new ResponseEntity<>("success", HttpStatus.OK)
 				: new ResponseEntity<>("fail", HttpStatus.INTERNAL_SERVER_ERROR);
@@ -147,7 +147,7 @@ public class AdminController {
 	@PreAuthorize("hasRole('ROLE_SUPER')")
 	@PostMapping(value = "superAdmin/deleteRoleAdmin/{userId}", produces = "text/plain; charset=UTF-8")
 	@ResponseBody
-	public ResponseEntity<String> deleteRoleAdmin(@PathVariable("userId") String userId, @RequestBody alarmVO vo) {
+	public ResponseEntity<String> deleteRoleAdmin(@PathVariable("userId") String userId, @RequestBody AlarmVO vo) {
 		
 		return adminService.deleteRole(userId, "ROLE_ADMIN", vo) == 1 ? new ResponseEntity<>("success", HttpStatus.OK)
 				: new ResponseEntity<>("fail", HttpStatus.INTERNAL_SERVER_ERROR);

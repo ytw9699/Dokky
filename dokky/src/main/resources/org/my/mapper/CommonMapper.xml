@@ -148,7 +148,7 @@
 			select count(*) from dk_chat_read where chat_memberId = #{userId} and read_type = 0
        </select>
 	  
-       <select id="getAllAlarmList" resultType="org.my.domain.alarmVO"> 
+       <select id="getAllAlarmList" resultType="org.my.domain.AlarmVO"> 
 			select alarmNum,
 				   checking,
 				   target,
@@ -175,7 +175,7 @@
 						  ]]>
 	   </select>
 	   
-	    <select id="getAlarmListRead" resultType="org.my.domain.alarmVO"> 
+	    <select id="getAlarmListRead" resultType="org.my.domain.AlarmVO"> 
 			select alarmNum,
 				   checking,
 				   target,
@@ -200,7 +200,7 @@
 						  ]]>
 	   </select>
 	   
-	    <select id="getAlarmListNotRead" resultType="org.my.domain.alarmVO"> 
+	    <select id="getAlarmListNotRead" resultType="org.my.domain.AlarmVO"> 
 			select alarmNum,
 				   checking,
 				   target,

@@ -3,7 +3,7 @@ package org.my.domain;
 	import lombok.Data;
 	
 @Data
-public class alarmVO { 
+public class AlarmVO { 
 	  private Long alarmNum;
 	  private String checking;
 	  private String target;

@@ -9,7 +9,7 @@ package org.my.service;
 	import org.my.domain.BoardLikeVO;
 	import org.my.domain.BoardVO;
 	import org.my.domain.Criteria;
-	import org.my.domain.alarmVO;
+	import org.my.domain.AlarmVO;
 	import org.my.domain.commonVO;
 	import org.my.domain.donateVO;
 	import org.my.domain.reportVO;
@@ -250,7 +250,7 @@ public class BoardServiceImpl implements BoardService {
 		
 		boolean returnVal = false;
 		
-		alarmVO alarmVO = vo.getAlarmVO();
+		AlarmVO alarmVO = vo.getAlarmVO();
 		
 		if(CheckResult == false){ 
 			
@@ -285,7 +285,7 @@ public class BoardServiceImpl implements BoardService {
 		
 		boolean returnVal = false;
 		
-		alarmVO alarmVO = vo.getAlarmVO();
+		AlarmVO alarmVO = vo.getAlarmVO();
 		
 		if(CheckResult == false){ 
 			
