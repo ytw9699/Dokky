@@ -5,7 +5,7 @@ package org.my.domain;
 
 @Data
 @AllArgsConstructor
-public class chatRoomDTO {
+public class ChatRoomDTO {
 	  private ChatRoomVO chatRoomVo;
 	  private ChatContentVO chatContentVo;
 	  private List<ChatReadVO> chatReadVoList;

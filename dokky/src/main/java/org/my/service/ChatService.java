@@ -7,7 +7,7 @@ package org.my.service;
 	import org.my.domain.ChatRoom;
 	import org.my.domain.ChatRoomVO;
 	import org.my.domain.MemberVO;
-	import org.my.domain.chatRoomDTO;
+	import org.my.domain.ChatRoomDTO;
 	import org.my.domain.multiRoomVO;
 
 public interface ChatService {
@@ -46,7 +46,7 @@ public interface ChatService {
 
 	public int readChat(ChatReadVO vo);
 
-	public List<chatRoomDTO> getMyChatRoomList(String userId);
+	public List<ChatRoomDTO> getMyChatRoomList(String userId);
 
 	public List<MemberVO> getChatUserList(String keyword, String userId);
 

@@ -33,33 +33,33 @@
      		 </span>
 	    </div>
 		<div class="chatList">
-			<c:forEach items="${chatRoomList}" var="chatRoomDTO">
-				<c:if test="${chatRoomDTO.chatRoomVo.chat_type == 0 }"><!-- 1:1채팅방 이라면 -->
-					<div class="listContent singleChat" id="${chatRoomDTO.chatRoomVo.chatRoomNum}" data-chat_nickname="${chatRoomDTO.chatReadVoList[0].chat_memberNick}" data-chat_userid="${chatRoomDTO.chatReadVoList[0].chat_memberId}">
+			<c:forEach items="${chatRoomList}" var="ChatRoomDTO">
+				<c:if test="${ChatRoomDTO.chatRoomVo.chat_type == 0 }"><!-- 1:1채팅방 이라면 -->
+					<div class="listContent singleChat" id="${ChatRoomDTO.chatRoomVo.chatRoomNum}" data-chat_nickname="${ChatRoomDTO.chatReadVoList[0].chat_memberNick}" data-chat_userid="${ChatRoomDTO.chatReadVoList[0].chat_memberId}">
 				</c:if>
-				<c:if test="${chatRoomDTO.chatRoomVo.chat_type == 1 }"><!-- 멀티 채팅방 이라면 -->
-					<div class="listContent multiChat" id="${chatRoomDTO.chatRoomVo.chatRoomNum}" data-chatroom_num="${chatRoomDTO.chatRoomVo.chatRoomNum}">
+				<c:if test="${ChatRoomDTO.chatRoomVo.chat_type == 1 }"><!-- 멀티 채팅방 이라면 -->
+					<div class="listContent multiChat" id="${ChatRoomDTO.chatRoomVo.chatRoomNum}" data-chatroom_num="${ChatRoomDTO.chatRoomVo.chatRoomNum}">
 				</c:if>
 					<div class="firstWrap">
-						<c:if test="${chatRoomDTO.chatRoomVo.chat_type == 0 }">
+						<c:if test="${ChatRoomDTO.chatRoomVo.chat_type == 0 }">
 							<c:choose>
 							   	  <c:when test="${pageContext.request.serverName == 'localhost'}"> 
-									 	<img src="/resources/img/profile_img/<c:out value="${chatRoomDTO.chatReadVoList[0].chat_memberId}"/>.png?${random}" class="singleMemberImage" onerror="this.src='/resources/img/profile_img/basicProfile.png'"/>
+									 	<img src="/resources/img/profile_img/<c:out value="${ChatRoomDTO.chatReadVoList[0].chat_memberId}"/>.png?${random}" class="singleMemberImage" onerror="this.src='/resources/img/profile_img/basicProfile.png'"/>
 								  </c:when> 
 							      <c:otherwise> 
-							    		<img src="/upload/<c:out value="${chatRoomDTO.chatReadVoList[0].chat_memberId}"/>.png?${random}" class="singleMemberImage" onerror="this.src='/ROOT/resources/img/profile_img/basicProfile.png'" />
+							    		<img src="/upload/<c:out value="${ChatRoomDTO.chatReadVoList[0].chat_memberId}"/>.png?${random}" class="singleMemberImage" onerror="this.src='/ROOT/resources/img/profile_img/basicProfile.png'" />
 							      </c:otherwise>
 							</c:choose>
 						</c:if>
-						<c:if test="${chatRoomDTO.chatRoomVo.chat_type == 1 }">
+						<c:if test="${ChatRoomDTO.chatRoomVo.chat_type == 1 }">
 							<c:choose>
 							   	  <c:when test="${pageContext.request.serverName == 'localhost'}"> 
-									 	<c:forEach items="${chatRoomDTO.chatReadVoList}" var="chatReadVO" begin="0" end="3"> 
+									 	<c:forEach items="${ChatRoomDTO.chatReadVoList}" var="chatReadVO" begin="0" end="3"> 
 											<img src="/resources/img/profile_img/<c:out value="${chatReadVO.chat_memberId}"/>.png?${random}" class="multiMemberImage" onerror="this.src='/resources/img/profile_img/basicProfile.png'"/>
 										</c:forEach>
 								  </c:when> 
 							      <c:otherwise> 
-							      		<c:forEach items="${chatRoomDTO.chatReadVoList}" var="chatReadVO" begin="0" end="3">
+							      		<c:forEach items="${ChatRoomDTO.chatReadVoList}" var="chatReadVO" begin="0" end="3">
 									 		<img src="/upload/<c:out value="${chatReadVO.chat_memberId}"/>.png?${random}" class="multiMemberImage" onerror="this.src='/ROOT/resources/img/profile_img/basicProfile.png'" />
 										</c:forEach>
 							      </c:otherwise> 
@@ -68,15 +68,15 @@
 					</div>
 					<div class="secondWrap"> 
 						<div class="chatNick">
-							<c:if test="${chatRoomDTO.chatRoomVo.chat_type == 0 }">
-								${chatRoomDTO.chatReadVoList[0].chat_memberNick}
+							<c:if test="${ChatRoomDTO.chatRoomVo.chat_type == 0 }">
+								${ChatRoomDTO.chatReadVoList[0].chat_memberNick}
 							</c:if>
-							<c:if test="${chatRoomDTO.chatRoomVo.chat_type == 1 }">
-								<c:if test="${chatRoomDTO.chatRoomVo.chat_title != null}">
-		        						${chatRoomDTO.chatRoomVo.chat_title}
+							<c:if test="${ChatRoomDTO.chatRoomVo.chat_type == 1 }">
+								<c:if test="${ChatRoomDTO.chatRoomVo.chat_title != null}">
+		        						${ChatRoomDTO.chatRoomVo.chat_title}
 		        				</c:if>
-		        				<c:if test="${chatRoomDTO.chatRoomVo.chat_title == null}">
-			        				<c:forEach items="${chatRoomDTO.chatReadVoList}" var="chatReadVO" varStatus="status">
+		        				<c:if test="${ChatRoomDTO.chatRoomVo.chat_title == null}">
+			        				<c:forEach items="${ChatRoomDTO.chatReadVoList}" var="chatReadVO" varStatus="status">
 										<c:if test="${!status.last}">
 											${chatReadVO.chat_memberNick}, 
 										</c:if> 
@@ -88,30 +88,30 @@
 							</c:if>
 						</div>
 						<div class="memberCount">
-							<c:if test="${chatRoomDTO.chatRoomVo.chat_type == 1 }">
-								(${chatRoomDTO.chatRoomVo.headCount}) 
+							<c:if test="${ChatRoomDTO.chatRoomVo.chat_type == 1 }">
+								(${ChatRoomDTO.chatRoomVo.headCount}) 
 							</c:if>
 						</div>
 						<div class="chatContent">
-							        ${chatRoomDTO.chatContentVo.chat_content}
+							        ${ChatRoomDTO.chatContentVo.chat_content}
 						</div>
 					</div>
 					<div class="thirdWrap">
 						<div class="chatDate">
 							<fmt:formatDate var="nowDate" value="${today}" pattern="yyyy-MM-dd" />
-							<fmt:formatDate var="regDate" value="${chatRoomDTO.chatContentVo.regDate}" pattern="yyyy-MM-dd" />
+							<fmt:formatDate var="regDate" value="${ChatRoomDTO.chatContentVo.regDate}" pattern="yyyy-MM-dd" />
 							<c:choose>
 						        <c:when test="${nowDate == regDate}">
-						        	<fmt:formatDate value="${chatRoomDTO.chatContentVo.regDate}" pattern="a HH:mm"/>
+						        	<fmt:formatDate value="${ChatRoomDTO.chatContentVo.regDate}" pattern="a HH:mm"/>
 						        </c:when>
 						        <c:otherwise>
-						        	<fmt:formatDate value="${chatRoomDTO.chatContentVo.regDate}" pattern="yyyy-MM-dd"/>
+						        	<fmt:formatDate value="${ChatRoomDTO.chatContentVo.regDate}" pattern="yyyy-MM-dd"/>
 						        </c:otherwise>
 							</c:choose>
 						</div>
-						<c:if test="${chatRoomDTO.notReadCnt != 0 }">
+						<c:if test="${ChatRoomDTO.notReadCnt != 0 }">
 						 	<div class="chatCnt">
-						 		${chatRoomDTO.notReadCnt}+
+						 		${ChatRoomDTO.notReadCnt}+
 						 	</div>
 						</c:if>
 					</div>

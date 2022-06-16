@@ -15,7 +15,7 @@ package org.my.service;
 	import org.my.domain.ChatRoom;
 	import org.my.domain.ChatRoomVO;
 	import org.my.domain.MemberVO;
-	import org.my.domain.chatRoomDTO;
+	import org.my.domain.ChatRoomDTO;
 	import org.my.domain.multiRoomVO;
 	import org.my.mapper.ChatMapper;
 	import org.springframework.stereotype.Service;
@@ -324,11 +324,11 @@ public class ChatServiceImpl implements ChatService {
 
 		@Transactional(readOnly=true)
 		@Override
-		public List<chatRoomDTO> getMyChatRoomList(String userId){
+		public List<ChatRoomDTO> getMyChatRoomList(String userId){
 			
 			log.info("getMyChatRoomList");
 			
-			List<chatRoomDTO> myChatRoomList = new ArrayList<>();
+			List<ChatRoomDTO> myChatRoomList = new ArrayList<>();
 		    
 			List<ChatRoomVO> myChatRoomVoList = chatMapper.getMyChatRoomVoList(userId);
 			
@@ -358,7 +358,7 @@ public class ChatServiceImpl implements ChatService {
 				
 				log.info("notReadCnt="+notReadCnt);
 				
-				myChatRoomList.add(new chatRoomDTO(ChatRoomVo, ChatContentVo, chatReadVoList, notReadCnt));
+				myChatRoomList.add(new ChatRoomDTO(ChatRoomVo, ChatContentVo, chatReadVoList, notReadCnt));
 			}
 			
 			return myChatRoomList;

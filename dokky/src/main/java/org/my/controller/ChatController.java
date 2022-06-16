@@ -10,7 +10,7 @@ package org.my.controller;
 	import org.my.domain.ChatRoom;
 	import org.my.domain.ChatRoomVO;
 	import org.my.domain.MemberVO;
-	import org.my.domain.chatRoomDTO;
+	import org.my.domain.ChatRoomDTO;
 	import org.my.domain.commonVO;
 	import org.my.security.domain.CustomUser;
 	import org.my.service.ChatService;
@@ -150,7 +150,7 @@ public class ChatController {
 		
 		log.info("/myChatRoomList");
 		
-		List<chatRoomDTO> chatRoomList = chatService.getMyChatRoomList(userId);
+		List<ChatRoomDTO> chatRoomList = chatService.getMyChatRoomList(userId);
 		
 		model.addAttribute("chatRoomList", chatRoomList);
 		
@@ -160,11 +160,11 @@ public class ChatController {
 	@PreAuthorize("principal.username == #userId")
 	@ResponseBody
 	@GetMapping(value = "/getChatRoomList", produces = { MediaType.APPLICATION_JSON_UTF8_VALUE })
-	public ResponseEntity<List<chatRoomDTO>> getChatRoomList(Model model, String userId){
+	public ResponseEntity<List<ChatRoomDTO>> getChatRoomList(Model model, String userId){
     	
 		log.info("/getChatRoomList");
     	
-		List<chatRoomDTO> chatRoomList = chatService.getMyChatRoomList(userId);
+		List<ChatRoomDTO> chatRoomList = chatService.getMyChatRoomList(userId);
 		
 		if(chatRoomList != null) {
 			
