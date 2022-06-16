@@ -6,7 +6,7 @@ package org.my.mapper;
 	import org.apache.ibatis.annotations.Param;
 	import org.my.domain.Criteria;
 	import org.my.domain.MemberVO;
-	import org.my.domain.cashVO;
+	import org.my.domain.CashVO;
 	import org.my.domain.reportVO;
 
 public interface AdminMapper {
@@ -15,7 +15,7 @@ public interface AdminMapper {
 	
 	public int getMemberTotalCount(Criteria cri);
 	
-	public List<cashVO> getCashRequestList(Criteria cri);
+	public List<CashVO> getCashRequestList(Criteria cri);
 	
 	public int getCashListTotalCount();
 	
@@ -31,9 +31,9 @@ public interface AdminMapper {
 	
 	public int deleteRole(@Param("userId") String userId, @Param("role") String role);
 	
-	public void updatePluscash(cashVO vo);
+	public void updatePluscash(CashVO vo);
 
-	public void updateMinuscash(cashVO vo);
+	public void updateMinuscash(CashVO vo);
 	
 	public int approveCash(Long cash_num);
 }

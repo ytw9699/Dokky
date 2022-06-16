@@ -5,7 +5,7 @@ package org.my.service;
 	import java.util.List;
 	import org.my.domain.Criteria;
 	import org.my.domain.MemberVO;
-	import org.my.domain.cashVO;
+	import org.my.domain.CashVO;
 	import org.my.domain.commonVO;
 	import org.my.domain.reportVO;
 	import org.my.domain.AlarmVO;
@@ -16,7 +16,7 @@ public interface AdminService {
 	
 	public int getMemberTotalCount(Criteria cri);
 	
-	public List<cashVO> getCashRequestList(Criteria cri);
+	public List<CashVO> getCashRequestList(Criteria cri);
 	
 	public int getCashListTotalCount();
 	

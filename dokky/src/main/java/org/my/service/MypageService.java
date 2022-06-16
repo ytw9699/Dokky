@@ -7,7 +7,7 @@ package org.my.service;
 	import org.my.domain.Criteria;
 	import org.my.domain.MemberVO;
 	import org.my.domain.ReplyVO;
-	import org.my.domain.cashVO;
+	import org.my.domain.CashVO;
 	import org.my.domain.scrapVO;
 
 public interface MypageService {
@@ -28,11 +28,11 @@ public interface MypageService {
 	
 	public void removeScrap(Long scrap_num);
 	
-	public boolean insertChargeData(cashVO vo);
+	public boolean insertChargeData(CashVO vo);
 
-	public boolean insertReChargeData(cashVO vo);
+	public boolean insertReChargeData(CashVO vo);
 	
-	public List<cashVO> getMyCashHistory(Criteria cri);
+	public List<CashVO> getMyCashHistory(Criteria cri);
 	
 	public int getMyCashHistoryCount(String userId);
 	

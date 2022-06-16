@@ -3,7 +3,7 @@ package org.my.domain;
 	
 @Data
 public class commonVO { 
-	  private cashVO cashVO;
+	  private CashVO cashVO;
 	  private AlarmVO alarmVO;
 	  private ReplyVO replyVO;
 	  private reportVO reportVO;

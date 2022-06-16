@@ -8,7 +8,7 @@ package org.my.controller;
 	import org.my.domain.Criteria;
 	import org.my.domain.MemberVO;
 	import org.my.domain.PageDTO;
-	import org.my.domain.cashVO;
+	import org.my.domain.CashVO;
 	import org.my.domain.checkPwVO;
 	import org.my.service.AdminService;
 	import org.my.service.BoardService;
@@ -255,7 +255,7 @@ public class MypageController {
 	@PreAuthorize("principal.username == #vo.userId")  
 	@PostMapping(value = "/chargeData", produces = "text/plain; charset=UTF-8")
 	@ResponseBody
-	public ResponseEntity<String> chargeData(@RequestBody cashVO vo) {//캐시 충전 요청 하기
+	public ResponseEntity<String> chargeData(@RequestBody CashVO vo) {//캐시 충전 요청 하기
 		
 		log.info("/mypage/chargeData");
 		
@@ -276,7 +276,7 @@ public class MypageController {
 	@PreAuthorize("principal.username == #vo.userId")  
 	@PostMapping(value = "/reChargeData", produces = "text/plain; charset=UTF-8")
 	@ResponseBody
-	public ResponseEntity<String> reChargeData(@RequestBody cashVO vo) {//캐시 환전 요청 하기
+	public ResponseEntity<String> reChargeData(@RequestBody CashVO vo) {//캐시 환전 요청 하기
 		
 		log.info("/mypage/reChargeData");
 		

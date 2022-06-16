@@ -7,7 +7,7 @@ package org.my.service;
 	import org.my.domain.Criteria;
 	import org.my.domain.MemberVO;
 	import org.my.domain.ReplyVO;
-	import org.my.domain.cashVO;
+	import org.my.domain.CashVO;
 	import org.my.domain.scrapVO;
 	import org.my.mapper.MypageMapper;
 	import org.springframework.stereotype.Service;
@@ -116,7 +116,7 @@ public class MypageServiceImpl implements MypageService {
 	}
 	
 	@Override
-	public boolean insertChargeData(cashVO vo) {
+	public boolean insertChargeData(CashVO vo) {
 		
 		log.info("insertChargeData");
 		
@@ -124,7 +124,7 @@ public class MypageServiceImpl implements MypageService {
 	}
 	
 	@Override
-	public boolean insertReChargeData(cashVO vo) {
+	public boolean insertReChargeData(CashVO vo) {
 		
 		log.info("insertReChargeData");
 		
@@ -132,7 +132,7 @@ public class MypageServiceImpl implements MypageService {
 	}
 	
 	@Override
-	public List<cashVO> getMyCashHistory(Criteria cri) {
+	public List<CashVO> getMyCashHistory(Criteria cri) {
 
 		log.info("getMyCashHistory");
 

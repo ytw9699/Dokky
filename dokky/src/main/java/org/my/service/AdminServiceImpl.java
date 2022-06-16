@@ -6,7 +6,7 @@ package org.my.service;
 	import org.my.domain.Criteria;
 	import org.my.domain.MemberVO;
 	import org.my.domain.AlarmVO;
-	import org.my.domain.cashVO;
+	import org.my.domain.CashVO;
 	import org.my.domain.commonVO;
 	import org.my.domain.reportVO;
 	import org.my.mapper.AdminMapper;
@@ -41,7 +41,7 @@ public class AdminServiceImpl implements AdminService {
 	}
 	
 	@Override
-	public List<cashVO> getCashRequestList(Criteria cri) {
+	public List<CashVO> getCashRequestList(Criteria cri) {
 
 		log.info("getCashRequestList" + cri);
 
@@ -136,7 +136,7 @@ public class AdminServiceImpl implements AdminService {
 	@Override
 	public int approveCash(commonVO vo) {
 
-		cashVO cashVO = vo.getCashVO();
+		CashVO cashVO = vo.getCashVO();
 		
 		if(cashVO.getCashKind().equals("충전")) {
 			
