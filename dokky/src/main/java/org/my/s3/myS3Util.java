@@ -114,7 +114,6 @@ public class myS3Util {
 					g.drawImage(originalImg, 0, 0, width, height, null);
 					
 					ImageIO.write(thumbnailImg, "jpg", thumbnailFile);
-
 				} 
 				
 				catch (Exception e) { 
@@ -228,20 +227,11 @@ public class myS3Util {
 	
 	public boolean deleteObject(String path, String filename) {
 		
-		try {
-			
-			log.info("deleted"+path+filename); 
+			log.info("deleted="+path+"/"+filename); 
 			
     		s3.deleteObject(bucket_name + "/" +path, filename);
     		
     		return true;
-    		
-    	}catch(AmazonServiceException e) {
-    		
-    		log.info(e.getErrorMessage());
-    		System.exit(1);
-    		return false;
-    	}
 	}
 	
 	public void createFolder() {
