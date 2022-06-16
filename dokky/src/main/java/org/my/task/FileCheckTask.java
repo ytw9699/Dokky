@@ -1,5 +1,5 @@
 /*
-- 마지막 업데이트 2022-06-12
+- 마지막 업데이트 2022-06-16
 */
 package org.my.task;
 	import java.util.ArrayList;
@@ -51,10 +51,6 @@ public class FileCheckTask {//task 작업 처리 ,스케쥴러
             	
         }
             	
-        /*for (int i = 0; i < dbUploadList.size(); i++) {
-            log.info("dbUploadList "+dbUploadList.get(i)); 
-        }*/
-        
     	List<S3ObjectSummary> objects = myS3Util.getObjectsList();//s3의 업로드 목록
             	
     	for (int i = 1; i < objects.size(); i++) {
