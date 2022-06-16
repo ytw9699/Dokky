@@ -9,7 +9,7 @@ package org.my.mapper;
 	import org.my.domain.BoardVO;
 	import org.my.domain.Criteria;
 	import org.my.domain.DonateVO;
-	import org.my.domain.reportVO;
+	import org.my.domain.ReportVO;
 
 public interface BoardMapper {
 
@@ -75,7 +75,7 @@ public interface BoardMapper {
 	
 	public String getBoardMoney(DonateVO vo);
 
-	public int createReportdata(reportVO vo);
+	public int createReportdata(ReportVO vo);
 
 	public int postScrapData(@Param("board_num") int board_num, @Param("userId") String userId);
 	 

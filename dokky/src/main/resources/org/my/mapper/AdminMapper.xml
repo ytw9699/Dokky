@@ -120,7 +120,7 @@
 		select count(*) from dk_cash where specification = '미승인' or specification = '승인완료'
 	  </select>
 	
-	  <select id="getUserReportList" resultType="org.my.domain.reportVO">
+	  <select id="getUserReportList" resultType="org.my.domain.ReportVO">
 			select  report_num
 				  , reportKind
 				  , reportingId

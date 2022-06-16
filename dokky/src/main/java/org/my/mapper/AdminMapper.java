@@ -7,7 +7,7 @@ package org.my.mapper;
 	import org.my.domain.Criteria;
 	import org.my.domain.MemberVO;
 	import org.my.domain.CashVO;
-	import org.my.domain.reportVO;
+	import org.my.domain.ReportVO;
 
 public interface AdminMapper {
 	
@@ -19,7 +19,7 @@ public interface AdminMapper {
 	
 	public int getCashListTotalCount();
 	
-	public List<reportVO> getUserReportList(Criteria cri);
+	public List<ReportVO> getUserReportList(Criteria cri);
 	
 	public int getUserReportCount(Criteria cri);
 	

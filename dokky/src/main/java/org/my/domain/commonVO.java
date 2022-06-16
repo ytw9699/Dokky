@@ -6,7 +6,7 @@ public class commonVO {
 	  private CashVO cashVO;
 	  private AlarmVO alarmVO;
 	  private ReplyVO replyVO;
-	  private reportVO reportVO;
+	  private ReportVO reportVO;
 	  private BoardLikeVO boardLikeVO;
 	  private BoardDisLikeVO boardDisLikeVO;
 	  private DonateVO donateVO;

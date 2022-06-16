@@ -8,7 +8,7 @@ package org.my.service;
 	import org.my.domain.BoardVO;
 	import org.my.domain.Criteria;
 	import org.my.domain.commonVO;
-	import org.my.domain.reportVO;
+	import org.my.domain.ReportVO;
 
 public interface BoardService {
 	
@@ -46,7 +46,7 @@ public interface BoardService {
 
 	public String giveBoardWriterMoney(commonVO vo);
 
-	public boolean createReportdata(reportVO vo);
+	public boolean createReportdata(ReportVO vo);
 
 	public int postScrapData(int board_num, String userId);
 	

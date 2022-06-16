@@ -8,7 +8,7 @@ package org.my.service;
 	import org.my.domain.AlarmVO;
 	import org.my.domain.CashVO;
 	import org.my.domain.commonVO;
-	import org.my.domain.reportVO;
+	import org.my.domain.ReportVO;
 	import org.my.mapper.AdminMapper;
 	import org.my.mapper.CommonMapper;
 	import org.springframework.stereotype.Service;
@@ -57,7 +57,7 @@ public class AdminServiceImpl implements AdminService {
 	}
 	
 	@Override
-	public List<reportVO> getUserReportList(Criteria cri){
+	public List<ReportVO> getUserReportList(Criteria cri){
 	
 		log.info("getUserReportList" + cri);
 

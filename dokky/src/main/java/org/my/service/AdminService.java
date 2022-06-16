@@ -7,7 +7,7 @@ package org.my.service;
 	import org.my.domain.MemberVO;
 	import org.my.domain.CashVO;
 	import org.my.domain.commonVO;
-	import org.my.domain.reportVO;
+	import org.my.domain.ReportVO;
 	import org.my.domain.AlarmVO;
 
 public interface AdminService {
@@ -20,7 +20,7 @@ public interface AdminService {
 	
 	public int getCashListTotalCount();
 	
-	public List<reportVO> getUserReportList(Criteria cri);
+	public List<ReportVO> getUserReportList(Criteria cri);
 
 	public int getUserReportCount(Criteria cri);
 	

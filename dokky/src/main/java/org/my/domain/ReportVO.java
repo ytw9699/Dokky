@@ -3,7 +3,7 @@ package org.my.domain;
 	import lombok.Data;
 
 @Data
-public class reportVO {
+public class ReportVO {
 		private Long report_num;
 		private String reportKind;
 		private String reportingId;

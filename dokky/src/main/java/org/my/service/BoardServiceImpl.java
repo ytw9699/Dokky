@@ -12,7 +12,7 @@ package org.my.service;
 	import org.my.domain.AlarmVO;
 	import org.my.domain.commonVO;
 	import org.my.domain.DonateVO;
-	import org.my.domain.reportVO;
+	import org.my.domain.ReportVO;
 	import org.my.mapper.BoardAttachMapper;
 	import org.my.mapper.BoardMapper;
 	import org.my.mapper.CommonMapper;
@@ -347,7 +347,7 @@ public class BoardServiceImpl implements BoardService {
 	}
 	    
 	@Override
-	public boolean createReportdata(reportVO vo) {//신고
+	public boolean createReportdata(ReportVO vo) {//신고
 
 		log.info("createReportdata");
 		

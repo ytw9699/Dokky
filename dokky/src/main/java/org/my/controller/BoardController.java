@@ -9,7 +9,7 @@ package org.my.controller;
 	import org.my.domain.Criteria;
 	import org.my.domain.PageDTO;
 	import org.my.domain.commonVO;
-	import org.my.domain.reportVO;
+	import org.my.domain.ReportVO;
 	import org.my.security.domain.CustomUser;
 	import org.my.service.BoardService;
 	import org.my.service.ReplyService;
@@ -295,7 +295,7 @@ public class BoardController {
 	@PreAuthorize("principal.username == #vo.reportingId")
 	@PostMapping(value = "/report", consumes = "application/json", produces = "text/plain; charset=UTF-8")
 	@ResponseBody
-	public ResponseEntity<String> report(@RequestBody reportVO vo) {//게시글 or 댓글 신고
+	public ResponseEntity<String> report(@RequestBody ReportVO vo) {//게시글 or 댓글 신고
 		
 		log.info("/board/report");
 		
