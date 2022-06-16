@@ -127,13 +127,13 @@ public class ReplyController {
 				: new ResponseEntity<>("fail", HttpStatus.INTERNAL_SERVER_ERROR);
 	}
 	
-	@PreAuthorize("principal.username == #vo.replyDonateVO.userId")
+	@PreAuthorize("principal.username == #vo.ReplyDonateVO.userId")
 	@PostMapping(value = "/giveReplyWriterMoney", consumes = "application/json", produces = "text/plain; charset=UTF-8")
 	@ResponseBody
 	public ResponseEntity<String> giveReplyWriterMoney(@RequestBody commonVO vo) {//댓글 작성자에게 기부
 		
 			log.info("/replies/giveReplyWriterMoney");
-			log.info("replyDonateVO: " + vo);
+			log.info("ReplyDonateVO: " + vo);
 			
 			String replyMoney = replyService.giveReplyWriterMoney(vo);
 			

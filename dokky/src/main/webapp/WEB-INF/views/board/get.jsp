@@ -1404,7 +1404,7 @@
 					            };
 							
 				var commonData ={ 
-									replyDonateVO    : replyDonateData,
+									ReplyDonateVO    : replyDonateData,
 									AlarmVO          : alarmData
 		 						}	
 			

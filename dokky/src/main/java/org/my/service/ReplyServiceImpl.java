@@ -10,7 +10,7 @@ package org.my.service;
 	import org.my.domain.ReplyVO;
 	import org.my.domain.AlarmVO;
 	import org.my.domain.commonVO;
-	import org.my.domain.replyDonateVO;
+	import org.my.domain.ReplyDonateVO;
 	import org.my.mapper.BoardMapper;
 	import org.my.mapper.CommonMapper;
 	import org.my.mapper.ReplyMapper;
@@ -147,7 +147,7 @@ public class ReplyServiceImpl implements ReplyService {
 	@Override 
 	public String giveReplyWriterMoney(commonVO vo) {
 		
-		replyDonateVO replyDonateVO = vo.getReplyDonateVO();
+		ReplyDonateVO replyDonateVO = vo.getReplyDonateVO();
 		
 		log.info("minusMycash");
 		boardMapper.minusMycash(replyDonateVO.getMoney(), replyDonateVO.getUserId());
