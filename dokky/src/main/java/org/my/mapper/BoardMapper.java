@@ -6,7 +6,7 @@ package org.my.mapper;
 	import org.apache.ibatis.annotations.Param;
 	import org.my.domain.BoardDisLikeVO;
 	import org.my.domain.BoardLikeVO;
-	import org.my.domain.BoardVO;
+	import org.my.domain.board.BoardVO;
 	import org.my.domain.Criteria;
 	import org.my.domain.DonateVO;
 	import org.my.domain.ReportVO;

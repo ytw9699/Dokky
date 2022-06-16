@@ -4,7 +4,7 @@
 package org.my.mapper;
 	import java.util.List;
 	import org.apache.ibatis.annotations.Param;
-	import org.my.domain.BoardVO;
+	import org.my.domain.board.BoardVO;
 	import org.my.domain.Criteria;
 	import org.my.domain.MemberVO;
 	import org.my.domain.ReplyVO;

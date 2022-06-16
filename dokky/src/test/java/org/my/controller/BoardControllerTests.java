@@ -9,7 +9,7 @@ package org.my.controller;
 	import org.junit.Test;
 	import org.junit.runner.RunWith;
 	import org.junit.runners.MethodSorters;
-	import org.my.domain.BoardVO;
+	import org.my.domain.board.BoardVO;
 	import org.my.mapper.BoardMapper;
 	import org.my.service.BoardService;
 	import org.springframework.beans.factory.annotation.Autowired;

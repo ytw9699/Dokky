@@ -1,4 +1,4 @@
-package org.my.domain;
+package org.my.domain.board;
 	import java.util.Date;
 	import java.util.List;
 	import org.my.domain.BoardAttachVO;

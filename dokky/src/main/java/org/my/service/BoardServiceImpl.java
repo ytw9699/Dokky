@@ -7,7 +7,7 @@ package org.my.service;
 	import org.my.domain.BoardAttachVO;
 	import org.my.domain.BoardDisLikeVO;
 	import org.my.domain.BoardLikeVO;
-	import org.my.domain.BoardVO;
+	import org.my.domain.board.BoardVO;
 	import org.my.domain.Criteria;
 	import org.my.domain.AlarmVO;
 	import org.my.domain.CommonVO;

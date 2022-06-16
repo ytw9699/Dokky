@@ -8,7 +8,7 @@ package org.my.service;
 	import javax.servlet.http.HttpServletRequest;
 	import javax.servlet.http.HttpSession;
 	import org.my.domain.AuthVO;
-	import org.my.domain.BoardVO;
+	import org.my.domain.board.BoardVO;
 	import org.my.domain.Criteria;
 	import org.my.domain.MemberVO;
 	import org.my.domain.VisitCountVO;

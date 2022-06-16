@@ -68,7 +68,7 @@
 	</sql>
 	<!-- where ( title like '%'||'keyword'||'%' OR content like '%'||'keyword'||'%' OR writer like '%'||'keyword'||'%' ) -->
 
-	<select id="getList" resultType="org.my.domain.BoardVO"> 
+	<select id="getList" resultType="org.my.domain.board.BoardVO"> 
 			<![CDATA[
 			   select category
 			    	, replyCnt
@@ -106,7 +106,7 @@
 		 	 ]]>
 	</select>
 	
-	<select id="getListWithOrder" resultType="org.my.domain.BoardVO">
+	<select id="getListWithOrder" resultType="org.my.domain.board.BoardVO">
 		 	select category
 				 , replyCnt
 				 , likeCnt
@@ -158,7 +158,7 @@
 		select count(*) from DK_BOARD where category = #{category} and <include refid="criteria"></include>  board_num > 0
 	</select>
 			
-	<select id="getAllList" resultType="org.my.domain.BoardVO"> 
+	<select id="getAllList" resultType="org.my.domain.board.BoardVO"> 
 		 <![CDATA[
 		   select category
 		   		, replyCnt
@@ -194,7 +194,7 @@
 		  	]]>
 	</select>
 	
-	<select id="getAllListWithOrder" resultType="org.my.domain.BoardVO"> 
+	<select id="getAllListWithOrder" resultType="org.my.domain.board.BoardVO"> 
 			 select category
 					, replyCnt
 					, likeCnt
@@ -276,7 +276,7 @@
 		update dk_board set hitCnt = hitCnt+1 where board_num = #{board_num}
 	</update>
 	
-	<select id="read" resultType="org.my.domain.BoardVO">
+	<select id="read" resultType="org.my.domain.board.BoardVO">
 		select * from DK_BOARD where board_num = #{board_num}
 	</select>
 	

@@ -59,7 +59,7 @@
 		update dk_cash set nickName = #{nickName} where userId = #{userId}
 	</update>
 	
-	<select id="getMyBoardList" resultType="org.my.domain.BoardVO"> 
+	<select id="getMyBoardList" resultType="org.my.domain.board.BoardVO"> 
 		select board_num,
 			   title,
 			   NICKNAME,
