@@ -11,7 +11,7 @@ package org.my.service;
 	import org.my.domain.Criteria;
 	import org.my.domain.AlarmVO;
 	import org.my.domain.commonVO;
-	import org.my.domain.donateVO;
+	import org.my.domain.DonateVO;
 	import org.my.domain.reportVO;
 	import org.my.mapper.BoardAttachMapper;
 	import org.my.mapper.BoardMapper;
@@ -322,7 +322,7 @@ public class BoardServiceImpl implements BoardService {
 	@Override 
 	public String giveBoardWriterMoney(commonVO vo) {
 		  
-		donateVO donateVO = vo.getDonateVO();
+		DonateVO donateVO = vo.getDonateVO();
 		
 		log.info("minusMycash");
 		boardMapper.minusMycash(donateVO.getMoney(), donateVO.getUserId());

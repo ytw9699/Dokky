@@ -2,7 +2,7 @@ package org.my.domain;
 	import lombok.Data;
 	
 @Data
-public class donateVO { 
+public class DonateVO { 
 	  private Long board_num;//글번호
 	  private String userId;//기부하는 아이디
 	  private String nickName;//기부하는 닉네임

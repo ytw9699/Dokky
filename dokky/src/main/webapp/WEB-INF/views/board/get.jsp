@@ -1348,7 +1348,7 @@
 				            };
 			
 			var commonData ={ 
-							  donateVO    : donateData,
+							  DonateVO    : donateData,
 							  AlarmVO     : alarmData
 						 	}
 			

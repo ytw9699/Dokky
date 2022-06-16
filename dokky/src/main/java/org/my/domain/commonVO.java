@@ -9,7 +9,7 @@ public class commonVO {
 	  private reportVO reportVO;
 	  private BoardLikeVO boardLikeVO;
 	  private BoardDisLikeVO boardDisLikeVO;
-	  private donateVO donateVO;
+	  private DonateVO donateVO;
 	  private replyDonateVO replyDonateVO;
 	  private ReplyLikeVO replyLikeVO;
 	  private ReplyDisLikeVO replyDisLikeVO;

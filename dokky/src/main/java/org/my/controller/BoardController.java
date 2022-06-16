@@ -272,7 +272,7 @@ public class BoardController {
 			: new ResponseEntity<>(HttpStatus.INTERNAL_SERVER_ERROR);
 	} 
 	
-	@PreAuthorize("principal.username == #vo.donateVO.userId")
+	@PreAuthorize("principal.username == #vo.DonateVO.userId")
 	@PostMapping(value = "/giveBoardWriterMoney", consumes = "application/json", produces = "text/plain; charset=UTF-8")
 	@ResponseBody
 	public ResponseEntity<String> giveBoardWriterMoney(@RequestBody commonVO vo){

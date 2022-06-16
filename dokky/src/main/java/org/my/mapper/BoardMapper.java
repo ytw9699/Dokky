@@ -8,7 +8,7 @@ package org.my.mapper;
 	import org.my.domain.BoardLikeVO;
 	import org.my.domain.BoardVO;
 	import org.my.domain.Criteria;
-	import org.my.domain.donateVO;
+	import org.my.domain.DonateVO;
 	import org.my.domain.reportVO;
 
 public interface BoardMapper {
@@ -65,15 +65,15 @@ public interface BoardMapper {
 	
 	public void minusMycash(@Param("money") int money, @Param("userId") String userId);
 	
-	public void createMyCashHistory(donateVO vo);
+	public void createMyCashHistory(DonateVO vo);
 	
-	public void plusBoardUserCash(donateVO vo);
+	public void plusBoardUserCash(DonateVO vo);
 	
-	public void createBoardUserCashHistory(donateVO vo);
+	public void createBoardUserCashHistory(DonateVO vo);
 	
-	public void plusBoardMoney(donateVO vo);
+	public void plusBoardMoney(DonateVO vo);
 	
-	public String getBoardMoney(donateVO vo);
+	public String getBoardMoney(DonateVO vo);
 
 	public int createReportdata(reportVO vo);
 
