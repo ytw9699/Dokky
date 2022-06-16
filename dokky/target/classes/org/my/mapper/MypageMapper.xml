@@ -213,7 +213,7 @@
 		]]>
 	</select>
 	
-	<select id="getMyCashHistory" resultType="org.my.domain.cashVO"> 
+	<select id="getMyCashHistory" resultType="org.my.domain.CashVO"> 
 		<![CDATA[
 		   select 
 				  cashKind,

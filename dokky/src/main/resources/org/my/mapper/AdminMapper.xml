@@ -92,7 +92,7 @@
 				</trim>				   
 	  </select>
 	
-	  <select id="getCashRequestList" resultType="org.my.domain.cashVO"> 
+	  <select id="getCashRequestList" resultType="org.my.domain.CashVO"> 
 			select cash_num
 				 , regDate
 				 , cashAmount
