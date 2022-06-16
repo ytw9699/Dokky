@@ -13,7 +13,7 @@ package org.my.service;
 	import org.my.domain.MemberVO;
 	import org.my.domain.VisitCountVO;
 	import org.my.domain.AlarmVO;
-	import org.my.domain.noteVO;
+	import org.my.domain.NoteVO;
 	import org.my.mapper.CommonMapper;
 	import org.my.security.domain.CustomUser;
 	import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
@@ -294,7 +294,7 @@ public class CommonServiceImpl implements CommonService {
 	}
 	
 	@Override 
-	public noteVO getDetailNotepage(Long note_num) {
+	public NoteVO getDetailNotepage(Long note_num) {
 		
 		log.info("getDetailNotepage");
 		
@@ -331,7 +331,7 @@ public class CommonServiceImpl implements CommonService {
 	}
 	
 	@Override 
-	public int insertNote(noteVO vo) {  
+	public int insertNote(NoteVO vo) {  
 
 		log.info("insertNote : " + vo); 
 		
@@ -339,21 +339,21 @@ public class CommonServiceImpl implements CommonService {
 	}
 	
 	@Override
-	public List<noteVO> getFromNoteList(Criteria cri){
+	public List<NoteVO> getFromNoteList(Criteria cri){
 		log.info("getFromNoteList");
 		
 		return mapper.getFromNoteList(cri);
 	}
 	
 	@Override
-	public List<noteVO> getMyNoteList(Criteria cri){
+	public List<NoteVO> getMyNoteList(Criteria cri){
 		log.info("getMyNoteList");
 		
 		return mapper.getMyNoteList(cri);
 	}
 	
 	@Override
-	public List<noteVO> getToNoteList(Criteria cri){
+	public List<NoteVO> getToNoteList(Criteria cri){
 		log.info("getToNoteList");
 		
 		return mapper.getToNoteList(cri);

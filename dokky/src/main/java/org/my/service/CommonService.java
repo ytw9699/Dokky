@@ -10,7 +10,7 @@ package org.my.service;
 	import org.my.domain.MemberVO;
 	import org.my.domain.VisitCountVO;
 	import org.my.domain.AlarmVO;
-	import org.my.domain.noteVO;
+	import org.my.domain.NoteVO;
 
 public interface CommonService {
 	
@@ -54,17 +54,17 @@ public interface CommonService {
 
 	public int updateNoteCheck(String note_num);
 
-	public noteVO getDetailNotepage(Long note_num);
+	public NoteVO getDetailNotepage(Long note_num);
 
 	public int updateFromNote(Long note_num);
 
 	public int updateToNote(Long note_num);
 
-	public List<noteVO> getFromNoteList(Criteria cri);
+	public List<NoteVO> getFromNoteList(Criteria cri);
 	
-	public List<noteVO> getToNoteList(Criteria cri);
+	public List<NoteVO> getToNoteList(Criteria cri);
 
-	public List<noteVO> getMyNoteList(Criteria cri);
+	public List<NoteVO> getMyNoteList(Criteria cri);
 
 	public String getNoteCount(String userId);
 	
@@ -80,7 +80,7 @@ public interface CommonService {
 
 	public int getMyNoteCount(Criteria cri);
 	
-	public int insertNote(noteVO note);
+	public int insertNote(NoteVO note);
 	
 	public String CustomAuthLoginSuccessHandler(String profileId, HttpServletRequest request);
 

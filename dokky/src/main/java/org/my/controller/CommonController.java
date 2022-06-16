@@ -10,7 +10,7 @@ package org.my.controller;
 	import org.my.domain.Criteria;
 	import org.my.domain.MemberVO;
 	import org.my.domain.PageDTO;
-	import org.my.domain.noteVO;
+	import org.my.domain.NoteVO;
 	import org.my.service.CommonService;
 	import org.my.service.MemberService;
 	import org.my.service.MypageService;
@@ -319,9 +319,9 @@ public class CommonController {
 	@PreAuthorize("principal.username == #vo.from_id")
 	@ResponseBody
 	@PostMapping(value = "/note", consumes = "application/json", produces = "text/plain; charset=UTF-8")
-	public ResponseEntity<String> postNote(@RequestBody noteVO vo){
+	public ResponseEntity<String> postNote(@RequestBody NoteVO vo){
 
-		log.info("/note...noteVO: " + vo);
+		log.info("/note...NoteVO: " + vo);
 
 		if(commonService.insertNote(vo) == 1){
 			
@@ -402,7 +402,7 @@ public class CommonController {
 																Model model, @ModelAttribute("cri") Criteria cri) {
 		log.info("/detailNotepage");
 		
-		noteVO note = commonService.getDetailNotepage(note_num);
+		NoteVO note = commonService.getDetailNotepage(note_num);
 		
 		if(note == null){
 		

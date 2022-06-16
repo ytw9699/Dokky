@@ -8,7 +8,7 @@ package org.my.mapper;
 	import org.my.domain.Criteria;
 	import org.my.domain.VisitCountVO;
 	import org.my.domain.AlarmVO;
-	import org.my.domain.noteVO;
+	import org.my.domain.NoteVO;
 
 public interface CommonMapper {
 	
@@ -52,15 +52,15 @@ public interface CommonMapper {
 
 	public int updateNoteCheck(String note_num);
 
-	public noteVO getDetailNotepage(Long note_num);
+	public NoteVO getDetailNotepage(Long note_num);
 
 	public int updateFromNote(Long note_num);
 
 	public int updateToNote(Long note_num);
 
-	public List<noteVO> getToNoteList(Criteria cri);
+	public List<NoteVO> getToNoteList(Criteria cri);
 
-	public List<noteVO> getMyNoteList(Criteria cri);
+	public List<NoteVO> getMyNoteList(Criteria cri);
 
 	public String getNoteCount(String userId);
 	
@@ -80,9 +80,9 @@ public interface CommonMapper {
 
 	public int getMyNoteCount(Criteria cri);
 	
-	public int insertNote(noteVO vo);
+	public int insertNote(NoteVO vo);
 	
-	public List<noteVO> getFromNoteList(Criteria cri);
+	public List<NoteVO> getFromNoteList(Criteria cri);
 
 	public int deleteRememberMeToken(String userId);
 }
