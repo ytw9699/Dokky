@@ -1,7 +1,5 @@
 package org.my.mapper;
-	import java.util.List;
-	import org.my.domain.board.BoardVO;
-	import org.my.domain.MemberVO;
+	import org.my.domain.common.MemberVO;
 
 public interface MemberMapper {
 

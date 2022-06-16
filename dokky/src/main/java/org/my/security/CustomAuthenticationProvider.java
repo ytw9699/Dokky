@@ -6,7 +6,7 @@
 3. 계정 비활성 및 접속제한 여부
 */
 package org.my.security;
-	import org.my.security.domain.CustomUser;
+	import org.my.domain.common.CustomUser;
 	import org.springframework.security.authentication.AuthenticationProvider;
 	import org.springframework.security.authentication.BadCredentialsException;
 	import org.springframework.security.authentication.DisabledException;

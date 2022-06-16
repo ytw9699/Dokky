@@ -148,7 +148,7 @@
 			select count(*) from dk_chat_read where chat_memberId = #{userId} and read_type = 0
        </select>
 	  
-       <select id="getAllAlarmList" resultType="org.my.domain.AlarmVO"> 
+       <select id="getAllAlarmList" resultType="org.my.domain.common.AlarmVO"> 
 			select alarmNum,
 				   checking,
 				   target,
@@ -175,7 +175,7 @@
 						  ]]>
 	   </select>
 	   
-	    <select id="getAlarmListRead" resultType="org.my.domain.AlarmVO"> 
+	    <select id="getAlarmListRead" resultType="org.my.domain.common.AlarmVO"> 
 			select alarmNum,
 				   checking,
 				   target,
@@ -200,7 +200,7 @@
 						  ]]>
 	   </select>
 	   
-	    <select id="getAlarmListNotRead" resultType="org.my.domain.AlarmVO"> 
+	    <select id="getAlarmListNotRead" resultType="org.my.domain.common.AlarmVO"> 
 			select alarmNum,
 				   checking,
 				   target,
@@ -291,7 +291,7 @@
        		update dk_alarm set checking = 'YES' where alarmNum = #{alarmNum}
        </update>
        
-       <select id="getDetailNotepage" resultType="org.my.domain.NoteVO">
+       <select id="getDetailNotepage" resultType="org.my.domain.common.NoteVO">
        		   select NOTE_NUM
 		       		, CONTENT
 		       		, FROM_NICKNAME
@@ -305,7 +305,7 @@
 			update dk_note set read_check = 'YES' where note_num = #{note_num}       
        </update>
 	  
-       <select id="getToNoteList" resultType="org.my.domain.NoteVO">
+       <select id="getToNoteList" resultType="org.my.domain.common.NoteVO">
        
        		  select NOTE_NUM
 				   , CONTENT
@@ -327,7 +327,7 @@
 						  ]]>
        </select>
        
-       <select id="getFromNoteList" resultType="org.my.domain.NoteVO"> 
+       <select id="getFromNoteList" resultType="org.my.domain.common.NoteVO"> 
 			select NOTE_NUM,
 				   CONTENT,
 				   FROM_NICKNAME,
@@ -346,7 +346,7 @@
 						  ]]>
 	   </select>
 	   
-	   <select id="getMyNoteList" resultType="org.my.domain.NoteVO">
+	   <select id="getMyNoteList" resultType="org.my.domain.common.NoteVO">
 		    select NOTE_NUM,
 				   CONTENT,
 				   FROM_NICKNAME,

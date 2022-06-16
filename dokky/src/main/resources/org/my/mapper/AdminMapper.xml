@@ -5,7 +5,7 @@
 <!-- 마지막 업데이트 2022.06.13 -->
 <mapper namespace="org.my.mapper.AdminMapper">
 
-	  <resultMap id="memberMap" type="org.my.domain.MemberVO" >
+	  <resultMap id="memberMap" type="org.my.domain.common.MemberVO" >
 		    <id property="userId" column="userId"/>
 			    <result property="userId" column="userid"/>
 			    <result property="userPw" column="userpw"/>
@@ -19,7 +19,7 @@
 		    <collection property="authList" resultMap="authMap"></collection> 
 	  </resultMap>
 	  
-	  <resultMap id="authMap" type="org.my.domain.AuthVO" >
+	  <resultMap id="authMap" type="org.my.domain.common.AuthVO" >
 		   	<result property="userId" column="userid"/>
 		   	<result property="auth" column="auth"/>
 	  </resultMap>
@@ -57,7 +57,7 @@
 			</trim>
 	  </sql>
 	
-	  <select id="getUserList" resultType="org.my.domain.MemberVO">
+	  <select id="getUserList" resultType="org.my.domain.common.MemberVO">
 		 <![CDATA[  
 				select userId
 					 , nickName 
@@ -92,7 +92,7 @@
 				</trim>				   
 	  </select>
 	
-	  <select id="getCashRequestList" resultType="org.my.domain.CashVO"> 
+	  <select id="getCashRequestList" resultType="org.my.domain.common.CashVO"> 
 			select cash_num
 				 , regDate
 				 , cashAmount
@@ -120,7 +120,7 @@
 		select count(*) from dk_cash where specification = '미승인' or specification = '승인완료'
 	  </select>
 	
-	  <select id="getUserReportList" resultType="org.my.domain.ReportVO">
+	  <select id="getUserReportList" resultType="org.my.domain.common.ReportVO">
 			select  report_num
 				  , reportKind
 				  , reportingId

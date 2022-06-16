@@ -5,10 +5,10 @@ package org.my.mapper;
 	import java.util.List;
 	import org.apache.ibatis.annotations.Param;
 	import org.my.domain.board.BoardVO;
-	import org.my.domain.Criteria;
-	import org.my.domain.VisitCountVO;
-	import org.my.domain.AlarmVO;
-	import org.my.domain.NoteVO;
+	import org.my.domain.common.AlarmVO;
+	import org.my.domain.common.Criteria;
+	import org.my.domain.common.NoteVO;
+	import org.my.domain.common.VisitCountVO;
 
 public interface CommonMapper {
 	

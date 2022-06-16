@@ -3,12 +3,12 @@
 */
 package org.my.service;
 	import java.util.List;
-	import org.my.domain.Criteria;
-	import org.my.domain.MemberVO;
-	import org.my.domain.AlarmVO;
-	import org.my.domain.CashVO;
-	import org.my.domain.CommonVO;
-	import org.my.domain.ReportVO;
+	import org.my.domain.common.AlarmVO;
+	import org.my.domain.common.CashVO;
+	import org.my.domain.common.CommonVO;
+	import org.my.domain.common.Criteria;
+	import org.my.domain.common.MemberVO;
+	import org.my.domain.common.ReportVO;
 	import org.my.mapper.AdminMapper;
 	import org.my.mapper.CommonMapper;
 	import org.springframework.stereotype.Service;

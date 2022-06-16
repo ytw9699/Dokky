@@ -5,11 +5,11 @@ package org.my.mapper;
 	import java.util.List;
 	import org.apache.ibatis.annotations.Param;
 	import org.my.domain.board.BoardVO;
-	import org.my.domain.Criteria;
-	import org.my.domain.MemberVO;
-	import org.my.domain.ReplyVO;
-	import org.my.domain.CashVO;
-	import org.my.domain.ScrapVO;
+	import org.my.domain.common.CashVO;
+	import org.my.domain.common.Criteria;
+	import org.my.domain.common.MemberVO;
+	import org.my.domain.common.ScrapVO;
+	import org.my.domain.reply.ReplyVO;
 
 public interface MypageMapper {
 

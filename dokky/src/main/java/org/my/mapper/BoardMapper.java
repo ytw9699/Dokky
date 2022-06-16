@@ -4,12 +4,12 @@
 package org.my.mapper;
 	import java.util.List;
 	import org.apache.ibatis.annotations.Param;
-	import org.my.domain.BoardDisLikeVO;
+	import org.my.domain.board.BoardDisLikeVO;
 	import org.my.domain.board.BoardLikeVO;
 	import org.my.domain.board.BoardVO;
-	import org.my.domain.Criteria;
-	import org.my.domain.DonateVO;
-	import org.my.domain.ReportVO;
+	import org.my.domain.common.Criteria;
+	import org.my.domain.common.DonateVO;
+	import org.my.domain.common.ReportVO;
 
 public interface BoardMapper {
 

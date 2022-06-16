@@ -8,21 +8,21 @@ package org.my.service;
 	import java.util.HashMap;
 	import java.util.List;
 	import java.util.Map;
-	import org.my.domain.ChatContentVO;
-	import org.my.domain.ChatMemberVO;
-	import org.my.domain.ChatMessage;
-	import org.my.domain.ChatReadVO;
-	import org.my.domain.ChatRoom;
-	import org.my.domain.ChatRoomVO;
-	import org.my.domain.MemberVO;
-	import org.my.domain.ChatRoomDTO;
-	import org.my.domain.MultiRoomVO;
+	import org.my.domain.chat.ChatContentVO;
+	import org.my.domain.chat.ChatMemberVO;
+	import org.my.domain.chat.ChatMessage;
+	import org.my.domain.chat.ChatMessageType;
+	import org.my.domain.chat.ChatReadVO;
+	import org.my.domain.chat.ChatRoom;
+	import org.my.domain.chat.ChatRoomDTO;
+	import org.my.domain.chat.ChatRoomVO;
+	import org.my.domain.chat.MultiRoomVO;
+	import org.my.domain.common.MemberVO;
 	import org.my.mapper.ChatMapper;
 	import org.springframework.stereotype.Service;
 	import org.springframework.transaction.annotation.Transactional;
 	import lombok.RequiredArgsConstructor;
 	import lombok.extern.log4j.Log4j;
-	import org.my.domain.ChatMessageType;
 	
 @RequiredArgsConstructor
 @Service

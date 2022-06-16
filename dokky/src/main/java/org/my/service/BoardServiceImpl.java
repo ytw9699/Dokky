@@ -4,19 +4,19 @@
 package org.my.service;
 	import java.util.List;
 	import javax.servlet.http.HttpServletRequest;
-	import org.my.domain.BoardDisLikeVO;
 	import org.my.domain.board.BoardAttachVO;
+	import org.my.domain.board.BoardDisLikeVO;
 	import org.my.domain.board.BoardLikeVO;
 	import org.my.domain.board.BoardVO;
-	import org.my.domain.Criteria;
-	import org.my.domain.AlarmVO;
-	import org.my.domain.CommonVO;
-	import org.my.domain.DonateVO;
-	import org.my.domain.ReportVO;
+	import org.my.domain.common.AlarmVO;
+	import org.my.domain.common.CommonVO;
+	import org.my.domain.common.Criteria;
+	import org.my.domain.common.DonateVO;
+	import org.my.domain.common.ReportVO;
 	import org.my.mapper.BoardAttachMapper;
 	import org.my.mapper.BoardMapper;
 	import org.my.mapper.CommonMapper;
-	import org.my.s3.myS3Util;
+	import org.my.utils.S3util;
 	import org.springframework.stereotype.Service;
 	import org.springframework.transaction.annotation.Transactional;
 	import lombok.RequiredArgsConstructor;
@@ -30,7 +30,7 @@ public class BoardServiceImpl implements BoardService {
 	private final BoardMapper boardMapper;
 	private final BoardAttachMapper attachMapper;
 	private final CommonMapper commonMapper;
-	private final myS3Util myS3Util;
+	private final S3util S3util;
 	
 	@Override
 	public List<BoardVO> getList(Criteria cri) {
@@ -230,11 +230,11 @@ public class BoardServiceImpl implements BoardService {
 	    	String path = attach.getUploadPath();
 			String filename = attach.getUuid()+"_"+attach.getFileName();
 						    	  
-			if(myS3Util.deleteObject(path, filename)) {
+			if(S3util.deleteObject(path, filename)) {
 				
 				if (attach.isFileType()) {//만약 이미지파일이었다면
 					
-					myS3Util.deleteObject(path, "s_"+filename);//썸네일도 삭제
+					S3util.deleteObject(path, "s_"+filename);//썸네일도 삭제
 				}
 			}
         }

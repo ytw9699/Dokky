@@ -6,9 +6,9 @@ package org.my.service;
 	import javax.servlet.http.HttpServletRequest;
 	import org.my.domain.board.BoardAttachVO;
 	import org.my.domain.board.BoardVO;
-	import org.my.domain.Criteria;
-	import org.my.domain.CommonVO;
-	import org.my.domain.ReportVO;
+	import org.my.domain.common.CommonVO;
+	import org.my.domain.common.Criteria;
+	import org.my.domain.common.ReportVO;
 
 public interface BoardService {
 	

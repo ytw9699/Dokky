@@ -1,11 +1,11 @@
 package org.my.mapper;
 	import java.util.List;
 	import org.apache.ibatis.annotations.Param;
-	import org.my.domain.Criteria;
-	import org.my.domain.ReplyDisLikeVO;
-	import org.my.domain.ReplyLikeVO;
-	import org.my.domain.ReplyVO;
-	import org.my.domain.ReplyDonateVO;
+	import org.my.domain.common.Criteria;
+	import org.my.domain.reply.ReplyDisLikeVO;
+	import org.my.domain.reply.ReplyDonateVO;
+	import org.my.domain.reply.ReplyLikeVO;
+	import org.my.domain.reply.ReplyVO;
 
 public interface ReplyMapper {
 

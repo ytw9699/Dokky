@@ -6,7 +6,7 @@ package org.my.service;
 	import org.springframework.test.context.ContextConfiguration;
 	import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 	import org.my.domain.board.BoardVO;
-	import org.my.domain.Criteria;
+	import org.my.domain.common.Criteria;
 	import lombok.Setter;
 	import lombok.extern.log4j.Log4j;
 

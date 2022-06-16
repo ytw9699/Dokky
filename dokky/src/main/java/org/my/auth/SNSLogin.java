@@ -1,5 +1,5 @@
 package org.my.auth;
-	import org.my.domain.MemberVO;
+	import org.my.domain.common.MemberVO;
 	import com.fasterxml.jackson.databind.JsonNode;
 	import com.fasterxml.jackson.databind.ObjectMapper;
 	import com.github.scribejava.core.builder.ServiceBuilder;

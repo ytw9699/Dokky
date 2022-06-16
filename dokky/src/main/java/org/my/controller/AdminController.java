@@ -2,10 +2,10 @@
 - 마지막 업데이트 2022-06-13
 */
 package org.my.controller;
-	import org.my.domain.Criteria;
-	import org.my.domain.PageDTO;
-	import org.my.domain.AlarmVO;
-	import org.my.domain.CommonVO;
+	import org.my.domain.common.AlarmVO;
+	import org.my.domain.common.CommonVO;
+	import org.my.domain.common.Criteria;
+	import org.my.domain.common.PageDTO;
 	import org.my.service.AdminService;
 	import org.my.service.MypageService;
 	import org.springframework.http.HttpStatus;

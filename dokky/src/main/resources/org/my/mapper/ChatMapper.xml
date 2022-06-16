@@ -42,7 +42,7 @@
 							 				) 
        </insert>
 				
-		<!-- <select id="getChatContents" resultType="org.my.domain.ChatContentVO"> 
+		<!-- <select id="getChatContents" resultType="org.my.domain.chat.ChatContentVO"> 
 				  	  select /*+INDEX_ASC(dk_chat_content pk_chat_content) */
 				  	  												  chatContentNum	
 								     								, chat_writerId
@@ -63,7 +63,7 @@
 								and chatContentNum > 0
 		</select> -->
 	 	
-	 	<select id="getChatContents" resultType="org.my.domain.ChatContentVO"> 
+	 	<select id="getChatContents" resultType="org.my.domain.chat.ChatContentVO"> 
 	 			
 			select content.chatContentNum  
 																			, chat_writerId
@@ -87,7 +87,7 @@
        
        	</select>
 		
-		<select id="getChatMember" resultType="org.my.domain.ChatMemberVO"> 
+		<select id="getChatMember" resultType="org.my.domain.chat.ChatMemberVO"> 
 				  select chat_memberId, chat_memberNick from dk_chat_member where chatRoomNum = #{chatRoomNum} and chat_memberId != #{userId}
 		</select>
 		
@@ -203,7 +203,7 @@
 	 	 	update dk_chat_content set readCount = readCount -1 where chatContentNum = #{chatContentNum}
 	   </update>
 	 
-	   <select id="getMyChatRoomVoList" resultType="org.my.domain.ChatRoomVO">
+	   <select id="getMyChatRoomVoList" resultType="org.my.domain.chat.ChatRoomVO">
 	 		<!-- select room.chatRoomNum, 
 	 			   room.chat_type, 
 	 			   room.chat_title from dk_chat_room room left outer join dk_chat_member member on room.chatRoomNum = member.chatRoomNum 
@@ -225,19 +225,19 @@
  
 	   </select>
 	   
-	   <select id="getMyChatContentVo" resultType="org.my.domain.ChatContentVO">
+	   <select id="getMyChatContentVo" resultType="org.my.domain.chat.ChatContentVO">
 	   		<![CDATA[ select /*+INDEX_DESC(DK_CHAT_CONTENT PK_CHAT_CONTENT) */ chat_content, regdate from dk_chat_content where chatRoomNum = #{chatRoomNum} and ROWNUM <= 1 ]]>
 	   </select>
 	   
-	   <select id="getMyMultiChatReadVo" resultType="org.my.domain.ChatReadVO">
+	   <select id="getMyMultiChatReadVo" resultType="org.my.domain.chat.ChatReadVO">
 	   		select chat_memberId, chat_memberNick from dk_chat_member where chatRoomNum = #{chatRoomNum} and present_position = 0 
 	   </select>
 	   
-	    <select id="getChatMembers" resultType="org.my.domain.ChatMemberVO">
+	    <select id="getChatMembers" resultType="org.my.domain.chat.ChatMemberVO">
 			  select chat_memberId, chat_memberNick from dk_chat_member where chatRoomNum = #{chatRoomNum} and present_position = 0
 	   </select>
 	   
-	   <select id="getMySingleChatReadVo" resultType="org.my.domain.ChatReadVO">
+	   <select id="getMySingleChatReadVo" resultType="org.my.domain.chat.ChatReadVO">
 	   		select distinct chat_memberId, chat_memberNick from dk_chat_read where chatRoomNum = #{chatRoomNum} and chat_memberId != #{userId}
 	   </select>
 	   
@@ -245,7 +245,7 @@
 	   		select count(chatReadNum) as notReadCnt from dk_chat_read where chat_memberId = #{userId} and read_type = 0 and chatRoomNum = #{chatRoomNum}
 	   </select>
 	   
-	   <select id="getChatUserList" resultType="org.my.domain.MemberVO">
+	   <select id="getChatUserList" resultType="org.my.domain.common.MemberVO">
 	   		select userId,nickName from dk_member where enabled = 1 and userId != #{userId}
 	   		
 	   		<if test="keyword != null and keyword !='undefined' and keyword !=''">
@@ -256,7 +256,7 @@
 	   		<!-- 한글 > 영문 > 숫자의 오름차순 -->
 	   </select>
 	   
-	   <select id="getChatTitleInfo" resultType="org.my.domain.MultiRoomVO">
+	   <select id="getChatTitleInfo" resultType="org.my.domain.chat.MultiRoomVO">
 	   		select chat_title, roomOwnerId, roomOwnerNick from dk_chat_room where chatRoomNum = #{chatRoomNum}
 	   </select>
 	   
@@ -264,7 +264,7 @@
 			update dk_chat_room set chat_title = #{chat_title} where chatRoomNum = #{chatRoomNum}
 	   </update>
 	   
-	    <select id="getChatInviteList" resultType="org.my.domain.MemberVO">
+	    <select id="getChatInviteList" resultType="org.my.domain.common.MemberVO">
 	   		
 	   		select userId, nickName from dk_member 
 	   		

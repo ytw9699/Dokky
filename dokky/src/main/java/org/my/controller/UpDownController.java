@@ -6,8 +6,8 @@ package org.my.controller;
 	import java.util.ArrayList;
 	import java.util.List;
 	import javax.servlet.http.HttpServletRequest;
-	import org.my.domain.AttachFileDTO;
-	import org.my.s3.myS3Util;
+	import org.my.domain.common.AttachFileDTO;
+	import org.my.utils.S3util;
 	import org.springframework.http.HttpStatus;
 	import org.springframework.http.MediaType;
 	import org.springframework.http.ResponseEntity;
@@ -26,7 +26,7 @@ package org.my.controller;
 @Log4j
 public class UpDownController {
 	
-	private final myS3Util myS3Util;
+	private final S3util S3util;
 	
 	@PreAuthorize("isAuthenticated()")
 	@PostMapping(value = "/s3upload", produces = MediaType.APPLICATION_JSON_UTF8_VALUE)
@@ -44,7 +44,7 @@ public class UpDownController {
 			
 			for (MultipartFile multipartFile : uploadFile) {
 				
-				result = myS3Util.upload(multipartFile.getInputStream(), multipartFile, multipartFile.getOriginalFilename(), uploadKind);
+				result = S3util.upload(multipartFile.getInputStream(), multipartFile, multipartFile.getOriginalFilename(), uploadKind);
 				
 				list.add(result);
 			}
@@ -63,7 +63,7 @@ public class UpDownController {
 		
 		log.info("/s3Image");
 		
-		ResponseEntity<byte[]> result = new ResponseEntity<>(myS3Util.downloadImage(path, filename), HttpStatus.OK);
+		ResponseEntity<byte[]> result = new ResponseEntity<>(S3util.downloadImage(path, filename), HttpStatus.OK);
 		
 		return result;
 	}
@@ -82,11 +82,11 @@ public class UpDownController {
 		
 		log.info("/s3File: " + path+filename);
 		
-		if(myS3Util.deleteObject(path, filename)) {
+		if(S3util.deleteObject(path, filename)) {
 			
 			if (type.equals("image")) {//만약 이미지파일이었다면
 
-				myS3Util.deleteObject(path, "s_"+filename);//썸네일도 삭제
+				S3util.deleteObject(path, "s_"+filename);//썸네일도 삭제
 			}
 			
 			return new ResponseEntity<String>("success", HttpStatus.OK);

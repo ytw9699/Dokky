@@ -8,9 +8,9 @@
 	import org.junit.Test;
 	import org.junit.runner.RunWith;
 	import org.junit.runners.MethodSorters;
-	import org.my.domain.AuthVO;
-	import org.my.domain.MemberVO;
-	import org.my.security.domain.CustomUser;
+	import org.my.domain.common.AuthVO;
+	import org.my.domain.common.MemberVO;
+	import org.my.domain.common.CustomUser;
 	import org.my.service.MemberService;
 	import org.springframework.beans.factory.annotation.Autowired;
 	import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;

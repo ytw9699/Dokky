@@ -6,11 +6,11 @@ package org.my.service;
 	import javax.servlet.http.HttpServletRequest;
 	import javax.servlet.http.HttpSession;
 	import org.my.domain.board.BoardVO;
-	import org.my.domain.Criteria;
-	import org.my.domain.MemberVO;
-	import org.my.domain.VisitCountVO;
-	import org.my.domain.AlarmVO;
-	import org.my.domain.NoteVO;
+	import org.my.domain.common.AlarmVO;
+	import org.my.domain.common.Criteria;
+	import org.my.domain.common.MemberVO;
+	import org.my.domain.common.NoteVO;
+	import org.my.domain.common.VisitCountVO;
 
 public interface CommonService {
 	

@@ -2,7 +2,7 @@
 - 마지막 업데이트 2022-06-12
 */
 package org.my.service;
-	import org.my.domain.MemberVO;
+	import org.my.domain.common.MemberVO;
 	import org.my.mapper.MemberMapper;
 	import org.springframework.stereotype.Service;
 	import org.springframework.transaction.annotation.Transactional;
