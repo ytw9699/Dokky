@@ -1,5 +1,5 @@
 /*
-- 마지막 업데이트 2022-06-15
+- 마지막 업데이트 2022-06-16
 */
 package org.my.controller;
 	import java.util.List;
@@ -10,7 +10,6 @@ package org.my.controller;
 	import org.my.domain.PageDTO;
 	import org.my.domain.commonVO;
 	import org.my.domain.reportVO;
-	import org.my.s3.myS3Util;
 	import org.my.security.domain.CustomUser;
 	import org.my.service.BoardService;
 	import org.my.service.ReplyService;
@@ -42,7 +41,6 @@ public class BoardController {
 
 	private final BoardService boardService;
 	private final ReplyService replyService;
-	private final myS3Util myS3Util;
 	
 	@GetMapping("/list")
 	public String getList(Criteria cri, Model model) {
@@ -189,104 +187,47 @@ public class BoardController {
 	}
 	
 	@PreAuthorize("principal.username == #userId")   
-	@PostMapping("/remove")//게시글 삭제시 글+댓글+첨부파일 모두 삭제
+	@PostMapping("/remove")//해당하는 게시글의 번호의 글과+댓글+첨부파일 모두 삭제한다. (ON DELETE CASCADE 옵션)
 	public String removeBoard(@RequestParam("board_num") Long board_num, @RequestParam("userId")String userId, 
-								Model model, Criteria cri, RedirectAttributes rttr, HttpServletRequest request) {
+								HttpServletRequest request, Model model, Criteria cri) {
 		
 			log.info("/board/remove");
-
 		 	log.info("/getAttachList..." + board_num);
 		 	
-		 	List<BoardAttachVO> attachList = boardService.getAttachList(board_num);
+		 	boolean result = boardService.removeBoard(board_num, request);
 		 	
-		 	if(attachList == null || attachList.size() == 0) {
+		 	if(result == true) {
+		 		
+		 		return "redirect:/board/list" + cri.getListLink();
+		 		
+		 	}else{
+		 		
+		 		model.addAttribute("message", "서버에러로 삭제할 수 없습니다.");
 				
-		 		if(boardService.removeBoard(board_num, false)){//첨부파일 디비 삭제 + 글삭제
-					
-					return "redirect:/board/list" + cri.getListLink();
-				}
-				
-		    }else {
-		    	
-		    	if(boardService.removeBoard(board_num, true)){
-					
-					deleteS3Files(attachList , request); //실제 첨부파일 모두 삭제
-					
-					return "redirect:/board/list" + cri.getListLink();
-				}
-		    }
-		 	
-		 	model.addAttribute("message", "서버에러로 삭제할 수 없습니다.");
-			
-			return "error/commonError";  
+				return "error/commonError";  
+		 	}
 	}
 	
 	@PreAuthorize("principal.username == #userId")   
-	@PostMapping("/removeBoards")//게시글 다중삭제
+	@PostMapping("/removeBoards")//게시글 연관 된 모든것 다중 삭제  (ON DELETE CASCADE 옵션)
 	public String removeBoards(@RequestParam("checkRow") String checkRow , @RequestParam("userId")String userId, 
-									Model model, Criteria cri , HttpServletRequest request){
+									HttpServletRequest request, Model model, Criteria cri){
 		 	
 			log.info("/board/removeBoards");
 		 	
-		 	String[] arrIdx = checkRow.split(",");
+		 	boolean result = false;
+		 			result = boardService.removeBoards(checkRow, request);//checkRow는 게시글 번호들의 묶음이다.
 		 	
-		 	for (int i=0; i<arrIdx.length; i++) {
+		 	if(result == true) {
 		 		
-		 		 Long board_num = Long.parseLong(arrIdx[i]); 
+		 		return "redirect:/mypage/myBoardList?userId="+userId+"&pageNum="+cri.getPageNum()+"&amount="+cri.getAmount();
 		 		
-		 		 List<BoardAttachVO> attachList = boardService.getAttachList(board_num);
+		 	}else {
 		 		
-		 		 if(attachList == null || attachList.size() == 0) {
-					
-			 			if (boardService.removeBoard(board_num , false)) {
-				 			
-				 			log.info("remove...board_num=" + board_num);
-				 			
-						}else {
-							
-							model.addAttribute("message", "서버에러로 삭제할 수 없습니다.");
-							
-							return "error/commonError";  
-						}
-					
-			     }else {
-			    	
-				    	if (boardService.removeBoard(board_num ,true)) {
-				 			
-				 			log.info("remove...board_num=" + board_num);
-				 			
-						}else {
-							
-							model.addAttribute("message", "서버에러로 삭제할 수 없습니다.");
-							
-							return "error/commonError";  
-						}
-	
-				    	deleteS3Files(attachList , request); //실제 첨부파일 모두 삭제
-			     }
+		 		model.addAttribute("message", "서버에러로 삭제할 수 없습니다.");
+				
+				return "error/commonError";  
 		 	}
-		 	
-		 	return "redirect:/mypage/myBoardList?userId="+userId+"&pageNum="+cri.getPageNum()+"&amount="+cri.getAmount();
-	}
-	
-	private void deleteS3Files(List<BoardAttachVO> attachList, HttpServletRequest request) {
-		    
-		    log.info("deleteS3Files........");
-		    log.info(attachList);
-		    
-		    attachList.forEach(attach -> {
-		    
-				String path = attach.getUploadPath();
-				String filename = attach.getUuid()+"_"+attach.getFileName();
-							    	  
-				if(myS3Util.deleteObject(path, filename)) {
-					
-					if (attach.isFileType()) {//만약 이미지파일이었다면
-						
-						myS3Util.deleteObject(path, "s_"+filename);//썸네일도 삭제
-					}
-				}
-		    });
 	}
 	
 	@PreAuthorize("hasRole('ROLE_USER')")

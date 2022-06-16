@@ -1,5 +1,9 @@
+/*
+- 마지막 업데이트 2022-06-16
+*/
 package org.my.service;
 	import java.util.List;
+	import javax.servlet.http.HttpServletRequest;
 	import org.my.domain.BoardAttachVO;
 	import org.my.domain.BoardVO;
 	import org.my.domain.Criteria;
@@ -30,7 +34,9 @@ public interface BoardService {
 	
 	public List<BoardAttachVO> getAttachList(Long board_num);
 
-	public boolean removeBoard(Long board_num, boolean hasAttach);
+	public boolean removeBoard(Long board_num, HttpServletRequest request);
+	
+	public boolean removeBoards(String checkRow, HttpServletRequest request);
 	
 	public String likeBoard(commonVO vo);
 	
@@ -47,5 +53,4 @@ public interface BoardService {
 	public int deleteScrapData(int board_num, String userId);
 
 	public Long getRecentBoard_num();//테스트 코드용
-
 }

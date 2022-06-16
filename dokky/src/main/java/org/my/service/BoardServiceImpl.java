@@ -1,8 +1,9 @@
 /*
-- 마지막 업데이트 2022-06-15
+- 마지막 업데이트 2022-06-16
 */
 package org.my.service;
 	import java.util.List;
+	import javax.servlet.http.HttpServletRequest;
 	import org.my.domain.BoardAttachVO;
 	import org.my.domain.BoardDisLikeVO;
 	import org.my.domain.BoardLikeVO;
@@ -15,6 +16,7 @@ package org.my.service;
 	import org.my.mapper.BoardAttachMapper;
 	import org.my.mapper.BoardMapper;
 	import org.my.mapper.CommonMapper;
+	import org.my.s3.myS3Util;
 	import org.springframework.stereotype.Service;
 	import org.springframework.transaction.annotation.Transactional;
 	import lombok.RequiredArgsConstructor;
@@ -28,6 +30,7 @@ public class BoardServiceImpl implements BoardService {
 	private final BoardMapper boardMapper;
 	private final BoardAttachMapper attachMapper;
 	private final CommonMapper commonMapper;
+	private final myS3Util myS3Util;
 	
 	@Override
 	public List<BoardVO> getList(Criteria cri) {
@@ -161,20 +164,82 @@ public class BoardServiceImpl implements BoardService {
 		return attachMapper.getAttachList(board_num);
 	}
 
-	@Transactional
 	@Override
-	public boolean removeBoard(Long board_num, boolean hasAttach) {
+	public boolean removeBoard(Long board_num, HttpServletRequest request) {
 
-		log.info("removeBoard...." + board_num);
-		
-		if(hasAttach) {
+		List<BoardAttachVO> attachList = attachMapper.getAttachList(board_num); 
+	 	
+	 	if(attachList == null || attachList.size() == 0) {
 			
-			attachMapper.deleteAll(board_num);
-		}
-		
-		return boardMapper.deleteBoard(board_num) == 1;
+	 			return boardMapper.deleteBoard(board_num) == 1;
+			
+	    }else{
+	    	
+		    	if(boardMapper.deleteBoard(board_num) == 1){
+		    		
+		    		deleteS3Files(attachList, request);//s3에 첨부된 실제 파일 모두 삭제
+		    		
+		    		return true;
+		    		
+		    	}else{
+		    		
+		    		return false;
+		    	}
+	    }
 	}
 	
+	@Override
+	public boolean removeBoards(String checkRow, HttpServletRequest request) {
+		
+		String[] arrIdx = checkRow.split(",");
+		
+		for (int i=0; i<arrIdx.length; i++) {
+			
+			Long board_num = Long.parseLong(arrIdx[i]); 
+			
+			List<BoardAttachVO> attachList = attachMapper.getAttachList(board_num); 
+			
+			if(attachList == null || attachList.size() == 0) {
+				
+	 			if(boardMapper.deleteBoard(board_num) != 1) {
+	 				
+	 				return false;
+	 			}
+	 			
+		    }else{
+		    	
+		    	if(boardMapper.deleteBoard(board_num) == 1){
+			    		
+		    		deleteS3Files(attachList, request);//s3에 첨부된 실제 파일 모두 삭제
+			    		
+		    	}else{
+			    		
+		    		return false;
+		    	}
+		    }
+		}
+		return true;
+	}
+ 	
+	private void deleteS3Files(List<BoardAttachVO> attachList, HttpServletRequest request) {
+	    
+	    log.info("deleteS3Files........"+attachList);
+	    
+	    for (BoardAttachVO attach : attachList) {
+	    	
+	    	String path = attach.getUploadPath();
+			String filename = attach.getUuid()+"_"+attach.getFileName();
+						    	  
+			if(myS3Util.deleteObject(path, filename)) {
+				
+				if (attach.isFileType()) {//만약 이미지파일이었다면
+					
+					myS3Util.deleteObject(path, "s_"+filename);//썸네일도 삭제
+				}
+			}
+        }
+	}
+		
 	@Transactional
 	@Override
 	public String likeBoard(commonVO vo) {

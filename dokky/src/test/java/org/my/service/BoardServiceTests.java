@@ -90,8 +90,7 @@ public class BoardServiceTests {
 		}
 	}
 	
-	
-	@Test
+	/*@Test
 	public void testRemove() {
 		
 		log.info("게시글 삭제 테스트");
@@ -103,7 +102,7 @@ public class BoardServiceTests {
 		}else {
 			log.info("삭제 실패");
 		}
-	}
+	}*/
 
 	@Test
 	public void testGetAllList() {

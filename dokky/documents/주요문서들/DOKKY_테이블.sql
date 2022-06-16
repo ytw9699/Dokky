@@ -148,14 +148,12 @@
 	);
 	
 	alter table dk_attach add constraint pk_attach primary key (uuid);
-	alter table dk_attach add constraint fk_board_attach foreign key (board_num) references DK_BOARD(board_num);
+	alter table dk_attach add constraint fk_board_attach foreign key (board_num) references DK_BOARD(board_num) on delete cascade;
 	
 	insert into dk_attach(uuid, uploadPath, fileName, board_num)
 	values ('11', '테스트 제목','테스트 내용',3);
 	
 	DROP TABLE dk_attach PURGE;
-	
-	
 	
 	6.------------------------------------------------------------------------------------------
 	create table persistent_logins ( --인증 테이블
