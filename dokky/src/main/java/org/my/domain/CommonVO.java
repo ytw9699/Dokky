@@ -1,4 +1,5 @@
 package org.my.domain;
+	import org.my.domain.board.BoardLikeVO;
 	import lombok.Data;
 	
 @Data
