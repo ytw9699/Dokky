@@ -8,7 +8,7 @@ package org.my.service;
 	import org.my.domain.MemberVO;
 	import org.my.domain.ReplyVO;
 	import org.my.domain.CashVO;
-	import org.my.domain.scrapVO;
+	import org.my.domain.ScrapVO;
 
 public interface MypageService {
 
@@ -22,7 +22,7 @@ public interface MypageService {
 
 	public int getMyReplyCount(Criteria cri);
 	
-	public List<scrapVO> getMyScraplist(Criteria cri);
+	public List<ScrapVO> getMyScraplist(Criteria cri);
 
 	public int getMyScrapCount(String userId);
 	

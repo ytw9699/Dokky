@@ -8,7 +8,7 @@ package org.my.service;
 	import org.my.domain.MemberVO;
 	import org.my.domain.ReplyVO;
 	import org.my.domain.CashVO;
-	import org.my.domain.scrapVO;
+	import org.my.domain.ScrapVO;
 	import org.my.mapper.MypageMapper;
 	import org.springframework.stereotype.Service;
 	import org.springframework.transaction.annotation.Transactional;
@@ -90,7 +90,7 @@ public class MypageServiceImpl implements MypageService {
 	}
 	
 	@Override
-	public List<scrapVO> getMyScraplist(Criteria cri) {
+	public List<ScrapVO> getMyScraplist(Criteria cri) {
 
 		log.info("getMyScraplist with criteria: " + cri);
 

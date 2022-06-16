@@ -119,7 +119,7 @@
 		]]>
 	</select>
 	
-	<select id="getMyScraplist" resultType="org.my.domain.scrapVO"> 
+	<select id="getMyScraplist" resultType="org.my.domain.ScrapVO"> 
 			<![CDATA[
 			   select 	 
 			   		  board_num, 

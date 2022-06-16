@@ -9,7 +9,7 @@ package org.my.mapper;
 	import org.my.domain.MemberVO;
 	import org.my.domain.ReplyVO;
 	import org.my.domain.CashVO;
-	import org.my.domain.scrapVO;
+	import org.my.domain.ScrapVO;
 
 public interface MypageMapper {
 
@@ -43,7 +43,7 @@ public interface MypageMapper {
 
 	public int getMyReplyCount(Criteria cri);
 	
-	public List<scrapVO> getMyScraplist(Criteria cri);
+	public List<ScrapVO> getMyScraplist(Criteria cri);
 	
 	public int getMyScrapCount(String userId);
 	

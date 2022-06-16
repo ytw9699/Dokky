@@ -3,7 +3,7 @@ package org.my.domain;
 	import lombok.Data;
 	
 @Data
-public class scrapVO {
+public class ScrapVO {
 	  private int category;
 	  private Long board_num;
 	  private String userId;
