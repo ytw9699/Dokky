@@ -23,7 +23,7 @@
 	
 	<div id="profileGray"></div> 
 	<div id="chargeCash">
-			<span class="chargeText">충전금액</span>
+			<span class="chargeText">충전요청</span>
 			<input type="text" id="chargeWon" class="chargeWon" placeholder="0" value="" onkeyup="numberWithComma(this)">
 			<span class="chargeText">원</span> 
 			 
@@ -34,7 +34,7 @@
 	<input type="text" id="realCommonWon"> 
 	
 	<div id="reChargeCash">
-			<span class="chargeText">환전금액</span>
+			<span class="chargeText">환전요청</span>
 			<input type="text" id="reChargeWon" class="chargeWon" placeholder="0" value="" onkeyup="numberWithComma(this)">
 			<span class="chargeText">원</span>
 			
@@ -169,9 +169,10 @@
    		
 		$("#chargeSubmit").on("click",function(event){//3.충전 확인버튼 이벤트
 			var cash = $("#realCommonWon").val();
-			
-			if(cash === 0 || cash === ""){   
-				openAlert("금액을 1원이상 입력해주세요"); 
+
+			if(cash === 0 || cash === "" || cash === "0"){ 
+				closeCharge();
+				openAlert("금액을 입력해주세요"); 
 				return;
 			}
 			
@@ -187,7 +188,7 @@
 				
 			        if(result == "success"){
 			        	
-			        	openAlert("입금이 확인되면 캐시가 충전됩니다");
+			        	openAlert("금액을 입금해주세요.");
 			        	
 			        }else if(result == "fail"){
 			        	
@@ -216,8 +217,9 @@
 			
 			var cash = $("#realCommonWon").val();
 						
-			if(cash === 0 || cash === ""){   
-				openAlert("금액을 1원이상 입력해주세요"); 
+			if(cash === 0 || cash === "" || cash === "0"){ 
+				closeRecharge();
+				openAlert("금액을 입력해주세요");
 				return;
 			}
 			
