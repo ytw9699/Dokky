@@ -115,9 +115,11 @@
 			</a>
 		</sec:authorize>
 		
+	  <sec:authorize access="hasRole('ROLE_ADMIN')">
 			<a href="/admin/userList">
 		    	<span class="mypage">관리자</span>
 			</a>
+		</sec:authorize>
 		
 		<div class="visitCount">
 			<div>
