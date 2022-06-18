@@ -56,10 +56,10 @@
 		
 		<div class="tabcontent">
     		<div class="dotContentWrap">   
-	     		<span id="dotText">My Cash </span> <span id="dotValue"><fmt:formatNumber type="number" maxFractionDigits="3" value="${myCash}"/>원</span> 
+	     		<span id="dotText">My cash </span> <span id="dotValue"><fmt:formatNumber type="number" maxFractionDigits="3" value="${myCash}"/>원</span> 
 	     	</div> 
 	     	<div class="dotContentWrap">  
-	     		<span id="account">Dokky 계좌 </span> <span id="accountVal">신한 110-237-583410</span>  
+	     		<span id="account">Dokky 가상 계좌 </span> <span id="accountVal">( 토스 190-854-881-425 )</span>  
 	     	</div> 
 	     	<div class="dotButtonWrap"> 
 		     	<input type="button" id="charging" class="dotButtons" value="충전 요청"/>
@@ -188,7 +188,7 @@
 				
 			        if(result == "success"){
 			        	
-			        	openAlert("금액을 입금해주세요.");
+			        	openAlert("입금자명을 닉네임으로 입금해주세요");
 			        	
 			        }else if(result == "fail"){
 			        	
