@@ -78,10 +78,19 @@
 	</filter-mapping>
 	<!--  필터의 순서는 바뀌면 안됨 -->
 	
-	<!-- <error-page>
-	    <excption-type>java.lang.Exception</excption-type>
-	    <location>/commonError</location>
-	</error-page> -->
-
+	<error-page>
+	    <error-code>404</error-code>
+	    <location>/WEB-INF/views/error/404errorPage.jsp</location>
+	</error-page>
+	
+	<error-page>
+	    <error-code>400</error-code>
+	    <location>/WEB-INF/views/error/400errorPage.jsp</location>
+	</error-page>
+	
+	<error-page>
+	    <error-code>500</error-code>
+	    <location>/WEB-INF/views/error/500errorPage.jsp</location>
+	</error-page>
 	
 </web-app>

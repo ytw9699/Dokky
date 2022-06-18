@@ -1070,7 +1070,7 @@
 		
 		var commonData = { 
 						    boardDisLikeVO : dislikeData,
-						 	alarmVO        : alarmData
+						    alarmVO        : alarmData
 			 			 }
 		
 		commonService.disLikeBoard(commonData, 
@@ -1130,7 +1130,7 @@
 			
 			var commonData = {
 								replyLikeVO : likeData,
-							 	alarmVO     : alarmData
+								alarmVO     : alarmData
 		 					 };
 	
 			commonService.likeReply(commonData,  
@@ -1190,7 +1190,7 @@
 			
 			var commonData = { 
 								replyDisLikeVO : dislikeData,
-							 	   alarmVO     : alarmData
+								alarmVO     : alarmData
 		 					 };
 			
 			commonService.disLikeReply(commonData,   
@@ -1349,7 +1349,7 @@
 			
 			var commonData ={ 
 							  donateVO    : donateData,
-						 	  alarmVO     : alarmData
+							  alarmVO     : alarmData
 						 	}
 			
 			commonService.giveBoardWriterMoney(commonData, 
@@ -1405,7 +1405,7 @@
 							
 				var commonData ={ 
 									replyDonateVO    : replyDonateData,
-								 	alarmVO          : alarmData
+									alarmVO          : alarmData
 		 						}	
 			
 				commonService.giveReplyWriterMoney(commonData, 
@@ -1581,8 +1581,8 @@
 				             };
  
 				 commonData = { 
-									replyVO:reply,
-									alarmVO:alarmData
+									replyVO	:	reply,
+									alarmVO	:	alarmData
 							  };
 		 	}else{//나의 글에 댓글을 달시에 알람을 보내지 말자
 		 		 commonData = { 

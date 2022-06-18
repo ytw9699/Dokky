@@ -1,4 +1,4 @@
- <%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
+<%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
  <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c"%>
  <%@ taglib uri="http://java.sun.com/jsp/jstl/fmt" prefix="fmt"%>
  <%@include file="../includes/common.jsp"%>
@@ -48,15 +48,34 @@
 	
 	<div class="footer"> 
 		<div class="info"> 
-			이용약관 | 개인정보처리방침 | 책임의 한계와 법적고지 | 회원정보 고객센터 
 		</div>
 		<div class="socialLogin">
-			<a href="/socialLogin">사용자 로그인</a>  
+			<a href="/socialLogin">Social Login</a>  
 		</div>
 	</div>
 </div>
 <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
 <script>
+
+	var csrfHeaderName ="${_csrf.headerName}"; 
+	var csrfTokenValue="${_csrf.token}";
+	
+	$(document).ajaxSend(function(e, xhr, options) { 
+	    xhr.setRequestHeader(csrfHeaderName, csrfTokenValue);
+	});
+	
+	var delteSavedRequest = function(){
+		$.ajax({
+				type : 'delete',
+				url : '/SavedRequest'
+			});
+	}
+	
+	var onbeforeunload = function() {   
+		delteSavedRequest();
+	} 
+	
+	window.onbeforeunload = onbeforeunload;
 	
 	function checkLength(obj, maxByte) { 
 		 
@@ -101,8 +120,8 @@
 		
 		obj.focus();  
 	}
-
-    function memberCheck(){
+	
+	function memberCheck(){
 		  
 	    var userId = $('#userId').val();
 	    userId = $.trim(userId);//공백제거
@@ -121,36 +140,40 @@
 		}
 		
 		return false;
-    }
+	}
 		     
 	  $("#login").on("click", function(e){
-		    e.preventDefault();
-		    
-		    if(memberCheck()){
-		    	return; 
-		    }
-		    
-		    $("form").submit();
+		  
+			e.preventDefault();
+			  
+			if(memberCheck()){
+				return; 
+			}
+			
+			delteSavedRequest = null;
+			
+			$("form").submit();
 	  });
 	  
-	/*   $("#join").on("click", function(e){
-
-		  	e.preventDefault();
-		    
-	    	openAlert("슈퍼관리자로 현재 가입 할 수 없습니다"); 
-	    	return; 
-		     
-		    location.href='/adminMemberForm'; 
-	  }); */
-	  
-</script>
-
-	<c:if test="${AuthenticationFailureMsg != null}">
+	  /*   $("#join").on("click", function(e){
+		
+			  	e.preventDefault();
+			    
+		  	openAlert("슈퍼관리자로 현재 가입 할 수 없습니다"); 
+		  	return; 
+			     
+			    location.href='/adminMemberForm'; 
+		}); */
+			  
+	</script>
+	
+	<c:if test="${errormsg != null}">
 	      <script>
 		      $(document).ready(function(){
-		      	openAlert('${AuthenticationFailureMsg}'); 
+		      	openAlert('${errormsg}'); 
 		      });
 	      </script>
 	</c:if>  
+	
 </body>
 </html>

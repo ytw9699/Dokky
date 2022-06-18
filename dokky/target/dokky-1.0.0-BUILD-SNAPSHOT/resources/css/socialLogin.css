@@ -27,13 +27,13 @@
 					    display: inline-block;
 					    margin-left: 17%;
 					    margin-top: 1%;
-					    height: 575px;
+					    height: 540px;
 						display: inline-block;
 						border: 2px solid #dbdbdb;
 						border-radius: 10px;
 				}
 				.container {
-			       	width: 50%;
+			        width: 50%;
 				    display: inline-block;
 				    margin-left: 20%;
 				    margin-top: 4%;
@@ -56,7 +56,7 @@
 			.container {
 		        width: 50%;
 			    display: inline-block;
-			    margin-left: 17%;
+			    margin-left: 20%;
 			    margin-top: 4%;
 			    min-height: 270px;
 			}
@@ -67,7 +67,7 @@
 		    background-color: white;
 		    font-size: 45px;
 		    font-weight: 900;
-		    margin-left: 21%;
+		    margin-left: 24%;
 		    margin-top: 8%;
 		    margin-bottom: 2%;
 		    text-align: center;
@@ -155,8 +155,8 @@
 		    font-weight: 600;
 		    padding: 0%;
 		    margin: 0%;
-		    margin-top: -4%;
-		    font-size: 16px;
+		 	margin-top: -4%;
+		    font-size: 23px;
 		    width: 98%;
 		    color: #7151fc;
     		cursor: pointer;

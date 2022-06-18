@@ -59,7 +59,7 @@
 		update dk_cash set nickName = #{nickName} where userId = #{userId}
 	</update>
 	
-	<select id="getMyBoardList" resultType="org.my.domain.BoardVO"> 
+	<select id="getMyBoardList" resultType="org.my.domain.board.BoardVO"> 
 		select board_num,
 			   title,
 			   NICKNAME,
@@ -88,7 +88,7 @@
 		select count(*) from DK_BOARD where userId = #{userId} and board_num > 0
 	</select>
 	
-	<select id="getMyReplylist" resultType="org.my.domain.ReplyVO">
+	<select id="getMyReplylist" resultType="org.my.domain.reply.ReplyVO">
 	  <![CDATA[
 		 select reply_num
 			  , board_num
@@ -119,7 +119,7 @@
 		]]>
 	</select>
 	
-	<select id="getMyScraplist" resultType="org.my.domain.scrapVO"> 
+	<select id="getMyScraplist" resultType="org.my.domain.common.ScrapVO"> 
 			<![CDATA[
 			   select 	 
 			   		  board_num, 
@@ -213,7 +213,7 @@
 		]]>
 	</select>
 	
-	<select id="getMyCashHistory" resultType="org.my.domain.cashVO"> 
+	<select id="getMyCashHistory" resultType="org.my.domain.common.CashVO"> 
 		<![CDATA[
 		   select 
 				  cashKind,

@@ -20,7 +20,7 @@
 
 <div class="loginWrap">
 	<div class="title">
-			<a href="/socialLogin">Login</a>   
+			<a href="/socialLogin">Social Login</a>   
 	</div>
 	
 	<div class="container"> 
@@ -40,7 +40,6 @@
 	
 	<div class="footer">  
 		<div class="info">
-			이용약관 | 개인정보처리방침 | 책임의 한계와 법적고지 | 회원정보 고객센터
 		</div>
 		<div class="superAdmin">
 			<a href="/superAdminLogin">SuperAdmin Login</a>  
@@ -50,34 +49,48 @@
 
 <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
 <script>
+	
+	var csrfHeaderName ="${_csrf.headerName}"; 
+	var csrfTokenValue="${_csrf.token}";
 
+	$(document).ajaxSend(function(e, xhr, options) { 
+	    xhr.setRequestHeader(csrfHeaderName, csrfTokenValue);
+	});
+
+	var delteSavedRequest = function(){
+		$.ajax({
+				type : 'delete',
+				url : '/SavedRequest'
+			});
+	}
+	
+	var onbeforeunload = function() {   
+		delteSavedRequest();
+	} 
+	
+	window.onbeforeunload = onbeforeunload;
+		     
 	  $("#naver").on("click", function(e){
 		    e.preventDefault();
-		    
+		    delteSavedRequest = null;
 		    location.href='${naver_url}';
 	  });
 	  
 	  $("#google").on("click", function(e){
 		    e.preventDefault();
-		    
+		    delteSavedRequest = null;
 		    location.href='${google_url}';
 	  });
 	  
 </script>
-	<c:if test="${param.error != null}">
+	
+	<c:if test="${errormsg != null}">
 	      <script>
 		      $(document).ready(function(){
-		      		openAlert("관리자에게 문의해주세요");
+		      	openAlert('${errormsg}'); 
 		      });
 	      </script>
 	</c:if>  
-	 
-	<c:if test="${check != null}"> 
-	      <script>
-		      $(document).ready(function(){
-		      		openAlert('${check}'); 
-		      });
-	      </script>
-	</c:if>  
+	
 </body>
 </html>
