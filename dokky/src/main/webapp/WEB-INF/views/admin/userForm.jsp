@@ -382,7 +382,7 @@
 								
 								updateAuthState();
 								
-								openAlert("일반유저 권한부여 완료");
+								openAlert("일반유저 권한을 주었습니다");
 								
 								sendAlarmMsg(alarmData);
 							}
@@ -414,7 +414,7 @@
 							
 							updateAuthState();
 							
-							openAlert("일반유저 권한삭제 완료");
+							openAlert("일반유저 권한을 삭제하였습니다");
 							
 							sendAlarmMsg(alarmData);
 						}
@@ -457,7 +457,7 @@
 								
 								updateAuthState();
 								
-								openAlert("일반관리자 권한부여 완료");
+								openAlert("일반관리자 권한을 주었습니다");
 								
 								sendAlarmMsg(alarmData);
 							}
@@ -487,7 +487,7 @@
 							
 							updateAuthState();
 							
-							openAlert("일반관리자 권한삭제 완료");
+							openAlert("일반관리자 권한을 삭제하였습니다");
 							
 							sendAlarmMsg(alarmData);
 						}
