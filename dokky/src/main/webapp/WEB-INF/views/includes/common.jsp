@@ -61,7 +61,7 @@
 	  </sec:authorize>
 	  
 	<c:if test="${userInfo == null || userInfo == 'anonymousUser'}">
-		<a href="/commonLogin"> 
+		<a href="/socialLogin"> 
 		  	<span class="mypage topMypage">로그인/회원가입</span>
 		</a> 
 	</c:if>

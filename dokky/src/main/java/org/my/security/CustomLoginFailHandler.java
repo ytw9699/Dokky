@@ -49,6 +49,6 @@ public class CustomLoginFailHandler extends SimpleUrlAuthenticationFailureHandle
       }
 	
 	  request.setAttribute("errormsg", errormsg);
-	  request.getRequestDispatcher("/commonLogin").forward(request, response);
+	  request.getRequestDispatcher("/superAdminLogin").forward(request, response);
 	}
 } 

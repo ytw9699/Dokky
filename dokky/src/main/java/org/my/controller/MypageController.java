@@ -75,7 +75,7 @@ public class MypageController {
 				
 				rttr.addFlashAttribute("errormsg", "다시 로그인 해주세요."); 
 				
-				return "redirect:/commonLogin";
+				return "redirect:/socialLogin";
 			}
 			
 			rttr.addFlashAttribute("update", "complete");
@@ -328,7 +328,7 @@ public class MypageController {
 				
 					commonService.customLogout(userId, request.getSession());
 					
-					return "redirect:/commonLogin";
+					return "redirect:/socialLogin";
 				
 			}else {
 				

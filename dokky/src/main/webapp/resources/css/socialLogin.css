@@ -6,25 +6,17 @@
 				    display: inline-block;
 				    margin-left: 15%;
 				    margin-top: 1%;
-				    height: 620px;
+				    height: 538px;
 					display: inline-block;
 					border: 2px solid #dbdbdb;
 					border-radius: 10px;
 				}
 				
-				.socialContainer {
+				.container {
 			       	width: 50%;
 				    display: inline-block;
 				    margin-left: 20%;
-				  	margin-top: 0%;
-				    min-height: 270px;
-				}
-				
-				.superContainer {
-			       	width: 50%;
-				    display: inline-block;
-				    margin-left: 20%;
-				    margin-top: 0%;
+				    margin-top: 4%;
 				    min-height: 270px;
 				}
         }
@@ -35,24 +27,16 @@
 					    display: inline-block;
 					    margin-left: 17%;
 					    margin-top: 1%;
-					    height: 620px;
+					    height: 540px;
 						display: inline-block;
 						border: 2px solid #dbdbdb;
 						border-radius: 10px;
 				}
-				.socialContainer {
-			       	width: 50%;
+				.container {
+			        width: 50%;
 				    display: inline-block;
 				    margin-left: 20%;
-				    margin-top: 0%;
-				    min-height: 270px;
-				}
-				
-				.superContainer {
-			       	width: 50%;
-				    display: inline-block;
-				    margin-left: 20%;
-				    margin-top: 0%;
+				    margin-top: 4%;
 				    min-height: 270px;
 				}
         }
@@ -63,55 +47,36 @@
 				    display: inline-block;
 				    margin-left: 29%;
 				    margin-top: 1%;
-				    height: 620px;
+				    height: 538px; 
 					display: inline-block;
 					border: 2px solid #dbdbdb;
 					border-radius: 10px;
 			}
 			
-				.socialContainer {
-			       	width: 50%;
-				    display: inline-block;
-				    margin-left: 20%;
-				    margin-top: 0%;
-				    min-height: 270px;
-				}
-				
-				.superContainer {
-			       	width: 50%;
-				    display: inline-block;
-				    margin-left: 20%;
-				    margin-top: 0%;
-				    min-height: 270px;
-				}
+			.container {
+		        width: 50%;
+			    display: inline-block;
+			    margin-left: 20%;
+			    margin-top: 4%;
+			    min-height: 270px;
+			}
         }
-        
-		.socialTitle{
-			width: 55%;
+
+		.title{
+			width: 50%;
 		    background-color: white;
 		    font-size: 45px;
 		    font-weight: 900;
-		    margin-left: 30%;
+		    margin-left: 24%;
 		    margin-top: 8%;
-		    margin-bottom: 7%;
+		    margin-bottom: 2%;
 		    text-align: center;
 		    color: #7151fc;
 		}
-		
-		.superTitle{
-		    width: 74%;
-		    background-color: white;
-		    font-size: 40px;
-		    font-weight: 900;
-		    margin-left: 22%;
-		    margin-top: 8%;
-		    margin-bottom: 5%;
-		    text-align: center;
-		    color: #7151fc;
-		}
-		
-		.admin-group{
-		}
+		.title a{
+			text-decoration:none; 
+			color: #7151fc;
+		}    
 		
 		.loginGroup{
 		  	margin-top:-10px !important;
@@ -119,7 +84,7 @@
 		  
 		.form-group {
 		        margin-top: 1%;
-			    margin-left: 29%;
+			    margin-left: 23%;
 			    width: 60%;
 			    height: 50px;
 			    font-size: 20px;
@@ -173,9 +138,9 @@
 			border-radius: 9px;
 		}
 		.footer{
-		  	width: 100%;
+		    width: 96%;
 		    padding: 1%;
-		    margin: 3%;
+		    margin: 1%;
 		}
 		.info{
 			font-size: 11px;
@@ -185,4 +150,22 @@
 		    text-align: center;
 		    font-weight: 600;
 		}
+		.superAdmin{
+		    text-align: right;
+		    font-weight: 600;
+		    padding: 0%;
+		    margin: 0%;
+		 	margin-top: -4%;
+		    font-size: 23px;
+		    width: 98%;
+		    color: #7151fc;
+    		cursor: pointer;
+		}
+		
+		.superAdmin a{
+			text-decoration: none;
+			color: #7151fc;
+		}
+		
+		
 		

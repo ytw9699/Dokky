@@ -72,10 +72,18 @@ public class CommonController {
 		return new ResponseEntity<>("success", HttpStatus.OK);
 	}
 	
-	@RequestMapping(value="/commonLogin", method = {RequestMethod.GET, RequestMethod.POST})
-	public String getCommonLogin(HttpServletRequest request, HttpServletResponse response, Model model) throws UnsupportedEncodingException {
+	@RequestMapping(value="/superAdminLogin", method = {RequestMethod.GET, RequestMethod.POST})
+	public String superAdminLogin(HttpServletRequest request, HttpServletResponse response){//CustomLoginFailHandler의 후처리와 연관
+
+		log.info("/superAdminLogin");
 		
-		log.info("/commonLogin");
+		return "common/superAdminLogin";
+	}	
+	
+	@RequestMapping(value="/socialLogin", method = {RequestMethod.GET, RequestMethod.POST})
+	public String getSocialLogin(HttpServletRequest request, HttpServletResponse response, Model model) throws UnsupportedEncodingException {
+		
+		log.info("/socialLogin");
 		
 		String preUrl  = request.getHeader("referer");
 		
@@ -93,7 +101,7 @@ public class CommonController {
 		
 		model.addAttribute("google_url", googleLogin.getAuthURL());
 		
-		return "common/commonLogin";
+		return "common/socialLogin";
 	}
 	
 	@GetMapping("/auth/{snsService}/callback")
@@ -104,7 +112,7 @@ public class CommonController {
 		log.info("/auth/"+snsService+"/callback");
 		
 		if(error.equals("access_denied")) {//정보동의 수락안하고 취소눌를시
-			return "redirect:/commonLogin";
+			return "redirect:/socialLogin";
 		}
 		
 		SnsValue sns = null; 
@@ -132,7 +140,7 @@ public class CommonController {
 		
 		if(!memberVO.isAccountNonLocked()){
 			rttr.addFlashAttribute("errormsg", "접속 제한된 아이디입니다."); 
-			return "redirect:/commonLogin";
+			return "redirect:/socialLogin";
 		}
 		
 		if(!memberVO.isEnabled()){//탈퇴한 회원 이라면
@@ -147,7 +155,7 @@ public class CommonController {
 		
 		if(commonService.setAuthentication(memberVO) == false){//인증처리
 			rttr.addFlashAttribute("errormsg", "로그인 할 수 없습니다."); 
-			return "redirect:/commonLogin";
+			return "redirect:/socialLogin";
 		}
 		
 		String redirectURL = commonService.CustomAuthLoginSuccessHandler(profileId, request);
@@ -197,7 +205,7 @@ public class CommonController {
 			
 			if(commonService.setAuthentication(memberVO) == false){//인증처리
 				rttr.addFlashAttribute("errormsg", "다시 로그인 해주세요."); 
-				return "redirect:/commonLogin";
+				return "redirect:/socialLogin";
 			}
 			
 			rttr.addFlashAttribute("check", "가입완료 되었습니다.");
@@ -208,7 +216,7 @@ public class CommonController {
 		
 			rttr.addFlashAttribute("errormsg", "가입실패 하였습니다 관리자에게 문의주세요.");
 			
-			return "redirect:/commonLogin";
+			return "redirect:/socialLogin";
 		}
 	}
 	
@@ -223,7 +231,7 @@ public class CommonController {
 			
 			if(commonService.setAuthentication(memberVO) == false){//인증처리
 				rttr.addFlashAttribute("errormsg", "다시 로그인 해주세요."); 
-				return "redirect:/commonLogin";
+				return "redirect:/socialLogin";
 			}
 			
 			rttr.addFlashAttribute("check", "재가입완료 되었습니다.");
@@ -234,7 +242,7 @@ public class CommonController {
 		
 			rttr.addFlashAttribute("errormsg", "재가입실패 하였습니다 관리자에게 문의주세요.");
 			
-			return "redirect:/commonLogin";
+			return "redirect:/socialLogin";
 		}
 	}
 		
