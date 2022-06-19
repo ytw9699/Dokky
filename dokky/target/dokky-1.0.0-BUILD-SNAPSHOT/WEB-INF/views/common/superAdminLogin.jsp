@@ -10,10 +10,10 @@
 	<title>Dokky - 로그인</title> 
 	<c:choose>
 	   	  <c:when test="${pageContext.request.serverName == 'localhost'}">
-				<link href="/resources/css/superAdminLogin.css" rel="stylesheet" type="text/css"/>
+				<link href="/resources/css/common/superAdminLogin.css" rel="stylesheet" type="text/css"/>
 		  </c:when>
 	      <c:otherwise>
-	    		<link href="/ROOT/resources/css/superAdminLogin.css" rel="stylesheet" type="text/css"/>
+	    		<link href="/ROOT/resources/css/common/superAdminLogin.css" rel="stylesheet" type="text/css"/>
 	      </c:otherwise>
 	</c:choose>
 </head>

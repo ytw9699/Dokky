@@ -15,10 +15,10 @@
 	<title>Dokky - 회원 정보 </title>
 	<c:choose>
 	  	  <c:when test="${pageContext.request.serverName == 'localhost'}">
-				<link href="/resources/css/userForm.css" rel="stylesheet" type="text/css"/>
+				<link href="/resources/css/admin/userForm.css" rel="stylesheet" type="text/css"/>
 	  	 </c:when>
 	     <c:otherwise>
-	   			<link href="/ROOT/resources/css/userForm.css" rel="stylesheet" type="text/css"/>
+	   			<link href="/ROOT/resources/css/admin/userForm.css" rel="stylesheet" type="text/css"/>
 	     </c:otherwise>
 	</c:choose>
 </head>
