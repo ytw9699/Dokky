@@ -2,7 +2,6 @@ package org.my.handler;
 	import java.util.ArrayList;
 	import java.util.HashMap;
 	import java.util.Map;
-	import org.springframework.stereotype.Service;
 	import org.springframework.web.socket.CloseStatus;
 	import org.springframework.web.socket.TextMessage;
 	import org.springframework.web.socket.WebSocketSession;

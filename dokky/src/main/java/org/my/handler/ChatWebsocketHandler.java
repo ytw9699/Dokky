@@ -11,7 +11,6 @@ package org.my.handler;
 	import org.my.domain.chat.ChatRoom;
 	import org.my.service.ChatService;
 	import org.springframework.beans.factory.annotation.Autowired;
-	import org.springframework.stereotype.Service;
 	import org.springframework.web.socket.CloseStatus;
 	import org.springframework.web.socket.TextMessage;
 	import org.springframework.web.socket.WebSocketSession;
