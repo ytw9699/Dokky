@@ -21,8 +21,7 @@ package org.my.handler;
 	import lombok.extern.log4j.Log4j;
 
 @Log4j 
-@Service
-public class chatWebsocketHandler extends TextWebSocketHandler {
+public class ChatWebsocketHandler extends TextWebSocketHandler {
 	
 	@Setter(onMethod_ = @Autowired)
 	private ChatService chatService;

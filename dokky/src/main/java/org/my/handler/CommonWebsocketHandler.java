@@ -2,6 +2,7 @@ package org.my.handler;
 	import java.util.ArrayList;
 	import java.util.HashMap;
 	import java.util.Map;
+	import org.springframework.stereotype.Service;
 	import org.springframework.web.socket.CloseStatus;
 	import org.springframework.web.socket.TextMessage;
 	import org.springframework.web.socket.WebSocketSession;
@@ -9,7 +10,7 @@ package org.my.handler;
 	import lombok.extern.log4j.Log4j;
 	
 @Log4j 
-public class commonWebsocketHandler extends TextWebSocketHandler {
+public class CommonWebsocketHandler extends TextWebSocketHandler {
 	
 	Map<String, ArrayList<WebSocketSession>> userSessionsMap = new HashMap<>();//중복된 유저의 웹소켓 객체들을 아이디 별로 맵에 관리 
 	
