@@ -1,8 +1,7 @@
 package org.my.auth;
-
-import com.github.scribejava.apis.GoogleApi20;
-import com.github.scribejava.core.builder.api.DefaultApi20;
-import lombok.Data;
+	import com.github.scribejava.apis.GoogleApi20;
+	import com.github.scribejava.core.builder.api.DefaultApi20;
+	import lombok.Data;
 
 @Data
 public class SnsValue implements SnsUrls {//SnsValue는 중요 값들을 가지고있는것이다.

@@ -25,17 +25,6 @@ public class SNSLogin {
 		this.sns = sns;
 	}
 	
-	/*public SNSLogin(SnsValue sns) {
-		
-		this.oauthService = new ServiceBuilder(sns.getClientId())
-				.apiSecret(sns.getClientSecret())
-				.callback(sns.getRedirectUrl())
-				.defaultScope("profile")
-				.build(sns.getApi20Instance());
-		
-		this.sns = sns;
-	}*/
-
 	public String getAuthURL() {
 		return this.oauthService.getAuthorizationUrl();
 	}
@@ -82,5 +71,4 @@ public class SNSLogin {
 		}
 		return user;
 	}
-	
 }
