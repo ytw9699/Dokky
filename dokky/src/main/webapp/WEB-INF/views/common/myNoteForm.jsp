@@ -12,10 +12,10 @@
 	<title>Dokky - 내게쪽지쓰기</title>  
 	<c:choose>
 	   	  <c:when test="${pageContext.request.serverName == 'localhost'}">
-				<link href="/resources/css/myNoteForm.css" rel="stylesheet" type="text/css">
+				<link href="/resources/css/common/myNoteForm.css" rel="stylesheet" type="text/css">
 		  </c:when>
 	      <c:otherwise>
-	    		<link href="/ROOT/resources/css/myNoteForm.css" rel="stylesheet" type="text/css">
+	    		<link href="/ROOT/resources/css/common/myNoteForm.css" rel="stylesheet" type="text/css">
 	      </c:otherwise>
 	</c:choose>
 </head>

@@ -11,10 +11,10 @@
 <title>Dokky - 회원 캐시내역</title>
 <c:choose>
   	  <c:when test="${pageContext.request.serverName == 'localhost'}">
-			<link href="/resources/css/userCashHistory.css" rel="stylesheet" type="text/css"/>
+			<link href="/resources/css/admin/userCashHistory.css" rel="stylesheet" type="text/css"/>
   	 </c:when>
      <c:otherwise>
-   			<link href="/ROOT/resources/css/userCashHistory.css" rel="stylesheet" type="text/css"/>
+   			<link href="/ROOT/resources/css/admin/userCashHistory.css" rel="stylesheet" type="text/css"/>
      </c:otherwise>
 </c:choose>
 </head>

@@ -12,11 +12,11 @@
 	<title>Dokky - 채팅방</title>
 	<c:choose>
    	  <c:when test="${pageContext.request.serverName == 'localhost'}">
-			<link href="/resources/css/chatRoom.css" rel="stylesheet" type="text/css">
+			<link href="/resources/css/chat/chatRoom.css" rel="stylesheet" type="text/css">
 			<script type="text/javascript" src="/resources/js/common.js"></script>
 	  </c:when>
 	  <c:otherwise>
-			<link href="/ROOT/resources/css/chatRoom.css" rel="stylesheet" type="text/css">
+			<link href="/ROOT/resources/css/chat/chatRoom.css" rel="stylesheet" type="text/css">
 			<script type="text/javascript" src="/ROOT/resources/js/common.js"></script>
 	  </c:otherwise>
 	</c:choose>

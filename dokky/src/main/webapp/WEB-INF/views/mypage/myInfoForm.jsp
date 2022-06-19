@@ -11,10 +11,10 @@
 	<title>Dokky - 개인정보 변경</title>   
 	<c:choose>
 	   	  <c:when test="${pageContext.request.serverName == 'localhost'}">
-				<link href="/resources/css/myInfoForm.css" rel="stylesheet" type="text/css">
+				<link href="/resources/css/mypage/myInfoForm.css" rel="stylesheet" type="text/css">
 		  </c:when>
 	      <c:otherwise>
-	    		<link href="/ROOT/resources/css/myInfoForm.css" rel="stylesheet" type="text/css">
+	    		<link href="/ROOT/resources/css/mypage/myInfoForm.css" rel="stylesheet" type="text/css">
 	      </c:otherwise>
 	</c:choose> 
 </head>

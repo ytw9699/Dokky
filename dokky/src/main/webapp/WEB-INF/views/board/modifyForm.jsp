@@ -11,10 +11,10 @@
 	<title>Dokky - 수정하기</title> 
 	<c:choose>
 	   	  <c:when test="${pageContext.request.serverName == 'localhost'}">
-				<link href="/resources/css/modifyForm.css" rel="stylesheet" type="text/css">
+				<link href="/resources/css/board/modifyForm.css" rel="stylesheet" type="text/css">
 		  </c:when>
 	      <c:otherwise>
-	    		<link href="/ROOT/resources/css/modifyForm.css" rel="stylesheet" type="text/css">
+	    		<link href="/ROOT/resources/css/board/modifyForm.css" rel="stylesheet" type="text/css">
 	      </c:otherwise>
 	</c:choose>   
 </head>  

@@ -11,11 +11,11 @@
 	<title>Dokky - 쪽지쓰기</title>  
 	<c:choose>
 	   	  <c:when test="${pageContext.request.serverName == 'localhost'}">
-				<link href="/resources/css/noteForm.css" rel="stylesheet" type="text/css">
+				<link href="/resources/css/common/noteForm.css" rel="stylesheet" type="text/css">
 				<script type="text/javascript" src="/resources/js/common.js"></script>
 		  </c:when>
 	      <c:otherwise>
-	    		<link href="/ROOT/resources/css/noteForm.css" rel="stylesheet" type="text/css">
+	    		<link href="/ROOT/resources/css/common/noteForm.css" rel="stylesheet" type="text/css">
 	    		<script type="text/javascript" src="/ROOT/resources/js/common.js"></script>
 	      </c:otherwise>
 	</c:choose>

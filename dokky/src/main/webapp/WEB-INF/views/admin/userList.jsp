@@ -10,10 +10,10 @@
 	<title>Dokky - 계정관리</title>
 <c:choose>
   	  <c:when test="${pageContext.request.serverName == 'localhost'}">
-			<link href="/resources/css/userList.css" rel="stylesheet" type="text/css"/>
+			<link href="/resources/css/admin/userList.css" rel="stylesheet" type="text/css"/>
   	 </c:when>
      <c:otherwise>
-   			<link href="/ROOT/resources/css/userList.css" rel="stylesheet" type="text/css"/>
+   			<link href="/ROOT/resources/css/admin/userList.css" rel="stylesheet" type="text/css"/>
      </c:otherwise>
 </c:choose>
 </head> 

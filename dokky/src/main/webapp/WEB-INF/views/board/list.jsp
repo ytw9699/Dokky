@@ -11,10 +11,10 @@
 <title>Dokky - 글 리스트</title>
 <c:choose>
    	  <c:when test="${pageContext.request.serverName == 'localhost'}">
-			<link href="/resources/css/list.css" rel="stylesheet" type="text/css">
+			<link href="/resources/css/board/list.css" rel="stylesheet" type="text/css">
 	  </c:when>
       <c:otherwise>
-    		<link href="/ROOT/resources/css/list.css" rel="stylesheet" type="text/css">
+    		<link href="/ROOT/resources/css/board/list.css" rel="stylesheet" type="text/css">
       </c:otherwise>
 </c:choose>
 </head>

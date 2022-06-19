@@ -10,10 +10,10 @@
 		<title>Dokky - 상세페이지</title> 
 		<c:choose>
 		   	  <c:when test="${pageContext.request.serverName == 'localhost'}">
-					<link href="/resources/css/get.css" rel="stylesheet" type="text/css">
+					<link href="/resources/css/board/get.css" rel="stylesheet" type="text/css">
 			  </c:when>
 		      <c:otherwise>
-		    		<link href="/ROOT/resources/css/get.css" rel="stylesheet" type="text/css">
+		    		<link href="/ROOT/resources/css/board/get.css" rel="stylesheet" type="text/css">
 		      </c:otherwise>
 		</c:choose>
 		<%@include file="../includes/common.jsp"%> 

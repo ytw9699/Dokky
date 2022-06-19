@@ -14,10 +14,10 @@
     <title>Dokky - 채팅리스트</title>
 	<c:choose>
    	  <c:when test="${pageContext.request.serverName == 'localhost'}">
-			<link href="/resources/css/chatRoomList.css" rel="stylesheet" type="text/css">
+			<link href="/resources/css/chat/chatRoomList.css" rel="stylesheet" type="text/css">
 	  </c:when>
       <c:otherwise>
-    		<link href="/ROOT/resources/css/chatRoomList.css" rel="stylesheet" type="text/css">
+    		<link href="/ROOT/resources/css/chat/chatRoomList.css" rel="stylesheet" type="text/css">
       </c:otherwise>
 	</c:choose>
 </head>
