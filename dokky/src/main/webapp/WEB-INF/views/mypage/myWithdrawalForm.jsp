@@ -34,9 +34,9 @@
 		
 		<div class="myWithdrawalContentWrap">
 	     	<div class="myWithdrawalContent"> 
-	     		<div class="contentVal">- 탈퇴 후에도 회원님의 활동내역을 삭제하지 않습니다. 원치 않으시면 삭제후 탈퇴 해주세요.</div>
-	     		<div class="contentVal">- 탈퇴 후에도 캐시내역과 신고내역등 일부 정보는 보관됩니다.</div>  
-	     		<div class="contentVal">- 탈퇴 후 같은 계정으로 재가입 가능합니다.</div>  
+	     		<div class="contentVal">- 탈퇴 후에도 회원님의 활동내역은 삭제되지 않습니다. </div>
+	     		<div class="contentVal">- 원하지 않으시면 삭제후 탈퇴 해주세요.</div>
+	     		<div class="contentVal">- 탈퇴 후에도 같은 계정으로 재가입은 가능합니다.</div>  
 	     	</div> 
 	     	<div class="myWithdrawalButtonWrap"> 
 		     	<form method='post' action="/mypage/myWithdrawal">
@@ -49,18 +49,14 @@
 </div> 
 
 <script>
-
-	<sec:authorize access="isAuthenticated()"> 
-		var username = '${userInfo.username}';
-	</sec:authorize>
 	
 	$("#withdrawal").on("click", function(event){
 		
 		event.preventDefault();
 		
-		if(username == 'admin'){ 
+		if('${userInfo.username}' === 'admin'){ 
 			
-				openAlert("슈퍼관리자는 탈퇴 할 수 없습니다");
+				openAlert("탈퇴 할 수 없는 아이디 입니다");
 		}else{
 			
 				$("form").submit();	

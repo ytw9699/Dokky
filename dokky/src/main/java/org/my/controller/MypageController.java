@@ -324,6 +324,13 @@ public class MypageController {
 		
 			log.info("/mypage/myWithdrawal");
 			
+			if(userId.equals("admin")){
+				
+				model.addAttribute("message", "탈퇴 할 수 없는 아이디 입니다");
+				
+				return "error/commonError";
+			}
+			
 			if(mypageService.myWithdrawal(userId)) {
 				
 					commonService.customLogout(userId, request.getSession());
