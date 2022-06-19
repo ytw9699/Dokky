@@ -50,7 +50,7 @@ public class ChatController {
 		 String myId = vo.getChatRoomVO().getRoomOwnerId();
 		 
 		 String chatRoomNum = chatService.hasRoom(myId, vo.getChatMemberVO().getChat_memberId());
-		 					  
+		 
 		 if(chatRoomNum != null){
 	        
 			 if(chatService.getMyRoomStatus(Long.parseLong(chatRoomNum), myId)){//내가 방에서 나가있었다면
@@ -59,6 +59,10 @@ public class ChatController {
 				  //headcount와 현재 위치를 방에 들어감으로 변경
 				  
 				  ChatRoom chatRoom = chatService.findChatRoom(chatRoomNum);
+				  
+				  if(chatRoom == null) {
+					  chatRoom = chatService.addChatRoom(chatRoomNum);
+				  }
 				  
 				  ChatMessage chatMessage = new ChatMessage();
 		          
