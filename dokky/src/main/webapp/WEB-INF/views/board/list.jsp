@@ -224,6 +224,7 @@
 	<input type='hidden' name='category' value='${pageMaker.cri.category}'>
 	<input type='hidden' name='type' value='<c:out value="${ pageMaker.cri.type }"/>'> 
 	<input type='hidden' name='keyword' value='<c:out value="${ pageMaker.cri.keyword }"/>'>
+	<input type='hidden' name='order' value='<c:out value="${ pageMaker.cri.order }"/>'>
 </form> 
 	
 <script> 
