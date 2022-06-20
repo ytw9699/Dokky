@@ -98,7 +98,7 @@
 			  , replydate
 		 from 
 		   (
-		    select /*+INDEX_DESC(DK_REPLY pk_reply) */ rownum rn
+		    select /*+INDEX_DESC(DK_REPLY pk_dk_reply) */ rownum rn
 												     , reply_num
 												     , board_num
 												     , reply_content

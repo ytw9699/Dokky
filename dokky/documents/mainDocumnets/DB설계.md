@@ -51,12 +51,10 @@ create table `DK_REPLY` (
 `group_num` number(10,0) not null,--댓글 묶음 번호 , 그룹을 이루는 번호  
 `order_step` number(10,0) not null,--댓글 출력 순서  
 `depth` number(10,0) not null--댓글 깊이 depth = 루트글인지,답변글인지,답변에 답변글  
+constraint `pk_dk_reply` primary key(reply_num) --PK
+constraint `fk_reply_board` foreign key(board_num) references dk_board(board_num) on delete cascade
 
 );  
-
-alter table `DK_REPLY` add constraint `pk_reply` primary key (reply_num);  
-
-alter table `DK_REPLY` add constraint `fk_reply_board` foreign key (board_num) references `DK_BOARD`(board_num) on delete cascade;  
 
 create sequence `seq_dk_reply`  
 

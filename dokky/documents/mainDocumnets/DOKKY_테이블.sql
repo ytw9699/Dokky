@@ -1,37 +1,28 @@
 	1.-----------------------------------------------------
 	
 	create table DK_BOARD (--게시판 테이블
-	
-		  CATEGORY number(10,0) not null,-- 0~5번 게시판
-		  BOARD_NUM number(10,0),--PK --글번호
-		  TITLE varchar2(200) not null, --글제목
-		  NICKNAME varchar2(50) not null, --작성자 닉네임
- 		  userId varchar2(50) not null, -- 작성자 아이디
-		  CONTENT varchar2(4000) not null, --글 내용
-		  REGDATE date default sysdate, --글 작성날짜
-		  UPDATEDATE date default sysdate, -- 글 수정 날짜
-		  likeCnt number(10,0) default 0, -- 좋아요 수
-		  dislikeCnt number(10,0) default 0, --싫어요 수
-		  MONEY number(10,0) default 0, -- 기부금액
-		  HITCNT number(10,0) default 0, -- 조회수
-		  REPLYCNT number(10,0) default 0, -- 댓글수 (게시물 목록조회는 많이 일어나기 때문에, 댓글수를 조인을 통해가져오기 보다는 컬럼을 추가해준것이다. 역정규화)
-		  constraint PK_DK_BOARD primary key(BOARD_NUM) --PK
+		category number(10,0) not null, -- 0~5번 게시판
+		board_num number(10,0), --PK --글번호
+		title varchar2(200) not null, --글제목
+		nickName varchar2(50) not null, --작성자 닉네임
+		userId varchar2(50) not null, -- 작성자 아이디
+		content varchar2(4000) not null, --글 내용
+		regDate date default sysdate, --글 작성날짜
+		updateDate date default sysdate, -- 글 수정 날짜
+		likeCnt number(10,0) default 0, -- 좋아요 수
+		dislikeCnt number(10,0) default 0, --싫어요 수
+		money number(10,0) default 0, --기부금액
+		hitCnt number(10,0) default 0, --조회수
+		replyCnt number(10,0) default 0, --댓글수 ( 게시물 목록조회는 많이 일어나기 때문에, 댓글수를 조인을 통해가져오기 보다는 컬럼을 추가해준것이다. 역정규화)
+		constraint PK_DK_BOARD primary key(board_num) --PK
 	);
-	
-	--delete_check number(10,0) default 0,	
-	--BLIND varchar2(10) default '미적용',
-	--STATUS varchar2(10) default '정상', 
 	
 	create sequence seq_dk_board;
 	
 	DROP TABLE DK_BOARD PURGE;
 	
-	insert into DK_BOARD(CATEGORY, NUM, TITLE, NICKNAME, CONTENT)
-	values (1, seq_dk_board.nextval, '제목1','닉네임1','콘텐트1');
-	
 	--디폴트값 입력 필요 캐시 충전
-	insert into DK_BOARD(CATEGORY, board_NUM, TITLE, NICKNAME, CONTENT,userId)
-	values (0, 0, '디폴트','디폴트','디폴트','admin');
+	insert into DK_BOARD(category, board_num, title, nickName, content, userId) values (0, 0, '디폴트','디폴트','디폴트','admin');
 	
 	2.---------------------------------------------------------------------------------------
 	
@@ -52,22 +43,20 @@
 		group_num number(10,0) not null,--댓글 묶음 번호 , 그룹을 이루는 번호
 		order_step number(10,0) not null,--댓글 출력 순서
 		depth number(10,0) not null--댓글 깊이 depth = 루트글인지,답변글인지,답변에 답변글인지..답변에 답변에 답변인지 쭉~
+		constraint pk_dk_reply primary key(reply_num) --PK
+		constraint fk_reply_board foreign key(board_num) references dk_board(board_num) on delete cascade
 	);
-
-	--delete_check varchar2(10) default 'possible'
 	
-	alter table DK_REPLY add constraint pk_reply primary key (reply_num);
-	
-	alter table DK_REPLY add constraint fk_reply_board foreign key (board_num) references DK_BOARD (board_num) on delete cascade;--on delete cascade는 자식테이블을 같이 삭제시켜줌
+	--alter table DK_REPLY add constraint fk_reply_board foreign key (board_num) references DK_BOARD (board_num) on delete cascade;--on delete cascade는 자식테이블을 같이 삭제시켜줌
 	
 	create sequence seq_dk_reply
 	
 	create index idx_reply on DK_REPLY(board_num desc, reply_num asc);--430p
 	--글번호 desc순 + 댓글 asc순으로 정렬되어야함 그래야 성능상 문제가 없음 , 즉 게시물의 번호에 맞게 댓글들을 모아서 빠르게 찾을수 있는 구조로 만든것, range scan사용
+ 	--매퍼 "readReplyListWithPaging" 에서 idx_reply를 안쓰고 있음 필요성 여부 체크 확인해야함
 	
-	--디폴트값입력해줘야 캐시충전됨
-	insert into dk_reply(reply_num, board_num, reply_content, nickName, userId, group_num, order_step, depth)
-	 values (0,0, '디폴트', '디폴트','admin',0,0,0)
+	--디폴트 값 입력해줘야 캐시충전됨
+	insert into dk_reply(reply_num, board_num, reply_content, nickName, userId, group_num, order_step, depth) values (0, 0, '디폴트', '디폴트', 'admin', 0, 0, 0)
 	 
 	DROP TABLE DK_REPLY PURGE;
 	
