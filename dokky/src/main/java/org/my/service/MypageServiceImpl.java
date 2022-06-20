@@ -1,5 +1,5 @@
 /*
-- 마지막 업데이트 2022-06-14
+- 마지막 업데이트 2022-06-20
 */
 package org.my.service;
 	import java.util.List;
@@ -51,6 +51,14 @@ public class MypageServiceImpl implements MypageService {
 			mapper.updateAlarmNickName(userId, nickName);
 			
 			mapper.updateCashlistNickName(userId, nickName);
+			
+			mapper.updateChatRoomNickName(userId, nickName);
+			
+			mapper.updateChatMemberNickName(userId, nickName);
+			
+			mapper.updateChatContentNickName(userId, nickName);
+			
+			mapper.updateChatReadNickName(userId, nickName);
 			
 		}
 		

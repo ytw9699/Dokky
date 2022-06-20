@@ -1,5 +1,5 @@
 /*
-- 마지막 업데이트 2022-06-14
+- 마지막 업데이트 2022-06-20
 */
 package org.my.mapper;
 	import java.util.List;
@@ -34,6 +34,14 @@ public interface MypageMapper {
 	public void updateReportedNickName(@Param("userId") String userId, @Param("nickName") String nickName);
 
 	public void updateReportingNickName(@Param("userId") String userId, @Param("nickName") String nickName);
+	
+	public void updateChatRoomNickName(@Param("userId") String userId, @Param("nickName") String nickName);
+
+	public void updateChatMemberNickName(@Param("userId") String userId, @Param("nickName") String nickName);
+	
+	public void updateChatContentNickName(@Param("userId") String userId, @Param("nickName") String nickName);
+	
+	public void updateChatReadNickName(@Param("userId") String userId, @Param("nickName") String nickName);
 	
 	public List<BoardVO> getMyBoardList(Criteria cri);
 	
