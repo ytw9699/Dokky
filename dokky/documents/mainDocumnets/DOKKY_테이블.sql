@@ -48,7 +48,7 @@
 	);
 	
 	--alter table DK_REPLY add constraint fk_reply_board foreign key (board_num) references DK_BOARD (board_num) on delete cascade;--on delete cascade는 자식테이블을 같이 삭제시켜줌
-	
+	-- alter table dk_reply add constraint pk_dk_ primary key(reply_num);
 	create sequence seq_dk_reply
 	
 	create index idx_reply on DK_REPLY(board_num desc, reply_num asc);--430p
@@ -66,7 +66,7 @@
 	(select seq_dk_reply.nextval, board_num, reply_content, nickName from DK_REPLY);
 	
 	3.------------------------------------------------------------------------------------------
-	create table dk_member(--뉴 회원 테이블
+	create table dk_member(-- 회원 테이블
 	
 		  member_num number(10,0) unique,
 	      userId varchar2(50),
@@ -91,7 +91,7 @@
 	
 	insert into dk_member(member_num, userId, userPw, nickName) values (seq_dk_member.nextval, 'admin', 'admin', '슈퍼관리자')
 	
-	5.------------------------------------------------------------------------------------------
+	4.------------------------------------------------------------------------------------------
 	create table dk_member_auth (--권한 테이블
 	
 	     userId varchar2(50) not null,
@@ -105,19 +105,19 @@
 	
 	drop table dk_member_auth purge 
 	
-	4.---------------------------------------------------------------------------------------
+	5.---------------------------------------------------------------------------------------
 	create table DK_NOTE (--쪽지 테이블
-		  NOTE_NUM number(10,0),--PK --쪽지 번호
-		  CONTENT varchar2(4000) not null, --쪽지 내용
-		  FROM_NICKNAME varchar2(50) not null, --보낸 닉네임
- 		  FROM_ID varchar2(50) not null, --보낸 아이디
- 		  TO_NICKNAME varchar2(50) not null, --받는 닉네임
- 		  TO_ID varchar2(50) not null, --받는 아이디
-		  REGDATE date default sysdate, --쪽지 작성날짜
+		  note_num number(10,0),--PK --쪽지 번호
+		  content varchar2(4000) not null, --쪽지 내용
+		  from_nickname varchar2(50) not null, --보낸 닉네임
+ 		  from_id varchar2(50) not null, --보낸 아이디
+ 		  to_nickname varchar2(50) not null, --받는 닉네임
+ 		  to_id varchar2(50) not null, --받는 아이디
+		  regdate date default sysdate, --쪽지 작성날짜
 		  read_check VARCHAR2(10) DEFAULT 'NO',--쪽지 읽음 체크
 		  from_check VARCHAR2(10) DEFAULT 'NO',--보낸쪽지함 삭제 체크
 		  to_check VARCHAR2(10) DEFAULT 'NO',--받은쪽지함 삭제 체크
-		  constraint PK_DK_NOTE primary key(NOTE_NUM) --PK
+		  constraint pk_dk_note primary key(note_num) --PK
 	);
 	
 	create sequence seq_dk_note;
@@ -126,38 +126,32 @@
 	
 	insert into DK_NOTE(NOTE_NUM, CONTENT, FROM_NICKNAME, FROM_ID, TO_NICKNAME, TO_ID) values (seq_dk_note.nextval,'테스트','관리자','admin','관리자','admin')
 	
-	4.---------------------------------------------------------------------------------------
+	6.---------------------------------------------------------------------------------------
 	create table dk_attach(--업로드 테이블
 	
-		uuid varchar2(100) not null,
+		uuid varchar2(100) primary key, --pk
 		uploadPath varchar2(200) not null,-- 실제 파일이 업로드된 경로
 		fileName varchar2(100) not null, --파일 이름을 의미
 		fileType char(1) default 'I', --이미지 파일 여부를판단
-		board_num number(10,0) -- 해당 게시물 번호를 저장
+		board_num number(10,0), -- 해당 게시물 번호를 저장
+	  	constraint fk_board_attach foreign key(board_num) references DK_BOARD(board_num) on delete cascade --fk
 	);
 	
-	alter table dk_attach add constraint pk_attach primary key (uuid);
-	alter table dk_attach add constraint fk_board_attach foreign key (board_num) references DK_BOARD(board_num) on delete cascade;
-	
-	insert into dk_attach(uuid, uploadPath, fileName, board_num)
-	values ('11', '테스트 제목','테스트 내용',3);
+	insert into dk_attach(uuid, uploadPath, fileName, board_num) values ('11', '테스트 제목','테스트 내용', 3);
 	
 	DROP TABLE dk_attach PURGE;
 	
-	6.------------------------------------------------------------------------------------------
+	7.------------------------------------------------------------------------------------------
 	create table persistent_logins ( --인증 테이블
 	
-		username varchar(64) not null,--username은 userid임
+		username varchar(64) not null,
 		series varchar(64) primary key,
 		token varchar(64) not null,
 		last_used timestamp not null
 	);
-	--테이블을 생성하는 스크립트는 특정한 데이터베이스에 맞게 테이블 이름과 칼럼명을 제
-	--외한 칼럼의 타입 등을 적당히 조정해서 사용하면 됩니다. 오라클에서는 varchar를 그대
-	--로 이용하거나 varchar2로 변경해서 사용하면 됩니다
 	
 	-----------------------------------------------------
-	7.게시글 좋아요 테이블
+	8.게시글 좋아요 테이블
 	create table dk_board_like (
 	
 		 userId varchar2(50) not null,
@@ -167,7 +161,7 @@
 	
 	drop table dk_board_like purge
 	-----------------------------------------------------
-	8.게시글 싫어요 테이블
+	9.게시글 싫어요 테이블
 	create table dk_board_dislike (
 	
 		 userId varchar2(50) not null,
@@ -177,7 +171,7 @@
 	
 	drop table dk_board_dislike purge
 	-----------------------------------------------------
-	9.댓글 좋아요 테이블
+	10.댓글 좋아요 테이블
 	create table dk_reply_like (
 	
 		 userId varchar2(50) not null,
@@ -188,7 +182,7 @@
 	drop table dk_reply_like purge
 	
 	-----------------------------------------------------
-	10.댓글 싫어요 테이블
+	11.댓글 싫어요 테이블
 	create table dk_reply_dislike (
 	
 		 userId varchar2(50) not null,
@@ -199,23 +193,22 @@
 	drop table dk_reply_dislike purge
 	
 	-----------------------------------------------------
-	11. 스크랩 테이블
+	12. 스크랩 테이블
 	create table dk_scrap (
 	
-		 scrap_num number(10,0),
+		 scrap_num number(10,0) PRIMARY KEY,
 	     userId varchar2(50) not null,
 	     board_num number(10,0) not null,
 	     regDate date default sysdate,
-	     constraint pk_scrap PRIMARY KEY (scrap_num),
-	     constraint fk_scrap foreign key(board_num) references dk_board(board_num) on delete cascade
-    	 --constraint pk_scrap PRIMARY KEY (userId, NUM)
+	     constraint fk_dk_scrap foreign key(board_num) references dk_board(board_num) on delete cascade
+	     
 	);
 	
 	create sequence seq_dk_scrap
 	--create index idx_scrap on dk_scrap(scrap_num desc);
 	drop table dk_scrap purge
 	
-	12.캐시내역 테이블
+	13.캐시내역 테이블
 	create table dk_cash (
 		 cash_num number(10,0),--pk
 		 cashKind varchar2(50) not null, --충전,환전,기부하기,기부받기
@@ -224,14 +217,12 @@
 		 userId varchar2(50) not null,
 		 nickName varchar2(50), -- 반드시 not null 이면 안됨 
 		 specification varchar2(50), --미승인/승인완료
-		 board_num number(10,0) default 0,
+		 board_num number(10,0) default 0, --defalut 값을 없앨지 고민
 		 reply_num number(10,0) default 0,
-		 constraint pk_cash PRIMARY KEY (cash_num)
+		 constraint pk_dk_cash PRIMARY KEY (cash_num)
 	);
 	
-	 --reply_num number(10,0) default 0,--무결성제약조건에 걸리지않기 위해 디폴트값 입력바람
-	 --constraint fk_cash_board_num foreign key(board_num) references dk_board(NUM),
-	 --constraint fk_cash_reply_num foreign key(reply_num) references dk_reply(reply_num),
+	-- alter table dk_cash add constraint pk_dk_cash primary key(cash_num);
 	
 	create sequence seq_dk_cash
 	
@@ -267,32 +258,15 @@
 		 board_num number(10,0) default 0, --글번호  
 		 reason varchar2(200) not null, --사유
 		 regDate date default sysdate, --신고날짜
-		 constraint pk_report PRIMARY KEY (report_num)
+		 constraint pk_dk_report PRIMARY KEY (report_num)
+		 
 	);
 
-	--constraint fk_report_board_num foreign key(board_num) references dk_board(NUM),
-	
 	create sequence seq_dk_report
 	
 	drop table dk_report purge
 	
-14.방문자 테이블 -----------------------------------------------------
-
-	 CREATE TABLE dk_visitor(
-	 
-		 visitor_num number(10,0), --기본키
-		 ip varchar(100) not null, --접속자 아이피
-		 visit_time date default sysdate,  --접속자 접속시간
-		 refer varchar(300), --접속자가 어느사이트를 타고 들어왔는지
-		 agent varchar(400) not null, --접속자 브라우저 정보
-		 constraint pk_visitor PRIMARY KEY (visitor_num)
-    )
-    
-    create sequence seq_dk_visitor
-	
-	drop table dk_visitor purge
-	
-14.알림 테이블 -----------------------------------------------------
+15.알림 테이블 -----------------------------------------------------
 
  CREATE TABLE dk_alarm(
  
@@ -306,7 +280,8 @@
 		 commonVar2 VARCHAR2(200),
 		 commonVar3 number(10,0),
 		 regdate date default sysdate,
-		 constraint pk_alarm PRIMARY KEY (alarmNum)
+		 constraint pk_dk_alarm PRIMARY KEY (alarmNum)
+		 
 )
 
 insert into dk_alarm( alarmNum, target, writerNick, writerId, kind, commonVar1, commonVar2, 
@@ -317,25 +292,23 @@ create sequence seq_dk_alarm
 drop table dk_alarm purge
 
 
-15. 채팅룸 테이블 -----------------------------------------------------
+16. 채팅룸 테이블 -----------------------------------------------------
 
 create table dk_chat_room(
  
-		 chatRoomNum number(10,0), --기본키 pk
+		 chatRoomNum number(10,0) PRIMARY KEY, --기본키 pk
 		 chat_title VARCHAR2(50), -- 방 제목
 		 roomOwnerId VARCHAR2(50) NOT NULL, --방장 아이디
 		 roomOwnerNick VARCHAR2(50) NOT NULL, --방장 닉네임
 		 chat_type number NOT NULL, -- -- 채팅방의 타입 ( 0 = 1:1채팅방 , 1 = 그룹 채팅방) 
-		 headCount number NOT NULL, -- 방의 총 인원수
-		 constraint pk_chat_room PRIMARY KEY(chatRoomNum)
+		 headCount number NOT NULL -- 방의 총 인원수
 )
-
 
 create sequence seq_dk_chat_room;
 
 DROP TABLE dk_chat_room PURGE;
 
-16. 채팅룸의 멤버 테이블 -----------------------------------------------------
+17. 채팅룸의 멤버 테이블 -----------------------------------------------------
 
 create table dk_chat_member(
  
@@ -344,12 +317,13 @@ create table dk_chat_member(
 		 chat_memberNick VARCHAR2(50) NOT NULL, -- 채팅룸 멤버 닉네임
 		 recentOutDate date, --방에서 나간 최근 날짜
 		 present_position number default 0, --(현재 멤버의 위치) 0 = 방에서 안나감 , 1 = 방에서 나감
-		 constraint fk_chat_member foreign key(chatRoomNum) references dk_chat_room(chatRoomNum) on delete cascade
+		 constraint fk_dk_chat_member foreign key(chatRoomNum) references dk_chat_room(chatRoomNum) on delete cascade
+		 
 )
 
 DROP TABLE dk_chat_member PURGE;
 
-17. 채팅 내용 테이블-----------------------------------------------------
+18. 채팅 내용 테이블-----------------------------------------------------
 
 create table dk_chat_content(
  
@@ -361,8 +335,8 @@ create table dk_chat_content(
 		 content_type number default 0,  -- 채팅 내용 종류 (0 = 일반내용 , 1 = 공지내용)
 		 readCount number,  -- 현재 읽지 않은 인원수
 		 regdate date default sysdate, 
-		 constraint pk_chat_content PRIMARY KEY(chatContentNum),
-		 constraint fk_chat_content foreign key(chatRoomNum) references dk_chat_room(chatRoomNum) on delete cascade
+		 constraint pk_dk_chat_content PRIMARY KEY(chatContentNum),
+		 constraint fk_dk_chat_content foreign key(chatRoomNum) references dk_chat_room(chatRoomNum) on delete cascade
 )
 
 create sequence seq_dk_chat_content;
@@ -372,19 +346,18 @@ DROP TABLE dk_chat_content PURGE;
 insert into dk_chat_content( chatContentNum, chatRoomNum, chat_content, chat_writerId, chat_writerNick, content_type) 
 					VALUES ( seq_dk_chat_content.nextval, 81, 'chat_content', 'admin', '슈퍼관리자', 0)
 					
-18. 채팅 내용 읽음 여부 테이블-----------------------------------------------------
+19. 채팅 내용 읽음 여부 테이블-----------------------------------------------------
 
 create table dk_chat_read(
  
-		 chatReadNum number(10,0), --pk
+		 chatReadNum number(10,0) PRIMARY KEY, --기본키 pk
 		 chatContentNum number(10,0) NOT NULL, --fk
 		 chatRoomNum number(10,0) NOT NULL, --fk
 		 chat_memberId VARCHAR2(50) NOT NULL, -- 채팅룸 멤버 아이디
 		 chat_memberNick VARCHAR2(50) NOT NULL, -- 채팅룸 멤버 닉네임
  		 read_type number default 0, -- 메시지 읽음 여부 (0 = 읽지않음 , 1 = 읽음)
-		 constraint pk_chat_read PRIMARY KEY(chatReadNum),
-		 constraint fk_chat_read_first foreign key(chatContentNum) references dk_chat_content(chatContentNum) on delete cascade,
-		 constraint fk_chat_read_second foreign key(chatRoomNum) references dk_chat_room(chatRoomNum) on delete cascade
+		 constraint fk_dk_chat_read_first foreign key(chatContentNum) references dk_chat_content(chatContentNum) on delete cascade,
+		 constraint fk_dk_chat_read_second foreign key(chatRoomNum) references dk_chat_room(chatRoomNum) on delete cascade
 )
 
 create sequence seq_dk_chat_read;
@@ -392,7 +365,24 @@ create sequence seq_dk_chat_read;
 DROP TABLE dk_chat_read PURGE;
 
 
-14.기타 -----------------------------------------------------
+20.방문자 테이블 -----------------------------------------------------
+
+	 CREATE TABLE dk_visitor(
+	 
+		 visitor_num number(10,0) PRIMARY KEY, --기본키
+		 ip varchar(100) not null, --접속자 아이피
+		 visit_time date default sysdate,  --접속자 접속시간
+		 refer varchar(300), --접속자가 어느사이트를 타고 들어왔는지
+		 agent varchar(400) not null, --접속자 브라우저 정보
+    )
+    
+    create sequence seq_dk_visitor
+	
+	drop table dk_visitor purge
+	
+
+
+21.기타 -----------------------------------------------------
 	컬럼수정
 	alter table dk_board modify(content varchar2(4000) not null)
 	컬럼추가

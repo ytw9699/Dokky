@@ -43,7 +43,7 @@
        </insert>
 				
 		<!-- <select id="getChatContents" resultType="org.my.domain.chat.ChatContentVO"> 
-				  	  select /*+INDEX_ASC(dk_chat_content pk_chat_content) */
+				  	  select /*+INDEX_ASC(dk_chat_content pk_dk_chat_content) */
 				  	  												  chatContentNum	
 								     								, chat_writerId
 															    	, chat_writerNick
@@ -226,7 +226,7 @@
 	   </select>
 	   
 	   <select id="getMyChatContentVo" resultType="org.my.domain.chat.ChatContentVO">
-	   		<![CDATA[ select /*+INDEX_DESC(DK_CHAT_CONTENT PK_CHAT_CONTENT) */ chat_content, regdate from dk_chat_content where chatRoomNum = #{chatRoomNum} and ROWNUM <= 1 ]]>
+	   		<![CDATA[ select /*+INDEX_DESC(DK_CHAT_CONTENT pk_dk_chat_content) */ chat_content, regdate from dk_chat_content where chatRoomNum = #{chatRoomNum} and ROWNUM <= 1 ]]>
 	   </select>
 	   
 	   <select id="getMyMultiChatReadVo" resultType="org.my.domain.chat.ChatReadVO">

@@ -101,7 +101,7 @@
 				 , nickName
 				 , cashKind
 		 	 from ( 
-		 	 		select /*+INDEX_DESC(dk_cash pk_cash) */ rownum rn
+		 	 		select /*+INDEX_DESC(dk_cash pk_dk_cash) */ rownum rn
 					 									   , cash_num
 					 									   , regDate
 					 									   , cashAmount
@@ -132,7 +132,7 @@
 				  , regDate
 		     from 
 			     ( 
-			     	select /*+INDEX_DESC(dk_report pk_report) */ rownum rn
+			     	select /*+INDEX_DESC(dk_report pk_dk_report) */ rownum rn
 				 											   , report_num
 															   , reportKind
 															   , reportingId
