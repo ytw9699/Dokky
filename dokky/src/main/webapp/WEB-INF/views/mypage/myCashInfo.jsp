@@ -63,7 +63,9 @@
 	     	</div> 
 	     	<div class="dotButtonWrap"> 
 		     	<input type="button" id="charging" class="dotButtons" value="충전 요청"/>
+		     		<div class="demand">충전시 닉네임을 입금자명으로 송금해주세요</div>
 		     	<input type="button" id="recharging" class="dotButtons" value="환전 요청" />
+		     		<div class="demand">환전시 내 정보에서 계좌번호를 입력해주세요</div>
 		     	<input type="button" class="dotButtons" value="내역보기" onclick="location.href='myCashHistory?userId=${userInfo.username}'">
 	     	</div>
     	</div>
@@ -188,7 +190,7 @@
 				
 			        if(result == "success"){
 			        	
-			        	openAlert("입금자명을 닉네임으로 입금해주세요");
+			        	openAlert("관리자 승인후 충전됩니다");
 			        	
 			        }else if(result == "fail"){
 			        	

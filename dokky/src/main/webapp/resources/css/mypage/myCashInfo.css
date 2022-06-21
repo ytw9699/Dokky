@@ -187,8 +187,17 @@
     #realCommonWon{
     	display:none;
     }
+    
     .active{
 			background-color: #7151fc !important;
 			color: white !important;   
-		}
-    
+	}
+	
+	.demand{
+	   margin-left: 5%;
+    	margin-top: 5%;
+    	 width: 350px;
+    	 color: #333333;
+  	  	font-weight: 600;
+  	    font-size: 15px;
+	}
