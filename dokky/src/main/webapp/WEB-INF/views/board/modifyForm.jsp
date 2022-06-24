@@ -246,6 +246,27 @@
 			return true;
 	 }
 	
+	function parseUrl(orgnTxt) {
+    	
+        var rplcdTxt, rplcdPttrn1, rplcdPttrn2, rplcdPttrn3;
+        
+        rplcdTxt = orgnTxt.replace(/<(\/a|a)([^>]*)>/gi,"");
+
+        //  http://, https://로 url이 시작한다면.
+        rplcdPttrn1 = /(\b(https?):\/\/[-A-Z0-9+&@#\/%?=~_|!:,.;]*[-A-Z0-9+&@#\/%=~_|])/gim;
+        rplcdTxt = rplcdTxt.replace(rplcdPttrn1, '<a href="$1" target="_blank">$1</a>');
+
+        //  http?없이 www로 시작한다면.
+        rplcdPttrn2 = /(^|[^\/])(www\.[\S]+(\b|$))/gim;
+        rplcdTxt = rplcdTxt.replace(rplcdPttrn2, '$1<a href="http://$2" target="_blank">$2</a>');
+
+        //  메일 주소일 경우
+        rplcdPttrn3 = /(([a-zA-Z0-9\-\_\.])+@[a-zA-Z\_]+?(\.[a-zA-Z]{2,6})+)/gim;
+        rplcdTxt = rplcdTxt.replace(rplcdPttrn3, '<a href="mailto:$1">$1</a>');
+
+        return rplcdTxt;
+    }
+	
 	//////////////////////////////////////////////////////////////////////////////
 	
     function showUploadResult(uploadResultArr, inputName){
@@ -484,7 +505,7 @@
 	  });
  	  
 	//////////////////////////////////////////////////////////////////////////////
-	
+		
 	$("button[type='submit']").on("click", function(e){//수정완료 등록
     
 		    e.preventDefault();
@@ -492,8 +513,8 @@
 		    var selectedValue = $("#selectId option:selected").val();
 		    
 			var contentVal = $("#divContent").html();
-	    	
-	    	$("#areaContent").html(contentVal);
+			
+			$("#areaContent").html(parseUrl(contentVal));
 		    
 		    if(selectedValue == 0){
 		    	openAlert("게시판을 선택 해주세요"); 
