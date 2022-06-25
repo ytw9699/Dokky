@@ -1,5 +1,5 @@
 /*
-- 마지막 업데이트 2022-06-11
+- 마지막 업데이트 2022-06-26
 */
 package org.my.controller;
 	import org.my.domain.common.CommonVO;
@@ -14,6 +14,7 @@ package org.my.controller;
 	import org.springframework.http.ResponseEntity;
 	import org.springframework.security.access.prepost.PreAuthorize;
 	import org.springframework.stereotype.Controller;
+	import org.springframework.ui.Model;
 	import org.springframework.web.bind.annotation.DeleteMapping;
 	import org.springframework.web.bind.annotation.GetMapping;
 	import org.springframework.web.bind.annotation.PathVariable;
@@ -94,23 +95,24 @@ public class ReplyController {
 	@PreAuthorize("principal.username == #userId")  
 	@PostMapping("/deleteReplies")//댓글 다중삭제
 		public String deleteReplies(@RequestParam("checkRow") String checkRow ,
-				      				@RequestParam("userId")String userId, Criteria cri) {
+				      				@RequestParam("userId")String userId, Criteria cri, Model model) {
 
 		log.info("/replies/deleteReplies");
-		log.info("checkRow..." + checkRow);
-	 	
-	 	String[] arrIdx = checkRow.split(",");
-	 	
-	 	for (int i=0; i<arrIdx.length; i++) {
-	 		
-	 		Long reply_num = Long.parseLong(arrIdx[i]);  
-	 		
-	 		log.info("delete...reply_num=" + reply_num);
-	 		
-	 		replyService.delete(reply_num);
-	 	}
-	 	
-	 	return "redirect:/mypage/myReplylist?userId="+userId+"&pageNum="+cri.getPageNum()+"&amount="+cri.getAmount();
+		
+		boolean result = false;
+				result = replyService.deleteReplies(checkRow);
+
+		if(result == true) {
+			
+			return "redirect:/mypage/myReplylist?userId="+userId+"&pageNum="+cri.getPageNum()+"&amount="+cri.getAmount();
+			
+		}else {
+			
+			model.addAttribute("message", "서버에러로 삭제할 수 없습니다.");
+		
+			return "error/commonError";  
+		
+		}
 	}
 
 	@PreAuthorize("hasRole('ROLE_USER') and principal.username == #vo.userId")

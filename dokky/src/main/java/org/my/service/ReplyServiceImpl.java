@@ -1,5 +1,5 @@
 /*
-- 마지막 업데이트 2022-06-12
+- 마지막 업데이트 2022-06-26
 */
 package org.my.service;
 	import java.util.List;
@@ -141,6 +141,29 @@ public class ReplyServiceImpl implements ReplyService {
 		
 		return replyMapper.delete(reply_num);
 		
+	}
+    
+    @Transactional
+	@Override 
+	public boolean deleteReplies(String checkRow) {
+		
+		String[] arrIdx = checkRow.split(",");
+	 	
+	 	for (int i=0; i<arrIdx.length; i++) {
+	 		
+	 		Long reply_num = Long.parseLong(arrIdx[i]); 
+	 		
+	 		Long board_num = replyMapper.getBoardNum(reply_num);
+	 		
+	 		if(replyMapper.delete(reply_num) != 1 && boardMapper.updateReplyCnt(board_num, -1) != 1) {
+	 			
+	 			return false;
+	 		}
+	 		
+	 		log.info("deleteReply...." + reply_num);
+	 	}
+	 	
+	 	return true;
 	}
 	  
 	@Transactional

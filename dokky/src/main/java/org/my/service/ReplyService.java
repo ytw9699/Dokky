@@ -1,3 +1,6 @@
+/*
+- 마지막 업데이트 2022-06-26
+*/
 package org.my.service;
 	import org.my.domain.common.CommonVO;
 	import org.my.domain.common.Criteria;
@@ -17,6 +20,8 @@ public interface ReplyService {
 	public int update(ReplyVO vo);
 	
 	public int delete(Long reply_num);
+	
+	boolean deleteReplies(String checkRow);
 	
 	public String giveReplyWriterMoney(CommonVO vo);
 	
