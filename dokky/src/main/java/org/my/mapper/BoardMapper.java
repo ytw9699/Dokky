@@ -1,5 +1,5 @@
 /*
-- 마지막 업데이트 2022-06-15
+- 마지막 업데이트 2022-06-26
 */
 package org.my.mapper;
 	import java.util.List;
