@@ -78,18 +78,36 @@
 		td{
 			height: 37px;
 		}
+		
 		.content{
 			width: 40%; 
 			padding-left: 5px; 
+			color:#333333; 
+			text-decoration: none;
 		}
+		
 		.content a{
 			color:#333333; 
 			text-decoration: none;
 		}
-				
-		.td {
- 		    
+		
+		.title{
+			overflow: hidden;
+	        width: fit-content;
+		    white-space: nowrap;
+		    text-overflow: ellipsis;
+		    cursor: pointer;
+		    max-width: 90%;
 		}
+		
+		.title:hover{
+			color: #7151fc;
+		}
+		
+		.title a{
+		  pointer-events: none;
+		}	
+		
 		.topTd{
 		    color: #7151fc;
 		    font-size: 17px;
