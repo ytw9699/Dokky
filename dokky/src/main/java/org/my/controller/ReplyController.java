@@ -87,7 +87,7 @@ public class ReplyController {
 		
 		log.info("/replies/reply/"+reply_num);
 		
-		return replyService.delete(reply_num) == 1
+		return replyService.delete(reply_num) == true
 				? new ResponseEntity<>("success", HttpStatus.OK)
 				: new ResponseEntity<>(HttpStatus.INTERNAL_SERVER_ERROR);
 	} 

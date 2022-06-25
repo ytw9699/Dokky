@@ -131,16 +131,18 @@ public class ReplyServiceImpl implements ReplyService {
 
     @Transactional
 	@Override 
-	public int delete(Long reply_num) {
+	public boolean delete(Long reply_num) {
 
     	log.info("delete...." + reply_num);
 
 		Long board_num = replyMapper.getBoardNum(reply_num); 
 
-		boardMapper.updateReplyCnt(board_num, -1);
+		if(replyMapper.delete(reply_num) != 1 && boardMapper.updateReplyCnt(board_num, -1) != 1) {
+ 			
+ 			return false;
+ 		}
 		
-		return replyMapper.delete(reply_num);
-		
+		return true;
 	}
     
     @Transactional

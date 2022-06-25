@@ -19,7 +19,7 @@ public interface ReplyService {
 	
 	public int update(ReplyVO vo);
 	
-	public int delete(Long reply_num);
+	public boolean delete(Long reply_num);
 	
 	boolean deleteReplies(String checkRow);
 	
