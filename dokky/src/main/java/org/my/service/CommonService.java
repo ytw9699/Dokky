@@ -48,7 +48,7 @@ public interface CommonService {
 	
 	public int updateAlarmCheck(String alarmNum);
 
-	public boolean deleteAllAlarm(Long alarmNum);
+	public boolean deleteAllAlarms(String checkRow);
 	
 	public boolean deleteMyNote(Long note_num);
 
@@ -85,5 +85,4 @@ public interface CommonService {
 	public String CustomAuthLoginSuccessHandler(String profileId, HttpServletRequest request);
 
 	public void customLogout(String userId, HttpSession session);
-	
 }

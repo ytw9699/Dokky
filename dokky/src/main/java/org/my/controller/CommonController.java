@@ -551,25 +551,25 @@ public class CommonController {
 	
 	@PreAuthorize("principal.username == #userId")   
 	@PostMapping("/deleteAllAlarm")//다중알람삭제
-	public String deleteAllAlarm(@RequestParam("checkRow")String checkRow, 
-								 @RequestParam("userId")String userId, Criteria cri){
+	public String deleteAllAlarm(@RequestParam("checkRow")String checkRow, //checkRow는 알람 번호들의 묶음이다.
+								 @RequestParam("userId")String userId, Criteria cri, Model model){
 		 
 		log.info("/deleteAllAlarm");
-	 	log.info("checkRow..." + checkRow);
 	 	
-	 	String[] arrIdx = checkRow.split(",");
-	 	
-	 	for (int i=0; i<arrIdx.length; i++) {
-	 		
-	 		Long alarmNum = Long.parseLong(arrIdx[i]); 
-	 		
-	 		if (commonService.deleteAllAlarm(alarmNum)) {
-	 			
-	 			log.info("delete...deleteAllAlarm=" + alarmNum);
-			}
-	 	}
-	 	
-		return "redirect:/alarmList?userId="+userId+"&pageNum="+cri.getPageNum()+"&amount="+cri.getAmount()+"&order="+cri.getOrder();
+		boolean result = false;
+				result = commonService.deleteAllAlarms(checkRow);
+		
+		if(result == true) {
+			
+			return "redirect:/alarmList?userId="+userId+"&pageNum="+cri.getPageNum()+"&amount="+cri.getAmount()+"&order="+cri.getOrder();
+			
+		}else {
+			
+			model.addAttribute("message", "서버에러로 삭제할 수 없습니다.");
+		
+			return "error/commonError";  
+		
+		}
 	}
 	
 	@PreAuthorize("isAuthenticated()")  

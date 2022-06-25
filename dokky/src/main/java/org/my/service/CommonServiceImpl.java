@@ -240,15 +240,26 @@ public class CommonServiceImpl implements CommonService {
 		return mapper.getAlarmListNotRead(cri);
 	}
 	
-	
-	@Override
-	public boolean deleteAllAlarm(Long alarmNum) {
-
-		log.info("remove...." + alarmNum);
-
-		return mapper.deleteAllAlarm(alarmNum) == 1;
+	@Transactional
+	@Override 
+	public boolean deleteAllAlarms(String checkRow) {
+		
+		String[] arrIdx = checkRow.split(",");
+	 	
+	 	for (int i=0; i<arrIdx.length; i++) {
+	 		
+	 		Long alarmNum = Long.parseLong(arrIdx[i]); 
+	 		
+	 		if(mapper.deleteAllAlarm(alarmNum) != 1) {
+	 			return false;
+	 		}
+	 		
+	 		log.info("remove...." + alarmNum);
+	 	}
+	 	
+	 	return true;
 	}
-	
+ 	
 	@Override
 	public boolean deleteMyNote(Long note_num) {
 
