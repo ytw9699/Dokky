@@ -115,12 +115,24 @@ public class MypageServiceImpl implements MypageService {
 		return getResult;
 	}
 	
-	@Override
-	public void removeScrap(Long scrap_num) {
+	@Transactional
+	@Override 
+	public boolean removeScraps(String checkRow) {
 		
-		log.info("removeScrap");
-		
-		mapper.removeScrap(scrap_num);
+		String[] arrIdx = checkRow.split(",");
+	 	
+	 	for (int i=0; i<arrIdx.length; i++) {
+	 		
+	 		Long scrap_num = Long.parseLong(arrIdx[i]); 
+	 		
+	 		if(mapper.removeScrap(scrap_num) != 1) {
+	 			return false;
+	 		}
+	 		
+	 		log.info("removeScrap...." + scrap_num);
+	 	}
+	 	
+	 	return true;
 	}
 	
 	@Override

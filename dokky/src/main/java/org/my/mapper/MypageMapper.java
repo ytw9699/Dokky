@@ -55,7 +55,7 @@ public interface MypageMapper {
 	
 	public int getMyScrapCount(String userId);
 	
-	public void removeScrap(Long scrap_num);
+	public int removeScrap(Long scrap_num);
 	
 	public int insertChargeData(CashVO vo);
 

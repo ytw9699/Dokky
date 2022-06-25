@@ -26,7 +26,7 @@ public interface MypageService {
 
 	public int getMyScrapCount(String userId);
 	
-	public void removeScrap(Long scrap_num);
+	public boolean removeScraps(String checkRow);
 	
 	public boolean insertChargeData(CashVO vo);
 

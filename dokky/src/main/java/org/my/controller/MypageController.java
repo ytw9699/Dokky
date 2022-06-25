@@ -213,23 +213,25 @@ public class MypageController {
 	
 	@PreAuthorize("principal.username == #userId")  
 	@PostMapping("/removeAllScrap")
-	public String removeAllScrap(@RequestParam("checkRow") String checkRow , @RequestParam("userId") String userId, Criteria cri){
+	public String removeAllScrap(@RequestParam("checkRow") String checkRow , @RequestParam("userId") String userId, 
+									Criteria cri, Model model){
 		 
 		log.info("/mypage/removeAllScrap");
-		log.info("checkRow..." + checkRow);
-	 	
-	 	String[] arrIdx = checkRow.split(",");
-	 	
-	    for (int i=0; i<arrIdx.length; i++) {
-	 		
-	 		Long scrap_num = Long.parseLong(arrIdx[i]);  
-	 		
-	 		log.info("remove...reply_num=" + scrap_num);
-	 		
-	 		mypageService.removeScrap(scrap_num);
-	 	}
-	 	
-	 	return "redirect:/mypage/myScraplist?userId="+userId+"&pageNum="+cri.getPageNum()+"&amount="+cri.getAmount();
+		
+		boolean result = false;
+				result = mypageService.removeScraps(checkRow);
+		
+		if(result == true) {
+			
+			return "redirect:/mypage/myScraplist?userId="+userId+"&pageNum="+cri.getPageNum()+"&amount="+cri.getAmount();
+			
+		}else {
+			
+			model.addAttribute("message", "서버에러로 삭제할 수 없습니다.");
+		
+			return "error/commonError";  
+		
+		}
 	}
 	
 	@PreAuthorize("principal.username == #userId")  
