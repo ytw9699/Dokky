@@ -147,8 +147,8 @@
 	
 	DROP TABLE dk_attach PURGE;
 	
-	7.------------------------------------------------------------------------------------------
-	create table persistent_logins ( --rememberme 테이블
+	7. rememberme 로그인 정보 유지 테이블------------------------------------------------------------------------------------------
+	create table persistent_logins ( 
 	
 		username varchar(64) not null,
 		series varchar(64) primary key,
