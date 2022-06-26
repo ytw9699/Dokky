@@ -14,7 +14,8 @@
 		money number(10,0) default 0, --기부 받은 금액
 		hitCnt number(10,0) default 0, --조회수
 		replyCnt number(10,0) default 0, --댓글수 ( 게시물 목록조회는 많이 일어나기 때문에, 댓글수를 조인을 통해가져오기 보다는 컬럼을 추가해준것이다. 역정규화)
-		constraint PK_DK_BOARD primary key(board_num) --PK
+		constraint PK_DK_BOARD primary key(board_num), --PK
+		constraint fk_dk_board_userId foreign key(userId) references dk_member(userId)
 	);
 	
 	create sequence seq_dk_board;
@@ -43,8 +44,11 @@
 		group_num number(10,0) not null,--댓글 묶음 번호 , 그룹을 이루는 번호
 		order_step number(10,0) not null,--댓글 출력 순서
 		depth number(10,0) not null--댓글 깊이 depth = 루트글인지,답변글인지,답변에 답변글인지..답변에 답변에 답변인지 쭉~
-		constraint pk_dk_reply primary key(reply_num) --PK
-		constraint fk_reply_board foreign key(board_num) references dk_board(board_num) on delete cascade
+		constraint pk_dk_reply primary key(reply_num), --PK
+		constraint fk_dk_reply_board foreign key(board_num) references dk_board(board_num) on delete cascade,
+		constraint fk_dk_reply_userId foreign key(userId) references dk_member(userId),
+		constraint fk_dk_reply_toUserId foreign key(toUserId) references dk_member(userId)
+	
 	);
 	
 	--alter table DK_REPLY add constraint fk_reply_board foreign key (board_num) references DK_BOARD (board_num) on delete cascade;--on delete cascade는 자식테이블을 같이 삭제시켜줌
@@ -117,7 +121,9 @@
 		  read_check VARCHAR2(10) DEFAULT 'NO',--쪽지 읽음 체크
 		  from_check VARCHAR2(10) DEFAULT 'NO',--보낸쪽지함 삭제 체크
 		  to_check VARCHAR2(10) DEFAULT 'NO',--받은쪽지함 삭제 체크
-		  constraint pk_dk_note primary key(note_num) --PK
+		  constraint pk_dk_note primary key(note_num), --PK
+		  constraint fk_dk_note_from_id foreign key(from_id) references dk_member(userId),
+		  constraint fk_dk_note_to_id foreign key(to_id) references dk_member(userId)
 	);
 	
 	create sequence seq_dk_note;
@@ -133,7 +139,7 @@
 		uploadPath varchar2(200) not null,-- 실제 파일이 업로드된 경로
 		fileName varchar2(100) not null, --파일 이름을 의미
 		fileType char(1) default 'I', --이미지 파일 여부를판단
-		board_num number(10,0), -- 해당 게시물 번호를 저장
+		board_num number(10,0) not null, -- 해당 게시물 번호를 저장
 	  	constraint fk_board_attach foreign key(board_num) references DK_BOARD(board_num) on delete cascade --fk
 	);
 	
@@ -142,12 +148,13 @@
 	DROP TABLE dk_attach PURGE;
 	
 	7.------------------------------------------------------------------------------------------
-	create table persistent_logins ( --인증 테이블
+	create table persistent_logins ( --rememberme 테이블
 	
 		username varchar(64) not null,
 		series varchar(64) primary key,
 		token varchar(64) not null,
-		last_used timestamp not null
+		last_used timestamp not null,
+		constraint fk_persistent_logins_username foreign key(username) references dk_member(userId)
 	);
 	
 	-----------------------------------------------------
@@ -156,7 +163,8 @@
 	
 		 userId varchar2(50) not null,
 	     board_num number(10,0) not null,
-	     constraint fk_board_like foreign key(board_num) references DK_BOARD(board_num) on delete cascade
+	     constraint fk_board_like foreign key(board_num) references DK_BOARD(board_num) on delete cascade,
+	     constraint fk_board_like_userId foreign key(userId) references dk_member(userId)
 	);
 	
 	drop table dk_board_like purge
@@ -166,7 +174,8 @@
 	
 		 userId varchar2(50) not null,
 	     board_num number(10,0) not null,
-	     constraint fk_board_dislike foreign key(board_num) references DK_BOARD(board_num) on delete cascade
+	     constraint fk_board_dislike foreign key(board_num) references DK_BOARD(board_num) on delete cascade,
+	     constraint fk_board_dislike_userId foreign key(userId) references dk_member(userId)
 	);
 	
 	drop table dk_board_dislike purge
@@ -176,7 +185,8 @@
 	
 		 userId varchar2(50) not null,
 	     reply_num number(10,0) not null,
-	     constraint fk_reply_like foreign key(reply_num) references DK_REPLY(reply_num) on delete cascade
+	     constraint fk_reply_like foreign key(reply_num) references DK_REPLY(reply_num) on delete cascade,
+	     constraint fk_dk_reply_like_userId foreign key(userId) references dk_member(userId)
 	);
 	
 	drop table dk_reply_like purge
@@ -187,7 +197,8 @@
 	
 		 userId varchar2(50) not null,
 	     reply_num number(10,0) not null,
-	     constraint fk_reply_dislike foreign key(reply_num) references DK_REPLY(reply_num) on delete cascade
+	     constraint fk_reply_dislike foreign key(reply_num) references DK_REPLY(reply_num) on delete cascade,
+	     constraint fk_dk_reply_dislike_userId foreign key(userId) references dk_member(userId)
 	);
 	
 	drop table dk_reply_dislike purge
@@ -200,7 +211,8 @@
 	     userId varchar2(50) not null,
 	     board_num number(10,0) not null,
 	     regDate date default sysdate,
-	     constraint fk_dk_scrap foreign key(board_num) references dk_board(board_num) on delete cascade
+	     constraint fk_dk_scrap foreign key(board_num) references dk_board(board_num) on delete cascade,
+	     constraint fk_dk_scrap_userId foreign key(userId) references dk_member(userId)
 	     
 	);
 	
@@ -219,9 +231,10 @@
 		 specification varchar2(50), --미승인/승인완료
 		 board_num number(10,0) default 0, --defalut 값을 없앨지 고민
 		 reply_num number(10,0) default 0,
-		 constraint pk_dk_cash PRIMARY KEY (cash_num)
+		 constraint pk_dk_cash PRIMARY KEY (cash_num),
+		 constraint fk_dk_cash_userId foreign key(userId) references dk_member(userId)
 	);
-	
+
 	-- alter table dk_cash add constraint pk_dk_cash primary key(cash_num);
 	
 	create sequence seq_dk_cash
@@ -245,7 +258,6 @@
 										684
 										)
 	
-										12.캐시내역 테이블
 14.신고테이블 -----------------------------------------------------
 	create table dk_report (
 	
@@ -258,7 +270,9 @@
 		 board_num number(10,0) default 0, --글번호  
 		 reason varchar2(200) not null, --사유
 		 regDate date default sysdate, --신고날짜
-		 constraint pk_dk_report PRIMARY KEY (report_num)
+		 constraint pk_dk_report PRIMARY KEY (report_num),
+		 constraint fk_dk_report_reportingId foreign key(reportingId) references dk_member(userId),
+		 constraint fk_dk_report_reportedId foreign key(reportedId) references dk_member(userId)
 		 
 	);
 
@@ -280,8 +294,9 @@
 		 commonVar2 VARCHAR2(200),
 		 commonVar3 number(10,0),
 		 regdate date default sysdate,
-		 constraint pk_dk_alarm PRIMARY KEY (alarmNum)
-		 
+		 constraint pk_dk_alarm PRIMARY KEY (alarmNum),
+		 constraint fk_dk_alarm_target foreign key(target) references dk_member(userId),
+		 constraint fk_dk_alarm_writerId foreign key(writerId) references dk_member(userId)
 )
 
 insert into dk_alarm( alarmNum, target, writerNick, writerId, kind, commonVar1, commonVar2, 
@@ -301,7 +316,8 @@ create table dk_chat_room(
 		 roomOwnerId VARCHAR2(50) NOT NULL, --방장 아이디
 		 roomOwnerNick VARCHAR2(50) NOT NULL, --방장 닉네임
 		 chat_type number NOT NULL, -- -- 채팅방의 타입 ( 0 = 1:1채팅방 , 1 = 그룹 채팅방) 
-		 headCount number NOT NULL -- 방의 총 인원수
+		 headCount number NOT NULL, -- 방의 총 인원수
+	 	 constraint fk_dk_chat_room_roomOwnerId foreign key(roomOwnerId) references dk_member(userId)
 )
 
 create sequence seq_dk_chat_room;
@@ -317,7 +333,8 @@ create table dk_chat_member(
 		 chat_memberNick VARCHAR2(50) NOT NULL, -- 채팅룸 멤버 닉네임
 		 recentOutDate date, --방에서 나간 최근 날짜
 		 present_position number default 0, --(현재 멤버의 위치) 0 = 방에서 안나감 , 1 = 방에서 나감
-		 constraint fk_dk_chat_member foreign key(chatRoomNum) references dk_chat_room(chatRoomNum) on delete cascade
+		 constraint fk_dk_chat_member foreign key(chatRoomNum) references dk_chat_room(chatRoomNum) on delete cascade,
+		 constraint fk_chat_member_chat_memberId foreign key(chat_memberId) references dk_member(userId)
 		 
 )
 
@@ -326,7 +343,7 @@ DROP TABLE dk_chat_member PURGE;
 18. 채팅 내용 테이블-----------------------------------------------------
 
 create table dk_chat_content(
- 
+
 		 chatContentNum number(10,0), --pk
 		 chatRoomNum number(10,0) not null, --fk
 		 chat_content varchar2(4000) not null, --채팅 내용
@@ -336,7 +353,8 @@ create table dk_chat_content(
 		 readCount number,  -- 현재 읽지 않은 인원수
 		 regdate date default sysdate, 
 		 constraint pk_dk_chat_content PRIMARY KEY(chatContentNum),
-		 constraint fk_dk_chat_content foreign key(chatRoomNum) references dk_chat_room(chatRoomNum) on delete cascade
+		 constraint fk_dk_chat_content foreign key(chatRoomNum) references dk_chat_room(chatRoomNum) on delete cascade,
+		 constraint fk_chat_content_chat_writerId foreign key(chat_writerId) references dk_member(userId)
 )
 
 create sequence seq_dk_chat_content;
@@ -357,7 +375,8 @@ create table dk_chat_read(
 		 chat_memberNick VARCHAR2(50) NOT NULL, -- 채팅룸 멤버 닉네임
  		 read_type number default 0, -- 메시지 읽음 여부 (0 = 읽지않음 , 1 = 읽음)
 		 constraint fk_dk_chat_read_first foreign key(chatContentNum) references dk_chat_content(chatContentNum) on delete cascade,
-		 constraint fk_dk_chat_read_second foreign key(chatRoomNum) references dk_chat_room(chatRoomNum) on delete cascade
+		 constraint fk_dk_chat_read_second foreign key(chatRoomNum) references dk_chat_room(chatRoomNum) on delete cascade,
+		 constraint fk_chat_read_chat_memberId foreign key(chat_memberId) references dk_member(userId)
 )
 
 create sequence seq_dk_chat_read;
