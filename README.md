@@ -4,7 +4,7 @@
 
 ## 프로젝트의 동기
 
-#### &emsp; 기존의 Okky_커뮤니티(https://okky.kr) 에서 불편한 기능들을 개선해 더 편리한 커뮤니티를 만들고 싶었습니다. [프로젝트의 동기](https://github.com/ytw9699/Dokky/blob/master/dokky/documents/mainDocumnets/%ED%94%84%EB%A1%9C%EC%A0%9D%ED%8A%B8%EC%9D%98%20%EB%8F%99%EA%B8%B0.md) 
+#### &emsp; 기존의 Okky_커뮤니티(https://okky.kr) 에서 불편한 기능들을 개선해 더 편리한 커뮤니티를 만들고 싶었습니다.
 
 
 ## 프로젝트 도메인 주소
@@ -75,8 +75,7 @@
 &emsp; [4. 서비스 구현 기능들](https://github.com/ytw9699/Dokky/blob/master/dokky/documents/mainDocumnets/%EC%84%9C%EB%B9%84%EC%8A%A4%20%EA%B5%AC%ED%98%84%20%EA%B8%B0%EB%8A%A5%EB%93%A4.md)  
 &emsp; [5. Use Case Diagram ](https://github.com/ytw9699/Dokky/blob/master/dokky/documents/mainDocumnets/UseCaseDiagram.md)  
 &emsp; [6. 요구사항 명세서](https://github.com/ytw9699/Dokky/blob/master/dokky/documents/mainDocumnets/%EC%9A%94%EA%B5%AC%EC%82%AC%ED%95%AD%20%EB%AA%85%EC%84%B8%EC%84%9C.md)     
-  
-
+&emsp; [7. 프로젝트의 동기](https://github.com/ytw9699/Dokky/blob/master/dokky/documents/mainDocumnets/%ED%94%84%EB%A1%9C%EC%A0%9D%ED%8A%B8%EC%9D%98%20%EB%8F%99%EA%B8%B0.md) 
 
 			
 
