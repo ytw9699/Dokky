@@ -8,7 +8,7 @@
 <html>
 <head>
 <meta charset="UTF-8">
-	<title>Dokky - 개인정보 변경</title>   
+	<title>Dokky - 나의정보</title>   
 	<c:choose>
 	   	  <c:when test="${pageContext.request.serverName == 'localhost'}">
 				<link href="/resources/css/mypage/myInfoForm.css" rel="stylesheet" type="text/css">
@@ -23,7 +23,7 @@
 <div class="myinfoWrap">	
 		<div id="menuWrap">
 			<div class="tab">  
-				<button class="active" onclick="location.href='myInfoForm?userId=${userInfo.username}'">개인정보 변경</button>
+				<button class="active" onclick="location.href='myInfoForm?userId=${userInfo.username}'">나의 정보</button>
 		        <%-- <button onclick="location.href='rePasswordForm?userId=${userInfo.username}'">비밀번호 변경</button> --%> 
 		        <button onclick="location.href='myBoardList?userId=${userInfo.username}'">나의 게시글</button> 
 		        <button onclick="location.href='myReplylist?userId=${userInfo.username}'">나의 댓글</button> 
