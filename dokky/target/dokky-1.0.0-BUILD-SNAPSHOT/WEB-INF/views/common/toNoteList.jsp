@@ -90,20 +90,11 @@
 									</ul>      
 							    </div> 
 							</td>
-							
-							<td class="content">
-			          			<a href="#" class="getNote" data-note_num="${note.note_num}">
-		          					<c:choose>
-								        <c:when test="${fn:length(note.content) > 20}">
-								        	<c:out value="${fn:substring(note.content, 0, 20)}"/>.....
-								        </c:when>
-								        <c:otherwise>
-								        	<c:out value="${note.content}"/> 
-								        </c:otherwise>
-									</c:choose>
-			          			</a>
+							<td class="content" data-note_num="${note.note_num}">
+									<div class="title">
+									        	<c:out value="${note.content}" escapeXml="false"/>
+				          			</div>
 				          	</td>
-			          		
 			          		<td class="td checkNote${note.note_num}"> 
 				          		 <c:if test="${note.read_check == 'NO'}"> 
 										<span class="td">읽지 않음</span> 				          		 	
@@ -249,7 +240,7 @@
 					actionForm.submit();
 		});
 		
-		$(".getNote").on("click",function(e) {//쪽지 상세보기 
+		$(".content").on("click",function(e) {//쪽지 상세보기 
 			
 					e.preventDefault();
 		

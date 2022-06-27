@@ -159,7 +159,7 @@
 				   commonVar2,
 				   commonVar3,
 				   regdate from 
-					 ( select /*+INDEX_DESC(dk_alarm pk_alarm) */ rownum rn,
+					 ( select /*+INDEX_DESC(dk_alarm pk_dk_alarm) */ rownum rn,
 					 														alarmNum,
 					 														checking,
 					 														target,
@@ -185,7 +185,7 @@
 				   commonVar1,
 				   commonVar2,
 				   regdate from 
-					 ( select /*+INDEX_DESC(dk_alarm pk_alarm) */ rownum rn,
+					 ( select /*+INDEX_DESC(dk_alarm pk_dk_alarm) */ rownum rn,
 					 														alarmNum,
 					 														checking,
 					 														target,
@@ -210,7 +210,7 @@
 				   commonVar1,
 				   commonVar2,
 				   regdate from 
-					 ( select /*+INDEX_DESC(dk_alarm pk_alarm) */ rownum rn,
+					 ( select /*+INDEX_DESC(dk_alarm pk_dk_alarm) */ rownum rn,
 					 														alarmNum,
 					 														checking,
 					 														target,

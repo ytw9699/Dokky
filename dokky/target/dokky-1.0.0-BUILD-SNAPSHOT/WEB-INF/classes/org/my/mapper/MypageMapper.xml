@@ -3,7 +3,7 @@
   PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
   "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="org.my.mapper.MypageMapper">
-<!-- - 마지막 업데이트 2022-06-14 -->
+<!-- - 마지막 업데이트 2022-06-20 -->
 	
 	<!-- 나의 정보 변경하기 -->
 	<update id="updateMyInfo">
@@ -58,6 +58,26 @@
 	<update id="updateCashlistNickName">
 		update dk_cash set nickName = #{nickName} where userId = #{userId}
 	</update>
+
+	<!--  채팅룸 닉네임 변경 처리 -->
+	<update id="updateChatRoomNickName">
+		update dk_chat_room set roomOwnerNick = #{nickName} where roomOwnerId = #{userId}
+	</update>
+	
+	<!--  채팅룸의 멤버 닉네임 변경 처리 -->
+	<update id="updateChatMemberNickName">
+		update dk_chat_member set chat_memberNick = #{nickName} where chat_memberId = #{userId}
+	</update>
+	
+	<!--  채팅 내용 닉네임 변경 처리 -->
+	<update id="updateChatContentNickName">
+		update dk_chat_content set chat_writerNick = #{nickName} where chat_writerId = #{userId}
+	</update>
+	
+	<!--  채팅 내용 읽음 닉네임 변경 처리 -->
+	<update id="updateChatReadNickName">
+		update dk_chat_read set chat_memberNick = #{nickName} where chat_memberId = #{userId}
+	</update>
 	
 	<select id="getMyBoardList" resultType="org.my.domain.board.BoardVO"> 
 		select board_num,
@@ -98,7 +118,7 @@
 			  , replydate
 		 from 
 		   (
-		    select /*+INDEX_DESC(DK_REPLY pk_reply) */ rownum rn
+		    select /*+INDEX_DESC(DK_REPLY pk_dk_reply) */ rownum rn
 												     , reply_num
 												     , board_num
 												     , reply_content
