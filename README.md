@@ -4,7 +4,7 @@
 
 ## 프로젝트의 동기
 
-#### &emsp; 저는 기존의 Okky_커뮤니티(https://okky.kr) 에서 불편한 기능들을 개선해 더 편리한 커뮤니티를 만들고 싶었습니다. [프로젝트의 동기](https://github.com/ytw9699/Dokky/blob/master/dokky/documents/mainDocumnets/%ED%94%84%EB%A1%9C%EC%A0%9D%ED%8A%B8%EC%9D%98%20%EB%8F%99%EA%B8%B0.md) 
+#### &emsp; 기존의 Okky_커뮤니티(https://okky.kr) 에서 불편한 기능들을 개선해 더 편리한 커뮤니티를 만들고 싶었습니다. [프로젝트의 동기](https://github.com/ytw9699/Dokky/blob/master/dokky/documents/mainDocumnets/%ED%94%84%EB%A1%9C%EC%A0%9D%ED%8A%B8%EC%9D%98%20%EB%8F%99%EA%B8%B0.md) 
 
 
 ## 프로젝트 도메인 주소
