@@ -10,10 +10,10 @@
 	<title>Dokky - 신고관리</title> 
 	<c:choose>
 	  	  <c:when test="${pageContext.request.serverName == 'localhost'}">
-				<link href="/resources/css/userReportList.css" rel="stylesheet" type="text/css"/>
+				<link href="/resources/css/admin/userReportList.css" rel="stylesheet" type="text/css"/>
 	  	 </c:when>
 	     <c:otherwise>
-	   			<link href="/ROOT/resources/css/userReportList.css" rel="stylesheet" type="text/css"/>
+	   			<link href="/ROOT/resources/css/admin/userReportList.css" rel="stylesheet" type="text/css"/>
 	     </c:otherwise>
 	 </c:choose>
 </head> 

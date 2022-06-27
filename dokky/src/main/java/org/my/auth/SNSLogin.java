@@ -1,5 +1,5 @@
 package org.my.auth;
-	import org.my.domain.MemberVO;
+	import org.my.domain.common.MemberVO;
 	import com.fasterxml.jackson.databind.JsonNode;
 	import com.fasterxml.jackson.databind.ObjectMapper;
 	import com.github.scribejava.core.builder.ServiceBuilder;
@@ -25,17 +25,6 @@ public class SNSLogin {
 		this.sns = sns;
 	}
 	
-	/*public SNSLogin(SnsValue sns) {
-		
-		this.oauthService = new ServiceBuilder(sns.getClientId())
-				.apiSecret(sns.getClientSecret())
-				.callback(sns.getRedirectUrl())
-				.defaultScope("profile")
-				.build(sns.getApi20Instance());
-		
-		this.sns = sns;
-	}*/
-
 	public String getAuthURL() {
 		return this.oauthService.getAuthorizationUrl();
 	}
@@ -82,5 +71,4 @@ public class SNSLogin {
 		}
 		return user;
 	}
-	
 }

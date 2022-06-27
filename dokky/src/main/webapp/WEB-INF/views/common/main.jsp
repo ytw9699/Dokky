@@ -15,10 +15,10 @@
 	<title>Dokky - Developer community</title> 
 	   <c:choose>
 		   	  <c:when test="${pageContext.request.serverName == 'localhost'}">
-				 <link href="/resources/css/main.css" rel="stylesheet" type="text/css"/>
+				 <link href="/resources/css/common/main.css" rel="stylesheet" type="text/css"/>
 			  </c:when>
 	          <c:otherwise>
-	        	<link href="/ROOT/resources/css/main.css" rel="stylesheet" type="text/css"/>
+	        	<link href="/ROOT/resources/css/common/main.css" rel="stylesheet" type="text/css"/>
 	          </c:otherwise>
        </c:choose>
 </head>

@@ -1,37 +1,38 @@
+/*
+- 마지막 업데이트 2022-06-13
+*/
 package org.my.service;
 	import java.util.List;
-	import org.my.domain.BoardVO;
-	import org.my.domain.Criteria;
-	import org.my.domain.MemberVO;
-	import org.my.domain.ReplyVO;
-	import org.my.domain.cashVO;
-	import org.my.domain.scrapVO;
+	import org.my.domain.board.BoardVO;
+	import org.my.domain.common.CashVO;
+	import org.my.domain.common.Criteria;
+	import org.my.domain.common.MemberVO;
+	import org.my.domain.common.ScrapVO;
+	import org.my.domain.reply.ReplyVO;
 
 public interface MypageService {
 
-	public MemberVO getMyInfo(String userId);
-
 	public boolean updateMyInfo(MemberVO vo);
-
+	
 	public List<BoardVO> getMyBoardList(Criteria cri);
 
 	public int getMyBoardCount(Criteria cri);
-
+	
 	public List<ReplyVO> getMyReplylist(Criteria cri);
 
 	public int getMyReplyCount(Criteria cri);
 	
-	public List<scrapVO> getMyScraplist(Criteria cri);
+	public List<ScrapVO> getMyScraplist(Criteria cri);
 
 	public int getMyScrapCount(String userId);
 	
-	public void removeScrap(Long scrap_num);
+	public boolean removeScraps(String checkRow);
 	
-	public boolean insertChargeData(cashVO vo);
+	public boolean insertChargeData(CashVO vo);
 
-	public boolean insertReChargeData(cashVO vo);
+	public boolean insertReChargeData(CashVO vo);
 	
-	public List<cashVO> getMyCashHistory(Criteria cri);
+	public List<CashVO> getMyCashHistory(Criteria cri);
 	
 	public int getMyCashHistoryCount(String userId);
 	

@@ -1,12 +1,14 @@
+/*
+- 마지막 업데이트 2022-06-16
+*/
 package org.my.service;
 	import java.util.List;
-	import org.my.domain.BoardAttachVO;
-	import org.my.domain.BoardDisLikeVO;
-	import org.my.domain.BoardLikeVO;
-	import org.my.domain.BoardVO;
-	import org.my.domain.Criteria;
-	import org.my.domain.commonVO;
-	import org.my.domain.reportVO;
+	import javax.servlet.http.HttpServletRequest;
+	import org.my.domain.board.BoardAttachVO;
+	import org.my.domain.board.BoardVO;
+	import org.my.domain.common.CommonVO;
+	import org.my.domain.common.Criteria;
+	import org.my.domain.common.ReportVO;
 
 public interface BoardService {
 	
@@ -29,37 +31,26 @@ public interface BoardService {
 	public BoardVO getBoard(Long board_num, Boolean hitChoice);
 	
 	public boolean modifyBoard(BoardVO board);
-
-	public boolean removeBoard(Long board_num, boolean hasAttach);
-	
-	public boolean checkBoardLikeButton(BoardLikeVO vo);
-	
-	public boolean checkBoardDisLikeButton(BoardDisLikeVO vo);
-	
-	public boolean pushBoardLikeButton(commonVO vo);
-	
-	public boolean pushBoardDisLikeButton(commonVO vo);
-	
-	public boolean pullBoardLikeButton(commonVO vo);
-	
-	public boolean pullBoardDisLikeButton(commonVO vo);
-	
-	public String getLikeCount(Long board_num);
-	
-	public String getDisLikeCount(Long board_num);
-
-	public String getMyCash(String userId);
-
-	public String giveBoardWriterMoney(commonVO vo);
-
-	public boolean createReportdata(reportVO vo);
 	
 	public List<BoardAttachVO> getAttachList(Long board_num);
+
+	public boolean removeBoard(Long board_num, HttpServletRequest request);
+	
+	public boolean removeBoards(String checkRow, HttpServletRequest request);
+	
+	public String likeBoard(CommonVO vo);
+	
+	public String disLikeBoard(CommonVO vo);
+	
+	public String getMyCash(String userId);
+
+	public String giveBoardWriterMoney(CommonVO vo);
+
+	public boolean createReportdata(ReportVO vo);
 
 	public int postScrapData(int board_num, String userId);
 	
 	public int deleteScrapData(int board_num, String userId);
 
-	public Long getRecentBoard_num();
-
+	public Long getRecentBoard_num();//테스트 코드용
 }

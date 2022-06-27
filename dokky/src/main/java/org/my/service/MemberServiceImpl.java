@@ -1,20 +1,20 @@
+/*
+- 마지막 업데이트 2022-06-12
+*/
 package org.my.service;
-	import java.util.List;
-	import org.my.domain.BoardVO;
-	import org.my.domain.MemberVO;
+	import org.my.domain.common.MemberVO;
 	import org.my.mapper.MemberMapper;
-	import org.springframework.beans.factory.annotation.Autowired;
 	import org.springframework.stereotype.Service;
 	import org.springframework.transaction.annotation.Transactional;
-	import lombok.Setter;
+	import lombok.RequiredArgsConstructor;
 	import lombok.extern.log4j.Log4j;
 
+@RequiredArgsConstructor
 @Log4j
 @Service
 public class MemberServiceImpl implements MemberService {
 
-	@Setter(onMethod_ = @Autowired)
-	private MemberMapper mapper;
+	private final MemberMapper mapper;
 	
 	@Transactional
 	@Override 
@@ -35,7 +35,6 @@ public class MemberServiceImpl implements MemberService {
 		return mapper.readMembers(userId);
 	}
 	
-	@Transactional
 	@Override 
 	public boolean reRegisterMembers(MemberVO vo) {
 

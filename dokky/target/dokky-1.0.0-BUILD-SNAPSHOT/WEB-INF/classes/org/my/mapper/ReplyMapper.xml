@@ -36,7 +36,7 @@
 		select reply_num from dk_reply where board_num = #{reply_num} order by group_num ASC, order_step ASC
 	</select>
 	
-	<select id="selectReplylistToDecideStep" resultType="org.my.domain.ReplyVO">
+	<select id="selectReplylistToDecideStep" resultType="org.my.domain.reply.ReplyVO">
 		  <![CDATA[ select * from dk_reply where group_num = #{group_num} and order_step > #{order_step} and depth <= #{depth} order by order_step asc   ]]>
 	</select> 
 	
@@ -81,7 +81,7 @@
 	 	<![CDATA[update dk_reply set order_step = order_step+1 where group_num = #{group_num} and order_step >= #{order_step} ]]>
 	</update>
 	
-	<select id="read" resultType="org.my.domain.ReplyVO">
+	<select id="read" resultType="org.my.domain.reply.ReplyVO">
 		select * from DK_REPLY where reply_num = #{reply_num}
 	</select>
 	
@@ -91,7 +91,7 @@
 		]]>
 	</select>
 	
-	<select id="readReplyListWithPaging" resultType="org.my.domain.ReplyVO">
+	<select id="readReplyListWithPaging" resultType="org.my.domain.reply.ReplyVO">
 	  <![CDATA[
 	    select reply_num
 		     , board_num

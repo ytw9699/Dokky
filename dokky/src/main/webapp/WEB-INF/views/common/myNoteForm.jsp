@@ -12,10 +12,10 @@
 	<title>Dokky - 내게쪽지쓰기</title>  
 	<c:choose>
 	   	  <c:when test="${pageContext.request.serverName == 'localhost'}">
-				<link href="/resources/css/myNoteForm.css" rel="stylesheet" type="text/css">
+				<link href="/resources/css/common/myNoteForm.css" rel="stylesheet" type="text/css">
 		  </c:when>
 	      <c:otherwise>
-	    		<link href="/ROOT/resources/css/myNoteForm.css" rel="stylesheet" type="text/css">
+	    		<link href="/ROOT/resources/css/common/myNoteForm.css" rel="stylesheet" type="text/css">
 	      </c:otherwise>
 	</c:choose>
 </head>
@@ -63,6 +63,25 @@
 	
 	var myId = '${userInfo.username}';  
 	var myNickName = '${userInfo.member.nickName}';
+	
+	function parseUrl(orgnTxt) {
+    	
+        var rplcdTxt, rplcdPttrn1, rplcdPttrn2, rplcdPttrn3;
+
+        //  http://, https://로 url이 시작한다면.
+        rplcdPttrn1 = /(\b(https?):\/\/[-A-Z0-9+&@#\/%?=~_|!:,.;]*[-A-Z0-9+&@#\/%=~_|])/gim;
+        rplcdTxt = orgnTxt.replace(rplcdPttrn1, '<a href="$1" target="_blank">$1</a>');
+
+        //  http?없이 www로 시작한다면.
+        rplcdPttrn2 = /(^|[^\/])(www\.[\S]+(\b|$))/gim;
+        rplcdTxt = rplcdTxt.replace(rplcdPttrn2, '$1<a href="http://$2" target="_blank">$2</a>');
+
+        //  메일 주소일 경우
+        rplcdPttrn3 = /(([a-zA-Z0-9\-\_\.])+@[a-zA-Z\_]+?(\.[a-zA-Z]{2,6})+)/gim;
+        rplcdTxt = rplcdTxt.replace(rplcdPttrn3, '<a href="mailto:$1">$1</a>');
+
+        return rplcdTxt;
+	}
 
 	function checkLength(obj, maxByte) { 
 		 
@@ -145,7 +164,7 @@
 			}
 	
 		    var noteData = {	  	
-		    					content    		: content, 	  //쪽지 내용
+		    					content    		: parseUrl(content), 	  //쪽지 내용
 		    					from_nickname   : myNickName, //쪽지 보내는 닉네임
 		    					from_id      	: myId, 	  //쪽지 보내는 아이디
 		    					to_id 	    	: myId,	  //쪽지 받는 아이디

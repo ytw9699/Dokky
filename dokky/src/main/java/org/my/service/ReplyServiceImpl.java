@@ -1,44 +1,42 @@
+/*
+- 마지막 업데이트 2022-06-26
+*/
 package org.my.service;
 	import java.util.List;
-	import org.my.domain.Criteria;
-	import org.my.domain.ReplyDisLikeVO;
-	import org.my.domain.ReplyLikeVO;
-	import org.my.domain.ReplyPageDTO;
-	import org.my.domain.ReplyVO;
-	import org.my.domain.alarmVO;
-	import org.my.domain.commonVO;
-	import org.my.domain.replyDonateVO;
+	import org.my.domain.common.AlarmVO;
+	import org.my.domain.common.CommonVO;
+	import org.my.domain.common.Criteria;
+	import org.my.domain.reply.ReplyDisLikeVO;
+	import org.my.domain.reply.ReplyDonateVO;
+	import org.my.domain.reply.ReplyLikeVO;
+	import org.my.domain.reply.ReplyPageDTO;
+	import org.my.domain.reply.ReplyVO;
 	import org.my.mapper.BoardMapper;
 	import org.my.mapper.CommonMapper;
 	import org.my.mapper.ReplyMapper;
-	import org.springframework.beans.factory.annotation.Autowired;
 	import org.springframework.stereotype.Service;
 	import org.springframework.transaction.annotation.Transactional;
-	import lombok.Setter;
+	import lombok.RequiredArgsConstructor;
 	import lombok.extern.log4j.Log4j;
 
+@RequiredArgsConstructor
 @Service
 @Log4j
 public class ReplyServiceImpl implements ReplyService {
   
-	@Setter(onMethod_ = @Autowired)
-	private ReplyMapper replyMapper;
-
-	@Setter(onMethod_ = @Autowired)
-	private BoardMapper boardMapper;
-	
-	@Setter(onMethod_ = @Autowired)
-	private CommonMapper commonMapper;
+	private final ReplyMapper replyMapper;
+	private final BoardMapper boardMapper;
+	private final CommonMapper commonMapper;
 		
 	@Transactional
 	@Override
-	public int create(commonVO vo) {
+	public int create(CommonVO vo) {
 		
 		int returnVal;
 		
 		log.info("create......reply " + vo);
 		ReplyVO replyVO = vo.getReplyVO();
-		alarmVO alarmVO = vo.getAlarmVO();
+		AlarmVO alarmVO = vo.getAlarmVO();
 
 		log.info("updateReplyCnt......" + vo);
 		boardMapper.updateReplyCnt(replyVO.getBoard_num(), 1);
@@ -121,7 +119,6 @@ public class ReplyServiceImpl implements ReplyService {
 		
 		  return new ReplyPageDTO(replyMapper.getReplyCnt(board_num), 
 	    						  replyMapper.readReplyListWithPaging(cri, board_num));
-		  
 	}
 
 	@Override
@@ -130,28 +127,52 @@ public class ReplyServiceImpl implements ReplyService {
 	    log.info("update......" + vo);
 	
 	    return replyMapper.update(vo);
-	
 	}
 
     @Transactional
 	@Override 
-	public int delete(Long reply_num) {
+	public boolean delete(Long reply_num) {
 
     	log.info("delete...." + reply_num);
 
 		Long board_num = replyMapper.getBoardNum(reply_num); 
 
-		boardMapper.updateReplyCnt(board_num, -1);
+		if(replyMapper.delete(reply_num) != 1 && boardMapper.updateReplyCnt(board_num, -1) != 1) {
+ 			
+ 			return false;
+ 		}
 		
-		return replyMapper.delete(reply_num);
+		return true;
+	}
+    
+    @Transactional
+	@Override 
+	public boolean deleteReplies(String checkRow) {
 		
+		String[] arrIdx = checkRow.split(",");
+	 	
+	 	for (int i=0; i<arrIdx.length; i++) {
+	 		
+	 		Long reply_num = Long.parseLong(arrIdx[i]); 
+	 		
+	 		Long board_num = replyMapper.getBoardNum(reply_num);
+	 		
+	 		if(replyMapper.delete(reply_num) != 1 && boardMapper.updateReplyCnt(board_num, -1) != 1) {
+	 			
+	 			return false;
+	 		}
+	 		
+	 		log.info("deleteReply...." + reply_num);
+	 	}
+	 	
+	 	return true;
 	}
 	  
 	@Transactional
 	@Override 
-	public String giveReplyWriterMoney(commonVO vo) {
+	public String giveReplyWriterMoney(CommonVO vo) {
 		
-		replyDonateVO replyDonateVO = vo.getReplyDonateVO();
+		ReplyDonateVO replyDonateVO = vo.getReplyDonateVO();
 		
 		log.info("minusMycash");
 		boardMapper.minusMycash(replyDonateVO.getMoney(), replyDonateVO.getUserId());
@@ -193,7 +214,7 @@ public class ReplyServiceImpl implements ReplyService {
 		
 	@Transactional
 	@Override
-	public boolean pushReplyLikeButton(commonVO vo) {//댓글 좋아요 버튼 누르기
+	public boolean pushReplyLikeButton(CommonVO vo) {//댓글 좋아요 버튼 누르기
 		
 		log.info("pushReplyLikeButton...." + vo);
 		
@@ -208,7 +229,7 @@ public class ReplyServiceImpl implements ReplyService {
 	
 	@Transactional
 	@Override
-	public boolean pushReplyDislikeButton(commonVO vo) {//댓글 싫어요 버튼 누르기
+	public boolean pushReplyDislikeButton(CommonVO vo) {//댓글 싫어요 버튼 누르기
 		
 		log.info("pushReplyDislikeButton...." + vo);
 		
@@ -223,7 +244,7 @@ public class ReplyServiceImpl implements ReplyService {
 		
 	@Transactional
 	@Override
-	public boolean pullReplyLikeButton(commonVO vo) {//댓글 좋아요 당기기(취소)
+	public boolean pullReplyLikeButton(CommonVO vo) {//댓글 좋아요 당기기(취소)
 		
 		log.info("pullReplyLikeButton...." + vo);
 		
@@ -238,7 +259,7 @@ public class ReplyServiceImpl implements ReplyService {
 	
 	@Transactional
 	@Override
-	public boolean pullReplyDislikeButton(commonVO vo) {//댓글 싫어요 당기기(취소)
+	public boolean pullReplyDislikeButton(CommonVO vo) {//댓글 싫어요 당기기(취소)
 		
 		log.info("pullReplyDislikeButton...." + vo);
 		

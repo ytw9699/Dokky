@@ -3,8 +3,9 @@
   PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
   "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="org.my.mapper.CommonMapper">
-		
-	<select id="getRealtimeBoardList" resultType="org.my.domain.BoardVO"> 
+<!-- 마지막 업데이트 2022-06-14 -->
+
+	<select id="getRealtimeBoardList" resultType="org.my.domain.board.BoardVO"> 
 		 SELECT /*+INDEX_DESC(DK_BOARD PK_DK_BOARD) */ money,
 		 											   replyCnt,
 		 										 	   board_num,
@@ -17,7 +18,7 @@
 		  from dk_board where <![CDATA[ rownum <= 5  ]]>
 	</select>
 	 
-	<select id="getMonthlyBoardList" resultType="org.my.domain.BoardVO"> 
+	<select id="getMonthlyBoardList" resultType="org.my.domain.board.BoardVO"> 
 		select 	 
 				money,
 		 		replyCnt,
@@ -43,7 +44,7 @@
 		  where <![CDATA[ rownum <= 5 ]]>
 	</select>
 	
-	<select id="getDonationBoardList" resultType="org.my.domain.BoardVO"> 
+	<select id="getDonationBoardList" resultType="org.my.domain.board.BoardVO"> 
 		<![CDATA[
 		 	select 	 
 		 		 money,
@@ -147,7 +148,7 @@
 			select count(*) from dk_chat_read where chat_memberId = #{userId} and read_type = 0
        </select>
 	  
-       <select id="getAllAlarmList" resultType="org.my.domain.alarmVO"> 
+       <select id="getAllAlarmList" resultType="org.my.domain.common.AlarmVO"> 
 			select alarmNum,
 				   checking,
 				   target,
@@ -158,7 +159,7 @@
 				   commonVar2,
 				   commonVar3,
 				   regdate from 
-					 ( select /*+INDEX_DESC(dk_alarm pk_alarm) */ rownum rn,
+					 ( select /*+INDEX_DESC(dk_alarm pk_dk_alarm) */ rownum rn,
 					 														alarmNum,
 					 														checking,
 					 														target,
@@ -174,7 +175,7 @@
 						  ]]>
 	   </select>
 	   
-	    <select id="getAlarmListRead" resultType="org.my.domain.alarmVO"> 
+	    <select id="getAlarmListRead" resultType="org.my.domain.common.AlarmVO"> 
 			select alarmNum,
 				   checking,
 				   target,
@@ -184,7 +185,7 @@
 				   commonVar1,
 				   commonVar2,
 				   regdate from 
-					 ( select /*+INDEX_DESC(dk_alarm pk_alarm) */ rownum rn,
+					 ( select /*+INDEX_DESC(dk_alarm pk_dk_alarm) */ rownum rn,
 					 														alarmNum,
 					 														checking,
 					 														target,
@@ -199,7 +200,7 @@
 						  ]]>
 	   </select>
 	   
-	    <select id="getAlarmListNotRead" resultType="org.my.domain.alarmVO"> 
+	    <select id="getAlarmListNotRead" resultType="org.my.domain.common.AlarmVO"> 
 			select alarmNum,
 				   checking,
 				   target,
@@ -209,7 +210,7 @@
 				   commonVar1,
 				   commonVar2,
 				   regdate from 
-					 ( select /*+INDEX_DESC(dk_alarm pk_alarm) */ rownum rn,
+					 ( select /*+INDEX_DESC(dk_alarm pk_dk_alarm) */ rownum rn,
 					 														alarmNum,
 					 														checking,
 					 														target,
@@ -290,7 +291,7 @@
        		update dk_alarm set checking = 'YES' where alarmNum = #{alarmNum}
        </update>
        
-       <select id="getDetailNotepage" resultType="org.my.domain.noteVO">
+       <select id="getDetailNotepage" resultType="org.my.domain.common.NoteVO">
        		   select NOTE_NUM
 		       		, CONTENT
 		       		, FROM_NICKNAME
@@ -304,7 +305,7 @@
 			update dk_note set read_check = 'YES' where note_num = #{note_num}       
        </update>
 	  
-       <select id="getToNoteList" resultType="org.my.domain.noteVO">
+       <select id="getToNoteList" resultType="org.my.domain.common.NoteVO">
        
        		  select NOTE_NUM
 				   , CONTENT
@@ -326,7 +327,7 @@
 						  ]]>
        </select>
        
-       <select id="getFromNoteList" resultType="org.my.domain.noteVO"> 
+       <select id="getFromNoteList" resultType="org.my.domain.common.NoteVO"> 
 			select NOTE_NUM,
 				   CONTENT,
 				   FROM_NICKNAME,
@@ -345,7 +346,7 @@
 						  ]]>
 	   </select>
 	   
-	   <select id="getMyNoteList" resultType="org.my.domain.noteVO">
+	   <select id="getMyNoteList" resultType="org.my.domain.common.NoteVO">
 		    select NOTE_NUM,
 				   CONTENT,
 				   FROM_NICKNAME,
@@ -366,14 +367,6 @@
 			select enabled from dk_member where userId = #{userId}
        </select>
        
-		<select id="getAccessKey" resultType="String">
-			select accessKey from DK_s3key where <![CDATA[ rownum <=1 ]]>
-		</select>
-		
-		<select id="getSecretKey" resultType="String">
-			select secretKey from DK_s3key where <![CDATA[ rownum <=1 ]]>
-		</select>
-		
 		<select id="getFromNoteCount" resultType="int">
 			select count(*) from dk_note where TO_ID = #{userId} and FROM_ID != #{userId} and from_check = 'NO'
        </select>
@@ -405,5 +398,9 @@
 								 		,#{read_check}
 					 				) 
        </insert>
+       
+       <delete id="deleteRememberMeToken">
+			delete from persistent_logins where username = #{userId}
+		</delete>
 		   
 </mapper>

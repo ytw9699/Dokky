@@ -1,13 +1,13 @@
 /*
-- 마지막 업데이트 2022-05-25
+-  마지막 업데이트 2022-06-13
 */
 package org.my.mapper;
 	import java.util.List;
 	import org.apache.ibatis.annotations.Param;
-	import org.my.domain.Criteria;
-	import org.my.domain.MemberVO;
-	import org.my.domain.cashVO;
-	import org.my.domain.reportVO;
+	import org.my.domain.common.CashVO;
+	import org.my.domain.common.Criteria;
+	import org.my.domain.common.MemberVO;
+	import org.my.domain.common.ReportVO;
 
 public interface AdminMapper {
 	
@@ -15,11 +15,11 @@ public interface AdminMapper {
 	
 	public int getMemberTotalCount(Criteria cri);
 	
-	public List<cashVO> getCashRequestList(Criteria cri);
+	public List<CashVO> getCashRequestList(Criteria cri);
 	
 	public int getCashListTotalCount();
 	
-	public List<reportVO> getUserReportList(Criteria cri);
+	public List<ReportVO> getUserReportList(Criteria cri);
 	
 	public int getUserReportCount(Criteria cri);
 	
@@ -31,13 +31,9 @@ public interface AdminMapper {
 	
 	public int deleteRole(@Param("userId") String userId, @Param("role") String role);
 	
-	public int updatePermitLogin(String userId);
+	public void updatePluscash(CashVO vo);
 
+	public void updateMinuscash(CashVO vo);
+	
 	public int approveCash(Long cash_num);
-
-	public void updatePluscash(cashVO vo);
-
-	public void updateMinuscash(cashVO vo);
-
-	public int insertReportdata(reportVO vo);
 }

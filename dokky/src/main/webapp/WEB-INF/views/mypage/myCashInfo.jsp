@@ -11,10 +11,10 @@
 	<title>Dokky - 캐시</title>
 	<c:choose>
 	   	  <c:when test="${pageContext.request.serverName == 'localhost'}">
-				<link href="/resources/css/myCashInfo.css" rel="stylesheet" type="text/css"/>
+				<link href="/resources/css/mypage/myCashInfo.css" rel="stylesheet" type="text/css"/>
 		  </c:when>
 	      <c:otherwise>
-	    		<link href="/ROOT/resources/css/myCashInfo.css" rel="stylesheet" type="text/css"/>
+	    		<link href="/ROOT/resources/css/mypage/myCashInfo.css" rel="stylesheet" type="text/css"/>
 	      </c:otherwise>
 	</c:choose> 
 </head>
@@ -23,7 +23,7 @@
 	
 	<div id="profileGray"></div> 
 	<div id="chargeCash">
-			<span class="chargeText">충전금액</span>
+			<span class="chargeText">충전요청</span>
 			<input type="text" id="chargeWon" class="chargeWon" placeholder="0" value="" onkeyup="numberWithComma(this)">
 			<span class="chargeText">원</span> 
 			 
@@ -34,7 +34,7 @@
 	<input type="text" id="realCommonWon"> 
 	
 	<div id="reChargeCash">
-			<span class="chargeText">환전금액</span>
+			<span class="chargeText">환전요청</span>
 			<input type="text" id="reChargeWon" class="chargeWon" placeholder="0" value="" onkeyup="numberWithComma(this)">
 			<span class="chargeText">원</span>
 			
@@ -45,7 +45,7 @@
 <div class="mycashInfoWrap">	
 		<div id="menuWrap">
 			<div class="tab"> 
-				<button onclick="location.href='myInfoForm?userId=${userInfo.username}'">개인정보 변경</button>
+				<button onclick="location.href='myInfoForm?userId=${userInfo.username}'">나의 정보</button>
 		        <button onclick="location.href='myBoardList?userId=${userInfo.username}'">나의 게시글</button> 
 		        <button onclick="location.href='myReplylist?userId=${userInfo.username}'">나의 댓글</button> 
 		        <button onclick="location.href='myScraplist?userId=${userInfo.username}'">나의 스크랩</button>
@@ -56,14 +56,16 @@
 		
 		<div class="tabcontent">
     		<div class="dotContentWrap">   
-	     		<span id="dotText">My Cash </span> <span id="dotValue"><fmt:formatNumber type="number" maxFractionDigits="3" value="${myCash}"/>원</span> 
+	     		<span id="dotText">My cash </span> <span id="dotValue"><fmt:formatNumber type="number" maxFractionDigits="3" value="${myCash}"/>원</span> 
 	     	</div> 
 	     	<div class="dotContentWrap">  
-	     		<span id="account">Dokky 계좌 </span> <span id="accountVal">신한 110-237-583410</span>  
+	     		<span id="account">Dokky 가상 계좌 </span> <span id="accountVal">( 토스 190-854-881-425 )</span>  
 	     	</div> 
 	     	<div class="dotButtonWrap"> 
 		     	<input type="button" id="charging" class="dotButtons" value="충전 요청"/>
+		     		<div class="demand">충전시 닉네임을 입금자명으로 송금해주세요</div>
 		     	<input type="button" id="recharging" class="dotButtons" value="환전 요청" />
+		     		<div class="demand">환전시 내 정보에서 계좌번호를 입력해주세요</div>
 		     	<input type="button" class="dotButtons" value="내역보기" onclick="location.href='myCashHistory?userId=${userInfo.username}'">
 	     	</div>
     	</div>
@@ -169,9 +171,10 @@
    		
 		$("#chargeSubmit").on("click",function(event){//3.충전 확인버튼 이벤트
 			var cash = $("#realCommonWon").val();
-			
-			if(cash === 0 || cash === ""){   
-				openAlert("금액을 1원이상 입력해주세요"); 
+
+			if(cash === 0 || cash === "" || cash === "0"){ 
+				closeCharge();
+				openAlert("금액을 입력해주세요"); 
 				return;
 			}
 			
@@ -187,7 +190,7 @@
 				
 			        if(result == "success"){
 			        	
-			        	openAlert("입금이 확인되면 캐시가 충전됩니다");
+			        	openAlert("관리자 승인후 충전됩니다");
 			        	
 			        }else if(result == "fail"){
 			        	
@@ -216,8 +219,9 @@
 			
 			var cash = $("#realCommonWon").val();
 						
-			if(cash === 0 || cash === ""){   
-				openAlert("금액을 1원이상 입력해주세요"); 
+			if(cash === 0 || cash === "" || cash === "0"){ 
+				closeRecharge();
+				openAlert("금액을 입력해주세요");
 				return;
 			}
 			

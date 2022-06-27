@@ -8,51 +8,16 @@
 <head>
 <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
 <title>Dokky - 에러 페이지</title>
-<style>
-       @media screen and (max-width:500px){ 
-		     .accessWrap {
-				    width: 80%; 
-				    display: inline-block;
-				    margin-left: 15%;
-				    margin-top: 1%;
-				    min-height: 500px; 
-					display: inline-block;
-					border: 2px solid #dbdbdb;
-					border-radius: 10px;
-				}
-        }
-        @media screen and (min-width: 501px) and (max-width:1600px){
-          .accessWrap {
-			    	width: 80%; 
-				    display: inline-block;
-				    margin-left: 17%;
-				    margin-top: 1%;
-				    min-height: 500px; 
-					display: inline-block;
-					border: 2px solid #dbdbdb;
-					border-radius: 10px;
-			}
-        }
-        @media screen and (min-width: 1601px){    
-		      .accessWrap {
-			   		width: 51%; 
-				    display: inline-block;
-				    margin-left: 29%;
-				    margin-top: 1%;
-				    min-height: 500px; 
-					display: inline-block;
-					border: 2px solid #dbdbdb;
-					border-radius: 10px;
-			}
-        }
-        .content {
-		    width: 54%;
-		    margin-left: 23%;
-		    margin-top: 23%;
-		    color: #7151fc;
-	    }
-</style>
+<c:choose>
+   	  <c:when test="${pageContext.request.serverName == 'localhost'}">
+			<link href="/resources/css/error/commonError.css" rel="stylesheet" type="text/css"/>
+	  </c:when>  
+      <c:otherwise>
+    		<link href="/ROOT/resources/css/error/commonError.css" rel="stylesheet" type="text/css"/>
+      </c:otherwise>
+</c:choose>
 </head> 
+
 <body>
 	<div class="accessWrap">
 		<div class="content">

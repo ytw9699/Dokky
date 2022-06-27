@@ -1,31 +1,28 @@
 /*
-- 마지막 업데이트 2022-05-24
+-  마지막 업데이트 2022-06-13
 */
 package org.my.service;
 	import java.util.List;
-	import org.my.domain.Criteria;
-	import org.my.domain.MemberVO;
-	import org.my.domain.alarmVO;
-	import org.my.domain.cashVO;
-	import org.my.domain.commonVO;
-	import org.my.domain.reportVO;
+	import org.my.domain.common.AlarmVO;
+	import org.my.domain.common.CashVO;
+	import org.my.domain.common.CommonVO;
+	import org.my.domain.common.Criteria;
+	import org.my.domain.common.MemberVO;
+	import org.my.domain.common.ReportVO;
 	import org.my.mapper.AdminMapper;
 	import org.my.mapper.CommonMapper;
-	import org.springframework.beans.factory.annotation.Autowired;
 	import org.springframework.stereotype.Service;
 	import org.springframework.transaction.annotation.Transactional;
-	import lombok.Setter;
+	import lombok.RequiredArgsConstructor;
 	import lombok.extern.log4j.Log4j;
 
+@RequiredArgsConstructor
 @Log4j
 @Service
 public class AdminServiceImpl implements AdminService {
 
-	@Setter(onMethod_ = @Autowired)
-	private AdminMapper adminMapper;
-	
-	@Setter(onMethod_ = @Autowired)
-	private CommonMapper commonMapper;
+	private final AdminMapper adminMapper;
+	private final CommonMapper commonMapper;
 	
 	@Override
 	public List<MemberVO> getUserList(Criteria cri) {
@@ -44,7 +41,7 @@ public class AdminServiceImpl implements AdminService {
 	}
 	
 	@Override
-	public List<cashVO> getCashRequestList(Criteria cri) {
+	public List<CashVO> getCashRequestList(Criteria cri) {
 
 		log.info("getCashRequestList" + cri);
 
@@ -60,7 +57,7 @@ public class AdminServiceImpl implements AdminService {
 	}
 	
 	@Override
-	public List<reportVO> getUserReportList(Criteria cri){
+	public List<ReportVO> getUserReportList(Criteria cri){
 	
 		log.info("getUserReportList" + cri);
 
@@ -85,7 +82,7 @@ public class AdminServiceImpl implements AdminService {
 	
 	@Transactional
 	@Override
-	public int limitLogin(String userId, alarmVO vo) {
+	public int limitLogin(String userId, AlarmVO vo) {
 		
 		log.info("insertAlarm");
 		
@@ -98,7 +95,7 @@ public class AdminServiceImpl implements AdminService {
 	
 	@Transactional
 	@Override
-	public int permitLogin(String userId, alarmVO vo) {
+	public int permitLogin(String userId, AlarmVO vo) {
 		
 		log.info("insertAlarm");
 		
@@ -111,7 +108,7 @@ public class AdminServiceImpl implements AdminService {
 	
 	@Transactional
 	@Override
-	public int insertRole(String userId, String role, alarmVO vo) {
+	public int insertRole(String userId, String role, AlarmVO vo) {
 		
 		log.info("insertAlarm");
 		
@@ -124,7 +121,7 @@ public class AdminServiceImpl implements AdminService {
 	
 	@Transactional
 	@Override
-	public int deleteRole(String userId, String role, alarmVO vo) {
+	public int deleteRole(String userId, String role, AlarmVO vo) {
 		
 		log.info("insertAlarm");
 		
@@ -137,11 +134,9 @@ public class AdminServiceImpl implements AdminService {
 	
 	@Transactional
 	@Override
-	public int approveCash(commonVO vo) {
+	public int approveCash(CommonVO vo) {
 
-		log.info(vo);
-		
-		cashVO cashVO = vo.getCashVO();
+		CashVO cashVO = vo.getCashVO();
 		
 		if(cashVO.getCashKind().equals("충전")) {
 			
@@ -159,7 +154,6 @@ public class AdminServiceImpl implements AdminService {
 		log.info("insertAlarm");
 		commonMapper.insertAlarm(vo.getAlarmVO());
 		
-		log.info("updateApprove");
 		return adminMapper.approveCash(cashVO.getCash_num());
 	}
 }

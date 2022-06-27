@@ -1,5 +1,5 @@
 <!--
-마지막 업데이트 2022-05-25
+마지막 업데이트 2022-06-13
 회원 개인정보 확인 및 권한,접속 제어 
 -->
 <%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
@@ -15,10 +15,10 @@
 	<title>Dokky - 회원 정보 </title>
 	<c:choose>
 	  	  <c:when test="${pageContext.request.serverName == 'localhost'}">
-				<link href="/resources/css/userForm.css" rel="stylesheet" type="text/css"/>
+				<link href="/resources/css/admin/userForm.css" rel="stylesheet" type="text/css"/>
 	  	 </c:when>
 	     <c:otherwise>
-	   			<link href="/ROOT/resources/css/userForm.css" rel="stylesheet" type="text/css"/>
+	   			<link href="/ROOT/resources/css/admin/userForm.css" rel="stylesheet" type="text/css"/>
 	     </c:otherwise>
 	</c:choose>
 </head>
@@ -212,100 +212,6 @@
 	   	}
    	}
 	
-	
-	function createRoleAdmin(userId, role, alarmData, callback, error){
-		
-		$.ajax({
-				type : 'post',
-				url : '/superAdmin/createRoleAdmin/'+ userId + '/' + role,
-				data : JSON.stringify(alarmData), 
-				contentType : "application/json; charset=utf-8",
-				beforeSend: function(xhr) {
-			        xhr.setRequestHeader("AJAX", "true"); 
-				},
-				success : function(result, status, xhr){
-					if (callback) {
-						callback(result, status, xhr);
-					}
-				},
-				error : function(xhr, status, er) {
-					if (error) {
-						error(status);
-					}
-				}
-			});
-	}
-	
-	function deleteRoleAdmin(userId, role, alarmData, callback, error){
-		
-		$.ajax({
-			type : 'post',
-			//권한 거부로 인해 리다이렉트시 delete 메소드를 지원안해서 무조건 post 로 하자Request method 'DELETE' not supported- CustomAccessDeniedHandler)
-			url : '/superAdmin/deleteRoleAdmin/'+ userId + '/' + role,
-			data : JSON.stringify(alarmData), 
-			contentType : "application/json; charset=utf-8",
-			beforeSend: function(xhr) {
-		        xhr.setRequestHeader("AJAX", "true"); 
-			},
-			success : function(result, status, xhr) {
-				if (callback) {
-					callback(result, status, xhr);
-				}
-			},
-			error : function(xhr, status, er) {
-				if (error) {
-					error(status);
-				}
-			}
-		});
-	}
-	
-	function createRoleUser(userId, role, alarmData, callback, error){
-		
-		$.ajax({
-				type : 'post',
-				url : '/admin/createRoleUser/'+ userId + '/' + role,
-				data : JSON.stringify(alarmData), 
-				contentType : "application/json; charset=utf-8",
-				beforeSend: function(xhr) {
-			        xhr.setRequestHeader("AJAX", "true"); 
-				},
-				success : function(result, status, xhr){
-					if (callback) {
-						callback(result, status, xhr);
-					}
-				},
-				error : function(xhr, status, er) {
-					if (error) {
-						error(status);
-					}
-				}
-			});
-	}
-	
-	function deleteRoleUser(userId, role, alarmData, callback, error){
-		
-		$.ajax({
-			type : 'post',
-			url : '/admin/deleteRoleUser/'+ userId + '/' + role,
-			data : JSON.stringify(alarmData), 
-			contentType : "application/json; charset=utf-8",
-			beforeSend: function(xhr) {
-		        xhr.setRequestHeader("AJAX", "true"); 
-			},
-			success : function(result, status, xhr) {
-				if (callback) {
-					callback(result, status, xhr);
-				}
-			},
-			error : function(xhr, status, er) {
-				if (error) {
-					error(status);
-				}
-			}
-		});
-	}
-	
 	function limitLogin(userId, alarmData, callback, error) {
 		
 		$.ajax({
@@ -352,6 +258,99 @@
 		});
 	}
 	
+	function createRoleUser(userId, alarmData, callback, error){
+		
+		$.ajax({
+				type : 'post',
+				url : '/admin/createRoleUser/'+ userId,
+				data : JSON.stringify(alarmData), 
+				contentType : "application/json; charset=utf-8",
+				beforeSend: function(xhr) {
+			        xhr.setRequestHeader("AJAX", "true"); 
+				},
+				success : function(result, status, xhr){
+					if (callback) {
+						callback(result, status, xhr);
+					}
+				},
+				error : function(xhr, status, er) {
+					if (error) {
+						error(status);
+					}
+				}
+			});
+	}
+	
+	function deleteRoleUser(userId, alarmData, callback, error){
+		
+		$.ajax({
+			type : 'post',
+			url : '/admin/deleteRoleUser/'+ userId,
+			data : JSON.stringify(alarmData), 
+			contentType : "application/json; charset=utf-8",
+			beforeSend: function(xhr) {
+		        xhr.setRequestHeader("AJAX", "true"); 
+			},
+			success : function(result, status, xhr) {
+				if (callback) {
+					callback(result, status, xhr);
+				}
+			},
+			error : function(xhr, status, er) {
+				if (error) {
+					error(status);
+				}
+			}
+		});
+	}
+	
+	function createRoleAdmin(userId, alarmData, callback, error){
+		
+		$.ajax({
+				type : 'post',
+				url : '/superAdmin/createRoleAdmin/'+ userId,
+				data : JSON.stringify(alarmData), 
+				contentType : "application/json; charset=utf-8",
+				beforeSend: function(xhr) {
+			        xhr.setRequestHeader("AJAX", "true"); 
+				},
+				success : function(result, status, xhr){
+					if (callback) {
+						callback(result, status, xhr);
+					}
+				},
+				error : function(xhr, status, er) {
+					if (error) {
+						error(status);
+					}
+				}
+			});
+	}
+	
+	function deleteRoleAdmin(userId, alarmData, callback, error){
+		
+		$.ajax({
+			type : 'post',
+			//권한 거부로 인해 리다이렉트시 delete 메소드를 지원안해서 무조건 post 로 하자Request method 'DELETE' not supported- CustomAccessDeniedHandler)
+			url : '/superAdmin/deleteRoleAdmin/'+ userId,
+			data : JSON.stringify(alarmData), 
+			contentType : "application/json; charset=utf-8",
+			beforeSend: function(xhr) {
+		        xhr.setRequestHeader("AJAX", "true"); 
+			},
+			success : function(result, status, xhr) {
+				if (callback) {
+					callback(result, status, xhr);
+				}
+			},
+			error : function(xhr, status, er) {
+				if (error) {
+					error(status);
+				}
+			}
+		});
+	}
+	
 	$("#role_userBtn").on("click",function(e){
 		
 		e.preventDefault();
@@ -367,7 +366,7 @@
 			
 				alarmData.kind = 13;
 				
-				createRoleUser(userId, 'ROLE_USER', alarmData,
+				createRoleUser(userId, alarmData,
 					
 					function(result, status, xhr){
 					
@@ -383,7 +382,7 @@
 								
 								updateAuthState();
 								
-								openAlert("일반유저 권한부여 완료");
+								openAlert("일반유저 권한을 주었습니다");
 								
 								sendAlarmMsg(alarmData);
 							}
@@ -397,7 +396,7 @@
 			
 			alarmData.kind = 14;
 				 
-			deleteRoleUser(userId, 'ROLE_USER', alarmData,
+			deleteRoleUser(userId, alarmData,
 				
 				function(result, status, xhr){
 				
@@ -415,7 +414,7 @@
 							
 							updateAuthState();
 							
-							openAlert("일반유저 권한삭제 완료");
+							openAlert("일반유저 권한을 삭제하였습니다");
 							
 							sendAlarmMsg(alarmData);
 						}
@@ -442,7 +441,7 @@
 					 
 				alarmData.kind = 15;
 			
-				createRoleAdmin(userId, 'ROLE_ADMIN', alarmData,
+				createRoleAdmin(userId, alarmData,
 					
 					function(result, status, xhr){
 					
@@ -458,7 +457,7 @@
 								
 								updateAuthState();
 								
-								openAlert("일반관리자 권한부여 완료");
+								openAlert("일반관리자 권한을 주었습니다");
 								
 								sendAlarmMsg(alarmData);
 							}
@@ -472,7 +471,7 @@
 			
 			alarmData.kind = 16;
 				 
-			deleteRoleAdmin(userId, 'ROLE_ADMIN', alarmData,
+			deleteRoleAdmin(userId, alarmData,
 				
 				function(result, status, xhr){
 					
@@ -488,7 +487,7 @@
 							
 							updateAuthState();
 							
-							openAlert("일반관리자 권한삭제 완료");
+							openAlert("일반관리자 권한을 삭제하였습니다");
 							
 							sendAlarmMsg(alarmData);
 						}

@@ -11,10 +11,10 @@
 	<title>Dokky - 회원가입</title> 
 <c:choose>
    	  <c:when test="${pageContext.request.serverName == 'localhost'}">
-			<link href="/resources/css/memberForm.css" rel="stylesheet" type="text/css"/>
+			<link href="/resources/css/common/memberForm.css" rel="stylesheet" type="text/css"/>
 	  </c:when>
       <c:otherwise>
-    		<link href="/ROOT/resources/css/memberForm.css" rel="stylesheet" type="text/css"/>
+    		<link href="/ROOT/resources/css/common/memberForm.css" rel="stylesheet" type="text/css"/>
       </c:otherwise>
 </c:choose>
 </head>

@@ -1,5 +1,5 @@
 /*
-- 마지막 업데이트 2022-06-02
+- 마지막 업데이트 2022-06-14
 */
 package org.my.service;
 	import java.util.ArrayList;
@@ -7,16 +7,15 @@ package org.my.service;
 	import java.util.List;
 	import javax.servlet.http.HttpServletRequest;
 	import javax.servlet.http.HttpSession;
-	import org.my.domain.AuthVO;
-	import org.my.domain.BoardVO;
-	import org.my.domain.Criteria;
-	import org.my.domain.MemberVO;
-	import org.my.domain.VisitCountVO;
-	import org.my.domain.alarmVO;
-	import org.my.domain.noteVO;
+	import org.my.domain.board.BoardVO;
+	import org.my.domain.common.AlarmVO;
+	import org.my.domain.common.AuthVO;
+	import org.my.domain.common.Criteria;
+	import org.my.domain.common.CustomUser;
+	import org.my.domain.common.MemberVO;
+	import org.my.domain.common.NoteVO;
+	import org.my.domain.common.VisitCountVO;
 	import org.my.mapper.CommonMapper;
-	import org.my.security.domain.CustomUser;
-	import org.springframework.beans.factory.annotation.Autowired;
 	import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 	import org.springframework.security.core.Authentication;
 	import org.springframework.security.core.GrantedAuthority;
@@ -25,15 +24,15 @@ package org.my.service;
 	import org.springframework.security.web.savedrequest.SavedRequest;
 	import org.springframework.stereotype.Service;
 	import org.springframework.transaction.annotation.Transactional;
-	import lombok.Setter;
+	import lombok.RequiredArgsConstructor;
 	import lombok.extern.log4j.Log4j;
 
+@RequiredArgsConstructor
 @Log4j
 @Service
 public class CommonServiceImpl implements CommonService {
 
-	@Setter(onMethod_ = @Autowired)
-	private CommonMapper mapper;
+	private final CommonMapper mapper;
 	
 	@Override 
 	public boolean setAuthentication(MemberVO memberVO){  
@@ -138,13 +137,9 @@ public class CommonServiceImpl implements CommonService {
 		if(userId != null) {
 			
 			if(inputNickname.equals(mapper.getNickname(userId))) {
-				log.info("return false");
 				return false;
 			}
 		}
-		
-		log.info(mapper.getNicknameCheckedVal(inputNickname));
-		log.info("return false2");
 		
 		return mapper.getNicknameCheckedVal(inputNickname) == 1;
 	}
@@ -225,35 +220,46 @@ public class CommonServiceImpl implements CommonService {
 	}
 	
 	@Override
-	public List<alarmVO> getAllAlarmList(Criteria cri){
+	public List<AlarmVO> getAllAlarmList(Criteria cri){
 		log.info("getAllAlarmList");
 		
 		return mapper.getAllAlarmList(cri);
 	}
 	
 	@Override
-	public List<alarmVO> getAlarmListRead(Criteria cri){
+	public List<AlarmVO> getAlarmListRead(Criteria cri){
 		log.info("getAlarmListRead");
 		
 		return mapper.getAlarmListRead(cri);
 	}
 	
 	@Override
-	public List<alarmVO> getAlarmListNotRead(Criteria cri){
+	public List<AlarmVO> getAlarmListNotRead(Criteria cri){
 		log.info("getAlarmListNotRead");
 		
 		return mapper.getAlarmListNotRead(cri);
 	}
 	
-	
-	@Override
-	public boolean deleteAllAlarm(Long alarmNum) {
-
-		log.info("remove...." + alarmNum);
-
-		return mapper.deleteAllAlarm(alarmNum) == 1;
+	@Transactional
+	@Override 
+	public boolean deleteAllAlarms(String checkRow) {
+		
+		String[] arrIdx = checkRow.split(",");
+	 	
+	 	for (int i=0; i<arrIdx.length; i++) {
+	 		
+	 		Long alarmNum = Long.parseLong(arrIdx[i]); 
+	 		
+	 		if(mapper.deleteAllAlarm(alarmNum) != 1) {
+	 			return false;
+	 		}
+	 		
+	 		log.info("remove...." + alarmNum);
+	 	}
+	 	
+	 	return true;
 	}
-	
+ 	
 	@Override
 	public boolean deleteMyNote(Long note_num) {
 
@@ -263,7 +269,7 @@ public class CommonServiceImpl implements CommonService {
 	}
 	
 	@Override 
-	public int insertAlarm(alarmVO vo) {  
+	public int insertAlarm(AlarmVO vo) {  
 
 		log.info("insertAlarm..." + vo); 
 		 
@@ -299,7 +305,7 @@ public class CommonServiceImpl implements CommonService {
 	}
 	
 	@Override 
-	public noteVO getDetailNotepage(Long note_num) {
+	public NoteVO getDetailNotepage(Long note_num) {
 		
 		log.info("getDetailNotepage");
 		
@@ -336,7 +342,7 @@ public class CommonServiceImpl implements CommonService {
 	}
 	
 	@Override 
-	public int insertNote(noteVO vo) {  
+	public int insertNote(NoteVO vo) {  
 
 		log.info("insertNote : " + vo); 
 		
@@ -344,23 +350,33 @@ public class CommonServiceImpl implements CommonService {
 	}
 	
 	@Override
-	public List<noteVO> getFromNoteList(Criteria cri){
+	public List<NoteVO> getFromNoteList(Criteria cri){
 		log.info("getFromNoteList");
 		
 		return mapper.getFromNoteList(cri);
 	}
 	
 	@Override
-	public List<noteVO> getMyNoteList(Criteria cri){
+	public List<NoteVO> getMyNoteList(Criteria cri){
 		log.info("getMyNoteList");
 		
 		return mapper.getMyNoteList(cri);
 	}
 	
 	@Override
-	public List<noteVO> getToNoteList(Criteria cri){
+	public List<NoteVO> getToNoteList(Criteria cri){
 		log.info("getToNoteList");
 		
 		return mapper.getToNoteList(cri);
 	}
+	
+	@Override
+	public void customLogout(String userId, HttpSession session){
+		
+		log.info("customLogout");
+		
+		session.invalidate();
+		
+		mapper.deleteRememberMeToken(userId);
+	}	
 }

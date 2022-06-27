@@ -1,6 +1,6 @@
 package org.my.mapper;
 	import java.util.List;
-	import org.my.domain.BoardAttachVO;
+	import org.my.domain.board.BoardAttachVO;
 
 public interface BoardAttachMapper {
 

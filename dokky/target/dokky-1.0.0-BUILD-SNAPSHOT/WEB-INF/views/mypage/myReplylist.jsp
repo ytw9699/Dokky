@@ -11,10 +11,10 @@
 <title>Dokky - 나의 댓글</title> 
 <c:choose>
    	  <c:when test="${pageContext.request.serverName == 'localhost'}">
-			<link href="/resources/css/myReplylist.css" rel="stylesheet" type="text/css"/>
+			<link href="/resources/css/mypage/myReplylist.css" rel="stylesheet" type="text/css"/>
 	  </c:when>
       <c:otherwise>
-    		<link href="/ROOT/resources/css/myReplylist.css" rel="stylesheet" type="text/css"/>
+    		<link href="/ROOT/resources/css/mypage/myReplylist.css" rel="stylesheet" type="text/css"/>
       </c:otherwise>
 </c:choose> 
 </head>

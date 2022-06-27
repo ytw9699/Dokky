@@ -10,10 +10,10 @@
 	<title>Dokky - 캐시관리</title>  
 <c:choose>
    	  <c:when test="${pageContext.request.serverName == 'localhost'}">
-			<link href="/resources/css/cashRequestList.css" rel="stylesheet" type="text/css"/>
+			<link href="/resources/css/admin/cashRequestList.css" rel="stylesheet" type="text/css"/>
 	  </c:when>
       <c:otherwise>
-    		<link href="/ROOT/resources/css/cashRequestList.css" rel="stylesheet" type="text/css"/>
+    		<link href="/ROOT/resources/css/admin/cashRequestList.css" rel="stylesheet" type="text/css"/>
       </c:otherwise>
 </c:choose>
 </head> 
@@ -79,7 +79,7 @@
 		 </table>
 	 </div>
 		
-	<form id='actionForm' action="/admin/cashRequest" method='get'>  
+	<form id='actionForm' action="/admin/cashRequestList" method='get'> 
 		<input type='hidden' name='pageNum' value='${pageMaker.cri.pageNum}'><!--  $(this).attr("href") -->
 		<input type='hidden' name='amount' value='${pageMaker.cri.amount}'>
 	</form>  

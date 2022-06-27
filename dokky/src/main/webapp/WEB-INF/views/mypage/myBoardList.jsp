@@ -11,10 +11,10 @@
 <title>Dokky - 나의 게시글</title> 
 <c:choose>
    	  <c:when test="${pageContext.request.serverName == 'localhost'}">
-			<link href="/resources/css/myBoardList.css" rel="stylesheet" type="text/css"/>
+			<link href="/resources/css/mypage/myBoardList.css" rel="stylesheet" type="text/css"/>
 	  </c:when>
       <c:otherwise>
-    		<link href="/ROOT/resources/css/myBoardList.css" rel="stylesheet" type="text/css"/>
+    		<link href="/ROOT/resources/css/mypage/myBoardList.css" rel="stylesheet" type="text/css"/>
       </c:otherwise>
 </c:choose>
 </head>
@@ -24,7 +24,7 @@
 <div class="myboardWrap">	
 	<div id="menuWrap">
 		<div class="tab"> 
-			<button onclick="location.href='myInfoForm?userId=${userInfo.username}'">개인정보 변경</button>
+			<button onclick="location.href='myInfoForm?userId=${userInfo.username}'">나의 정보</button>
 	        <button class="active" onclick="location.href='myBoardList?userId=${userInfo.username}'">나의 게시글</button> 
 	        <button onclick="location.href='myReplylist?userId=${userInfo.username}'">나의 댓글</button> 
 	        <button onclick="location.href='myScraplist?userId=${userInfo.username}'">나의 스크랩</button>

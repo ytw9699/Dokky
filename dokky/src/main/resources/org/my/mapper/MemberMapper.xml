@@ -4,7 +4,7 @@
   "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="org.my.mapper.MemberMapper">
 
-	<resultMap id="authMap" type="org.my.domain.AuthVO" >
+	<resultMap id="authMap" type="org.my.domain.common.AuthVO" >
 	   	<result property="userId" column="userid"/>
 	   	<result property="auth" column="auth"/>
  	</resultMap>
@@ -16,7 +16,7 @@
 	MyBatis문서에는 성능을 향상시키는 효과도 있다고 나온다.
 	resultMap 
 	id – ID 결과. ID 와 같은 결과는 전반적으로 성능을 향상시킨다-->
-  <resultMap id="memberMap" type="org.my.domain.MemberVO" >
+  <resultMap id="memberMap" type="org.my.domain.common.MemberVO" >
     <id property="userId" column="userId"/><!-- PK에 해당하는 userid 값으로 지정 -->
 	    <result property="userId" column="userid"/>
 	    <result property="userPw" column="userpw"/>

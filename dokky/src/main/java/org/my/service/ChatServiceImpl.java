@@ -1,3 +1,6 @@
+/*
+- 마지막 업데이트 2022-06-12
+*/
 package org.my.service;
 	import java.io.IOException;
 	import java.util.ArrayList;//임포트 해주자
@@ -5,32 +8,29 @@ package org.my.service;
 	import java.util.HashMap;
 	import java.util.List;
 	import java.util.Map;
-	import org.my.domain.ChatContentVO;
-	import org.my.domain.ChatMemberVO;
-	import org.my.domain.ChatMessage;
-	import org.my.domain.ChatReadVO;
-	import org.my.domain.ChatRoom;
-	import org.my.domain.ChatRoomVO;
-	import org.my.domain.MemberVO;
-	import org.my.domain.chatRoomDTO;
-	import org.my.domain.multiRoomVO;
+	import org.my.domain.chat.ChatContentVO;
+	import org.my.domain.chat.ChatMemberVO;
+	import org.my.domain.chat.ChatMessage;
+	import org.my.domain.chat.ChatMessageType;
+	import org.my.domain.chat.ChatReadVO;
+	import org.my.domain.chat.ChatRoom;
+	import org.my.domain.chat.ChatRoomDTO;
+	import org.my.domain.chat.ChatRoomVO;
+	import org.my.domain.chat.MultiRoomVO;
+	import org.my.domain.common.MemberVO;
 	import org.my.mapper.ChatMapper;
-	import org.springframework.beans.factory.annotation.Autowired;
 	import org.springframework.stereotype.Service;
 	import org.springframework.transaction.annotation.Transactional;
-	import lombok.Setter;
+	import lombok.RequiredArgsConstructor;
 	import lombok.extern.log4j.Log4j;
-	import org.my.domain.ChatMessageType;
-
+	
+@RequiredArgsConstructor
 @Service
 @Log4j
 public class ChatServiceImpl implements ChatService {
 	
-		@Setter(onMethod_ = @Autowired)
-		private ChatMapper chatMapper;
-		
+		private final ChatMapper chatMapper;
 		private Map<String, ChatRoom> chatRoomMap = new HashMap<>();
-	
 		
 	    @Override
 	    public String hasRoom(String roomOwnerId, String chat_memberId) {
@@ -193,6 +193,7 @@ public class ChatServiceImpl implements ChatService {
 	        return chatRoomMap.get(chatRoomNum);
 	    }
 		
+		@Transactional
 		@Override
 	    public boolean removeAllChatData(Long chatRoomNum){
 	    		
@@ -231,6 +232,7 @@ public class ChatServiceImpl implements ChatService {
 	    	}
 	    }
 		
+		@Transactional
 		@Override
 	    public void createNoticeContent(ChatContentVO chatContentVO){//공지 내용 입력
 	    		
@@ -319,13 +321,14 @@ public class ChatServiceImpl implements ChatService {
 				return 1;
 			}
 		}
-		
+
+		@Transactional(readOnly=true)
 		@Override
-		public List<chatRoomDTO> getMyChatRoomList(String userId){
+		public List<ChatRoomDTO> getMyChatRoomList(String userId){
 			
 			log.info("getMyChatRoomList");
 			
-			List<chatRoomDTO> myChatRoomList = new ArrayList<>();
+			List<ChatRoomDTO> myChatRoomList = new ArrayList<>();
 		    
 			List<ChatRoomVO> myChatRoomVoList = chatMapper.getMyChatRoomVoList(userId);
 			
@@ -355,7 +358,7 @@ public class ChatServiceImpl implements ChatService {
 				
 				log.info("notReadCnt="+notReadCnt);
 				
-				myChatRoomList.add(new chatRoomDTO(ChatRoomVo, ChatContentVo, chatReadVoList, notReadCnt));
+				myChatRoomList.add(new ChatRoomDTO(ChatRoomVo, ChatContentVo, chatReadVoList, notReadCnt));
 			}
 			
 			return myChatRoomList;
@@ -370,7 +373,7 @@ public class ChatServiceImpl implements ChatService {
 		}
 		
 		@Override
-		public multiRoomVO getChatTitleInfo(Long chatRoomNum){
+		public MultiRoomVO getChatTitleInfo(Long chatRoomNum){
 			
 			log.info("getChatTitleInfo");
 			
@@ -393,7 +396,6 @@ public class ChatServiceImpl implements ChatService {
 			return chatMapper.getExceptUsers(chatRoomNum);
 		}
 		
-
 		@Override
 		public List<MemberVO> getChatInviteList(String[] exceptUsers, String keyword){
 			

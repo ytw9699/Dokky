@@ -8,8 +8,8 @@ package org.my.controller;
 	import org.junit.Test;
 	import org.junit.runner.RunWith;
 	import org.junit.runners.MethodSorters;
-	import org.my.domain.ReplyVO;
-	import org.my.domain.commonVO;
+	import org.my.domain.common.CommonVO;
+	import org.my.domain.reply.ReplyVO;
 	import org.my.mapper.BoardMapper;
 	import org.my.mapper.ReplyMapper;
 	import org.my.service.BoardService;
@@ -73,7 +73,7 @@ public class ReplyControllerTests {
 			replyVO.setNickName("슈퍼관리자");
 			replyVO.setBoard_num(board_num);
 				
-			commonVO commonVO = new commonVO();
+			CommonVO commonVO = new CommonVO();
 			
 			commonVO.setReplyVO(replyVO);
 			

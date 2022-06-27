@@ -40,10 +40,9 @@
 	-->
 	<context:component-scan base-package="org.my.service"/>
 	
-	<context:component-scan base-package="org.my.task"/>
-	<!--  스케쥴러 task작업처리 빈 등록  -->
+	<context:component-scan base-package="org.my.utils"/>
 	
-	<bean id="myS3Util" class="org.my.s3.myS3Util">
+	<bean id="S3util" class="org.my.utils.S3util">
 		<constructor-arg value="${s3.bucket_name}"/>
 		<constructor-arg value="${s3.access_key}"/>
 		<constructor-arg value="${s3.secret_key}"/>
@@ -54,7 +53,6 @@
 	<!--  스케쥴러 어노테이션 이용 위해  -->
 	
 	<!--  social outh2 login  -->
-	
  	<bean id="naverClientID" class="java.lang.String">
 	   <constructor-arg value="${auth.naverClientID}" />
     </bean>
@@ -62,6 +60,7 @@
 	<bean id="naverClientSecret" class="java.lang.String">
 		<constructor-arg value="${auth.naverClientSecret}" />
 	</bean>
+	
 	<bean id="naverRedirectUrl" class="java.lang.String">
 		<constructor-arg value="${auth.naverRedirectUrl}" />
 	</bean> 
@@ -74,12 +73,13 @@
 	</bean>
 
 	<bean id="googleClientID" class="java.lang.String">
-		   <constructor-arg value="${auth.googleClientID}" />
-	    </bean>
+	   <constructor-arg value="${auth.googleClientID}" />
+    </bean>
 	    
 	<bean id="googleClientSecret" class="java.lang.String">
 		<constructor-arg value="${auth.googleClientSecret}" />
 	</bean>
+	
 	<bean id="googleRedirectUrl" class="java.lang.String">
 		<constructor-arg value="${auth.googleRedirectUrl}" />
 	</bean>

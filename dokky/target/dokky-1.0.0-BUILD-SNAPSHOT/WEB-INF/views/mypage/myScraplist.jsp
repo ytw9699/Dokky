@@ -11,10 +11,10 @@
 <title>Dokky - 스크랩</title>     
 <c:choose>
    	  <c:when test="${pageContext.request.serverName == 'localhost'}">
-			<link href="/resources/css/myScraplist.css" rel="stylesheet" type="text/css">
+			<link href="/resources/css/mypage/myScraplist.css" rel="stylesheet" type="text/css">
 	  </c:when>
       <c:otherwise>
-    		<link href="/ROOT/resources/css/myScraplist.css" rel="stylesheet" type="text/css">
+    		<link href="/ROOT/resources/css/mypage/myScraplist.css" rel="stylesheet" type="text/css">
       </c:otherwise>
 </c:choose> 
 </head>

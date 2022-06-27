@@ -2,17 +2,17 @@ package org.my.controller;
 	import java.io.IOException;
 	import java.util.Date;
 	import java.util.List;
-	import org.my.domain.ChatContentVO;
-	import org.my.domain.ChatMemberVO;
-	import org.my.domain.ChatMessage;
-	import org.my.domain.ChatMessageType;
-	import org.my.domain.ChatReadVO;
-	import org.my.domain.ChatRoom;
-	import org.my.domain.ChatRoomVO;
-	import org.my.domain.MemberVO;
-	import org.my.domain.chatRoomDTO;
-	import org.my.domain.commonVO;
-	import org.my.security.domain.CustomUser;
+	import org.my.domain.chat.ChatContentVO;
+	import org.my.domain.chat.ChatMemberVO;
+	import org.my.domain.chat.ChatMessage;
+	import org.my.domain.chat.ChatMessageType;
+	import org.my.domain.chat.ChatReadVO;
+	import org.my.domain.chat.ChatRoom;
+	import org.my.domain.chat.ChatRoomDTO;
+	import org.my.domain.chat.ChatRoomVO;
+	import org.my.domain.common.CommonVO;
+	import org.my.domain.common.CustomUser;
+	import org.my.domain.common.MemberVO;
 	import org.my.service.ChatService;
 	import org.springframework.http.HttpStatus;
 	import org.springframework.http.MediaType;
@@ -42,7 +42,7 @@ public class ChatController {
 	@PreAuthorize("principal.username == #vo.chatRoomVO.roomOwnerId")
 	@ResponseBody
 	@PostMapping(value = "/createSingleChat", consumes = "application/json", produces = "text/plain; charset=UTF-8")
-	public ResponseEntity<String> createSingleChat(@RequestBody commonVO vo) throws IOException{
+	public ResponseEntity<String> createSingleChat(@RequestBody CommonVO vo) throws IOException{
 
 		 log.info("/createSingleChat");
 		 log.info("vo : " + vo);
@@ -50,7 +50,7 @@ public class ChatController {
 		 String myId = vo.getChatRoomVO().getRoomOwnerId();
 		 
 		 String chatRoomNum = chatService.hasRoom(myId, vo.getChatMemberVO().getChat_memberId());
-		 					  
+		 
 		 if(chatRoomNum != null){
 	        
 			 if(chatService.getMyRoomStatus(Long.parseLong(chatRoomNum), myId)){//내가 방에서 나가있었다면
@@ -59,6 +59,10 @@ public class ChatController {
 				  //headcount와 현재 위치를 방에 들어감으로 변경
 				  
 				  ChatRoom chatRoom = chatService.findChatRoom(chatRoomNum);
+				  
+				  if(chatRoom == null) {
+					  chatRoom = chatService.addChatRoom(chatRoomNum);
+				  }
 				  
 				  ChatMessage chatMessage = new ChatMessage();
 		          
@@ -94,7 +98,7 @@ public class ChatController {
 	@PreAuthorize("hasRole('ROLE_USER')")
 	@ResponseBody
 	@PostMapping(value = "/createMultiChat", consumes = "application/json", produces = "text/plain; charset=UTF-8")
-	public ResponseEntity<String> createMultiChat(@RequestBody commonVO vo) throws IOException{
+	public ResponseEntity<String> createMultiChat(@RequestBody CommonVO vo) throws IOException{
 		
 		log.info("/createMultiChat");
 		log.info(vo);
@@ -150,7 +154,7 @@ public class ChatController {
 		
 		log.info("/myChatRoomList");
 		
-		List<chatRoomDTO> chatRoomList = chatService.getMyChatRoomList(userId);
+		List<ChatRoomDTO> chatRoomList = chatService.getMyChatRoomList(userId);
 		
 		model.addAttribute("chatRoomList", chatRoomList);
 		
@@ -160,11 +164,11 @@ public class ChatController {
 	@PreAuthorize("principal.username == #userId")
 	@ResponseBody
 	@GetMapping(value = "/getChatRoomList", produces = { MediaType.APPLICATION_JSON_UTF8_VALUE })
-	public ResponseEntity<List<chatRoomDTO>> getChatRoomList(Model model, String userId){
+	public ResponseEntity<List<ChatRoomDTO>> getChatRoomList(Model model, String userId){
     	
 		log.info("/getChatRoomList");
     	
-		List<chatRoomDTO> chatRoomList = chatService.getMyChatRoomList(userId);
+		List<ChatRoomDTO> chatRoomList = chatService.getMyChatRoomList(userId);
 		
 		if(chatRoomList != null) {
 			
@@ -260,7 +264,7 @@ public class ChatController {
 	@PreAuthorize("hasRole('ROLE_USER')")
 	@ResponseBody
 	@PostMapping(value = "/inviteChatMembers", consumes = "application/json", produces = "text/plain; charset=UTF-8")
-	public ResponseEntity<String> inviteChatMembers(@RequestBody commonVO vo) throws IOException{
+	public ResponseEntity<String> inviteChatMembers(@RequestBody CommonVO vo) throws IOException{
 	
 		log.info("/inviteChatMembers");
 		log.info(vo);

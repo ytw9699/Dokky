@@ -1,0 +1,101 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<web-app version="3.1" xmlns="http://java.sun.com/xml/ns/javaee"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://java.sun.com/xml/ns/javaee https://java.sun.com/xml/ns/javaee/web-app_3_1.xsd">
+	<!-- web.xml은 프로젝트 구동시 Tomcat 구동과 관련된 설정이다,프로젝트의 구동은 web.xml에서 시작한다 
+	web.xml에는 스프링 및 서블릿과 관련된 설정이 있다. -->
+	
+  <!-- The definition of the Root Spring Container shared by all Servlets and Filters -->
+	<context-param>
+		<param-name>contextConfigLocation</param-name>
+		<param-value>/WEB-INF/spring/root-context.xml
+	    /WEB-INF/spring/security-context.xml <!-- 시큐리티 설정파일 로딩하도록-->
+	    </param-value>
+	</context-param>
+
+	<!-- Creates the Spring Container shared by all Servlets and Filters -->
+	<!-- 스프링과 관련된 중요! 설정임  :가장 첫번째로 구동되는 Context Listener 컨테이너 메모리영역을 만드는데 ,contextConfigLocation을 읽어들인다. -->
+	<listener>
+		<!-- <listener-class>org.my.visit.VisitSessionListener</listener-class>  -->
+		<listener-class>org.springframework.web.context.ContextLoaderListener</listener-class>
+	</listener> 
+ 
+	<!-- Processes application requests 모든 Request(요청)를 DispatcherServlet이 받도록 처리-->
+	<servlet>
+		<servlet-name>appServlet</servlet-name>
+		<servlet-class>org.springframework.web.servlet.DispatcherServlet</servlet-class>
+		<init-param>
+			<param-name>contextConfigLocation</param-name>
+			<param-value>/WEB-INF/spring/appServlet/servlet-context.xml</param-value>
+		</init-param>  				 <!-- 서블릿 설정에 servlet-context.xml을 넣어줌 두번째로 구동, DispatcherServlet이 servlet-context.xml을 사용한다 -->
+		
+		<init-param>
+	      <param-name>throwExceptionIfNoHandlerFound</param-name>
+	      <param-value>true</param-value>
+	    </init-param>
+	    
+		<load-on-startup>1</load-on-startup>
+		
+		<multipart-config>
+			<!-- 리눅스 우분투의 경우 아래 설정으로 하자 -->
+			<!-- <location>/upload/temp</location> -->
+			<!-- 윈도우의 경우 아래설정 -->
+			<!-- <location>C:\\upload\\temp</location> -->
+			<max-file-size>5242880</max-file-size> <!--5MB 업로드되는 파일의 최대  -->
+			<max-request-size>41943040</max-request-size><!-- 40MB  한번에 올릴 수 있는 최대 크기 -->
+			<file-size-threshold>20971520</file-size-threshold> <!-- 20MB 특정 사이즈의 메모리 사용 -->
+		</multipart-config>
+	</servlet>
+
+	<servlet-mapping>
+		<servlet-name>appServlet</servlet-name>
+		<url-pattern>/</url-pattern> <!-- 슬러시로 설정함.모든 요청은 DispatcherServlet을 거치게 되는것임. -->
+	</servlet-mapping>
+	<!-- 한글처리때매 아래 필터의 순서는 바뀌면 안됨 -->
+	<filter>
+	  <filter-name>encodingFilter</filter-name>
+	  	<filter-class>org.springframework.web.filter.CharacterEncodingFilter</filter-class>
+	  <init-param>
+	    <param-name>encoding</param-name>
+	    <param-value>UTF-8</param-value>
+	  </init-param>
+	</filter>
+
+	<filter-mapping>
+		<filter-name>encodingFilter</filter-name>
+		<url-pattern>/*</url-pattern>
+	</filter-mapping>
+  
+	<!--  스프링 시큐리티가 스프링 MVC에서 사용되기 위해서는 필터를 이용해서 스프링 동작에 관여하도록 설정 -->
+	<filter>
+		<filter-name>springSecurityFilterChain</filter-name>
+		<filter-class>org.springframework.web.filter.DelegatingFilterProxy</filter-class>
+	</filter>
+
+	<filter-mapping>
+		<filter-name>springSecurityFilterChain</filter-name>
+		<url-pattern>/*</url-pattern>
+	</filter-mapping>
+	<!--  필터의 순서는 바뀌면 안됨 -->
+	
+	<!-- <error-page>
+	    <error-code>404</error-code>
+	    <location>/WEB-INF/views/error/404errorPage.jsp</location>
+	</error-page>
+	
+	<error-page>
+	    <error-code>400</error-code>
+	    <location>/WEB-INF/views/error/400errorPage.jsp</location>
+	</error-page>
+	
+	<error-page>
+	    <error-code>500</error-code>
+	    <location>/WEB-INF/views/error/500errorPage.jsp</location>
+	</error-page> -->
+	
+	<!-- <error-page>	
+		<excption-type>java.lang.Exception</excption-type>
+		<location>/commonError</location>
+	</error-page> -->
+	
+</web-app>

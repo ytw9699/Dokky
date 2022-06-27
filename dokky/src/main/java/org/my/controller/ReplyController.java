@@ -1,19 +1,20 @@
 /*
-- 마지막 업데이트 2022-06-11
+- 마지막 업데이트 2022-06-26
 */
 package org.my.controller;
-	import org.my.domain.Criteria;
-	import org.my.domain.ReplyDisLikeVO;
-	import org.my.domain.ReplyLikeVO;
-	import org.my.domain.ReplyPageDTO;
-	import org.my.domain.ReplyVO;
-	import org.my.domain.commonVO;
+	import org.my.domain.common.CommonVO;
+	import org.my.domain.common.Criteria;
+	import org.my.domain.reply.ReplyDisLikeVO;
+	import org.my.domain.reply.ReplyLikeVO;
+	import org.my.domain.reply.ReplyPageDTO;
+	import org.my.domain.reply.ReplyVO;
 	import org.my.service.ReplyService;
 	import org.springframework.http.HttpStatus;
 	import org.springframework.http.MediaType;
 	import org.springframework.http.ResponseEntity;
 	import org.springframework.security.access.prepost.PreAuthorize;
 	import org.springframework.stereotype.Controller;
+	import org.springframework.ui.Model;
 	import org.springframework.web.bind.annotation.DeleteMapping;
 	import org.springframework.web.bind.annotation.GetMapping;
 	import org.springframework.web.bind.annotation.PathVariable;
@@ -37,7 +38,7 @@ public class ReplyController {
 	@PreAuthorize("hasRole('ROLE_USER') and principal.username == #vo.replyVO.userId")
 	@ResponseBody
 	@PostMapping(value = "/reply", consumes = "application/json", produces = "text/plain; charset=UTF-8")
-	public ResponseEntity<String> createReply(@RequestBody commonVO vo) {
+	public ResponseEntity<String> createReply(@RequestBody CommonVO vo) {
 
 		log.info("/replies/reply");
 		log.info("vo : " + vo);
@@ -86,7 +87,7 @@ public class ReplyController {
 		
 		log.info("/replies/reply/"+reply_num);
 		
-		return replyService.delete(reply_num) == 1
+		return replyService.delete(reply_num) == true
 				? new ResponseEntity<>("success", HttpStatus.OK)
 				: new ResponseEntity<>(HttpStatus.INTERNAL_SERVER_ERROR);
 	} 
@@ -94,23 +95,24 @@ public class ReplyController {
 	@PreAuthorize("principal.username == #userId")  
 	@PostMapping("/deleteReplies")//댓글 다중삭제
 		public String deleteReplies(@RequestParam("checkRow") String checkRow ,
-				      				@RequestParam("userId")String userId, Criteria cri) {
+				      				@RequestParam("userId")String userId, Criteria cri, Model model) {
 
 		log.info("/replies/deleteReplies");
-		log.info("checkRow..." + checkRow);
-	 	
-	 	String[] arrIdx = checkRow.split(",");
-	 	
-	 	for (int i=0; i<arrIdx.length; i++) {
-	 		
-	 		Long reply_num = Long.parseLong(arrIdx[i]);  
-	 		
-	 		log.info("delete...reply_num=" + reply_num);
-	 		
-	 		replyService.delete(reply_num);
-	 	}
-	 	
-	 	return "redirect:/mypage/myReplylist?userId="+userId+"&pageNum="+cri.getPageNum()+"&amount="+cri.getAmount();
+		
+		boolean result = false;
+				result = replyService.deleteReplies(checkRow);
+
+		if(result == true) {
+			
+			return "redirect:/mypage/myReplylist?userId="+userId+"&pageNum="+cri.getPageNum()+"&amount="+cri.getAmount();
+			
+		}else {
+			
+			model.addAttribute("message", "서버에러로 삭제할 수 없습니다.");
+		
+			return "error/commonError";  
+		
+		}
 	}
 
 	@PreAuthorize("hasRole('ROLE_USER') and principal.username == #vo.userId")
@@ -127,13 +129,13 @@ public class ReplyController {
 				: new ResponseEntity<>("fail", HttpStatus.INTERNAL_SERVER_ERROR);
 	}
 	
-	@PreAuthorize("principal.username == #vo.replyDonateVO.userId")
+	@PreAuthorize("principal.username == #vo.ReplyDonateVO.userId")
 	@PostMapping(value = "/giveReplyWriterMoney", consumes = "application/json", produces = "text/plain; charset=UTF-8")
 	@ResponseBody
-	public ResponseEntity<String> giveReplyWriterMoney(@RequestBody commonVO vo) {//댓글 작성자에게 기부
+	public ResponseEntity<String> giveReplyWriterMoney(@RequestBody CommonVO vo) {//댓글 작성자에게 기부
 		
 			log.info("/replies/giveReplyWriterMoney");
-			log.info("replyDonateVO: " + vo);
+			log.info("ReplyDonateVO: " + vo);
 			
 			String replyMoney = replyService.giveReplyWriterMoney(vo);
 			
@@ -150,7 +152,7 @@ public class ReplyController {
 	@PreAuthorize("principal.username == #vo.replyLikeVO.userId")
 	@PostMapping(value = "/likeReply", consumes = "application/json", produces = "text/plain; charset=UTF-8")
 	@ResponseBody
-	public ResponseEntity<String> likeReply(@RequestBody commonVO vo) {//댓글 좋아요 누르기 및 취소
+	public ResponseEntity<String> likeReply(@RequestBody CommonVO vo) {//댓글 좋아요 누르기 및 취소
 		
 			log.info("/replies/likeReply");
 			log.info("replyLikeVO = : " + vo);
@@ -181,7 +183,7 @@ public class ReplyController {
 	@PreAuthorize("principal.username == #vo.replyDisLikeVO.userId")
 	@PostMapping(value = "/disLikeReply", consumes = "application/json", produces = "text/plain; charset=UTF-8")
 	@ResponseBody
-	public ResponseEntity<String> disLikeReply(@RequestBody commonVO vo) {//댓글 싫어요 누르기 및 취소
+	public ResponseEntity<String> disLikeReply(@RequestBody CommonVO vo) {//댓글 싫어요 누르기 및 취소
 			
 			log.info("/replies/disLikeReply");
 			log.info("replyDisLikeVO = : " + vo);

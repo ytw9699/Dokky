@@ -5,18 +5,15 @@ package org.my.utils;
 	import java.util.Map;
 	import javax.servlet.http.HttpServletRequest;
 	import javax.servlet.http.HttpServletResponse;
-	import org.my.s3.myS3Util;
 	import org.my.service.CommonService;
 	import org.springframework.beans.factory.annotation.Autowired;
-	import org.springframework.stereotype.Component;
 	import org.springframework.web.servlet.view.AbstractView;
 	import lombok.Setter;
 		
-@Component
 public class DownloadView extends AbstractView {//AbstractView를 상속
 	
 	@Setter(onMethod_ = @Autowired)
-	private myS3Util myS3Util;
+	private S3util S3util;
 	
 	@Setter(onMethod_ = @Autowired)
 	private CommonService commonService;
@@ -29,6 +26,6 @@ public class DownloadView extends AbstractView {//AbstractView를 상속
 	protected void renderMergedOutputModel(Map<String, Object> model, HttpServletRequest request, HttpServletResponse response)
 			throws Exception {
 		
-		myS3Util.fileDownload(request, response , getContentType());
+		S3util.fileDownload(request, response , getContentType());
 	}
 }

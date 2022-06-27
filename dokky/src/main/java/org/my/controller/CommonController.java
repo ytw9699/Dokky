@@ -7,10 +7,10 @@ package org.my.controller;
 	import javax.servlet.http.HttpServletResponse;
 	import org.my.auth.SNSLogin;
 	import org.my.auth.SnsValue;
-	import org.my.domain.Criteria;
-	import org.my.domain.MemberVO;
-	import org.my.domain.PageDTO;
-	import org.my.domain.noteVO;
+	import org.my.domain.common.Criteria;
+	import org.my.domain.common.MemberVO;
+	import org.my.domain.common.NoteVO;
+	import org.my.domain.common.PageDTO;
 	import org.my.service.CommonService;
 	import org.my.service.MemberService;
 	import org.my.service.MypageService;
@@ -72,10 +72,18 @@ public class CommonController {
 		return new ResponseEntity<>("success", HttpStatus.OK);
 	}
 	
-	@RequestMapping(value="/commonLogin", method = {RequestMethod.GET, RequestMethod.POST})
-	public String getCommonLogin(HttpServletRequest request, HttpServletResponse response, Model model) throws UnsupportedEncodingException {
+	@RequestMapping(value="/superAdminLogin", method = {RequestMethod.GET, RequestMethod.POST})
+	public String superAdminLogin(HttpServletRequest request, HttpServletResponse response){//CustomLoginFailHandler의 후처리와 연관
+
+		log.info("/superAdminLogin");
 		
-		log.info("/commonLogin");
+		return "common/superAdminLogin";
+	}	
+	
+	@RequestMapping(value="/socialLogin", method = {RequestMethod.GET, RequestMethod.POST})
+	public String getSocialLogin(HttpServletRequest request, HttpServletResponse response, Model model) throws UnsupportedEncodingException {
+		
+		log.info("/socialLogin");
 		
 		String preUrl  = request.getHeader("referer");
 		
@@ -93,7 +101,7 @@ public class CommonController {
 		
 		model.addAttribute("google_url", googleLogin.getAuthURL());
 		
-		return "common/commonLogin";
+		return "common/socialLogin";
 	}
 	
 	@GetMapping("/auth/{snsService}/callback")
@@ -104,7 +112,7 @@ public class CommonController {
 		log.info("/auth/"+snsService+"/callback");
 		
 		if(error.equals("access_denied")) {//정보동의 수락안하고 취소눌를시
-			return "redirect:/commonLogin";
+			return "redirect:/socialLogin";
 		}
 		
 		SnsValue sns = null; 
@@ -132,7 +140,7 @@ public class CommonController {
 		
 		if(!memberVO.isAccountNonLocked()){
 			rttr.addFlashAttribute("errormsg", "접속 제한된 아이디입니다."); 
-			return "redirect:/commonLogin";
+			return "redirect:/socialLogin";
 		}
 		
 		if(!memberVO.isEnabled()){//탈퇴한 회원 이라면
@@ -147,7 +155,7 @@ public class CommonController {
 		
 		if(commonService.setAuthentication(memberVO) == false){//인증처리
 			rttr.addFlashAttribute("errormsg", "로그인 할 수 없습니다."); 
-			return "redirect:/commonLogin";
+			return "redirect:/socialLogin";
 		}
 		
 		String redirectURL = commonService.CustomAuthLoginSuccessHandler(profileId, request);
@@ -197,7 +205,7 @@ public class CommonController {
 			
 			if(commonService.setAuthentication(memberVO) == false){//인증처리
 				rttr.addFlashAttribute("errormsg", "다시 로그인 해주세요."); 
-				return "redirect:/commonLogin";
+				return "redirect:/socialLogin";
 			}
 			
 			rttr.addFlashAttribute("check", "가입완료 되었습니다.");
@@ -208,7 +216,7 @@ public class CommonController {
 		
 			rttr.addFlashAttribute("errormsg", "가입실패 하였습니다 관리자에게 문의주세요.");
 			
-			return "redirect:/commonLogin";
+			return "redirect:/socialLogin";
 		}
 	}
 	
@@ -223,7 +231,7 @@ public class CommonController {
 			
 			if(commonService.setAuthentication(memberVO) == false){//인증처리
 				rttr.addFlashAttribute("errormsg", "다시 로그인 해주세요."); 
-				return "redirect:/commonLogin";
+				return "redirect:/socialLogin";
 			}
 			
 			rttr.addFlashAttribute("check", "재가입완료 되었습니다.");
@@ -234,7 +242,7 @@ public class CommonController {
 		
 			rttr.addFlashAttribute("errormsg", "재가입실패 하였습니다 관리자에게 문의주세요.");
 			
-			return "redirect:/commonLogin";
+			return "redirect:/socialLogin";
 		}
 	}
 		
@@ -319,9 +327,9 @@ public class CommonController {
 	@PreAuthorize("principal.username == #vo.from_id")
 	@ResponseBody
 	@PostMapping(value = "/note", consumes = "application/json", produces = "text/plain; charset=UTF-8")
-	public ResponseEntity<String> postNote(@RequestBody noteVO vo){
+	public ResponseEntity<String> postNote(@RequestBody NoteVO vo){
 
-		log.info("/note...noteVO: " + vo);
+		log.info("/note...NoteVO: " + vo);
 
 		if(commonService.insertNote(vo) == 1){
 			
@@ -402,7 +410,7 @@ public class CommonController {
 																Model model, @ModelAttribute("cri") Criteria cri) {
 		log.info("/detailNotepage");
 		
-		noteVO note = commonService.getDetailNotepage(note_num);
+		NoteVO note = commonService.getDetailNotepage(note_num);
 		
 		if(note == null){
 		
@@ -543,25 +551,25 @@ public class CommonController {
 	
 	@PreAuthorize("principal.username == #userId")   
 	@PostMapping("/deleteAllAlarm")//다중알람삭제
-	public String deleteAllAlarm(@RequestParam("checkRow")String checkRow, 
-								 @RequestParam("userId")String userId, Criteria cri){
+	public String deleteAllAlarm(@RequestParam("checkRow")String checkRow, //checkRow는 알람 번호들의 묶음이다.
+								 @RequestParam("userId")String userId, Criteria cri, Model model){
 		 
 		log.info("/deleteAllAlarm");
-	 	log.info("checkRow..." + checkRow);
 	 	
-	 	String[] arrIdx = checkRow.split(",");
-	 	
-	 	for (int i=0; i<arrIdx.length; i++) {
-	 		
-	 		Long alarmNum = Long.parseLong(arrIdx[i]); 
-	 		
-	 		if (commonService.deleteAllAlarm(alarmNum)) {
-	 			
-	 			log.info("delete...deleteAllAlarm=" + alarmNum);
-			}
-	 	}
-	 	
-		return "redirect:/alarmList?userId="+userId+"&pageNum="+cri.getPageNum()+"&amount="+cri.getAmount()+"&order="+cri.getOrder();
+		boolean result = false;
+				result = commonService.deleteAllAlarms(checkRow);
+		
+		if(result == true) {
+			
+			return "redirect:/alarmList?userId="+userId+"&pageNum="+cri.getPageNum()+"&amount="+cri.getAmount()+"&order="+cri.getOrder();
+			
+		}else {
+			
+			model.addAttribute("message", "서버에러로 삭제할 수 없습니다.");
+		
+			return "error/commonError";  
+		
+		}
 	}
 	
 	@PreAuthorize("isAuthenticated()")  

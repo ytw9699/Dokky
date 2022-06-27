@@ -12,7 +12,7 @@ package org.my.security;
 	import javax.servlet.http.HttpServletRequest;
 	import javax.servlet.http.HttpServletResponse;
 	import javax.servlet.http.HttpSession;
-	import org.my.security.domain.CustomUser;
+	import org.my.domain.common.CustomUser;
 	import org.my.service.CommonService;
 	import org.springframework.beans.factory.annotation.Autowired;
 	import org.springframework.security.core.Authentication;

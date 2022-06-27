@@ -8,11 +8,11 @@
 <meta charset="UTF-8">
 <c:choose>
    	  <c:when test="${pageContext.request.serverName == 'localhost'}">
-			<link href="/resources/css/common.css" rel="stylesheet" type="text/css"/>
+			<link href="/resources/css/common/common.css" rel="stylesheet" type="text/css"/>
 			<script type="text/javascript" src="/resources/js/common.js"></script>
 	  </c:when>  
       <c:otherwise>
-    		<link href="/ROOT/resources/css/common.css" rel="stylesheet" type="text/css"/>
+    		<link href="/ROOT/resources/css/common/common.css" rel="stylesheet" type="text/css"/>
     		<script type="text/javascript" src="/ROOT/resources/js/common.js"></script>
       </c:otherwise>
 </c:choose>
@@ -61,7 +61,7 @@
 	  </sec:authorize>
 	  
 	<c:if test="${userInfo == null || userInfo == 'anonymousUser'}">
-		<a href="/commonLogin"> 
+		<a href="/socialLogin"> 
 		  	<span class="mypage topMypage">로그인/회원가입</span>
 		</a> 
 	</c:if>
@@ -115,9 +115,11 @@
 			</a>
 		</sec:authorize>
 		
+	  <sec:authorize access="hasRole('ROLE_ADMIN')">
 			<a href="/admin/userList">
 		    	<span class="mypage">관리자</span>
 			</a>
+		</sec:authorize>
 		
 		<div class="visitCount">
 			<div>

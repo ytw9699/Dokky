@@ -2,10 +2,10 @@
 <!DOCTYPE mapper
   PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
   "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
-<!-- 마지막 업데이트 2022.05.24 -->
+<!-- 마지막 업데이트 2022.06.13 -->
 <mapper namespace="org.my.mapper.AdminMapper">
 
-	  <resultMap id="memberMap" type="org.my.domain.MemberVO" >
+	  <resultMap id="memberMap" type="org.my.domain.common.MemberVO" >
 		    <id property="userId" column="userId"/>
 			    <result property="userId" column="userid"/>
 			    <result property="userPw" column="userpw"/>
@@ -19,7 +19,7 @@
 		    <collection property="authList" resultMap="authMap"></collection> 
 	  </resultMap>
 	  
-	  <resultMap id="authMap" type="org.my.domain.AuthVO" >
+	  <resultMap id="authMap" type="org.my.domain.common.AuthVO" >
 		   	<result property="userId" column="userid"/>
 		   	<result property="auth" column="auth"/>
 	  </resultMap>
@@ -57,7 +57,7 @@
 			</trim>
 	  </sql>
 	
-	  <select id="getUserList" resultType="org.my.domain.MemberVO">
+	  <select id="getUserList" resultType="org.my.domain.common.MemberVO">
 		 <![CDATA[  
 				select userId
 					 , nickName 
@@ -92,7 +92,7 @@
 				</trim>				   
 	  </select>
 	
-	  <select id="getCashRequestList" resultType="org.my.domain.cashVO"> 
+	  <select id="getCashRequestList" resultType="org.my.domain.common.CashVO"> 
 			select cash_num
 				 , regDate
 				 , cashAmount
@@ -101,7 +101,7 @@
 				 , nickName
 				 , cashKind
 		 	 from ( 
-		 	 		select /*+INDEX_DESC(dk_cash pk_cash) */ rownum rn
+		 	 		select /*+INDEX_DESC(dk_cash pk_dk_cash) */ rownum rn
 					 									   , cash_num
 					 									   , regDate
 					 									   , cashAmount
@@ -120,11 +120,7 @@
 		select count(*) from dk_cash where specification = '미승인' or specification = '승인완료'
 	  </select>
 	
-	  <select id="getUserReportCount" resultType="int">
-		 select count(*) from dk_report
-	  </select>
-	
-	  <select id="getUserReportList" resultType="org.my.domain.reportVO">
+	  <select id="getUserReportList" resultType="org.my.domain.common.ReportVO">
 			select  report_num
 				  , reportKind
 				  , reportingId
@@ -136,7 +132,7 @@
 				  , regDate
 		     from 
 			     ( 
-			     	select /*+INDEX_DESC(dk_report pk_report) */ rownum rn
+			     	select /*+INDEX_DESC(dk_report pk_dk_report) */ rownum rn
 				 											   , report_num
 															   , reportKind
 															   , reportingId
@@ -153,6 +149,14 @@
 			]]>
 	   </select>
 	   
+		<select id="getUserReportCount" resultType="int">
+			select count(*) from dk_report
+		</select>
+	
+		<update id="updateAccountNonLocked"> 
+				update dk_member set accountNonLocked = #{accountNonLocked} WHERE USERID = #{userId}  
+		</update>
+		
 		<update id="insertRole"> 
 				insert into dk_member_auth(userId, auth) values ( #{userId}, #{role})
 		</update>
@@ -160,14 +164,6 @@
 		<delete id="deleteRole"> 
        			delete from dk_member_auth where userId = #{userId} and auth = #{role}
         </delete>
-	
-		<update id="updateAccountNonLocked"> 
-				update dk_member set accountNonLocked = #{accountNonLocked} WHERE USERID = #{userId}  
-		</update>
-		
-		<update id="updatePermitLogin"> 
-				update dk_member set accountNonLocked = '1' WHERE USERID = #{userId}  
-		</update>
 		
 		<update id="updatePluscash">
 		    update dk_member set cash = cash + #{cashAmount} where userId = #{userId}

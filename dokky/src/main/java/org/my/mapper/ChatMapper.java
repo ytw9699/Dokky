@@ -2,12 +2,12 @@ package org.my.mapper;
 	import java.util.Date;
 	import java.util.List;
 	import org.apache.ibatis.annotations.Param;
-	import org.my.domain.ChatContentVO;
-	import org.my.domain.ChatMemberVO;
-	import org.my.domain.ChatReadVO;
-	import org.my.domain.ChatRoomVO;
-	import org.my.domain.MemberVO;
-	import org.my.domain.multiRoomVO;
+	import org.my.domain.chat.ChatContentVO;
+	import org.my.domain.chat.ChatMemberVO;
+	import org.my.domain.chat.ChatReadVO;
+	import org.my.domain.chat.ChatRoomVO;
+	import org.my.domain.chat.MultiRoomVO;
+	import org.my.domain.common.MemberVO;
 
 public interface ChatMapper {
 
@@ -63,7 +63,7 @@ public interface ChatMapper {
 
 	int getRead_type(ChatReadVO vo);
 
-	multiRoomVO getChatTitleInfo(@Param("chatRoomNum") Long chatRoomNum);
+	MultiRoomVO getChatTitleInfo(@Param("chatRoomNum") Long chatRoomNum);
 
 	int updateChatTitle(ChatRoomVO chatRoomVO);
 

@@ -47,8 +47,8 @@
 	<beans:bean id="ObjectMapper" class="com.fasterxml.jackson.databind.ObjectMapper"/>
 	
 	<!-- websocket handlers -->
-	<beans:bean id="commonWebsocketHandler" class="org.my.handler.commonWebsocketHandler"/>
-	<beans:bean id="chatWebsocketHandler" class="org.my.handler.chatWebsocketHandler"/>
+	<beans:bean id="commonWebsocketHandler" class="org.my.handler.CommonWebsocketHandler"/>
+	<beans:bean id="chatWebsocketHandler" class="org.my.handler.ChatWebsocketHandler"/>
 	
 	<websocket:handlers>
 	 <websocket:mapping handler="commonWebsocketHandler" path="/commonWebsocketHandler" />

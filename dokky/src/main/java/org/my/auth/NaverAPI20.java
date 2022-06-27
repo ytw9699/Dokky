@@ -1,5 +1,4 @@
 package org.my.auth;
-
 	import com.github.scribejava.core.builder.api.DefaultApi20;
 
 public class NaverAPI20 extends DefaultApi20 implements SnsUrls {
@@ -24,6 +23,4 @@ public class NaverAPI20 extends DefaultApi20 implements SnsUrls {
 	protected String getAuthorizationBaseUrl() {
 		return NAVER_AUTH;
 	}
-	
-	
 }

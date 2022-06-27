@@ -1,11 +1,11 @@
 package org.my.mapper;
 	import java.util.List;
 	import org.apache.ibatis.annotations.Param;
-	import org.my.domain.Criteria;
-	import org.my.domain.ReplyDisLikeVO;
-	import org.my.domain.ReplyLikeVO;
-	import org.my.domain.ReplyVO;
-	import org.my.domain.replyDonateVO;
+	import org.my.domain.common.Criteria;
+	import org.my.domain.reply.ReplyDisLikeVO;
+	import org.my.domain.reply.ReplyDonateVO;
+	import org.my.domain.reply.ReplyLikeVO;
+	import org.my.domain.reply.ReplyVO;
 
 public interface ReplyMapper {
 
@@ -32,15 +32,15 @@ public interface ReplyMapper {
 
 	public int delete(Long reply_num);
 	
-	public void createMyCashHistory(replyDonateVO vo);
+	public void createMyCashHistory(ReplyDonateVO vo);
 	
-	public void plusReplyUserCash(replyDonateVO vo);
+	public void plusReplyUserCash(ReplyDonateVO vo);
 
-	public void createReplyUserCashHistory(replyDonateVO vo);
+	public void createReplyUserCashHistory(ReplyDonateVO vo);
 	
-	public void plusReplyMoney(replyDonateVO vo);
+	public void plusReplyMoney(ReplyDonateVO vo);
 
-	public String getReplyMoney(replyDonateVO vo);
+	public String getReplyMoney(ReplyDonateVO vo);
 	
 	public int checkReplyLikeButton(ReplyLikeVO vo);
 	

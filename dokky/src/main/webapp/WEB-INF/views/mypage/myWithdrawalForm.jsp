@@ -10,10 +10,10 @@
 	<title>Dokky - 탈퇴</title>
 	<c:choose>
 	   	  <c:when test="${pageContext.request.serverName == 'localhost'}">
-				<link href="/resources/css/myWithdrawalForm.css" rel="stylesheet" type="text/css"/>
+				<link href="/resources/css/mypage/myWithdrawalForm.css" rel="stylesheet" type="text/css"/>
 		  </c:when>
 	      <c:otherwise>
-	    		<link href="/ROOT/resources/css/myWithdrawalForm.css" rel="stylesheet" type="text/css"/>
+	    		<link href="/ROOT/resources/css/mypage/myWithdrawalForm.css" rel="stylesheet" type="text/css"/>
 	      </c:otherwise>
 	</c:choose> 
 </head>
@@ -23,7 +23,7 @@
 <div class="myWithdrawalFormWrap">	
 		<div id="menuWrap">
 			<div class="tab"> 
-				<button onclick="location.href='myInfoForm?userId=${userInfo.username}'">개인정보 변경</button>
+				<button onclick="location.href='myInfoForm?userId=${userInfo.username}'">나의 정보</button>
 		        <button onclick="location.href='myBoardList?userId=${userInfo.username}'">나의 게시글</button> 
 		        <button onclick="location.href='myReplylist?userId=${userInfo.username}'">나의 댓글</button> 
 		        <button onclick="location.href='myScraplist?userId=${userInfo.username}'">나의 스크랩</button>
@@ -34,9 +34,9 @@
 		
 		<div class="myWithdrawalContentWrap">
 	     	<div class="myWithdrawalContent"> 
-	     		<div class="contentVal">- 탈퇴 후에도 회원님의 활동내역을 삭제하지 않습니다. 원치 않으시면 삭제후 탈퇴 해주세요.</div>
-	     		<div class="contentVal">- 탈퇴 후에도 캐시내역과 신고내역등 일부 정보는 보관됩니다.</div>  
-	     		<div class="contentVal">- 탈퇴 후 같은 계정으로 재가입 가능합니다.</div>  
+	     		<div class="contentVal">- 탈퇴 후에도 회원님의 활동내역은 삭제되지 않습니다. </div>
+	     		<div class="contentVal">- 원하지 않으시면 삭제후 탈퇴 해주세요.</div>
+	     		<div class="contentVal">- 탈퇴 후에도 같은 계정으로 재가입은 가능합니다.</div>  
 	     	</div> 
 	     	<div class="myWithdrawalButtonWrap"> 
 		     	<form method='post' action="/mypage/myWithdrawal">
@@ -49,18 +49,14 @@
 </div> 
 
 <script>
-
-	<sec:authorize access="isAuthenticated()"> 
-		var username = '${userInfo.username}';
-	</sec:authorize>
 	
 	$("#withdrawal").on("click", function(event){
 		
 		event.preventDefault();
 		
-		if(username == 'admin'){ 
+		if('${userInfo.username}' === 'admin'){ 
 			
-				openAlert("슈퍼관리자는 탈퇴 할 수 없습니다");
+				openAlert("탈퇴 할 수 없는 아이디 입니다");
 		}else{
 			
 				$("form").submit();	

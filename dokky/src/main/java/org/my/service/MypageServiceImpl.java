@@ -1,36 +1,26 @@
+/*
+- 마지막 업데이트 2022-06-20
+*/
 package org.my.service;
 	import java.util.List;
-	import org.my.domain.BoardVO;
-	import org.my.domain.Criteria;
-	import org.my.domain.MemberVO;
-	import org.my.domain.ReplyVO;
-	import org.my.domain.cashVO;
-	import org.my.domain.scrapVO;
+	import org.my.domain.board.BoardVO;
+	import org.my.domain.common.CashVO;
+	import org.my.domain.common.Criteria;
+	import org.my.domain.common.MemberVO;
+	import org.my.domain.common.ScrapVO;
+	import org.my.domain.reply.ReplyVO;
 	import org.my.mapper.MypageMapper;
-	import org.springframework.beans.factory.annotation.Autowired;
-	import org.springframework.security.crypto.password.PasswordEncoder;
 	import org.springframework.stereotype.Service;
 	import org.springframework.transaction.annotation.Transactional;
-	import lombok.Setter;
+	import lombok.RequiredArgsConstructor;
 	import lombok.extern.log4j.Log4j;
 
+@RequiredArgsConstructor
 @Log4j 
 @Service
 public class MypageServiceImpl implements MypageService {
-
-	@Setter(onMethod_ = @Autowired)
-	private MypageMapper mapper;
 	
-	@Setter(onMethod_ = @Autowired)
-	private PasswordEncoder pwencoder;
-	
-	@Override
-	public MemberVO getMyInfo(String userId) {
-
-		log.info("getMyInfo");
-
-		return mapper.getMyInfo(userId);
-	}
+	private final MypageMapper mapper;
 	
 	@Transactional
 	@Override
@@ -42,31 +32,37 @@ public class MypageServiceImpl implements MypageService {
 		
 		String userId = board.getUserId();
 		
-		boolean nickNameResult = nickName.equals(mapper.getMyNickName(userId));//현재 나의 닉네임과 폼에서 입력한 닉네임이 같은지
+		boolean nickNameResult = nickName.equals(mapper.getMyNickName(userId));
 		
-		if(!nickNameResult) {//닉네임을 변경한다면 
+		if(!nickNameResult) { 
 			
-			mapper.updateBoardNickName(userId, nickName);//게시글 닉네임 변경처리
+			mapper.updateBoardNickName(userId, nickName);
 			
-			mapper.updateReplyNickName(userId, nickName);//댓글 닉네임 변경처리
+			mapper.updateReplyNickName(userId, nickName);
 			
-			mapper.updateNoteFromNickName(userId, nickName);//쪽지 받는이 닉네임 변경처리
+			mapper.updateNoteFromNickName(userId, nickName);
 			
-			mapper.updateNoteToNickName(userId, nickName);//쪽지 보낸이 닉네임 변경처리
+			mapper.updateNoteToNickName(userId, nickName);
 			
-			mapper.updateReportedNickName(userId, nickName);//신고 당한자 닉네임 변경처리 
+			mapper.updateReportedNickName(userId, nickName); 
 			
-			mapper.updateReportingNickName(userId, nickName);//신고 하는자 닉네임 변경처리
+			mapper.updateReportingNickName(userId, nickName);
 			
-			mapper.updateAlarmNickName(userId, nickName);//알림 닉네임 변경처리
+			mapper.updateAlarmNickName(userId, nickName);
 			
-			mapper.updateCashlistNickName(userId, nickName);//캐시 내역 닉네임 변경처리
+			mapper.updateCashlistNickName(userId, nickName);
+			
+			mapper.updateChatRoomNickName(userId, nickName);
+			
+			mapper.updateChatMemberNickName(userId, nickName);
+			
+			mapper.updateChatContentNickName(userId, nickName);
+			
+			mapper.updateChatReadNickName(userId, nickName);
 			
 		}
 		
-		boolean updateResult = mapper.updateMyInfo(board) == 1; //회원테이블 변경처리
-		
-		return updateResult;
+		return mapper.updateMyInfo(board) == 1;
 	}
 	
 	@Override
@@ -102,7 +98,7 @@ public class MypageServiceImpl implements MypageService {
 	}
 	
 	@Override
-	public List<scrapVO> getMyScraplist(Criteria cri) {
+	public List<ScrapVO> getMyScraplist(Criteria cri) {
 
 		log.info("getMyScraplist with criteria: " + cri);
 
@@ -119,36 +115,44 @@ public class MypageServiceImpl implements MypageService {
 		return getResult;
 	}
 	
-	@Override
-	public void removeScrap(Long scrap_num) {
+	@Transactional
+	@Override 
+	public boolean removeScraps(String checkRow) {
 		
-		log.info("removeScrap");
-		
-		mapper.removeScrap(scrap_num);
+		String[] arrIdx = checkRow.split(",");
+	 	
+	 	for (int i=0; i<arrIdx.length; i++) {
+	 		
+	 		Long scrap_num = Long.parseLong(arrIdx[i]); 
+	 		
+	 		if(mapper.removeScrap(scrap_num) != 1) {
+	 			return false;
+	 		}
+	 		
+	 		log.info("removeScrap...." + scrap_num);
+	 	}
+	 	
+	 	return true;
 	}
 	
 	@Override
-	public boolean insertChargeData(cashVO vo) {
+	public boolean insertChargeData(CashVO vo) {
 		
 		log.info("insertChargeData");
 		
-		boolean insertResult = mapper.insertChargeData(vo) == 1; 
-		
-		return insertResult;
+		return mapper.insertChargeData(vo) == 1;
 	}
 	
 	@Override
-	public boolean insertReChargeData(cashVO vo) {
+	public boolean insertReChargeData(CashVO vo) {
 		
 		log.info("insertReChargeData");
 		
-		boolean insertResult = mapper.insertReChargeData(vo) == 1; 
-		
-		return insertResult;
+		return mapper.insertReChargeData(vo) == 1;
 	}
 	
 	@Override
-	public List<cashVO> getMyCashHistory(Criteria cri) {
+	public List<CashVO> getMyCashHistory(Criteria cri) {
 
 		log.info("getMyCashHistory");
 
@@ -160,18 +164,13 @@ public class MypageServiceImpl implements MypageService {
 		
 		log.info("getMyCashHistoryCount");
 		
-		int getResult = mapper.getMyCashHistoryCount(userId); 
-		
-		return getResult;
+		return mapper.getMyCashHistoryCount(userId);
 	}
 	
-	@Transactional
 	@Override 
 	public boolean myWithdrawal(String userId){
 
 		log.info("myWithdrawal...");
-		
-		mapper.deleteRememberMeToken(userId);//리멤버미 토큰 삭제 
 		
 		return mapper.updateEnabled(userId) == 1;
 	}

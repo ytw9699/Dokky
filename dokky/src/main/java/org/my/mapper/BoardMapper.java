@@ -1,12 +1,15 @@
+/*
+- 마지막 업데이트 2022-06-26
+*/
 package org.my.mapper;
 	import java.util.List;
 	import org.apache.ibatis.annotations.Param;
-	import org.my.domain.BoardDisLikeVO;
-	import org.my.domain.BoardLikeVO;
-	import org.my.domain.BoardVO;
-	import org.my.domain.Criteria;
-	import org.my.domain.donateVO;
-	import org.my.domain.reportVO;
+	import org.my.domain.board.BoardDisLikeVO;
+	import org.my.domain.board.BoardLikeVO;
+	import org.my.domain.board.BoardVO;
+	import org.my.domain.common.Criteria;
+	import org.my.domain.common.DonateVO;
+	import org.my.domain.common.ReportVO;
 
 public interface BoardMapper {
 
@@ -26,27 +29,27 @@ public interface BoardMapper {
 	
 	public int getScrapCnt(@Param("board_num") Long board_num, @Param("userId") String userId);
 	
-	public int updateHitCnt(Long board_num);//조회수 증가
+	public int updateHitCnt(Long board_num);
 	
 	public BoardVO read(Long board_num);
 	
 	public int updateBoard(BoardVO board);
-
+	
 	public int deleteBoard(Long bno);
 	
 	public int checkBoardLikeButton(BoardLikeVO vo);
 	
-	public int checkBoardDisLikeButton(BoardDisLikeVO vo);
-	
 	public int pushBoardLikeButton(BoardLikeVO vo);
 	
-	public int pushBoardDisLikeButton(BoardDisLikeVO vo);
-
+	public int pullBoardLikeButton(BoardLikeVO vo);
+	
 	public int plusBoardLikeCount(Long board_num);
 	
-	public int plusBoardDisLikeCount(Long board_num);
+	public int checkBoardDisLikeButton(BoardDisLikeVO vo);
 	
-	public int pullBoardLikeButton(BoardLikeVO vo);
+	public int pushBoardDisLikeButton(BoardDisLikeVO vo);
+	
+	public int plusBoardDisLikeCount(Long board_num);
 	
 	public int pullBoardDisLikeButton(BoardDisLikeVO vo);
 
@@ -62,24 +65,23 @@ public interface BoardMapper {
 	
 	public void minusMycash(@Param("money") int money, @Param("userId") String userId);
 	
-	public void createMyCashHistory(donateVO vo);
+	public void createMyCashHistory(DonateVO vo);
 	
-	public void plusBoardUserCash(donateVO vo);
+	public void plusBoardUserCash(DonateVO vo);
 	
-	public void createBoardUserCashHistory(donateVO vo);
+	public void createBoardUserCashHistory(DonateVO vo);
 	
-	public void plusBoardMoney(donateVO vo);
+	public void plusBoardMoney(DonateVO vo);
 	
-	public String getBoardMoney(donateVO vo);
+	public String getBoardMoney(DonateVO vo);
 
-	public int createReportdata(reportVO vo);
+	public int createReportdata(ReportVO vo);
 
-	public Long getRecentBoard_num();
-	
 	public int postScrapData(@Param("board_num") int board_num, @Param("userId") String userId);
 	 
 	public int deleteScrapData(@Param("board_num") int board_num, @Param("userId") String userId);
 	
-	public void updateReplyCnt(@Param("board_num") Long board_num, @Param("amount") int amount);
-
+	public int updateReplyCnt(@Param("board_num") Long board_num, @Param("amount") int amount);
+	
+	public Long getRecentBoard_num();
 }

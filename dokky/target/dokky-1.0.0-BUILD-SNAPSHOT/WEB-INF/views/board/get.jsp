@@ -10,10 +10,10 @@
 		<title>Dokky - 상세페이지</title> 
 		<c:choose>
 		   	  <c:when test="${pageContext.request.serverName == 'localhost'}">
-					<link href="/resources/css/get.css" rel="stylesheet" type="text/css">
+					<link href="/resources/css/board/get.css" rel="stylesheet" type="text/css">
 			  </c:when>
 		      <c:otherwise>
-		    		<link href="/ROOT/resources/css/get.css" rel="stylesheet" type="text/css">
+		    		<link href="/ROOT/resources/css/board/get.css" rel="stylesheet" type="text/css">
 		      </c:otherwise>
 		</c:choose>
 		<%@include file="../includes/common.jsp"%> 
@@ -382,6 +382,25 @@
 			
 			obj.focus();  
 	}
+	
+	 function parseUrl(orgnTxt) {
+	    	
+	        var rplcdTxt, rplcdPttrn1, rplcdPttrn2, rplcdPttrn3;
+
+	        //  http://, https://로 url이 시작한다면.
+	        rplcdPttrn1 = /(\b(https?):\/\/[-A-Z0-9+&@#\/%?=~_|!:,.;]*[-A-Z0-9+&@#\/%=~_|])/gim;
+	        rplcdTxt = orgnTxt.replace(rplcdPttrn1, '<a href="$1" target="_blank">$1</a>');
+
+	        //  http?없이 www로 시작한다면.
+	        rplcdPttrn2 = /(^|[^\/])(www\.[\S]+(\b|$))/gim;
+	        rplcdTxt = rplcdTxt.replace(rplcdPttrn2, '$1<a href="http://$2" target="_blank">$2</a>');
+
+	        //  메일 주소일 경우
+	        rplcdPttrn3 = /(([a-zA-Z0-9\-\_\.])+@[a-zA-Z\_]+?(\.[a-zA-Z]{2,6})+)/gim;
+	        rplcdTxt = rplcdTxt.replace(rplcdPttrn3, '<a href="mailto:$1">$1</a>');
+
+	        return rplcdTxt;
+    }
 	
 	function substr(str){//글자수 자르기 함수
 		
@@ -1070,7 +1089,7 @@
 		
 		var commonData = { 
 						    boardDisLikeVO : dislikeData,
-						 	alarmVO        : alarmData
+						    alarmVO        : alarmData
 			 			 }
 		
 		commonService.disLikeBoard(commonData, 
@@ -1130,7 +1149,7 @@
 			
 			var commonData = {
 								replyLikeVO : likeData,
-							 	alarmVO     : alarmData
+								alarmVO     : alarmData
 		 					 };
 	
 			commonService.likeReply(commonData,  
@@ -1190,7 +1209,7 @@
 			
 			var commonData = { 
 								replyDisLikeVO : dislikeData,
-							 	   alarmVO     : alarmData
+								alarmVO     : alarmData
 		 					 };
 			
 			commonService.disLikeReply(commonData,   
@@ -1349,7 +1368,7 @@
 			
 			var commonData ={ 
 							  donateVO    : donateData,
-						 	  alarmVO     : alarmData
+							  alarmVO     : alarmData
 						 	}
 			
 			commonService.giveBoardWriterMoney(commonData, 
@@ -1405,7 +1424,7 @@
 							
 				var commonData ={ 
 									replyDonateVO    : replyDonateData,
-								 	alarmVO          : alarmData
+									alarmVO          : alarmData
 		 						}	
 			
 				commonService.giveReplyWriterMoney(commonData, 
@@ -1563,7 +1582,7 @@
 		 	}
 		 
 			var reply = {
-				    		reply_content : reply_contents.val(), //댓글 내용
+				    		reply_content : parseUrl(reply_contents.val()), //댓글 내용
 				    			   userId : myId,				  //댓글 작성자 아이디
 				    			 nickName : myNickName, 	      //댓글 작성자 닉네임
 				    			 board_num : board_num 			  //글번호 
@@ -1581,8 +1600,8 @@
 				             };
  
 				 commonData = { 
-									replyVO:reply,
-									alarmVO:alarmData
+									replyVO	:	reply,
+									alarmVO	:	alarmData
 							  };
 		 	}else{//나의 글에 댓글을 달시에 알람을 보내지 말자
 		 		 commonData = { 
@@ -1663,7 +1682,7 @@
 			  }
 		      
 	          var reply = { 
-				    		reply_content  :	reReply_contents.val(), //대댓글 내용
+				    		reply_content  :	parseUrl(reReply_contents.val()),//대댓글 내용
 				    		userId		   :	myId,//댓글 작성자 아이디
 				    		nickName	   :	myNickName, //댓글 작성자 닉네임
 				            toUserId	   :	toUserId,
@@ -1760,8 +1779,8 @@
 	    	  replyModForm = $("#replyModForm"+reply_num);
 	    
 	    	  var InputReply_content = replyModForm.find("textarea[name='reply_content']");
-	    	
-			  InputReply_content.val(Result.reply_content);
+	    	  
+			  InputReply_content.val(Result.reply_content.replace(/<(\/a|a)([^>]*)>/gi,""));
 			  
 			  replyModForm.css("display","block");
 			  
@@ -1771,7 +1790,7 @@
 				   
 				   	 var reply = {  
 									  reply_num		: reply_num,
-									  reply_content	: InputReply_content.val(),
+									  reply_content	: parseUrl(InputReply_content.val()),
 									  userId		: reply_id //접속자와 댓글작성자의 확인을 위해
 							     };
 				   	  

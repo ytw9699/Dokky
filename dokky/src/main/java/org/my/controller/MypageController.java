@@ -1,15 +1,15 @@
 /*
-- 마지막 업데이트 2022-06-11
+- 마지막 업데이트 2022-06-14
 */
 package org.my.controller;
 	import java.io.File;
 	import java.io.IOException;
 	import javax.servlet.http.HttpServletRequest;
-	import org.my.domain.Criteria;
-	import org.my.domain.MemberVO;
-	import org.my.domain.PageDTO;
-	import org.my.domain.cashVO;
-	import org.my.domain.checkPwVO;
+	import org.my.domain.common.CashVO;
+	import org.my.domain.common.CheckPwVO;
+	import org.my.domain.common.Criteria;
+	import org.my.domain.common.MemberVO;
+	import org.my.domain.common.PageDTO;
 	import org.my.service.AdminService;
 	import org.my.service.BoardService;
 	import org.my.service.CommonService;
@@ -47,7 +47,7 @@ public class MypageController {
 	private final BCryptPasswordEncoder bcryptPasswordEncoder;
 	
 	@PreAuthorize("principal.username == #userId") 
- 	@GetMapping("/myInfoForm")  //내 개인정보 변경폼
+ 	@GetMapping("/myInfoForm")
 	public String myInfoForm(@RequestParam("userId") String userId, Model model) { 
 
 		log.info("/mypage/myInfoForm");
@@ -59,7 +59,7 @@ public class MypageController {
 	
 	@PreAuthorize("principal.username == #memberVO.userId")
 	@PostMapping("/myInfo")
-	public String updateMyInfo(MemberVO memberVO, RedirectAttributes rttr) {//내 개인정보 변경하기
+	public String updateMyInfo(MemberVO memberVO, HttpServletRequest request, RedirectAttributes rttr) {
 		
 		log.info("/mypage/myInfo");
 		
@@ -67,13 +67,15 @@ public class MypageController {
 		
 		if(mypageService.updateMyInfo(memberVO)) {
 			
-			rttr.addFlashAttribute("myInfo", mypageService.getMyInfo(userId));//내정보 한줄 가져오기
-			
 			MemberVO authMemberVO = memberService.readMembers(userId);
 			
-			if(commonService.setAuthentication(authMemberVO) == false){//다시 인증 처리
+			if(commonService.setAuthentication(authMemberVO) == false){
+				
+				commonService.customLogout(userId, request.getSession());
+				
 				rttr.addFlashAttribute("errormsg", "다시 로그인 해주세요."); 
-				return "redirect:/commonLogin";
+				
+				return "redirect:/socialLogin";
 			}
 			
 			rttr.addFlashAttribute("update", "complete");
@@ -163,7 +165,7 @@ public class MypageController {
 	
 	@PreAuthorize("principal.username == #cri.userId")
  	@GetMapping("/myBoardList") 
-	public String myBoardList(Criteria cri, Model model) { //내 게시글 가져오기
+	public String myBoardList(Criteria cri, Model model) {
 		
 		model.addAttribute("MyBoard", mypageService.getMyBoardList(cri));
 		
@@ -179,15 +181,13 @@ public class MypageController {
 	
 	@PreAuthorize("principal.username == #cri.userId")
  	@GetMapping("/myReplylist")  
-	public String myReplylist(Criteria cri, Model model) {//내 댓글 가져오기
+	public String myReplylist(Criteria cri, Model model) {
 		
 		log.info("/mypage/myReplylist...cri "+cri);
 		
 		model.addAttribute("myReply", mypageService.getMyReplylist(cri));
 		
 		int total = mypageService.getMyReplyCount(cri);
-		
-		log.info("pageMaker");
 		
 		model.addAttribute("pageMaker", new PageDTO(cri, total)); 
 		model.addAttribute("total", total);
@@ -197,7 +197,7 @@ public class MypageController {
 	
 	@PreAuthorize("principal.username == #cri.userId")
  	@GetMapping("/myScraplist")  
-	public String myScraplist(Criteria cri, Model model) { //내 스크랩 글 가져오기
+	public String myScraplist(Criteria cri, Model model) {
 		
 		log.info("/mypage/myScraplist");
 		log.info("myScraplist "+cri);
@@ -212,33 +212,35 @@ public class MypageController {
 	} 
 	
 	@PreAuthorize("principal.username == #userId")  
-	@PostMapping("/removeAllScrap")//스크랩 다중삭제
-	public String removeAllScrap(@RequestParam("checkRow") String checkRow , @RequestParam("userId") String userId, Criteria cri) {
+	@PostMapping("/removeAllScrap")
+	public String removeAllScrap(@RequestParam("checkRow") String checkRow , @RequestParam("userId") String userId, 
+									Criteria cri, Model model){
 		 
 		log.info("/mypage/removeAllScrap");
-		log.info("checkRow..." + checkRow);
-	 	
-	 	String[] arrIdx = checkRow.split(",");
-	 	
-	    for (int i=0; i<arrIdx.length; i++) {
-	 		
-	 		Long scrap_num = Long.parseLong(arrIdx[i]);  
-	 		
-	 		log.info("remove...reply_num=" + scrap_num);
-	 		
-	 		mypageService.removeScrap(scrap_num);
-	 	}
-	 	
-	 	return "redirect:/mypage/myScraplist?userId="+userId+"&pageNum="+cri.getPageNum()+"&amount="+cri.getAmount();
+		
+		boolean result = false;
+				result = mypageService.removeScraps(checkRow);
+		
+		if(result == true) {
+			
+			return "redirect:/mypage/myScraplist?userId="+userId+"&pageNum="+cri.getPageNum()+"&amount="+cri.getAmount();
+			
+		}else {
+			
+			model.addAttribute("message", "서버에러로 삭제할 수 없습니다.");
+		
+			return "error/commonError";  
+		
+		}
 	}
 	
 	@PreAuthorize("principal.username == #userId")  
  	@GetMapping("/myCashInfo")  
-	public String myCashInfo(@RequestParam("userId") String userId, Model model) { //내 캐시정보
+	public String myCashInfo(@RequestParam("userId") String userId, Model model){
 		
 		log.info("/mypage/myCashInfo");
 		
-		String myCash = boardService.getMyCash(userId);//나의 잔여캐시 가져오기
+		String myCash = boardService.getMyCash(userId);
 		
 		if(myCash == null) {
 
@@ -255,7 +257,7 @@ public class MypageController {
 	@PreAuthorize("principal.username == #vo.userId")  
 	@PostMapping(value = "/chargeData", produces = "text/plain; charset=UTF-8")
 	@ResponseBody
-	public ResponseEntity<String> chargeData(@RequestBody cashVO vo) {//캐시 충전 요청 하기
+	public ResponseEntity<String> chargeData(@RequestBody CashVO vo) {//캐시 충전 요청 하기
 		
 		log.info("/mypage/chargeData");
 		
@@ -276,7 +278,7 @@ public class MypageController {
 	@PreAuthorize("principal.username == #vo.userId")  
 	@PostMapping(value = "/reChargeData", produces = "text/plain; charset=UTF-8")
 	@ResponseBody
-	public ResponseEntity<String> reChargeData(@RequestBody cashVO vo) {//캐시 환전 요청 하기
+	public ResponseEntity<String> reChargeData(@RequestBody CashVO vo) {//캐시 환전 요청 하기
 		
 		log.info("/mypage/reChargeData");
 		
@@ -296,7 +298,7 @@ public class MypageController {
 	
 	@PreAuthorize("principal.username == #cri.userId")
  	@GetMapping("/myCashHistory")  
-	public String myCashHistory(Criteria cri, Model model) { //내 캐시 내역 리스트
+	public String myCashHistory(Criteria cri, Model model) {
 		
 		log.info("/mypage/myCashHistory");
 		
@@ -311,7 +313,7 @@ public class MypageController {
 	
 	@PreAuthorize("principal.username == #userId")  
  	@GetMapping("/myWithdrawalForm")  
-	public String myWithdrawalForm(@RequestParam("userId") String userId) { //탈퇴 하기 폼 가져오기
+	public String myWithdrawalForm(@RequestParam("userId") String userId) {//탈퇴 하기 폼 가져오기
 		
 		log.info("/mypage/myWithdrawalForm");
 		
@@ -324,11 +326,18 @@ public class MypageController {
 		
 			log.info("/mypage/myWithdrawal");
 			
+			if(userId.equals("admin")){
+				
+				model.addAttribute("message", "탈퇴 할 수 없는 아이디 입니다");
+				
+				return "error/commonError";
+			}
+			
 			if(mypageService.myWithdrawal(userId)) {
 				
-					request.getSession().invalidate();
+					commonService.customLogout(userId, request.getSession());
 					
-					return "redirect:/commonLogin";
+					return "redirect:/socialLogin";
 				
 			}else {
 				
@@ -350,7 +359,7 @@ public class MypageController {
 	@PreAuthorize("principal.username == #vo.userId") 
 	@PostMapping(value = "/checkPassword", consumes = "application/json", produces = "text/plain; charset=UTF-8")
 	@ResponseBody
-	public ResponseEntity<String> checkPassword(@RequestBody checkPwVO vo) {
+	public ResponseEntity<String> checkPassword(@RequestBody CheckPwVO vo) {
 		
 		log.info("/mypage/checkPassword");
 		log.info("checkPwVO = "+vo);
@@ -377,7 +386,7 @@ public class MypageController {
 	@PreAuthorize("principal.username == #vo.userId")
 	@PostMapping(value = "/changeMyPassword", consumes = "application/json", produces = "text/plain; charset=UTF-8")
 	@ResponseBody
-	public ResponseEntity<String> changeMyPassword(@RequestBody checkPwVO vo) {
+	public ResponseEntity<String> changeMyPassword(@RequestBody CheckPwVO vo) {
 		
 		log.info("/mypage/changeMyPassword");
 

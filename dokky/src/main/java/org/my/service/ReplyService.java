@@ -1,14 +1,17 @@
+/*
+- 마지막 업데이트 2022-06-26
+*/
 package org.my.service;
-	import org.my.domain.Criteria;
-	import org.my.domain.ReplyDisLikeVO;
-	import org.my.domain.ReplyLikeVO;
-	import org.my.domain.ReplyPageDTO;
-	import org.my.domain.ReplyVO;
-	import org.my.domain.commonVO;
+	import org.my.domain.common.CommonVO;
+	import org.my.domain.common.Criteria;
+	import org.my.domain.reply.ReplyDisLikeVO;
+	import org.my.domain.reply.ReplyLikeVO;
+	import org.my.domain.reply.ReplyPageDTO;
+	import org.my.domain.reply.ReplyVO;
 
 public interface ReplyService {
 
-	public int create(commonVO vo);
+	public int create(CommonVO vo);
 
 	public ReplyVO read(Long reply_num);
 	
@@ -16,21 +19,23 @@ public interface ReplyService {
 	
 	public int update(ReplyVO vo);
 	
-	public int delete(Long reply_num);
+	public boolean delete(Long reply_num);
 	
-	public String giveReplyWriterMoney(commonVO vo);
+	boolean deleteReplies(String checkRow);
+	
+	public String giveReplyWriterMoney(CommonVO vo);
 	
 	public boolean checkReplyLikeButton(ReplyLikeVO vo);
 	
 	public boolean checkReplyDislikeButton(ReplyDisLikeVO vo);
 	
-	public boolean pushReplyLikeButton(commonVO vo);
+	public boolean pushReplyLikeButton(CommonVO vo);
 	
-	public boolean pushReplyDislikeButton(commonVO vo);
+	public boolean pushReplyDislikeButton(CommonVO vo);
 	
-	public boolean pullReplyLikeButton(commonVO vo);
+	public boolean pullReplyLikeButton(CommonVO vo);
 	
-	public boolean pullReplyDislikeButton(commonVO vo);
+	public boolean pullReplyDislikeButton(CommonVO vo);
 
 	public String getLikeCount(Long reply_num);
 	
