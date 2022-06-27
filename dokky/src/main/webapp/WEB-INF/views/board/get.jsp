@@ -711,9 +711,9 @@
 					   	   	   + "<span>"
 								   + "<a href='#' class='userMenu' data-reply_num='"+reply_nums+"' data-menu_kind='to'>";
 								   if(serverName == 'localhost'){ 
-									   str += "<img src='/resources/img/profile_img/"+userId+".png?"+random+"' class='memberImage hideUsermenu' onerror='this.src=\"/resources/img/profile_img/basicProfile.png\"'/>&nbsp"
+									   str += "<img src='/resources/img/profile_img/"+toUserId+".png?"+random+"' class='memberImage hideUsermenu' onerror='this.src=\"/resources/img/profile_img/basicProfile.png\"'/>&nbsp"
 								   }else{
-									   str += "<img src='/upload/"+userId+".png?"+random+"' class='memberImage hideUsermenu' onerror='this.src=\"/ROOT/resources/img/profile_img/basicProfile.png\"'/>&nbsp"
+									   str += "<img src='/upload/"+toUserId+".png?"+random+"' class='memberImage hideUsermenu' onerror='this.src=\"/ROOT/resources/img/profile_img/basicProfile.png\"'/>&nbsp"
 								   }
 								   	   str += toNickName
 								   + "</a>"
@@ -732,7 +732,7 @@
 										   	+ "<span class='hideUsermenu'>쪽지보내기</span>"
 									   	  + "</a>"
 									   + "</li>"
-									   + "<li class='hideUsermenu singleChat' data-chat_nickname='"+nickName+"' data-chat_userid='"+userId+"'>"  
+									   + "<li class='hideUsermenu singleChat' data-chat_nickname='"+toNickName+"' data-chat_userid='"+toUserId+"'>"  
 									   	  + "<a href='#' class='hideUsermenu'>"
 										   	+ "<span class='hideUsermenu'>1:1채팅</span>"
 									   	  + "</a>"
