@@ -24,7 +24,7 @@
 
 	<div id="menuWrap">
 		<div class="tab"> 
-			<button onclick="location.href='myInfoForm?userId=${userInfo.username}'">개인정보 변경</button>
+			<button onclick="location.href='myInfoForm?userId=${userInfo.username}'">나의 정보</button>
 	        <button onclick="location.href='myBoardList?userId=${userInfo.username}'">나의 게시글</button> 
 	        <button onclick="location.href='myReplylist?userId=${userInfo.username}'">나의 댓글</button> 
 	        <button onclick="location.href='myScraplist?userId=${userInfo.username}'">나의 스크랩</button>
