@@ -43,7 +43,7 @@
 		money number(10,0) default 0, --기부금
 		group_num number(10,0) not null,--댓글 묶음 번호 , 그룹을 이루는 번호
 		order_step number(10,0) not null,--댓글 출력 순서
-		depth number(10,0) not null--댓글 깊이 depth = 루트글인지,답변글인지,답변에 답변글인지..답변에 답변에 답변인지 쭉~
+		depth number(10,0) not null,--댓글 깊이 depth = 루트글인지,답변글인지,답변에 답변글인지..답변에 답변에 답변인지 쭉~
 		constraint pk_dk_reply primary key(reply_num), --PK
 		constraint fk_dk_reply_board foreign key(board_num) references dk_board(board_num) on delete cascade,
 		constraint fk_dk_reply_userId foreign key(userId) references dk_member(userId),
@@ -392,7 +392,7 @@ DROP TABLE dk_chat_read PURGE;
 		 ip varchar(100) not null, --접속자 아이피
 		 visit_time date default sysdate,  --접속자 접속시간
 		 refer varchar(300), --접속자가 어느사이트를 타고 들어왔는지
-		 agent varchar(400) not null, --접속자 브라우저 정보
+		 agent varchar(400) not null --접속자 브라우저 정보
     )
     
     create sequence seq_dk_visitor
