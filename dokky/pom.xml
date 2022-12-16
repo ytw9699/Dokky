@@ -11,7 +11,7 @@
 	
 	<properties>
 		<java-version>1.8</java-version>
-		<org.springframework-version>5.0.7.RELEASE</org.springframework-version>
+		<org.springframework-version>5.2.20.RELEASE</org.springframework-version>
 		<org.aspectj-version>1.6.10</org.aspectj-version> <!-- 스프링의 AOP는 AspectJ 라는 라이브러리의 도움을 많이 받는다.-->
 		<org.slf4j-version>1.6.6</org.slf4j-version>
 	</properties>
