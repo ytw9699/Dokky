@@ -1,16 +1,16 @@
 
-		/*private String getFolderYesterDay() {
-		
-			SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd");
-		
-			Calendar cal = Calendar.getInstance();
-		
-			cal.add(Calendar.DATE, -1);
-		
-			String str = sdf.format(cal.getTime());
-		
-			return str.replace("-", File.separator);
-		}*/
+/*private String getFolderYesterDay() {
+
+    SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd");
+
+    Calendar cal = Calendar.getInstance();
+
+    cal.add(Calendar.DATE, -1);
+
+    String str = sdf.format(cal.getTime());
+
+    return str.replace("-", File.separator);
+}*/
 
 		/*log.warn("File Check Task run.................");
 		log.warn(new Date());
